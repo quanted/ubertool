@@ -1,0 +1,15 @@
+boto
+bottle
+coverage
+futures
+nose
+numpy
+pandas
+pylint
+pymongo==2.8.0
+pytz
+requests
+snakefood
+tabulate
+twine
+
