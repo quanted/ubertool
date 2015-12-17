@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 import pandas as pd
 import numpy.testing as npt
@@ -18,7 +17,8 @@ from .. import terrplant as terrplant_model
 
 # create empty pandas dataframes to create empty terrplant object
 df_empty = pd.DataFrame()
-terrplant_empty = terrplant_model.terrplant("empty", df_empty, df_empty)
+#terrplant_empty = terrplant_model.Terrplant("empty", df_empty, df_empty)
+terrplant_empty = terrplant_model.Terrplant(df_empty, df_empty)
 
 test = {}
 

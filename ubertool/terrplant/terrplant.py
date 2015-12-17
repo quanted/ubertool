@@ -1,5 +1,5 @@
 from __future__ import division
-from REST_UBER.ubertool import UberModel
+from ..base.ubertool import UberModel
 import pandas as pd
 import logging
 
@@ -960,12 +960,13 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         # else:
         #     self.out_lds_loc_spray = ('The risk quotient for listed monocot seedlings exposed to the'\
         #     ' pesticide via spray drift indicates that potential risk is minimal.')
-        exceed_boolean = self.out_lds_rq_spray>= 1.0
+        exceed_boolean = self.out_lds_rq_spray >= 1.0
         self.out_lds_loc_spray = exceed_boolean.map(
-            lambda x: 'The risk quotient for listed dicot seedlings exposed to the pesticide via spray drift indicates '
-                      'a potential risk.' if x == True else 'The risk quotient for listed dicot seedlings exposed to '
-                                                            'the pesticide via spray drift indicates that potential '
-                                                            'risk is minimal.')
+                lambda
+                    x: 'The risk quotient for listed dicot seedlings exposed to the pesticide via spray drift indicates '
+                       'a potential risk.' if x == True else 'The risk quotient for listed dicot seedlings exposed to '
+                                                             'the pesticide via spray drift indicates that potential '
+                                                             'risk is minimal.')
         logging.info("LOCldsspray")
         logging.info(self.out_lds_loc_spray)
         return self.out_lds_loc_spray

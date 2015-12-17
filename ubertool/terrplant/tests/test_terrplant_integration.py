@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 import unittest
 import pandas as pd
 import numpy.testing as npt
 import pkgutil
 from StringIO import StringIO
-from .. import terrplant as terrplant_model
+from .. import terrplant
 from tabulate import tabulate
 
 # load transposed qaqc data for inputs and expected outputs
@@ -18,10 +17,10 @@ data_inputs = StringIO(pkgutil.get_data(__package__, 'terrplant_qaqc_in_transpos
 pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
 print("terrplant inputs")
 print(pd_obj_inputs.shape)
-print(tabulate(pd_obj_inputs.iloc[:,0:5], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_inputs.iloc[:,6:10], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_inputs.iloc[:,11:13], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_inputs.iloc[:,14:17], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_inputs.iloc[:,0:5], headers='keys', tablefmt='plain'))
+print(tabulate(pd_obj_inputs.iloc[:,6:10], headers='keys', tablefmt='plain'))
+print(tabulate(pd_obj_inputs.iloc[:,11:13], headers='keys', tablefmt='plain'))
+print(tabulate(pd_obj_inputs.iloc[:,14:17], headers='keys', tablefmt='plain'))
 
 # load transposed qaqc data for expected outputs
 # works for local nosetests from parent directory
@@ -34,13 +33,13 @@ data_exp_outputs = StringIO(pkgutil.get_data(__package__, 'terrplant_qaqc_exp_tr
 pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
 print("terrplant expected outputs")
 print(pd_obj_exp.shape)
-print(tabulate(pd_obj_exp.iloc[:,0:5], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_exp.iloc[:,6:10], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_exp.iloc[:,11:14], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_exp.iloc[:,15:16], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_exp.iloc[:,0:5], headers='keys', tablefmt='plain'))
+print(tabulate(pd_obj_exp.iloc[:,6:10], headers='keys', tablefmt='plain'))
+print(tabulate(pd_obj_exp.iloc[:,11:14], headers='keys', tablefmt='plain'))
+print(tabulate(pd_obj_exp.iloc[:,15:16], headers='keys', tablefmt='plain'))
 
 # create an instance of terrplant object with qaqc data
-terrplant_calc = terrplant_model.terrplant("batch", pd_obj_inputs, pd_obj_exp)
+terrplant_calc = terrplant.Terrplant(pd_obj_inputs, pd_obj_exp)
 print("####")
 print(terrplant_calc)
 test = {}
