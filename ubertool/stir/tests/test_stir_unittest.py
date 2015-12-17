@@ -7,7 +7,7 @@ import pandas.util.testing as pdt
 # python -m tests.stir_unit_test
 # following works for running as nosetests from parent directory:
 #importing as a package (specified in ../../setup.py
-from .. import stir_model_rest as stir_model
+from .. import stir as stir_model
 
 # # load transposed qaqc data for inputs and expected outputs
 # csv_transpose_path_in = "./stir_qaqc_in_transpose.csv"

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .. import earthworm_model_rest as earthworm_model
+from .. import earthworm as earthworm_model
 import pandas as pd
 import numpy.testing as npt
 import unittest

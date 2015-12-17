@@ -4,7 +4,7 @@ import pandas as pd
 import numpy.testing as npt
 import pkgutil
 from StringIO import StringIO
-from .. import terrplant_model_rest as terrplant_model
+from .. import terrplant as terrplant_model
 from tabulate import tabulate
 
 # load transposed qaqc data for inputs and expected outputs

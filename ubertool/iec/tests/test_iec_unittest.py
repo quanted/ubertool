@@ -3,7 +3,7 @@ import unittest
 import numpy.testing as npt
 import pandas as pd
 
-from .. import iec_model_rest as iec_model
+from .. import iec as iec_model
 
 # create empty pandas dataframes to create empty sip object for testing
 df_empty = pd.DataFrame()

@@ -3,7 +3,7 @@ import pandas as pd
 import numpy.testing as npt
 import pkgutil
 from StringIO import StringIO
-from .. import stir_model_rest as stir_model
+from .. import stir as stir_model
 from tabulate import tabulate
 
 # load transposed qaqc data for inputs

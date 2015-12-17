@@ -6,7 +6,7 @@ import pandas.util.testing as pdt
 # the following works when running test script in parent directory as package:
 # python -m tests.test_terrplant_unittest
 # the following works for running as nosetests from parent directory:
-from .. import terrplant_model_rest as terrplant_model
+from .. import terrplant as terrplant_model
 
 # load transposed qaqc data for inputs and expected outputs
 # csv_transpose_path_in = "./terrplant_qaqc_in_transpose.csv"

@@ -6,7 +6,7 @@ from tabulate import tabulate
 import numpy.testing as npt
 import pandas as pd
 
-from .. import iec_model_rest as iec_model
+from .. import iec as iec_model
 
 # load transposed qaqc data for inputs
 #works for local nosetests from parent directory

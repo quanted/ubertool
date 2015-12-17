@@ -2,7 +2,7 @@ import pkgutil
 import unittest
 import pandas as pd
 import numpy.testing as npt
-from .. import rice_model_rest as rice_model
+from .. import rice as rice_model
 from StringIO import StringIO
 from tabulate import tabulate
 import pandas.util.testing as pdt

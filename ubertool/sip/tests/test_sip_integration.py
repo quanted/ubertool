@@ -7,7 +7,7 @@ import numpy.testing as npt
 import pandas as pd
 import pandas.util.testing as pdt
 
-from .. import sip_model_rest as sip_model
+from .. import sip as sip_model
 
 # load transposed qaqc data for inputs
 #works for local nosetests from parent directory

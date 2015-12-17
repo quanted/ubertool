@@ -8,7 +8,7 @@ import pandas.util.testing as pdt
 # python -m tests.stir_unit_test
 # following works for running as nosetests from parent directory:
 #importing as a package (specified in ../../setup.py)
-from .. import rice_model_rest as rice_model
+from .. import rice as rice_model
 
 # create empty pandas dataframes to create empty rice object for testing
 df_empty = pd.DataFrame()

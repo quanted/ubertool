@@ -5,7 +5,7 @@ import pandas as pd
 import pandas.util.testing as pdt
 
 #importing as a package (specified in ../../setup.py
-from .. import sip_model_rest as sip_model
+from .. import sip as sip_model
 
 # create empty pandas dataframes to create empty sip object for testing
 df_empty = pd.DataFrame()
