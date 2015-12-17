@@ -9,8 +9,8 @@ setup(name='ubertool',
       description='ubertool ecological risk models',
       author='Tom Purucker',
       author_email='purucker.tom@epa.gov',
-      url='https://github.com/puruckertom/ubertool_ecorest',
-      py_modules=['REST_UBER.sip_rest.sip_model_rest', 'REST_UBER.stir_rest.stir_model_rest',
-                  'REST_UBER.rice_rest.rice_model_rest', 'REST_UBER.terrplant_rest.terrplant_model_rest', 
-                  'REST_UBER.iec_rest.iec_model_rest', 'REST_UBER.earthworm_rest.earthworm_model_rest']
+      url='https://github.com/puruckertom/ubertool',
+      py_modules=['ubertool.sip.sip', 'ubertool.stir.stir',
+                  'ubertool.rice.rice', 'ubertool.terrplant.terrplant',
+                  'ubertool.iec.iec', 'ubertool.earthworm.earthworm']
       )
