@@ -1,28 +1,9 @@
-# -*- coding: utf-8 -*-
 from __future__ import division
 import pandas as pd
 import logging
-import numpy as np
-from functools import wraps
-import time
-
-
-# def timefn(fn):
-#     @wraps(fn)
-#     def measure_time(*args, **kwargs):
-#         t1 = time.time()
-#         result = fn(*args, **kwargs)
-#         t2 = time.time()
-#         logging.info(t1)
-#         logging.info(t2)
-#         print("sip_model_rest.py@timefn: " + fn.func_name + " took " +
-#             "{:.6f}".format(t2-t1) + " seconds")
-#         return result
-#     return measure_time
 
 
 class sip(object):
-    # #    @timefn
     def __init__(self, run_type, pd_obj, pd_obj_exp):
         """
 
@@ -74,6 +55,19 @@ class sip(object):
         self.bodyweight_assessed_bird = 20.
         self.bodyweight_assessed_mammal = 1000.
 
+    def json(self, pd_obj, pd_obj_out, pd_obj_exp):
+        """
+            Convert DataFrames to JSON, returning a tuple
+            of JSON strings (inputs, outputs, exp_out)
+        """
+
+        pd_obj_json = pd_obj.to_json()
+        pd_obj_out_json = pd_obj_out.to_json()
+        try:
+            pd_obj_exp_json = pd_obj_exp.to_json()
+        except:
+            pd_obj_exp_json = "{}"
+
     def create_output_properties(self):
         # Outputs: Assign object attribute variables to Pandas Series
         self.fw_bird_out = pd.Series(name="fw_bird_out")
@@ -98,7 +92,6 @@ class sip(object):
         self.det_other_1 = pd.Series(name="det_other_1")
         self.det_other_2 = pd.Series(name="det_other_2")
 
-    # @timefn
     def run_methods(self):
         self.fw_bird()
         self.fw_mamm()
@@ -141,10 +134,9 @@ class sip(object):
         # create pandas properties for acceptance testing
         self.pd_obj_out = pd_obj_out
 
-    # @timefn
     def json(self, pd_obj, pd_obj_out, pd_obj_exp):
         """
-            Convert DataFrames to JSON, returning a tuple 
+            Convert DataFrames to JSON, returning a tuple
             of JSON strings (inputs, outputs, exp_out)
         """
 
@@ -158,14 +150,13 @@ class sip(object):
         return pd_obj_json, pd_obj_out_json, pd_obj_exp_json
 
     # Begin model methods
-    # @timefn
     def fw_bird(self):
         """
-        For birds, the daily water intake rate is calculated using the equation below. 
-        This equation is representative of passerine birds, which represent the majority 
-        of bird species visiting agricultural areas and which have higher daily water flux 
-        requirements than other birds.  As a result, the equations represent the most 
-        conservative estimate of pesticide concentrations in water. The resulting daily 
+        For birds, the daily water intake rate is calculated using the equation below.
+        This equation is representative of passerine birds, which represent the majority
+        of bird species visiting agricultural areas and which have higher daily water flux
+        requirements than other birds.  As a result, the equations represent the most
+        conservative estimate of pesticide concentrations in water. The resulting daily
         water intake rate for the 20 g bird is 0.0162 L.
 
             Flux(water) = (1.180 * BW^0.874) / 1000
@@ -193,16 +184,15 @@ class sip(object):
         return self.fw_bird_out
 
     # Daily water intake rate for mammals
-    # @timefn
     def fw_mamm(self):
         """
-        For mammals, the daily water intake rate is calculated using the equation below. 
-        This equation is representative of eutherian herbivore mammals, which have higher 
-        daily water flux requirements compared to other mammals that visit agricultural areas. 
-        The only equation that would generate higher estimates of daily water flux corresponds 
-        to marsupial carnivores, which are not considered to be representative of the majority 
-        of mammals that visit agricultural areas.  The resulting daily water intake rate for a 
-        1000 g mammal is 0.172 L. 
+        For mammals, the daily water intake rate is calculated using the equation below.
+        This equation is representative of eutherian herbivore mammals, which have higher
+        daily water flux requirements compared to other mammals that visit agricultural areas.
+        The only equation that would generate higher estimates of daily water flux corresponds
+        to marsupial carnivores, which are not considered to be representative of the majority
+        of mammals that visit agricultural areas.  The resulting daily water intake rate for a
+        1000 g mammal is 0.172 L.
 
             Flux(water) = (0.708 * BW^0.795) / 1000
 
@@ -229,14 +219,13 @@ class sip(object):
         return self.fw_mamm_out
 
     # Upper bound estimate of exposure for birds
-    # @timefn
     def dose_bird(self):
         """
-        The model calculates the upper bound estimate of exposure in drinking water 
-        (dose-based; units in mg/kg-bw) by multiplying the daily water intake rate (L) 
-        by the chemical solubility (mg/L) and then dividing by the body weight (in kg) 
-        of the assessed animal (See equation below). In cases where water characteristics 
-        (e.g., pH) influence the solubility of a chemical in water, the user should select 
+        The model calculates the upper bound estimate of exposure in drinking water
+        (dose-based; units in mg/kg-bw) by multiplying the daily water intake rate (L)
+        by the chemical solubility (mg/L) and then dividing by the body weight (in kg)
+        of the assessed animal (See equation below). In cases where water characteristics
+        (e.g., pH) influence the solubility of a chemical in water, the user should select
         the highest available water solubility for use in SIP.
 
             Dose = (Flux(water) * solubility) / BW
@@ -278,14 +267,13 @@ class sip(object):
         return self.dose_bird_out
 
     # Upper bound estimate of exposure for mammals
-    # @timefn
     def dose_mamm(self):
         """
-        The model calculates the upper bound estimate of exposure in drinking water 
-        (dose-based; units in mg/kg-bw) by multiplying the daily water intake rate (L) 
-        by the chemical solubility (mg/L) and then dividing by the body weight (in kg) 
-        of the assessed animal (See equation below). In cases where water characteristics 
-        (e.g., pH) influence the solubility of a chemical in water, the user should select 
+        The model calculates the upper bound estimate of exposure in drinking water
+        (dose-based; units in mg/kg-bw) by multiplying the daily water intake rate (L)
+        by the chemical solubility (mg/L) and then dividing by the body weight (in kg)
+        of the assessed animal (See equation below). In cases where water characteristics
+        (e.g., pH) influence the solubility of a chemical in water, the user should select
         the highest available water solubility for use in SIP.
 
             Dose = (Flux(water) * solubility) / BW
@@ -327,22 +315,21 @@ class sip(object):
         return self.dose_mamm_out
 
     # Acute adjusted toxicity value for birds
-    # @timefn
     def at_bird(self):
         """
-        LD50 values for mammals and birds are adjusted using the same approach employed 
-        by T-REX (USEPA 2008). These equations are provided below. In these equations, 
-        AT = adjusted toxicity value (mg/kg-bw); LD50 = endpoint reported by toxicity study 
-        (mg/kg-bw); TW = body weight of tested animal (350g rat, 1580g mallard duck, 178 g 
-        Northern bobwhite quail or weight defined by the model user for an alternative species); 
+        LD50 values for mammals and birds are adjusted using the same approach employed
+        by T-REX (USEPA 2008). These equations are provided below. In these equations,
+        AT = adjusted toxicity value (mg/kg-bw); LD50 = endpoint reported by toxicity study
+        (mg/kg-bw); TW = body weight of tested animal (350g rat, 1580g mallard duck, 178 g
+        Northern bobwhite quail or weight defined by the model user for an alternative species);
 
         AT = LD50* (AW / TW)^(x-1)
 
-        where: 
+        where:
             AW = body weight of assessed animal (g)
-            x = Mineau scaling factor.  Chemical specific values for x may be located in the 
-            worksheet titled "Mineau scaling factors." If no chemical specific data are available, 
-            the default value of 1.15 should be used for this parameter. 
+            x = Mineau scaling factor.  Chemical specific values for x may be located in the
+            worksheet titled "Mineau scaling factors." If no chemical specific data are available,
+            the default value of 1.15 should be used for this parameter.
         """
         # if self.at_bird_out == -1:
         #     try:
@@ -385,22 +372,21 @@ class sip(object):
         return self.at_bird_out
 
     # Acute adjusted toxicity value for mammals
-    # @timefn
     def at_mamm(self):
         """
-        LD50 values for mammals and birds are adjusted using the same approach employed 
-        by T-REX (USEPA 2008). These equations are provided below. In these equations, 
-        AT = adjusted toxicity value (mg/kg-bw); LD50 = endpoint reported by toxicity study 
-        (mg/kg-bw); TW = body weight of tested animal (350g rat, 1580g mallard duck, 178 g 
-        Northern bobwhite quail or weight defined by the model user for an alternative species); 
+        LD50 values for mammals and birds are adjusted using the same approach employed
+        by T-REX (USEPA 2008). These equations are provided below. In these equations,
+        AT = adjusted toxicity value (mg/kg-bw); LD50 = endpoint reported by toxicity study
+        (mg/kg-bw); TW = body weight of tested animal (350g rat, 1580g mallard duck, 178 g
+        Northern bobwhite quail or weight defined by the model user for an alternative species);
 
         AT = LD50* (TW / AW)^0.25
 
-        where: 
+        where:
             AW = body weight of assessed animal (g)
-            x = Mineau scaling factor.  Chemical specific values for x may be located in the 
-            worksheet titled "Mineau scaling factors." If no chemical specific data are available, 
-            the default value of 1.15 should be used for this parameter. 
+            x = Mineau scaling factor.  Chemical specific values for x may be located in the
+            worksheet titled "Mineau scaling factors." If no chemical specific data are available,
+            the default value of 1.15 should be used for this parameter.
         """
         # if self.at_mamm_out == -1:
         #     try:
@@ -442,24 +428,23 @@ class sip(object):
     # Adjusted chronic toxicity values for birds
 
     # FI = Food Intake Rate
-    # @timefn
     def fi_bird(self, bw_grams):
         """
         Daily Food Intake Rate:
 
-        Chronic avian toxicity studies produce endpoints based on concentration in food, not dose. 
-        The endpoint is a No Observed Adverse Effects Concentration (NOAEC) that is assumed to be 
-        relevant to all birds, regardless of body weight.  In order to convert a reported avian 
-        NOAEC (mg/kg-diet) value to a dose equivalent toxicity value for the assessed animal, 
-        the daily food (dry) intake of the test bird is considered. The daily food intake rate 
+        Chronic avian toxicity studies produce endpoints based on concentration in food, not dose.
+        The endpoint is a No Observed Adverse Effects Concentration (NOAEC) that is assumed to be
+        relevant to all birds, regardless of body weight.  In order to convert a reported avian
+        NOAEC (mg/kg-diet) value to a dose equivalent toxicity value for the assessed animal,
+        the daily food (dry) intake of the test bird is considered. The daily food intake rate
         (FI; units in kg-food) of the test bird is calculated using the equation below.
 
         FI = 0.0582 * BW^0.651
 
         where:
-            BW = body weight in kg (USEPA 1993). This equation corresponds to a daily food intake 
-            rate for all birds, which generates a lower food intake rate compared to passerines. 
-            The equation is more conservative because it results in a lower dose-equivalent toxicity value. 
+            BW = body weight in kg (USEPA 1993). This equation corresponds to a daily food intake
+            rate for all birds, which generates a lower food intake rate compared to passerines.
+            The equation is more conservative because it results in a lower dose-equivalent toxicity value.
         """
         # if self.fi_bird_out == -1:
         #     try:
@@ -477,19 +462,18 @@ class sip(object):
         return self.fi_bird_out
 
     # Dose-equivalent chronic toxicity value for birds
-    # @timefn
     def det(self):
         """
         Dose Equiv. Toxicity:
 
-        The FI value (kg-diet) is multiplied by the reported NOAEC (mg/kg-diet) and then divided by 
+        The FI value (kg-diet) is multiplied by the reported NOAEC (mg/kg-diet) and then divided by
         the test animal's body weight to derive the dose-equivalent chronic toxicity value (mg/kg-bw):
 
         Dose Equiv. Toxicity = (NOAEC * FI) / BW
 
-        NOTE: The user enters the lowest available NOAEC for the mallard duck, for the bobwhite quail, 
-        and for any other test species. The model calculates the dose equivalent toxicity values for 
-        all of the modeled values (Cells F20-24 and results worksheet) and then selects the lowest dose 
+        NOTE: The user enters the lowest available NOAEC for the mallard duck, for the bobwhite quail,
+        and for any other test species. The model calculates the dose equivalent toxicity values for
+        all of the modeled values (Cells F20-24 and results worksheet) and then selects the lowest dose
         equivalent toxicity value to represent the chronic toxicity of the chemical to birds.
         """
         # if self.det_out == -1:
@@ -569,15 +553,14 @@ class sip(object):
         return self.det_out
 
     # Adjusted chronic toxicty value for mammals
-    # @timefn
     def act(self):
         """
-        SIP relies upon the No Observed Adverse Effects Level (NOAEL; mg/kg-bw) from a chronic mammalian study. 
-        If only a NOAEC value (in mg/kg-diet) is available, the model user should divide the NOAEC by 20 to 
-        determine the equivalent chronic daily dose. This approach is consistent with that of T-REX, which 
-        relies upon the standard FDA lab rat conversion. (USEPA 2008). Mammalian NOAEL values are adjusted 
-        using the same approach employed by T-REX (USEPA 2008). The equation for mammals is provided below 
-        (variables are defined above). 
+        SIP relies upon the No Observed Adverse Effects Level (NOAEL; mg/kg-bw) from a chronic mammalian study.
+        If only a NOAEC value (in mg/kg-diet) is available, the model user should divide the NOAEC by 20 to
+        determine the equivalent chronic daily dose. This approach is consistent with that of T-REX, which
+        relies upon the standard FDA lab rat conversion. (USEPA 2008). Mammalian NOAEL values are adjusted
+        using the same approach employed by T-REX (USEPA 2008). The equation for mammals is provided below
+        (variables are defined above).
 
         AT = NOAEL * (TW / AW)^0.25
         """
@@ -623,13 +606,12 @@ class sip(object):
 
     # Acute exposures for birds
 
-    # @timefn
     def acute_bird(self):
         """
-        For acute exposures, if the ratio of the upper bound dose to the adjusted LD50 value is <0.1, 
-        the risk assessor can conclude that pesticide exposure to mammals or birds through drinking 
-        water by itself is not an exposure route of concern. If the ratio of the upper bound dose to 
-        the adjusted LD50 value is ≥ 0.1, the risk assessor can conclude that pesticide exposure to 
+        For acute exposures, if the ratio of the upper bound dose to the adjusted LD50 value is <0.1,
+        the risk assessor can conclude that pesticide exposure to mammals or birds through drinking
+        water by itself is not an exposure route of concern. If the ratio of the upper bound dose to
+        the adjusted LD50 value is  >=0.1, the risk assessor can conclude that pesticide exposure to
         mammals or birds through drinking water by itself is an exposure route of concern.
         """
         # if self.acute_bird_out == -1:
@@ -660,7 +642,6 @@ class sip(object):
         self.acute_bird_out = self.dose_bird_out / self.at_bird_out
         return self.acute_bird_out
 
-    # @timefn
     def acuconb(self):
         """
         Message stating whether or not a risk is present
@@ -681,13 +662,12 @@ class sip(object):
         return self.acuconb_out
 
     # Acute exposures for mammals
-    # @timefn
     def acute_mamm(self):
         """
-        For acute exposures, if the ratio of the upper bound dose to the adjusted LD50 value is <0.1, 
-        the risk assessor can conclude that pesticide exposure to mammals or birds through drinking 
-        water by itself is not an exposure route of concern. If the ratio of the upper bound dose to 
-        the adjusted LD50 value is ≥ 0.1, the risk assessor can conclude that pesticide exposure to 
+        For acute exposures, if the ratio of the upper bound dose to the adjusted LD50 value is <0.1,
+        the risk assessor can conclude that pesticide exposure to mammals or birds through drinking
+        water by itself is not an exposure route of concern. If the ratio of the upper bound dose to
+        the adjusted LD50 value is >=0.1, the risk assessor can conclude that pesticide exposure to
         mammals or birds through drinking water by itself is an exposure route of concern.
         """
         # if self.acute_mamm_out == -1:
@@ -718,7 +698,6 @@ class sip(object):
         self.acute_mamm_out = self.dose_mamm_out / self.at_mamm_out
         return self.acute_mamm_out
 
-    # @timefn
     def acuconm(self):
         """
         Message stating whether or not a risk is present
@@ -739,14 +718,13 @@ class sip(object):
         return self.acuconm_out
 
     # Chronic Exposures for birds
-    # @timefn
     def chron_bird(self):
         """
-        For chronic exposures, if the ratio of the upper bound dose to the adjusted chronic 
-        toxicity value is <1, the risk assessor can conclude that pesticide exposure to mammals 
-        or birds through drinking water by itself is not an exposure route of concern. If the 
-        ratio of the upper bound dose to the adjusted chronic toxicity value is ≥1, the risk 
-        assessor can conclude that pesticide exposure to mammals or birds through drinking water 
+        For chronic exposures, if the ratio of the upper bound dose to the adjusted chronic
+        toxicity value is <1, the risk assessor can conclude that pesticide exposure to mammals
+        or birds through drinking water by itself is not an exposure route of concern. If the
+        ratio of the upper bound dose to the adjusted chronic toxicity value is >=1, the risk
+        assessor can conclude that pesticide exposure to mammals or birds through drinking water
         by itself is an exposure route of concern.
         """
         # if self.chron_bird_out == -1:
@@ -781,7 +759,6 @@ class sip(object):
         self.chron_bird_out = self.dose_bird_out / self.det_out
         return self.chron_bird_out
 
-    # @timefn
     def chronconb(self):
         """
         Message stating whether or not a risk is present
@@ -801,14 +778,13 @@ class sip(object):
         return self.chronconb_out
 
     # Chronic exposures for mammals
-    # @timefn
     def chron_mamm(self):
         """
-        For chronic exposures, if the ratio of the upper bound dose to the adjusted chronic 
-        toxicity value is <1, the risk assessor can conclude that pesticide exposure to mammals 
-        or birds through drinking water by itself is not an exposure route of concern. If the 
-        ratio of the upper bound dose to the adjusted chronic toxicity value is ≥1, the risk 
-        assessor can conclude that pesticide exposure to mammals or birds through drinking water 
+        For chronic exposures, if the ratio of the upper bound dose to the adjusted chronic
+        toxicity value is <1, the risk assessor can conclude that pesticide exposure to mammals
+        or birds through drinking water by itself is not an exposure route of concern. If the
+        ratio of the upper bound dose to the adjusted chronic toxicity value is >=1, the risk
+        assessor can conclude that pesticide exposure to mammals or birds through drinking water
         by itself is an exposure route of concern.
         """
         # if self.chron_mamm_out == -1:
@@ -840,7 +816,6 @@ class sip(object):
         self.chron_mamm_out = self.dose_mamm_out / self.act_out
         return self.chron_mamm_out
 
-    # @timefn
     def chronconm(self):
         """
         Message stating whether or not a risk is present
