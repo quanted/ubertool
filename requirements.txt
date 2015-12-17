@@ -1,5 +1,6 @@
 boto
 bottle
+codecov
 coverage
 futures
 nose
