@@ -47,7 +47,7 @@ test = {}
 
 class TestTerrplant(unittest.TestCase):
     def setUp(self):
-        pass
+        terrplant_calc.execute_model()
 
     def tearDown(self):
         pass
