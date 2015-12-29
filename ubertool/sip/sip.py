@@ -5,14 +5,7 @@ import logging
 
 class sip(object):
     def __init__(self, run_type, pd_obj, pd_obj_exp):
-        """
-
-        :param run_type:
-        :param pd_obj:
-        :param pd_obj_exp:
-        :return:
-        """
-
+        '''  Constructor '''
         # Inputs: Assign object attribute variables from the input Pandas DataFrame
         # run_type can be single, batch or qaqc
         # 0 to run calculation, else it wont
@@ -26,6 +19,7 @@ class sip(object):
             self.execute_model()
 
     def execute_model(self):
+        ''' Called by constructor to populate class and run methods. '''
         self.populate_input_properties()
         self.create_output_properties()
         self.run_methods()
@@ -34,6 +28,7 @@ class sip(object):
         self.json = self.json(self.pd_obj, self.pd_obj_out, self.pd_obj_exp)
 
     def populate_input_properties(self):
+        ''' Set all input properties for class '''
         # Inputs: Assign object attribute variables from the input Pandas DataFrame
         self.chemical_name = self.pd_obj['chemical_name']
         self.solubility = self.pd_obj['solubility']
@@ -69,6 +64,7 @@ class sip(object):
             pd_obj_exp_json = "{}"
 
     def create_output_properties(self):
+        ''' Set all output properties for class '''
         # Outputs: Assign object attribute variables to Pandas Series
         self.fw_bird_out = pd.Series(name="fw_bird_out")
         self.fw_mamm_out = pd.Series(name="fw_mamm_out")
@@ -93,6 +89,7 @@ class sip(object):
         self.det_other_2 = pd.Series(name="det_other_2")
 
     def run_methods(self):
+        ''' Execute all algorithm methods for model logic '''
         self.fw_bird()
         self.fw_mamm()
         self.dose_bird()
@@ -111,6 +108,7 @@ class sip(object):
         self.chronconm()
 
     def create_output_dataframe(self):
+        ''' Combine all output properties into numpy pandas dataframe '''
         # Create DataFrame containing output value Series
         pd_obj_out = pd.DataFrame({
             'fw_bird_out': self.fw_bird_out,

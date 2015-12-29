@@ -64,6 +64,7 @@ class UberModel(object):
         return df
 
     def fill_output_dataframe(self, model_obj):
+        ''' Combine all output properties into numpy pandas dataframe '''
         for column in model_obj.pd_obj_out:
             model_obj.pd_obj_out[column] = getattr(model_obj, column)
 

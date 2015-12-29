@@ -7,6 +7,7 @@ from scipy.special import erfc
 
 class iec(object):
     def __init__(self, run_type, pd_obj, pd_obj_exp):
+        '''  Constructor '''
         # run_type can be single, batch or qaqc
         # 0 to run calculation, else it wont
         self.run_type = run_type
@@ -17,6 +18,7 @@ class iec(object):
             self.execute_model()
 
     def execute_model(self):
+        ''' Called by constructor to populate class and run methods. '''
         self.populate_input_properties()
         self.create_output_properties()
         self.run_methods()
@@ -25,18 +27,21 @@ class iec(object):
         self.json = self.json(self.pd_obj, self.pd_obj_out, self.pd_obj_exp)
 
     def populate_input_properties(self):
+        ''' Set all input properties for class '''
         # Inputs: Assign object attribute variables from the input Pandas DataFrame
         self.dose_response = self.pd_obj['dose_response']
         self.LC50 = self.pd_obj['LC50']
         self.threshold = self.pd_obj['threshold']
 
     def create_output_properties(self):
+        ''' Set all output properties for class '''
         # Outputs: Assign object attribute variables to Pandas Series
         self.z_score_f_out = pd.Series(name="z_score_f_out")
         self.F8_f_out = pd.Series(name="F8_f_out")
         self.chance_f_out = pd.Series(name="chance_f_out")
 
     def run_methods(self):
+        ''' Execute all algorithm methods for model logic '''
         try:
             self.z_score_f()
             self.F8_f()
@@ -45,6 +50,7 @@ class iec(object):
             pass
 
     def create_output_dataframe(self):
+        ''' Combine all output properties into numpy pandas dataframe '''
         # Create DataFrame containing output value Series
         pd_obj_out = pd.DataFrame({
             "z_score_f_out": self.z_score_f_out,

@@ -5,7 +5,7 @@ import logging
 
 class rice(object):
     def __init__(self, run_type, pd_obj, pd_obj_exp):
-
+        '''  Constructor '''
         self.run_type = run_type
         self.pd_obj = pd_obj
         self.pd_obj_exp = pd_obj_exp
@@ -15,6 +15,7 @@ class rice(object):
             self.execute_model()
 
     def execute_model(self):
+        ''' Called by constructor to populate class and run methods. '''
         self.populate_input_properties()
         self.create_output_properties()
         self.run_methods()
@@ -23,6 +24,7 @@ class rice(object):
         self.json = self.json(self.pd_obj, self.pd_obj_out, self.pd_obj_exp)
 
     def populate_input_properties(self):
+        ''' Set all input properties for class '''
         # Inputs: Assign object attribute variables from the input Pandas DataFrame
         # Inputs: Assign object attribute variables from the input Pandas DataFrame
         self.chemical_name = self.pd_obj["chemical_name"]
@@ -35,6 +37,7 @@ class rice(object):
         self.Kd = self.pd_obj["Kd"]
 
     def create_output_properties(self):
+        ''' Set all output properties for class '''
         # Outputs: Assign object attribute variables to Pandas Series
         self.out_msed = pd.Series(name="out_msed")
         self.out_vw = pd.Series(name="out_vw")
@@ -42,6 +45,7 @@ class rice(object):
         self.out_cw = pd.Series(name="out_cw")
 
     def create_output_dataframe(self):
+        ''' Combine all output properties into numpy pandas dataframe '''
         # Create DataFrame containing output value Series
         pd_obj_out = pd.DataFrame({
             'out_msed': self.out_msed,
@@ -52,6 +56,7 @@ class rice(object):
         self.pd_obj_out = pd_obj_out
 
     def run_methods(self):
+        ''' Execute all algorithm methods for model logic '''
         self.Calcmsed()
         self.Calcvw()
         self.Calcmass_area()
@@ -71,26 +76,31 @@ class rice(object):
             pd_obj_exp_json = "{}"
         return pd_obj_json, pd_obj_out_json, pd_obj_exp_json
 
-    # The mass of the sediment at equilibrium with the water column
-    # Sediment depth (dsed) * Area of rice paddy (area) * Bulk density of sediment(mass/volume) pb
     def Calcmsed(self):
+        '''
+        The mass of the sediment at equilibrium with the water column
+        Sediment depth (dsed) * Area of rice paddy (area) * Bulk density of sediment(mass/volume) pb
+        '''
         self.out_msed = self.dsed * self.area * self.pb
         return self.out_msed
 
-    # The volume of the water column plus pore water
     def Calcvw(self):
+        '''
+        The volume of the water column plus pore water
+        '''
         self.out_vw = (self.dw * self.area) + (self.dsed * self.osed * self.area)
         return self.out_vw
 
-    # The pesticide mass per unit area
     def Calcmass_area(self):
+        '''
+        The pesticide mass per unit area
+        '''
         self.out_mass_area = (self.mai / self.area) * 10000
         return self.out_mass_area
 
-    #    if a <= 0:
-    #     print('The area of the rice paddy must be greater than 0 m2')
-
-    # Water Concentration
     def Calccw(self):
+        '''
+        Water Concentration
+        '''
         self.out_cw = (self.out_mass_area / (self.dw + (self.dsed * (self.osed + (self.pb * self.Kd * 1e-5))))) * 100
         return self.out_cw
