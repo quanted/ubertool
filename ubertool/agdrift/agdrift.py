@@ -6,6 +6,28 @@ class agdrift(object):
     def __init__(self, drop_size, ecosystem_type, application_method, boom_height, orchard_type,
                  application_rate, distance, aquatic_type, calculation_input, init_avg_dep_foa,
                  avg_depo_lbac, avg_depo_gha, deposition_ngL, deposition_mgcm, nasae, y, x, express_y):
+        """
+        Constructor for agdrift model.
+        :param drop_size:
+        :param ecosystem_type:
+        :param application_method:
+        :param boom_height:
+        :param orchard_type:
+        :param application_rate:
+        :param distance:
+        :param aquatic_type:
+        :param calculation_input:
+        :param init_avg_dep_foa:
+        :param avg_depo_lbac:
+        :param avg_depo_gha:
+        :param deposition_ngL:
+        :param deposition_mgcm:
+        :param nasae:
+        :param y:
+        :param x:
+        :param express_y:
+        :return:
+        """
         self.drop_size = drop_size
         self.ecosystem_type = ecosystem_type
         self.application_method = application_method
@@ -26,6 +48,10 @@ class agdrift(object):
         self.express_y = express_y
 
     def run_methods(self):
+        """
+        Controller method that runs all subroutines in sequence.
+        :return:
+        """
         self.results()
         if (self.calculation_input == 'Distance'):
             self.results()
@@ -179,6 +205,10 @@ class agdrift(object):
     #     return self.x, self.y
 
     def results(self):
+        """
+        Grabbing interpolated output from agdrift model.
+        :return:
+        """
         self.pond_ground_high_vf2f = [6.164E+00, 4.251E+00, 3.425E+00, 2.936E+00, 2.607E+00, 2.364E+00, 2.173E+00,
                                       2.017E+00, 1.886E+00, 1.773E+00, 1.674E+00, 1.586E+00, 1.508E+00, 1.437E+00,
                                       1.372E+00, 1.314E+00, 1.260E+00, 1.210E+00, 1.163E+00, 1.120E+00, 1.080E+00,
@@ -1201,6 +1231,13 @@ class agdrift(object):
             self.y = 3
 
     def express_extrapolate_f(self, y, nasae, distance):
+        """
+        Extrapolate results from express implementation.
+        :param y:
+        :param nasae:
+        :param distance:
+        :return:
+        """
         # XV = np.array([X0, X1, X2, X3, X4, X5, X6, X7, X8, X9])
 
         # NASAE1=int(self.nasae)-1
@@ -1216,6 +1253,15 @@ class agdrift(object):
         return self.init_avg_dep_foa
 
     def extrapolate_from_fig(self, ecosystem_type, distance, bisect_left, x, y):
+        """
+        Extrapolating from nearest figure points.
+        :param ecosystem_type:
+        :param distance:
+        :param bisect_left:
+        :param x:
+        :param y:
+        :return:
+        """
         self.distance = int(self.distance)
         if self.distance in self.x:
             y_index = x.index(self.distance)
@@ -1231,6 +1277,15 @@ class agdrift(object):
         return self.init_avg_dep_foa
 
     def extrapolate_from_fig2(self, ecosystem_type, init_avg_dep_foa, bisect_left, x, y):
+        """
+        Extrapolating from nearest figure points, alternative figure.
+        :param ecosystem_type:
+        :param init_avg_dep_foa:
+        :param bisect_left:
+        :param x:
+        :param y:
+        :return:
+        """
         self.init_avg_dep_foa = float(self.init_avg_dep_foa)
         if self.init_avg_dep_foa in self.y:
             x_index = y.index(self.init_avg_dep_foa)
@@ -1248,12 +1303,24 @@ class agdrift(object):
         return self.distance
 
     def deposition_foa_to_gha_f(self, init_avg_dep_foa, application_rate):
+        """
+        Deposition calculation.
+        :param init_avg_dep_foa:
+        :param application_rate:
+        :return:
+        """
         application_rate = float(application_rate)
         # self.init_avg_dep_foa = float(init_avg_dep_foa)
         self.avg_depo_gha = init_avg_dep_foa * 100.0 * application_rate * 10.0
         return self.avg_depo_gha
 
     def deposition_foa_to_lbac_f(self, init_avg_dep_foa, application_rate):
+        """
+        Deposition calculation.
+        :param init_avg_dep_foa:
+        :param application_rate:
+        :return:
+        """
         self.application_rate = float(self.application_rate)
         # print self.application_rate
         # print self.init_avg_dep_foa
@@ -1262,12 +1329,24 @@ class agdrift(object):
         return self.avg_depo_lbac
 
     def deposition_lbac_to_gha_f(self, avg_depo_lbac):
+        """
+        Deposition calculation.
+        :param init_avg_dep_foa:
+        :param application_rate:
+        :return:
+        """
         self.avg_depo_lbac = float(self.avg_depo_lbac)
         self.avg_depo_gha = self.avg_depo_lbac * (453.592) / 0.404686
         # print self.avg_depo_gha
         return self.avg_depo_gha
 
     def deposition_gha_to_ngL_f(self, aquatic_type, avg_depo_gha):
+        """
+        Deposition calculation.
+        :param init_avg_dep_foa:
+        :param application_rate:
+        :return:
+        """
         if (self.aquatic_type == '1'):
 
             self.deposition_ngL = self.avg_depo_gha * 0.05 * 1000.0
@@ -1276,10 +1355,22 @@ class agdrift(object):
         return self.deposition_ngL
 
     def deposition_gha_to_mgcm_f(self, avg_depo_gha):
+        """
+        Deposition calculation.
+        :param init_avg_dep_foa:
+        :param application_rate:
+        :return:
+        """
         self.deposition_mgcm = self.avg_depo_gha * 0.00001
         return self.deposition_mgcm
 
     def deposition_ngL_2_gha_f(self, deposition_ngL):
+        """
+        Deposition calculation.
+        :param init_avg_dep_foa:
+        :param application_rate:
+        :return:
+        """
         self.deposition_ngL = float(self.deposition_ngL)
         if (self.aquatic_type == '1'):
             self.avg_depo_gha = self.deposition_ngL / (0.05 * 1000)
@@ -1288,16 +1379,34 @@ class agdrift(object):
         return self.avg_depo_gha
 
     def deposition_ghac_to_lbac_f(self, avg_depo_gha):
+        """
+        Deposition calculation.
+        :param init_avg_dep_foa:
+        :param application_rate:
+        :return:
+        """
         self.avg_depo_gha = float(self.avg_depo_gha)
         self.avg_depo_lbac = (self.avg_depo_gha * 0.00220462 / 2.47105)
         return self.avg_depo_lbac
 
     def deposition_lbac_to_foa_f(self, avg_depo_lbac, application_rate):
+        """
+        Deposition calculation.
+        :param init_avg_dep_foa:
+        :param application_rate:
+        :return:
+        """
         self.application_rate = float(self.application_rate)
         self.init_avg_dep_foa = self.avg_depo_lbac / self.application_rate
         return self.init_avg_dep_foa
 
     def deposition_mgcm_to_gha_f(self, deposition_mgcm):
+        """
+        Deposition calculation.
+        :param init_avg_dep_foa:
+        :param application_rate:
+        :return:
+        """
         self.deposition_mgcm = float(self.deposition_mgcm)
         self.avg_depo_gha = self.deposition_mgcm / 0.00001
         return self.avg_depo_gha
