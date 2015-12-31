@@ -11,11 +11,27 @@ test = {}
 
 class TestEarthworm(unittest.TestCase):
     def setup(self):
+        """
+        setup the test as needed
+        e.g. pandas to open stir qaqc csv
+        Read qaqc csv and create pandas DataFrames for inputs and expected outputs
+        :return:
+        """
         pass
-        # setup the test as needed
-        # e.g. pandas to open stir qaqc csv
-        #  Read qaqc csv and create pandas DataFrames for inputs and expected outputs
+
+    def teardown(self):
+        """
+        teardown called after each test
+        e.g. maybe write test results to some text file
+        :return:
+        """
+        pass
+
     def test_earthworm_fugacity(self):
+        """
+        Test the only real earthworm method.
+        :return:
+        """
         try:
             earthworm_empty.k_ow = pd.Series([1])
             earthworm_empty.l_f_e = pd.Series([0.01])
@@ -27,10 +43,6 @@ class TestEarthworm(unittest.TestCase):
         finally:
             pass
         return
-    def teardown(self):
-        pass
-        # teardown called after each test
-        # e.g. maybe write test results to some text file
 
 # unittest will
 # 1) call the setup method,

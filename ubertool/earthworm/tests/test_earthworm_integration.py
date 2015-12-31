@@ -44,9 +44,17 @@ test = {}
 
 class TestEarthworm(unittest.TestCase):
     def setUp(self):
+        """
+        Test setup method.
+        :return:
+        """
         pass
 
     def tearDown(self):
+        """
+        Test teardown method.
+        :return:
+        """
         pass
 
     def test_earthworm_fugacity(self):
