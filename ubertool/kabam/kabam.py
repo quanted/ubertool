@@ -21,6 +21,7 @@ class kabam(object):
                  ke_beninv, km_beninv, k1_ff, k2_ff, kd_ff, ke_ff, km_ff, k1_sf, k2_sf, kd_sf, ke_sf, km_sf, k1_mf,
                  k2_mf, kd_mf, ke_mf, km_mf, k1_lf, k2_lf, kd_lf, ke_lf, km_lf, rate_constants, s_respire,
                  phyto_respire, zoo_respire, beninv_respire, ff_respire, sfish_respire, mfish_respire, lfish_respire):
+        """Kabam constructor."""
         self.chemical_name = chemical_name
         self.l_kow = l_kow
         self.k_oc = k_oc
@@ -327,6 +328,10 @@ class kabam(object):
         self.run_methods()
 
     def run_methods(self):
+        """
+        Execute all subroutines in proper order.
+        :return:
+        """
         self.phi_f()
         self.c_soc_f()
         self.c_s_f()
@@ -540,65 +545,97 @@ class kabam(object):
         self.acute_rq_diet_a_f()
         self.chronic_rq_diet_a_f()
 
-    # calculate Fraction of freely dissolved in water column
     def phi_f(self):
+        """
+        Calculate Fraction of freely dissolved in water column
+        :return:
+        """
         self.phi = 1 / (1 + (self.x_poc * 0.35 * self.k_ow) + (self.x_doc * 0.08 * self.k_ow))
         return self.phi
 
-    # normalized pesticide concentration in sediment
     def c_soc_f(self):
+        """
+        Normalized pesticide concentration in sediment
+        :return:
+        """
         self.c_soc = self.k_oc * self.c_wdp
         return self.c_soc
 
-    # calculate concentration of chemical in sediment
     def c_s_f(self):
+        """
+        Calculate concentration of chemical in sediment
+        :return:
+        """
         self.c_s = self.c_soc * self.oc
         return self.c_s
 
     def sed_om_f(self):
+        """
+        Calculate organic matter fraction in sediment
+        :return:
+        """
         self.sed_om = self.c_s / self.oc
         return self.sed_om
 
-    # water freely dissolved
     def water_d(self):
+        """
+        Water freely dissolved
+        :return:
+        """
         self.water_d = self.phi * self.c_wto * 1000000
         return self.water_d
 
-    # determine input for rate constants user input or calculated
 
-    # calculate values
-    #############phytoplankton
-    # phytoplankton water partition coefficient  
     def k_bw_phytoplankton_f(self):
+        """
+        Phytoplankton water partition coefficient
+        :return:
+        """
         self.k_bw_phytoplankton = (self.v_lb_phytoplankton * self.k_ow) + (
             self.v_nb_phytoplankton * 0.35 * self.k_ow) + self.v_wb_phytoplankton
         return self.k_bw_phytoplankton
 
-    # rate constant for uptake through respiratory area
 
     def k1_phytoplankton_f(self):
+        """
+        Rate constant for uptake through respiratory area
+        :return:
+        """
         self.k1_phytoplankton = 1 / (6.0e-5 + (5.5 / self.k_ow))
         return self.k1_phytoplankton
 
-    # rate constant for elimination through the gills for phytoplankton
+
     def k2_phytoplankton_f(self):
+        """
+        Rate constant for elimination through the gills for phytoplankton
+        :return:
+        """
         self.k2_phytoplankton = self.k1_phytoplankton / self.k_bw_phytoplankton
         return self.k2_phytoplankton
 
-    # phytoplankton pesticide tissue residue
     def cb_phytoplankton_f(self):
+        """
+        Phytoplankton pesticide tissue residue
+        :return:
+        """
         self.cb_phytoplankton = (self.k1_phytoplankton * (
             self.mo_phytoplankton * self.c_wto * self.phi + self.mp_phytoplankton * self.c_wdp)) / (
                                     self.k2_phytoplankton + self.ke_phytoplankton + self.kg_phytoplankton + self.km_phytoplankton)
         return self.cb_phytoplankton
 
-    # lipid normalized pesticide residue in phytoplankton    
     def cbl_phytoplankton_f(self):
+        """
+        Lipid normalized pesticide residue in phytoplankton
+        :return:
+        """
         self.cbl_phytoplankton = (1e6 * self.cb_phytoplankton) / self.v_lb_phytoplankton
         return self.cbl_phytoplankton
 
-    # phytoplankton total bioconcentration factor
     def cbf_phytoplankton_f(self):
+        """
+        Phytoplankton total bioconcentration factor
+        :return:
+        """
         # kd_phytoplankton = 0 #kd_phytoplankton is always = 0
         self.ke_phytoplankton = 0
         self.km_phytoplankton = 0
@@ -609,7 +646,9 @@ class kabam(object):
         return self.cbf_phytoplankton
 
     def cbr_phytoplankton_f(self):
-        # kd_phytoplankton = 0 #kd_phytoplankton is always = 0
+        """
+        kd_phytoplankton = 0 #kd_phytoplankton is always = 0
+        """
         self.ke_phytoplankton = 0
         self.km_phytoplankton = 0
         self.cbr_phytoplankton = ((self.k1_phytoplankton * (
@@ -617,8 +656,11 @@ class kabam(object):
                                       self.k2_phytoplankton + self.ke_phytoplankton + self.kg_phytoplankton + self.km_phytoplankton))
         return self.cbr_phytoplankton
 
-    # phytoplankton lipid normalized total bioconcentration factor
     def cbfl_phytoplankton_f(self):
+        """
+        Phytoplankton lipid normalized total bioconcentration factor
+        :return:
+        """
         # kd_phytoplankton = 0 #kd_phytoplankton is always = 0
         self.ke_phytoplankton = 0
         self.km_phytoplankton = 0
@@ -629,56 +671,84 @@ class kabam(object):
                                       self.c_wto * self.phi)
         return self.cbfl_phytoplankton
 
-    # phytoplankton bioaccumulation factor
     def cbaf_phytoplankton_f(self):
+        """
+        Phytoplankton bioaccumulation factor
+        :return:
+        """
         self.cbaf_phytoplankton = (1e6 * self.cb_phytoplankton) / self.water_column_EEC
         return self.cbaf_phytoplankton
 
-    # phytoplankton lipid normalized bioaccumulation factor
     def cbafl_phytoplankton_f(self):
+        """
+        Phytoplankton lipid normalized bioaccumulation factor
+        :return:
+        """
         self.cbafl_phytoplankton = self.cbl_phytoplankton / self.water_d
         return self.cbafl_phytoplankton
 
-    # phytoplankton  biota-sediment accumulation factor
     def cbsafl_phytoplankton_f(self):
+        """
+        Phytoplankton biota-sediment accumulation factor
+        :return:
+        """
         self.cbsafl_phytoplankton = (self.cb_phytoplankton / self.v_lb_phytoplankton) / self.sed_om
         return self.cbsafl_phytoplankton
 
-        ##################zooplankton
-
-    # ventilation rate
+    ##################zooplankton
     def gv_zoo_f(self):
+        """
+        Ventilation rate
+        :return:
+        """
         self.gv_zoo = (1400 * (self.wb_zoo ** 0.65)) / self.c_ox
         return self.gv_zoo
 
-    # rate constant for elimination through the gills for zooplankton
     def ew_zoo_f(self):
+        """
+        Rate constant for elimination through the gills for zooplankton
+        :return:
+        """
         self.ew_zoo = (1 / (1.85 + (155 / self.k_ow)))
         return self.ew_zoo
 
-    # uptake rate constant through respiratory area for phytoplankton
     def k1_zoo_f(self):
+        """
+        Uptake rate constant through respiratory area for phytoplankton
+        :return:
+        """
         self.k1_zoo = self.ew_zoo * self.gv_zoo / self.wb_zoo
         return self.k1_zoo
 
-    # zooplankton water partition coefficient
     def k_bw_zoo_f(self):
+        """
+        Zooplankton water partition coefficient
+        :return:
+        """
         self.k_bw_zoo = (self.v_lb_zoo * self.k_ow) + (self.v_nb_zoo * 0.035 * self.k_ow) + self.v_wb_zoo
         return self.k_bw_zoo
-        # elimination rate constant through the gills for zooplankton
 
     def k2_zoo_f(self):
+        """
+        Elimination rate constant through the gills for zooplankton
+        :return:
+        """
         self.k2_zoo = self.k1_zoo / self.k_bw_zoo
         return self.k2_zoo
 
-    # zoo plankton dietary pesticide transfer efficiency
     def ed_zoo_f(self):
+        """
+        Zooplankton dietary pesticide transfer efficiency
+        :return:
+        """
         self.ed_zoo = 1 / ((.0000003) * self.k_ow + 2.0)
         return self.ed_zoo
 
-    # zooplankton feeding rate
-
     def gd_zoo_f(self):
+        """
+        Zooplankton feeding rate
+        :return:
+        """
         self.gd_zoo = 0.022 * self.wb_zoo ** 0.85 * math.exp(0.06 * self.w_t)
         return self.gd_zoo
 
