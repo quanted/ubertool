@@ -24,7 +24,7 @@ def sam_figures_callable(jid, output_type, time_avg_option, tox_exceed_option, h
     """
     if tox_exceed_option == '4':
         # month streak
-        file_name = GenerateSAM_MonthStreakBoxplot(jid, huc_output)
+        file_name = generate_sam_month_streak_boxplot(jid, huc_output)
     elif tox_exceed_option == '3':
         # year streak
         pass
@@ -36,7 +36,7 @@ def sam_figures_callable(jid, output_type, time_avg_option, tox_exceed_option, h
         pass
     return file_name
 
-def GenerateSAM_MonthStreakBoxplot(jobid, huc_output):
+def generate_sam_month_streak_boxplot(jobid, huc_output):
     """
     Average streak by month boxplot
     get sam monthly data array of streaks
@@ -92,14 +92,14 @@ def GenerateSAM_MonthStreakBoxplot(jobid, huc_output):
 
     return file_name
 
-def GenerateSAM_AnnualStreakBoxplot(jobid):
+def generate_sam_annual_streak_boxplot(jobid):
     """
     Average streak by year boxplot
     :param jobid:
     :return:
     """
     # get sam annual data array of streaks
-    sam_vector = sam_dataqueries.GetSAM_AnnualArrayStreakOutput(jobid)
+    sam_vector = sam_dataqueries.get_sam_annual_array_streak_output(jobid)
 
     # Create a figure instance
     fig = plt.figure(1, figsize=(10, 6))
@@ -149,14 +149,14 @@ def GenerateSAM_AnnualStreakBoxplot(jobid):
     fig.canvas.set_window_title('Annual Streak Average')
     fig.clf()
 
-def GenerateSAM_MonthFreqofExceedBoxplot(jobid):
+def generate_sam_month_freq_of_exceed_boxplot(jobid):
     """
     Average streak by month boxplot
     :param jobid:
     :return:
     """
     # get sam monthly data array of streaks
-    sam_vector = sam_dataqueries.GetSAM_MonthlyArrayFreqofExceedOutput(jobid)
+    sam_vector = sam_dataqueries.get_sam_monthly_array_freq_of_exceed_output(jobid)
 
     # Create a figure instance
     fig = plt.figure(1, figsize=(10, 6))
@@ -197,14 +197,14 @@ def GenerateSAM_MonthFreqofExceedBoxplot(jobid):
     fig.canvas.set_window_title('Monthly Proportion of Exceedance')
     fig.clf()
 
-def GenerateSAM_AnnualFreqofExceedBoxplot(jobid):
+def generate_sam_annual_freq_of_exceed_boxplot(jobid):
     """
     Average streak by year boxplot
     :param jobid:
     :return:
     """
     # get sam annual data array of streaks
-    sam_vector = sam_dataqueries.GetSAM_AnnualArrayFreqofExceedOutput(jobid)
+    sam_vector = sam_dataqueries.get_sam_annual_vector_freq_of_exceed_output(jobid)
 
     # Create a figure instance
     fig = plt.figure(1, figsize=(10, 6))
@@ -254,14 +254,14 @@ def GenerateSAM_AnnualFreqofExceedBoxplot(jobid):
     fig.canvas.set_window_title('Annual Proportion of Exceedance')
     fig.clf()
 
-def GenerateSAM_MonthStreakHistogram(jobid):
+def generate_sam_month_streak_histogram(jobid):
     """
     Histogram of monthly streaks
     :param jobid:
     :return:
     """
     # get sam data vector of streaks
-    sam_vector = sam_dataqueries.GetSAM_MonthlyVectorStreakOutput(jobid)
+    sam_vector = sam_dataqueries.get_sam_monthly_vector_streak_output(jobid)
 
     # Create a second figure instance
     fig2 = plt.figure(2, figsize=(10, 6))
@@ -293,14 +293,14 @@ def GenerateSAM_MonthStreakHistogram(jobid):
 
     fig2.clf()
 
-def GenerateSAM_AnnualStreakHistogram(jobid):
+def generate_sam_annual_streak_histogram(jobid):
     """
     Histogram of annual streaks
     :param jobid:
     :return:
     """
     # get sam data vector of streaks
-    sam_vector = sam_dataqueries.GetSAM_AnnualVectorStreakOutput(jobid)
+    sam_vector = sam_dataqueries.get_sam_annual_array_streak_output(jobid)
 
     # Create a second figure instance
     fig2 = plt.figure(2, figsize=(10, 6))
@@ -332,14 +332,14 @@ def GenerateSAM_AnnualStreakHistogram(jobid):
 
     fig2.clf()
 
-def GenerateSAM_MonthFreqofExceedHistogram(jobid):
+def generate_sam_month_freq_of_exceed_histogram(jobid):
     """
     Histogram of monthly frequency of exceedances
     :param jobid:
     :return:
     """
     # get sam data vector of streaks
-    sam_vector = sam_dataqueries.GetSAM_MonthlyVectorFreqofExceedOutput(jobid)
+    sam_vector = sam_dataqueries.get_sam_monthly_array_freq_of_exceed_output(jobid)
 
     # Create a second figure instance
     fig2 = plt.figure(2, figsize=(10, 6))
@@ -371,14 +371,14 @@ def GenerateSAM_MonthFreqofExceedHistogram(jobid):
 
     fig2.clf()
 
-def GenerateSAM_AnnualFreqofExceedHistogram(jobid):
+def generate_sam_annual_freq_of_exceed_histogram(jobid):
     """
     Histogram of annual frequency of exceedances
     :param jobid:
     :return:
     """
     # get sam data vector of streaks
-    sam_vector = sam_dataqueries.GetSAM_AnnualVectorFreqofExceedOutput(jobid)
+    sam_vector = sam_dataqueries.get_sam_annual_vector_freq_of_exceed_output(jobid)
 
     # Create a second figure instance
     fig2 = plt.figure(2, figsize=(10, 6))
@@ -410,7 +410,7 @@ def GenerateSAM_AnnualFreqofExceedHistogram(jobid):
 
     fig2.clf()
 
-def GenerateSAM_MonthStreakHUCPlot(jobid, hucid):
+def generate_sam_month_streak_huc_plot(jobid, hucid):
     """
     huc time series for monthly average streak
     :param jobid:
@@ -418,7 +418,7 @@ def GenerateSAM_MonthStreakHUCPlot(jobid, hucid):
     :return:
     """
     # get sam streak data for a particular huc
-    sam_huc = sam_dataqueries.GetSAM_MonthlyHUCStreakOutput(jobid, hucid)
+    sam_huc = sam_dataqueries.get_sam_monthly_huc_streak_output(jobid, hucid)
 
     # month info
     months = range(12)
@@ -461,7 +461,7 @@ def GenerateSAM_MonthStreakHUCPlot(jobid, hucid):
 
 
 
-def GenerateSAM_AnnualStreakHUCPlot(jobid, hucid):
+def generate_sam_annual_streak_huc_plot(jobid, hucid):
     """
     huc time series for annual average streak
     :param jobid:
@@ -469,7 +469,7 @@ def GenerateSAM_AnnualStreakHUCPlot(jobid, hucid):
     :return:
     """
     # get sam streak data for a particular huc
-    sam_huc = sam_dataqueries.GetSAM_AnnualHUCStreakOutput(jobid, hucid)
+    sam_huc = sam_dataqueries.get_sam_annual_array_streak_output(jobid, hucid)
 
     # month info
     years = range(30)
@@ -518,7 +518,7 @@ def GenerateSAM_AnnualStreakHUCPlot(jobid, hucid):
 
 
 
-def GenerateSAM_MonthFreqofExceedHUCPlot(jobid, hucid):
+def generate_sam_month_freq_of_exceed_huc_plot(jobid, hucid):
     """
     huc time series for monthly average streak
     :param jobid:
@@ -526,7 +526,7 @@ def GenerateSAM_MonthFreqofExceedHUCPlot(jobid, hucid):
     :return:
     """
     # get sam streak data for a particular huc
-    sam_huc = sam_dataqueries.GetSAM_MonthlyHUCFreqofExceedOutput(jobid, hucid)
+    sam_huc = sam_dataqueries.get_sam_monthly_array_freq_of_exceed_output(jobid, hucid)
 
     # month info
     months = range(12)
@@ -567,7 +567,7 @@ def GenerateSAM_MonthFreqofExceedHUCPlot(jobid, hucid):
 
     fig3.clf()
 
-def GenerateSAM_AnnualFreqofExceedHUCPlot(jobid, hucid):
+def generate_sam_annual_freq_of_exceed_huc_plot(jobid, hucid):
     """
     huc time series for annual average streak
     :param jobid:
@@ -575,7 +575,7 @@ def GenerateSAM_AnnualFreqofExceedHUCPlot(jobid, hucid):
     :return:
     """
     # get sam streak data for a particular huc
-    sam_huc = sam_dataqueries.GetSAM_AnnualHUCFreqofExceedOutput(jobid, hucid)
+    sam_huc = sam_dataqueries.get_sam_monthly_array_freq_of_exceed_output(jobid, hucid)
 
     # month info
     years = range(30)

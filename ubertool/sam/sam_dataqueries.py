@@ -52,7 +52,7 @@ def get_sam_huc_output(jid, huc12):
         return "error"
     return model_object
 
-def GetSAM_MonthlyHUCStreakOutput(jobid, hucid):
+def get_sam_monthly_huc_streak_output(jobid, hucid):
     """
     monthly streak data for huc
     need a dictionary with a single huc as a key and
@@ -63,9 +63,9 @@ def GetSAM_MonthlyHUCStreakOutput(jobid, hucid):
     # sam_dict = get_sam_huc_output(jid, huc12)
     # get values from dictionary- return the list
     sam_huc = sam_dict.values()
-    return sam_huc  # annual streak data for huc
+    return sam_huc
 
-def GetSAM_AnnualHUCStreakOutput(jobid, hucid):
+def get_sam_annual_huc_streak_output(jobid, hucid):
     '''
     fake annual huc data
     need a dictionary with a single huc as a key and
@@ -79,18 +79,18 @@ def GetSAM_AnnualHUCStreakOutput(jobid, hucid):
     # sam_dict = get_sam_huc_output(jid, huc12)
     # get values from dictionary- return the list
     sam_huc = sam_dict.values()
-    return sam_huc  # monthly frequency of exceedance data for huc
+    return sam_huc
 
-def GetSAM_MonthlyHUCFreqofExceedOutput(jobid, hucid):
+def get_sam_monthly_huc_freq_of_exceed_output(jobid, hucid):
     ''' fake monthly frequency of exceedance output '''
     sam_dict = {0: [0., 0., 0., 0.03, 0.05, 0.05, 0.04, 0.02, 0., 0., 0., 0.]}
     # actual mongo query - function is in front end in /REST/rest_funcs.py
     # sam_dict = get_sam_huc_output(jid, huc12)
     # get values from dictionary- return the list
     sam_huc = sam_dict.values()
-    return sam_huc  # annual frequency of exceedance data for huc
+    return sam_huc
 
-def GetSAM_AnnualHUCFreqofExceedOutput(jobid, hucid):
+def get_sam_annual_huc_freq_of_exceed_output(jobid, hucid):
     ''' fake annual frequency of exceedance output '''
     sam_huc = {0: [0.04, 0.08, 0.06, 0.07, 0.02, 0.03, 0.04, 0.01, 0.11, 0.08, 0.11, 0.03,
                    0.03, 0.02, 0.04, 0.11, 0.09, 0.07, 0.05, 0.03, 0.02, 0.06, 0.04, 0.06,
@@ -99,11 +99,11 @@ def GetSAM_AnnualHUCFreqofExceedOutput(jobid, hucid):
     # sam_dict = get_sam_huc_output(jid, huc12)
     # get values from dictionary- return the list
     sam_huc = sam_dict.values()
-    return sam_huc  ############################################
+    return sam_huc
 
-def GetSAM_MonthlyArrayStreakOutput(jobid):
+def get_sam_monthly_array_streak_output(jobid):
     '''
-    fake monthly streak data, need to change to mongoquery
+    fake monthly streak data, annual streak data, need to change to mongoquery
     rand produces a numpy array but the mongo call returns a dictionary of lists
     get data as 2-d array for boxplots
     '''
@@ -122,11 +122,11 @@ def GetSAM_MonthlyArrayStreakOutput(jobid):
     # sam_dict = get_model_object(jid, "SAM")
     # convert dictionary to numpy array using pandas dataframe
     sam = pd.DataFrame.from_dict(sam_dict, orient="index").as_matrix()
-    return sam  # annual streak data
+    return sam
 
-def GetSAM_AnnualArrayStreakOutput(jobid):
+def get_sam_annual_array_streak_output(jobid):
     '''
-    fake streak output, change to mongoquery
+    fake streak output, monthly frequency of exceedance data, change to mongoquery
     '''
     huc01 = rand(30).tolist()
     huc02 = rand(30).tolist()
@@ -143,11 +143,11 @@ def GetSAM_AnnualArrayStreakOutput(jobid):
     # sam_dict = get_model_object(jid, "SAM")
     # convert dictionary to numpy array using pandas dataframe
     sam = pd.DataFrame.from_dict(sam_dict, orient="index").as_matrix()
-    return sam  # monthly frequency of exceedance data
+    return sam
 
-def GetSAM_MonthlyArrayFreqofExceedOutput(jobid):
+def get_sam_monthly_array_freq_of_exceed_output(jobid):
     '''
-    fake, change to mongoquery
+    fake,  annual frequency of exceedance data, change to mongoquery
     rand produces a numpy array but the mongo call returns a dictionary of lists
     '''
     huc01 = rand(12).tolist()
@@ -165,9 +165,9 @@ def GetSAM_MonthlyArrayFreqofExceedOutput(jobid):
     # sam_dict = get_model_object(jid, "SAM")
     # convert dictionary to numpy array using pandas dataframe
     sam = pd.DataFrame.from_dict(sam_dict, orient="index").as_matrix()
-    return sam  # annual frequency of exceedance data
+    return sam
 
-def GetSAM_AnnualArrayFreqofExceedOutput(jobid):
+def get_sam_annual_array_freq_of_exceed_output(jobid):
     '''
     fake, change to mongoquery
     '''
@@ -186,9 +186,9 @@ def GetSAM_AnnualArrayFreqofExceedOutput(jobid):
     # sam_dict = get_model_object(jid, "SAM")
     # convert dictionary to numpy array using pandas dataframe
     sam = pd.DataFrame.from_dict(sam_dict, orient="index").as_matrix()
-    return sam  ############################################
+    return sam
 
-def GetSAM_MonthlyVectorStreakOutput(jobid):
+def get_sam_monthly_vector_streak_output(jobid):
     '''
     fake, change to mongoquery
     rand produces a numpy array
@@ -214,7 +214,7 @@ def GetSAM_MonthlyVectorStreakOutput(jobid):
     sam_vector = np.hstack(sam_matrix)
     return sam_vector  # all streak data - monthly
 
-def GetSAM_MonthlyVectorFreqofExceedOutput(jobid):
+def get_sam_monthly_vector_freq_of_exceed_output(jobid):
     '''
     fake, change to mongoquery
     rand produces a numpy array
@@ -238,7 +238,7 @@ def GetSAM_MonthlyVectorFreqofExceedOutput(jobid):
     sam_vector = np.hstack(sam_matrix)
     return sam_vector  # monthly streak data - annual
 
-def GetSAM_AnnualVectorStreakOutput(jobid):
+def get_sam_annual_vector_streak_output(jobid):
     '''
     fake, change to mongoquery
     rand produces a numpy array
@@ -262,7 +262,7 @@ def GetSAM_AnnualVectorStreakOutput(jobid):
     sam_vector = np.hstack(sam_matrix)
     return sam_vector  # frequency of exceedance data - annual
 
-def GetSAM_AnnualFreqofExceedStreakOutput(jobid):
+def get_sam_annual_freq_of_exceed_streak_output(jobid):
     '''
     fake, change to mongoquery
     rand produces a numpy array
