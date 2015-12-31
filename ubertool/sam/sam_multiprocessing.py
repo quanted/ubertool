@@ -4,6 +4,7 @@ from functools import partial
 from concurrent.futures import ProcessPoolExecutor as Pool
 import multiprocessing, logging, sys, os, numpy as np
 import sam_callable
+import sys
 
 try:
     import superprzm  # Import superprzm.dll / .so
@@ -32,7 +33,7 @@ def multiprocessing_setup():
         if host_name == 'ord-uber-vm005':  # Force Server 5 to use 16 processes to avoid the memdump error when using a process pool with less max_workers than total number of processes
             nproc = 16
     except:
-        pass
+        print "Unexpected host name"
     print "max_workers=%s" % nproc
     return Pool(max_workers=nproc)  # Set number of workers to equal the number of processors available on machine
 

@@ -1,6 +1,7 @@
 from __future__ import division
+#import logging
 import pandas as pd
-import logging
+import sys
 
 
 class stir(object):
@@ -94,7 +95,7 @@ class stir(object):
             self.ReturnRatioSidMammal()  # results #7
             self.ReturnLocSidMammal()  # results #8
         except:
-            pass
+            print "run_methods error:", sys.exc_info()[0]
 
     def create_output_dataframe(self):
         ''' Combine all output properties into numpy pandas dataframe '''
