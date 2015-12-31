@@ -1,10 +1,14 @@
 __author__ = 'jflaisha'
 
-from functools import partial
 from concurrent.futures import ProcessPoolExecutor as Pool
-import multiprocessing, logging, sys, os, numpy as np
-import sam_callable
+from functools import partial
+import logging
+import multiprocessing
+#import numpy as np
+import os
 import sys
+import sam_callable
+
 
 try:
     import superprzm  # Import superprzm.dll / .so
