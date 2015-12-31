@@ -47,27 +47,39 @@ test = {}
 class TestSip(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
-        #adding to TestCase constructor so super
+        """
+        adding to TestCase constructor so super
+        :param args:
+        :param kwargs:
+        :return:
+        """
         super(TestSip, self).__init__(*args, **kwargs)
         self.ncases = len(pd_obj_inputs)
 
     def setup(self):
+        """
+        sip2 = sip_model.sip(0, pd_obj_inputs, pd_obj_exp_out)
+        setup the test as needed
+        e.g. pandas to open sip qaqc csv
+        Read qaqc csv and create pandas DataFrames for inputs and expected outputs
+        :return:
+        """
         pass
-        # sip2 = sip_model.sip(0, pd_obj_inputs, pd_obj_exp_out)
-        # setup the test as needed
-        # e.g. pandas to open sip qaqc csv
-        #  Read qaqc csv and create pandas DataFrames for inputs and expected outputs
 
     def teardown(self):
+        """
+        teardown called after each test
+        e.g. maybe write test results to some text file
+        :return:
+        """
         pass
-        # teardown called after each test
-        # e.g. maybe write test results to some text file
+
 
 #Note: commented-out rows contain output files that are not running properly in the subsequent blackbox_method test.
     def integration_test_z_score_f(self):
-        '''
+        """
         integration test for output iec.z_score_f
-        '''
+        """
         try:
             self.blackbox_method_int('z_score_f')
         finally:
@@ -75,9 +87,9 @@ class TestSip(unittest.TestCase):
         return
 
     def integration_test_F8_f(self):
-        '''
+        """
         integration test for output iec.F8_f
-        '''
+        """
         try:
             self.blackbox_method_int('F8_f')
         finally:
@@ -85,9 +97,9 @@ class TestSip(unittest.TestCase):
         return
 
     def integration_test_chance_f(self):
-        '''
+        """
         integration test for output iec.chance_f
-        '''
+        """
         try:
             self.blackbox_method_int('chance_f')
         finally:

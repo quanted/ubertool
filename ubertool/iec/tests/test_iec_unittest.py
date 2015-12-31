@@ -15,24 +15,31 @@ test = {}
 
 class TestIEC(unittest.TestCase):
     def setup(self):
+        """
+        setup the test as needed
+        e.g. pandas to open sip qaqc csv
+        Read qaqc csv and create pandas DataFrames for inputs and expected outputs
+        :return:
+        """
         pass
-        # sip2 = sip_model.sip(0, pd_obj_inputs, pd_obj_exp_out)
-        # setup the test as needed
-        # e.g. pandas to open sip qaqc csv
-        #  Read qaqc csv and create pandas DataFrames for inputs and expected outputs
 
     def teardown(self):
+        """
+        teardown called after each test
+        e.g. maybe write test results to some text file
+        :return:
+        """
         pass
-        # teardown called after each test
-        # e.g. maybe write test results to some text file
+
 
     def test_z_score_f(self):
-        '''
+        """
         unittest for function iec.z_score_f:
-        '''
+        :return:
+        """
         try:
             iec_empty.threshold = pd.Series([0.6])
-            iec_empty.LC50 = pd.Series([3])
+            iec_empty.lc50 = pd.Series([3])
             iec_empty.dose_response = pd.Series([2.5])
             result = iec_empty.z_score_f()
             #npt.assert_array_almost_equal(result, -0.554622, 4, '', True)
@@ -41,10 +48,10 @@ class TestIEC(unittest.TestCase):
             pass
         return
 
-    def test_F8_f(self):
-        '''
+    def test_f8_f(self):
+        """
         unittest for function iec.F8_f:
-        '''
+        """
         try:
             iec_empty.z_score_f_out = pd.Series([-0.87])
             result = iec_empty.F8_f()
@@ -55,11 +62,11 @@ class TestIEC(unittest.TestCase):
         return
 
     def test_chance_f(self):
-        '''
+        """
         unittest for function iec.chance_f:
-        '''
+        """
         try:
-            iec_empty.F8_f_out = pd.Series([0.34])
+            iec_empty.f8_f_out = pd.Series([0.34])
             result = iec_empty.chance_f()
             #npt.assert_array_almost_equal(result, 2.941176, 4, '', True)
             npt.assert_allclose(result,2.941176,rtol,0,'',True)
