@@ -86,7 +86,7 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def integration_test_F8_f(self):
+    def integration_test_f8_f(self):
         """
         integration test for output iec.F8_f
         """
