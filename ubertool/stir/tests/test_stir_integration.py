@@ -44,14 +44,27 @@ test = {}
 
 class TestStir(unittest.TestCase):
     def setup(self):
+        """
+        Setup routine for stir integration test
+        :return:
+        """
         pass
         # setup the test as needed
         # e.g. pandas to open stir qaqc csv
         #  Read qaqc csv and create pandas DataFrames for inputs and expected outputs
-#Note: commented-out rows contain output files that are not running properly in the subsequent blackbox_method test.
+
+    def teardown(self):
+        """
+        Teardown routine for stir integration test
+        :return:
+        """
+        pass
+        # teardown called after each test
+        # e.g. maybe write test results to some text file
+
     def test_sat_air_conc(self):
         """
-        integration test for stir.sat_air_conc
+        Integration test for stir.sat_air_conc
         """
         try:
             self.blackbox_method_int('sat_air_conc')
@@ -266,19 +279,17 @@ class TestStir(unittest.TestCase):
         npt.assert_allclose(result, expected, rtol, 0, '', True)
 
     def blackbox_method_str(self, output):
+        """
+        Helper method
+        :param output:
+        :return:
+        """
         result = stir_calc.pd_obj_out[output]
         expected = stir_calc.pd_obj_exp["exp_" + output]
         tab = pd.concat([result, expected], axis=1)
         print(" ")
         print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
         npt.assert_array_equal(result, expected)
-
-
-    def teardown(self):
-        pass
-        # teardown called after each test
-        # e.g. maybe write test results to some text file
-
 
 
 # unittest will

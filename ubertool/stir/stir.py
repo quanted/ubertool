@@ -6,7 +6,7 @@ import sys
 
 class stir(object):
     def __init__(self, run_type, pd_obj, pd_obj_exp):
-        '''  Constructor '''
+        """  Constructor """
         # run_type can be single, batch or qaqc
         # 0 to run calculation, else it wont
         self.run_type = run_type
@@ -17,7 +17,7 @@ class stir(object):
             self.execute_model()
 
     def execute_model(self):
-        ''' Called by constructor to populate class and run methods. '''
+        """ Called by constructor to populate class and run methods. """
         self.populate_input_properties()
         self.create_output_properties()
         self.run_methods()
@@ -26,7 +26,7 @@ class stir(object):
         self.json = self.json(self.pd_obj, self.pd_obj_out, self.pd_obj_exp)
 
     def populate_input_properties(self):
-        ''' Set all input properties for class '''
+        """ Set all input properties for class """
         # Inputs: Assign object attribute variables from the input Pandas DataFrame
         self.chemical_name = self.pd_obj["chemical_name"]
         self.application_rate = self.pd_obj["application_rate"]
@@ -46,7 +46,7 @@ class stir(object):
         self.mammal_oral_ld50 = self.pd_obj["mammal_oral_ld50"]
 
     def create_output_properties(self):
-        ''' Set all output properties for class '''
+        """ Set all output properties for class """
         # Outputs: Assign object attribute variables to Pandas Series
         self.sat_air_conc = pd.Series(name="sat_air_conc")
         self.inh_rate_avian = pd.Series(name="inh_rate_avian")
@@ -72,7 +72,7 @@ class stir(object):
         self.loc_sid_mammal = pd.Series(name="loc_sid_mammal")
 
     def run_methods(self):
-        ''' Execute all algorithm methods for model logic '''
+        """ Execute all algorithm methods for model logic """
         try:
             self.CalcSatAirConc()  # eq. 1
             self.CalcInhRateAvian()  # eq. 2
@@ -98,7 +98,7 @@ class stir(object):
             print "run_methods error:", sys.exc_info()[0]
 
     def create_output_dataframe(self):
-        ''' Combine all output properties into numpy pandas dataframe '''
+        """ Combine all output properties into numpy pandas dataframe """
         # Create DataFrame containing output value Series
         pd_obj_out = pd.DataFrame(
             dict(sat_air_conc=self.sat_air_conc,
@@ -142,9 +142,9 @@ class stir(object):
         return pd_obj_json, pd_obj_out_json, pd_obj_exp_json
 
     def CalcSatAirConc(self):
-        '''
+        """
         # eq. 1 saturated air concentration in mg/m^3
-        '''
+        """
         # if self.sat_air_conc == -1:
         #    self.vapor_pressure = float(self.vapor_pressure)
         #    self.molecular_weight = float(self.molecular_weight)
@@ -155,9 +155,9 @@ class stir(object):
         return self.sat_air_conc
 
     def CalcInhRateAvian(self):
-        '''
+        """
         eq. 2 Avian inhalation rate
-        '''
+        """
         # if self.inh_rate_avian == -1:
         #    self.body_weight_assessed_bird = float(self.body_weight_assessed_bird)
         magic1 = 284.
@@ -168,9 +168,9 @@ class stir(object):
         return self.inh_rate_avian
 
     def CalcVidAvian(self):
-        '''
+        """
         eq. 3  Maximum avian vapor inhalation dose
-        '''
+        """
         # if self.vid_avian == -1:
         #    self.sat_air_conc = float(self.sat_air_conc)
         #    self.inh_rate_avian = float(self.inh_rate_avian)
@@ -183,9 +183,9 @@ class stir(object):
         return self.vid_avian
 
     def CalcInhRateMammal(self):
-        '''
+        """
         eq. 4 Mammalian inhalation rate
-        '''
+        """
         # if self.inh_rate_mammal == -1:
         #    self.body_weight_assessed_mammal = float(self.body_weight_assessed_mammal)
         magic1 = 379.0
@@ -197,9 +197,9 @@ class stir(object):
         return self.inh_rate_mammal
 
     def CalcVidMammal(self):
-        '''
+        """
         eq. 5 Maximum mammalian vapor inhalation dose
-        '''
+        """
         # if self.vid_mammal == -1:
         #    self.sat_air_conc = float(self.sat_air_conc) # eq. 1
         #    self.inh_rate_mammal = float(self.inh_rate_mammal) # eq. 4
@@ -212,9 +212,9 @@ class stir(object):
         return self.vid_mammal
 
     def CalcConcAir(self):
-        '''
+        """
         eq. 6 Air column concentration after spray
-        '''
+        """
         # if self.air_conc == -1:
         #    self.application_rate = float(self.application_rate)
         #    self.column_height = float(self.column_height)
@@ -228,9 +228,9 @@ class stir(object):
         return self.air_conc
 
     def CalcSidAvian(self):
-        '''
+        """
         eq. 7 Avian spray droplet inhalation dose
-        '''
+        """
         # if self.sid_avian == -1:
         #    self.air_conc = float(self.air_conc)
         #    self.inh_rate_avian = float(self.inh_rate_avian)
@@ -242,9 +242,9 @@ class stir(object):
         return self.sid_avian
 
     def CalcSidMammal(self):
-        '''
+        """
         eq. 8 Mammalian spray droplet inhalation dose
-        '''
+        """
         # if self.sid_mammal == -1:
         #    self.air_conc = float(self.air_conc)
         #    self.inh_rate_mammal = float(self.inh_rate_mammal)
@@ -256,9 +256,9 @@ class stir(object):
         return self.sid_mammal
 
     def CalcConvertMammalInhalationLC50toLD50(self):
-        '''
+        """
         eq. 9 Conversion of mammalian LC50 to LD50
-        '''
+        """
         # if self.mammal_inhalation_ld50 == -1:
         #    self.mammal_inhalation_lc50 = float(self.mammal_inhalation_lc50)
         #    #conversion factor
@@ -272,9 +272,9 @@ class stir(object):
         return self.mammal_inhalation_ld50
 
     def CalcAdjustedMammalInhalationLD50(self):
-        '''
+        """
         eq. 10 Adjusted mammalian inhalation LD50
-        '''
+        """
         # if self.adjusted_mammal_inhalation_ld50 == -1:
         #    self.mammal_inhalation_ld50 = float(self.mammal_inhalation_ld50)
         #    self.body_weight_assessed_mammal = float(self.body_weight_assessed_mammal)
@@ -285,9 +285,9 @@ class stir(object):
         return self.adjusted_mammal_inhalation_ld50
 
     def CalcEstimatedAvianInhalationLD50(self):
-        '''
+        """
         eq. 11 Estimated avian inhalation LD50
-        '''
+        """
         # if self.estimated_avian_inhalation_ld50 == -1:
         #    self.avian_oral_ld50 = float(self.avian_oral_ld50)
         #    self.mammal_inhalation_ld50 = float(self.mammal_inhalation_ld50)
@@ -298,9 +298,9 @@ class stir(object):
         return self.estimated_avian_inhalation_ld50
 
     def CalcAdjustedAvianInhalationLD50(self):
-        '''
+        """
         eq. 12 Adjusted avian inhalation LD50
-        '''
+        """
         # if self.adjusted_avian_inhalation_ld50 == -1:
         #    self.estimated_avian_inhalation_ld50 = float(self.estimated_avian_inhalation_ld50)
         #    self.body_weight_assessed_bird = float(self.body_weight_assessed_bird)
@@ -312,9 +312,9 @@ class stir(object):
         return self.adjusted_avian_inhalation_ld50
 
     def ReturnRatioVidAvian(self):
-        '''
+        """
         results #1: Ratio of avian vapor dose to adjusted inhalation LD50
-        '''
+        """
         # if self.ratio_vid_avian == -1:
         #    self.vid_avian = float(self.vid_avian)
         #    self.adjusted_avian_inhalation_ld50 = float(self.adjusted_avian_inhalation_ld50)
@@ -322,9 +322,9 @@ class stir(object):
         return self.ratio_vid_avian
 
     def ReturnLocVidAvian(self):
-        '''
+        """
         results #2: Level of Concern for avian vapor phase risk
-        '''
+        """
         # if self.ratio_vid_avian < 0.1:
         #    self.loc_vid_avian = 'Exposure not Likely Significant'
         # else:
@@ -336,9 +336,9 @@ class stir(object):
         return self.loc_vid_avian
 
     def ReturnRatioSidAvian(self):
-        '''
+        """
         results #3: Ratio of avian droplet inhalation dose to adjusted inhalation LD50
-        '''
+        """
         # if self.ratio_sid_avian == -1:
         #    self.sid_avian = float(self.sid_avian)
         #    self.adjusted_avian_inhalation_ld50 = float(self.adjusted_avian_inhalation_ld50)
@@ -346,9 +346,9 @@ class stir(object):
         return self.ratio_sid_avian
 
     def ReturnLocSidAvian(self):
-        '''
+        """
         results #4: Level of Concern for avian droplet inhalation risk
-        '''
+        """
         # if self.ratio_sid_avian < 0.1:
         #    self.loc_sid_avian = 'Exposure not Likely Significant'
         # else:
@@ -360,9 +360,9 @@ class stir(object):
         return self.loc_sid_avian
 
     def ReturnRatioVidMammal(self):
-        '''
+        """
         results #5: Ratio of mammalian vapor dose to adjusted inhalation LD50
-        '''
+        """
         # if self.ratio_vid_mammal == -1:
         #    self.vid_mammal = float(self.vid_mammal)
         #    self.adjusted_mammal_inhalation_ld50 = float(self.adjusted_mammal_inhalation_ld50)
@@ -370,9 +370,9 @@ class stir(object):
         return self.ratio_vid_mammal
 
     def ReturnLocVidMammal(self):
-        '''
+        """
         results #6: Level of Concern for mammalian vapor phase risk
-        '''
+        """
         # if self.ratio_vid_mammal < 0.1:
         #    self.loc_vid_mammal = 'Exposure not Likely Significant'
         # else:
@@ -384,9 +384,9 @@ class stir(object):
         return self.loc_vid_mammal
 
     def ReturnRatioSidMammal(self):
-        '''
+        """
         results #7: Ratio of mammalian droplet inhalation dose to adjusted inhalation LD50
-        '''
+        """
         # if self.ratio_sid_mammal == -1:
         #    self.sid_mammal = float(self.sid_mammal)
         #    self.adjusted_mammal_inhalation_ld50 = float(self.adjusted_mammal_inhalation_ld50)
@@ -394,9 +394,9 @@ class stir(object):
         return self.ratio_sid_mammal
 
     def ReturnLocSidMammal(self):
-        '''
+        """
         results #8: Level of Concern for mammaliam droplet inhalation risk
-        '''
+        """
         # if self.ratio_sid_mammal < 0.1:
         #    self.loc_sid_mammal = 'Exposure not Likely Significant'
         # else:
@@ -409,6 +409,10 @@ class stir(object):
 
 
 def main():
+    """
+    main callable
+    :return:
+    """
     test_stir = stir(True, True, 1, 1, 1, 1, 1, 1, 1, 1)
     print vars(test_stir)
     stir_json = toJSON(test_stir)
