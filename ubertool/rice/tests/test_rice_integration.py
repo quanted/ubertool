@@ -40,6 +40,10 @@ test = {}
 
 class Testrice(unittest.TestCase):
     def setup(self):
+        """
+        Setup routing for rice tests
+        :return:
+        """
         pass
         # rice2 = rice_model.rice(0, pd_obj_inputs, pd_obj_exp_out)
         # setup the test as needed
@@ -47,23 +51,42 @@ class Testrice(unittest.TestCase):
         #  Read qaqc csv and create pandas DataFrames for inputs and expected outputs
 
     def teardown(self):
+        """
+        Teardown routing for rice tests
+        :return:
+        """
         pass
         # teardown called after each test
         # e.g. maybe write test results to some text file
 
-#Note: commented-out rows contain output files that are not running properly in the subsequent blackbox_method test.
     def test_integration_Calcmsed(self):
-         self.blackbox_method_float('msed')
+        """
+        Test for calcmsed
+        :return:
+        """
+        self.blackbox_method_float('msed')
 
     def test_integration_Calcvw(self):
-         self.blackbox_method_float('vw')
+        """
+        Test for calcvw
+        :return:
+        """
+        self.blackbox_method_float('vw')
 
     def test_integration_Calcmass_area(self):
+        """
+        Test for calcmass
+        :return:
+        """
          self.blackbox_method_float('mass_area')
 
     def test_integration_Calccw(self):
-         self.blackbox_method_float('cw')
-
+        """
+        Test for calccw
+        :param self:
+        :return:
+        """
+        self.blackbox_method_float('cw')
 
     def blackbox_method_float(self, output):
         """

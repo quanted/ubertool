@@ -20,6 +20,10 @@ test = {}
 
 class TestRice(unittest.TestCase):
     def setup(self):
+        """
+        Setup routine for rice tests
+        :return:
+        """
         pass
         # sip2 = sip_model.sip(0, pd_obj_inputs, pd_obj_exp_out)
         # setup the test as needed
@@ -27,6 +31,10 @@ class TestRice(unittest.TestCase):
         #  Read qaqc csv and create pandas DataFrames for inputs and expected outputs
 
     def teardown(self):
+        """
+        Teardown routine for rice tests
+        :return:
+        """
         pass
         # teardown called after each test
         # e.g. maybe write test results to some text file
@@ -34,6 +42,10 @@ class TestRice(unittest.TestCase):
     #   dsed * area * pb
     #   (self.dsed * self.area * self.pb)
     def unit_test_Calcmsed(self):
+        """
+        Unit tests for calcmsed
+        :return:
+        """
         try:
             rice_empty.dsed = pd.Series([2.2], dtype='float')
             rice_empty.area = pd.Series([3.3], dtype='float')
@@ -47,6 +59,10 @@ class TestRice(unittest.TestCase):
 
     # (self.dw * self.area) + (self.dsed * self.osed * self.area)
     def unit_test_Calcvw(self):
+        """
+        Unit tests for calcvw
+        :return:
+        """
         try:
             rice_empty.dw = pd.Series([2.2], dtype='float')
             rice_empty.area = pd.Series([3.3], dtype='float')
@@ -61,6 +77,10 @@ class TestRice(unittest.TestCase):
 
     # (self.mai/self.area)*10000
     def unit_test_Calcmass_area(self):
+        """
+        Unittests for calcmass_area
+        :return:
+        """
         try:
             rice_empty.area = pd.Series([100.0], dtype='float')
             rice_empty.mai = pd.Series([90.0], dtype='float')
@@ -72,6 +92,10 @@ class TestRice(unittest.TestCase):
 
     # (self.out_mass_area / (self.dw + (self.dsed * (self.osed + (self.pb * self.Kd*1e-5)))))*100
     def unit_test_Calccw(self):
+        """
+        unittests for calccw
+        :return:
+        """
         try:
             rice_empty.dw = pd.Series([5.0], dtype='float')
             rice_empty.dsed = pd.Series([4.0], dtype='float')
