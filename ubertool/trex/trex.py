@@ -2,7 +2,7 @@ from __future__ import division
 import numpy as np
 
 
-class trex2(object):
+class trex(object):
     def __init__(self, chem_name, use, formu_name, a_i, Application_type, seed_treatment_formulation_name, seed_crop,
                  seed_crop_v, r_s, b_w, p_i, den, h_l, n_a, ar_lb, day_out,
                  ld50_bird, lc50_bird, NOAEC_bird, NOAEL_bird, aw_bird_sm, aw_bird_md, aw_bird_lg,
@@ -11,6 +11,51 @@ class trex2(object):
                  tw_bird_ld50, tw_bird_lc50, tw_bird_NOAEC, tw_bird_NOAEL, x, ld50_mamm, lc50_mamm, NOAEC_mamm,
                  NOAEL_mamm, aw_mamm_sm, aw_mamm_md, aw_mamm_lg, tw_mamm,
                  m_s_r_p):
+        """
+        Constructor for trex model.
+        :param chem_name:
+        :param use:
+        :param formu_name:
+        :param a_i:
+        :param Application_type:
+        :param seed_treatment_formulation_name:
+        :param seed_crop:
+        :param seed_crop_v:
+        :param r_s:
+        :param b_w:
+        :param p_i:
+        :param den:
+        :param h_l:
+        :param n_a:
+        :param ar_lb:
+        :param day_out:
+        :param ld50_bird:
+        :param lc50_bird:
+        :param NOAEC_bird:
+        :param NOAEL_bird:
+        :param aw_bird_sm:
+        :param aw_bird_md:
+        :param aw_bird_lg:
+        :param Species_of_the_tested_bird_avian_ld50:
+        :param Species_of_the_tested_bird_avian_lc50:
+        :param Species_of_the_tested_bird_avian_NOAEC:
+        :param Species_of_the_tested_bird_avian_NOAEL:
+        :param tw_bird_ld50:
+        :param tw_bird_lc50:
+        :param tw_bird_NOAEC:
+        :param tw_bird_NOAEL:
+        :param x:
+        :param ld50_mamm:
+        :param lc50_mamm:
+        :param NOAEC_mamm:
+        :param NOAEL_mamm:
+        :param aw_mamm_sm:
+        :param aw_mamm_md:
+        :param aw_mamm_lg:
+        :param tw_mamm:
+        :param m_s_r_p:
+        :return:
+        """
         self.chem_name = chem_name
         self.use = use
         self.formu_name = formu_name
@@ -460,9 +505,13 @@ class trex2(object):
         self.LD50_bl_mamm_lg = self.LD50_bl_mamm(Application_type, ar_lb, a_i, aw_mamm_lg, self.at_mamm, ld50_mamm,
                                                  tw_mamm)
 
-    # food intake for birds
-
     def fi_bird(self, aw_bird, mf_w_bird):
+        """
+        Food intake for birds
+        :param aw_bird:
+        :param mf_w_bird:
+        :return:
+        """
         try:
             aw_bird = float(aw_bird)
             mf_w_bird = float(mf_w_bird)
@@ -487,9 +536,13 @@ class trex2(object):
                 ('The fraction of water in the food for bird=%g must be less than 1.' % mf_w_bird)
         return (0.648 * (aw_bird ** 0.651)) / (1 - mf_w_bird)
 
-    # food intake for mammals
-
     def fi_mamm(self, aw_mamm, mf_w_mamm):
+        """
+        Food intake for mammals
+        :param aw_mamm:
+        :param mf_w_mamm:
+        :return:
+        """
         try:
             aw_mamm = float(aw_mamm)
             mf_w_mamm = float(mf_w_mamm)
@@ -514,9 +567,15 @@ class trex2(object):
                 ('The fraction of water in the food for mammals=%g must be less than 1.' % mf_w_mamm)
         return (0.621 * (aw_mamm ** 0.564)) / (1 - mf_w_mamm)
 
-    # Acute adjusted toxicity value for birds
-
     def at_bird(self, ld50_bird, aw_bird, tw_bird, x):
+        """
+        Acute adjusted toxicity value for birds
+        :param ld50_bird:
+        :param aw_bird:
+        :param tw_bird:
+        :param x:
+        :return:
+        """
         try:
             ld50_bird = float(ld50_bird)
             aw_bird = float(aw_bird)
@@ -556,9 +615,14 @@ class trex2(object):
                 ('x=%g is non-physical value.' % x)
         return (ld50_bird) * ((aw_bird / tw_bird) ** (x - 1))
 
-    # Acute adjusted toxicity value for mammals
-
     def at_mamm(self, ld50_mamm, aw_mamm, tw_mamm):
+        """
+        Acute adjusted toxicity value for mammals
+        :param ld50_mamm:
+        :param aw_mamm:
+        :param tw_mamm:
+        :return:
+        """
         try:
             ld50_mamm = float(ld50_mamm)
             aw_mamm = float(aw_mamm)
@@ -591,9 +655,14 @@ class trex2(object):
                 ('tw_mamm=%g is a non-physical value.' % tw_mamm)
         return (ld50_mamm) * ((tw_mamm / aw_mamm) ** (0.25))
 
-    # Adjusted chronic toxicity (NOAEL) value for mammals
-
     def ANOAEL_mamm(self, NOAEL_mamm, aw_mamm, tw_mamm):
+        """
+        Adjusted chronic toxicity (NOAEL) value for mammals
+        :param NOAEL_mamm:
+        :param aw_mamm:
+        :param tw_mamm:
+        :return:
+        """
         try:
             NOAEL_mamm = float(NOAEL_mamm)
             aw_mamm = float(aw_mamm)
@@ -626,11 +695,14 @@ class trex2(object):
                 ('tw_mamm=%g is a non-physical value.' % tw_mamm)
         return (NOAEL_mamm) * ((tw_mamm / aw_mamm) ** (0.25))
 
-    # Dietary based EECs
-
-    # Initial concentration
-
     def C_0(self, a_r, a_i, para):
+        """
+        Initial concentration
+        :param a_r:
+        :param a_i:
+        :param para:
+        :return:
+        """
         try:
             a_r = float(a_r)
             a_i = float(a_i)
@@ -652,9 +724,13 @@ class trex2(object):
                 ('The percentage of active ingredient=%g is a non-physical value.' % a_i)
         return (a_r * a_i * para)
 
-    # Concentration over time
-
     def C_t(self, C_ini, h_l):
+        """
+        Concentration over time
+        :param C_ini:
+        :param h_l:
+        :return:
+        """
         try:
             h_l = float(h_l)
         except IndexError:
@@ -669,12 +745,19 @@ class trex2(object):
                 ('The foliar dissipation half life=%g is a non-physical value.' % h_l)
         return (C_ini * np.exp(-(np.log(2) / h_l) * 1))
 
-    # concentration over time if application rate or time interval is variable
-
-    # Dietary based EECs
-
     def EEC_diet(self, C_0, C_t, n_a, a_r, a_i, para, h_l, day_out):
-        # new in trex1.5.1
+        """
+        Dietary based EECs, new in trex1.5.1
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param day_out:
+        :return:
+        """
         if n_a == 1:
             C_temp = C_0(a_r[0], a_i, para)
             return np.array([C_temp])
@@ -699,9 +782,23 @@ class trex2(object):
                         C_temp[i] = C_t(C_temp[i - 1], h_l)
             return (max(C_temp))
 
-    # Dose based EECs for birds
-
     def EEC_dose_bird(self, EEC_diet, aw_bird, fi_bird, mf_w_bird, C_0, C_t, n_a, a_r, a_i, para, h_l, day_out):
+        """
+        Dose based EECs for birds
+        :param EEC_diet:
+        :param aw_bird:
+        :param fi_bird:
+        :param mf_w_bird:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param day_out:
+        :return:
+        """
         n_a = float(n_a)
         #   i_a = float(i_a)
         aw_bird = float(aw_bird)
@@ -733,9 +830,23 @@ class trex2(object):
     #     else:
     #         return(0)
 
-    # Dose based EECs for mammals
-
     def EEC_dose_mamm(self, EEC_diet, aw_mamm, fi_mamm, mf_w_mamm, C_0, C_t, n_a, a_r, a_i, para, h_l, day_out):
+        """
+        Dose based EECs for mammals
+        :param EEC_diet:
+        :param aw_mamm:
+        :param fi_mamm:
+        :param mf_w_mamm:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param day_out:
+        :return:
+        """
         aw_mamm = float(aw_mamm)
         EEC_diet = EEC_diet(C_0, C_t, n_a, a_r, a_i, para, h_l, day_out)
         fi_mamm = fi_mamm(aw_mamm, mf_w_mamm)
@@ -752,10 +863,29 @@ class trex2(object):
     #     else:
     #         return(0)
 
-    # Acute dose-based risk quotients for birds
-
     def ARQ_dose_bird(self, EEC_dose_bird, EEC_diet, aw_bird, fi_bird, at_bird, ld50_bird, tw_bird, x, mf_w_bird, C_0,
                       C_t, n_a, a_r, a_i, para, h_l, day_out):
+        """
+        Acute dose-based risk quotients for birds
+        :param EEC_dose_bird:
+        :param EEC_diet:
+        :param aw_bird:
+        :param fi_bird:
+        :param at_bird:
+        :param ld50_bird:
+        :param tw_bird:
+        :param x:
+        :param mf_w_bird:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param day_out:
+        :return:
+        """
         EEC_dose_bird = EEC_dose_bird(EEC_diet, aw_bird, fi_bird, mf_w_bird, C_0, C_t, n_a, a_r, a_i, para, h_l,
                                       day_out)
         at_bird = at_bird(ld50_bird, aw_bird, tw_bird, x)
@@ -771,10 +901,28 @@ class trex2(object):
     #     else:
     #         return (0)
 
-    # Acute dose-based risk quotients for mammals
-
     def ARQ_dose_mamm(self, EEC_dose_mamm, EEC_diet, at_mamm, aw_mamm, fi_mamm, ld50_mamm, tw_mamm, mf_w_mamm, C_0, C_t,
                       n_a, a_r, a_i, para, h_l, day_out):
+        """
+        Acute dose-based risk quotients for mammals
+        :param EEC_dose_mamm:
+        :param EEC_diet:
+        :param at_mamm:
+        :param aw_mamm:
+        :param fi_mamm:
+        :param ld50_mamm:
+        :param tw_mamm:
+        :param mf_w_mamm:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param day_out:
+        :return:
+        """
         EEC_dose_mamm = EEC_dose_mamm(EEC_diet, aw_mamm, fi_mamm, mf_w_mamm, C_0, C_t, n_a, a_r, a_i, para, h_l,
                                       day_out)
         at_mamm = at_mamm(ld50_mamm, aw_mamm, tw_mamm)
@@ -790,9 +938,21 @@ class trex2(object):
     #     else:
     #         return(0)
 
-    # Acute dietary-based risk quotients for birds
-
     def ARQ_diet_bird(self, EEC_diet, lc50_bird, C_0, C_t, n_a, a_r, a_i, para, h_l, day_out):
+        """
+        Acute dietary-based risk quotients for birds
+        :param EEC_diet:
+        :param lc50_bird:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param day_out:
+        :return:
+        """
         EEC_diet = EEC_diet(C_0, C_t, n_a, a_r, a_i, para, h_l, day_out)
         try:
             lc50_bird = float(lc50_bird)
@@ -804,15 +964,39 @@ class trex2(object):
                 ('The Avian LC50=%g is a non-physical value.' % lc50_bird)
         return (EEC_diet / lc50_bird)
 
-    # Acute dietary-based risk quotients for mammals
-
     def ARQ_diet_mamm(self, EEC_diet, lc50_mamm, C_0, C_t, n_a, a_r, a_i, para, h_l, day_out):
+        """
+        Acute dietary-based risk quotients for mammals
+        :param EEC_diet:
+        :param lc50_mamm:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param day_out:
+        :return:
+        """
         EEC_diet = EEC_diet(C_0, C_t, n_a, a_r, a_i, para, h_l, day_out)
         return (EEC_diet / lc50_mamm)
 
-    # Chronic dietary-based risk quotients for birds
-
     def CRQ_diet_bird(self, EEC_diet, NOAEC_bird, C_0, C_t, n_a, a_r, a_i, para, h_l, day_out):
+        """
+        Chronic dietary-based risk quotients for birds
+        :param EEC_diet:
+        :param NOAEC_bird:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param day_out:
+        :return:
+        """
         EEC_diet = EEC_diet(C_0, C_t, n_a, a_r, a_i, para, h_l, day_out)
         try:
             NOAEC_bird = float(NOAEC_bird)
@@ -824,9 +1008,21 @@ class trex2(object):
                 ('The avian NOAEC=%g is a non-physical value.' % NOAEC_bird)
         return (EEC_diet / NOAEC_bird)
 
-    # Chronic dietary-based risk quotients for mammals
-
     def CRQ_diet_mamm(self, EEC_diet, NOAEC_mamm, C_0, C_t, n_a, a_r, a_i, para, h_l, day_out):
+        """
+        Chronic dietary-based risk quotients for mammals
+        :param EEC_diet:
+        :param NOAEC_mamm:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param day_out:
+        :return:
+        """
         EEC_diet = EEC_diet(C_0, C_t, n_a, a_r, a_i, para, h_l, day_out)
         try:
             NOAEC_mamm = float(NOAEC_mamm)
@@ -838,10 +1034,28 @@ class trex2(object):
                 ('The mammlian NOAEC=%g is a non-physical value.' % NOAEC_mamm)
         return (EEC_diet / NOAEC_mamm)
 
-    # Chronic dose-based risk quotients for mammals
-
     def CRQ_dose_mamm(self, EEC_diet, EEC_dose_mamm, ANOAEL_mamm, NOAEL_mamm, aw_mamm, fi_mamm, tw_mamm, mf_w_mamm, C_0,
                       C_t, n_a, a_r, a_i, para, h_l, day_out):
+        """
+        Chronic dose-based risk quotients for mammals
+        :param EEC_diet:
+        :param EEC_dose_mamm:
+        :param ANOAEL_mamm:
+        :param NOAEL_mamm:
+        :param aw_mamm:
+        :param fi_mamm:
+        :param tw_mamm:
+        :param mf_w_mamm:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param day_out:
+        :return:
+        """
         ANOAEL_mamm = ANOAEL_mamm(NOAEL_mamm, aw_mamm, tw_mamm)
         EEC_dose_mamm = EEC_dose_mamm(EEC_diet, aw_mamm, fi_mamm, mf_w_mamm, C_0, C_t, n_a, a_r, a_i, para, h_l,
                                       day_out)
@@ -857,9 +1071,22 @@ class trex2(object):
     #     else:
     #         return (0)
 
-    # LD50ft-2 for row/band/in-furrow granular birds
-
     def LD50_rg_bird(self, Application_type, a_r, a_i, p_i, r_s, b_w, aw_bird, at_bird, ld50_bird, tw_bird, x):
+        """
+        LD50ft-2 for row/band/in-furrow granular birds
+        :param Application_type:
+        :param a_r:
+        :param a_i:
+        :param p_i:
+        :param r_s:
+        :param b_w:
+        :param aw_bird:
+        :param at_bird:
+        :param ld50_bird:
+        :param tw_bird:
+        :param x:
+        :return:
+        """
         if Application_type == 'Row/Band/In-furrow-Granular':
             at_bird = at_bird(ld50_bird, aw_bird, tw_bird, x)
             # print 'r_s', r_s
@@ -875,9 +1102,21 @@ class trex2(object):
         else:
             return (0)
 
-    # LD50ft-2 for row/band/in-furrow liquid birds
-
     def LD50_rl_bird(self, Application_type, a_r, a_i, p_i, b_w, aw_bird, at_bird, ld50_bird, tw_bird, x):
+        """
+        LD50ft-2 for row/band/in-furrow liquid birds
+        :param Application_type:
+        :param a_r:
+        :param a_i:
+        :param p_i:
+        :param b_w:
+        :param aw_bird:
+        :param at_bird:
+        :param ld50_bird:
+        :param tw_bird:
+        :param x:
+        :return:
+        """
         if Application_type == 'Row/Band/In-furrow-Liquid':
             at_bird = at_bird(ld50_bird, aw_bird, tw_bird, x)
             expo_rl_bird = ((max(a_r) * 28349 * a_i) / (1000 * b_w)) * (1 - p_i)
@@ -885,9 +1124,21 @@ class trex2(object):
         else:
             return (0)
 
-    # LD50ft-2 for row/band/in-furrow granular mammals
-
     def LD50_rg_mamm(self, Application_type, a_r, a_i, p_i, r_s, b_w, aw_mamm, at_mamm, ld50_mamm, tw_mamm):
+        """
+        LD50ft-2 for row/band/in-furrow granular mammals
+        :param Application_type:
+        :param a_r:
+        :param a_i:
+        :param p_i:
+        :param r_s:
+        :param b_w:
+        :param aw_mamm:
+        :param at_mamm:
+        :param ld50_mamm:
+        :param tw_mamm:
+        :return:
+        """
         if Application_type == 'Row/Band/In-furrow-Granular':
             # a_r = max(ar_lb)
             at_mamm = at_mamm(ld50_mamm, aw_mamm, tw_mamm)
@@ -897,9 +1148,20 @@ class trex2(object):
         else:
             return (0)
 
-    # LD50ft-2 for row/band/in-furrow liquid mammals
-
     def LD50_rl_mamm(self, Application_type, a_r, a_i, p_i, b_w, aw_mamm, at_mamm, ld50_mamm, tw_mamm):
+        """
+        LD50ft-2 for row/band/in-furrow liquid mammals
+        :param Application_type:
+        :param a_r:
+        :param a_i:
+        :param p_i:
+        :param b_w:
+        :param aw_mamm:
+        :param at_mamm:
+        :param ld50_mamm:
+        :param tw_mamm:
+        :return:
+        """
         if Application_type == 'Row/Band/In-furrow-Liquid':
             at_mamm = at_mamm(ld50_mamm, aw_mamm, tw_mamm)
             expo_rl_bird = ((max(a_r) * 28349 * a_i) / (1000 * b_w)) * (1 - p_i)
@@ -907,9 +1169,20 @@ class trex2(object):
         else:
             return (0)
 
-    # LD50ft-2 for broadcast granular birds
-
     def LD50_bg_bird(self, Application_type, a_r, a_i, p_i, aw_bird, at_bird, ld50_bird, tw_bird, x):
+        """
+        LD50ft-2 for broadcast granular birds
+        :param Application_type:
+        :param a_r:
+        :param a_i:
+        :param p_i:
+        :param aw_bird:
+        :param at_bird:
+        :param ld50_bird:
+        :param tw_bird:
+        :param x:
+        :return:
+        """
         if Application_type == 'Broadcast-Granular':
             at_bird = at_bird(ld50_bird, aw_bird, tw_bird, x)
             expo_bg_bird = ((max(a_r) * a_i * 453590) / 43560)
@@ -917,9 +1190,19 @@ class trex2(object):
         else:
             return (0)
 
-    # LD50ft-2 for broadcast liquid birds
-
     def LD50_bl_bird(self, Application_type, a_r, a_i, aw_bird, at_bird, ld50_bird, tw_bird, x):
+        """
+        LD50ft-2 for broadcast liquid birds
+        :param Application_type:
+        :param a_r:
+        :param a_i:
+        :param aw_bird:
+        :param at_bird:
+        :param ld50_bird:
+        :param tw_bird:
+        :param x:
+        :return:
+        """
         if Application_type == 'Broadcast-Liquid':
             at_bird = at_bird(ld50_bird, aw_bird, tw_bird, x)
             # expo_bl_bird=((max(a_r)*28349*a_i)/43560)*(1-p_i)
@@ -928,9 +1211,19 @@ class trex2(object):
         else:
             return (0)
 
-    # LD50ft-2 for broadcast granular mammals
-
     def LD50_bg_mamm(self, Application_type, a_r, a_i, p_i, aw_mamm, at_mamm, ld50_mamm, tw_mamm):
+        """
+        LD50ft-2 for broadcast granular mammals
+        :param Application_type:
+        :param a_r:
+        :param a_i:
+        :param p_i:
+        :param aw_mamm:
+        :param at_mamm:
+        :param ld50_mamm:
+        :param tw_mamm:
+        :return:
+        """
         if Application_type == 'Broadcast-Granular':
             at_mamm = at_mamm(ld50_mamm, aw_mamm, tw_mamm)
             expo_bg_mamm = ((max(a_r) * a_i * 453590) / 43560)
@@ -938,9 +1231,18 @@ class trex2(object):
         else:
             return (0)
 
-    # LD50ft-2 for broadcast liquid mammals
-
     def LD50_bl_mamm(self, Application_type, a_r, a_i, aw_mamm, at_mamm, ld50_mamm, tw_mamm):
+        """
+        LD50ft-2 for broadcast liquid mammals
+        :param Application_type:
+        :param a_r:
+        :param a_i:
+        :param aw_mamm:
+        :param at_mamm:
+        :param ld50_mamm:
+        :param tw_mamm:
+        :return:
+        """
         if Application_type == 'Broadcast-Liquid':
             at_mamm = at_mamm(ld50_mamm, aw_mamm, tw_mamm)
             # expo_bl_mamm=((max(a_r)*28349*a_i)/43560)*(1-p_i)
@@ -949,9 +1251,22 @@ class trex2(object):
         else:
             return (0)
 
-    # Seed treatment acute RQ for birds method 1
-
     def sa_bird_1(self, a_r_p, a_i, den, at_bird, fi_bird, mf_w_bird, ld50_bird, aw_bird, tw_bird, x, nagy_bird_coef):
+        """
+        Seed treatment acute RQ for birds method 1
+        :param a_r_p:
+        :param a_i:
+        :param den:
+        :param at_bird:
+        :param fi_bird:
+        :param mf_w_bird:
+        :param ld50_bird:
+        :param aw_bird:
+        :param tw_bird:
+        :param x:
+        :param nagy_bird_coef:
+        :return:
+        """
         at_bird = at_bird(ld50_bird, aw_bird, tw_bird, x)
         # fi_bird=fi_bird(20, 0.1)    
         fi_bird = fi_bird(aw_bird, mf_w_bird)
@@ -959,41 +1274,93 @@ class trex2(object):
         nagy_bird = fi_bird * 0.001 * m_s_a_r / nagy_bird_coef
         return (nagy_bird / at_bird)
 
-
-        # Seed treatment acute RQ for birds method 2
-
     def sa_bird_2(self, a_r_p, a_i, den, m_s_r_p, at_bird, ld50_bird, aw_bird, tw_bird, x, nagy_bird_coef):
+        """
+        Seed treatment acute RQ for birds method 2
+        :param a_r_p:
+        :param a_i:
+        :param den:
+        :param m_s_r_p:
+        :param at_bird:
+        :param ld50_bird:
+        :param aw_bird:
+        :param tw_bird:
+        :param x:
+        :param nagy_bird_coef:
+        :return:
+        """
         at_bird = at_bird(ld50_bird, aw_bird, tw_bird, x)
         m_a_r = (m_s_r_p * ((a_i * a_r_p) / 128) * den) / 100  # maximum application rate
         av_ai = m_a_r * 1e6 / (43560 * 2.2)
         return (av_ai / (at_bird * nagy_bird_coef))
 
-        # Seed treatment chronic RQ for birds
-
     def sc_bird(self, a_r_p, a_i, den, NOAEC_bird):
+        """
+        Seed treatment chronic RQ for birds
+        :param a_r_p:
+        :param a_i:
+        :param den:
+        :param NOAEC_bird:
+        :return:
+        """
         m_s_a_r = ((a_r_p * a_i) / 128) * den * 10000  # maximum seed application rate=application rate*10000
         return (m_s_a_r / NOAEC_bird)
 
-        # Seed treatment acute RQ for mammals method 1
-
     def sa_mamm_1(self, a_r_p, a_i, den, at_mamm, fi_mamm, mf_w_bird, ld50_mamm, aw_mamm, tw_mamm, nagy_mamm_coef):
+        """
+        Seed treatment acute RQ for mammals method 1
+        :param a_r_p:
+        :param a_i:
+        :param den:
+        :param at_mamm:
+        :param fi_mamm:
+        :param mf_w_bird:
+        :param ld50_mamm:
+        :param aw_mamm:
+        :param tw_mamm:
+        :param nagy_mamm_coef:
+        :return:
+        """
         at_mamm = at_mamm(ld50_mamm, aw_mamm, tw_mamm)
         fi_mamm = fi_mamm(aw_mamm, mf_w_bird)
         m_s_a_r = ((a_r_p * a_i) / 128) * den * 10000  # maximum seed application rate=application rate*10000
         nagy_mamm = fi_mamm * 0.001 * m_s_a_r / nagy_mamm_coef
         return (nagy_mamm / at_mamm)
 
-        # Seed treatment acute RQ for mammals method 2
-
     def sa_mamm_2(self, a_r_p, a_i, den, m_s_r_p, at_mamm, ld50_mamm, aw_mamm, tw_mamm, nagy_mamm_coef):
+        """
+        Seed treatment acute RQ for mammals method 2
+        :param a_r_p:
+        :param a_i:
+        :param den:
+        :param m_s_r_p:
+        :param at_mamm:
+        :param ld50_mamm:
+        :param aw_mamm:
+        :param tw_mamm:
+        :param nagy_mamm_coef:
+        :return:
+        """
         at_mamm = at_mamm(ld50_mamm, aw_mamm, tw_mamm)
         m_a_r = (m_s_r_p * ((a_r_p * a_i) / 128) * den) / 100  # maximum application rate
         av_ai = m_a_r * 1000000 / (43560 * 2.2)
         return (av_ai / (at_mamm * nagy_mamm_coef))
 
-        # Seed treatment chronic RQ for mammals
-
     def sc_mamm(self, a_r_p, a_i, den, NOAEL_mamm, aw_mamm, fi_mamm, mf_w_bird, tw_mamm, ANOAEL_mamm, nagy_mamm_coef):
+        """
+        Seed treatment chronic RQ for mammals
+        :param a_r_p:
+        :param a_i:
+        :param den:
+        :param NOAEL_mamm:
+        :param aw_mamm:
+        :param fi_mamm:
+        :param mf_w_bird:
+        :param tw_mamm:
+        :param ANOAEL_mamm:
+        :param nagy_mamm_coef:
+        :return:
+        """
         ANOAEL_mamm = ANOAEL_mamm(NOAEL_mamm, aw_mamm, tw_mamm)
         fi_mamm = fi_mamm(aw_mamm, mf_w_bird)
         m_s_a_r = ((a_r_p * a_i) / 128) * den * 10000  # maximum seed application rate=application rate*10000
