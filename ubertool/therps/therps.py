@@ -10,6 +10,39 @@ class therps(object):
                  bw_avian_ld50, bw_avian_lc50, bw_avian_NOAEC, bw_avian_NOAEL,
                  mineau_scaling_factor, bw_herp_a_sm, bw_herp_a_md, bw_herp_a_lg, wp_herp_a_sm, wp_herp_a_md,
                  wp_herp_a_lg, c_mamm_a, c_herp_a):
+        """
+        THerps constructor.
+        :param chem_name:
+        :param use:
+        :param formu_name:
+        :param a_i:
+        :param h_l:
+        :param n_a:
+        :param i_a:
+        :param a_r:
+        :param avian_ld50:
+        :param avian_lc50:
+        :param avian_NOAEC:
+        :param avian_NOAEL:
+        :param Species_of_the_tested_bird_avian_ld50:
+        :param Species_of_the_tested_bird_avian_lc50:
+        :param Species_of_the_tested_bird_avian_NOAEC:
+        :param Species_of_the_tested_bird_avian_NOAEL:
+        :param bw_avian_ld50:
+        :param bw_avian_lc50:
+        :param bw_avian_NOAEC:
+        :param bw_avian_NOAEL:
+        :param mineau_scaling_factor:
+        :param bw_herp_a_sm:
+        :param bw_herp_a_md:
+        :param bw_herp_a_lg:
+        :param wp_herp_a_sm:
+        :param wp_herp_a_md:
+        :param wp_herp_a_lg:
+        :param c_mamm_a:
+        :param c_herp_a:
+        :return:
+        """
         self.chem_name = chem_name
         self.use = use
         self.formu_name = formu_name
@@ -280,6 +313,12 @@ class therps(object):
                                                      n_a, i_a, a_r, a_i, 45, h_l, self.fi_herp, c_herp_a, wp_herp_a_sm)
 
     def fi_herp(self, aw_herp, mf_w_herp):
+        """
+        Food intake for herps.
+        :param aw_herp:
+        :param mf_w_herp:
+        :return:
+        """
         try:
             aw_herp = float(aw_herp)
             mf_w_herp = float(mf_w_herp)
@@ -304,9 +343,13 @@ class therps(object):
                 ('The fraction of water in the food for bird=%g must be less than 1.' % mf_w_herp)
         return (0.013 * (aw_herp ** 0.773)) / (1 - mf_w_herp)
 
-    # food intake for mammals
-
     def fi_mamm(self, aw_mamm, mf_w_mamm):
+        """
+        Food intake for mammals.
+        :param aw_mamm:
+        :param mf_w_mamm:
+        :return:
+        """
         try:
             aw_mamm = float(aw_mamm)
             mf_w_mamm = float(mf_w_mamm)
@@ -331,9 +374,15 @@ class therps(object):
                 ('The fraction of water in the food for mammals=%g must be less than 1.' % mf_w_mamm)
         return (0.621 * (aw_mamm ** 0.564)) / (1 - mf_w_mamm)
 
-    # Acute adjusted toxicity value for birds
-
     def at_bird(self, avian_ld50, bw_herp, tw_bird, mineau_scaling_factor):
+        """
+        Acute adjusted toxicity value for birds.
+        :param avian_ld50:
+        :param bw_herp:
+        :param tw_bird:
+        :param mineau_scaling_factor:
+        :return:
+        """
         try:
             avian_ld50 = float(avian_ld50)
             bw_herp = float(bw_herp)
@@ -373,9 +422,13 @@ class therps(object):
                 ('mineau_scaling_factor=%g is non-physical value.' % mineau_scaling_factor)
         return (avian_ld50) * ((bw_herp / tw_bird) ** (mineau_scaling_factor - 1))
 
-    # Acute adjusted toxicity value for mammals
-
     def at_mamm(ld50_mamm, aw_mamm, tw_mamm):
+        """
+        Acute adjusted toxicity value for mammals.
+        :param aw_mamm:
+        :param tw_mamm:
+        :return:
+        """
         try:
             ld50_mamm = float(ld50_mamm)
             aw_mamm = float(aw_mamm)
@@ -408,9 +461,13 @@ class therps(object):
                 ('tw_mamm=%g is a non-physical value.' % tw_mamm)
         return (ld50_mamm) * ((tw_mamm / aw_mamm) ** (0.25))
 
-    # Adjusted chronic toxicity (NOAEL) value for mammals
-
     def ANOAEL_mamm(NOAEL_mamm, aw_mamm, tw_mamm):
+        """
+        Adjusted chronic toxicity (NOAEL) value for mammals
+        :param aw_mamm:
+        :param tw_mamm:
+        :return:
+        """
         try:
             NOAEL_mamm = float(NOAEL_mamm)
             aw_mamm = float(aw_mamm)
@@ -443,11 +500,14 @@ class therps(object):
                 ('tw_mamm=%g is a non-physical value.' % tw_mamm)
         return (NOAEL_mamm) * ((tw_mamm / aw_mamm) ** (0.25))
 
-    # Dietary based EECs
-
-    # Initial concentration
-
     def C_0(self, a_r, a_i, para):
+        """
+        Initial concentration
+        :param a_r:
+        :param a_i:
+        :param para:
+        :return:
+        """
         try:
             a_r = float(a_r)
             a_i = float(a_i)
@@ -469,9 +529,13 @@ class therps(object):
                 ('The percentage of active ingredient=%g is a non-physical value.' % a_i)
         return (a_r * a_i * para)
 
-    # Concentration over time
-
     def C_t(self, C_ini, h_l):
+        """
+        Concentration over time
+        :param C_ini:
+        :param h_l:
+        :return:
+        """
         try:
             h_l = float(h_l)
         except IndexError:
@@ -486,9 +550,19 @@ class therps(object):
                 ('The foliar dissipation half life=%g is a non-physical value.' % h_l)
         return (C_ini * np.exp(-(np.log(2) / h_l) * 1))
 
-    # Dietary based EECs
-
     def EEC_diet(self, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l):
+        """
+        Dietary based EECs
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param i_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :return:
+        """
         C_0 = C_0(a_r, a_i, para)
         try:
             n_a = float(n_a)
@@ -534,104 +608,330 @@ class therps(object):
                 C_temp[i] = C_t(C_temp[i - 1], h_l)
         return (max(C_temp))
 
-    # Dietary_mammal based EECs
-
     def EEC_diet_mamm(self, EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm, c_mamm, wp_mamm):
+        """
+        Dietary_mammal based EECs
+        :param EEC_diet:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param i_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param fi_mamm:
+        :param c_mamm:
+        :param wp_mamm:
+        :return:
+        """
         EEC_diet = EEC_diet(C_0, C_t, n_a, i_a, a_r, a_i, para, h_l)
         fi_mamm = fi_mamm(c_mamm, wp_mamm)
         return (EEC_diet * fi_mamm / (c_mamm))
 
-    # Dietary terrestrial phase based EECs
-
     def EEC_diet_tp(self, EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp, wp_herp):
+        """
+        Dietary terrestrial phase based EECs
+        :param EEC_diet:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param i_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param fi_herp:
+        :param c_herp:
+        :param wp_herp:
+        :return:
+        """
         EEC_diet = EEC_diet(C_0, C_t, n_a, i_a, a_r, a_i, para, h_l)
         fi_herp = fi_herp(c_herp, wp_herp)
         return (EEC_diet * fi_herp / (c_herp))
 
-    # Amphibian Dose based EECs
-
     def EEC_dose_herp(self, EEC_diet, bw_herp, fi_herp, wp_herp, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l):
+        """
+        Amphibian Dose based EECs
+        :param EEC_diet:
+        :param bw_herp:
+        :param fi_herp:
+        :param wp_herp:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param i_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :return:
+        """
         fi_herp = fi_herp(bw_herp, wp_herp)
         EEC_diet = EEC_diet(C_0, C_t, n_a, i_a, a_r, a_i, para, h_l)
         return (EEC_diet * fi_herp / bw_herp)
 
-    # Amphibian Dose based EECs for mammals
-
     def EEC_dose_mamm(self, EEC_diet_mamm, EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm, bw_herp, c_mamm,
                       wp_mamm):
+        """
+        Amphibian Dose based EECs for mammals
+        :param EEC_diet_mamm:
+        :param EEC_diet:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param i_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param fi_mamm:
+        :param bw_herp:
+        :param c_mamm:
+        :param wp_mamm:
+        :return:
+        """
         EEC_diet_mamm = EEC_diet_mamm(EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm, c_mamm, wp_mamm)
         return (EEC_diet_mamm * c_mamm / bw_herp)
 
-    # Amphibian Dose based EECs for terrestrial
-
     def EEC_dose_tp(self, EEC_diet_tp, EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, bw_herp, c_herp,
                     wp_herp, wp_herp_a):
+        """
+        Amphibian Dose based EECs for terrestrial
+        :param EEC_diet_tp:
+        :param EEC_diet:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param i_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param fi_herp:
+        :param bw_herp:
+        :param c_herp:
+        :param wp_herp:
+        :param wp_herp_a:
+        :return:
+        """
         EEC_diet_tp = EEC_diet_tp(EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp, wp_herp)
         fi_herp = fi_herp(bw_herp, wp_herp_a)
         return (EEC_diet_tp * fi_herp / bw_herp)
 
-    # Amphibian acute dose-based risk quotients  
-
     def ARQ_dose_herp(self, EEC_dose_herp, EEC_diet, bw_herp, fi_herp, at_bird, avian_ld50, tw_bird,
                       mineau_scaling_factor, wp_herp, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l):
+        """
+        Amphibian acute dose-based risk quotients
+        :param EEC_dose_herp:
+        :param EEC_diet:
+        :param bw_herp:
+        :param fi_herp:
+        :param at_bird:
+        :param avian_ld50:
+        :param tw_bird:
+        :param mineau_scaling_factor:
+        :param wp_herp:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param i_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :return:
+        """
         EEC_dose_herp = EEC_dose_herp(EEC_diet, bw_herp, fi_herp, wp_herp, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l)
         at_bird = at_bird(avian_ld50, bw_herp, tw_bird, mineau_scaling_factor)
         return (EEC_dose_herp / at_bird)
 
-    # Amphibian acute dose-based risk quotients for mammals
-
     def ARQ_dose_mamm(self, EEC_dose_mamm, EEC_diet_mamm, EEC_diet, bw_herp, fi_herp, at_bird, avian_ld50, tw_bird,
                       mineau_scaling_factor, c_mamm, wp_mamm, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm):
+        """
+        Amphibian acute dose-based risk quotients for mammals
+        :param EEC_dose_mamm:
+        :param EEC_diet_mamm:
+        :param EEC_diet:
+        :param bw_herp:
+        :param fi_herp:
+        :param at_bird:
+        :param avian_ld50:
+        :param tw_bird:
+        :param mineau_scaling_factor:
+        :param c_mamm:
+        :param wp_mamm:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param i_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param fi_mamm:
+        :return:
+        """
         EEC_dose_mamm = EEC_dose_mamm(EEC_diet_mamm, EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm,
                                       bw_herp, c_mamm, wp_mamm)
         at_bird = at_bird(avian_ld50, bw_herp, tw_bird, mineau_scaling_factor)
         return (EEC_dose_mamm / at_bird)
 
-    # Amphibian acute dose-based risk quotients for tp
-
     def ARQ_dose_tp(self, EEC_dose_tp, EEC_diet_tp, EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp,
                     wp_herp, wp_herp_a, at_bird, avian_ld50, bw_herp, tw_bird, mineau_scaling_factor):
+        """
+        Amphibian acute dose-based risk quotients for tp
+        :param EEC_dose_tp:
+        :param EEC_diet_tp:
+        :param EEC_diet:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param i_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param fi_herp:
+        :param c_herp:
+        :param wp_herp:
+        :param wp_herp_a:
+        :param at_bird:
+        :param avian_ld50:
+        :param bw_herp:
+        :param tw_bird:
+        :param mineau_scaling_factor:
+        :return:
+        """
         EEC_dose_tp = EEC_dose_tp(EEC_diet_tp, EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, bw_herp,
                                   c_herp, wp_herp, wp_herp_a)
         at_bird = at_bird(avian_ld50, bw_herp, tw_bird, mineau_scaling_factor)
         return (EEC_dose_tp / at_bird)
 
-    # Amphibian acute dietary-based risk quotients
-
     def ARQ_diet_herp(self, EEC_diet, avian_lc50, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l):
+        """
+        Amphibian acute dietary-based risk quotients
+        :param EEC_diet:
+        :param avian_lc50:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param i_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :return:
+        """
         EEC_diet = EEC_diet(C_0, C_t, n_a, i_a, a_r, a_i, para, h_l)
         return (EEC_diet / avian_lc50)
 
-    # Amphibian acute dietary-based risk quotients for mammals
-
     def ARQ_diet_mamm(self, EEC_diet_mamm, EEC_diet, avian_lc50, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm,
                       c_mamm, wp_mamm):
+        """
+        Amphibian acute dietary-based risk quotients for mammals
+        :param EEC_diet_mamm:
+        :param EEC_diet:
+        :param avian_lc50:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param i_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param fi_mamm:
+        :param c_mamm:
+        :param wp_mamm:
+        :return:
+        """
         EEC_diet_mamm = EEC_diet_mamm(EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm, c_mamm, wp_mamm)
         return (EEC_diet_mamm / avian_lc50)
 
-    # Amphibian acute dietary-based risk quotients for tp
-
     def ARQ_diet_tp(self, EEC_diet_tp, EEC_diet, avian_lc50, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp,
                     wp_herp):
+        """
+        # Amphibian acute dietary-based risk quotients for tp
+        :param EEC_diet_tp:
+        :param EEC_diet:
+        :param avian_lc50:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param i_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param fi_herp:
+        :param c_herp:
+        :param wp_herp:
+        :return:
+        """
         EEC_diet_tp = EEC_diet_tp(EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp, wp_herp)
         return (EEC_diet_tp / avian_lc50)
 
-    # Amphibian chronic dietary-based risk quotients
-
     def CRQ_diet_herp(self, EEC_diet, avian_NOAEC, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l):
+        """
+        Amphibian chronic dietary-based risk quotients
+        :param EEC_diet:
+        :param avian_NOAEC:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param i_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :return:
+        """
         EEC_diet = EEC_diet(C_0, C_t, n_a, i_a, a_r, a_i, para, h_l)
         return (EEC_diet / avian_NOAEC)
 
-    # Amphibian chronic dietary-based risk quotients for mammal
-
     def CRQ_diet_mamm(self, EEC_diet_mamm, EEC_diet, avian_NOAEC, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm,
                       c_mamm, wp_mamm):
+        """
+        Amphibian chronic dietary-based risk quotients for mammal
+        :param EEC_diet_mamm:
+        :param EEC_diet:
+        :param avian_NOAEC:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param i_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param fi_mamm:
+        :param c_mamm:
+        :param wp_mamm:
+        :return:
+        """
         EEC_diet_mamm = EEC_diet_mamm(EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm, c_mamm, wp_mamm)
         return (EEC_diet_mamm / avian_NOAEC)
 
-    # Amphibian chronic dietary-based risk quotients for tp
-
     def CRQ_diet_tp(self, EEC_diet_tp, EEC_diet, avian_NOAEC, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp,
                     wp_herp):
+        """
+        Amphibian chronic dietary-based risk quotients for tp
+        :param EEC_diet_tp:
+        :param EEC_diet:
+        :param avian_NOAEC:
+        :param C_0:
+        :param C_t:
+        :param n_a:
+        :param i_a:
+        :param a_r:
+        :param a_i:
+        :param para:
+        :param h_l:
+        :param fi_herp:
+        :param c_herp:
+        :param wp_herp:
+        :return:
+        """
         EEC_diet_tp = EEC_diet_tp(EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp, wp_herp)
         return (EEC_diet_tp / avian_NOAEC)
