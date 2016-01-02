@@ -25,17 +25,29 @@ test = {}
 
 class TestStir(unittest.TestCase):
     def setup(self):
+        """
+        setup routine for stir unittests
+        :return:
+        """
         pass
         # setup the test as needed
         # e.g. pandas to open stir qaqc csv
         #  Read qaqc csv and create pandas DataFrames for inputs and expected outputs
 
-    # each of these functions are queued by "run_methods" and have outputs defined as properties in the stir qaqc
+    def teardown(self):
+        """
+        teardown routine for stir unittest
+        :return:
+        """
+        pass
+        # teardown called after each test
+        # e.g. maybe write test results to some text file
 
-    # eq. 1 saturated air concentration in mg/m^3
-    def test_CalcSatAirConc(self):
+    def test_calc_sat_air_conc(self):
         """
         unittest for function stir.CalcSatAirConc
+        eq. 1 saturated air concentration in mg/m^3
+        :return:
         """
         # self.sat_air_conc = (self.vapor_pressure * self.molecular_weight * conv)/(pressure * air_vol)
         try:
@@ -47,10 +59,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # eq. 2 Avian inhalation rate
-    def test_CalcInhRateAvian(self):
+    def test_calc_inh_rate_avian(self):
         """
         unittest for function stir.CalcInhRateAvian
+        eq. 2 Avian inhalation rate
+        :return:
         """
         # self.inh_rate_avian = magic1 * (self.body_weight_assessed_bird**magic2) * conversion * activity_factor
         try:
@@ -61,10 +74,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # eq. 3  Maximum avian vapor inhalation dose
-    def test_CalcVidAvian(self):
+    def test_calc_vid_avian(self):
         """
         unittest for function stir.CalcVidAvian
+        eq. 3  Maximum avian vapor inhalation dose
+        :return:
         """
         # self.vid_avian = (self.sat_air_conc * self.inh_rate_avian * duration_hours)/(conversion_factor * self.body_weight_assessed_bird)
         try:
@@ -77,10 +91,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # eq. 4 Mammalian inhalation rate
-    def test_CalcInhRateMammal(self):
+    def test_calc_inh_rate_mammal(self):
         """
         unittest for function stir.CalcInhRateMammal
+        eq. 4 Mammalian inhalation rate
+        :return:
         """
         # self.inh_rate_mammal = magic1 * (self.body_weight_assessed_mammal**magic2) * minutes_conversion * activity_factor
         try:
@@ -91,10 +106,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # eq. 5 Maximum mammalian vapor inhalation dose
-    def test_CalcVidMammal(self):
+    def test_calc_vid_mammal(self):
         """
         unittest for function stir.CalcVidMammal
+        eq. 5 Maximum mammalian vapor inhalation dose
+        :return:
         """
         # self.vid_mammal = (self.sat_air_conc * self.inh_rate_mammal * duration_hours)/(conversion_factor * self.body_weight_assessed_mammal)
         try:
@@ -107,10 +123,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # eq. 6 Air column concentration after spray
-    def test_CalcConcAir(self):
+    def test_calc_conc_air(self):
         """
         unittest for function stir.CalcConcAir
+        eq. 6 Air column concentration after spray
+        :return:
         """
         # conversion_factor = 100. #cm/m
         # cf_g_lbs = 453.59237
@@ -126,10 +143,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # eq. 7 Avian spray droplet inhalation dose
-    def test_CalcSidAvian(self):
+    def test_calc_sid_avian(self):
         """
         unittest for function stir.CalcSidAvian
+        eq. 7 Avian spray droplet inhalation dose
+        :return:
         """
         # self.sid_avian = (self.air_conc * self.inh_rate_avian * self.direct_spray_duration * self.spray_drift_fraction)/(60.0 * self.body_weight_assessed_bird)
         try:
@@ -144,10 +162,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # eq. 8 Mammalian spray droplet inhalation dose
-    def test_CalcSidMammal(self):
+    def test_calc_sid_mammal(self):
         """
         unittest for function stir.CalcSidMammal
+        eq. 8 Mammalian spray droplet inhalation dose
+        :return:
         """
         # self.sid_mammal = (self.air_conc * self.inh_rate_mammal * self.direct_spray_duration * self.spray_drift_fraction)/(60.0 * self.body_weight_assessed_mammal)
         try:
@@ -162,10 +181,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # eq. 9 Conversion of mammalian LC50 to LD50
-    def test_CalcConvertMammalInhalationLC50toLD50(self):
+    def test_calc_convert_mammal_inh_lc50_to_ld50(self):
         """
         unittest for function stir.CalcConvertMammalInhalationLC50toLD50
+        eq. 9 Conversion of mammalian LC50 to LD50
+        :return:
         """
         # activity_factor = 1.
         # absorption = 1.
@@ -181,10 +201,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # eq. 10 Adjusted mammalian inhalation LD50
-    def test_CalcAdjustedMammalInhalationLD50(self):
+    def test_calc_adjusted_mammal_inhalation_ld50(self):
         """
         unittest for function stir.CalcAdjustedMammalInhalationLD50
+        eq. 10 Adjusted mammalian inhalation LD50
+        :return:
         """
         # self.adjusted_mammal_inhalation_ld50 = self.mammal_inhalation_ld50 * (self.body_weight_tested_mammal/self.body_weight_assessed_mammal)**magicpower
         try:
@@ -197,10 +218,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    #eq. 11 Estimated avian inhalation LD50
-    def CalcEstimatedAvianInhalationLD50(self):
+    def test_calc_estimated_avian_inhalation_ld50(self):
         """
         unittest for function stir.CalcEstimatedAvianInhalationLD50
+        eq. 11 Estimated avian inhalation LD50
+        :return:
         """
         # three_five = 3.5
         # self.estimated_avian_inhalation_ld50 = (self.avian_oral_ld50 * self.mammal_inhalation_ld50)/(three_five * self.mammal_oral_ld50)
@@ -214,10 +236,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    #eq. 12 Adjusted avian inhalation LD50
-    def CalcAdjustedAvianInhalationLD50(self):
+    def test_calc_adjusted_avian_inhalation_ld50(self):
         """
         unittest for function stir.CalcAdjustedAvianInhalationLD50
+        eq. 12 Adjusted avian inhalation LD50
+        :return:
         """
         # self.adjusted_avian_inhalation_ld50 = self.estimated_avian_inhalation_ld50 * (self.body_weight_assessed_bird/self.body_weight_tested_bird)**(self.mineau_scaling_factor - 1)
         try:
@@ -231,14 +254,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # ----------------------------------------------
-    # results
-    # ----------------------------------------------
-
-    # results #1: Ratio of avian vapor dose to adjusted inhalation LD50
-    def ReturnRatioVidAvian(self):
+    def test_return_ratio_vid_avian(self):
         """
         unittest for function stir.ReturnRatioVidAvian
+        results #1: Ratio of avian vapor dose to adjusted inhalation LD50
+        :return:
         """
         # self.ratio_vid_avian = self.vid_avian/self.adjusted_avian_inhalation_ld50
         try:
@@ -250,10 +270,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # results #2: Level of Concern for avian vapor phase risk
-    def ReturnLocVidAvian(self):
+    def test_return_loc_vid_avian(self):
         """
         unittest for function stir.ReturnLocVidAvian
+        results #2: Level of Concern for avian vapor phase risk
+        :return:
         """
         #if self.ratio_vid_avian < 0.1:
         #    self.loc_vid_avian = 'Exposure not Likely Significant'
@@ -268,10 +289,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # results #3: Ratio of avian droplet inhalation dose to adjusted inhalation LD50
-    def ReturnRatioSidAvian(self):
+    def test_return_ratio_sid_avian(self):
         """
         unittest for function stir.ReturnRatioSidAvian
+        results #3: Ratio of avian droplet inhalation dose to adjusted inhalation LD50
+        :return:
         """
         # self.ratio_sid_avian = self.sid_avian/self.adjusted_avian_inhalation_ld50
         try:
@@ -283,10 +305,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # results #4: Level of Concern for avian droplet inhalation risk
-    def ReturnLocSidAvian(self):
+    def test_return_loc_sid_avian(self):
         """
         unittest for function stir.ReturnLocSidAvian
+        results #4: Level of Concern for avian droplet inhalation risk
+        :return:
         """
         #if self.ratio_sid_avian < 0.1:
         #    self.loc_sid_avian = 'Exposure not Likely Significant'
@@ -301,10 +324,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # results #5: Ratio of mammalian vapor dose to adjusted inhalation LD50
-    def ReturnRatioVidMammal(self):
+    def test_return_ratio_vid_mammal(self):
         """
         unittest for function stir.ReturnRatioVidMammal
+        results #5: Ratio of mammalian vapor dose to adjusted inhalation LD50
+        :return:
         """
         # self.ratio_vid_mammal = self.vid_mammal/self.adjusted_mammal_inhalation_ld50
         try:
@@ -316,10 +340,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # results #6: Level of Concern for mammalian vapor phase risk
-    def ReturnLocVidMammal(self):
+    def test_return_loc_vid_mammal(self):
         """
         unittest for function stir.ReturnLocVidMammal
+        results #6: Level of Concern for mammalian vapor phase risk
+        :return:
         """
         #if self.ratio_vid_mammal < 0.1:
         #    self.loc_vid_mammal = 'Exposure not Likely Significant'
@@ -334,10 +359,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # results #7: Ratio of mammalian droplet inhalation dose to adjusted inhalation LD50
-    def ReturnRatioSidMammal(self):
+    def test_return_ratio_sid_mammal(self):
         """
         unittest for function stir.ReturnRatioSidMammal
+        results #7: Ratio of mammalian droplet inhalation dose to adjusted inhalation LD50
+        :return:
         """
         # self.ratio_sid_mammal = self.sid_mammal/self.adjusted_mammal_inhalation_ld50
         try:
@@ -349,10 +375,11 @@ class TestStir(unittest.TestCase):
             pass
         return
 
-    # results #8: Level of Concern for mammaliam droplet inhalation risk
-    def ReturnLocSidMammal(self):
+    def test_return_loc_sid_mammal(self):
         """
         unittest for function stir.ReturnLocSidMammal
+        results #8: Level of Concern for mammaliam droplet inhalation risk
+        :return:
         """
         #if self.ratio_sid_mammal < 0.1:
         #    self.loc_sid_mammal = 'Exposure not Likely Significant'
@@ -366,11 +393,6 @@ class TestStir(unittest.TestCase):
         finally:
             pass
         return
-
-    def teardown(self):
-        pass
-        # teardown called after each test
-        # e.g. maybe write test results to some text file
 
 # unittest will
 # 1) call the setup method,

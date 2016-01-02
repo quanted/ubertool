@@ -76,7 +76,7 @@ class TestSip(unittest.TestCase):
 
 
 #Note: commented-out rows contain output files that are not running properly in the subsequent blackbox_method test.
-    def integration_test_z_score_f(self):
+    def test_integration_z_score_f(self):
         """
         integration test for output iec.z_score_f
         """
@@ -86,7 +86,7 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def integration_test_f8_f(self):
+    def test_integration_f8_f(self):
         """
         integration test for output iec.F8_f
         """
@@ -96,7 +96,7 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def integration_test_chance_f(self):
+    def test_integration_chance_f(self):
         """
         integration test for output iec.chance_f
         """
