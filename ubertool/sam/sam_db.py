@@ -158,6 +158,16 @@ def update_mongo(temp_sam_run_path, jid, run_type, args, section, huc_output):
 
 
 def update_mongo_tornado(temp_sam_run_path, jid, run_type, args, section, huc_output):
+    """
+    Tornado update.
+    :param temp_sam_run_path:
+    :param jid:
+    :param run_type:
+    :param args:
+    :param section:
+    :param huc_output:
+    :return:
+    """
     response = requests.post("http://localhost:8787/sam/daily/" + jid, huc_output)
     if response.status_code == 200:
         return "OK"
@@ -166,6 +176,13 @@ def update_mongo_tornado(temp_sam_run_path, jid, run_type, args, section, huc_ou
 
 
 def update_postgres(jid, args, huc_output):
+    """
+    Postgres update.
+    :param jid:
+    :param args:
+    :param huc_output:
+    :return:
+    """
     import psycopg2 as pg
     logging.info("update_postgres() called")
 

@@ -12,9 +12,16 @@ except ImportError, e:
 
 
 def run(jid, sam_bin_path, name_temp, section, array_size):
+    """
+    Run SuperPRZM as DLL
+    :param jid:
+    :param sam_bin_path:
+    :param name_temp:
+    :param section:
+    :param array_size:
+    :return:
+    """
     # np_array_out = np.random.rand(50,3)  # Dummy NumPy data
-
-    # Run SuperPRZM as DLL
     print "sam_bin_path: ", sam_bin_path
     np_array_huc_ids, np_array_out = superprzm.runmain.run(sam_bin_path, name_temp, section, array_size)
 
@@ -27,6 +34,15 @@ def run(jid, sam_bin_path, name_temp, section, array_size):
 
 
 def mongo_motor_insert(jid, huc_ids, np_array, name_temp, section):
+    """
+    Insert data to Mongo via motor.
+    :param jid:
+    :param huc_ids:
+    :param np_array:
+    :param name_temp:
+    :param section:
+    :return:
+    """
     # TODO: Remove the next line (was previously used for testing, production 'jid' is the 'jid' param)
     # jid = name_temp + "_" +section
     url = 'http://localhost:8787/sam/daily/' + jid

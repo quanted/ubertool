@@ -192,11 +192,22 @@ def daily_conc_callable(jid, sam_bin_path, name_temp, section, array_size=320):
 
 
 def callback_daily(section, future):
+    """
+    Daily callback.
+    :param section:
+    :param future:
+    :return:
+    """
     print "Section: ", section
     # print future.result()
 
 
 def create_number_of_rows_list(list_string):
+    """
+    Create rows.
+    :param list_string:
+    :return:
+    """
     return list_string.split()
 
 

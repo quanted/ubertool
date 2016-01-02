@@ -14,10 +14,20 @@ import keys_Picloud_S3
 
 # Generate a random ID for file save
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+    """
+    Generate random ID.
+    :param size:
+    :param chars:
+    :return:
+    """
     return ''.join(random.choice(chars) for x in range(size))
 
 
 def sam():
+    """
+    Main SAM.
+    :return:
+    """
     ##########################################################################################
     #####AMAZON KEY, store output files. You might have to write your own import approach#####
     ##########################################################################################

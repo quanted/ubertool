@@ -225,6 +225,12 @@ def sam_avg_conc(no_of_processes, no_of_workers, name_temp, temp_sam_run_path, a
 
 
 def callback_daily(jid, future):
+    """
+    SAM daily callback.
+    :param jid:
+    :param future:
+    :return:
+    """
     print jid
     print future.exception()
 
@@ -269,6 +275,16 @@ def callback_avg(temp_sam_run_path, jid, run_type, no_of_processes, args, sectio
 
 
 def sam_daily_results_parser(temp_sam_run_path, jid, run_type, args, section, huc_output):
+    """
+    SAM daily results parser.
+    :param temp_sam_run_path:
+    :param jid:
+    :param run_type:
+    :param args:
+    :param section:
+    :param huc_output:
+    :return:
+    """
     f_path = os.path.join(temp_sam_run_path, 'output')
     for output in os.listdir(f_path):
         f = open(os.path.join(temp_sam_run_path, 'output', output), "rb")
@@ -304,9 +320,13 @@ def two_digit(x):
 
     return number_string
 
-
-# Generate a random ID for file save
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+    """
+    Generate a random ID for file save
+    :param size:
+    :param chars:
+    :return:
+    """
     return ''.join(random.choice(chars) for x in range(size))
 
 
@@ -388,6 +408,10 @@ def split_csv(number, name_temp):
 
 
 def empty_global_output_holders():
+    """
+    Hold empty global output.
+    :return:
+    """
     # Empty output dictionary if needed
     global huc_output
     if len(huc_output.keys()) is not 0:

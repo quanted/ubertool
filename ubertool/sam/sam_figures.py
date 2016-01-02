@@ -459,8 +459,6 @@ def generate_sam_month_streak_huc_plot(jobid, hucid):
 
     fig3.clf()
 
-
-
 def generate_sam_annual_streak_huc_plot(jobid, hucid):
     """
     huc time series for annual average streak
@@ -515,8 +513,6 @@ def generate_sam_annual_streak_huc_plot(jobid, hucid):
     fig3.savefig(f, bbox_inches="tight")
 
     fig3.clf()
-
-
 
 def generate_sam_month_freq_of_exceed_huc_plot(jobid, hucid):
     """

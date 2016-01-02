@@ -389,6 +389,11 @@ def app_refine_triangular(appcount, no_of_apps, application_rate, application_me
 
 
 def output_time_avg_options(output_time_avg_option):
+    """
+    Time averaged output.
+    :param output_time_avg_option:
+    :return:
+    """
     if output_time_avg_option == '1':
         """
             FIX THIS PART
@@ -401,6 +406,11 @@ def output_time_avg_options(output_time_avg_option):
 
 
 def inputs_preprocessing(inputs):
+    """
+    Preprocess inputs.
+    :param inputs:
+    :return:
+    """
     start_datetime_object = datetime.strptime(inputs['sim_date_start'], "%m/%d/%Y")
     end_datetime_object = datetime.strptime(inputs['sim_date_end'], "%m/%d/%Y")
 
