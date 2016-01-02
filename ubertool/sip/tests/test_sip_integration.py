@@ -45,11 +45,21 @@ test = {}
 class TestSip(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
+        """
+        Constructor for sip integration tests
+        :param args:
+        :param kwargs:
+        :return:
+        """
         #adding to TestCase constructor so super
         super(TestSip, self).__init__(*args, **kwargs)
         self.ncases = len(pd_obj_inputs)
 
     def setup(self):
+        """
+        Setup routine for sip integration tests
+        :return:
+        """
         pass
         # sip2 = sip_model.sip(0, pd_obj_inputs, pd_obj_exp_out)
         # setup the test as needed
@@ -57,55 +67,63 @@ class TestSip(unittest.TestCase):
         #  Read qaqc csv and create pandas DataFrames for inputs and expected outputs
 
     def teardown(self):
+        """
+        Teardown routine for sip integration tests
+        :return:
+        """
         pass
         # teardown called after each test
         # e.g. maybe write test results to some text file
 
-#Note: commented-out rows contain output files that are not running properly in the subsequent blackbox_method test.
-    def integration_test_dose_bird(self):
-        '''
-        integration test for output sip.dose_bird
-        '''
+    def test_integration_dose_bird(self):
+        """
+        Integration test for output sip.dose_bird
+        :return:
+        """
         try:
             self.blackbox_method_int('dose_bird')
         finally:
             pass
         return
 
-    def integration_test_dose_mamm(self):
-        '''
-        integration test for output sip.dose_mamm
-        '''
+    def test_integration_dose_mamm(self):
+        """
+        Integration test for output sip.dose_mamm
+        :return:
+        """
         try:
             self.blackbox_method_int('dose_mamm')
         finally:
             pass
         return
 
-    def integration_test_at_bird(self):
-        '''
-        integration test for output sip.at_bird
-        '''
+    def test_integration_at_bird(self):
+        """
+        Integration test for output sip.at_bird
+        :return:
+        """
         try:
             self.blackbox_method_int('at_bird')
         finally:
             pass
         return
 
-    def integration_test_at_mamm(self):
-        '''
-        integration test for output sip.at_mamm
-        '''
+    def test_integration_at_mamm(self):
+        """
+        Integration test for output sip.at_mamm
+        :return:
+        """
         try:
             self.blackbox_method_int('at_mamm')
         finally:
             pass
         return
 
-    def integration_test_fi_bird(self):
-        '''
-        integration test for output sip.fi_bird
-        '''
+    def test_integration_fi_bird(self):
+        """
+        Integration test for output sip.fi_bird
+        :return:
+        """
         try:
             #self.blackbox_method('fi_bird')
             pass
@@ -113,100 +131,110 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def integration_test_det(self):
-        '''
-        integration test for output sip.det
-        '''
+    def test_integration_det(self):
+        """
+        Integration test for output sip.det
+        :return:
+        """
         try:
             self.blackbox_method_int('det')
         finally:
             pass
         return
 
-    def integration_test_act(self):
-        '''
-        integration test for output sip.act
-        '''
+    def test_integration_act(self):
+        """
+        Integration test for output sip.act
+        :return:
+        """
         try:
             self.blackbox_method_int('act')
         finally:
             pass
         return
 
-    def integration_test_acute_bird(self):
-        '''
-        integration test for output sip.acute_bird
-        '''
+    def test_integration_acute_bird(self):
+        """
+        Integration test for output sip.acute_bird
+        :return:
+        """
         try:
             self.blackbox_method_int('acute_bird')
         finally:
             pass
         return
 
-    def integration_test_acuconb(self):
-        '''
-        integration test for output sip.acuconb
-        '''
+    def test_integration_acuconb(self):
+        """
+        Integration test for output sip.acuconb
+        :return:
+        """
         try:
             self.blackbox_method_str('acuconb')
         finally:
             pass
         return
 
-    def integration_test_acute_mamm(self):
-        '''
-        integration test for output sip.acute_mamm
-        '''
+    def test_integration_acute_mamm(self):
+        """
+        Integration test for output sip.acute_mamm
+        :return:
+        """
         try:
             self.blackbox_method_int('acute_mamm')
         finally:
             pass
         return
 
-    def integration_test_acuconm(self):
-        '''
-        integration test for output sip.acuconm
-        '''
+    def test_integration_acuconm(self):
+        """
+        Integration test for output sip.acuconm
+        :return:
+        """
         try:
             self.blackbox_method_str('acuconm')
         finally:
             pass
         return
 
-    def integration_test_chron_bird(self):
-        '''
-        integration test for output sip.chron_bird
-        '''
+    def test_integration_chron_bird(self):
+        """
+        Integration test for output sip.chron_bird
+        :return:
+        """
         try:
             self.blackbox_method_int('chron_bird')
         finally:
             pass
         return
 
-    def integration_test_chronconb(self):
-        '''
-        integration test for output sip.chronconb
-        '''
+    def test_integration_chronconb(self):
+        """
+        Integration test for output sip.chronconb
+        :return:
+        """
         try:
             self.blackbox_method_str('chronconb')
         finally:
             pass
         return
 
-    def integration_test_chron_mamm(self):
-        '''
+    def test_integration_chron_mamm(self):
+        """
         integration test for output sip.chron_mamm
-        '''
+        :return:
+        """
         try:
             self.blackbox_method_int('chron_mamm')
         finally:
             pass
         return
 
-    def integration_test_chronconm(self):
-        '''
+    def test_integration_chronconm(self):
+        """
         integration test for output sip.chronconm
-        '''
+        :return:
+        """
         try:
             self.blackbox_method_str('chronconm')
         finally:
@@ -230,6 +258,11 @@ class TestSip(unittest.TestCase):
         npt.assert_allclose(result, expected, rtol, 0, '', True)
 
     def blackbox_method_str(self, output):
+        """
+        Helper method that needs to be moved
+        :param output:
+        :return:
+        """
         result = sip_calc.pd_obj_out[output + "_out"]
         expected = sip_calc.pd_obj_exp[output + "_exp"]
         tab = pd.concat([result, expected], axis=1)

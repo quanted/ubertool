@@ -27,10 +27,11 @@ class TestSip(unittest.TestCase):
         # teardown called after each test
         # e.g. maybe write test results to some text file
 
-    def unit_test_fw_bird(self):
-        '''
+    def test_unit_fw_bird(self):
+        """
         unittest for function sip.fw_bird:
-        '''
+        :return:
+        """
         try:
             result = sip_empty.fw_bird()
             npt.assert_array_almost_equal(result, 0.0162, 4, '', True)
@@ -38,10 +39,11 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def unit_test_fw_mamm(self):
-        '''
+    def test_unit_fw_mamm(self):
+        """
         unittest for function sip.fw_mamm:
-        '''
+        :return:
+        """
         try:
             result = sip_empty.fw_mamm()
             npt.assert_array_almost_equal(result, 0.172, 4, '', True)
@@ -49,10 +51,11 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def unit_test_dose_bird(self):
-        '''
+    def test_unit_dose_bird(self):
+        """
         unittest for function sip.dose_bird:
-        '''
+        :return:
+        """
         try:
             #(self.fw_bird_out * self.solubility)/(self.bodyweight_assessed_bird / 1000.)
             sip_empty.fw_bird_out = pd.Series([10.], dtype='int')
@@ -64,10 +67,11 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def unit_test_dose_mamm(self):
-        '''
+    def test_unit_dose_mamm(self):
+        """
         unittest for function sip.dose_mamm:
-        '''
+        :return:
+        """
         try:
             #(self.fw_mamm_out * self.solubility)/(self.bodyweight_assessed_mammal / 1000)
             sip_empty.fw_mamm_out = pd.Series([20.], dtype='int')
@@ -79,10 +83,11 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def unit_test_at_bird(self):
-        '''
+    def test_unit_at_bird(self):
+        """
         unittest for function sip.at_bird:
-        '''
+        :return:
+        """
         try:
             #(self.ld50_avian_water) * ((self.bodyweight_assessed_bird / self.bodyweight_tested_bird)**(self.mineau_scaling_factor - 1.))
             sip_empty.ld50_avian_water = pd.Series([2000.], dtype='int')
@@ -95,10 +100,11 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def unit_test_at_mamm(self):
-        '''
+    def test_unit_at_mamm(self):
+        """
         unittest for function sip.at_mamm:
-        '''
+        :return:
+        """
         try:
             #(self.ld50_mammal_water) * ((self.bodyweight_tested_mammal / self.bodyweight_assessed_mammal)**0.25)
             sip_empty.ld50_mammal_water = pd.Series([10.], dtype='int')
@@ -110,10 +116,11 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def unit_test_fi_bird(self):
-        '''
+    def test_unit_fi_bird(self):
+        """
         unittest for function sip.fi_bird:
-        '''
+        :return:
+        """
         try:
             #0.0582 * ((bw_grams / 1000.)**0.651)
             sip_empty.bw_grams = pd.Series([100.], dtype='int')
@@ -124,10 +131,11 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def unit_test_act(self):
-        '''
+    def test_unit_act(self):
+        """
         unittest for function sip.test_act:
-        '''
+        :return:
+        """
         try:
             #(self.noael_mammal_water) * ((self.bodyweight_tested_mammal / self.bodyweight_assessed_mammal)**0.25)
             sip_empty.noael_mammal_water = pd.Series([10.], dtype='int')
@@ -141,9 +149,10 @@ class TestSip(unittest.TestCase):
 
     # #Weird equation. Let's talk about this one.
     # def unit_test_det(self):
-    #     '''
-    #     unittest for function sip.det:
-    #     '''
+    #     """
+    #     unittest for function sip.det
+    #     return:
+    #     """
     #
     #     '''
     #     Dose Equiv. Toxicity:
@@ -168,9 +177,10 @@ class TestSip(unittest.TestCase):
     #
     #
     # def test_det_duck(self):
-    #     '''
+    #     """
     #     unittest for function sip.det_duck:
-    #     '''
+    #     :return:
+    #     """
     #     try:
     #         # det_duck = (self.noaec_duck * self.fi_bird(1580.)) / (1580. / 1000.)
     #         sip_empty.noaec_duck = pd.Series([1.], dtype='int')
@@ -182,9 +192,10 @@ class TestSip(unittest.TestCase):
     #     return
     #
     # def test_det_quail(self):
-    #     '''
+    #     """
     #     unittest for function sip.det_quail:
-    #     '''
+    #     :return:
+    #     """
     #     try:
     #         # det_quail = (self.noaec_quail * self.fi_bird(178.)) / (178. / 1000.)
     #         sip_empty.noaec_quail = pd.Series([1.], dtype='int')
@@ -196,9 +207,10 @@ class TestSip(unittest.TestCase):
     #     return
     #
     # def test_det_other_1(self):
-    #     '''
+    #     """
     #     unittest for function sip.det_other_1:
-    #     '''
+    #     :return:
+    #     """
     #     try:
     #         #det_other_1 = (self.noaec_bird_other_1 * self.fi_bird(self.bodyweight_bird_other_1)) / (self.bodyweight_bird_other_1 / 1000.)
     #         #det_other_2 = (self.noaec_bird_other_2 * self.fi_bird(self.bodyweight_bird_other_1)) / (self.bodyweight_bird_other_1 / 1000.)
@@ -210,10 +222,11 @@ class TestSip(unittest.TestCase):
     #         pass
     #     return
 
-    def unit_test_acute_bird(self):
-        '''
+    def test_unit_acute_bird(self):
+        """
         unittest for function sip.acute_bird:
-        '''
+        :return:
+        """
         try:
             # self.acute_bird_out = self.dose_bird_out / self.at_bird_out
             sip_empty.dose_bird_out = pd.Series([100.], dtype='int')
@@ -224,12 +237,11 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def unit_test_acuconb(self):
-        '''
-        unittest for function sip.acuconb:
-        '''
+    def test_unit_acuconb(self):
         """
+        unittest for function sip.acuconb:
         Message stating whether or not a risk is present
+        :return:
         """
         # if self.acuconb_out == -1:
         #     if self.acute_bird_out == None:
@@ -248,10 +260,11 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def unit_test_acute_mamm(self):
-        '''
+    def test_unit_acute_mamm(self):
+        """
         unittest for function sip.acute_mamm:
-        '''
+        :return:
+        """
         # self.acute_mamm_out = self.dose_mamm_out / self.at_mamm_out
         try:
             sip_empty.dose_mamm_out = pd.Series([100.], dtype='int')
@@ -262,12 +275,11 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def unit_test_acuconm(self):
-        '''
-        unittest for function sip.acuconm:
-        '''
+    def test_unit_acuconm(self):
         """
+        unittest for function sip.acuconm:
         Message stating whether or not a risk is present
+        :return:
         """
         # if self.acuconm_out == -1:
         #     if self.acute_mamm_out == None:
@@ -287,10 +299,11 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def unit_test_chron_bird(self):
-        '''
+    def test_unit_chron_bird(self):
+        """
         unittest for function sip.chron_bird:
-        '''
+        :return:
+        """
         #self.chron_bird_out = self.dose_bird_out / self.det_out
         try:
             sip_empty.dose_bird_out = pd.Series([5.], dtype='int')
@@ -301,10 +314,11 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def unit_test_chronconb(self):
-        '''
+    def test_unit_chronconb(self):
+        """
         unittest for function sip.chronconb:
-        '''
+        :return:
+        """
         #boolean = self.chron_bird_out < 1
         #self.chronconb_out = boolean.map(lambda x:
         #   'Drinking water exposure alone is NOT a potential concern for birds' if x == True
@@ -318,10 +332,11 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def unit_test_chron_mamm(self):
-        '''
+    def test_unit_chron_mamm(self):
+        """
         unittest for function sip.chron_mamm:
-        '''
+        :return:
+        """
         # self.chron_mamm_out = self.dose_mamm_out / self.act_out
         sip_empty.dose_mamm_out = pd.Series([8.], dtype='int')
         sip_empty.act_out = pd.Series([4.], dtype='int')
@@ -329,10 +344,11 @@ class TestSip(unittest.TestCase):
         npt.assert_array_almost_equal(result, 2, 4, '', True)
         return
 
-    def unit_test_chronconm(self):
-        '''
+    def test_unit_chronconm(self):
+        """
         unittest for function sip.chronconm:
-        '''
+        :return:
+        """
         # self.chronconm_out = boolean.map(lambda x:
         #   'Drinking water exposure alone is NOT a potential concern for mammals' if x == True
         #   else 'Exposure through drinking water alone is a potential concern for mammals')

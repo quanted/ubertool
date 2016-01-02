@@ -41,7 +41,7 @@ class TestRice(unittest.TestCase):
 
     #   dsed * area * pb
     #   (self.dsed * self.area * self.pb)
-    def unit_test_Calcmsed(self):
+    def test_unit_calcmsed(self):
         """
         Unit tests for calcmsed
         :return:
@@ -58,7 +58,7 @@ class TestRice(unittest.TestCase):
         return
 
     # (self.dw * self.area) + (self.dsed * self.osed * self.area)
-    def unit_test_Calcvw(self):
+    def test_unit_calcvw(self):
         """
         Unit tests for calcvw
         :return:
@@ -76,7 +76,7 @@ class TestRice(unittest.TestCase):
         return
 
     # (self.mai/self.area)*10000
-    def unit_test_Calcmass_area(self):
+    def test_unit_calcmass_area(self):
         """
         Unittests for calcmass_area
         :return:
@@ -91,7 +91,7 @@ class TestRice(unittest.TestCase):
         return
 
     # (self.out_mass_area / (self.dw + (self.dsed * (self.osed + (self.pb * self.Kd*1e-5)))))*100
-    def unit_test_Calccw(self):
+    def test_unit_calccw(self):
         """
         unittests for calccw
         :return:
