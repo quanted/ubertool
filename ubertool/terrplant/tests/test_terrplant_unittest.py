@@ -25,12 +25,20 @@ test = {}
 
 class TestTerrplant(unittest.TestCase):
     def setup(self):
+        """
+        Setup routine for terrplant unit tests.
+        :return:
+        """
         pass
         # setup the test as needed
         # e.g. pandas to open terrplant qaqc csv
         #  Read qaqc csv and create pandas DataFrames for inputs and expected outputs
 
     def teardown(self):
+        """
+        Teardown routine for terrplant unit tests.
+        :return:
+        """
         pass
         # teardown called after each test
         # e.g. maybe write test results to some text file

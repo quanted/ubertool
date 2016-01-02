@@ -16,6 +16,10 @@ test = {}
 
 class TestSip(unittest.TestCase):
     def setup(self):
+        """
+        Setup routine for sip unittest.
+        :return:
+        """
         pass
         # sip2 = sip_model.sip(0, pd_obj_inputs, pd_obj_exp_out)
         # setup the test as needed
@@ -23,6 +27,10 @@ class TestSip(unittest.TestCase):
         #  Read qaqc csv and create pandas DataFrames for inputs and expected outputs
 
     def teardown(self):
+        """
+        Teardown routine for sip unittest.
+        :return:
+        """
         pass
         # teardown called after each test
         # e.g. maybe write test results to some text file

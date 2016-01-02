@@ -6,9 +6,19 @@ import pandas as pd
 
 class TerrplantHandler(Resource):
     def get(self, jid):
+        """
+        Terrplant get handler.
+        :param jid:
+        :return:
+        """
         return {'result': 'model=terrplant, jid=%s' % jid}
 
     def post(self, jid):
+        """
+        Terrplant post handler.
+        :param jid:
+        :return:
+        """
         pd_obj = pd.DataFrame.from_dict(request.json["inputs"], dtype='float64')
         terrplant_obj = terrplant.Terrplant(pd_obj, None)
         terrplant_obj.execute_model()
@@ -25,8 +35,16 @@ class TerrplantHandler(Resource):
 
     @staticmethod
     def get_model_inputs():
+        """
+        Return terrplant input class.
+        :return:
+        """
         return terrplant.TerrplantInputs()
 
     @staticmethod
     def get_model_outputs():
+        """
+        Return terrplant output class.
+        :return:
+        """
         return terrplant.TerrplantOutputs()

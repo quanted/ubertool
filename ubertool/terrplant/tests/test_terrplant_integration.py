@@ -47,9 +47,17 @@ test = {}
 
 class TestTerrplant(unittest.TestCase):
     def setUp(self):
+        """
+        Setup routine for terrplant.
+        :return:
+        """
         terrplant_calc.execute_model()
 
     def tearDown(self):
+        """
+        Teardown routine for terrplant.
+        :return:
+        """
         pass
 
     def test_rundry(self):
@@ -370,6 +378,11 @@ class TestTerrplant(unittest.TestCase):
         npt.assert_allclose(result, expected, rtol, 0, '', True)
 
     def blackbox_method_str(self, output):
+        """
+        Helper method.
+        :param output:
+        :return:
+        """
         result = terrplant_calc.pd_obj_out["out_" + output]
         expected = terrplant_calc.pd_obj_exp["exp_" + output]
         tab = pd.concat([result,expected], axis=1)
