@@ -3,11 +3,11 @@ import numpy as np
 
 
 class therps(object):
-    def __init__(self, chem_name, use, formu_name, a_i, h_l, n_a, i_a, a_r, avian_ld50, avian_lc50, avian_NOAEC,
-                 avian_NOAEL,
-                 Species_of_the_tested_bird_avian_ld50, Species_of_the_tested_bird_avian_lc50,
-                 Species_of_the_tested_bird_avian_NOAEC, Species_of_the_tested_bird_avian_NOAEL,
-                 bw_avian_ld50, bw_avian_lc50, bw_avian_NOAEC, bw_avian_NOAEL,
+    def __init__(self, chem_name, use, formu_name, a_i, h_l, n_a, i_a, a_r, avian_ld50, avian_lc50, avian_noaec,
+                 avian_noael,
+                 species_of_the_tested_bird_avian_ld50, species_of_the_tested_bird_avian_lc50,
+                 species_of_the_tested_bird_avian_noaec, species_of_the_tested_bird_avian_noael,
+                 bw_avian_ld50, bw_avian_lc50, bw_avian_noaec, bw_avian_noael,
                  mineau_scaling_factor, bw_herp_a_sm, bw_herp_a_md, bw_herp_a_lg, wp_herp_a_sm, wp_herp_a_md,
                  wp_herp_a_lg, c_mamm_a, c_herp_a):
         """
@@ -22,16 +22,16 @@ class therps(object):
         :param a_r:
         :param avian_ld50:
         :param avian_lc50:
-        :param avian_NOAEC:
-        :param avian_NOAEL:
-        :param Species_of_the_tested_bird_avian_ld50:
-        :param Species_of_the_tested_bird_avian_lc50:
-        :param Species_of_the_tested_bird_avian_NOAEC:
-        :param Species_of_the_tested_bird_avian_NOAEL:
+        :param avian_noaec:
+        :param avian_noael:
+        :param species_of_the_tested_bird_avian_ld50:
+        :param species_of_the_tested_bird_avian_lc50:
+        :param species_of_the_tested_bird_avian_noaec:
+        :param species_of_the_tested_bird_avian_noael:
         :param bw_avian_ld50:
         :param bw_avian_lc50:
-        :param bw_avian_NOAEC:
-        :param bw_avian_NOAEL:
+        :param bw_avian_noaec:
+        :param bw_avian_noael:
         :param mineau_scaling_factor:
         :param bw_herp_a_sm:
         :param bw_herp_a_md:
@@ -54,16 +54,16 @@ class therps(object):
         self.a_r = a_r
         self.avian_ld50 = avian_ld50
         self.avian_lc50 = avian_lc50
-        self.avian_NOAEC = avian_NOAEC
-        self.avian_NOAEL = avian_NOAEL
-        self.Species_of_the_tested_bird_avian_ld50 = Species_of_the_tested_bird_avian_ld50
-        self.Species_of_the_tested_bird_avian_lc50 = Species_of_the_tested_bird_avian_lc50
-        self.Species_of_the_tested_bird_avian_NOAEC = Species_of_the_tested_bird_avian_NOAEC
-        self.Species_of_the_tested_bird_avian_NOAEL = Species_of_the_tested_bird_avian_NOAEL
+        self.avian_noaec = avian_noaec
+        self.avian_noael = avian_noael
+        self.species_of_the_tested_bird_avian_ld50 = species_of_the_tested_bird_avian_ld50
+        self.species_of_the_tested_bird_avian_lc50 = species_of_the_tested_bird_avian_lc50
+        self.species_of_the_tested_bird_avian_noaec = species_of_the_tested_bird_avian_noaec
+        self.species_of_the_tested_bird_avian_noael = species_of_the_tested_bird_avian_noael
         self.bw_avian_ld50 = bw_avian_ld50
         self.bw_avian_lc50 = bw_avian_lc50
-        self.bw_avian_NOAEC = bw_avian_NOAEC
-        self.bw_avian_NOAEL = bw_avian_NOAEL
+        self.bw_avian_noaec = bw_avian_noaec
+        self.bw_avian_noael = bw_avian_noael
         self.mineau_scaling_factor = mineau_scaling_factor
         self.bw_herp_a_sm = bw_herp_a_sm
         self.bw_herp_a_md = bw_herp_a_md
@@ -77,239 +77,239 @@ class therps(object):
         # Result variables
 
         # Table 5
-        self.LD50_AD_sm = self.at_bird(avian_ld50, bw_herp_a_sm, bw_avian_ld50, mineau_scaling_factor)
-        self.LD50_AD_md = self.at_bird(avian_ld50, bw_herp_a_md, bw_avian_ld50, mineau_scaling_factor)
-        self.LD50_AD_lg = self.at_bird(avian_ld50, bw_herp_a_lg, bw_avian_ld50, mineau_scaling_factor)
+        self.ld50_ad_sm = self.at_bird(avian_ld50, bw_herp_a_sm, bw_avian_ld50, mineau_scaling_factor)
+        self.ld50_ad_md = self.at_bird(avian_ld50, bw_herp_a_md, bw_avian_ld50, mineau_scaling_factor)
+        self.ld50_ad_lg = self.at_bird(avian_ld50, bw_herp_a_lg, bw_avian_ld50, mineau_scaling_factor)
 
-        self.EEC_dose_BP_sm = self.EEC_dose_herp(self.EEC_diet, bw_herp_a_sm, self.fi_herp, wp_herp_a_sm, self.C_0,
-                                                 self.C_t, n_a, i_a, a_r, a_i, 135, h_l)
-        self.EEC_dose_BP_md = self.EEC_dose_herp(self.EEC_diet, bw_herp_a_md, self.fi_herp, wp_herp_a_md, self.C_0,
-                                                 self.C_t, n_a, i_a, a_r, a_i, 135, h_l)
-        self.EEC_dose_BP_lg = self.EEC_dose_herp(self.EEC_diet, bw_herp_a_lg, self.fi_herp, wp_herp_a_lg, self.C_0,
-                                                 self.C_t, n_a, i_a, a_r, a_i, 135, h_l)
-        self.ARQ_dose_BP_sm = self.ARQ_dose_herp(self.EEC_dose_herp, self.EEC_diet, bw_herp_a_sm, self.fi_herp,
+        self.eec_dose_bp_sm = self.eec_dose_herp(self.eec_diet, bw_herp_a_sm, self.fi_herp, wp_herp_a_sm, self.c_0,
+                                                 self.c_t, n_a, i_a, a_r, a_i, 135, h_l)
+        self.eec_dose_bp_md = self.eec_dose_herp(self.eec_diet, bw_herp_a_md, self.fi_herp, wp_herp_a_md, self.c_0,
+                                                 self.c_t, n_a, i_a, a_r, a_i, 135, h_l)
+        self.eec_dose_bp_lg = self.eec_dose_herp(self.eec_diet, bw_herp_a_lg, self.fi_herp, wp_herp_a_lg, self.c_0,
+                                                 self.c_t, n_a, i_a, a_r, a_i, 135, h_l)
+        self.arq_dose_bp_sm = self.arq_dose_herp(self.eec_dose_herp, self.eec_diet, bw_herp_a_sm, self.fi_herp,
                                                  self.at_bird, avian_ld50, bw_avian_ld50, mineau_scaling_factor,
-                                                 wp_herp_a_sm, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 135, h_l)
-        self.ARQ_dose_BP_md = self.ARQ_dose_herp(self.EEC_dose_herp, self.EEC_diet, bw_herp_a_md, self.fi_herp,
+                                                 wp_herp_a_sm, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 135, h_l)
+        self.arq_dose_bp_md = self.arq_dose_herp(self.eec_dose_herp, self.eec_diet, bw_herp_a_md, self.fi_herp,
                                                  self.at_bird, avian_ld50, bw_avian_ld50, mineau_scaling_factor,
-                                                 wp_herp_a_md, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 135, h_l)
-        self.ARQ_dose_BP_lg = self.ARQ_dose_herp(self.EEC_dose_herp, self.EEC_diet, bw_herp_a_lg, self.fi_herp,
+                                                 wp_herp_a_md, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 135, h_l)
+        self.arq_dose_bp_lg = self.arq_dose_herp(self.eec_dose_herp, self.eec_diet, bw_herp_a_lg, self.fi_herp,
                                                  self.at_bird, avian_ld50, bw_avian_ld50, mineau_scaling_factor,
-                                                 wp_herp_a_lg, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 135, h_l)
+                                                 wp_herp_a_lg, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 135, h_l)
 
-        self.EEC_dose_FR_sm = self.EEC_dose_herp(self.EEC_diet, bw_herp_a_sm, self.fi_herp, wp_herp_a_sm, self.C_0,
-                                                 self.C_t, n_a, i_a, a_r, a_i, 15, h_l)
-        self.EEC_dose_FR_md = self.EEC_dose_herp(self.EEC_diet, bw_herp_a_md, self.fi_herp, wp_herp_a_md, self.C_0,
-                                                 self.C_t, n_a, i_a, a_r, a_i, 15, h_l)
-        self.EEC_dose_FR_lg = self.EEC_dose_herp(self.EEC_diet, bw_herp_a_lg, self.fi_herp, wp_herp_a_lg, self.C_0,
-                                                 self.C_t, n_a, i_a, a_r, a_i, 15, h_l)
-        self.ARQ_dose_FR_sm = self.ARQ_dose_herp(self.EEC_dose_herp, self.EEC_diet, bw_herp_a_sm, self.fi_herp,
+        self.eec_dose_fr_sm = self.eec_dose_herp(self.eec_diet, bw_herp_a_sm, self.fi_herp, wp_herp_a_sm, self.c_0,
+                                                 self.c_t, n_a, i_a, a_r, a_i, 15, h_l)
+        self.eec_dose_fr_md = self.eec_dose_herp(self.eec_diet, bw_herp_a_md, self.fi_herp, wp_herp_a_md, self.c_0,
+                                                 self.c_t, n_a, i_a, a_r, a_i, 15, h_l)
+        self.eec_dose_fr_lg = self.eec_dose_herp(self.eec_diet, bw_herp_a_lg, self.fi_herp, wp_herp_a_lg, self.c_0,
+                                                 self.c_t, n_a, i_a, a_r, a_i, 15, h_l)
+        self.arq_dose_fr_sm = self.arq_dose_herp(self.eec_dose_herp, self.eec_diet, bw_herp_a_sm, self.fi_herp,
                                                  self.at_bird, avian_ld50, bw_avian_ld50, mineau_scaling_factor,
-                                                 wp_herp_a_sm, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 15, h_l)
-        self.ARQ_dose_FR_md = self.ARQ_dose_herp(self.EEC_dose_herp, self.EEC_diet, bw_herp_a_md, self.fi_herp,
+                                                 wp_herp_a_sm, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 15, h_l)
+        self.arq_dose_fr_md = self.arq_dose_herp(self.eec_dose_herp, self.eec_diet, bw_herp_a_md, self.fi_herp,
                                                  self.at_bird, avian_ld50, bw_avian_ld50, mineau_scaling_factor,
-                                                 wp_herp_a_md, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 15, h_l)
-        self.ARQ_dose_FR_lg = self.ARQ_dose_herp(self.EEC_dose_herp, self.EEC_diet, bw_herp_a_lg, self.fi_herp,
+                                                 wp_herp_a_md, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 15, h_l)
+        self.arq_dose_fr_lg = self.arq_dose_herp(self.eec_dose_herp, self.eec_diet, bw_herp_a_lg, self.fi_herp,
                                                  self.at_bird, avian_ld50, bw_avian_ld50, mineau_scaling_factor,
-                                                 wp_herp_a_lg, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 15, h_l)
+                                                 wp_herp_a_lg, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 15, h_l)
 
-        self.EEC_dose_HM_md = self.EEC_dose_mamm(self.EEC_diet_mamm, self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r,
+        self.eec_dose_hm_md = self.eec_dose_mamm(self.eec_diet_mamm, self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r,
                                                  a_i, 240, h_l, self.fi_mamm, bw_herp_a_md, c_mamm_a, 0.8)
-        self.EEC_dose_HM_lg = self.EEC_dose_mamm(self.EEC_diet_mamm, self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r,
+        self.eec_dose_hm_lg = self.eec_dose_mamm(self.eec_diet_mamm, self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r,
                                                  a_i, 240, h_l, self.fi_mamm, bw_herp_a_lg, c_mamm_a, 0.8)
-        self.ARQ_dose_HM_md = self.ARQ_dose_mamm(self.EEC_dose_mamm, self.EEC_diet_mamm, self.EEC_diet, bw_herp_a_md,
+        self.arq_dose_hm_md = self.arq_dose_mamm(self.eec_dose_mamm, self.eec_diet_mamm, self.eec_diet, bw_herp_a_md,
                                                  self.fi_herp, self.at_bird, avian_ld50, bw_avian_ld50,
-                                                 mineau_scaling_factor, c_mamm_a, 0.8, self.C_0, self.C_t, n_a, i_a,
+                                                 mineau_scaling_factor, c_mamm_a, 0.8, self.c_0, self.c_t, n_a, i_a,
                                                  a_r, a_i, 240, h_l, self.fi_mamm)
-        self.ARQ_dose_HM_lg = self.ARQ_dose_mamm(self.EEC_dose_mamm, self.EEC_diet_mamm, self.EEC_diet, bw_herp_a_lg,
+        self.arq_dose_hm_lg = self.arq_dose_mamm(self.eec_dose_mamm, self.eec_diet_mamm, self.eec_diet, bw_herp_a_lg,
                                                  self.fi_herp, self.at_bird, avian_ld50, bw_avian_ld50,
-                                                 mineau_scaling_factor, c_mamm_a, 0.8, self.C_0, self.C_t, n_a, i_a,
+                                                 mineau_scaling_factor, c_mamm_a, 0.8, self.c_0, self.c_t, n_a, i_a,
                                                  a_r, a_i, 240, h_l, self.fi_mamm)
 
-        self.EEC_dose_IM_md = self.EEC_dose_mamm(self.EEC_diet_mamm, self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r,
+        self.eec_dose_im_md = self.eec_dose_mamm(self.eec_diet_mamm, self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r,
                                                  a_i, 15, h_l, self.fi_mamm, bw_herp_a_md, c_mamm_a, 0.8)
-        self.EEC_dose_IM_lg = self.EEC_dose_mamm(self.EEC_diet_mamm, self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r,
+        self.eec_dose_im_lg = self.eec_dose_mamm(self.eec_diet_mamm, self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r,
                                                  a_i, 15, h_l, self.fi_mamm, bw_herp_a_lg, c_mamm_a, 0.8)
-        self.ARQ_dose_IM_md = self.ARQ_dose_mamm(self.EEC_dose_mamm, self.EEC_diet_mamm, self.EEC_diet, bw_herp_a_md,
+        self.arq_dose_im_md = self.arq_dose_mamm(self.eec_dose_mamm, self.eec_diet_mamm, self.eec_diet, bw_herp_a_md,
                                                  self.fi_herp, self.at_bird, avian_ld50, bw_avian_ld50,
-                                                 mineau_scaling_factor, c_mamm_a, 0.8, self.C_0, self.C_t, n_a, i_a,
+                                                 mineau_scaling_factor, c_mamm_a, 0.8, self.c_0, self.c_t, n_a, i_a,
                                                  a_r, a_i, 15, h_l, self.fi_mamm)
-        self.ARQ_dose_IM_lg = self.ARQ_dose_mamm(self.EEC_dose_mamm, self.EEC_diet_mamm, self.EEC_diet, bw_herp_a_lg,
+        self.arq_dose_im_lg = self.arq_dose_mamm(self.eec_dose_mamm, self.eec_diet_mamm, self.eec_diet, bw_herp_a_lg,
                                                  self.fi_herp, self.at_bird, avian_ld50, bw_avian_ld50,
-                                                 mineau_scaling_factor, c_mamm_a, 0.8, self.C_0, self.C_t, n_a, i_a,
+                                                 mineau_scaling_factor, c_mamm_a, 0.8, self.c_0, self.c_t, n_a, i_a,
                                                  a_r, a_i, 15, h_l, self.fi_mamm)
 
-        self.EEC_dose_TP_md = self.EEC_dose_tp(self.EEC_diet_tp, self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r, a_i,
+        self.eec_dose_tp_md = self.eec_dose_tp(self.eec_diet_tp, self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r, a_i,
                                                135, h_l, self.fi_herp, bw_herp_a_md, c_herp_a, wp_herp_a_sm,
                                                wp_herp_a_md)
-        self.EEC_dose_TP_lg = self.EEC_dose_tp(self.EEC_diet_tp, self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r, a_i,
+        self.eec_dose_tp_lg = self.eec_dose_tp(self.eec_diet_tp, self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r, a_i,
                                                135, h_l, self.fi_herp, bw_herp_a_lg, c_herp_a, wp_herp_a_sm,
                                                wp_herp_a_md)
-        self.ARQ_dose_TP_md = self.ARQ_dose_tp(self.EEC_dose_tp, self.EEC_diet_tp, self.EEC_diet, self.C_0, self.C_t,
+        self.arq_dose_tp_md = self.arq_dose_tp(self.eec_dose_tp, self.eec_diet_tp, self.eec_diet, self.c_0, self.c_t,
                                                n_a, i_a, a_r, a_i, 135, h_l, self.fi_herp, c_herp_a, wp_herp_a_sm,
                                                wp_herp_a_md, self.at_bird, avian_ld50, bw_herp_a_md, bw_avian_ld50,
                                                mineau_scaling_factor)
-        self.ARQ_dose_TP_lg = self.ARQ_dose_tp(self.EEC_dose_tp, self.EEC_diet_tp, self.EEC_diet, self.C_0, self.C_t,
+        self.arq_dose_tp_lg = self.arq_dose_tp(self.eec_dose_tp, self.eec_diet_tp, self.eec_diet, self.c_0, self.c_t,
                                                n_a, i_a, a_r, a_i, 135, h_l, self.fi_herp, c_herp_a, wp_herp_a_sm,
                                                wp_herp_a_md, self.at_bird, avian_ld50, bw_herp_a_lg, bw_avian_ld50,
                                                mineau_scaling_factor)
 
         # Table 6
-        self.EEC_diet_herp_BL = self.EEC_diet(self.C_0, self.C_t, n_a, i_a, a_r, a_i, 135, h_l)
-        self.EEC_ARQ_herp_BL = self.ARQ_diet_herp(self.EEC_diet, avian_lc50, self.C_0, self.C_t, n_a, i_a, a_r, a_i,
+        self.eec_diet_herp_bl = self.eec_diet(self.c_0, self.c_t, n_a, i_a, a_r, a_i, 135, h_l)
+        self.eec_arq_herp_bl = self.arq_diet_herp(self.eec_diet, avian_lc50, self.c_0, self.c_t, n_a, i_a, a_r, a_i,
                                                   135, h_l)
-        self.EEC_diet_herp_FR = self.EEC_diet(self.C_0, self.C_t, n_a, i_a, a_r, a_i, 15, h_l)
-        self.EEC_ARQ_herp_FR = self.ARQ_diet_herp(self.EEC_diet, avian_lc50, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 15,
+        self.eec_diet_herp_fr = self.eec_diet(self.c_0, self.c_t, n_a, i_a, a_r, a_i, 15, h_l)
+        self.eec_arq_herp_fr = self.arq_diet_herp(self.eec_diet, avian_lc50, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 15,
                                                   h_l)
-        self.EEC_diet_herp_HM = self.EEC_diet_mamm(self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 240, h_l,
+        self.eec_diet_herp_hm = self.eec_diet_mamm(self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 240, h_l,
                                                    self.fi_mamm, c_mamm_a, 0.8)
-        self.EEC_ARQ_herp_HM = self.ARQ_diet_mamm(self.EEC_diet_mamm, self.EEC_diet, avian_lc50, self.C_0, self.C_t,
+        self.eec_arq_herp_hm = self.arq_diet_mamm(self.eec_diet_mamm, self.eec_diet, avian_lc50, self.c_0, self.c_t,
                                                   n_a, i_a, a_r, a_i, 240, h_l, self.fi_mamm, c_mamm_a, 0.8)
-        self.EEC_diet_herp_IM = self.EEC_diet_mamm(self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 15, h_l,
+        self.eec_diet_herp_im = self.eec_diet_mamm(self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 15, h_l,
                                                    self.fi_mamm, c_mamm_a, 0.8)
-        self.EEC_ARQ_herp_IM = self.ARQ_diet_mamm(self.EEC_diet_mamm, self.EEC_diet, avian_lc50, self.C_0, self.C_t,
+        self.eec_arq_herp_im = self.arq_diet_mamm(self.eec_diet_mamm, self.eec_diet, avian_lc50, self.c_0, self.c_t,
                                                   n_a, i_a, a_r, a_i, 15, h_l, self.fi_mamm, c_mamm_a, 0.8)
-        self.EEC_diet_herp_TP = self.EEC_diet_tp(self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 135, h_l,
+        self.eec_diet_herp_tp = self.eec_diet_tp(self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 135, h_l,
                                                  self.fi_herp, c_herp_a, wp_herp_a_sm)
-        self.EEC_ARQ_herp_TP = self.ARQ_diet_tp(self.EEC_diet_tp, self.EEC_diet, avian_lc50, self.C_0, self.C_t, n_a,
+        self.eec_arq_herp_tp = self.arq_diet_tp(self.eec_diet_tp, self.eec_diet, avian_lc50, self.c_0, self.c_t, n_a,
                                                 i_a, a_r, a_i, 135, h_l, self.fi_herp, c_herp_a, wp_herp_a_sm)
 
         # Table 7
-        self.EEC_diet_herp_BL = self.EEC_diet(self.C_0, self.C_t, n_a, i_a, a_r, a_i, 135, h_l)
-        self.EEC_CRQ_herp_BL = self.CRQ_diet_herp(self.EEC_diet, avian_NOAEC, self.C_0, self.C_t, n_a, i_a, a_r, a_i,
+        self.eec_diet_herp_bl = self.eec_diet(self.c_0, self.c_t, n_a, i_a, a_r, a_i, 135, h_l)
+        self.eec_crq_herp_bl = self.crq_diet_herp(self.eec_diet, avian_noaec, self.c_0, self.c_t, n_a, i_a, a_r, a_i,
                                                   135, h_l)
-        self.EEC_diet_herp_FR = self.EEC_diet(self.C_0, self.C_t, n_a, i_a, a_r, a_i, 15, h_l)
-        self.EEC_CRQ_herp_FR = self.CRQ_diet_herp(self.EEC_diet, avian_NOAEC, self.C_0, self.C_t, n_a, i_a, a_r, a_i,
+        self.eec_diet_herp_fr = self.eec_diet(self.c_0, self.c_t, n_a, i_a, a_r, a_i, 15, h_l)
+        self.eec_crq_herp_fr = self.crq_diet_herp(self.eec_diet, avian_noaec, self.c_0, self.c_t, n_a, i_a, a_r, a_i,
                                                   15, h_l)
-        self.EEC_diet_herp_HM = self.EEC_diet_mamm(self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 240, h_l,
+        self.eec_diet_herp_hm = self.eec_diet_mamm(self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 240, h_l,
                                                    self.fi_mamm, c_mamm_a, 0.8)
-        self.EEC_CRQ_herp_HM = self.CRQ_diet_mamm(self.EEC_diet_mamm, self.EEC_diet, avian_NOAEC, self.C_0, self.C_t,
+        self.eec_crq_herp_hm = self.crq_diet_mamm(self.eec_diet_mamm, self.eec_diet, avian_noaec, self.c_0, self.c_t,
                                                   n_a, i_a, a_r, a_i, 240, h_l, self.fi_mamm, c_mamm_a, 0.8)
-        self.EEC_diet_herp_IM = self.EEC_diet_mamm(self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 15, h_l,
+        self.eec_diet_herp_im = self.eec_diet_mamm(self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 15, h_l,
                                                    self.fi_mamm, c_mamm_a, 0.8)
-        self.EEC_CRQ_herp_IM = self.CRQ_diet_mamm(self.EEC_diet_mamm, self.EEC_diet, avian_NOAEC, self.C_0, self.C_t,
+        self.eec_crq_herp_im = self.crq_diet_mamm(self.eec_diet_mamm, self.eec_diet, avian_noaec, self.c_0, self.c_t,
                                                   n_a, i_a, a_r, a_i, 15, h_l, self.fi_mamm, c_mamm_a, 0.8)
-        self.EEC_diet_herp_TP = self.EEC_diet_tp(self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 135, h_l,
+        self.eec_diet_herp_tp = self.eec_diet_tp(self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 135, h_l,
                                                  self.fi_herp, c_herp_a, wp_herp_a_sm)
-        self.EEC_CRQ_herp_TP = self.CRQ_diet_tp(self.EEC_diet_tp, self.EEC_diet, avian_NOAEC, self.C_0, self.C_t, n_a,
+        self.eec_crq_herp_tp = self.crq_diet_tp(self.eec_diet_tp, self.eec_diet, avian_noaec, self.c_0, self.c_t, n_a,
                                                 i_a, a_r, a_i, 135, h_l, self.fi_herp, c_herp_a, wp_herp_a_sm)
 
         # Table 8
-        self.EEC_dose_BP_sm_mean = self.EEC_dose_herp(self.EEC_diet, bw_herp_a_sm, self.fi_herp, wp_herp_a_sm, self.C_0,
-                                                      self.C_t, n_a, i_a, a_r, a_i, 45, h_l)
-        self.EEC_dose_BP_md_mean = self.EEC_dose_herp(self.EEC_diet, bw_herp_a_md, self.fi_herp, wp_herp_a_md, self.C_0,
-                                                      self.C_t, n_a, i_a, a_r, a_i, 45, h_l)
-        self.EEC_dose_BP_lg_mean = self.EEC_dose_herp(self.EEC_diet, bw_herp_a_lg, self.fi_herp, wp_herp_a_lg, self.C_0,
-                                                      self.C_t, n_a, i_a, a_r, a_i, 45, h_l)
-        self.ARQ_dose_BP_sm_mean = self.ARQ_dose_herp(self.EEC_dose_herp, self.EEC_diet, bw_herp_a_sm, self.fi_herp,
+        self.eec_dose_bp_sm_mean = self.eec_dose_herp(self.eec_diet, bw_herp_a_sm, self.fi_herp, wp_herp_a_sm, self.c_0,
+                                                      self.c_t, n_a, i_a, a_r, a_i, 45, h_l)
+        self.eec_dose_bp_md_mean = self.eec_dose_herp(self.eec_diet, bw_herp_a_md, self.fi_herp, wp_herp_a_md, self.c_0,
+                                                      self.c_t, n_a, i_a, a_r, a_i, 45, h_l)
+        self.eec_dose_bp_lg_mean = self.eec_dose_herp(self.eec_diet, bw_herp_a_lg, self.fi_herp, wp_herp_a_lg, self.c_0,
+                                                      self.c_t, n_a, i_a, a_r, a_i, 45, h_l)
+        self.arq_dose_bp_sm_mean = self.arq_dose_herp(self.eec_dose_herp, self.eec_diet, bw_herp_a_sm, self.fi_herp,
                                                       self.at_bird, avian_ld50, bw_avian_ld50, mineau_scaling_factor,
-                                                      wp_herp_a_sm, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 45, h_l)
-        self.ARQ_dose_BP_md_mean = self.ARQ_dose_herp(self.EEC_dose_herp, self.EEC_diet, bw_herp_a_md, self.fi_herp,
+                                                      wp_herp_a_sm, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 45, h_l)
+        self.arq_dose_bp_md_mean = self.arq_dose_herp(self.eec_dose_herp, self.eec_diet, bw_herp_a_md, self.fi_herp,
                                                       self.at_bird, avian_ld50, bw_avian_ld50, mineau_scaling_factor,
-                                                      wp_herp_a_md, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 45, h_l)
-        self.ARQ_dose_BP_lg_mean = self.ARQ_dose_herp(self.EEC_dose_herp, self.EEC_diet, bw_herp_a_lg, self.fi_herp,
+                                                      wp_herp_a_md, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 45, h_l)
+        self.arq_dose_bp_lg_mean = self.arq_dose_herp(self.eec_dose_herp, self.eec_diet, bw_herp_a_lg, self.fi_herp,
                                                       self.at_bird, avian_ld50, bw_avian_ld50, mineau_scaling_factor,
-                                                      wp_herp_a_lg, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 45, h_l)
+                                                      wp_herp_a_lg, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 45, h_l)
 
-        self.EEC_dose_FR_sm_mean = self.EEC_dose_herp(self.EEC_diet, bw_herp_a_sm, self.fi_herp, wp_herp_a_sm, self.C_0,
-                                                      self.C_t, n_a, i_a, a_r, a_i, 7, h_l)
-        self.EEC_dose_FR_md_mean = self.EEC_dose_herp(self.EEC_diet, bw_herp_a_md, self.fi_herp, wp_herp_a_md, self.C_0,
-                                                      self.C_t, n_a, i_a, a_r, a_i, 7, h_l)
-        self.EEC_dose_FR_lg_mean = self.EEC_dose_herp(self.EEC_diet, bw_herp_a_lg, self.fi_herp, wp_herp_a_lg, self.C_0,
-                                                      self.C_t, n_a, i_a, a_r, a_i, 7, h_l)
-        self.ARQ_dose_FR_sm_mean = self.ARQ_dose_herp(self.EEC_dose_herp, self.EEC_diet, bw_herp_a_sm, self.fi_herp,
+        self.eec_dose_fr_sm_mean = self.eec_dose_herp(self.eec_diet, bw_herp_a_sm, self.fi_herp, wp_herp_a_sm, self.c_0,
+                                                      self.c_t, n_a, i_a, a_r, a_i, 7, h_l)
+        self.eec_dose_fr_md_mean = self.eec_dose_herp(self.eec_diet, bw_herp_a_md, self.fi_herp, wp_herp_a_md, self.c_0,
+                                                      self.c_t, n_a, i_a, a_r, a_i, 7, h_l)
+        self.eec_dose_fr_lg_mean = self.eec_dose_herp(self.eec_diet, bw_herp_a_lg, self.fi_herp, wp_herp_a_lg, self.c_0,
+                                                      self.c_t, n_a, i_a, a_r, a_i, 7, h_l)
+        self.arq_dose_fr_sm_mean = self.arq_dose_herp(self.eec_dose_herp, self.eec_diet, bw_herp_a_sm, self.fi_herp,
                                                       self.at_bird, avian_ld50, bw_avian_ld50, mineau_scaling_factor,
-                                                      wp_herp_a_sm, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 7, h_l)
-        self.ARQ_dose_FR_md_mean = self.ARQ_dose_herp(self.EEC_dose_herp, self.EEC_diet, bw_herp_a_md, self.fi_herp,
+                                                      wp_herp_a_sm, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 7, h_l)
+        self.arq_dose_fr_md_mean = self.arq_dose_herp(self.eec_dose_herp, self.eec_diet, bw_herp_a_md, self.fi_herp,
                                                       self.at_bird, avian_ld50, bw_avian_ld50, mineau_scaling_factor,
-                                                      wp_herp_a_md, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 7, h_l)
-        self.ARQ_dose_FR_lg_mean = self.ARQ_dose_herp(self.EEC_dose_herp, self.EEC_diet, bw_herp_a_lg, self.fi_herp,
+                                                      wp_herp_a_md, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 7, h_l)
+        self.arq_dose_fr_lg_mean = self.arq_dose_herp(self.eec_dose_herp, self.eec_diet, bw_herp_a_lg, self.fi_herp,
                                                       self.at_bird, avian_ld50, bw_avian_ld50, mineau_scaling_factor,
-                                                      wp_herp_a_lg, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 7, h_l)
+                                                      wp_herp_a_lg, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 7, h_l)
 
-        self.EEC_dose_HM_md_mean = self.EEC_dose_mamm(self.EEC_diet_mamm, self.EEC_diet, self.C_0, self.C_t, n_a, i_a,
+        self.eec_dose_hm_md_mean = self.eec_dose_mamm(self.eec_diet_mamm, self.eec_diet, self.c_0, self.c_t, n_a, i_a,
                                                       a_r, a_i, 85, h_l, self.fi_mamm, bw_herp_a_md, c_mamm_a, 0.8)
-        self.EEC_dose_HM_lg_mean = self.EEC_dose_mamm(self.EEC_diet_mamm, self.EEC_diet, self.C_0, self.C_t, n_a, i_a,
+        self.eec_dose_hm_lg_mean = self.eec_dose_mamm(self.eec_diet_mamm, self.eec_diet, self.c_0, self.c_t, n_a, i_a,
                                                       a_r, a_i, 85, h_l, self.fi_mamm, bw_herp_a_lg, c_mamm_a, 0.8)
-        self.ARQ_dose_HM_md_mean = self.ARQ_dose_mamm(self.EEC_dose_mamm, self.EEC_diet_mamm, self.EEC_diet,
+        self.arq_dose_hm_md_mean = self.arq_dose_mamm(self.eec_dose_mamm, self.eec_diet_mamm, self.eec_diet,
                                                       bw_herp_a_md, self.fi_herp, self.at_bird, avian_ld50,
-                                                      bw_avian_ld50, mineau_scaling_factor, c_mamm_a, 0.8, self.C_0,
-                                                      self.C_t, n_a, i_a, a_r, a_i, 85, h_l, self.fi_mamm)
-        self.ARQ_dose_HM_lg_mean = self.ARQ_dose_mamm(self.EEC_dose_mamm, self.EEC_diet_mamm, self.EEC_diet,
+                                                      bw_avian_ld50, mineau_scaling_factor, c_mamm_a, 0.8, self.c_0,
+                                                      self.c_t, n_a, i_a, a_r, a_i, 85, h_l, self.fi_mamm)
+        self.arq_dose_hm_lg_mean = self.arq_dose_mamm(self.eec_dose_mamm, self.eec_diet_mamm, self.eec_diet,
                                                       bw_herp_a_lg, self.fi_herp, self.at_bird, avian_ld50,
-                                                      bw_avian_ld50, mineau_scaling_factor, c_mamm_a, 0.8, self.C_0,
-                                                      self.C_t, n_a, i_a, a_r, a_i, 85, h_l, self.fi_mamm)
+                                                      bw_avian_ld50, mineau_scaling_factor, c_mamm_a, 0.8, self.c_0,
+                                                      self.c_t, n_a, i_a, a_r, a_i, 85, h_l, self.fi_mamm)
 
-        self.EEC_dose_IM_md_mean = self.EEC_dose_mamm(self.EEC_diet_mamm, self.EEC_diet, self.C_0, self.C_t, n_a, i_a,
+        self.eec_dose_im_md_mean = self.eec_dose_mamm(self.eec_diet_mamm, self.eec_diet, self.c_0, self.c_t, n_a, i_a,
                                                       a_r, a_i, 7, h_l, self.fi_mamm, bw_herp_a_md, c_mamm_a, 0.8)
-        self.EEC_dose_IM_lg_mean = self.EEC_dose_mamm(self.EEC_diet_mamm, self.EEC_diet, self.C_0, self.C_t, n_a, i_a,
+        self.eec_dose_im_lg_mean = self.eec_dose_mamm(self.eec_diet_mamm, self.eec_diet, self.c_0, self.c_t, n_a, i_a,
                                                       a_r, a_i, 7, h_l, self.fi_mamm, bw_herp_a_lg, c_mamm_a, 0.8)
-        self.ARQ_dose_IM_md_mean = self.ARQ_dose_mamm(self.EEC_dose_mamm, self.EEC_diet_mamm, self.EEC_diet,
+        self.arq_dose_im_md_mean = self.arq_dose_mamm(self.eec_dose_mamm, self.eec_diet_mamm, self.eec_diet,
                                                       bw_herp_a_md, self.fi_herp, self.at_bird, avian_ld50,
-                                                      bw_avian_ld50, mineau_scaling_factor, c_mamm_a, 0.8, self.C_0,
-                                                      self.C_t, n_a, i_a, a_r, a_i, 7, h_l, self.fi_mamm)
-        self.ARQ_dose_IM_lg_mean = self.ARQ_dose_mamm(self.EEC_dose_mamm, self.EEC_diet_mamm, self.EEC_diet,
+                                                      bw_avian_ld50, mineau_scaling_factor, c_mamm_a, 0.8, self.c_0,
+                                                      self.c_t, n_a, i_a, a_r, a_i, 7, h_l, self.fi_mamm)
+        self.arq_dose_im_lg_mean = self.arq_dose_mamm(self.eec_dose_mamm, self.eec_diet_mamm, self.eec_diet,
                                                       bw_herp_a_lg, self.fi_herp, self.at_bird, avian_ld50,
-                                                      bw_avian_ld50, mineau_scaling_factor, c_mamm_a, 0.8, self.C_0,
-                                                      self.C_t, n_a, i_a, a_r, a_i, 7, h_l, self.fi_mamm)
+                                                      bw_avian_ld50, mineau_scaling_factor, c_mamm_a, 0.8, self.c_0,
+                                                      self.c_t, n_a, i_a, a_r, a_i, 7, h_l, self.fi_mamm)
 
-        self.EEC_dose_TP_md_mean = self.EEC_dose_tp(self.EEC_diet_tp, self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r,
+        self.eec_dose_tp_md_mean = self.eec_dose_tp(self.eec_diet_tp, self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r,
                                                     a_i, 45, h_l, self.fi_herp, bw_herp_a_md, c_herp_a, wp_herp_a_sm,
                                                     wp_herp_a_md)
-        self.EEC_dose_TP_lg_mean = self.EEC_dose_tp(self.EEC_diet_tp, self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r,
+        self.eec_dose_tp_lg_mean = self.eec_dose_tp(self.eec_diet_tp, self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r,
                                                     a_i, 45, h_l, self.fi_herp, bw_herp_a_lg, c_herp_a, wp_herp_a_sm,
                                                     wp_herp_a_md)
-        self.ARQ_dose_TP_md_mean = self.ARQ_dose_tp(self.EEC_dose_tp, self.EEC_diet_tp, self.EEC_diet, self.C_0,
-                                                    self.C_t, n_a, i_a, a_r, a_i, 45, h_l, self.fi_herp, c_herp_a,
+        self.arq_dose_tp_md_mean = self.arq_dose_tp(self.eec_dose_tp, self.eec_diet_tp, self.eec_diet, self.c_0,
+                                                    self.c_t, n_a, i_a, a_r, a_i, 45, h_l, self.fi_herp, c_herp_a,
                                                     wp_herp_a_sm, wp_herp_a_md, self.at_bird, avian_ld50, bw_herp_a_md,
                                                     bw_avian_ld50, mineau_scaling_factor)
-        self.ARQ_dose_TP_lg_mean = self.ARQ_dose_tp(self.EEC_dose_tp, self.EEC_diet_tp, self.EEC_diet, self.C_0,
-                                                    self.C_t, n_a, i_a, a_r, a_i, 45, h_l, self.fi_herp, c_herp_a,
+        self.arq_dose_tp_lg_mean = self.arq_dose_tp(self.eec_dose_tp, self.eec_diet_tp, self.eec_diet, self.c_0,
+                                                    self.c_t, n_a, i_a, a_r, a_i, 45, h_l, self.fi_herp, c_herp_a,
                                                     wp_herp_a_sm, wp_herp_a_md, self.at_bird, avian_ld50, bw_herp_a_lg,
                                                     bw_avian_ld50, mineau_scaling_factor)
 
         # Table 9
-        self.EEC_diet_herp_BL_mean = self.EEC_diet(self.C_0, self.C_t, n_a, i_a, a_r, a_i, 45, h_l)
-        self.EEC_ARQ_herp_BL_mean = self.ARQ_diet_herp(self.EEC_diet, avian_lc50, self.C_0, self.C_t, n_a, i_a, a_r,
+        self.eec_diet_herp_bl_mean = self.eec_diet(self.c_0, self.c_t, n_a, i_a, a_r, a_i, 45, h_l)
+        self.eec_arq_herp_bl_mean = self.arq_diet_herp(self.eec_diet, avian_lc50, self.c_0, self.c_t, n_a, i_a, a_r,
                                                        a_i, 45, h_l)
-        self.EEC_diet_herp_FR_mean = self.EEC_diet(self.C_0, self.C_t, n_a, i_a, a_r, a_i, 7, h_l)
-        self.EEC_ARQ_herp_FR_mean = self.ARQ_diet_herp(self.EEC_diet, avian_lc50, self.C_0, self.C_t, n_a, i_a, a_r,
+        self.eec_diet_herp_fr_mean = self.eec_diet(self.c_0, self.c_t, n_a, i_a, a_r, a_i, 7, h_l)
+        self.eec_arq_herp_fr_mean = self.arq_diet_herp(self.eec_diet, avian_lc50, self.c_0, self.c_t, n_a, i_a, a_r,
                                                        a_i, 7, h_l)
-        self.EEC_diet_herp_HM_mean = self.EEC_diet_mamm(self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 85, h_l,
+        self.eec_diet_herp_hm_mean = self.eec_diet_mamm(self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 85, h_l,
                                                         self.fi_mamm, c_mamm_a, 0.8)
-        self.EEC_ARQ_herp_HM_mean = self.ARQ_diet_mamm(self.EEC_diet_mamm, self.EEC_diet, avian_lc50, self.C_0,
-                                                       self.C_t, n_a, i_a, a_r, a_i, 85, h_l, self.fi_mamm, c_mamm_a,
+        self.eec_arq_herp_hm_mean = self.arq_diet_mamm(self.eec_diet_mamm, self.eec_diet, avian_lc50, self.c_0,
+                                                       self.c_t, n_a, i_a, a_r, a_i, 85, h_l, self.fi_mamm, c_mamm_a,
                                                        0.8)
-        self.EEC_diet_herp_IM_mean = self.EEC_diet_mamm(self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 7, h_l,
+        self.eec_diet_herp_im_mean = self.eec_diet_mamm(self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 7, h_l,
                                                         self.fi_mamm, c_mamm_a, 0.8)
-        self.EEC_ARQ_herp_IM_mean = self.ARQ_diet_mamm(self.EEC_diet_mamm, self.EEC_diet, avian_lc50, self.C_0,
-                                                       self.C_t, n_a, i_a, a_r, a_i, 7, h_l, self.fi_mamm, c_mamm_a,
+        self.eec_arq_herp_im_mean = self.arq_diet_mamm(self.eec_diet_mamm, self.eec_diet, avian_lc50, self.c_0,
+                                                       self.c_t, n_a, i_a, a_r, a_i, 7, h_l, self.fi_mamm, c_mamm_a,
                                                        0.8)
-        self.EEC_diet_herp_TP_mean = self.EEC_diet_tp(self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 45, h_l,
+        self.eec_diet_herp_tp_mean = self.eec_diet_tp(self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 45, h_l,
                                                       self.fi_herp, c_herp_a, wp_herp_a_sm)
-        self.EEC_ARQ_herp_TP_mean = self.ARQ_diet_tp(self.EEC_diet_tp, self.EEC_diet, avian_lc50, self.C_0, self.C_t,
+        self.eec_arq_herp_tp_mean = self.arq_diet_tp(self.eec_diet_tp, self.eec_diet, avian_lc50, self.c_0, self.c_t,
                                                      n_a, i_a, a_r, a_i, 45, h_l, self.fi_herp, c_herp_a, wp_herp_a_sm)
 
         # Table 10
-        self.EEC_diet_herp_BL_mean = self.EEC_diet(self.C_0, self.C_t, n_a, i_a, a_r, a_i, 45, h_l)
-        self.EEC_CRQ_herp_BL_mean = self.CRQ_diet_herp(self.EEC_diet, avian_NOAEC, self.C_0, self.C_t, n_a, i_a, a_r,
+        self.eec_diet_herp_bl_mean = self.eec_diet(self.c_0, self.c_t, n_a, i_a, a_r, a_i, 45, h_l)
+        self.eec_crq_herp_bl_mean = self.crq_diet_herp(self.eec_diet, avian_noaec, self.c_0, self.c_t, n_a, i_a, a_r,
                                                        a_i, 45, h_l)
-        self.EEC_diet_herp_FR_mean = self.EEC_diet(self.C_0, self.C_t, n_a, i_a, a_r, a_i, 7, h_l)
-        self.EEC_CRQ_herp_FR_mean = self.CRQ_diet_herp(self.EEC_diet, avian_NOAEC, self.C_0, self.C_t, n_a, i_a, a_r,
+        self.eec_diet_herp_fr_mean = self.eec_diet(self.c_0, self.c_t, n_a, i_a, a_r, a_i, 7, h_l)
+        self.eec_crq_herp_fr_mean = self.crq_diet_herp(self.eec_diet, avian_noaec, self.c_0, self.c_t, n_a, i_a, a_r,
                                                        a_i, 7, h_l)
-        self.EEC_diet_herp_HM_mean = self.EEC_diet_mamm(self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 85, h_l,
+        self.eec_diet_herp_hm_mean = self.eec_diet_mamm(self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 85, h_l,
                                                         self.fi_mamm, c_mamm_a, 0.8)
-        self.EEC_CRQ_herp_HM_mean = self.CRQ_diet_mamm(self.EEC_diet_mamm, self.EEC_diet, avian_NOAEC, self.C_0,
-                                                       self.C_t, n_a, i_a, a_r, a_i, 85, h_l, self.fi_mamm, c_mamm_a,
+        self.eec_crq_herp_hm_mean = self.crq_diet_mamm(self.eec_diet_mamm, self.eec_diet, avian_noaec, self.c_0,
+                                                       self.c_t, n_a, i_a, a_r, a_i, 85, h_l, self.fi_mamm, c_mamm_a,
                                                        0.8)
-        self.EEC_diet_herp_IM_mean = self.EEC_diet_mamm(self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 7, h_l,
+        self.eec_diet_herp_im_mean = self.eec_diet_mamm(self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 7, h_l,
                                                         self.fi_mamm, c_mamm_a, 0.8)
-        self.EEC_CRQ_herp_IM_mean = self.CRQ_diet_mamm(self.EEC_diet_mamm, self.EEC_diet, avian_NOAEC, self.C_0,
-                                                       self.C_t, n_a, i_a, a_r, a_i, 7, h_l, self.fi_mamm, c_mamm_a,
+        self.eec_crq_herp_im_mean = self.crq_diet_mamm(self.eec_diet_mamm, self.eec_diet, avian_noaec, self.c_0,
+                                                       self.c_t, n_a, i_a, a_r, a_i, 7, h_l, self.fi_mamm, c_mamm_a,
                                                        0.8)
-        self.EEC_diet_herp_TP_mean = self.EEC_diet_tp(self.EEC_diet, self.C_0, self.C_t, n_a, i_a, a_r, a_i, 45, h_l,
+        self.eec_diet_herp_tp_mean = self.eec_diet_tp(self.eec_diet, self.c_0, self.c_t, n_a, i_a, a_r, a_i, 45, h_l,
                                                       self.fi_herp, c_herp_a, wp_herp_a_sm)
-        self.EEC_CRQ_herp_TP_mean = self.CRQ_diet_tp(self.EEC_diet_tp, self.EEC_diet, avian_NOAEC, self.C_0, self.C_t,
+        self.eec_crq_herp_tp_mean = self.crq_diet_tp(self.eec_diet_tp, self.eec_diet, avian_noaec, self.c_0, self.c_t,
                                                      n_a, i_a, a_r, a_i, 45, h_l, self.fi_herp, c_herp_a, wp_herp_a_sm)
 
     def fi_herp(self, aw_herp, mf_w_herp):
@@ -461,25 +461,25 @@ class therps(object):
                 ('tw_mamm=%g is a non-physical value.' % tw_mamm)
         return (ld50_mamm) * ((tw_mamm / aw_mamm) ** (0.25))
 
-    def ANOAEL_mamm(NOAEL_mamm, aw_mamm, tw_mamm):
+    def Anoael_mamm(noael_mamm, aw_mamm, tw_mamm):
         """
-        Adjusted chronic toxicity (NOAEL) value for mammals
+        adjusted chronic toxicity (noael) value for mammals
         :param aw_mamm:
         :param tw_mamm:
         :return:
         """
         try:
-            NOAEL_mamm = float(NOAEL_mamm)
+            noael_mamm = float(noael_mamm)
             aw_mamm = float(aw_mamm)
             tw_mamm = float(tw_mamm)
         except IndexError:
             raise IndexError \
-                ('The NOAEL, body weight of assessed mammal, and body weight of tested' \
+                ('The noael, body weight of assessed mammal, and body weight of tested' \
                  ' mammal must be supplied on' \
                  ' the command line.')
         except ValueError:
             raise ValueError \
-                ('The NOAEL must be a real number, not "%mg/kg"' % NOAEL_mamm)
+                ('The noael must be a real number, not "%mg/kg"' % noael_mamm)
         except ValueError:
             raise ValueError \
                 ('The body weight of assessed mammals must be a real number, not "%g"' % aw_mamm)
@@ -489,18 +489,18 @@ class therps(object):
         except ZeroDivisionError:
             raise ZeroDivisionError \
                 ('The body weight of tested mammals must be non-zero.')
-        if NOAEL_mamm < 0:
+        if noael_mamm < 0:
             raise ValueError \
-                ('NOAEL_mamm=%g is a non-physical value.' % NOAEL_mamm)
+                ('noael_mamm=%g is a non-physical value.' % noael_mamm)
         if aw_mamm < 0:
             raise ValueError \
                 ('aw_mamm=%g is a non-physical value.' % aw_mamm)
         if tw_mamm < 0:
             raise ValueError \
                 ('tw_mamm=%g is a non-physical value.' % tw_mamm)
-        return (NOAEL_mamm) * ((tw_mamm / aw_mamm) ** (0.25))
+        return (noael_mamm) * ((tw_mamm / aw_mamm) ** (0.25))
 
-    def C_0(self, a_r, a_i, para):
+    def c_0(self, a_r, a_i, para):
         """
         Initial concentration
         :param a_r:
@@ -529,7 +529,7 @@ class therps(object):
                 ('The percentage of active ingredient=%g is a non-physical value.' % a_i)
         return (a_r * a_i * para)
 
-    def C_t(self, C_ini, h_l):
+    def c_t(self, C_ini, h_l):
         """
         Concentration over time
         :param C_ini:
@@ -550,11 +550,11 @@ class therps(object):
                 ('The foliar dissipation half life=%g is a non-physical value.' % h_l)
         return (C_ini * np.exp(-(np.log(2) / h_l) * 1))
 
-    def EEC_diet(self, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l):
+    def eec_diet(self, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l):
         """
-        Dietary based EECs
-        :param C_0:
-        :param C_t:
+        Dietary based eecs
+        :param c_0:
+        :param c_t:
         :param n_a:
         :param i_a:
         :param a_r:
@@ -563,7 +563,7 @@ class therps(object):
         :param h_l:
         :return:
         """
-        C_0 = C_0(a_r, a_i, para)
+        c_0 = c_0(a_r, a_i, para)
         try:
             n_a = float(n_a)
             i_a = float(i_a)
@@ -587,8 +587,8 @@ class therps(object):
             raise ValueError \
                 ('The schduled application=%g is over the modeling period (1 year).' % i_a * n_a)
 
-            # C_temp=[1.0]*365 #empty array to hold the concentrations over days
-        C_temp = np.ones((365, 1))  # empty array to hold the concentrations over days
+            # c_temp=[1.0]*365 #empty array to hold the concentrations over days
+        c_temp = np.ones((365, 1))  # empty array to hold the concentrations over days
         a_p_temp = 0  # application period temp
         n_a_temp = 0  # number of existed applications
 
@@ -596,24 +596,24 @@ class therps(object):
             if i == 0:
                 a_p_temp = 0
                 n_a_temp = n_a_temp + 1
-                C_temp[i] = C_0
+                c_temp[i] = c_0
             elif a_p_temp == (i_a - 1) and n_a_temp < n_a:
                 a_p_temp = 0
                 n_a_temp = n_a_temp + 1
-                C_temp[i] = C_t(C_temp[i - 1], h_l) + C_0
+                c_temp[i] = c_t(c_temp[i - 1], h_l) + c_0
             elif a_p_temp < (i_a - 1) and n_a_temp <= n_a:
                 a_p_temp = a_p_temp + 1
-                C_temp[i] = C_t(C_temp[i - 1], h_l)
+                c_temp[i] = c_t(c_temp[i - 1], h_l)
             else:
-                C_temp[i] = C_t(C_temp[i - 1], h_l)
-        return (max(C_temp))
+                c_temp[i] = c_t(c_temp[i - 1], h_l)
+        return (max(c_temp))
 
-    def EEC_diet_mamm(self, EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm, c_mamm, wp_mamm):
+    def eec_diet_mamm(self, eec_diet, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm, c_mamm, wp_mamm):
         """
-        Dietary_mammal based EECs
-        :param EEC_diet:
-        :param C_0:
-        :param C_t:
+        Dietary_mammal based eecs
+        :param eec_diet:
+        :param c_0:
+        :param c_t:
         :param n_a:
         :param i_a:
         :param a_r:
@@ -625,16 +625,16 @@ class therps(object):
         :param wp_mamm:
         :return:
         """
-        EEC_diet = EEC_diet(C_0, C_t, n_a, i_a, a_r, a_i, para, h_l)
+        eec_diet = eec_diet(c_0, c_t, n_a, i_a, a_r, a_i, para, h_l)
         fi_mamm = fi_mamm(c_mamm, wp_mamm)
-        return (EEC_diet * fi_mamm / (c_mamm))
+        return (eec_diet * fi_mamm / (c_mamm))
 
-    def EEC_diet_tp(self, EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp, wp_herp):
+    def eec_diet_tp(self, eec_diet, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp, wp_herp):
         """
-        Dietary terrestrial phase based EECs
-        :param EEC_diet:
-        :param C_0:
-        :param C_t:
+        Dietary terrestrial phase based eecs
+        :param eec_diet:
+        :param c_0:
+        :param c_t:
         :param n_a:
         :param i_a:
         :param a_r:
@@ -646,19 +646,19 @@ class therps(object):
         :param wp_herp:
         :return:
         """
-        EEC_diet = EEC_diet(C_0, C_t, n_a, i_a, a_r, a_i, para, h_l)
+        eec_diet = eec_diet(c_0, c_t, n_a, i_a, a_r, a_i, para, h_l)
         fi_herp = fi_herp(c_herp, wp_herp)
-        return (EEC_diet * fi_herp / (c_herp))
+        return (eec_diet * fi_herp / (c_herp))
 
-    def EEC_dose_herp(self, EEC_diet, bw_herp, fi_herp, wp_herp, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l):
+    def eec_dose_herp(self, eec_diet, bw_herp, fi_herp, wp_herp, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l):
         """
-        Amphibian Dose based EECs
-        :param EEC_diet:
+        Amphibian Dose based eecs
+        :param eec_diet:
         :param bw_herp:
         :param fi_herp:
         :param wp_herp:
-        :param C_0:
-        :param C_t:
+        :param c_0:
+        :param c_t:
         :param n_a:
         :param i_a:
         :param a_r:
@@ -668,17 +668,17 @@ class therps(object):
         :return:
         """
         fi_herp = fi_herp(bw_herp, wp_herp)
-        EEC_diet = EEC_diet(C_0, C_t, n_a, i_a, a_r, a_i, para, h_l)
-        return (EEC_diet * fi_herp / bw_herp)
+        eec_diet = eec_diet(c_0, c_t, n_a, i_a, a_r, a_i, para, h_l)
+        return (eec_diet * fi_herp / bw_herp)
 
-    def EEC_dose_mamm(self, EEC_diet_mamm, EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm, bw_herp, c_mamm,
+    def eec_dose_mamm(self, eec_diet_mamm, eec_diet, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm, bw_herp, c_mamm,
                       wp_mamm):
         """
-        Amphibian Dose based EECs for mammals
-        :param EEC_diet_mamm:
-        :param EEC_diet:
-        :param C_0:
-        :param C_t:
+        Amphibian Dose based eecs for mammals
+        :param eec_diet_mamm:
+        :param eec_diet:
+        :param c_0:
+        :param c_t:
         :param n_a:
         :param i_a:
         :param a_r:
@@ -691,17 +691,17 @@ class therps(object):
         :param wp_mamm:
         :return:
         """
-        EEC_diet_mamm = EEC_diet_mamm(EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm, c_mamm, wp_mamm)
-        return (EEC_diet_mamm * c_mamm / bw_herp)
+        eec_diet_mamm = eec_diet_mamm(eec_diet, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm, c_mamm, wp_mamm)
+        return (eec_diet_mamm * c_mamm / bw_herp)
 
-    def EEC_dose_tp(self, EEC_diet_tp, EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, bw_herp, c_herp,
+    def eec_dose_tp(self, eec_diet_tp, eec_diet, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, bw_herp, c_herp,
                     wp_herp, wp_herp_a):
         """
-        Amphibian Dose based EECs for terrestrial
-        :param EEC_diet_tp:
-        :param EEC_diet:
-        :param C_0:
-        :param C_t:
+        Amphibian Dose based eecs for terrestrial
+        :param eec_diet_tp:
+        :param eec_diet:
+        :param c_0:
+        :param c_t:
         :param n_a:
         :param i_a:
         :param a_r:
@@ -715,16 +715,16 @@ class therps(object):
         :param wp_herp_a:
         :return:
         """
-        EEC_diet_tp = EEC_diet_tp(EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp, wp_herp)
+        eec_diet_tp = eec_diet_tp(eec_diet, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp, wp_herp)
         fi_herp = fi_herp(bw_herp, wp_herp_a)
-        return (EEC_diet_tp * fi_herp / bw_herp)
+        return (eec_diet_tp * fi_herp / bw_herp)
 
-    def ARQ_dose_herp(self, EEC_dose_herp, EEC_diet, bw_herp, fi_herp, at_bird, avian_ld50, tw_bird,
-                      mineau_scaling_factor, wp_herp, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l):
+    def arq_dose_herp(self, eec_dose_herp, eec_diet, bw_herp, fi_herp, at_bird, avian_ld50, tw_bird,
+                      mineau_scaling_factor, wp_herp, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l):
         """
         Amphibian acute dose-based risk quotients
-        :param EEC_dose_herp:
-        :param EEC_diet:
+        :param eec_dose_herp:
+        :param eec_diet:
         :param bw_herp:
         :param fi_herp:
         :param at_bird:
@@ -732,8 +732,8 @@ class therps(object):
         :param tw_bird:
         :param mineau_scaling_factor:
         :param wp_herp:
-        :param C_0:
-        :param C_t:
+        :param c_0:
+        :param c_t:
         :param n_a:
         :param i_a:
         :param a_r:
@@ -742,17 +742,17 @@ class therps(object):
         :param h_l:
         :return:
         """
-        EEC_dose_herp = EEC_dose_herp(EEC_diet, bw_herp, fi_herp, wp_herp, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l)
+        eec_dose_herp = eec_dose_herp(eec_diet, bw_herp, fi_herp, wp_herp, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l)
         at_bird = at_bird(avian_ld50, bw_herp, tw_bird, mineau_scaling_factor)
-        return (EEC_dose_herp / at_bird)
+        return (eec_dose_herp / at_bird)
 
-    def ARQ_dose_mamm(self, EEC_dose_mamm, EEC_diet_mamm, EEC_diet, bw_herp, fi_herp, at_bird, avian_ld50, tw_bird,
-                      mineau_scaling_factor, c_mamm, wp_mamm, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm):
+    def arq_dose_mamm(self, eec_dose_mamm, eec_diet_mamm, eec_diet, bw_herp, fi_herp, at_bird, avian_ld50, tw_bird,
+                      mineau_scaling_factor, c_mamm, wp_mamm, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm):
         """
         Amphibian acute dose-based risk quotients for mammals
-        :param EEC_dose_mamm:
-        :param EEC_diet_mamm:
-        :param EEC_diet:
+        :param eec_dose_mamm:
+        :param eec_diet_mamm:
+        :param eec_diet:
         :param bw_herp:
         :param fi_herp:
         :param at_bird:
@@ -761,8 +761,8 @@ class therps(object):
         :param mineau_scaling_factor:
         :param c_mamm:
         :param wp_mamm:
-        :param C_0:
-        :param C_t:
+        :param c_0:
+        :param c_t:
         :param n_a:
         :param i_a:
         :param a_r:
@@ -772,20 +772,20 @@ class therps(object):
         :param fi_mamm:
         :return:
         """
-        EEC_dose_mamm = EEC_dose_mamm(EEC_diet_mamm, EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm,
+        eec_dose_mamm = eec_dose_mamm(eec_diet_mamm, eec_diet, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm,
                                       bw_herp, c_mamm, wp_mamm)
         at_bird = at_bird(avian_ld50, bw_herp, tw_bird, mineau_scaling_factor)
-        return (EEC_dose_mamm / at_bird)
+        return (eec_dose_mamm / at_bird)
 
-    def ARQ_dose_tp(self, EEC_dose_tp, EEC_diet_tp, EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp,
+    def arq_dose_tp(self, eec_dose_tp, eec_diet_tp, eec_diet, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp,
                     wp_herp, wp_herp_a, at_bird, avian_ld50, bw_herp, tw_bird, mineau_scaling_factor):
         """
         Amphibian acute dose-based risk quotients for tp
-        :param EEC_dose_tp:
-        :param EEC_diet_tp:
-        :param EEC_diet:
-        :param C_0:
-        :param C_t:
+        :param eec_dose_tp:
+        :param eec_diet_tp:
+        :param eec_diet:
+        :param c_0:
+        :param c_t:
         :param n_a:
         :param i_a:
         :param a_r:
@@ -803,18 +803,18 @@ class therps(object):
         :param mineau_scaling_factor:
         :return:
         """
-        EEC_dose_tp = EEC_dose_tp(EEC_diet_tp, EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, bw_herp,
+        eec_dose_tp = eec_dose_tp(eec_diet_tp, eec_diet, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, bw_herp,
                                   c_herp, wp_herp, wp_herp_a)
         at_bird = at_bird(avian_ld50, bw_herp, tw_bird, mineau_scaling_factor)
-        return (EEC_dose_tp / at_bird)
+        return (eec_dose_tp / at_bird)
 
-    def ARQ_diet_herp(self, EEC_diet, avian_lc50, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l):
+    def arq_diet_herp(self, eec_diet, avian_lc50, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l):
         """
         Amphibian acute dietary-based risk quotients
-        :param EEC_diet:
+        :param eec_diet:
         :param avian_lc50:
-        :param C_0:
-        :param C_t:
+        :param c_0:
+        :param c_t:
         :param n_a:
         :param i_a:
         :param a_r:
@@ -823,18 +823,18 @@ class therps(object):
         :param h_l:
         :return:
         """
-        EEC_diet = EEC_diet(C_0, C_t, n_a, i_a, a_r, a_i, para, h_l)
-        return (EEC_diet / avian_lc50)
+        eec_diet = eec_diet(c_0, c_t, n_a, i_a, a_r, a_i, para, h_l)
+        return (eec_diet / avian_lc50)
 
-    def ARQ_diet_mamm(self, EEC_diet_mamm, EEC_diet, avian_lc50, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm,
+    def arq_diet_mamm(self, eec_diet_mamm, eec_diet, avian_lc50, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm,
                       c_mamm, wp_mamm):
         """
         Amphibian acute dietary-based risk quotients for mammals
-        :param EEC_diet_mamm:
-        :param EEC_diet:
+        :param eec_diet_mamm:
+        :param eec_diet:
         :param avian_lc50:
-        :param C_0:
-        :param C_t:
+        :param c_0:
+        :param c_t:
         :param n_a:
         :param i_a:
         :param a_r:
@@ -846,18 +846,18 @@ class therps(object):
         :param wp_mamm:
         :return:
         """
-        EEC_diet_mamm = EEC_diet_mamm(EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm, c_mamm, wp_mamm)
-        return (EEC_diet_mamm / avian_lc50)
+        eec_diet_mamm = eec_diet_mamm(eec_diet, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm, c_mamm, wp_mamm)
+        return (eec_diet_mamm / avian_lc50)
 
-    def ARQ_diet_tp(self, EEC_diet_tp, EEC_diet, avian_lc50, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp,
+    def arq_diet_tp(self, eec_diet_tp, eec_diet, avian_lc50, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp,
                     wp_herp):
         """
         # Amphibian acute dietary-based risk quotients for tp
-        :param EEC_diet_tp:
-        :param EEC_diet:
+        :param eec_diet_tp:
+        :param eec_diet:
         :param avian_lc50:
-        :param C_0:
-        :param C_t:
+        :param c_0:
+        :param c_t:
         :param n_a:
         :param i_a:
         :param a_r:
@@ -869,16 +869,16 @@ class therps(object):
         :param wp_herp:
         :return:
         """
-        EEC_diet_tp = EEC_diet_tp(EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp, wp_herp)
-        return (EEC_diet_tp / avian_lc50)
+        eec_diet_tp = eec_diet_tp(eec_diet, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp, wp_herp)
+        return (eec_diet_tp / avian_lc50)
 
-    def CRQ_diet_herp(self, EEC_diet, avian_NOAEC, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l):
+    def crq_diet_herp(self, eec_diet, avian_noaec, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l):
         """
         Amphibian chronic dietary-based risk quotients
-        :param EEC_diet:
-        :param avian_NOAEC:
-        :param C_0:
-        :param C_t:
+        :param eec_diet:
+        :param avian_noaec:
+        :param c_0:
+        :param c_t:
         :param n_a:
         :param i_a:
         :param a_r:
@@ -887,18 +887,18 @@ class therps(object):
         :param h_l:
         :return:
         """
-        EEC_diet = EEC_diet(C_0, C_t, n_a, i_a, a_r, a_i, para, h_l)
-        return (EEC_diet / avian_NOAEC)
+        eec_diet = eec_diet(c_0, c_t, n_a, i_a, a_r, a_i, para, h_l)
+        return (eec_diet / avian_noaec)
 
-    def CRQ_diet_mamm(self, EEC_diet_mamm, EEC_diet, avian_NOAEC, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm,
+    def crq_diet_mamm(self, eec_diet_mamm, eec_diet, avian_noaec, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm,
                       c_mamm, wp_mamm):
         """
         Amphibian chronic dietary-based risk quotients for mammal
-        :param EEC_diet_mamm:
-        :param EEC_diet:
-        :param avian_NOAEC:
-        :param C_0:
-        :param C_t:
+        :param eec_diet_mamm:
+        :param eec_diet:
+        :param avian_noaec:
+        :param c_0:
+        :param c_t:
         :param n_a:
         :param i_a:
         :param a_r:
@@ -910,18 +910,18 @@ class therps(object):
         :param wp_mamm:
         :return:
         """
-        EEC_diet_mamm = EEC_diet_mamm(EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm, c_mamm, wp_mamm)
-        return (EEC_diet_mamm / avian_NOAEC)
+        eec_diet_mamm = eec_diet_mamm(eec_diet, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm, c_mamm, wp_mamm)
+        return (eec_diet_mamm / avian_noaec)
 
-    def CRQ_diet_tp(self, EEC_diet_tp, EEC_diet, avian_NOAEC, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp,
+    def crq_diet_tp(self, eec_diet_tp, eec_diet, avian_noaec, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp,
                     wp_herp):
         """
         Amphibian chronic dietary-based risk quotients for tp
-        :param EEC_diet_tp:
-        :param EEC_diet:
-        :param avian_NOAEC:
-        :param C_0:
-        :param C_t:
+        :param eec_diet_tp:
+        :param eec_diet:
+        :param avian_noaec:
+        :param c_0:
+        :param c_t:
         :param n_a:
         :param i_a:
         :param a_r:
@@ -933,5 +933,5 @@ class therps(object):
         :param wp_herp:
         :return:
         """
-        EEC_diet_tp = EEC_diet_tp(EEC_diet, C_0, C_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp, wp_herp)
-        return (EEC_diet_tp / avian_NOAEC)
+        eec_diet_tp = eec_diet_tp(eec_diet, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp, wp_herp)
+        return (eec_diet_tp / avian_noaec)
