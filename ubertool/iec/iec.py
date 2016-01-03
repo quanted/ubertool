@@ -5,7 +5,7 @@ import numpy as np
 from scipy.special import erfc
 
 
-class iec(object):
+class Iec(object):
     def __init__(self, run_type, pd_obj, pd_obj_exp):
         """
         Constructor for iec

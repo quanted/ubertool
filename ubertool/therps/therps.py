@@ -2,7 +2,7 @@ from __future__ import division
 import numpy as np
 
 
-class therps(object):
+class Therps(object):
     def __init__(self, chem_name, use, formu_name, a_i, h_l, n_a, i_a, a_r, avian_ld50, avian_lc50, avian_noaec,
                  avian_noael,
                  species_of_the_tested_bird_avian_ld50, species_of_the_tested_bird_avian_lc50,

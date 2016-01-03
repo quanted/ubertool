@@ -3,7 +3,7 @@ import pandas as pd
 import logging
 
 
-class rice(object):
+class Rice(object):
     def __init__(self, run_type, pd_obj, pd_obj_exp):
         '''  Constructor '''
         self.run_type = run_type

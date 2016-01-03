@@ -2,7 +2,7 @@ from __future__ import division
 import numpy as np
 
 
-class trex(object):
+class Trex(object):
     def __init__(self, chem_name, use, formu_name, a_i, application_type, seed_treatment_formulation_name, seed_crop,
                  seed_crop_v, r_s, b_w, p_i, den, h_l, n_a, ar_lb, day_out,
                  ld50_bird, lc50_bird, noaec_bird, noael_bird, aw_bird_sm, aw_bird_md, aw_bird_lg,

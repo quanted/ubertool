@@ -3,7 +3,7 @@ import logging
 import pandas as pd
 
 
-class earthworm(object):
+class Earthworm(object):
     def __init__(self, run_type, pd_obj, pd_obj_exp):
         '''  Constructor '''
         # Inputs: Assign object attribute variables from the input Pandas DataFrame

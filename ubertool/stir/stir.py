@@ -4,7 +4,7 @@ import pandas as pd
 import sys
 
 
-class stir(object):
+class Stir(object):
     def __init__(self, run_type, pd_obj, pd_obj_exp):
         """  Constructor """
         # run_type can be single, batch or qaqc
