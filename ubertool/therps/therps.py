@@ -376,7 +376,7 @@ class therps(object):
 
     def at_bird(self, avian_ld50, bw_herp, tw_bird, mineau_scaling_factor):
         """
-        Acute adjusted toxicity value for birds.
+        acute adjusted toxicity value for birds.
         :param avian_ld50:
         :param bw_herp:
         :param tw_bird:
@@ -424,7 +424,7 @@ class therps(object):
 
     def at_mamm(ld50_mamm, aw_mamm, tw_mamm):
         """
-        Acute adjusted toxicity value for mammals.
+        acute adjusted toxicity value for mammals.
         :param aw_mamm:
         :param tw_mamm:
         :return:
@@ -461,7 +461,7 @@ class therps(object):
                 ('tw_mamm=%g is a non-physical value.' % tw_mamm)
         return (ld50_mamm) * ((tw_mamm / aw_mamm) ** (0.25))
 
-    def Anoael_mamm(noael_mamm, aw_mamm, tw_mamm):
+    def anoael_mamm(noael_mamm, aw_mamm, tw_mamm):
         """
         adjusted chronic toxicity (noael) value for mammals
         :param aw_mamm:
@@ -652,7 +652,7 @@ class therps(object):
 
     def eec_dose_herp(self, eec_diet, bw_herp, fi_herp, wp_herp, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l):
         """
-        Amphibian Dose based eecs
+        amphibian Dose based eecs
         :param eec_diet:
         :param bw_herp:
         :param fi_herp:
@@ -674,7 +674,7 @@ class therps(object):
     def eec_dose_mamm(self, eec_diet_mamm, eec_diet, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm, bw_herp, c_mamm,
                       wp_mamm):
         """
-        Amphibian Dose based eecs for mammals
+        amphibian Dose based eecs for mammals
         :param eec_diet_mamm:
         :param eec_diet:
         :param c_0:
@@ -697,7 +697,7 @@ class therps(object):
     def eec_dose_tp(self, eec_diet_tp, eec_diet, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, bw_herp, c_herp,
                     wp_herp, wp_herp_a):
         """
-        Amphibian Dose based eecs for terrestrial
+        amphibian Dose based eecs for terrestrial
         :param eec_diet_tp:
         :param eec_diet:
         :param c_0:
@@ -722,7 +722,7 @@ class therps(object):
     def arq_dose_herp(self, eec_dose_herp, eec_diet, bw_herp, fi_herp, at_bird, avian_ld50, tw_bird,
                       mineau_scaling_factor, wp_herp, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l):
         """
-        Amphibian acute dose-based risk quotients
+        amphibian acute dose-based risk quotients
         :param eec_dose_herp:
         :param eec_diet:
         :param bw_herp:
@@ -749,7 +749,7 @@ class therps(object):
     def arq_dose_mamm(self, eec_dose_mamm, eec_diet_mamm, eec_diet, bw_herp, fi_herp, at_bird, avian_ld50, tw_bird,
                       mineau_scaling_factor, c_mamm, wp_mamm, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm):
         """
-        Amphibian acute dose-based risk quotients for mammals
+        amphibian acute dose-based risk quotients for mammals
         :param eec_dose_mamm:
         :param eec_diet_mamm:
         :param eec_diet:
@@ -780,7 +780,7 @@ class therps(object):
     def arq_dose_tp(self, eec_dose_tp, eec_diet_tp, eec_diet, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp,
                     wp_herp, wp_herp_a, at_bird, avian_ld50, bw_herp, tw_bird, mineau_scaling_factor):
         """
-        Amphibian acute dose-based risk quotients for tp
+        amphibian acute dose-based risk quotients for tp
         :param eec_dose_tp:
         :param eec_diet_tp:
         :param eec_diet:
@@ -810,7 +810,7 @@ class therps(object):
 
     def arq_diet_herp(self, eec_diet, avian_lc50, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l):
         """
-        Amphibian acute dietary-based risk quotients
+        amphibian acute dietary-based risk quotients
         :param eec_diet:
         :param avian_lc50:
         :param c_0:
@@ -829,7 +829,7 @@ class therps(object):
     def arq_diet_mamm(self, eec_diet_mamm, eec_diet, avian_lc50, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm,
                       c_mamm, wp_mamm):
         """
-        Amphibian acute dietary-based risk quotients for mammals
+        amphibian acute dietary-based risk quotients for mammals
         :param eec_diet_mamm:
         :param eec_diet:
         :param avian_lc50:
@@ -852,7 +852,7 @@ class therps(object):
     def arq_diet_tp(self, eec_diet_tp, eec_diet, avian_lc50, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp,
                     wp_herp):
         """
-        # Amphibian acute dietary-based risk quotients for tp
+        # amphibian acute dietary-based risk quotients for tp
         :param eec_diet_tp:
         :param eec_diet:
         :param avian_lc50:
@@ -874,7 +874,7 @@ class therps(object):
 
     def crq_diet_herp(self, eec_diet, avian_noaec, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l):
         """
-        Amphibian chronic dietary-based risk quotients
+        amphibian chronic dietary-based risk quotients
         :param eec_diet:
         :param avian_noaec:
         :param c_0:
@@ -893,7 +893,7 @@ class therps(object):
     def crq_diet_mamm(self, eec_diet_mamm, eec_diet, avian_noaec, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_mamm,
                       c_mamm, wp_mamm):
         """
-        Amphibian chronic dietary-based risk quotients for mammal
+        amphibian chronic dietary-based risk quotients for mammal
         :param eec_diet_mamm:
         :param eec_diet:
         :param avian_noaec:
@@ -916,7 +916,7 @@ class therps(object):
     def crq_diet_tp(self, eec_diet_tp, eec_diet, avian_noaec, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l, fi_herp, c_herp,
                     wp_herp):
         """
-        Amphibian chronic dietary-based risk quotients for tp
+        amphibian chronic dietary-based risk quotients for tp
         :param eec_diet_tp:
         :param eec_diet:
         :param avian_noaec:

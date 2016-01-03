@@ -5,7 +5,7 @@ import numpy as np
 class agdrift(object):
     def __init__(self, drop_size, ecosystem_type, application_method, boom_height, orchard_type,
                  application_rate, distance, aquatic_type, calculation_input, init_avg_dep_foa,
-                 avg_depo_lbac, avg_depo_gha, deposition_ngL, deposition_mgcm, nasae, y, x, express_y):
+                 avg_depo_lbac, avg_depo_gha, deposition_ngl, deposition_mgcm, nasae, y, x, express_y):
         """
         Constructor for agdrift model.
         :param drop_size:
@@ -20,7 +20,7 @@ class agdrift(object):
         :param init_avg_dep_foa:
         :param avg_depo_lbac:
         :param avg_depo_gha:
-        :param deposition_ngL:
+        :param deposition_ngl:
         :param deposition_mgcm:
         :param nasae:
         :param y:
@@ -40,7 +40,7 @@ class agdrift(object):
         self.init_avg_dep_foa = init_avg_dep_foa
         self.avg_depo_lbac = avg_depo_lbac
         self.avg_depo_gha = avg_depo_gha
-        self.deposition_ngL = deposition_ngL
+        self.deposition_ngl = deposition_ngl
         self.deposition_mgcm = deposition_mgcm
         self.nasae = nasae
         self.y = y
@@ -83,8 +83,8 @@ class agdrift(object):
             #     self.deposition_lbac_to_foa_f(self.avg_depo_lbac, self.application_rate)
             #     self.extrapolate_from_fig2(self.ecosystem_type, self.init_avg_dep_foa, bisect_left, self.x, self.y)
 
-            # elif (self.calculation_input == 'Initial Average Concentration (ng/L)'):
-            #     self.deposition_ngL_2_gha_f(self.deposition_ngL)
+            # elif (self.calculation_input == 'Initial Average Concentration (ng/l)'):
+            #     self.deposition_ngl_2_gha_f(self.deposition_ngl)
             #     self.deposition_ghac_to_lbac_f(self.avg_depo_gha)
             #     self.deposition_lbac_to_foa_f(self.avg_depo_lbac, self.application_rate)
             #     self.extrapolate_from_fig2(self.ecosystem_type, self.init_avg_dep_foa, bisect_left, self.x, self.y)
@@ -138,10 +138,10 @@ class agdrift(object):
     #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Aerial' and self.drop_size == 'Very Coarse'):
     #         self.y = self.pond_aerial_c2vc      
     #         self.x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-    #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Ground' and self.drop_size == 'Fine' and self.boom_height == 'Low'):
+    #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Ground' and self.drop_size == 'Fine' and self.boom_height == 'low'):
     #         self.y = self.pond_ground_low_vf2f
     #         self.x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-    #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Ground' and self.drop_size == 'Medium' and self.boom_height == 'Low'): 
+    #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Ground' and self.drop_size == 'Medium' and self.boom_height == 'low'): 
     #         self.y = self.pond_ground_low_f2m
     #         self.x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
     #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Ground' and self.drop_size == 'Fine' and self.boom_height == 'High'):
@@ -680,7 +680,7 @@ class agdrift(object):
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]
 
         elif (
-                                self.ecosystem_type == 'EPA Pond' and self.application_method == 'Ground' and self.drop_size == 'Fine' and self.boom_height == 'Low'):
+                                self.ecosystem_type == 'EPA Pond' and self.application_method == 'Ground' and self.drop_size == 'Fine' and self.boom_height == 'low'):
             self.y = self.pond_ground_low_vf2f
             # self.x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
             self.nasae = 4
@@ -762,7 +762,7 @@ class agdrift(object):
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]
 
         elif (
-                                self.ecosystem_type == 'EPA Pond' and self.application_method == 'Ground' and self.drop_size == 'Medium' and self.boom_height == 'Low'):
+                                self.ecosystem_type == 'EPA Pond' and self.application_method == 'Ground' and self.drop_size == 'Medium' and self.boom_height == 'low'):
             self.y = self.pond_ground_low_f2m
             # self.x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
             self.nasae = 6
@@ -1349,10 +1349,10 @@ class agdrift(object):
         """
         if (self.aquatic_type == '1'):
 
-            self.deposition_ngL = self.avg_depo_gha * 0.05 * 1000.0
+            self.deposition_ngl = self.avg_depo_gha * 0.05 * 1000.0
         else:
-            self.deposition_ngL = self.avg_depo_gha * 0.05 * 1000.0 * (6.56 / 0.4921)
-        return self.deposition_ngL
+            self.deposition_ngl = self.avg_depo_gha * 0.05 * 1000.0 * (6.56 / 0.4921)
+        return self.deposition_ngl
 
     def deposition_gha_to_mgcm_f(self, avg_depo_gha):
         """
@@ -1364,18 +1364,18 @@ class agdrift(object):
         self.deposition_mgcm = self.avg_depo_gha * 0.00001
         return self.deposition_mgcm
 
-    def deposition_ngL_2_gha_f(self, deposition_ngL):
+    def deposition_ngl_2_gha_f(self, deposition_ngl):
         """
         Deposition calculation.
         :param init_avg_dep_foa:
         :param application_rate:
         :return:
         """
-        self.deposition_ngL = float(self.deposition_ngL)
+        self.deposition_ngl = float(self.deposition_ngl)
         if (self.aquatic_type == '1'):
-            self.avg_depo_gha = self.deposition_ngL / (0.05 * 1000)
+            self.avg_depo_gha = self.deposition_ngl / (0.05 * 1000)
         else:
-            self.avg_depo_gha = ((self.deposition_ngL / 6.56) * 0.4921) / (0.05 * 1000)
+            self.avg_depo_gha = ((self.deposition_ngl / 6.56) * 0.4921) / (0.05 * 1000)
         return self.avg_depo_gha
 
     def deposition_ghac_to_lbac_f(self, avg_depo_gha):
