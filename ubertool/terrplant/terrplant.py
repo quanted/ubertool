@@ -32,10 +32,10 @@ class TerrplantOutputs(object):
     def __init__(self):
         """Class representing the outputs for TerrPlant"""
         super(TerrplantOutputs, self).__init__()
-        self.out_rundry = pd.Series(name="out_rundry").astype("float")
-        self.out_runsemi = pd.Series(name="out_runsemi").astype("float")
-        self.out_totaldry = pd.Series(name="out_totaldry").astype("float")
-        self.out_totalsemi = pd.Series(name="out_totalsemi").astype("float")
+        self.out_run_dry = pd.Series(name="out_run_dry").astype("float")
+        self.out_run_semi = pd.Series(name="out_run_semi").astype("float")
+        self.out_total_dry = pd.Series(name="out_total_dry").astype("float")
+        self.out_total_semi = pd.Series(name="out_total_semi").astype("float")
         self.out_spray = pd.Series(name="out_spray").astype("float")
         self.out_min_nms_spray = pd.Series(name="out_min_nms_spray").astype("float")
         self.out_min_lms_spray = pd.Series(name="out_min_lms_spray").astype("float")
@@ -91,55 +91,55 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
     def run_methods(self):
         """Execute the model's methods to generate the model output"""
         try:
-            self.rundry()
-            self.runsemi()
+            self.run_dry()
+            self.run_semi()
             self.spray()
-            self.totaldry()
-            self.totalsemi()
-            self.minnmsspray()
-            self.minlmsspray()
-            self.minndsspray()
-            self.minldsspray()
-            self.nmsRQdry()
-            self.LOCnmsdry()
-            self.nmsRQsemi()
-            self.LOCnmssemi()
-            self.nmsRQspray()
-            self.LOCnmsspray()
-            self.lmsRQdry()
-            self.LOClmsdry()
-            self.lmsRQsemi()
-            self.LOClmssemi()
-            self.lmsRQspray()
-            self.LOClmsspray()
-            self.ndsRQdry()
-            self.LOCndsdry()
-            self.ndsRQsemi()
-            self.LOCndssemi()
-            self.ndsRQspray()
-            self.LOCndsspray()
-            self.ldsRQdry()
-            self.LOCldsdry()
-            self.ldsRQsemi()
-            self.LOCldssemi()
-            self.ldsRQspray()
-            self.LOCldsspray()
+            self.total_dry()
+            self.total_semi()
+            self.min_nms_spray()
+            self.min_lms_spray()
+            self.min_nds_spray()
+            self.min_lds_spray()
+            self.nms_rq_dry()
+            self.loc_nms_dry()
+            self.nms_rq_semi()
+            self.loc_nms_semi()
+            self.nms_rq_spray()
+            self.loc_nms_spray()
+            self.lms_rq_dry()
+            self.loc_lms_dry()
+            self.lms_rq_semi()
+            self.loc_lms_semi()
+            self.lms_rq_spray()
+            self.loc_lms_spray()
+            self.nds_rq_dry()
+            self.loc_nds_dry()
+            self.nds_rq_semi()
+            self.loc_nds_semi()
+            self.nds_rq_spray()
+            self.loc_nds_spray()
+            self.lds_rq_dry()
+            self.loc_lds_dry()
+            self.lds_rq_semi()
+            self.loc_lds_semi()
+            self.lds_rq_spray()
+            self.loc_lds_spray()
         except TypeError:
             print "Type Error: Your variables are not set correctly."
 
-    def rundry(self):
+    def run_dry(self):
         """
         EEC for runoff for dry areas
         """
-        self.out_rundry = (self.application_rate / self.incorporation_depth) * self.runoff_fraction
-        return self.out_rundry
+        self.out_run_dry = (self.application_rate / self.incorporation_depth) * self.runoff_fraction
+        return self.out_run_dry
 
-    def runsemi(self):
+    def run_semi(self):
         """
         EEC for runoff to semi-aquatic areas
         """
-        self.out_runsemi = (self.application_rate / self.incorporation_depth) * self.runoff_fraction * 10
-        return self.out_runsemi
+        self.out_run_semi = (self.application_rate / self.incorporation_depth) * self.runoff_fraction * 10
+        return self.out_run_semi
 
     def spray(self):
         """
@@ -148,28 +148,28 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         self.out_spray = self.application_rate * self.drift_fraction
         return self.out_spray
 
-    def totaldry(self):
+    def total_dry(self):
         """
         EEC total for dry areas
         """
-        self.out_totaldry = self.out_rundry + self.out_spray
-        return self.out_totaldry
+        self.out_total_dry = self.out_run_dry + self.out_spray
+        return self.out_total_dry
 
-    def totalsemi(self):
+    def total_semi(self):
         """
         EEC total for semi-aquatic areas
         """
-        self.out_totalsemi = self.out_runsemi + self.out_spray
-        return self.out_totalsemi
+        self.out_total_semi = self.out_run_semi + self.out_spray
+        return self.out_total_semi
 
-    def nmsRQdry(self):
+    def nms_rq_dry(self):
         """
         Risk Quotient for NON-LISTED MONOCOT seedlings exposed to Pesticide X in a DRY area
         """
-        self.out_nms_rq_dry = self.out_totaldry / self.ec25_nonlisted_seedling_emergence_monocot
+        self.out_nms_rq_dry = self.out_total_dry / self.ec25_nonlisted_seedling_emergence_monocot
         return self.out_nms_rq_dry
 
-    def LOCnmsdry(self):
+    def loc_nms_dry(self):
         """
         Level of concern for non-listed monocot seedlings exposed to pesticide X in a dry area
         """
@@ -179,14 +179,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
                                                   else 'The risk quotient for non-listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal.')
         return self.out_nms_loc_dry
 
-    def nmsRQsemi(self):
+    def nms_rq_semi(self):
         """
         Risk Quotient for NON-LISTED MONOCOT seedlings exposed to Pesticide X in a SEMI-AQUATIC area
         """
-        self.out_nms_rq_semi = self.out_totalsemi / self.ec25_nonlisted_seedling_emergence_monocot
+        self.out_nms_rq_semi = self.out_total_semi / self.ec25_nonlisted_seedling_emergence_monocot
         return self.out_nms_rq_semi
 
-    def LOCnmssemi(self):
+    def loc_nms_semi(self):
         """
         Level of concern for non-listed monocot seedlings exposed to pesticide X in a semi-aquatic area
         """
@@ -196,14 +196,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
                                                    else 'The risk quotient for non-listed monocot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal.')
         return self.out_nms_loc_semi
 
-    def nmsRQspray(self):
+    def nms_rq_spray(self):
         """
         Risk Quotient for NON-LISTED MONOCOT seedlings exposed to Pesticide X via SPRAY drift
         """
         self.out_nms_rq_spray = self.out_spray / self.out_min_nms_spray
         return self.out_nms_rq_spray
 
-    def LOCnmsspray(self):
+    def loc_nms_spray(self):
         """
         Level of concern for non-listed monocot seedlings exposed to pesticide via spray drift
         """
@@ -213,14 +213,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
                                                     else 'The risk quotient for non-listed monocot seedlings exposed to the pesticide via spray drift indicates that potential risk is minimal.')
         return self.out_nms_loc_spray
 
-    def lmsRQdry(self):
+    def lms_rq_dry(self):
         """
         Risk Quotient for LISTED MONOCOT seedlings exposed to Pesticide X in a DRY areas
         """
-        self.out_lms_rq_dry = self.out_totaldry / self.noaec_listed_seedling_emergence_monocot
+        self.out_lms_rq_dry = self.out_total_dry / self.noaec_listed_seedling_emergence_monocot
         return self.out_lms_rq_dry
 
-    def LOClmsdry(self):
+    def loc_lms_dry(self):
         """
         Level of concern for listed monocot seedlings exposed to pesticide via runoff in a dry area
         """
@@ -230,14 +230,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
                                                   else 'The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal.')
         return self.out_lms_loc_dry
 
-    def lmsRQsemi(self):
+    def lms_rq_semi(self):
         """
         Risk Quotient for LISTED MONOCOT seedlings exposed to Pesticide X in a SEMI-AQUATIC area
         """
-        self.out_lms_rq_semi = self.out_totalsemi / self.noaec_listed_seedling_emergence_monocot
+        self.out_lms_rq_semi = self.out_total_semi / self.noaec_listed_seedling_emergence_monocot
         return self.out_lms_rq_semi
 
-    def LOClmssemi(self):
+    def loc_lms_semi(self):
         """
         Level of concern for listed monocot seedlings exposed to pesticide X in semi-aquatic areas
         """
@@ -247,14 +247,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
                                                    else 'The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal.')
         return self.out_lms_loc_semi
 
-    def lmsRQspray(self):
+    def lms_rq_spray(self):
         """
         Risk Quotient for LISTED MONOCOT seedlings exposed to Pesticide X via SPRAY drift
         """
         self.out_lms_rq_spray = self.out_spray / self.out_min_lms_spray
         return self.out_lms_rq_spray
 
-    def LOClmsspray(self):
+    def loc_lms_spray(self):
         """
         Level of concern for listed monocot seedlings exposed to pesticide X via spray drift
         """
@@ -264,14 +264,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
                                                     else 'The risk quotient for listed monocot seedlings exposed to the pesticide via spray drift indicates that potential risk is minimal.')
         return self.out_lms_loc_spray
 
-    def ndsRQdry(self):
+    def nds_rq_dry(self):
         """
         Risk Quotient for NON-LISTED DICOT seedlings exposed to Pesticide X in DRY areas
         """
-        self.out_nds_rq_dry = self.out_totaldry / self.ec25_nonlisted_seedling_emergence_dicot
+        self.out_nds_rq_dry = self.out_total_dry / self.ec25_nonlisted_seedling_emergence_dicot
         return self.out_nds_rq_dry
 
-    def LOCndsdry(self):
+    def loc_nds_dry(self):
         """
         Level of concern for non-listed dicot seedlings exposed to pesticide X in dry areas
         """
@@ -281,14 +281,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
                                                   else 'The risk quotient for non-listed dicot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal.')
         return self.out_nds_loc_dry
 
-    def ndsRQsemi(self):
+    def nds_rq_semi(self):
         """
         Risk Quotient for NON-LISTED DICOT seedlings exposed to Pesticide X in SEMI-AQUATIC areas
         """
-        self.out_nds_rq_semi = self.out_totalsemi / self.ec25_nonlisted_seedling_emergence_dicot
+        self.out_nds_rq_semi = self.out_total_semi / self.ec25_nonlisted_seedling_emergence_dicot
         return self.out_nds_rq_semi
 
-    def LOCndssemi(self):
+    def loc_nds_semi(self):
         """
         Level of concern for non-listed dicot seedlings exposed to pesticide X in semi-aquatic areas
         """
@@ -298,14 +298,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
                                                    else 'The risk quotient for non-listed dicot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal.')
         return self.out_nds_loc_semi
 
-    def ndsRQspray(self):
+    def nds_rq_spray(self):
         """
         # Risk Quotient for NON-LISTED DICOT seedlings exposed to Pesticide X via SPRAY drift
         """
         self.out_nds_rq_spray = self.out_spray / self.out_min_nds_spray
         return self.out_nds_rq_spray
 
-    def LOCndsspray(self):
+    def loc_nds_spray(self):
         """
         Level of concern for non-listed dicot seedlings exposed to pesticide X via spray drift
         """
@@ -315,14 +315,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
                                                     else 'The risk quotient for non-listed dicot seedlings exposed to the pesticide via spray drift indicates that potential risk is minimal.')
         return self.out_nds_loc_spray
 
-    def ldsRQdry(self):
+    def lds_rq_dry(self):
         """
         Risk Quotient for LISTED DICOT seedlings exposed to Pesticide X in DRY areas
         """
-        self.out_lds_rq_dry = self.out_totaldry / self.noaec_listed_seedling_emergence_dicot
+        self.out_lds_rq_dry = self.out_total_dry / self.noaec_listed_seedling_emergence_dicot
         return self.out_lds_rq_dry
 
-    def LOCldsdry(self):
+    def loc_lds_dry(self):
         """
         Level of concern for listed dicot seedlings exposed to pesticideX in dry areas
         """
@@ -332,14 +332,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
                                                   else 'The risk quotient for listed dicot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal.')
         return self.out_lds_loc_dry
 
-    def ldsRQsemi(self):
+    def lds_rq_semi(self):
         """
         Risk Quotient for LISTED DICOT seedlings exposed to Pesticide X in SEMI-AQUATIC areas
         """
-        self.out_lds_rq_semi = self.out_totalsemi / self.noaec_listed_seedling_emergence_dicot
+        self.out_lds_rq_semi = self.out_total_semi / self.noaec_listed_seedling_emergence_dicot
         return self.out_lds_rq_semi
 
-    def LOCldssemi(self):
+    def loc_lds_semi(self):
         """
         Level of concern for listed dicot seedlings exposed to pesticide X in dry areas
         """
@@ -349,14 +349,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
                                                    else 'The risk quotient for listed dicot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal.')
         return self.out_lds_loc_semi
 
-    def ldsRQspray(self):
+    def lds_rq_spray(self):
         """
         Risk Quotient for LISTED DICOT seedlings exposed to Pesticide X via SPRAY drift
         """
         self.out_lds_rq_spray = self.out_spray / self.out_min_lds_spray
         return self.out_lds_rq_spray
 
-    def LOCldsspray(self):
+    def loc_lds_spray(self):
         """
         Level of concern for listed dicot seedlings exposed to pesticide X via spray drift
         """
@@ -369,7 +369,7 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
                                                              'risk is minimal.')
         return self.out_lds_loc_spray
 
-    def minnmsspray(self):
+    def min_nms_spray(self):
         """
         determine minimum toxicity concentration used for RQ spray drift values
         non-listed monocot EC25 and NOAEC
@@ -380,7 +380,7 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         self.out_min_nms_spray = pd.DataFrame.min(df, axis=1)
         return self.out_min_nms_spray
 
-    def minlmsspray(self):
+    def min_lms_spray(self):
         """
         determine minimum toxicity concentration used for RQ spray drift values
         listed monocot EC25 and NOAEC
@@ -391,7 +391,7 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         self.out_min_lms_spray = pd.DataFrame.min(df, axis=1)
         return self.out_min_lms_spray
 
-    def minndsspray(self):
+    def min_nds_spray(self):
         """
         determine minimum toxicity concentration used for RQ spray drift values
         non-listed dicot EC25 and NOAEC
@@ -402,7 +402,7 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         self.out_min_nds_spray = pd.DataFrame.min(df, axis=1)
         return self.out_min_nds_spray
 
-    def minldsspray(self):
+    def min_lds_spray(self):
         """
         determine minimum toxicity concentration used for RQ spray drift values
         listed dicot EC25 and NOAEC

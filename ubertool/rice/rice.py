@@ -57,10 +57,10 @@ class rice(object):
 
     def run_methods(self):
         ''' Execute all algorithm methods for model logic '''
-        self.Calcmsed()
-        self.Calcvw()
-        self.Calcmass_area()
-        self.Calccw()
+        self.calc_msed()
+        self.calc_vw()
+        self.calc_mass_area()
+        self.calc_cw()
 
     def json(self, pd_obj, pd_obj_out, pd_obj_exp):
         """
@@ -76,7 +76,7 @@ class rice(object):
             pd_obj_exp_json = "{}"
         return pd_obj_json, pd_obj_out_json, pd_obj_exp_json
 
-    def Calcmsed(self):
+    def calc_msed(self):
         '''
         The mass of the sediment at equilibrium with the water column
         Sediment depth (dsed) * Area of rice paddy (area) * Bulk density of sediment(mass/volume) pb
@@ -84,21 +84,21 @@ class rice(object):
         self.out_msed = self.dsed * self.area * self.pb
         return self.out_msed
 
-    def Calcvw(self):
+    def calc_vw(self):
         '''
         The volume of the water column plus pore water
         '''
         self.out_vw = (self.dw * self.area) + (self.dsed * self.osed * self.area)
         return self.out_vw
 
-    def Calcmass_area(self):
+    def calc_mass_area(self):
         '''
         The pesticide mass per unit area
         '''
         self.out_mass_area = (self.mai / self.area) * 10000
         return self.out_mass_area
 
-    def Calccw(self):
+    def calc_cw(self):
         '''
         Water Concentration
         '''

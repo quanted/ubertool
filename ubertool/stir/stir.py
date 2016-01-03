@@ -74,26 +74,26 @@ class stir(object):
     def run_methods(self):
         """ Execute all algorithm methods for model logic """
         try:
-            self.CalcSatAirConc()  # eq. 1
-            self.CalcInhRateAvian()  # eq. 2
-            self.CalcVidAvian()  # eq. 3
-            self.CalcInhRateMammal()  # eq. 4
-            self.CalcVidMammal()  # eq. 5
-            self.CalcConcAir()  # eq. 6
-            self.CalcSidAvian()  # eq. 7
-            self.CalcSidMammal()  # eq. 8
-            self.CalcConvertMammalInhalationLC50toLD50()  # eq. 9
-            self.CalcAdjustedMammalInhalationLD50()  # eq. 10
-            self.CalcEstimatedAvianInhalationLD50()  # eq. 11
-            self.CalcAdjustedAvianInhalationLD50()  # eq. 12
-            self.ReturnRatioVidAvian()  # results #1
-            self.ReturnLocVidAvian()  # results #2
-            self.ReturnRatioSidAvian()  # results #3
-            self.ReturnLocSidAvian()  # results #4
-            self.ReturnRatioVidMammal()  # results #5
-            self.ReturnLocVidMammal()  # results #6
-            self.ReturnRatioSidMammal()  # results #7
-            self.ReturnLocSidMammal()  # results #8
+            self.calc_sat_air_conc()  # eq. 1
+            self.calc_inh_rate_avian()  # eq. 2
+            self.calc_vid_avian()  # eq. 3
+            self.calc_inh_rate_mammal()  # eq. 4
+            self.calc_vid_mammal()  # eq. 5
+            self.calc_conc_air()  # eq. 6
+            self.calc_sid_avian()  # eq. 7
+            self.calc_sid_mammal()  # eq. 8
+            self.calc_convert_mammal_inhalation_lc50_to_ld50()  # eq. 9
+            self.calc_adjusted_mammal_inhalation_ld50()  # eq. 10
+            self.calc_estimated_avian_inhalation_ld50()  # eq. 11
+            self.calc_adjusted_avian_inhalation_ld50()  # eq. 12
+            self.return_ratio_vid_avian()  # results #1
+            self.return_loc_vid_avian()  # results #2
+            self.return_ratio_sid_avian()  # results #3
+            self.return_loc_sid_avian()  # results #4
+            self.return_ratio_vid_mammal()  # results #5
+            self.return_loc_vid_mammal()  # results #6
+            self.return_ratio_sid_mammal()  # results #7
+            self.return_loc_sid_mammal()  # results #8
         except:
             print "run_methods error:", sys.exc_info()[0]
 
@@ -141,7 +141,7 @@ class stir(object):
 
         return pd_obj_json, pd_obj_out_json, pd_obj_exp_json
 
-    def CalcSatAirConc(self):
+    def calc_sat_air_conc(self):
         """
         # eq. 1 saturated air concentration in mg/m^3
         """
@@ -154,7 +154,7 @@ class stir(object):
         self.sat_air_conc = (self.vapor_pressure * self.molecular_weight * conv) / (pressure * air_vol)
         return self.sat_air_conc
 
-    def CalcInhRateAvian(self):
+    def calc_inh_rate_avian(self):
         """
         eq. 2 Avian inhalation rate
         """
@@ -167,7 +167,7 @@ class stir(object):
         self.inh_rate_avian = magic1 * (self.body_weight_assessed_bird ** magic2) * conversion * activity_factor
         return self.inh_rate_avian
 
-    def CalcVidAvian(self):
+    def calc_vid_avian(self):
         """
         eq. 3  Maximum avian vapor inhalation dose
         """
@@ -182,7 +182,7 @@ class stir(object):
             conversion_factor * self.body_weight_assessed_bird)
         return self.vid_avian
 
-    def CalcInhRateMammal(self):
+    def calc_inh_rate_mammal(self):
         """
         eq. 4 Mammalian inhalation rate
         """
@@ -196,7 +196,7 @@ class stir(object):
             self.body_weight_assessed_mammal ** magic2) * minutes_conversion * activity_factor
         return self.inh_rate_mammal
 
-    def CalcVidMammal(self):
+    def calc_vid_mammal(self):
         """
         eq. 5 Maximum mammalian vapor inhalation dose
         """
@@ -211,7 +211,7 @@ class stir(object):
             conversion_factor * self.body_weight_assessed_mammal)
         return self.vid_mammal
 
-    def CalcConcAir(self):
+    def calc_conc_air(self):
         """
         eq. 6 Air column concentration after spray
         """
@@ -227,7 +227,7 @@ class stir(object):
         self.air_conc = self.ar2 / (self.column_height * conversion_factor)
         return self.air_conc
 
-    def CalcSidAvian(self):
+    def calc_sid_avian(self):
         """
         eq. 7 Avian spray droplet inhalation dose
         """
@@ -241,7 +241,7 @@ class stir(object):
             self.direct_spray_duration / 60.0) * self.spray_drift_fraction) / (self.body_weight_assessed_bird)
         return self.sid_avian
 
-    def CalcSidMammal(self):
+    def calc_sid_mammal(self):
         """
         eq. 8 Mammalian spray droplet inhalation dose
         """
@@ -255,7 +255,7 @@ class stir(object):
             self.direct_spray_duration / 60.0) * self.spray_drift_fraction) / (self.body_weight_assessed_mammal)
         return self.sid_mammal
 
-    def CalcConvertMammalInhalationLC50toLD50(self):
+    def calc_convert_mammal_inhalation_lc50_to_ld50(self):
         """
         eq. 9 Conversion of mammalian LC50 to LD50
         """
@@ -271,7 +271,7 @@ class stir(object):
         self.mammal_inhalation_ld50 = self.mammal_inhalation_lc50 * absorption * self.cf * self.duration_mammal_inhalation_study * activity_factor
         return self.mammal_inhalation_ld50
 
-    def CalcAdjustedMammalInhalationLD50(self):
+    def calc_adjusted_mammal_inhalation_ld50(self):
         """
         eq. 10 Adjusted mammalian inhalation LD50
         """
@@ -284,7 +284,7 @@ class stir(object):
                                                                                  self.body_weight_tested_mammal / self.body_weight_assessed_mammal) ** magicpower
         return self.adjusted_mammal_inhalation_ld50
 
-    def CalcEstimatedAvianInhalationLD50(self):
+    def calc_estimated_avian_inhalation_ld50(self):
         """
         eq. 11 Estimated avian inhalation LD50
         """
@@ -297,7 +297,7 @@ class stir(object):
             three_five * self.mammal_oral_ld50)
         return self.estimated_avian_inhalation_ld50
 
-    def CalcAdjustedAvianInhalationLD50(self):
+    def calc_adjusted_avian_inhalation_ld50(self):
         """
         eq. 12 Adjusted avian inhalation LD50
         """
@@ -311,7 +311,7 @@ class stir(object):
                                                                                          self.mineau_scaling_factor - 1)
         return self.adjusted_avian_inhalation_ld50
 
-    def ReturnRatioVidAvian(self):
+    def return_ratio_vid_avian(self):
         """
         results #1: Ratio of avian vapor dose to adjusted inhalation LD50
         """
@@ -321,7 +321,7 @@ class stir(object):
         self.ratio_vid_avian = self.vid_avian / self.adjusted_avian_inhalation_ld50
         return self.ratio_vid_avian
 
-    def ReturnLocVidAvian(self):
+    def return_loc_vid_avian(self):
         """
         results #2: Level of Concern for avian vapor phase risk
         """
@@ -335,7 +335,7 @@ class stir(object):
                                                 else 'Proceed to Refinements')
         return self.loc_vid_avian
 
-    def ReturnRatioSidAvian(self):
+    def return_ratio_sid_avian(self):
         """
         results #3: Ratio of avian droplet inhalation dose to adjusted inhalation LD50
         """
@@ -345,7 +345,7 @@ class stir(object):
         self.ratio_sid_avian = self.sid_avian / self.adjusted_avian_inhalation_ld50
         return self.ratio_sid_avian
 
-    def ReturnLocSidAvian(self):
+    def return_loc_sid_avian(self):
         """
         results #4: Level of Concern for avian droplet inhalation risk
         """
@@ -359,7 +359,7 @@ class stir(object):
                                                 else 'Proceed to Refinements')
         return self.loc_sid_avian
 
-    def ReturnRatioVidMammal(self):
+    def return_ratio_vid_mammal(self):
         """
         results #5: Ratio of mammalian vapor dose to adjusted inhalation LD50
         """
@@ -369,7 +369,7 @@ class stir(object):
         self.ratio_vid_mammal = self.vid_mammal / self.adjusted_mammal_inhalation_ld50
         return self.ratio_vid_mammal
 
-    def ReturnLocVidMammal(self):
+    def return_loc_vid_mammal(self):
         """
         results #6: Level of Concern for mammalian vapor phase risk
         """
@@ -383,7 +383,7 @@ class stir(object):
                                                  else 'Proceed to Refinements')
         return self.loc_vid_mammal
 
-    def ReturnRatioSidMammal(self):
+    def return_ratio_sid_mammal(self):
         """
         results #7: Ratio of mammalian droplet inhalation dose to adjusted inhalation LD50
         """
@@ -393,7 +393,7 @@ class stir(object):
         self.ratio_sid_mammal = self.sid_mammal / self.adjusted_mammal_inhalation_ld50
         return self.ratio_sid_mammal
 
-    def ReturnLocSidMammal(self):
+    def return_loc_sid_mammal(self):
         """
         results #8: Level of Concern for mammaliam droplet inhalation risk
         """

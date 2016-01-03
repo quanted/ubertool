@@ -58,27 +58,27 @@ class agdrift(object):
             self.express_extrapolate_f(self.y, self.nasae, self.distance)
             self.deposition_foa_to_gha_f(self.init_avg_dep_foa, self.application_rate)
             self.deposition_ghac_to_lbac_f(self.avg_depo_gha)
-            self.deposition_gha_to_ngL_f(self.aquatic_type, self.avg_depo_gha)
+            self.deposition_gha_to_ngl_f(self.aquatic_type, self.avg_depo_gha)
             self.deposition_gha_to_mgcm_f(self.avg_depo_gha)
 
             # elif (self.calculation_input == 'Fraction'):
             #     self.extrapolate_from_fig2(self.ecosystem_type, self.init_avg_dep_foa, bisect_left, self.x, self.y)
             #     self.deposition_foa_to_lbac_f(self.init_avg_dep_foa, self.application_rate)
             #     self.deposition_lbac_to_gha_f(self.avg_depo_lbac)
-            #     self.deposition_gha_to_ngL_f(self.aquatic_type, self.avg_depo_gha)
+            #     self.deposition_gha_to_ngl_f(self.aquatic_type, self.avg_depo_gha)
             #     self.deposition_gha_to_mgcm_f(self.avg_depo_gha)
 
             # elif (self.calculation_input == 'Initial Average Deposition (g/ha)'):
             #     self.deposition_ghac_to_lbac_f(self.avg_depo_gha)
             #     self.deposition_lbac_to_foa_f(self.avg_depo_lbac, self.application_rate)
             #     self.extrapolate_from_fig2(self.ecosystem_type, self.init_avg_dep_foa, bisect_left, self.x, self.y)
-            #     self.deposition_gha_to_ngL_f(self.aquatic_type, self.avg_depo_gha)
+            #     self.deposition_gha_to_ngl_f(self.aquatic_type, self.avg_depo_gha)
             #     self.deposition_gha_to_mgcm_f(self.avg_depo_gha)
 
             # elif (self.calculation_input == 'Initial Average Deposition (lb/ac)'):
             #     print self.avg_depo_lbac
             #     self.deposition_lbac_to_gha_f(self.avg_depo_lbac)
-            #     self.deposition_gha_to_ngL_f(self.aquatic_type, self.avg_depo_gha)
+            #     self.deposition_gha_to_ngl_f(self.aquatic_type, self.avg_depo_gha)
             #     self.deposition_gha_to_mgcm_f(self.avg_depo_gha)
             #     self.deposition_lbac_to_foa_f(self.avg_depo_lbac, self.application_rate)
             #     self.extrapolate_from_fig2(self.ecosystem_type, self.init_avg_dep_foa, bisect_left, self.x, self.y)
@@ -95,7 +95,7 @@ class agdrift(object):
             #     self.deposition_ghac_to_lbac_f(self.avg_depo_gha)
             #     self.deposition_lbac_to_foa_f(self.avg_depo_lbac, self.application_rate)
             #     self.extrapolate_from_fig2(self.ecosystem_type, self.init_avg_dep_foa, bisect_left, self.x, self.y)
-            #     self.deposition_gha_to_ngL_f(self.aquatic_type, self.avg_depo_gha)
+            #     self.deposition_gha_to_ngl_f(self.aquatic_type, self.avg_depo_gha)
 
     # def results(self):
     #     self.pond_ground_high_vf2f = [0.0616,0.0572,0.0455,0.0376,0.0267,0.0194,0.013,0.0098,0.0078,0.0064,0.0053,0.0046,0.0039,0.0035,0.003,0.0027,0.0024,0.0022,0.002,0.0018,0.0017,0.0015,0.0014,0.0013,0.0012]
@@ -1340,7 +1340,7 @@ class agdrift(object):
         # print self.avg_depo_gha
         return self.avg_depo_gha
 
-    def deposition_gha_to_ngL_f(self, aquatic_type, avg_depo_gha):
+    def deposition_gha_to_ngl_f(self, aquatic_type, avg_depo_gha):
         """
         Deposition calculation.
         :param init_avg_dep_foa:
