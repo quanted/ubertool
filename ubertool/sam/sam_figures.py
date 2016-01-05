@@ -68,8 +68,8 @@ def generate_sam_month_streak_boxplot(jobid, huc_output):
         patch.set_facecolor(color)
 
     ## Custom x-axis labels
-    monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    ax.set_xticklabels(monthNames)
+    month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    ax.set_xticklabels(month_names)
 
     ## Remove top axes and right axes ticks
     ax.get_xaxis().tick_bottom()
@@ -124,12 +124,12 @@ def generate_sam_annual_streak_boxplot(jobid):
         patch.set_facecolor(color)
 
     ## Custom x-axis labels
-    yearNames = ['1984', '1985', '1986', '1987', '1988', '1989',
+    year_names = ['1984', '1985', '1986', '1987', '1988', '1989',
                  '1990', '1991', '1992', '1993', '1994', '1995',
                  '1996', '1997', '1998', '1999', '2000', '2001',
                  '2002', '2003', '2004', '2005', '2006', '2007',
                  '2008', '2009', '2010', '2011', '2012', '2013']
-    ax.set_xticklabels(yearNames)
+    ax.set_xticklabels(year_names)
 
     ## Remove top axes and right axes ticks
     ax.get_xaxis().tick_bottom()
@@ -176,8 +176,8 @@ def generate_sam_month_freq_of_exceed_boxplot(jobid):
         patch.set_facecolor(color)
 
     ## Custom x-axis labels
-    monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    ax.set_xticklabels(monthNames)
+    month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    ax.set_xticklabels(month_names)
 
     ## Remove top axes and right axes ticks
     ax.get_xaxis().tick_bottom()
@@ -229,12 +229,12 @@ def generate_sam_annual_freq_of_exceed_boxplot(jobid):
         patch.set_facecolor(color)
 
     ## Custom x-axis labels
-    yearNames = ['1984', '1985', '1986', '1987', '1988', '1989',
+    year_names = ['1984', '1985', '1986', '1987', '1988', '1989',
                  '1990', '1991', '1992', '1993', '1994', '1995',
                  '1996', '1997', '1998', '1999', '2000', '2001',
                  '2002', '2003', '2004', '2005', '2006', '2007',
                  '2008', '2009', '2010', '2011', '2012', '2013']
-    ax.set_xticklabels(yearNames)
+    ax.set_xticklabels(year_names)
 
     ## Remove top axes and right axes ticks
     ax.get_xaxis().tick_bottom()
@@ -422,7 +422,7 @@ def generate_sam_month_streak_huc_plot(jobid, hucid):
 
     # month info
     months = range(12)
-    monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    month_names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
     # Create a third figure instance
     fig3 = plt.figure(3, figsize=(10, 6))
@@ -440,7 +440,7 @@ def generate_sam_month_streak_huc_plot(jobid, hucid):
     ax1_3.set_axisbelow(True)
 
     ## Custom x-axis labels
-    ax_3.set_xticklabels(monthNames)
+    ax_3.set_xticklabels(month_names)
     # set tick intervals to 12
     ax_3.locator_params(tight=True, nbins=12)
     ## Remove top axes and right axes ticks
@@ -471,7 +471,7 @@ def generate_sam_annual_streak_huc_plot(jobid, hucid):
 
     # month info
     years = range(30)
-    yearNames = ['1984', '1985', '1986', '1987', '1988', '1989',
+    year_names = ['1984', '1985', '1986', '1987', '1988', '1989',
                  '1990', '1991', '1992', '1993', '1994', '1995',
                  '1996', '1997', '1998', '1999', '2000', '2001',
                  '2002', '2003', '2004', '2005', '2006', '2007',
@@ -495,7 +495,7 @@ def generate_sam_annual_streak_huc_plot(jobid, hucid):
     ax1_3.set_axisbelow(True)
 
     ## Custom x-axis labels
-    ax_3.set_xticklabels(yearNames)
+    ax_3.set_xticklabels(year_names)
     # set tick intervals to 12
     ax_3.locator_params(tight=True, nbins=30)
     ## Remove top axes and right axes ticks
