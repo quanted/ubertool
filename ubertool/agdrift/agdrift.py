@@ -1246,13 +1246,13 @@ class Agdrift(object):
         # NASAE1=int(self.nasae)-1
         # N=max(0,min(9,(self.nasae-1)))
         # I=max(0,min(99,int(0.5*int(self.distance))+1))
-        I_f = max(1, min(100, int(0.5 * int(self.distance)) + 1))
-        YM = 2.0 * (I_f - 1)
-        YP = 2.0 * (I_f)
-        I = I_f - 1  # to account for python being zero based
+        i_f = max(1, min(100, int(0.5 * int(self.distance)) + 1))
+        ym = 2.0 * (i_f - 1)
+        yp = 2.0 * (i_f)
+        i = i_f - 1  # to account for python being zero based
 
         self.init_avg_dep_foa = (0.5 * (
-            self.y[I] * (YP - int(self.distance)) + self.y[I + 1] * (int(self.distance) - YM))) / 100
+            self.y[i] * (yp - int(self.distance)) + self.y[i + 1] * (int(self.distance) - ym))) / 100
         return self.init_avg_dep_foa
 
     def extrapolate_from_fig(self, ecosystem_type, distance, bisect_left, x, y):

@@ -54,10 +54,10 @@ def sam():
     # for name in fname:
     #     if name !='przm5.exe' and name !='test.dvf':
     #         zout.write(name)
-    superPRZM_ouput = os.path.join(curr_dir, 'bin', 'dwPestOut_all', 'dwPestOut_SoilGrps', 'Reservoirs',
+    superprzm_output = os.path.join(curr_dir, 'bin', 'dwPestOut_all', 'dwPestOut_SoilGrps', 'Reservoirs',
                                    '1838_pestAvgConc_distrib.out')
-    print superPRZM_ouput
-    zout.write(superPRZM_ouput, os.path.basename(superPRZM_ouput))
+    print superprzm_output
+    zout.write(superprzm_output, os.path.basename(superprzm_output))
     zout.close()
 
     ##Create connection to S3

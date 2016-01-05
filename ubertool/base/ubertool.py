@@ -23,8 +23,8 @@ class UberModel(object):
 
         module = importlib.import_module(
             '.' + model_obj.name.lower() + '_model_rest', 'REST_UBER.' + model_obj.name.lower() + '_rest')
-        ModelInputs = getattr(module, model_obj.name + "Inputs")
-        model_inputs_obj = ModelInputs()
+        model_inputs = getattr(module, model_obj.name + "Inputs")
+        model_inputs_obj = model_inputs()
 
         # Create temporary DataFrame where each column name is the same as TerrplantInputs attributes
         df = pd.DataFrame()
@@ -58,8 +58,8 @@ class UberModel(object):
 
         module = importlib.import_module(
             '.' + model_obj.name.lower() + '_model_rest', 'REST_UBER.' + model_obj.name.lower() + '_rest')
-        ModelOutputs = getattr(module, model_obj.name + "Outputs")
-        model_outputs_obj = ModelOutputs()
+        model_outputs = getattr(module, model_obj.name + "Outputs")
+        model_outputs_obj = model_outputs()
         df = pd.DataFrame()
         for input_param in model_outputs_obj.__dict__:
             df[input_param] = getattr(self, input_param)
