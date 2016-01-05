@@ -43,6 +43,9 @@ test = {}
 
 
 class TestEarthworm(unittest.TestCase):
+    """
+    Integration tests for earthworm model.
+    """
     def setUp(self):
         """
         Test setup method.

@@ -15,6 +15,9 @@ sip_empty = sip_model.sip("empty", df_empty, df_empty)
 test = {}
 
 class TestSip(unittest.TestCase):
+    """
+    Unit tests for Sip.
+    """
     def setup(self):
         """
         Setup routine for sip unittest.

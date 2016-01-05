@@ -43,7 +43,9 @@ test = {}
 
 
 class TestSip(unittest.TestCase):
-
+    """
+    Integration tests for Sip.
+    """
     def __init__(self, *args, **kwargs):
         """
         Constructor for sip integration tests

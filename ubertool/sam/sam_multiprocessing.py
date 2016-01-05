@@ -43,6 +43,9 @@ def multiprocessing_setup():
 
 
 class SamModelCaller(object):
+    """
+    Class for calling Fortran version of SAM.
+    """
     def __init__(self, jid, name_temp, no_of_processes=16):
         """
         Constructor for SamModelCaller class.

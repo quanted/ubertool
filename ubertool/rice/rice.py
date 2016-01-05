@@ -4,6 +4,9 @@ import logging
 
 
 class Rice(object):
+    """
+    Estimate surface water exposure from the use of pesticide in rice paddies
+    """
     def __init__(self, run_type, pd_obj, pd_obj_exp):
         '''  Constructor '''
         self.run_type = run_type

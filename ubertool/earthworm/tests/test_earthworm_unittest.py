@@ -10,6 +10,9 @@ test = {}
 
 
 class TestEarthworm(unittest.TestCase):
+    """
+    Unit tests for earthworm model.
+    """
     def setup(self):
         """
         setup the test as needed

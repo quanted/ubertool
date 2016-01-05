@@ -43,6 +43,9 @@ test = {}
 
 
 class TestStir(unittest.TestCase):
+    """
+    Integration tests for Stir.
+    """
     def setup(self):
         """
         Setup routine for stir integration test

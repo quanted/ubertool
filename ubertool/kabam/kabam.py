@@ -4,6 +4,10 @@ import numpy as np
 
 
 class Kabam(object):
+    """
+    Hydrophobic organic pesticide bioaccumulation in aquatic components of a food web to terrestrial
+    exposure in birds and mammals
+    """
     def __init__(self, chemical_name, l_kow, k_oc, c_wdp, water_column_EEC, c_wto, mineau_scaling_factor, x_poc, x_doc,
                  c_ox, w_t, c_ss, oc, k_ow, Species_of_the_tested_bird, bw_quail, bw_duck, bwb_other, avian_ld50,
                  avian_lc50, avian_noaec, m_species, bw_rat, bwm_other, mammalian_ld50, mammalian_lc50,

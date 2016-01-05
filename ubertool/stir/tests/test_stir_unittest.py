@@ -24,6 +24,9 @@ stir_empty = stir_model.stir("empty", df_empty, df_empty)
 test = {}
 
 class TestStir(unittest.TestCase):
+    """
+    Unit tests for Stir.
+    """
     def setup(self):
         """
         setup routine for stir unittests

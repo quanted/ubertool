@@ -3,6 +3,9 @@ import numpy as np
 
 
 class Agdrift(object):
+    """
+    Agdrift class to implement tier 1 air drift screening models.
+    """
     def __init__(self, drop_size, ecosystem_type, application_method, boom_height, orchard_type,
                  application_rate, distance, aquatic_type, calculation_input, init_avg_dep_foa,
                  avg_depo_lbac, avg_depo_gha, deposition_ngl, deposition_mgcm, nasae, y, x, express_y):

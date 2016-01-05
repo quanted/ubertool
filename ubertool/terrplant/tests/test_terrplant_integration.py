@@ -46,6 +46,9 @@ test = {}
 
 
 class TestTerrplant(unittest.TestCase):
+    """
+    Integration tests for terrplant.
+    """
     def setUp(self):
         """
         Setup routine for terrplant.

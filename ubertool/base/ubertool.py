@@ -3,6 +3,9 @@ import pandas as pd
 
 
 class UberModel(object):
+    """
+    Collection of static methods used across all the ubertool models.
+    """
     def __init__(self):
         """Main utility class for building Ubertool model classes for model execution."""
         super(UberModel, self).__init__()

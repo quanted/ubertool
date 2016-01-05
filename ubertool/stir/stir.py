@@ -5,6 +5,9 @@ import sys
 
 
 class Stir(object):
+    """
+    Estimate inhalation risk of chemicals to birds and mammals.
+    """
     def __init__(self, run_type, pd_obj, pd_obj_exp):
         """  Constructor """
         # run_type can be single, batch or qaqc

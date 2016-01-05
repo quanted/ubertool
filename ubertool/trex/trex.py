@@ -3,6 +3,11 @@ import numpy as np
 
 
 class Trex(object):
+    """
+    Calculates the residues on avian and mammalian food items (e.g., short or tall grass, seeds, insects,
+    etc) along with the dissipation rate of a chemical applied to foliar surfaces (for single or multiple
+    applications) in order to estimate acute and reproductive risk quotients
+    """
     def __init__(self, chem_name, use, formu_name, a_i, application_type, seed_treatment_formulation_name, seed_crop,
                  seed_crop_v, r_s, b_w, p_i, den, h_l, n_a, ar_lb, day_out,
                  ld50_bird, lc50_bird, noaec_bird, noael_bird, aw_bird_sm, aw_bird_md, aw_bird_lg,

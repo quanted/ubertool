@@ -19,6 +19,9 @@ test = {}
 
 
 class TestRice(unittest.TestCase):
+    """
+    Unit tests for Rice.
+    """
     def setup(self):
         """
         Setup routine for rice tests

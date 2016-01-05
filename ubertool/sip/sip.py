@@ -4,6 +4,9 @@ import logging
 
 
 class Sip(object):
+    """
+    Estimate chemical exposure from drinking water alone in birds and mammals.
+    """
     def __init__(self, run_type, pd_obj, pd_obj_exp):
         '''  Constructor '''
         # Inputs: Assign object attribute variables from the input Pandas DataFrame

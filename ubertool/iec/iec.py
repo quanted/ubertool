@@ -6,6 +6,9 @@ from scipy.special import erfc
 
 
 class Iec(object):
+    """
+    IEC model for proportional population effect based on normal distribution.
+    """
     def __init__(self, run_type, pd_obj, pd_obj_exp):
         """
         Constructor for iec

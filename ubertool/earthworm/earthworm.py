@@ -4,6 +4,9 @@ import pandas as pd
 
 
 class Earthworm(object):
+    """
+    Earthworm model for annelid soil ingestion.
+    """
     def __init__(self, run_type, pd_obj, pd_obj_exp):
         '''  Constructor '''
         # Inputs: Assign object attribute variables from the input Pandas DataFrame

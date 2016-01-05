@@ -39,6 +39,9 @@ rice_calc = rice_model.rice("batch", pd_obj_inputs, pd_obj_exp_out)
 test = {}
 
 class Testrice(unittest.TestCase):
+    """
+    Integration tests for Rice.
+    """
     def setup(self):
         """
         Setup routing for rice tests

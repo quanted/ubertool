@@ -14,6 +14,9 @@ rtol = 1e-5 # set relative tolerance level for npt.assert_allclose assertion tes
 test = {}
 
 class TestIEC(unittest.TestCase):
+    """
+    IEC unit tests.
+    """
     def setup(self):
         """
         setup the test as needed
