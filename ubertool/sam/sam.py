@@ -289,16 +289,17 @@ def sam_daily_results_parser(temp_sam_run_path, jid, run_type, args, section, hu
     """
     f_path = os.path.join(temp_sam_run_path, 'output')
     for output in os.listdir(f_path):
-        f = open(os.path.join(temp_sam_run_path, 'output', output), "rb")
-        huc_id = f.read(11)
-        huc_output[huc_id] = []  # HUC ID
-        jdate = f.read(4)
-        while jdate:
-            # Do stuff with byte.
-            conc = f.read(4)
-            huc_output[huc_id].append((jdate, conc))
-            jdate = f.read(4)  # Read next 4 bytes (the next Julian Date)
-        f.close()
+        #f = open(os.path.join(temp_sam_run_path, 'output', output), "rb")
+        with open(os.path.join(temp_sam_run_path, 'output', output), "rb") as f:
+            huc_id = f.read(11)
+            huc_output[huc_id] = []  # HUC ID
+            jdate = f.read(4)
+            while jdate:
+                # Do stuff with byte.
+                conc = f.read(4)
+                huc_output[huc_id].append((jdate, conc))
+                jdate = f.read(4)  # Read next 4 bytes (the next Julian Date)
+        #f.close()
         # Connect to Tornado server to return results
         # print sam_db.update_mongo_tornado(temp_sam_run_path, jid, run_type, args, section, huc_output)
 
@@ -454,18 +455,14 @@ def update_global_output_holder(temp_sam_run_path, args, section):
             huc_id = file.split('_')[1]
             huc_output[huc_id] = {}  # Create empty dictionary for 'huc_id' key in 'huc_output'
 
-            f_out = open(os.path.join(
-                output_file_path,
-                file
-            ), 'r')
+            #f_out = open(os.path.join(output_file_path,file), 'r')
+            with open(os.path.join(output_file_path,file), 'r') as f_out:
+                f_out.next()  # Skip first line
 
-            f_out.next()  # Skip first line
-
-            for line in f_out:  # Loop over lines in output file
-                out = [x for x in line.split(' ') if x not in ('', '\n')]  # List comprehension: remove '' & '\n'
-                huc_output[huc_id][out[0]] = out[1]  # Update dictionary with desired line values
-
-            f_out.close()
+                for line in f_out:  # Loop over lines in output file
+                    out = [x for x in line.split(' ') if x not in ('', '\n')]  # List comprehension: remove '' & '\n'
+                    huc_output[huc_id][out[0]] = out[1]  # Update dictionary with desired line values
+            #f_out.close()
 
     else:  # Time-Averaged Results
 
@@ -485,31 +482,28 @@ def update_global_output_holder(temp_sam_run_path, args, section):
 
             try:  # Some output files will not be created if there is no crop cover there
 
-                f_out = open(os.path.join(
-                    temp_sam_run_path,
-                    'output',
-                    file_out), 'r')
+                #f_out = open(os.path.join(temp_sam_run_path,'output',file_out), 'r')
+                with open(os.path.join(temp_sam_run_path,'output',file_out), 'r') as f_out:
+                    f_out.next()  # Skip first line
 
-                f_out.next()  # Skip first line
+                    for line in f_out:
+                        line_list = line.split(',')
+                        if line_list[0][0] == " ":  # If 1st char in first item (HUC #) is "space", replace it with a "0"
+                            line_list[0] = '0' + line_list[0][1:]
+                        i = 0
+                        for item in line_list:
+                            line_list[i] = item.lstrip()  # Remove whitespace from beginning of string
+                            i += 1
 
-                for line in f_out:
-                    line_list = line.split(',')
-                    if line_list[0][0] == " ":  # If 1st char in first item (HUC #) is "space", replace it with a "0"
-                        line_list[0] = '0' + line_list[0][1:]
-                    i = 0
-                    for item in line_list:
-                        line_list[i] = item.lstrip()  # Remove whitespace from beginning of string
-                        i += 1
+                        # Assign HUC id as key and output values as values (list)
+                        try:
+                            huc_output[line_list[0]] = line_list[1:]
 
-                    # Assign HUC id as key and output values as values (list)
-                    try:
-                        huc_output[line_list[0]] = line_list[1:]
+                        except IndexError, e:
+                            logging.info(line_list)
+                            logging.exception(e)
 
-                    except IndexError, e:
-                        logging.info(line_list)
-                        logging.exception(e)
-
-                f_out.close()
+                #f_out.close()
 
             except IOError, e:
                 logging.exception(e)
