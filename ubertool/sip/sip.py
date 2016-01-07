@@ -149,7 +149,8 @@ class Sip(object):
         pd_obj_out_json = pd_obj_out.to_json()
         try:
             pd_obj_exp_json = pd_obj_exp.to_json()
-        except:
+        except Exception as e:
+            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
             pd_obj_exp_json = "{}"
 
         return pd_obj_json, pd_obj_out_json, pd_obj_exp_json
@@ -517,28 +518,32 @@ class Sip(object):
         try:
             # Body weight of bobtail quail is 178 g
             self.det_quail = (self.noaec_quail * self.fi_bird(178.)) / (178. / 1000.)
-        except:
+        except Exception as e:
+            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
             #TODO: vectorize
             self.det_quail = None
 
         try:
             # Body weight of mallard duck is 1580 g
             self.det_duck = (self.noaec_duck * self.fi_bird(1580.)) / (1580. / 1000.)
-        except:
+        except Exception as e:
+            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
             # TODO: vectorize
             self.det_duck = None
 
         try:
             self.det_other_1 = (self.noaec_bird_other_1 * self.fi_bird(self.bodyweight_bird_other_1)) / (
                 self.bodyweight_bird_other_1 / 1000.)
-        except:
+        except Exception as e:
+            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
             # TODO: Vectorize
             self.det_other_1 = None
 
         try:
             self.det_other_2 = (self.noaec_bird_other_2 * self.fi_bird(self.bodyweight_bird_other_2)) / (
                 self.bodyweight_bird_other_2 / 1000.)
-        except:
+        except Exception as e:
+            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
             # TODO: vectorize
             det_other_2 = None
 

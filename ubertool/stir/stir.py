@@ -97,7 +97,8 @@ class Stir(object):
             self.return_loc_vid_mammal()  # results #6
             self.return_ratio_sid_mammal()  # results #7
             self.return_loc_sid_mammal()  # results #8
-        except:
+        except Exception as e:
+            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
             print "run_methods error:", sys.exc_info()[0]
 
     def create_output_dataframe(self):
