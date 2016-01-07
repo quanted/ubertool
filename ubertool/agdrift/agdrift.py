@@ -58,47 +58,47 @@ class Agdrift(object):
         self.results()
         if (self.calculation_input == 'Distance'):
             self.results()
-            self.express_extrapolate_f(self.y, self.nasae, self.distance)
+            self.express_extrapolate_f()
             self.deposition_foa_to_gha_f(self.init_avg_dep_foa, self.application_rate)
-            self.deposition_ghac_to_lbac_f(self.avg_depo_gha)
-            self.deposition_gha_to_ngl_f(self.aquatic_type, self.avg_depo_gha)
-            self.deposition_gha_to_mgcm_f(self.avg_depo_gha)
+            self.deposition_ghac_to_lbac_f()
+            self.deposition_gha_to_ngl_f()
+            self.deposition_gha_to_mgcm_f()
 
             # elif (self.calculation_input == 'Fraction'):
-            #     self.extrapolate_from_fig2(self.ecosystem_type, self.init_avg_dep_foa, bisect_left, self.x, self.y)
-            #     self.deposition_foa_to_lbac_f(self.init_avg_dep_foa, self.application_rate)
-            #     self.deposition_lbac_to_gha_f(self.avg_depo_lbac)
-            #     self.deposition_gha_to_ngl_f(self.aquatic_type, self.avg_depo_gha)
-            #     self.deposition_gha_to_mgcm_f(self.avg_depo_gha)
+            #     self.extrapolate_from_fig2(self.y)
+            #     self.deposition_foa_to_lbac_f()
+            #     self.deposition_lbac_to_gha_f()
+            #     self.deposition_gha_to_ngl_f()
+            #     self.deposition_gha_to_mgcm_f()
 
             # elif (self.calculation_input == 'Initial Average Deposition (g/ha)'):
-            #     self.deposition_ghac_to_lbac_f(self.avg_depo_gha)
-            #     self.deposition_lbac_to_foa_f(self.avg_depo_lbac, self.application_rate)
-            #     self.extrapolate_from_fig2(self.ecosystem_type, self.init_avg_dep_foa, bisect_left, self.x, self.y)
-            #     self.deposition_gha_to_ngl_f(self.aquatic_type, self.avg_depo_gha)
-            #     self.deposition_gha_to_mgcm_f(self.avg_depo_gha)
+            #     self.deposition_ghac_to_lbac_f()
+            #     self.deposition_lbac_to_foa_f()
+            #     self.extrapolate_from_fig2(self.y)
+            #     self.deposition_gha_to_ngl_f()
+            #     self.deposition_gha_to_mgcm_f()
 
             # elif (self.calculation_input == 'Initial Average Deposition (lb/ac)'):
             #     print self.avg_depo_lbac
-            #     self.deposition_lbac_to_gha_f(self.avg_depo_lbac)
-            #     self.deposition_gha_to_ngl_f(self.aquatic_type, self.avg_depo_gha)
-            #     self.deposition_gha_to_mgcm_f(self.avg_depo_gha)
-            #     self.deposition_lbac_to_foa_f(self.avg_depo_lbac, self.application_rate)
-            #     self.extrapolate_from_fig2(self.ecosystem_type, self.init_avg_dep_foa, bisect_left, self.x, self.y)
+            #     self.deposition_lbac_to_gha_f()
+            #     self.deposition_gha_to_ngl_f()
+            #     self.deposition_gha_to_mgcm_f()
+            #     self.deposition_lbac_to_foa_f()
+            #     self.extrapolate_from_fig2(self.y)
 
             # elif (self.calculation_input == 'Initial Average Concentration (ng/l)'):
-            #     self.deposition_ngl_2_gha_f(self.deposition_ngl)
-            #     self.deposition_ghac_to_lbac_f(self.avg_depo_gha)
-            #     self.deposition_lbac_to_foa_f(self.avg_depo_lbac, self.application_rate)
-            #     self.extrapolate_from_fig2(self.ecosystem_type, self.init_avg_dep_foa, bisect_left, self.x, self.y)
-            #     self.deposition_gha_to_mgcm_f(self.avg_depo_gha)
+            #     self.deposition_ngl_2_gha_f()
+            #     self.deposition_ghac_to_lbac_f()
+            #     self.deposition_lbac_to_foa_f()
+            #     self.extrapolate_from_fig2(self.y)
+            #     self.deposition_gha_to_mgcm_f()
 
             # else:
-            #     self.deposition_mgcm_to_gha_f(self.deposition_mgcm)
-            #     self.deposition_ghac_to_lbac_f(self.avg_depo_gha)
-            #     self.deposition_lbac_to_foa_f(self.avg_depo_lbac, self.application_rate)
-            #     self.extrapolate_from_fig2(self.ecosystem_type, self.init_avg_dep_foa, bisect_left, self.x, self.y)
-            #     self.deposition_gha_to_ngl_f(self.aquatic_type, self.avg_depo_gha)
+            #     self.deposition_mgcm_to_gha_f()
+            #     self.deposition_ghac_to_lbac_f()
+            #     self.deposition_lbac_to_foa_f()
+            #     self.extrapolate_from_fig2(self.y)
+            #     self.deposition_gha_to_ngl_f()
 
     # def results(self):
     #     self.pond_ground_high_vf2f = [0.0616,0.0572,0.0455,0.0376,0.0267,0.0194,0.013,0.0098,0.0078,0.0064,0.0053,0.0046,0.0039,0.0035,0.003,0.0027,0.0024,0.0022,0.002,0.0018,0.0017,0.0015,0.0014,0.0013,0.0012]
@@ -1233,7 +1233,7 @@ class Agdrift(object):
         else:
             self.y = 3
 
-    def express_extrapolate_f(self, y, nasae, distance):
+    def express_extrapolate_f(self):
         """
         Extrapolate results from express implementation.
         :param y:
@@ -1255,7 +1255,7 @@ class Agdrift(object):
             self.y[i] * (yp - int(self.distance)) + self.y[i + 1] * (int(self.distance) - ym))) / 100
         return self.init_avg_dep_foa
 
-    def extrapolate_from_fig(self, ecosystem_type, distance, bisect_left, x, y):
+    def extrapolate_from_fig(self, bisect_left, x):
         """
         Extrapolating from nearest figure points.
         :param ecosystem_type:
@@ -1279,7 +1279,7 @@ class Agdrift(object):
                                     self.y[low_i]
         return self.init_avg_dep_foa
 
-    def extrapolate_from_fig2(self, ecosystem_type, init_avg_dep_foa, bisect_left, x, y):
+    def extrapolate_from_fig2(self, y):
         """
         Extrapolating from nearest figure points, alternative figure.
         :param ecosystem_type:
@@ -1317,7 +1317,7 @@ class Agdrift(object):
         self.avg_depo_gha = init_avg_dep_foa * 100.0 * application_rate * 10.0
         return self.avg_depo_gha
 
-    def deposition_foa_to_lbac_f(self, init_avg_dep_foa, application_rate):
+    def deposition_foa_to_lbac_f(self):
         """
         Deposition calculation.
         :param init_avg_dep_foa:
@@ -1331,7 +1331,7 @@ class Agdrift(object):
         # print self.avg_depo_lbac
         return self.avg_depo_lbac
 
-    def deposition_lbac_to_gha_f(self, avg_depo_lbac):
+    def deposition_lbac_to_gha_f(self):
         """
         Deposition calculation.
         :param init_avg_dep_foa:
@@ -1343,7 +1343,7 @@ class Agdrift(object):
         # print self.avg_depo_gha
         return self.avg_depo_gha
 
-    def deposition_gha_to_ngl_f(self, aquatic_type, avg_depo_gha):
+    def deposition_gha_to_ngl_f(self):
         """
         Deposition calculation.
         :param init_avg_dep_foa:
@@ -1357,7 +1357,7 @@ class Agdrift(object):
             self.deposition_ngl = self.avg_depo_gha * 0.05 * 1000.0 * (6.56 / 0.4921)
         return self.deposition_ngl
 
-    def deposition_gha_to_mgcm_f(self, avg_depo_gha):
+    def deposition_gha_to_mgcm_f(self):
         """
         Deposition calculation.
         :param init_avg_dep_foa:
@@ -1367,7 +1367,7 @@ class Agdrift(object):
         self.deposition_mgcm = self.avg_depo_gha * 0.00001
         return self.deposition_mgcm
 
-    def deposition_ngl_2_gha_f(self, deposition_ngl):
+    def deposition_ngl_2_gha_f(self):
         """
         Deposition calculation.
         :param init_avg_dep_foa:
@@ -1381,7 +1381,7 @@ class Agdrift(object):
             self.avg_depo_gha = ((self.deposition_ngl / 6.56) * 0.4921) / (0.05 * 1000)
         return self.avg_depo_gha
 
-    def deposition_ghac_to_lbac_f(self, avg_depo_gha):
+    def deposition_ghac_to_lbac_f(self):
         """
         Deposition calculation.
         :param init_avg_dep_foa:
@@ -1392,7 +1392,7 @@ class Agdrift(object):
         self.avg_depo_lbac = (self.avg_depo_gha * 0.00220462 / 2.47105)
         return self.avg_depo_lbac
 
-    def deposition_lbac_to_foa_f(self, avg_depo_lbac, application_rate):
+    def deposition_lbac_to_foa_f(self):
         """
         Deposition calculation.
         :param init_avg_dep_foa:
@@ -1403,7 +1403,7 @@ class Agdrift(object):
         self.init_avg_dep_foa = self.avg_depo_lbac / self.application_rate
         return self.init_avg_dep_foa
 
-    def deposition_mgcm_to_gha_f(self, deposition_mgcm):
+    def deposition_mgcm_to_gha_f(self):
         """
         Deposition calculation.
         :param init_avg_dep_foa:

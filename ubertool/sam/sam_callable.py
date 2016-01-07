@@ -49,7 +49,7 @@ def mongo_motor_insert(jid, huc_ids, np_array, name_temp, section):
     # http_headers = {'Content-Type': 'application/json'}
     http_headers = {'Content-Type': 'application/octet-stream'}
     # data = json.dumps(create_mongo_document(np_array, name_temp, section))
-    data = serialize(jid, huc_ids, np_array, name_temp, section)
+    data = serialize(jid, huc_ids, np_array, name_temp)
 
     # Send data to Mongo server
     requests.post(url, data=data, headers=http_headers, timeout=30)
@@ -68,7 +68,7 @@ def create_huc_ids_list(np_array_huc_ids):
     return out_list
 
 
-def serialize(jid, huc_ids, np_array, name_temp, section):
+def serialize(jid, huc_ids, np_array, name_temp):
     """
     Returns pickle to be sent to Mongo server.
     :param np_array:

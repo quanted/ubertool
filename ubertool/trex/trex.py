@@ -485,17 +485,17 @@ class Trex(object):
                                                  ld50_mamm, tw_mamm)
 
         # Table14
-        self.ld50_bg_bird_sm = self.ld50_bg_bird(application_type, ar_lb, a_i, p_i, aw_bird_sm, self.at_bird, ld50_bird,
+        self.ld50_bg_bird_sm = self.ld50_bg_bird(application_type, ar_lb, a_i, aw_bird_sm, self.at_bird, ld50_bird,
                                                  tw_bird_ld50, x)
-        self.ld50_bg_mamm_sm = self.ld50_bg_mamm(application_type, ar_lb, a_i, p_i, aw_mamm_sm, self.at_mamm, ld50_mamm,
+        self.ld50_bg_mamm_sm = self.ld50_bg_mamm(application_type, ar_lb, a_i, aw_mamm_sm, self.at_mamm, ld50_mamm,
                                                  tw_mamm)
-        self.ld50_bg_bird_md = self.ld50_bg_bird(application_type, ar_lb, a_i, p_i, aw_bird_md, self.at_bird, ld50_bird,
+        self.ld50_bg_bird_md = self.ld50_bg_bird(application_type, ar_lb, a_i, aw_bird_md, self.at_bird, ld50_bird,
                                                  tw_bird_ld50, x)
-        self.ld50_bg_mamm_md = self.ld50_bg_mamm(application_type, ar_lb, a_i, p_i, aw_mamm_md, self.at_mamm, ld50_mamm,
+        self.ld50_bg_mamm_md = self.ld50_bg_mamm(application_type, ar_lb, a_i, aw_mamm_md, self.at_mamm, ld50_mamm,
                                                  tw_mamm)
-        self.ld50_bg_bird_lg = self.ld50_bg_bird(application_type, ar_lb, a_i, p_i, aw_bird_lg, self.at_bird, ld50_bird,
+        self.ld50_bg_bird_lg = self.ld50_bg_bird(application_type, ar_lb, a_i, aw_bird_lg, self.at_bird, ld50_bird,
                                                  tw_bird_ld50, x)
-        self.ld50_bg_mamm_lg = self.ld50_bg_mamm(application_type, ar_lb, a_i, p_i, aw_mamm_lg, self.at_mamm, ld50_mamm,
+        self.ld50_bg_mamm_lg = self.ld50_bg_mamm(application_type, ar_lb, a_i, aw_mamm_lg, self.at_mamm, ld50_mamm,
                                                  tw_mamm)
 
         # Table15
@@ -1176,7 +1176,7 @@ class Trex(object):
         else:
             return (0)
 
-    def ld50_bg_bird(self, application_type, a_r, a_i, p_i, aw_bird, at_bird, ld50_bird, tw_bird, x):
+    def ld50_bg_bird(self, application_type, a_r, a_i, aw_bird, at_bird, ld50_bird, tw_bird, x):
         """
         ld50ft-2 for broadcast granular birds
         :param application_type:
@@ -1218,7 +1218,7 @@ class Trex(object):
         else:
             return (0)
 
-    def ld50_bg_mamm(self, application_type, a_r, a_i, p_i, aw_mamm, at_mamm, ld50_mamm, tw_mamm):
+    def ld50_bg_mamm(self, application_type, a_r, a_i, aw_mamm, at_mamm, ld50_mamm, tw_mamm):
         """
         ld50ft-2 for broadcast granular mammals
         :param application_type:

@@ -87,11 +87,11 @@ def sam(inputs_json, jid, run_type):
             try:
 
                 if args['output_type'] == '1':  # Daily Concentrations
-                    list_of_julian_days = sam_input_prep(no_of_processes, name_temp, temp_sam_run_path, args)
+                    list_of_julian_days = sam_input_prep(no_of_processes, temp_sam_run_path, args)
                     sam_daily_conc(jid, no_of_processes, name_temp)
 
                 else:
-                    sam_input_prep(no_of_processes, name_temp, temp_sam_run_path,
+                    sam_input_prep(no_of_processes, temp_sam_run_path,
                                    args)  # Does not use 'number_of_rows_list' for SuperPRZMPesticide.exe runs
                     split_csv(no_of_processes, name_temp)
                     sam_avg_conc(no_of_processes, no_of_workers, name_temp, temp_sam_run_path, args, jid, run_type)
@@ -121,7 +121,7 @@ def sam(inputs_json, jid, run_type):
         return {'user_id': 'admin', 'result': ["https://s3.amazonaws.com/super_przm/SAM_IB2QZS.zip"], '_id': jid}
 
 
-def sam_input_prep(no_of_processes, name_temp, temp_sam_run_path, args):
+def sam_input_prep(no_of_processes, temp_sam_run_path, args):
     """
     Helper function to create temporary directory and generate the SAM.inp file(s) for SAM run.
 

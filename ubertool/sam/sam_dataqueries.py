@@ -53,7 +53,7 @@ def get_sam_huc_output(jid, huc12):
         print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
     return model_object
 
-def get_sam_monthly_huc_streak_output(jobid, hucid):
+def get_sam_monthly_huc_streak_output():
     """
     monthly streak data for huc
     need a dictionary with a single huc as a key and
@@ -66,7 +66,7 @@ def get_sam_monthly_huc_streak_output(jobid, hucid):
     sam_huc = sam_dict.values()
     return sam_huc
 
-def get_sam_annual_huc_streak_output(jobid, hucid):
+def get_sam_annual_huc_streak_output():
     """
     fake annual huc data
     need a dictionary with a single huc as a key and
@@ -82,7 +82,7 @@ def get_sam_annual_huc_streak_output(jobid, hucid):
     sam_huc = sam_dict.values()
     return sam_huc
 
-def get_sam_monthly_huc_freq_of_exceed_output(jobid, hucid):
+def get_sam_monthly_huc_freq_of_exceed_output():
     """
     fake monthly frequency of exceedance output
     """
@@ -93,7 +93,7 @@ def get_sam_monthly_huc_freq_of_exceed_output(jobid, hucid):
     sam_huc = sam_dict.values()
     return sam_huc
 
-def get_sam_annual_huc_freq_of_exceed_output(jobid, hucid):
+def get_sam_annual_huc_freq_of_exceed_output():
     """
     Fake annual frequency of exceedance output
     :param jobid:
@@ -109,7 +109,7 @@ def get_sam_annual_huc_freq_of_exceed_output(jobid, hucid):
     sam_huc = sam_dict.values()
     return sam_huc
 
-def get_sam_monthly_array_streak_output(jobid):
+def get_sam_monthly_array_streak_output():
     """
     fake monthly streak data, annual streak data, need to change to mongoquery
     rand produces a numpy array but the mongo call returns a dictionary of lists
@@ -132,7 +132,7 @@ def get_sam_monthly_array_streak_output(jobid):
     sam = pd.DataFrame.from_dict(sam_dict, orient="index").as_matrix()
     return sam
 
-def get_sam_annual_array_streak_output(jobid):
+def get_sam_annual_array_streak_output():
     """
     fake streak output, monthly frequency of exceedance data, change to mongoquery
     """
@@ -153,7 +153,7 @@ def get_sam_annual_array_streak_output(jobid):
     sam = pd.DataFrame.from_dict(sam_dict, orient="index").as_matrix()
     return sam
 
-def get_sam_monthly_array_freq_of_exceed_output(jobid):
+def get_sam_monthly_array_freq_of_exceed_output():
     """
     fake,  annual frequency of exceedance data, change to mongoquery
     rand produces a numpy array but the mongo call returns a dictionary of lists
@@ -175,7 +175,7 @@ def get_sam_monthly_array_freq_of_exceed_output(jobid):
     sam = pd.DataFrame.from_dict(sam_dict, orient="index").as_matrix()
     return sam
 
-def get_sam_annual_array_freq_of_exceed_output(jobid):
+def get_sam_annual_array_freq_of_exceed_output():
     """
     fake, change to mongoquery
     """
@@ -196,7 +196,7 @@ def get_sam_annual_array_freq_of_exceed_output(jobid):
     sam = pd.DataFrame.from_dict(sam_dict, orient="index").as_matrix()
     return sam
 
-def get_sam_monthly_vector_streak_output(jobid):
+def get_sam_monthly_vector_streak_output():
     """
     fake, change to mongoquery
     rand produces a numpy array
@@ -222,7 +222,7 @@ def get_sam_monthly_vector_streak_output(jobid):
     sam_vector = np.hstack(sam_matrix)
     return sam_vector  # all streak data - monthly
 
-def get_sam_monthly_vector_freq_of_exceed_output(jobid):
+def get_sam_monthly_vector_freq_of_exceed_output():
     """
     fake, change to mongoquery
     rand produces a numpy array
@@ -246,7 +246,7 @@ def get_sam_monthly_vector_freq_of_exceed_output(jobid):
     sam_vector = np.hstack(sam_matrix)
     return sam_vector  # monthly streak data - annual
 
-def get_sam_annual_vector_streak_output(jobid):
+def get_sam_annual_vector_streak_output():
     """
     fake, change to mongoquery
     rand produces a numpy array
@@ -270,7 +270,7 @@ def get_sam_annual_vector_streak_output(jobid):
     sam_vector = np.hstack(sam_matrix)
     return sam_vector  # frequency of exceedance data - annual
 
-def get_sam_annual_freq_of_exceed_streak_output(jobid):
+def get_sam_annual_freq_of_exceed_streak_output():
     """
     fake, change to mongoquery
     rand produces a numpy array
