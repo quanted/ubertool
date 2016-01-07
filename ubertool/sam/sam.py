@@ -88,7 +88,7 @@ def sam(inputs_json, jid, run_type):
 
                 if args['output_type'] == '1':  # Daily Concentrations
                     list_of_julian_days = sam_input_prep(no_of_processes, temp_sam_run_path, args)
-                    sam_daily_conc(jid, no_of_processes, name_temp)
+                    sam_daily_conc(jid, name_temp)
 
                 else:
                     sam_input_prep(no_of_processes, temp_sam_run_path,
@@ -149,12 +149,11 @@ def sam_input_prep(no_of_processes, temp_sam_run_path, args):
     return list_of_julian_days
 
 
-def sam_daily_conc(jid, no_of_processes, name_temp):
+def sam_daily_conc(jid, name_temp):
     """
     Wrapper method for firing off SAM daily runs (e.g. SuperPRZM dll).  This will eventually be used for all SAM runs.
 
     :param no_of_processes: int, number of
-    :param name_temp: str,
     :return:
     """
 
