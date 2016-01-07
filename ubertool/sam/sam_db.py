@@ -29,13 +29,12 @@ def create_mongo_document(jid, run_type, args, list_of_julian_days):
         }
         try:
             # db['sam'].insert(document)  # PyMongo driver version (DEPRECATED)
-
             # Send SAM run Meatadata document to Mongo server (Motor/Tornado driver version)
             url = 'http://localhost:8787/sam/metadata/' + jid
             http_headers = {'Content-Type': 'application/json'}
             requests.post(url, data=json.dumps(document), headers=http_headers, timeout=30)
-        except:
-            logging.exception(Exception)
+        except Exception as e:
+            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
 
     else:  # Time-Averaged Results
 
@@ -44,8 +43,8 @@ def create_mongo_document(jid, run_type, args, list_of_julian_days):
             import pymongo
             client = pymongo.MongoClient('localhost', 27017)
             db = client.ubertool
-        except:
-            return None
+        except Exception as e:
+            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
 
         if args['output_time_avg_option'] == '1':  # Time-Averaged Concentrations
 
@@ -84,8 +83,8 @@ def create_mongo_document(jid, run_type, args, list_of_julian_days):
             }
             try:
                 db['sam'].insert(document)
-            except:
-                logging.exception(Exception)
+            except Exception as e:
+                print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
 
 
 def update_mongo(temp_sam_run_path, jid, run_type, args, section, huc_output):
@@ -106,7 +105,8 @@ def update_mongo(temp_sam_run_path, jid, run_type, args, section, huc_output):
         import pymongo
         client = pymongo.MongoClient('localhost', 27017)
         db = client.ubertool
-    except:
+    except Exception as e:
+        print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
         return None
 
     if args['output_type'] == '1':  # Daily Concentrations

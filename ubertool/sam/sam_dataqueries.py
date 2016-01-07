@@ -30,8 +30,9 @@ def get_model_object(jid, model_name):
             model_object = json.loads(response.content)['model_object']
         else:
             model_object = ""
-    except:
-        return {"error": "error"}
+    except Exception as e:
+        # handle exception
+        print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
     return model_object
 
 def get_sam_huc_output(jid, huc12):
@@ -47,9 +48,9 @@ def get_sam_huc_output(jid, huc12):
             model_object = json.loads(response.content)['huc12_output']
         else:
             model_object = ""
-    except:
-        logging.exception(Exception)
-        return "error"
+    except Exception as e:
+        # handle exception
+        print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
     return model_object
 
 def get_sam_monthly_huc_streak_output(jobid, hucid):

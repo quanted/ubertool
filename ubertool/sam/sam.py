@@ -69,11 +69,13 @@ def sam(inputs_json, jid, run_type):
         # Run SAM
         try:
             no_of_workers = int(args['workers'])
-        except:
+        except Exception as e:
+            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
             no_of_workers = 1
         try:
             no_of_processes = no_of_workers * int(args['processes'])
-        except:
+        except Exception as e:
+            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
             no_of_processes = no_of_workers
 
         empty_global_output_holders()
@@ -374,7 +376,8 @@ def split_csv(number, name_temp):
         rows_per_sect = df.shape[0] / number
         print rows_per_sect
         print type(rows_per_sect)
-    except:
+    except Exception as e:
+        print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
         number = 1
         rows_per_sect = df.shape[0] / number
 

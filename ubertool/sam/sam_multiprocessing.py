@@ -36,8 +36,9 @@ def multiprocessing_setup():
         host_name = os.uname()[1]
         if host_name == 'ord-uber-vm005':  # Force Server 5 to use 16 processes to avoid the memdump error when using a process pool with less max_workers than total number of processes
             nproc = 16
-    except:
-        print "Unexpected host name"
+        except Exception as e:
+            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
+            print "Probably unexpected host name"
     print "max_workers=%s" % nproc
     return Pool(max_workers=nproc)  # Set number of workers to equal the number of processors available on machine
 
@@ -79,8 +80,9 @@ class SamModelCaller(object):
         # Split master HUC CSV into sections and return a list containing the number of rows in each section (sequentially)
         try:
             self.number_of_rows_list = self.split_csv()
-        except:
-            print "Split CSV failed"
+        except Exception as e:
+            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
+            print "Probably split CSV failed"
             self.number_of_rows_list = [306, 306, 306, 306, 306, 306, 306, 306, 306, 306, 306, 306, 306, 306, 306, 320]
 
         for x in range(self.no_of_processes):  # Loop over all the 'no_of_processes' to fill the process
@@ -127,7 +129,8 @@ class SamModelCaller(object):
             rows_per_sect = df.shape[0] / self.no_of_processes
             print rows_per_sect
             print type(rows_per_sect)
-        except:
+        except Exception as e:
+            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
             self.no_of_processes = 1
             rows_per_sect = df.shape[0] / self.no_of_processes
 

@@ -76,7 +76,9 @@ class Trex(object):
         self.p_i = p_i
         try:
             self.p_i_t1 = 100 * float(p_i)
-        except:
+        except Exception as e:
+            # handle exception
+            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
             self.p_i_t1 = 'N/a'
         self.den = den
         self.h_l = h_l

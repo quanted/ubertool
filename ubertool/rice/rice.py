@@ -75,7 +75,9 @@ class Rice(object):
         pd_obj_out_json = pd_obj_out.to_json()
         try:
             pd_obj_exp_json = pd_obj_exp.to_json()
-        except:
+        except Exception as e:
+            # handle exception
+            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
             pd_obj_exp_json = "{}"
         return pd_obj_json, pd_obj_out_json, pd_obj_exp_json
 
