@@ -87,7 +87,7 @@ def create_mongo_document(jid, run_type, args, list_of_julian_days):
                 print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
 
 
-def update_mongo(temp_sam_run_path, jid, run_type, args, huc_output):
+def update_mongo(jid, run_type, args, huc_output):
     """
     Saves SAM output to MongoDB.
 
@@ -157,7 +157,7 @@ def update_mongo(temp_sam_run_path, jid, run_type, args, huc_output):
             logging.exception(Exception)
 
 
-def update_mongo_tornado(temp_sam_run_path, jid, run_type, args, section, huc_output):
+def update_mongo_tornado(temp_sam_run_path, jid, run_type, args, huc_output):
     """
     Tornado update.
     :param temp_sam_run_path:

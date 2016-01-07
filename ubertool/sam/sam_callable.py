@@ -28,12 +28,12 @@ def run(jid, sam_bin_path, name_temp, section, array_size):
     huc_ids = create_huc_ids_list(np_array_huc_ids)
 
     # Send Numpy array to MongoDB/Motor server
-    mongo_motor_insert(jid, huc_ids, np_array_out, name_temp, section)  # Motor only works on Unix-based OS
+    mongo_motor_insert(jid, huc_ids, np_array_out, name_temp)  # Motor only works on Unix-based OS
 
     return True
 
 
-def mongo_motor_insert(jid, huc_ids, np_array, name_temp, section):
+def mongo_motor_insert(jid, huc_ids, np_array, name_temp):
     """
     Insert data to Mongo via motor.
     :param jid:
@@ -49,7 +49,7 @@ def mongo_motor_insert(jid, huc_ids, np_array, name_temp, section):
     # http_headers = {'Content-Type': 'application/json'}
     http_headers = {'Content-Type': 'application/octet-stream'}
     # data = json.dumps(create_mongo_document(np_array, name_temp, section))
-    data = serialize(jid, huc_ids, np_array, name_temp)
+    data = serialize(jid, huc_ids, np_array)
 
     # Send data to Mongo server
     requests.post(url, data=data, headers=http_headers, timeout=30)
@@ -68,7 +68,7 @@ def create_huc_ids_list(np_array_huc_ids):
     return out_list
 
 
-def serialize(jid, huc_ids, np_array, name_temp):
+def serialize(jid, huc_ids, np_array):
     """
     Returns pickle to be sent to Mongo server.
     :param np_array:

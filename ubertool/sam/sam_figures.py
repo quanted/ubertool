@@ -12,7 +12,7 @@ static_path = os.path.join(os.environ['PROJECT_ROOT'], '..', 'static')
 # from sam_rest import sam_dataqueries
 
 
-def sam_figures_callable(jid, output_type, tox_exceed_option, huc_output):
+def sam_figures_callable(jid,tox_exceed_option, huc_output):
     """
     Controller for accessing SAM figures
     :param jid:

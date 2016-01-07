@@ -263,7 +263,7 @@ def callback_avg(temp_sam_run_path, jid, run_type, no_of_processes, args, sectio
             # Last SAM run has completed or was cancelled
             update_global_output_holder(temp_sam_run_path, args, section)
 
-            sam_db.update_mongo(temp_sam_run_path, jid, run_type, args, section, huc_output)
+            sam_db.update_mongo(jid, run_type, args, section, huc_output)
 
             logging.info("jid = %s" % jid)
             logging.info("run_type = %s" % run_type)
@@ -276,7 +276,7 @@ def callback_avg(temp_sam_run_path, jid, run_type, no_of_processes, args, sectio
             update_global_output_holder(temp_sam_run_path, args, section)
 
 
-def sam_daily_results_parser(temp_sam_run_path, jid, run_type, args, section, huc_output):
+def sam_daily_results_parser(temp_sam_run_path, jid, run_type, args, huc_output):
     """
     SAM daily results parser.
     :param temp_sam_run_path:
@@ -301,7 +301,7 @@ def sam_daily_results_parser(temp_sam_run_path, jid, run_type, args, section, hu
                 jdate = f.read(4)  # Read next 4 bytes (the next Julian Date)
         #f.close()
         # Connect to Tornado server to return results
-        # print sam_db.update_mongo_tornado(temp_sam_run_path, jid, run_type, args, section, huc_output)
+        # print sam_db.update_mongo_tornado(jid, run_type, args, section, huc_output)
 
 
 ##########################################################################################
