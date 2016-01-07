@@ -157,13 +157,12 @@ def update_mongo(jid, run_type, args, huc_output):
             logging.exception(Exception)
 
 
-def update_mongo_tornado(temp_sam_run_path, jid, run_type, args, huc_output):
+def update_mongo_tornado(jid, huc_output):
     """
     Tornado update.
     :param temp_sam_run_path:
     :param jid:
     :param run_type:
-    :param args:
     :param section:
     :param huc_output:
     :return:

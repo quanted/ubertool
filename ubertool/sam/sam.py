@@ -276,7 +276,7 @@ def callback_avg(temp_sam_run_path, jid, run_type, no_of_processes, args, sectio
             update_global_output_holder(temp_sam_run_path, args, section)
 
 
-def sam_daily_results_parser(temp_sam_run_path, jid, run_type, args, huc_output):
+def sam_daily_results_parser(temp_sam_run_path, huc_output):
     """
     SAM daily results parser.
     :param temp_sam_run_path:

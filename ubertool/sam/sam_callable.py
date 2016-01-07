@@ -28,12 +28,12 @@ def run(jid, sam_bin_path, name_temp, section, array_size):
     huc_ids = create_huc_ids_list(np_array_huc_ids)
 
     # Send Numpy array to MongoDB/Motor server
-    mongo_motor_insert(jid, huc_ids, np_array_out, name_temp)  # Motor only works on Unix-based OS
+    mongo_motor_insert(jid, huc_ids, np_array_out)  # Motor only works on Unix-based OS
 
     return True
 
 
-def mongo_motor_insert(jid, huc_ids, np_array, name_temp):
+def mongo_motor_insert(jid, huc_ids, np_array):
     """
     Insert data to Mongo via motor.
     :param jid:
