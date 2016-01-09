@@ -17,7 +17,7 @@ class TestIEC(unittest.TestCase):
     """
     IEC unit tests.
     """
-    def setup(self):
+    def setUp(self):
         """
         setup the test as needed
         e.g. pandas to open sip qaqc csv
@@ -26,7 +26,7 @@ class TestIEC(unittest.TestCase):
         """
         pass
 
-    def teardown(self):
+    def tearDown(self):
         """
         teardown called after each test
         e.g. maybe write test results to some text file

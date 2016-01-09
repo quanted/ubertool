@@ -46,7 +46,7 @@ class TestStir(unittest.TestCase):
     """
     Integration tests for Stir.
     """
-    def setup(self):
+    def setUp(self):
         """
         Setup routine for stir integration test
         :return:
@@ -56,7 +56,7 @@ class TestStir(unittest.TestCase):
         # e.g. pandas to open stir qaqc csv
         #  Read qaqc csv and create pandas DataFrames for inputs and expected outputs
 
-    def teardown(self):
+    def tearDown(self):
         """
         Teardown routine for stir integration test
         :return:

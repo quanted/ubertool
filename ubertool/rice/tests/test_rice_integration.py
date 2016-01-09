@@ -42,7 +42,7 @@ class Testrice(unittest.TestCase):
     """
     Integration tests for Rice.
     """
-    def setup(self):
+    def setUp(self):
         """
         Setup routing for rice tests
         :return:
@@ -53,7 +53,7 @@ class Testrice(unittest.TestCase):
         # e.g. pandas to open rice qaqc csv
         #  Read qaqc csv and create pandas DataFrames for inputs and expected outputs
 
-    def teardown(self):
+    def tearDown(self):
         """
         Teardown routing for rice tests
         :return:

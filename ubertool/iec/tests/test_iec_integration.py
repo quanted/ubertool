@@ -58,7 +58,7 @@ class TestSip(unittest.TestCase):
         super(TestSip, self).__init__(*args, **kwargs)
         self.ncases = len(pd_obj_inputs)
 
-    def setup(self):
+    def setUp(self):
         """
         sip2 = sip_model.sip(0, pd_obj_inputs, pd_obj_exp_out)
         setup the test as needed
@@ -68,7 +68,7 @@ class TestSip(unittest.TestCase):
         """
         pass
 
-    def teardown(self):
+    def tearDown(self):
         """
         teardown called after each test
         e.g. maybe write test results to some text file

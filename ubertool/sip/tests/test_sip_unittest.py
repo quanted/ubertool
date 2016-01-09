@@ -18,7 +18,7 @@ class TestSip(unittest.TestCase):
     """
     Unit tests for Sip.
     """
-    def setup(self):
+    def setUp(self):
         """
         Setup routine for sip unittest.
         :return:
@@ -29,7 +29,7 @@ class TestSip(unittest.TestCase):
         # e.g. pandas to open sip qaqc csv
         #  Read qaqc csv and create pandas DataFrames for inputs and expected outputs
 
-    def teardown(self):
+    def tearDown(self):
         """
         Teardown routine for sip unittest.
         :return:

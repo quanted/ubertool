@@ -13,7 +13,7 @@ class TestEarthworm(unittest.TestCase):
     """
     Unit tests for earthworm model.
     """
-    def setup(self):
+    def setUp(self):
         """
         setup the test as needed
         e.g. pandas to open stir qaqc csv
@@ -22,7 +22,7 @@ class TestEarthworm(unittest.TestCase):
         """
         pass
 
-    def teardown(self):
+    def tearDown(self):
         """
         teardown called after each test
         e.g. maybe write test results to some text file
