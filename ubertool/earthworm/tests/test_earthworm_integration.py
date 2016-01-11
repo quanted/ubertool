@@ -36,7 +36,7 @@ print("earthworm expected outputs")
 print(pd_obj_exp.shape)
 print(tabulate(pd_obj_exp.iloc[:,0:1], headers='keys', tablefmt='fancy_grid'))
 
-earthworm_calc = earthworm_model.earthworm("batch", pd_obj_inputs, pd_obj_exp)
+earthworm_calc = earthworm_model.Earthworm("batch", pd_obj_inputs, pd_obj_exp)
 print("####")
 print(earthworm_calc)
 test = {}

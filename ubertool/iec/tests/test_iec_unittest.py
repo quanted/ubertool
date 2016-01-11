@@ -8,7 +8,7 @@ from .. import iec as iec_model
 # create empty pandas dataframes to create empty sip object for testing
 df_empty = pd.DataFrame()
 # create an empty sip object
-iec_empty = iec_model.iec("empty", df_empty, df_empty)
+iec_empty = iec_model.Iec("empty", df_empty, df_empty)
 
 rtol = 1e-5 # set relative tolerance level for npt.assert_allclose assertion tests
 test = {}

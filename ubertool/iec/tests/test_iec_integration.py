@@ -38,7 +38,7 @@ pd_obj_exp = pd.read_csv(data_exp, index_col=0, engine='python')
 # create an instance of iec object with qaqc data
 #print("####")
 #print("dead here")
-iec_calc = iec_model.iec("batch", pd_obj_inputs, pd_obj_exp)
+iec_calc = iec_model.Iec("batch", pd_obj_inputs, pd_obj_exp)
 #print("####")
 #print(iec_calc)
 test = {}

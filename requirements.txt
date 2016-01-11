@@ -2,7 +2,6 @@ boto
 bottle
 codecov
 coverage
-csv
 futures
 nose
 numpy
@@ -12,6 +11,5 @@ pymongo==2.8.0
 pytz
 requests
 snakefood
-sqlite3
 tabulate
 twine
