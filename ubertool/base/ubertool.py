@@ -22,7 +22,7 @@ class UberModel(object):
         """
 
         module = importlib.import_module(
-            '.' + model_obj.name.lower() + '_model_rest', 'REST_UBER.' + model_obj.name.lower() + '_rest')
+            '.' + model_obj.name.lower(), 'ubertool.' + model_obj.name.lower())
         model_inputs = getattr(module, model_obj.name + "Inputs")
         model_inputs_obj = model_inputs()
 
@@ -57,7 +57,7 @@ class UberModel(object):
         """
 
         module = importlib.import_module(
-            '.' + model_obj.name.lower() + '_model_rest', 'REST_UBER.' + model_obj.name.lower() + '_rest')
+            '.' + model_obj.name.lower(), 'ubertool.' + model_obj.name.lower())
         model_outputs = getattr(module, model_obj.name + "Outputs")
         model_outputs_obj = model_outputs()
         df = pd.DataFrame()
