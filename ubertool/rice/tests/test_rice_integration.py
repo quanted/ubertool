@@ -35,7 +35,7 @@ print(pd_obj_exp_out.shape)
 print(tabulate(pd_obj_exp_out.iloc[:,:], headers='keys', tablefmt='fancy_grid'))
 
 # create an instance of rice object with qaqc data
-rice_calc = rice_model.rice("batch", pd_obj_inputs, pd_obj_exp_out)
+rice_calc = rice_model.Rice("batch", pd_obj_inputs, pd_obj_exp_out)
 test = {}
 
 class Testrice(unittest.TestCase):
@@ -62,28 +62,28 @@ class Testrice(unittest.TestCase):
         # teardown called after each test
         # e.g. maybe write test results to some text file
 
-    def test_integration_Calcmsed(self):
+    def test_integration_calcmsed(self):
         """
         Test for calcmsed
         :return:
         """
         self.blackbox_method_float('msed')
 
-    def test_integration_Calcvw(self):
+    def test_integration_calcvw(self):
         """
         Test for calcvw
         :return:
         """
         self.blackbox_method_float('vw')
 
-    def test_integration_Calcmass_area(self):
+    def test_integration_calcmass_area(self):
         """
         Test for calcmass
         :return:
         """
          self.blackbox_method_float('mass_area')
 
-    def test_integration_Calccw(self):
+    def test_integration_calccw(self):
         """
         Test for calccw
         :param self:

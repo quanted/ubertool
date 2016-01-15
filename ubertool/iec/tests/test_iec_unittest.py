@@ -53,11 +53,11 @@ class TestIEC(unittest.TestCase):
 
     def test_f8_f(self):
         """
-        unittest for function iec.F8_f:
+        unittest for function iec.f8_f:
         """
         try:
             iec_empty.z_score_f_out = pd.Series([-0.87])
-            result = iec_empty.F8_f()
+            result = iec_empty.f8_f()
             #npt.assert_array_almost_equal(result, 0.19215, 4, '', True)
             npt.assert_allclose(result,0.19215,rtol,0,'',True)
         finally:

@@ -45,7 +45,7 @@ class Iec(object):
         :return:
         """
         self.dose_response = self.pd_obj['dose_response']
-        self.lc50 = self.pd_obj['LC50']
+        self.lc50 = self.pd_obj['lc50']
         self.threshold = self.pd_obj['threshold']
 
     def create_output_properties(self):

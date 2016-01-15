@@ -13,7 +13,7 @@ from .. import rice as rice_model
 # create empty pandas dataframes to create empty rice object for testing
 df_empty = pd.DataFrame()
 # create an empty rice object
-rice_empty = rice_model.rice("empty", df_empty, df_empty)
+rice_empty = rice_model.Rice("empty", df_empty, df_empty)
 
 test = {}
 
@@ -54,7 +54,7 @@ class TestRice(unittest.TestCase):
             rice_empty.area = pd.Series([3.3], dtype='float')
             rice_empty.pb = pd.Series([4.4], dtype='float')
 
-            result = rice_empty.Calcmsed()
+            result = rice_empty.calc_msed()
             npt.assert_array_almost_equal(result, 31.944, 4, '', True)
         finally:
             pass
@@ -72,7 +72,7 @@ class TestRice(unittest.TestCase):
             rice_empty.dsed = pd.Series([4.4], dtype='float')
             rice_empty.osed = pd.Series([5.5], dtype='float')
 
-            result = rice_empty.Calcvw()
+            result = rice_empty.calc_vw()
             npt.assert_array_almost_equal(result, 87.12, 4, '', True)
         finally:
             pass
@@ -87,7 +87,7 @@ class TestRice(unittest.TestCase):
         try:
             rice_empty.area = pd.Series([100.0], dtype='float')
             rice_empty.mai = pd.Series([90.0], dtype='float')
-            result = rice_empty.Calcmass_area()
+            result = rice_empty.calc_mass_area()
             npt.assert_array_almost_equal(result, 9000.0, 4, '', True)
         finally:
             pass
@@ -106,7 +106,7 @@ class TestRice(unittest.TestCase):
             rice_empty.pb = pd.Series([2.0], dtype='float')
             rice_empty.Kd = pd.Series([100000.0], dtype='float')
             rice_empty.out_mass_area = pd.Series([400.0], dtype='float')
-            result = rice_empty.Calccw()
+            result = rice_empty.calc_cw()
             npt.assert_array_almost_equal(result, 1600.0, 4, '', True)
         finally:
             pass

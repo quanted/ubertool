@@ -90,10 +90,10 @@ class TestSip(unittest.TestCase):
 
     def test_integration_f8_f(self):
         """
-        integration test for output iec.F8_f
+        integration test for output iec.f8_f
         """
         try:
-            self.blackbox_method_int('F8_f')
+            self.blackbox_method_int('f8_f')
         finally:
             pass
         return

@@ -6,7 +6,7 @@ dsed,sediment depth,m,,,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01
 pb,bulk density of sediment,kg/m3,,,1300,1300,1300,1300,1300,1300,1300,1300,1300,1300
 dw,water column depth,m,,,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1
 osed,sediment porosity,unitless,,,0.509,0.509,0.509,0.509,0.509,0.509,0.509,0.509,0.509,0.509
-Kd,Water-sediment partitioning coefficient,L/kg,,,757,523,909,186,2000,15202,50,500,260,5
+kd,Water-sediment partitioning coefficient,L/kg,,,757,523,909,186,2000,15202,50,500,260,5
 out_msed,sediment mass,kg/ha,,,,,,,,,,,,
 out_vw,water column volume,m3,,,,,,,,,,,,
 out_mass_area,mass per unit area,kg/ha,,,,,,,,,,,,

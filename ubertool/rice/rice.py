@@ -37,7 +37,7 @@ class Rice(object):
         self.pb = self.pd_obj["pb"]
         self.dw = self.pd_obj["dw"]
         self.osed = self.pd_obj["osed"]
-        self.Kd = self.pd_obj["Kd"]
+        self.kd = self.pd_obj["kd"]
 
     def create_output_properties(self):
         ''' Set all output properties for class '''
@@ -107,5 +107,5 @@ class Rice(object):
         '''
         Water Concentration
         '''
-        self.out_cw = (self.out_mass_area / (self.dw + (self.dsed * (self.osed + (self.pb * self.Kd * 1e-5))))) * 100
+        self.out_cw = (self.out_mass_area / (self.dw + (self.dsed * (self.osed + (self.pb * self.kd * 1e-5))))) * 100
         return self.out_cw
