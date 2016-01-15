@@ -54,7 +54,7 @@ class Iec(object):
         Outputs: Assign object attribute variables to Pandas Series
         """
         self.z_score_f_out = pd.Series(name="z_score_f_out")
-        self.f8_f_out = pd.Series(name="F8_f_out")
+        self.f8_f_out = pd.Series(name="f8_f_out")
         self.chance_f_out = pd.Series(name="chance_f_out")
 
     def run_methods(self):
@@ -77,7 +77,7 @@ class Iec(object):
         """
         pd_obj_out = pd.DataFrame({
             "z_score_f_out": self.z_score_f_out,
-            "F8_f_out": self.f8_f_out,
+            "f8_f_out": self.f8_f_out,
             "chance_f_out": self.chance_f_out
         })
         # create pandas properties for acceptance testing
