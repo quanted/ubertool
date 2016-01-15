@@ -10,7 +10,7 @@ from .. import sip as sip_model
 # create empty pandas dataframes to create empty sip object for testing
 df_empty = pd.DataFrame()
 # create an empty sip object
-sip_empty = sip_model.sip("empty", df_empty, df_empty)
+sip_empty = sip_model.Sip("empty", df_empty, df_empty)
 
 test = {}
 

@@ -16,10 +16,10 @@ data_inputs = StringIO(pkgutil.get_data(__package__, 'stir_qaqc_in_transpose.csv
 pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
 print("stir inputs")
 print(pd_obj_inputs.shape)
-print(tabulate(pd_obj_inputs.iloc[:,0:5], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_inputs.iloc[:,6:10], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_inputs.iloc[:,11:13], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_inputs.iloc[:,14:17], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_inputs.iloc[:, 0:5], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_inputs.iloc[:, 6:10], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_inputs.iloc[:, 11:13], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_inputs.iloc[:, 14:17], headers='keys', tablefmt='fancy_grid'))
 
 # load transposed qaqc data for expected outputs
 # works for local nosetests from parent directory
@@ -28,17 +28,17 @@ print(tabulate(pd_obj_inputs.iloc[:,14:17], headers='keys', tablefmt='fancy_grid
 # pd_obj_exp_out = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
 # this works for both local nosetests and travis deploy
 data_exp_outputs = StringIO(pkgutil.get_data(__package__, 'stir_qaqc_exp_transpose.csv'))
-pd_obj_exp= pd.read_csv(data_exp_outputs, index_col=0, engine='python')
+pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine='python')
 print("stir expected outputs")
 print(pd_obj_exp.shape)
-print(tabulate(pd_obj_exp.iloc[:,0:5], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_exp.iloc[:,6:10], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_exp.iloc[:,11:13], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_exp.iloc[:,14:17], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_exp.iloc[:,18:22], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_exp.iloc[:, 0:5], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_exp.iloc[:, 6:10], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_exp.iloc[:, 11:13], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_exp.iloc[:, 14:17], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_exp.iloc[:, 18:22], headers='keys', tablefmt='fancy_grid'))
 
 # create an instance of stir object with qaqc data
-stir_calc = stir_model.stir("batch", pd_obj_inputs, pd_obj_exp)
+stir_calc = stir_model.Stir("batch", pd_obj_inputs, pd_obj_exp)
 test = {}
 
 
@@ -46,6 +46,7 @@ class TestStir(unittest.TestCase):
     """
     Integration tests for Stir.
     """
+
     def setUp(self):
         """
         Setup routine for stir integration test
@@ -271,7 +272,7 @@ class TestStir(unittest.TestCase):
         :param output: String; Pandas Series name (e.g. column name) without '_out'
         :return:
         """
-        pd.set_option('display.float_format','{:.4E}'.format) # display model output in scientific notation
+        pd.set_option('display.float_format', '{:.4E}'.format)  # display model output in scientific notation
         result = stir_calc.pd_obj_out[output]
         expected = stir_calc.pd_obj_exp["exp_" + output]
         tab = pd.concat([result, expected], axis=1)

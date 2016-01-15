@@ -81,7 +81,7 @@ class Testrice(unittest.TestCase):
         Test for calcmass
         :return:
         """
-         self.blackbox_method_float('mass_area')
+        self.blackbox_method_float('mass_area')
 
     def test_integration_calccw(self):
         """

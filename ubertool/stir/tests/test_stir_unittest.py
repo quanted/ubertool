@@ -3,10 +3,10 @@ import pandas as pd
 import numpy.testing as npt
 import pandas.util.testing as pdt
 
-#following works when running test script in parent directory as package:
+# following works when running test script in parent directory as package:
 # python -m tests.stir_unit_test
 # following works for running as nosetests from parent directory:
-#importing as a package (specified in ../../setup.py
+# importing as a package (specified in ../../setup.py
 from .. import stir as stir_model
 
 # # load transposed qaqc data for inputs and expected outputs
@@ -19,14 +19,16 @@ from .. import stir as stir_model
 
 # create empty pandas dataframes to create empty stir object
 df_empty = pd.DataFrame()
-stir_empty = stir_model.stir("empty", df_empty, df_empty)
+stir_empty = stir_model.Stir("empty", df_empty, df_empty)
 
 test = {}
+
 
 class TestStir(unittest.TestCase):
     """
     Unit tests for Stir.
     """
+
     def setup(self):
         """
         setup routine for stir unittests
@@ -56,8 +58,8 @@ class TestStir(unittest.TestCase):
         try:
             stir_empty.vapor_pressure = pd.Series([0.000008])
             stir_empty.molecular_weight = pd.Series([200.])
-            result = stir_empty.CalcSatAirConc()
-            npt.assert_array_almost_equal(result,0.086105, 4, '', True)
+            result = stir_empty.calc_sat_air_conc()
+            npt.assert_array_almost_equal(result, 0.086105, 4, '', True)
         finally:
             pass
         return
@@ -71,8 +73,8 @@ class TestStir(unittest.TestCase):
         # self.inh_rate_avian = magic1 * (self.body_weight_assessed_bird**magic2) * conversion * activity_factor
         try:
             stir_empty.body_weight_assessed_bird = pd.Series([0.05])
-            result = stir_empty.CalcInhRateAvian()
-            npt.assert_array_almost_equal(result,5090.9373, 4, '', True)
+            result = stir_empty.calc_inh_rate_avian()
+            npt.assert_array_almost_equal(result, 5090.9373, 4, '', True)
         finally:
             pass
         return
@@ -88,8 +90,8 @@ class TestStir(unittest.TestCase):
             stir_empty.sat_air_conc = pd.Series([200.])
             stir_empty.inh_rate_avian = pd.Series([10.])
             stir_empty.body_weight_assessed_bird = pd.Series([0.05])
-            result = stir_empty.CalcVidAvian()
-            npt.assert_array_almost_equal(result,0.04, 4, '', True)
+            result = stir_empty.calc_vid_avian()
+            npt.assert_array_almost_equal(result, 0.04, 4, '', True)
         finally:
             pass
         return
@@ -103,8 +105,8 @@ class TestStir(unittest.TestCase):
         # self.inh_rate_mammal = magic1 * (self.body_weight_assessed_mammal**magic2) * minutes_conversion * activity_factor
         try:
             stir_empty.body_weight_assessed_mammal = pd.Series([0.08])
-            result = stir_empty.CalcInhRateMammal()
-            npt.assert_array_almost_equal(result,9044.4821, 4, '', True)
+            result = stir_empty.calc_inh_rate_mammal()
+            npt.assert_array_almost_equal(result, 9044.4821, 4, '', True)
         finally:
             pass
         return
@@ -120,7 +122,7 @@ class TestStir(unittest.TestCase):
             stir_empty.sat_air_conc = pd.Series([100.])
             stir_empty.inh_rate_mammal = pd.Series([50.])
             stir_empty.body_weight_assessed_mammal = pd.Series([0.08])
-            result = stir_empty.CalcVidMammal()
+            result = stir_empty.calc_vid_mammal()
             npt.assert_array_almost_equal(result, 0.0625, 4, '', True)
         finally:
             pass
@@ -140,7 +142,7 @@ class TestStir(unittest.TestCase):
         try:
             stir_empty.application_rate = pd.Series([2.])
             stir_empty.column_height = pd.Series([2.])
-            result = stir_empty.CalcConcAir()
+            result = stir_empty.calc_conc_air()
             npt.assert_array_almost_equal(result, 0.0001121, 4, '', True)
         finally:
             pass
@@ -159,7 +161,7 @@ class TestStir(unittest.TestCase):
             stir_empty.direct_spray_duration = pd.Series([0.5])
             stir_empty.spray_drift_fraction = pd.Series([0.75])
             stir_empty.body_weight_assessed_bird = pd.Series([0.02])
-            result = stir_empty.CalcSidAvian()
+            result = stir_empty.calc_sid_avian()
             npt.assert_array_almost_equal(result, 468.75, 4, '', True)
         finally:
             pass
@@ -178,7 +180,7 @@ class TestStir(unittest.TestCase):
             stir_empty.direct_spray_duration = pd.Series([0.5])
             stir_empty.spray_drift_fraction = pd.Series([0.75])
             stir_empty.body_weight_assessed_mammal = pd.Series([0.08])
-            result = stir_empty.CalcSidMammal()
+            result = stir_empty.calc_sid_mammal()
             npt.assert_array_almost_equal(result, 585.9375, 4, '', True)
         finally:
             pass
@@ -198,7 +200,7 @@ class TestStir(unittest.TestCase):
             stir_empty.inh_rate_mammal = pd.Series([50.])
             stir_empty.body_weight_tested_mammal = pd.Series([0.35])
             stir_empty.duration_mammal_inhalation_study = pd.Series([2.])
-            result = stir_empty.CalcConvertMammalInhalationLC50toLD50()
+            result = stir_empty.calc_convert_mammal_inhalation_lc50_to_ld50()
             npt.assert_array_almost_equal(result, 0.14286, 4, '', True)
         finally:
             pass
@@ -215,7 +217,7 @@ class TestStir(unittest.TestCase):
             stir_empty.mammal_inhalation_ld50 = pd.Series([2.])
             stir_empty.body_weight_tested_mammal = pd.Series([0.35])
             stir_empty.body_weight_assessed_mammal = pd.Series([0.2])
-            result = stir_empty.CalcAdjustedMammalInhalationLD50()
+            result = stir_empty.calc_adjusted_mammal_inhalation_ld50()
             npt.assert_array_almost_equal(result, 2.3003, 4, '', True)
         finally:
             pass
@@ -233,7 +235,7 @@ class TestStir(unittest.TestCase):
             stir_empty.avian_oral_ld50 = pd.Series([500.])
             stir_empty.mammal_inhalation_ld50 = pd.Series([2.])
             stir_empty.mammal_oral_ld50 = pd.Series([20.])
-            result = stir_empty.CalcEstimatedAvianInhalationLD50()
+            result = stir_empty.calc_estimated_avian_inhalation_ld50()
             npt.assert_array_almost_equal(result, 14.2857, 4, '', True)
         finally:
             pass
@@ -251,7 +253,7 @@ class TestStir(unittest.TestCase):
             stir_empty.body_weight_assessed_bird = pd.Series([0.02])
             stir_empty.body_weight_tested_bird = pd.Series([0.1])
             stir_empty.mineau_scaling_factor = pd.Series([2.])
-            result = stir_empty.CalcAdjustedAvianInhalationLD50()
+            result = stir_empty.calc_adjusted_avian_inhalation_ld50()
             npt.assert_array_almost_equal(result, 0.1, 4, '', True)
         finally:
             pass
@@ -267,7 +269,7 @@ class TestStir(unittest.TestCase):
         try:
             stir_empty.vid_avian = pd.Series([0.04])
             stir_empty.adjusted_avian_inhalation_ld50 = pd.Series([5.])
-            result = stir_empty.ReturnRatioVidAvian()
+            result = stir_empty.return_ratio_vid_avian()
             npt.assert_array_almost_equal(result, 0.008, 4, '', True)
         finally:
             pass
@@ -279,15 +281,15 @@ class TestStir(unittest.TestCase):
         results #2: Level of Concern for avian vapor phase risk
         :return:
         """
-        #if self.ratio_vid_avian < 0.1:
+        # if self.ratio_vid_avian < 0.1:
         #    self.loc_vid_avian = 'Exposure not Likely Significant'
-        #else:
+        # else:
         #    self.loc_vid_avian = 'Proceed to Refinements'
         try:
-            stir_empty.loc_vid_avian = pd.Series([0.2])
-            result = stir_empty.ReturnLocVidAvian()
+            stir_empty.ratio_vid_avian = pd.Series([0.2])
+            result = stir_empty.return_loc_vid_avian()
             exp = pd.Series("Proceed to Refinements")
-            pdt.assert_series_equal(result,exp)
+            pdt.assert_series_equal(result, exp)
         finally:
             pass
         return
@@ -302,7 +304,7 @@ class TestStir(unittest.TestCase):
         try:
             stir_empty.sid_avian = pd.Series([4.])
             stir_empty.adjusted_avian_inhalation_ld50 = pd.Series([10.])
-            result = stir_empty.ReturnRatioSidAvian()
+            result = stir_empty.return_ratio_sid_avian()
             npt.assert_array_almost_equal(result, 0.4, 4, '', True)
         finally:
             pass
@@ -314,13 +316,13 @@ class TestStir(unittest.TestCase):
         results #4: Level of Concern for avian droplet inhalation risk
         :return:
         """
-        #if self.ratio_sid_avian < 0.1:
+        # if self.ratio_sid_avian < 0.1:
         #    self.loc_sid_avian = 'Exposure not Likely Significant'
-        #else:
+        # else:
         #    self.loc_sid_avian = 'Proceed to Refinements'
         try:
             stir_empty.ratio_sid_avian = pd.Series([0.2])
-            result = stir_empty.ReturnLocSidAvian()
+            result = stir_empty.return_loc_sid_avian()
             exp = pd.Series("Proceed to Refinements")
             pdt.assert_series_equal(result, exp)
         finally:
@@ -337,8 +339,9 @@ class TestStir(unittest.TestCase):
         try:
             stir_empty.vid_mammal = pd.Series([4.])
             stir_empty.adjusted_mammal_inhalation_ld50 = pd.Series([2.])
-            result = stir_empty.ReturnRatioVidMammal()
-            npt.assert_array_almost_equal(result, 2, '', True)
+            result = stir_empty.return_ratio_vid_mammal()
+            print(result)
+            npt.assert_array_almost_equal(result, 2., 4, '', True)
         finally:
             pass
         return
@@ -349,13 +352,13 @@ class TestStir(unittest.TestCase):
         results #6: Level of Concern for mammalian vapor phase risk
         :return:
         """
-        #if self.ratio_vid_mammal < 0.1:
+        # if self.ratio_vid_mammal < 0.1:
         #    self.loc_vid_mammal = 'Exposure not Likely Significant'
-        #else:
+        # else:
         #    self.loc_vid_mammal = 'Proceed to Refinements'
         try:
             stir_empty.ratio_vid_mammal = pd.Series([0.3])
-            result = stir_empty.ReturnLocVidMammal()
+            result = stir_empty.return_loc_vid_mammal()
             exp = pd.Series("Proceed to Refinements")
             pdt.assert_series_equal(result, exp)
         finally:
@@ -372,7 +375,7 @@ class TestStir(unittest.TestCase):
         try:
             stir_empty.sid_mammal = pd.Series([0.5])
             stir_empty.adjusted_mammal_inhalation_ld50 = pd.Series([2.])
-            result = stir_empty.ReturnRatioSidMammal()
+            result = stir_empty.return_ratio_sid_mammal()
             npt.assert_array_almost_equal(result, 0.25, 4, '', True)
         finally:
             pass
@@ -384,18 +387,19 @@ class TestStir(unittest.TestCase):
         results #8: Level of Concern for mammaliam droplet inhalation risk
         :return:
         """
-        #if self.ratio_sid_mammal < 0.1:
+        # if self.ratio_sid_mammal < 0.1:
         #    self.loc_sid_mammal = 'Exposure not Likely Significant'
-        #else:
+        # else:
         #    self.loc_sid_mammal = 'Proceed to Refinements'
         try:
             stir_empty.ratio_sid_mammal = pd.Series([0.6])
-            result = stir_empty.ReturnLocSidMammal()
+            result = stir_empty.return_loc_sid_mammal()
             exp = pd.Series("Proceed to Refinements")
             pdt.assert_series_equal(result, exp)
         finally:
             pass
         return
+
 
 # unittest will
 # 1) call the setup method,

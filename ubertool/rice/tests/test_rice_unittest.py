@@ -104,7 +104,7 @@ class TestRice(unittest.TestCase):
             rice_empty.dsed = pd.Series([4.0], dtype='float')
             rice_empty.osed = pd.Series([3.0], dtype='float')
             rice_empty.pb = pd.Series([2.0], dtype='float')
-            rice_empty.Kd = pd.Series([100000.0], dtype='float')
+            rice_empty.kd = pd.Series([100000.0], dtype='float')
             rice_empty.out_mass_area = pd.Series([400.0], dtype='float')
             result = rice_empty.calc_cw()
             npt.assert_array_almost_equal(result, 1600.0, 4, '', True)
