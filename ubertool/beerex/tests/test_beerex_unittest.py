@@ -118,9 +118,9 @@ class TestBeerex(unittest.TestCase):
         #     self.out_eec_method = self.out_eec_tree
         # return self.out_eec_method
         try:
-            beerex_empty.application_method = pd.Series(["soil application"])
+            beerex_empty.application_method = pd.Series(["seed treatment"])
             result = beerex_empty.eec_method()
-            npt.assert_string_equal(result, "soil application")
+            npt.assert_array_almost_equal(result, 0.0010, 4, '', True)
         finally:
             pass
         return
@@ -167,7 +167,7 @@ class TestBeerex(unittest.TestCase):
             beerex_empty.koc = pd.Series([12.5])
             beerex_empty.out_eec_method = beerex_empty.eec_soil()
             result = beerex_empty.lw3_total_dose()
-            npt.assert_array_almost_equal(result, 0.0038289, 4, '', True)
+            npt.assert_array_almost_equal(result, 0.00058199, 4, '', True)
         finally:
             pass
         return
@@ -183,7 +183,7 @@ class TestBeerex(unittest.TestCase):
             beerex_empty.application_rate = pd.Series([0.75])
             beerex_empty.out_eec_method = beerex_empty.eec_spray()
             result = beerex_empty.lw4_total_dose()
-            npt.assert_array_almost_equal(result, 8.9100, 4, '', True)
+            npt.assert_array_almost_equal(result, 0.8910, 4, '', True)
         finally:
             pass
         return
@@ -269,9 +269,6 @@ class TestBeerex(unittest.TestCase):
         unittest for function beerex.lq4_total_dose
         """
         # self.out_lq4_total_dose = (self.out_eec_method/100.) * self.lq4_jelly
-        # self.out_eec_soil = ((10**(0.95*self.log_kow-2.05)+0.82) *
-        #                     (-0.0648*(self.log_kow**2)+0.2431*self.log_kow+0.5822) *
-        #                     (1.5/(0.2+1.5*self.koc*0.01)) * (0.5 * self.application_rate)) / 1000
         try:
             beerex_empty.lq4_jelly = pd.Series([23.65])
             beerex_empty.application_rate = pd.Series([1.45])
@@ -279,7 +276,7 @@ class TestBeerex(unittest.TestCase):
             beerex_empty.koc = pd.Series([24.1])
             beerex_empty.out_eec_method = beerex_empty.eec_soil()
             result = beerex_empty.lq4_total_dose()
-            npt.assert_array_almost_equal(result, 0.172773411, 4, '', True)
+            npt.assert_array_almost_equal(result, 0.040860912, 4, '', True)
         finally:
             pass
         return
@@ -308,7 +305,7 @@ class TestBeerex(unittest.TestCase):
             beerex_empty.aw_brood_pollen = pd.Series([5.7])
             beerex_empty.aw_brood_nectar = pd.Series([78.2])
             beerex_empty.application_rate = pd.Series([2.5])
-            beerex_empty.out_eec_method = beerex_empty.out_eec_spray()
+            beerex_empty.out_eec_method = beerex_empty.eec_spray()
             result = beerex_empty.aw_brood_total_dose()
             npt.assert_array_almost_equal(result, 23.0725, 4, '', True)
         finally:
@@ -326,9 +323,9 @@ class TestBeerex(unittest.TestCase):
             beerex_empty.log_kow = pd.Series([3.4])
             beerex_empty.koc = pd.Series([16.2])
             beerex_empty.application_rate = pd.Series([2.1])
-            beerex_empty.out_eec_method = beerex_empty.out_eec_soil()
+            beerex_empty.out_eec_method = beerex_empty.eec_soil()
             result = beerex_empty.aw_comb_total_dose()
-            npt.assert_array_almost_equal(result, 37.42012168463141, 4, '', True)
+            npt.assert_array_almost_equal(result, 1.2011859, 4, '', True)
         finally:
             pass
         return
@@ -377,7 +374,7 @@ class TestBeerex(unittest.TestCase):
             beerex_empty.mass_tree_vegetation = pd.Series([52.1])
             beerex_empty.out_eec_method = beerex_empty.eec_tree()
             result = beerex_empty.aw_winter_total_dose()
-            npt.assert_array_almost_equal(result, 13.07332053742825, 4, '', True)
+            npt.assert_array_almost_equal(result, 0.013073320537, 4, '', True)
         finally:
             pass
         return
@@ -410,7 +407,7 @@ class TestBeerex(unittest.TestCase):
             beerex_empty.application_rate = pd.Series([3.4])
             beerex_empty.out_eec_method = beerex_empty.eec_soil()
             result = beerex_empty.aq_total_dose()
-            npt.assert_array_almost_equal(result, -38.47227519, 4, '', True)
+            npt.assert_array_almost_equal(result, -85.7931737, 4, '', True)
         finally:
             pass
         return
@@ -661,7 +658,7 @@ class TestBeerex(unittest.TestCase):
         try:
             beerex_empty.out_aq_total_dose = pd.Series([65.3])
             beerex_empty.adult_oral_ld50 = pd.Series([12.4])
-            result = beerex_empty.ad_acute_rq()
+            result = beerex_empty.aq_acute_rq()
             npt.assert_array_almost_equal(result, 5.266129)
         finally:
             pass
@@ -913,7 +910,7 @@ class TestBeerex(unittest.TestCase):
         try:
             beerex_empty.out_aq_total_dose = pd.Series([5.3])
             beerex_empty.adult_oral_noael = pd.Series([23.4])
-            result = beerex_empty.ad_chronic_rq()
+            result = beerex_empty.aq_chronic_rq()
             npt.assert_array_almost_equal(result, 0.226496, 4, '', True)
         finally:
             pass

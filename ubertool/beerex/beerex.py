@@ -531,7 +531,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
         """
         Chronic risk quotient for larval worker day 3
         """
-        self.out_lw3_chronic_rq = self.out_lw2_total_dose/self.larval_noael
+        self.out_lw3_chronic_rq = self.out_lw3_total_dose/self.larval_noael
         return self.out_lw3_chronic_rq
 
     def lw4_chronic_rq(self):
