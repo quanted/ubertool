@@ -7,6 +7,7 @@ class Earthworm(object):
     """
     Earthworm model for annelid soil ingestion.
     """
+
     def __init__(self, run_type, pd_obj, pd_obj_exp):
         '''  Constructor '''
         # Inputs: Assign object attribute variables from the input Pandas DataFrame
@@ -54,7 +55,7 @@ class Earthworm(object):
         pd_obj_out = pd.DataFrame({
             'earthworm_fugacity_out': self.earthworm_fugacity_out,
         })
-        #create pandas properties for acceptance testing
+        # create pandas properties for acceptance testing
         self.pd_obj_out = pd_obj_out
 
     def json(self, pd_obj, pd_obj_out, pd_obj_exp):
@@ -78,5 +79,5 @@ class Earthworm(object):
         most recent version of EFED equation circa 3-26-2013 is implemented in the formula below
         model runs documented in ubertool crosswalk use the EFED model in "earthworm models 3-26-13b.xlsx"
         '''
-        self.earthworm_fugacity_out = self.k_ow*self.l_f_e*(self.c_s/(self.k_d*self.p_s))
+        self.earthworm_fugacity_out = self.k_ow * self.l_f_e * (self.c_s / (self.k_d * self.p_s))
         return self.earthworm_fugacity_out

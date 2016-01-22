@@ -6,6 +6,7 @@ class UberModel(object):
     """
     Collection of static methods used across all the ubertool models.
     """
+
     def __init__(self):
         """Main utility class for building Ubertool model classes for model execution."""
         super(UberModel, self).__init__()
@@ -21,8 +22,11 @@ class UberModel(object):
         :param model_obj:
         """
 
-        module = importlib.import_module(
-            '.' + model_obj.name.lower(), 'ubertool.' + model_obj.name.lower())
+        #module = importlib.import_module('.' + model_obj.name.capitalize(), 'ubertool.' + model_obj.name.lower()# )
+        module_name = model_obj.name.lower() + "." + model_obj.name.lower()
+        print("module_name =" + module_name)
+        module = importlib.import_module(module_name)
+        #module = importlib.import_module(model_obj.name.capitalize(), 'ubertool.' + model_obj.name.lower())
         model_inputs = getattr(module, model_obj.name + "Inputs")
         model_inputs_obj = model_inputs()
 
@@ -57,7 +61,7 @@ class UberModel(object):
         """
 
         module = importlib.import_module(
-            '.' + model_obj.name.lower(), 'ubertool.' + model_obj.name.lower())
+                '.' + model_obj.name.lower(), 'ubertool.' + model_obj.name.lower())
         model_outputs = getattr(module, model_obj.name + "Outputs")
         model_outputs_obj = model_outputs()
         df = pd.DataFrame()

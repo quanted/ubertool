@@ -7,6 +7,7 @@ class TerrplantInputs(object):
     """
     Input class for Terrplant.
     """
+
     def __init__(self):
         """Class representing the inputs for TerrPlant"""
         super(TerrplantInputs, self).__init__()
@@ -35,6 +36,7 @@ class TerrplantOutputs(object):
     """
     Output class for terrplant.
     """
+
     def __init__(self):
         """Class representing the outputs for TerrPlant"""
         super(TerrplantOutputs, self).__init__()
@@ -77,6 +79,7 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
     """
     Estimates of exposure to terrestrial plants from single pesticide applications through runoff or drift.
     """
+
     def __init__(self, pd_obj, pd_obj_exp):
         """Class representing the Terrplant model and containing all its methods"""
         super(Terrplant, self).__init__()
@@ -427,6 +430,7 @@ class TerrplantApiMetadata(object):
     """
     API class for Terrplant.
     """
+
     def __init__(self):
         """
         metadata constructor

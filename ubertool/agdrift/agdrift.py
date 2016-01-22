@@ -6,6 +6,7 @@ class Agdrift(object):
     """
     Agdrift class to implement tier 1 air drift screening models.
     """
+
     def __init__(self, drop_size, ecosystem_type, application_method, boom_height, orchard_type,
                  application_rate, distance, aquatic_type, calculation_input, init_avg_dep_foa,
                  avg_depo_lbac, avg_depo_gha, deposition_ngl, deposition_mgcm, nasae, y, x, express_y):
@@ -1295,7 +1296,7 @@ class Agdrift(object):
             self.distance = self.x[x_index]
         else:
             i = min(enumerate(self.y), key=lambda x: abs(
-                x[1] - self.init_avg_dep_foa))  # finds smallest closest value closest to input value
+                    x[1] - self.init_avg_dep_foa))  # finds smallest closest value closest to input value
             i2 = i[0]
             low1 = self.y[i2]  # assign nearest lowest x value for interpolation
             high1 = self.y[i2 - 1]  # assign nearest highest x value for interpolation

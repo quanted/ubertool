@@ -8,6 +8,7 @@ class Kabam(object):
     Hydrophobic organic pesticide bioaccumulation in aquatic components of a food web to terrestrial
     exposure in birds and mammals
     """
+
     def __init__(self, chemical_name, l_kow, k_oc, c_wdp, water_column_EEC, c_wto, mineau_scaling_factor, x_poc, x_doc,
                  c_ox, w_t, c_ss, oc, k_ow, Species_of_the_tested_bird, bw_quail, bw_duck, bwb_other, avian_ld50,
                  avian_lc50, avian_noaec, m_species, bw_rat, bwm_other, mammalian_ld50, mammalian_lc50,
@@ -589,7 +590,6 @@ class Kabam(object):
         self.water_d = self.phi * self.c_wto * 1000000
         return self.water_d
 
-
     def k_bw_phytoplankton_f(self):
         """
         Phytoplankton water partition coefficient
@@ -599,7 +599,6 @@ class Kabam(object):
             self.v_nb_phytoplankton * 0.35 * self.k_ow) + self.v_wb_phytoplankton
         return self.k_bw_phytoplankton
 
-
     def k1_phytoplankton_f(self):
         """
         Rate constant for uptake through respiratory area
@@ -607,7 +606,6 @@ class Kabam(object):
         """
         self.k1_phytoplankton = 1 / (6.0e-5 + (5.5 / self.k_ow))
         return self.k1_phytoplankton
-
 
     def k2_phytoplankton_f(self):
         """
@@ -763,7 +761,6 @@ class Kabam(object):
         """
         self.kd_zoo = self.ed_zoo * (self.gd_zoo / self.wb_zoo)
         return self.kd_zoo
-
 
     def kg_zoo_f(self):
         """
@@ -924,7 +921,7 @@ class Kabam(object):
         self.kg_zoo = 0
         self.cbfl_zoo = (
                             (self.k1_zoo * (
-                            1.0 * self.phi * self.c_wto + 0 * self.c_wdp) + self.kd_zoo * self.diet_zoo) / (
+                                1.0 * self.phi * self.c_wto + 0 * self.c_wdp) + self.kd_zoo * self.diet_zoo) / (
                                 self.k2_zoo + self.ke_zoo + self.kg_zoo + 0)) / self.v_lb_zoo / (self.c_wto * self.phi)
         return self.cbfl_zoo
 
@@ -1638,7 +1635,6 @@ class Kabam(object):
         self.diet_sf = self.c_s * self.sf_p_sediment + self.cb_phytoplankton * self.sf_p_phytoplankton + self.cb_zoo * self.sf_p_zooplankton + self.cb_beninv * self.sf_p_benthic_invertebrates + self.cb_ff * self.sf_p_filter_feeders
         return self.diet_sf
 
-
     def cb_sf_f(self):
         """
         Small fish pesticide tissue residue
@@ -1986,7 +1982,7 @@ class Kabam(object):
         """
         self.cbmf_mf = (self.cb_mf / self.v_lb_mf) / (
             (self.mf_p_small_fish * self.cb_sf / self.v_lb_sf) + (
-            self.mf_p_filter_feeders * self.cb_ff / self.v_lb_ff) + (
+                self.mf_p_filter_feeders * self.cb_ff / self.v_lb_ff) + (
                 self.mf_p_benthic_invertebrates * self.cb_beninv / self.v_lb_beninv) + (
                 self.mf_p_zooplankton * self.cb_zoo / self.v_lb_zoo) + (
                 self.mf_p_phytoplankton * self.cb_phytoplankton / self.v_lb_phytoplankton))
@@ -2208,7 +2204,7 @@ class Kabam(object):
         self.kg_lf = 0
         self.cbfl_lf = ((
                             (self.k1_lf * (
-                            1.0 * self.phi * self.c_wto + 0.00 * self.c_wdp) + self.kd_lf * self.diet_lf) / (
+                                1.0 * self.phi * self.c_wto + 0.00 * self.c_wdp) + self.kd_lf * self.diet_lf) / (
                                 self.k2_lf + self.ke_lf + self.kg_lf + 0)) / self.v_lb_lf) / (self.c_wto * self.phi)
         return self.cbfl_lf
 
@@ -2256,7 +2252,7 @@ class Kabam(object):
         :return:
         """
         self.cb_a = np.array(
-            [[self.cb_phytoplankton, self.cb_zoo, self.cb_beninv, self.cb_ff, self.cb_sf, self.cb_mf, self.cb_lf]])
+                [[self.cb_phytoplankton, self.cb_zoo, self.cb_beninv, self.cb_ff, self.cb_sf, self.cb_mf, self.cb_lf]])
         self.cb_a2 = self.cb_a * 1000000
         # array of mammal weights
         self.mweight = np.array([[0.018, 0.085, 0.45, 1.8, 5, 15]])
@@ -2281,8 +2277,8 @@ class Kabam(object):
                                  self.v_wb_mf, self.v_wb_lf]])
         # array of % diet of food web for each mammal
         self.diet_mammal = np.array(
-            [[0, 0, 1, 0, 0, 0, 0], [0, 0, .34, .33, .33, 0, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 1, 0],
-             [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1]])
+                [[0, 0, 1, 0, 0, 0, 0], [0, 0, .34, .33, .33, 0, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 1, 0],
+                 [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1]])
         self.denom1 = self.diet_mammal * self.v_wb_a
         self.denom1 = (
             [[0., 0., 0.76, 0., 0., 0., 0.], [0., 0., 0.2584, 0.2805, 0.2409, 0., 0.], [0., 0., 0., 0., 0., 0.73, 0.],
@@ -2350,8 +2346,8 @@ class Kabam(object):
         self.v_wb_a = np.array([[self.v_wb_phytoplankton, self.v_wb_zoo, self.v_wb_beninv, self.v_wb_ff, self.v_wb_sf,
                                  self.v_wb_mf, self.v_wb_lf]])
         self.diet_avian = np.array(
-            [[0, 0, .33, 0.33, 0.34, 0, 0], [0, 0, .33, .33, 0, 0.34, 0], [0, 0, 0.5, 0, 0.5, 0, 0],
-             [0, 0, 0.5, 0, 0, 0.5, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1]])
+                [[0, 0, .33, 0.33, 0.34, 0, 0], [0, 0, .33, .33, 0, 0.34, 0], [0, 0, 0.5, 0, 0.5, 0, 0],
+                 [0, 0, 0.5, 0, 0, 0.5, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1]])
         self.denom1a = self.diet_avian * self.v_wb_a
         self.denom2a = np.cumsum(self.denom1a, axis=1)
         self.denom3a = self.denom2a[:,

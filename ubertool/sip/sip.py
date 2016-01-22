@@ -7,6 +7,7 @@ class Sip(object):
     """
     Estimate chemical exposure from drinking water alone in birds and mammals.
     """
+
     def __init__(self, run_type, pd_obj, pd_obj_exp):
         '''  Constructor '''
         # Inputs: Assign object attribute variables from the input Pandas DataFrame
@@ -520,7 +521,7 @@ class Sip(object):
             self.det_quail = (self.noaec_quail * self.fi_bird(178.)) / (178. / 1000.)
         except Exception as e:
             print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
-            #TODO: vectorize
+            # TODO: vectorize
             self.det_quail = None
 
         try:
