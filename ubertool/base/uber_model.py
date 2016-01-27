@@ -22,11 +22,9 @@ class UberModel(object):
         :param model_obj:
         """
 
-        #module = importlib.import_module('.' + model_obj.name.capitalize(), 'ubertool.' + model_obj.name.lower()# )
-        module_name = model_obj.name.lower() + "." + model_obj.name.lower()
-        print("module_name =" + module_name)
-        module = importlib.import_module(module_name)
-        #module = importlib.import_module(model_obj.name.capitalize(), 'ubertool.' + model_obj.name.lower())
+        from ubertool.ubertool.terrplant import terrplant
+
+        module = importlib.import_module('.' + model_obj.name.lower(), 'ubertool.ubertool.' + model_obj.name.lower())
         model_inputs = getattr(module, model_obj.name + "Inputs")
         model_inputs_obj = model_inputs()
 
@@ -60,8 +58,7 @@ class UberModel(object):
         :return:
         """
 
-        module = importlib.import_module(
-                '.' + model_obj.name.lower(), 'ubertool.' + model_obj.name.lower())
+        module = importlib.import_module('.' + model_obj.name.lower(), 'ubertool.ubertool.' + model_obj.name.lower())
         model_outputs = getattr(module, model_obj.name + "Outputs")
         model_outputs_obj = model_outputs()
         df = pd.DataFrame()
@@ -71,7 +68,7 @@ class UberModel(object):
         return df
 
     def fill_output_dataframe(self, model_obj):
-        ''' Combine all output properties into numpy pandas dataframe '''
+        """ Combine all output properties into numpy pandas dataframe """
         for column in model_obj.pd_obj_out:
             model_obj.pd_obj_out[column] = getattr(model_obj, column)
 

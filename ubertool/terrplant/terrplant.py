@@ -1,5 +1,5 @@
 from __future__ import division
-from ..base.ubertool import UberModel
+from ..base.uber_model import UberModel
 import pandas as pd
 
 
