@@ -22,8 +22,6 @@ class UberModel(object):
         :param model_obj:
         """
 
-        from ubertool.ubertool.terrplant import terrplant
-
         module = importlib.import_module('.' + model_obj.name.lower(), 'ubertool.ubertool.' + model_obj.name.lower())
         model_inputs = getattr(module, model_obj.name + "Inputs")
         model_inputs_obj = model_inputs()
@@ -34,6 +32,9 @@ class UberModel(object):
             df[input_param] = getattr(self, input_param)
 
         # Compare column names of temporary DataFrame (created above) to user-supply DataFrame from JSON
+
+        print df.columns.order()
+        print pd_obj.columns.order()
         if df.columns.order().equals(pd_obj.columns.order()):
             # If the user-supplied DataFrame has the same column names as required by TerrplantInputs...
             # set each Series in the DataFrame to the corresponding TerrplantInputs attribute (member variable)

@@ -11,15 +11,23 @@ class SipInputs(object):
     def __init__(self):
         """Class representing the inputs for SIP"""
         super(SipInputs, self).__init__()
+        self.version_sip = pd.Series([], dtype="object")
         self.chemical_name = pd.Series([], dtype="object")
+        self.pc_code = pd.Series([], dtype="object")
         self.solubility = pd.Series([], dtype="float")
         self.bodyweight_tested_bird = pd.Series([], dtype="float")
+        self.bodyweight_bird_other_1 = pd.Series([], dtype="float")
+        self.bodyweight_bird_other_2 = pd.Series([], dtype="float")
+        self.bodyweight_tested_mammal = pd.Series([], dtype="float")
         self.ld50_avian_water = pd.Series([], dtype="float")
+        self.ld50_species_tested_mammal = pd.Series([], dtype="object")
         self.noaec_quail = pd.Series([], dtype="float")
         self.noaec_duck = pd.Series([], dtype="float")
         self.noaec_bird_other_1 = pd.Series([], dtype="float")
         self.noaec_bird_other_2 = pd.Series([], dtype="float")
-        self.bodyweight_tested_mammal = pd.Series([], dtype="float")
+        self.noael_bodyweight_tested_mammal = pd.Series([], dtype="float")
+        self.noael_species_tested_mammal = pd.Series([], dtype="object")
+        self.species_tested_bird = pd.Series([], dtype="object")
         self.ld50_mammal_water = pd.Series([], dtype="float")
         self.noael_mammal_water = pd.Series([], dtype="float")
         self.mineau_scaling_factor = pd.Series([], dtype="float")
@@ -85,54 +93,6 @@ class Sip(UberModel, SipInputs, SipOutputs):
         self.run_methods()
         self.fill_output_dataframe(self)
 
-    # def populate_input_properties(self):
-    #     ''' Set all input properties for class '''
-    #     # Inputs: Assign object attribute variables from the input Pandas DataFrame
-    #     self.chemical_name = self.pd_obj['chemical_name']
-    #     self.solubility = self.pd_obj['solubility']
-    #     # try:
-    #     #     self.species_tested_bird = self.pd_obj['species_tested_bird']
-    #     # except:
-    #     #     self.species_tested_bird = None
-    #     self.bodyweight_tested_bird = self.pd_obj['bodyweight_tested_bird']
-    #     self.ld50_avian_water = self.pd_obj['ld50_avian_water']
-    #     self.noaec_quail = self.pd_obj['noaec_quail']
-    #     self.noaec_duck = self.pd_obj['noaec_duck']
-    #     self.noaec_bird_other_1 = self.pd_obj['noaec_bird_other_1']
-    #     self.noaec_bird_other_2 = self.pd_obj['noaec_bird_other_2']
-    #     # self.ld50_species_tested_mammal = self.pd_obj['ld50_species_tested_mammal']
-    #     self.bodyweight_tested_mammal = self.pd_obj['bodyweight_tested_mammal']
-    #     self.ld50_mammal_water = self.pd_obj['ld50_mammal_water']
-    #     self.noael_mammal_water = self.pd_obj['noael_mammal_water']
-    #     self.mineau_scaling_factor = self.pd_obj['mineau_scaling_factor']
-    #     self.bodyweight_assessed_bird = 20.
-    #     self.bodyweight_assessed_mammal = 1000.
-
-    # def create_output_properties(self):
-    #     ''' Set all output properties for class '''
-    #     # Outputs: Assign object attribute variables to Pandas Series
-    #     self.fw_bird_out = pd.Series(name="fw_bird_out")
-    #     self.fw_mamm_out = pd.Series(name="fw_mamm_out")
-    #     self.dose_bird_out = pd.Series(name="dose_bird_out")
-    #     self.dose_mamm_out = pd.Series(name="dose_mamm_out")
-    #     self.at_bird_out = pd.Series(name="at_bird_out")
-    #     self.at_mamm_out = pd.Series(name="at_mamm_out")
-    #     self.fi_bird_out = pd.Series(name="fi_bird_out")
-    #     self.det_out = pd.Series(name="det_out")
-    #     self.act_out = pd.Series(name="act_out")
-    #     self.acute_bird_out = pd.Series(name="acute_bird_out")
-    #     self.acuconb_out = pd.Series(name="acuconb_out")
-    #     self.acute_mamm_out = pd.Series(name="acute_mamm_out")
-    #     self.acuconm_out = pd.Series(name="acuconm_out")
-    #     self.chron_bird_out = pd.Series(name="chron_bird_out")
-    #     self.chronconb_out = pd.Series(name="chronconb_out")
-    #     self.chron_mamm_out = pd.Series(name="chron_mamm_out")
-    #     self.chronconm_out = pd.Series(name="chronconm_out")
-    #     self.det_quail = pd.Series(name="det_quail")
-    #     self.det_duck = pd.Series(name="det_duck")
-    #     self.det_other_1 = pd.Series(name="det_other_1")
-    #     self.det_other_2 = pd.Series(name="det_other_2")
-
     def run_methods(self):
         """ Execute all algorithm methods for model logic """
         try:
@@ -154,31 +114,6 @@ class Sip(UberModel, SipInputs, SipOutputs):
             self.chronconm()
         except TypeError:
             print "Type Error: Your variables are not set correctly."
-
-    # def create_output_dataframe(self):
-    #     """ Combine all output properties into numpy pandas dataframe """
-    #     # Create DataFrame containing output value Series
-    #     pd_obj_out = pd.DataFrame({
-    #         'fw_bird_out': self.fw_bird_out,
-    #         'fw_mamm_out': self.fw_mamm_out,
-    #         'dose_bird_out': self.dose_bird_out,
-    #         'dose_mamm_out': self.dose_mamm_out,
-    #         'at_bird_out': self.at_bird_out,
-    #         'at_mamm_out': self.at_mamm_out,
-    #         'fi_bird_out': self.fi_bird_out,
-    #         'det_out': self.det_out,
-    #         'act_out': self.act_out,
-    #         'acute_bird_out': self.acute_bird_out,
-    #         'acuconb_out': self.acuconb_out,
-    #         'acute_mamm_out': self.acute_mamm_out,
-    #         'acuconm_out': self.acuconm_out,
-    #         'chron_bird_out': self.chron_bird_out,
-    #         'chronconb_out': self.chronconb_out,
-    #         'chron_mamm_out': self.chron_mamm_out,
-    #         'chronconm_out': self.chronconm_out
-    #     })
-    #     # create pandas properties for acceptance testing
-    #     self.pd_obj_out = pd_obj_out
 
     # Begin model methods
     def fw_bird(self):
@@ -365,7 +300,7 @@ class Sip(UberModel, SipInputs, SipOutputs):
         except Exception as e:
             print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
             # TODO: vectorize
-            det_other_2 = None
+            self.det_other_2 = None
 
         # Create DataFrame containing method Series created above
         df_noaec = pd.DataFrame({
