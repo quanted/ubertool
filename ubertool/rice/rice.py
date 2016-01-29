@@ -1,112 +1,96 @@
 from __future__ import division
+from ..base.uber_model import UberModel, ModelSharedInputs
 import pandas as pd
-import logging
 
 
-class Rice(object):
+class RiceInputs(ModelSharedInputs):
     """
-    Estimate surface water exposure from the use of pesticide in rice paddies
+    Input class for SIP.
     """
 
-    def __init__(self, run_type, pd_obj, pd_obj_exp):
-        '''  Constructor '''
-        self.run_type = run_type
-        self.pd_obj = pd_obj
-        self.pd_obj_exp = pd_obj_exp
+    def __init__(self):
+        """Class representing the inputs for SIP"""
+        super(RiceInputs, self).__init__()
+        self.mai = pd.Series([], dtype="object")
+        self.dsed = pd.Series([], dtype="object")
+        self.area = pd.Series([], dtype="object")
+        self.pb = pd.Series([], dtype="object")
+        self.dw = pd.Series([], dtype="object")
+        self.osed = pd.Series([], dtype="object")
+        self.kd = pd.Series([], dtype="object")
 
-        # Execute model methods if requested
-        if self.run_type != "empty":
-            self.execute_model()
 
-    def execute_model(self):
-        ''' Called by constructor to populate class and run methods. '''
-        self.populate_input_properties()
-        self.create_output_properties()
-        self.run_methods()
-        self.create_output_dataframe()
-        # Callable from Bottle that returns JSON
-        self.json = self.json(self.pd_obj, self.pd_obj_out, self.pd_obj_exp)
+class RiceOutputs(object):
+    """
+    Output class for SIP.
+    """
 
-    def populate_input_properties(self):
-        ''' Set all input properties for class '''
-        # Inputs: Assign object attribute variables from the input Pandas DataFrame
-        # Inputs: Assign object attribute variables from the input Pandas DataFrame
-        self.chemical_name = self.pd_obj["chemical_name"]
-        self.mai = self.pd_obj["mai"]
-        self.dsed = self.pd_obj["dsed"]
-        self.area = self.pd_obj["area"]
-        self.pb = self.pd_obj["pb"]
-        self.dw = self.pd_obj["dw"]
-        self.osed = self.pd_obj["osed"]
-        self.kd = self.pd_obj["kd"]
-
-    def create_output_properties(self):
-        ''' Set all output properties for class '''
-        # Outputs: Assign object attribute variables to Pandas Series
+    def __init__(self):
+        """Class representing the outputs for SIP"""
+        super(RiceOutputs, self).__init__()
         self.out_msed = pd.Series(name="out_msed")
         self.out_vw = pd.Series(name="out_vw")
         self.out_mass_area = pd.Series(name="out_mass_area")
         self.out_cw = pd.Series(name="out_cw")
 
-    def create_output_dataframe(self):
-        ''' Combine all output properties into numpy pandas dataframe '''
-        # Create DataFrame containing output value Series
-        pd_obj_out = pd.DataFrame({
-            'out_msed': self.out_msed,
-            'out_vw': self.out_vw,
-            'out_mass_area': self.out_mass_area,
-            'out_cw': self.out_cw
-        })
-        self.pd_obj_out = pd_obj_out
+
+class Rice(UberModel, RiceInputs, RiceOutputs):
+    """
+    Estimate surface water exposure from the use of pesticide in rice paddies
+    """
+
+    def __init__(self, pd_obj, pd_obj_exp):
+        """Class representing the Terrplant model and containing all its methods"""
+        super(Rice, self).__init__()
+        self.pd_obj = pd_obj
+        self.pd_obj_exp = pd_obj_exp
+        self.pd_obj_out = None
+
+    def execute_model(self):
+        """
+        Callable to execute the running of the model:
+            1) Populate input parameters
+            2) Create output DataFrame to hold the model outputs
+            3) Run the model's methods to generate outputs
+            4) Fill the output DataFrame with the generated model outputs
+        """
+        self.populate_inputs(self.pd_obj, self)
+        self.pd_obj_out = self.populate_outputs(self)
+        self.run_methods()
+        self.fill_output_dataframe(self)
 
     def run_methods(self):
-        ''' Execute all algorithm methods for model logic '''
+        """ Execute all algorithm methods for model logic """
         self.calc_msed()
         self.calc_vw()
         self.calc_mass_area()
         self.calc_cw()
 
-    def json(self, pd_obj, pd_obj_out, pd_obj_exp):
-        """
-            Convert DataFrames to JSON, returning a tuple
-            of JSON strings (inputs, outputs, exp_out)
-        """
-
-        pd_obj_json = pd_obj.to_json()
-        pd_obj_out_json = pd_obj_out.to_json()
-        try:
-            pd_obj_exp_json = pd_obj_exp.to_json()
-        except Exception as e:
-            # handle exception
-            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
-            pd_obj_exp_json = "{}"
-        return pd_obj_json, pd_obj_out_json, pd_obj_exp_json
-
     def calc_msed(self):
-        '''
+        """
         The mass of the sediment at equilibrium with the water column
         Sediment depth (dsed) * Area of rice paddy (area) * Bulk density of sediment(mass/volume) pb
-        '''
+        """
         self.out_msed = self.dsed * self.area * self.pb
         return self.out_msed
 
     def calc_vw(self):
-        '''
+        """
         The volume of the water column plus pore water
-        '''
+        """
         self.out_vw = (self.dw * self.area) + (self.dsed * self.osed * self.area)
         return self.out_vw
 
     def calc_mass_area(self):
-        '''
+        """
         The pesticide mass per unit area
-        '''
+        """
         self.out_mass_area = (self.mai / self.area) * 10000
         return self.out_mass_area
 
     def calc_cw(self):
-        '''
+        """
         Water Concentration
-        '''
+        """
         self.out_cw = (self.out_mass_area / (self.dw + (self.dsed * (self.osed + (self.pb * self.kd * 1e-5))))) * 100
         return self.out_cw
