@@ -33,8 +33,8 @@ class UberModel(object):
 
         # Compare column names of temporary DataFrame (created above) to user-supply DataFrame from JSON
 
-        print df.columns.order()
-        print pd_obj.columns.order()
+        print "Expected:", df.columns.order()
+        print "User Ins:", pd_obj.columns.order()
         if df.columns.order().equals(pd_obj.columns.order()):
             # If the user-supplied DataFrame has the same column names as required by TerrplantInputs...
             # set each Series in the DataFrame to the corresponding TerrplantInputs attribute (member variable)
@@ -84,3 +84,11 @@ class UberModel(object):
             return model_obj.pd_obj.to_dict(), model_obj.pd_obj_out.to_dict(), model_obj.pd_obj_exp.to_dict()
         except AttributeError:
             return model_obj.pd_obj.to_dict(), model_obj.pd_obj_out.to_dict(), {}
+
+
+class ModelSharedInputs(object):
+    def __init__(self):
+        super(ModelSharedInputs, self).__init__()
+        self.version = pd.Series([], dtype="object")
+        self.chemical_name = pd.Series([], dtype="object")
+        self.pc_code = pd.Series([], dtype="object")
