@@ -1,9 +1,9 @@
 from __future__ import division
-from ..base.uber_model import UberModel
+from ..base.uber_model import UberModel, ModelSharedInputs
 import pandas as pd
 
 
-class StirInputs(object):
+class StirInputs(ModelSharedInputs):
     """
     Input class for STIR.
     """
@@ -11,9 +11,6 @@ class StirInputs(object):
     def __init__(self):
         """Class representing the inputs for STIR"""
         super(StirInputs, self).__init__()
-        self.version_stir = pd.Series([], dtype="object")
-        self.chemical_name = pd.Series([], dtype="object")
-        self.pc_code = pd.Series([], dtype="object")
         self.application_rate = pd.Series([], dtype="float")
         self.column_height = pd.Series([], dtype="float")
         self.spray_drift_fraction = pd.Series([], dtype="float")
