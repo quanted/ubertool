@@ -11,9 +11,9 @@ class UberModel(object):
         """Main utility class for building Ubertool model classes for model execution."""
         super(UberModel, self).__init__()
         self.name = self.__class__.__name__
-        self.inputs = None
-        self.outputs = None
-        self.outputs_expected = None
+        self.pd_obj = None
+        self.pd_obj_exp = None
+        self.pd_obj_out = None
 
     def populate_inputs(self, pd_obj, model_obj):
         """
