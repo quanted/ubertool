@@ -1,83 +1,83 @@
 from __future__ import division
-import logging
+from ..base.uber_model import UberModel, ModelSharedInputs
 import pandas as pd
 
 
-class Earthworm(object):
+class EarthwormInputs(ModelSharedInputs):
+    """
+    Input class for Earthworm.
+    """
+
+    def __init__(self):
+        """Class representing the inputs for Earthworm"""
+        super(EarthwormInputs, self).__init__()
+        self.k_ow = pd.Series([], dtype="float")
+        self.l_f_e = pd.Series([], dtype="float")
+        self.c_s = pd.Series([], dtype="float")
+        self.k_d = pd.Series([], dtype="float")
+        self.p_s = pd.Series([], dtype="float")
+
+
+class EarthwormOutputs(object):
+    """
+    Output class for Earthworm.
+    """
+
+    def __init__(self):
+        """Class representing the outputs for Earthworm"""
+        super(EarthwormOutputs, self).__init__()
+        self.earthworm_fugacity_out = pd.Series(name="earthworm_fugacity_out")
+
+
+class Earthworm(UberModel, EarthwormInputs, EarthwormOutputs):
     """
     Earthworm model for annelid soil ingestion.
     """
 
-    def __init__(self, run_type, pd_obj, pd_obj_exp):
-        '''  Constructor '''
-        # Inputs: Assign object attribute variables from the input Pandas DataFrame
-        self.run_type = run_type
+    def __init__(self, pd_obj, pd_obj_exp):
+        """Class representing the Earthworm model and containing all its methods"""
+        super(Earthworm, self).__init__()
         self.pd_obj = pd_obj
         self.pd_obj_exp = pd_obj_exp
-
-        # Execute model methods if requested
-        if self.run_type != "empty":
-            self.execute_model()
+        self.pd_obj_out = None
 
     def execute_model(self):
-        ''' Called by constructor to populate class and run methods. '''
-        self.populate_input_properties()
-        self.create_output_properties()
+        """
+        Callable to execute the running of the model:
+            1) Populate input parameters
+            2) Create output DataFrame to hold the model outputs
+            3) Run the model's methods to generate outputs
+            4) Fill the output DataFrame with the generated model outputs
+        """
+        self.populate_inputs(self.pd_obj, self)
+        self.pd_obj_out = self.populate_outputs(self)
         self.run_methods()
-        self.create_output_dataframe()
-        self.json = self.json(self.pd_obj, self.pd_obj_out, self.pd_obj_exp)
+        self.fill_output_dataframe(self)
 
-    def populate_input_properties(self):
-        ''' Set all input properties for class '''
-        # Inputs: Assign object attribute variables from the input Pandas Dataframe
-        self.k_ow = self.pd_obj['k_ow']
-        self.l_f_e = self.pd_obj['l_f_e']
-        self.c_s = self.pd_obj['c_s']
-        self.k_d = self.pd_obj['k_d']
-        self.p_s = self.pd_obj['p_s']
-        # self.c_w = self.pd_obj['c_w']
-        # self.m_w = self.pd_obj['m_w']
-        # self.p_e = self.pd_obj['p_e']
-
-    def create_output_properties(self):
-        ''' Set all output properties for class '''
-        # Outputs: Assign object attribute variables to Pandas Series
-        self.earthworm_fugacity_out = pd.Series(name="earthworm_fugacity_out")
+    # def populate_input_properties(self):
+    #     """" Set all input properties for class """"
+    #     # Inputs: Assign object attribute variables from the input Pandas Dataframe
+    #     self.k_ow = self.pd_obj['k_ow']
+    #     self.l_f_e = self.pd_obj['l_f_e']
+    #     self.c_s = self.pd_obj['c_s']
+    #     self.k_d = self.pd_obj['k_d']
+    #     self.p_s = self.pd_obj['p_s']
+    #     # self.c_w = self.pd_obj['c_w']
+    #     # self.m_w = self.pd_obj['m_w']
+    #     # self.p_e = self.pd_obj['p_e']
 
     # Begin model methods
     def run_methods(self):
-        ''' Execute all algorithm methods for model logic '''
-        self.earthworm_fugacity()
-
-    def create_output_dataframe(self):
-        ''' Combine all output properties into numpy pandas dataframe '''
-        # Create DataFrame containing output value Series
-        pd_obj_out = pd.DataFrame({
-            'earthworm_fugacity_out': self.earthworm_fugacity_out,
-        })
-        # create pandas properties for acceptance testing
-        self.pd_obj_out = pd_obj_out
-
-    def json(self, pd_obj, pd_obj_out, pd_obj_exp):
-        """
-            Convert DataFrames to JSON, returning a tuple
-            of JSON strings (inputs, outputs, exp_out)
-        """
-
-        pd_obj_json = pd_obj.to_json()
-        pd_obj_out_json = pd_obj_out.to_json()
+        """ Execute all algorithm methods for model logic """
         try:
-            pd_obj_exp_json = pd_obj_exp.to_json()
-        except Exception as e:
-            # handle exception
-            print("Error '{0}' occurred. Arguments {1}.".format(e.message, e.args))
-            pd_obj_exp_json = "{}"
-        return pd_obj_json, pd_obj_out_json, pd_obj_exp_json
+            self.earthworm_fugacity()
+        except Exception, e:
+            print str(e)
 
     def earthworm_fugacity(self):
-        '''
+        """
         most recent version of EFED equation circa 3-26-2013 is implemented in the formula below
         model runs documented in ubertool crosswalk use the EFED model in "earthworm models 3-26-13b.xlsx"
-        '''
+        """
         self.earthworm_fugacity_out = self.k_ow * self.l_f_e * (self.c_s / (self.k_d * self.p_s))
         return self.earthworm_fugacity_out
