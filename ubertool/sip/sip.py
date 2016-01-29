@@ -1,9 +1,9 @@
 from __future__ import division
-from ..base.uber_model import UberModel
+from ..base.uber_model import UberModel, ModelSharedInputs
 import pandas as pd
 
 
-class SipInputs(object):
+class SipInputs(ModelSharedInputs):
     """
     Input class for SIP.
     """
@@ -11,9 +11,6 @@ class SipInputs(object):
     def __init__(self):
         """Class representing the inputs for SIP"""
         super(SipInputs, self).__init__()
-        self.version_sip = pd.Series([], dtype="object")
-        self.chemical_name = pd.Series([], dtype="object")
-        self.pc_code = pd.Series([], dtype="object")
         self.solubility = pd.Series([], dtype="float")
         self.bodyweight_tested_bird = pd.Series([], dtype="float")
         self.bodyweight_bird_other_1 = pd.Series([], dtype="float")

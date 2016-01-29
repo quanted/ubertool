@@ -88,6 +88,9 @@ class UberModel(object):
 
 class ModelSharedInputs(object):
     def __init__(self):
+        """
+        Container for the shared model inputs amongst most models (e.g. version, chemical name, & PC Code)
+        """
         super(ModelSharedInputs, self).__init__()
         self.version = pd.Series([], dtype="object")
         self.chemical_name = pd.Series([], dtype="object")
