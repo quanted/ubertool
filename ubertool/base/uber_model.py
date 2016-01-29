@@ -11,9 +11,9 @@ class UberModel(object):
         """Main utility class for building Ubertool model classes for model execution."""
         super(UberModel, self).__init__()
         self.name = self.__class__.__name__
-        self.inputs = None
-        self.outputs = None
-        self.outputs_expected = None
+        self.pd_obj = None
+        self.pd_obj_exp = None
+        self.pd_obj_out = None
 
     def populate_inputs(self, pd_obj, model_obj):
         """
@@ -33,8 +33,8 @@ class UberModel(object):
 
         # Compare column names of temporary DataFrame (created above) to user-supply DataFrame from JSON
 
-        print df.columns.order()
-        print pd_obj.columns.order()
+        print "Expected:", df.columns.order()
+        print "User Ins:", pd_obj.columns.order()
         if df.columns.order().equals(pd_obj.columns.order()):
             # If the user-supplied DataFrame has the same column names as required by TerrplantInputs...
             # set each Series in the DataFrame to the corresponding TerrplantInputs attribute (member variable)
@@ -84,3 +84,14 @@ class UberModel(object):
             return model_obj.pd_obj.to_dict(), model_obj.pd_obj_out.to_dict(), model_obj.pd_obj_exp.to_dict()
         except AttributeError:
             return model_obj.pd_obj.to_dict(), model_obj.pd_obj_out.to_dict(), {}
+
+
+class ModelSharedInputs(object):
+    def __init__(self):
+        """
+        Container for the shared model inputs amongst most models (e.g. version, chemical name, & PC Code)
+        """
+        super(ModelSharedInputs, self).__init__()
+        self.version = pd.Series([], dtype="object")
+        self.chemical_name = pd.Series([], dtype="object")
+        self.pc_code = pd.Series([], dtype="object")

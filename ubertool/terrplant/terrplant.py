@@ -1,9 +1,9 @@
 from __future__ import division
-from ..base.uber_model import UberModel
+from ..base.uber_model import UberModel, ModelSharedInputs
 import pandas as pd
 
 
-class TerrplantInputs(object):
+class TerrplantInputs(ModelSharedInputs):
     """
     Input class for Terrplant.
     """
@@ -11,16 +11,14 @@ class TerrplantInputs(object):
     def __init__(self):
         """Class representing the inputs for TerrPlant"""
         super(TerrplantInputs, self).__init__()
-        self.version_terrplant = pd.Series([], dtype="object")
-        self.chemical_name = pd.Series([], dtype="object")
-        self.pc_code = pd.Series([], dtype="object")
-        self.application_rate = pd.Series([], dtype="float")
         self.incorporation_depth = pd.Series([], dtype="float")
         self.runoff_fraction = pd.Series([], dtype="float")
         self.drift_fraction = pd.Series([], dtype="float")
+        self.chemical_name = pd.Series([], dtype="object")
         self.use = pd.Series([], dtype="object")
         self.application_method = pd.Series([], dtype="object")
         self.application_form = pd.Series([], dtype="object")
+        self.application_rate = pd.Series([], dtype="object")
         self.solubility = pd.Series([], dtype="float")
         self.ec25_nonlisted_seedling_emergence_monocot = pd.Series([], dtype="float")
         self.ec25_nonlisted_seedling_emergence_dicot = pd.Series([], dtype="float")

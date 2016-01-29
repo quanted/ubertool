@@ -1,62 +1,60 @@
 from __future__ import division
-import logging
+from ..base.uber_model import UberModel, ModelSharedInputs
 import pandas as pd
 import numpy as np
 from scipy.special import erfc
 
 
-class Iec(object):
+class IecInputs(ModelSharedInputs):
+    """
+    Input class for IEC.
+    """
+
+    def __init__(self):
+        """Class representing the inputs for IEC"""
+        super(IecInputs, self).__init__()
+        self.dose_response = pd.Series([], dtype="float")
+        self.lc50 = pd.Series([], dtype="float")
+        self.threshold = pd.Series([], dtype="float")
+
+
+class IecOutputs(object):
+    """
+    Output class for IEC.
+    """
+
+    def __init__(self):
+        """Class representing the outputs for IEC"""
+        super(IecOutputs, self).__init__()
+        self.z_score_f_out = pd.Series(name="z_score_f_out")
+        self.f8_f_out = pd.Series(name="f8_f_out")
+        self.chance_f_out = pd.Series(name="chance_f_out")
+
+
+class Iec(UberModel, IecInputs, IecOutputs):
     """
     IEC model for proportional population effect based on normal distribution.
     """
 
-    def __init__(self, run_type, pd_obj, pd_obj_exp):
-        """
-        Constructor for iec
-        :param run_type:
-        :param pd_obj:
-        :param pd_obj_exp:
-        :return:
-        """
-        # run_type can be single, batch or qaqc
-        # 0 to run calculation, else it wont
-        self.run_type = run_type
+    def __init__(self, pd_obj, pd_obj_exp):
+        """Class representing the IEC model and containing all its methods"""
+        super(Iec, self).__init__()
         self.pd_obj = pd_obj
         self.pd_obj_exp = pd_obj_exp
-        # Execute model methods if requested
-        if self.run_type != "empty":
-            self.execute_model()
+        self.pd_obj_out = None
 
     def execute_model(self):
         """
-        Called by constructor to populate class and run methods.
-        :return:
+        Callable to execute the running of the model:
+            1) Populate input parameters
+            2) Create output DataFrame to hold the model outputs
+            3) Run the model's methods to generate outputs
+            4) Fill the output DataFrame with the generated model outputs
         """
-        self.populate_input_properties()
-        self.create_output_properties()
+        self.populate_inputs(self.pd_obj, self)
+        self.pd_obj_out = self.populate_outputs(self)
         self.run_methods()
-        self.create_output_dataframe()
-        # Callable from Bottle that returns JSON
-        self.json = self.json(self.pd_obj, self.pd_obj_out, self.pd_obj_exp)
-
-    def populate_input_properties(self):
-        """
-        Set all input properties for class
-        Inputs: Assign object attribute variables from the input Pandas DataFrame
-        :return:
-        """
-        self.dose_response = self.pd_obj['dose_response']
-        self.lc50 = self.pd_obj['lc50']
-        self.threshold = self.pd_obj['threshold']
-
-    def create_output_properties(self):
-        """
-        Set all output properties for class
-        Outputs: Assign object attribute variables to Pandas Series
-        """
-        self.z_score_f_out = pd.Series(name="z_score_f_out")
-        self.f8_f_out = pd.Series(name="f8_f_out")
-        self.chance_f_out = pd.Series(name="chance_f_out")
+        self.fill_output_dataframe(self)
 
     def run_methods(self):
         """
@@ -67,38 +65,8 @@ class Iec(object):
             self.z_score_f()
             self.f8_f()
             self.chance_f()
-        finally:
-            pass
-
-    def create_output_dataframe(self):
-        """
-        Combine all output properties into numpy pandas dataframe
-        Create DataFrame containing output value Series
-        :return:
-        """
-        pd_obj_out = pd.DataFrame({
-            "z_score_f_out": self.z_score_f_out,
-            "f8_f_out": self.f8_f_out,
-            "chance_f_out": self.chance_f_out
-        })
-        # create pandas properties for acceptance testing
-        self.pd_obj_out = pd_obj_out
-
-    def json(self, pd_obj, pd_obj_out, pd_obj_exp):
-        """
-        Convert DataFrames to JSON, returning a tuplehere
-        of JSON strings (inputs, outputs, exp_out)
-        """
-        pd_obj_json = pd_obj.to_json()
-        pd_obj_out_json = pd_obj_out.to_json()
-        try:
-            pd_obj_exp_json = pd_obj_exp.to_json()
-        except Exception as e:
-            # handle exception
-            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
-            pd_obj_exp_json = "{}"
-        # Callable from Bottle that returns JSON
-        return pd_obj_json, pd_obj_out_json, pd_obj_exp_json
+        except Exception, e:
+            print str(e)
 
     def z_score_f(self):
         """
