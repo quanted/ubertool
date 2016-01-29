@@ -54,18 +54,6 @@ class Earthworm(UberModel, EarthwormInputs, EarthwormOutputs):
         self.run_methods()
         self.fill_output_dataframe(self)
 
-    # def populate_input_properties(self):
-    #     """" Set all input properties for class """"
-    #     # Inputs: Assign object attribute variables from the input Pandas Dataframe
-    #     self.k_ow = self.pd_obj['k_ow']
-    #     self.l_f_e = self.pd_obj['l_f_e']
-    #     self.c_s = self.pd_obj['c_s']
-    #     self.k_d = self.pd_obj['k_d']
-    #     self.p_s = self.pd_obj['p_s']
-    #     # self.c_w = self.pd_obj['c_w']
-    #     # self.m_w = self.pd_obj['m_w']
-    #     # self.p_e = self.pd_obj['p_e']
-
     # Begin model methods
     def run_methods(self):
         """ Execute all algorithm methods for model logic """
