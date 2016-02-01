@@ -36,9 +36,9 @@ class AgdriftOutputs(object):
         self.out_deposition_ngl = pd.Series(name="out_deposition_ngl ").astype("float")
         self.out_deposition_mgcm = pd.Series(name="out_deposition_mgcm ").astype("float")
         self.out_nasae = pd.Series(name="out_nasae ").astype("float")
-        self.out_y = pd.Series(name="out_y ").astype("float")
-        self.out_x = pd.Series(name="out_x ").astype("float")
-        self.out_express_y = pd.Series(name="out_express_y ").astype("float")
+        self.out_y = pd.Series(name="out_y ").astype("object")
+        self.out_x = pd.Series(name="out_x ").astype("object")
+        self.out_express_y = pd.Series(name="out_express_y ").astype("object")
 
 
 class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
@@ -73,10 +73,10 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
         """
         try:
             self.results()
-            if (self.calculation_input[0] == 'Distance'):
+            if self.calculation_input[0] == 'Distance':
                 self.results()
                 self.express_extrapolate_f()
-                self.deposition_foa_to_gha_f(self.out_init_avg_dep_foa, self.application_rate)
+                self.deposition_foa_to_gha_f(self.out_init_avg_dep_foa[0], self.application_rate[0])
                 self.deposition_ghac_to_lbac_f()
                 self.deposition_gha_to_ngl_f()
                 self.deposition_gha_to_mgcm_f()
@@ -397,11 +397,11 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
         #     self.terr_airblast_sparse = [0.4763,0.4385,0.3218,0.2285,0.1007,0.0373,0.0103,0.0044,0.0023,0.0014,0.0009,0.0006,0.0005,0.0004,0.0003,0.0002,0.0001,0.0000889,0.0000665,0.0000514]
         #     self.terr_airblast_vineyard = [0.0376,0.0324,0.0195,0.012,0.0047,0.0019,0.0008,0.0004,0.0003,0.0002,0.0002,0.0001,0.0001,0.0001,0.000087,0.0000667,0.0000531,0.0000434,0.0000363,0.000031]
         #     self.terr_airblast_orchard = [0.2223,0.2046,0.1506,0.108,0.0503,0.021,0.0074,0.004,0.0026,0.0019,0.0015,0.0012,0.0011,0.0009,0.0008,0.0006,0.0005,0.0005,0.0004,0.0004]
-        if (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Aerial' and self.drop_size[0] == 'Fine'):
-            self.out_y = self.pond_aerial_vf2f
-            # self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-            self.out_nasae = int(0)
-            self.out_express_y = [0.2425, 0.2372, 0.23190000000000002, 0.2273, 0.2227, 0.21855, 0.2144, 0.21065, 0.2069,
+        if self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Aerial' and self.drop_size[0] == 'Fine':
+            self.out_y[0] = self.pond_aerial_vf2f
+            # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
+            self.out_nasae[0] = int(0)
+            self.out_express_y[0] = [0.2425, 0.2372, 0.23190000000000002, 0.2273, 0.2227, 0.21855, 0.2144, 0.21065, 0.2069,
                               0.20329999999999998, 0.1997, 0.19634999999999997, 0.193, 0.1898, 0.1866,
                               0.18359999999999999, 0.18059999999999998, 0.17775, 0.17489999999999997,
                               0.17225000000000001, 0.1696, 0.16704999999999998, 0.16449999999999998,
@@ -457,7 +457,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                               0.03605000000000018, 0.03590000000000032, 0.03575000000000017, 0.035600000000000305,
                               0.03545000000000016, 0.035300000000000296, 0.03515000000000043, 0.03500000000000028,
                               0.03485000000000042, 0.03470000000000027, 0.03455000000000041]
-            self.out_x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+            self.out_x[0] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
                       27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
                       51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
                       75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98,
@@ -473,10 +473,10 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289,
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Aerial' and self.drop_size[0] == 'Medium'):
-            self.out_y = self.pond_aerial_f2m
-            # self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-            self.out_nasae = 1
-            self.out_express_y = [0.1266, 0.1204, 0.1142, 0.1096, 0.105, 0.10128499999999999, 0.09756999999999999,
+            self.out_y[0] = self.pond_aerial_f2m
+            # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
+            self.out_nasae[0] = 1
+            self.out_express_y[0] = [0.1266, 0.1204, 0.1142, 0.1096, 0.105, 0.10128499999999999, 0.09756999999999999,
                               0.09451999999999999, 0.09147, 0.08885, 0.08622999999999999, 0.08384499999999999, 0.08146,
                               0.07922000000000001, 0.07698, 0.07484500000000001, 0.07271, 0.07071, 0.06871000000000001,
                               0.0669, 0.06509000000000001, 0.063485, 0.06188, 0.060434999999999996, 0.05899,
@@ -532,7 +532,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                               0.010250000000000058, 0.010210000000000007, 0.010169999999999959, 0.010129999999999981,
                               0.010090000000000003, 0.010049999999999955, 0.010009999999999906, 0.00997,
                               0.00992999999999995, 0.0098899999999999, 0.009849999999999994]
-            self.out_x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+            self.out_x[0] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
                       27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
                       51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
                       75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98,
@@ -549,9 +549,9 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]
 
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Aerial' and self.drop_size[0] == 'Coarse'):
-            self.out_y = self.pond_aerial_m2c
-            self.out_nasae = 2
-            self.out_express_y = [0.08918, 0.082835, 0.07649, 0.07204, 0.06759, 0.06431, 0.06103, 0.05848, 0.05593,
+            self.out_y[0] = self.pond_aerial_m2c
+            self.out_nasae[0] = 2
+            self.out_express_y[0] = [0.08918, 0.082835, 0.07649, 0.07204, 0.06759, 0.06431, 0.06103, 0.05848, 0.05593,
                               0.053864999999999996, 0.0518, 0.050045, 0.04829, 0.046709999999999995,
                               0.045129999999999997, 0.04365, 0.04217, 0.040755, 0.03934, 0.03802, 0.036699999999999997,
                               0.035535, 0.03437, 0.03338, 0.03239, 0.031545, 0.030699999999999998, 0.02995, 0.0292,
@@ -606,7 +606,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                               0.00480599999999999, 0.004786999999999999, 0.0047680000000000075, 0.004748999999999981,
                               0.004729999999999989, 0.004710999999999998, 0.004691999999999971, 0.00467299999999998,
                               0.0046540000000000244, 0.004635000000000033]
-            self.out_x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+            self.out_x[0] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
                       27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
                       51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
                       75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98,
@@ -623,10 +623,10 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]
 
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Aerial' and self.drop_size[0] == 'Very Coarse'):
-            self.out_y = self.pond_aerial_c2vc
-            # self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-            self.out_nasae = 3
-            self.out_express_y = [0.06878999999999999, 0.06250499999999999, 0.05622, 0.052035, 0.047850000000000004,
+            self.out_y[0] = self.pond_aerial_c2vc
+            # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
+            self.out_nasae[0] = 3
+            self.out_express_y[0] = [0.06878999999999999, 0.06250499999999999, 0.05622, 0.052035, 0.047850000000000004,
                               0.044875000000000005, 0.04190000000000001, 0.039685, 0.037469999999999996, 0.03574,
                               0.03401, 0.03262, 0.03123, 0.03008, 0.028929999999999997, 0.027925, 0.026920000000000003,
                               0.025985, 0.02505, 0.02418, 0.02331, 0.02253, 0.02175, 0.02109, 0.02043, 0.019865,
@@ -684,7 +684,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                               0.002415500000000037, 0.0024020000000000152, 0.002388500000000029, 0.0023750000000000073,
                               0.0023615000000000207, 0.002347999999999999, 0.0023345000000000128, 0.002320999999999991,
                               0.0023075000000000044]
-            self.out_x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+            self.out_x[0] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
                       27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
                       51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
                       75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98,
@@ -701,10 +701,10 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]
 
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Ground' and self.drop_size[0] == 'Fine' and self.boom_height[0] == 'low'):
-            self.out_y = self.pond_ground_low_vf2f
-            # self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-            self.out_nasae = 4
-            self.out_express_y = [0.02681, 0.021150000000000002, 0.015489999999999999, 0.013995, 0.0125, 0.011685, 0.01087,
+            self.out_y[0] = self.pond_ground_low_vf2f
+            # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
+            self.out_nasae[0] = 4
+            self.out_express_y[0] = [0.02681, 0.021150000000000002, 0.015489999999999999, 0.013995, 0.0125, 0.011685, 0.01087,
                               0.010335, 0.0098, 0.009403, 0.009006, 0.008693, 0.00838, 0.008122, 0.007864, 0.007645,
                               0.007426, 0.0072365, 0.007047, 0.0068805, 0.006714, 0.006565499999999999,
                               0.006417000000000001, 0.0062835, 0.00615, 0.006029, 0.005908, 0.0057975, 0.005687,
@@ -765,7 +765,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                               0.0007404999999999972, 0.0007340000000000035, 0.0007275000000000009,
                               0.0007210000000000072, 0.0007144999999999957, 0.0007080000000000019,
                               0.0007015000000000082, 0.0006950000000000056, 0.000688500000000003]
-            self.out_x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+            self.out_x[0] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
                       27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
                       51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
                       75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98,
@@ -782,10 +782,10 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]
 
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Ground' and self.drop_size[0] == 'Medium' and self.boom_height[0] == 'low'):
-            self.out_y = self.pond_ground_low_f2m
-            # self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-            self.out_nasae = 6
-            self.out_express_y = [0.0109, 0.008512, 0.006124000000000001, 0.005698000000000001, 0.005272, 0.005023,
+            self.out_y[0] = self.pond_ground_low_f2m
+            # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
+            self.out_nasae[0] = 6
+            self.out_express_y[0] = [0.0109, 0.008512, 0.006124000000000001, 0.005698000000000001, 0.005272, 0.005023,
                               0.004774, 0.004598, 0.004422, 0.0042845, 0.0041470000000000005, 0.0040345, 0.003922,
                               0.003826, 0.00373, 0.0036465000000000004, 0.003563, 0.0034895, 0.003416, 0.00335,
                               0.0032840000000000005, 0.0032245, 0.003165, 0.0031105, 0.0030559999999999997, 0.003006,
@@ -849,7 +849,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                               0.0004866999999999999, 0.0004830999999999985, 0.00047950000000000157,
                               0.00047590000000000024, 0.0004723000000000033, 0.0004687000000000019,
                               0.00046509999999999607, 0.00046149999999999913, 0.0004579000000000022]
-            self.out_x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+            self.out_x[0] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
                       27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
                       51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
                       75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98,
@@ -866,10 +866,10 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]
 
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Ground' and self.drop_size[0] == 'Fine' and self.boom_height[0] == 'High'):
-            self.out_y = self.pond_ground_high_vf2f
-            # self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-            self.out_nasae = 5
-            self.out_express_y = [0.06164, 0.052074999999999996, 0.042510000000000006, 0.03838, 0.034249999999999996,
+            self.out_y[0] = self.pond_ground_high_vf2f
+            # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
+            self.out_nasae[0] = 5
+            self.out_express_y[0] = [0.06164, 0.052074999999999996, 0.042510000000000006, 0.03838, 0.034249999999999996,
                               0.031805, 0.02936, 0.027715, 0.026070000000000003, 0.024855000000000002,
                               0.023639999999999998, 0.022685, 0.02173, 0.020949999999999996, 0.02017,
                               0.019514999999999998, 0.01886, 0.018295, 0.01773, 0.017235, 0.016739999999999998, 0.0163,
@@ -931,7 +931,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                               0.0008164999999999978, 0.0008019999999999961, 0.0007874999999999944,
                               0.0007729999999999926, 0.0007584999999999908, 0.0007439999999999891,
                               0.0007294999999999874]
-            self.out_x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+            self.out_x[0] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
                       27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
                       51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
                       75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98,
@@ -947,10 +947,10 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289,
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Ground' and self.drop_size[0] == 'Medium' and self.boom_height[0] == 'High'):
-            self.out_y = self.pond_ground_high_f2m
-            # self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-            self.out_nasae = 7
-            self.out_express_y = [0.0165, 0.013170999999999999, 0.009842, 0.0091275, 0.008413, 0.0079925, 0.007572,
+            self.out_y[0] = self.pond_ground_high_f2m
+            # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
+            self.out_nasae[0] = 7
+            self.out_express_y[0] = [0.0165, 0.013170999999999999, 0.009842, 0.0091275, 0.008413, 0.0079925, 0.007572,
                               0.007275, 0.006978, 0.0067465, 0.006515, 0.006325000000000001, 0.006135000000000001,
                               0.005974, 0.0058130000000000005, 0.005673500000000001, 0.005534, 0.0054105,
                               0.005286999999999999, 0.005177, 0.005067, 0.0049675000000000006, 0.004868, 0.004777,
@@ -1012,7 +1012,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                               0.0005595000000000016, 0.0005540000000000056, 0.0005485000000000007,
                               0.0005430000000000046, 0.0005374999999999997, 0.0005320000000000036,
                               0.0005264999999999986]
-            self.out_x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+            self.out_x[0] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
                       27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
                       51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
                       75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98,
@@ -1029,10 +1029,10 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]
 
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Orchard/Airblast' and self.orchard_type[0] == 'Orchard'):
-            self.out_y = self.pond_airblast_orchard
-            # self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-            self.out_nasae = 9
-            self.out_express_y = [0.0218, 0.019110000000000002, 0.01642, 0.014714999999999999, 0.013009999999999999,
+            self.out_y[0] = self.pond_airblast_orchard
+            # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
+            self.out_nasae[0] = 9
+            self.out_express_y[0] = [0.0218, 0.019110000000000002, 0.01642, 0.014714999999999999, 0.013009999999999999,
                               0.01184, 0.010669999999999999, 0.009834, 0.008998, 0.008373, 0.0077480000000000005,
                               0.007266, 0.006784, 0.0064025, 0.0060209999999999994, 0.0057125000000000006, 0.005404,
                               0.00515, 0.004896, 0.004684, 0.004472, 0.004292000000000001, 0.004112, 0.0039585,
@@ -1097,7 +1097,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                               0.00025700000000000055, 0.0002544000000000013, 0.000251800000000002,
                               0.0002491999999999983, 0.00024659999999999906, 0.00024399999999999978,
                               0.0002414000000000005, 0.00023880000000000122]
-            self.out_x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+            self.out_x[0] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
                       27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
                       51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
                       75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98,
@@ -1114,8 +1114,8 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]
 
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Orchard/Airblast' and self.orchard_type[0] == 'Vineyard'):
-            self.out_y = self.pond_airblast_vineyard
-            self.out_express_y = [0.002433, 0.0020455, 0.001658, 0.001466, 0.0012740000000000002, 0.0011565, 0.001039,
+            self.out_y[0] = self.pond_airblast_vineyard
+            self.out_express_y[0] = [0.002433, 0.0020455, 0.001658, 0.001466, 0.0012740000000000002, 0.0011565, 0.001039,
                               0.00096125, 0.0008835, 0.00082735, 0.0007712, 0.0007285999999999999, 0.000686,
                               0.0006523999999999999, 0.0006188, 0.0005914999999999999, 0.0005641999999999999, 0.0005415,
                               0.0005188, 0.0004996, 0.00048039999999999997, 0.0004639, 0.00044740000000000003,
@@ -1183,7 +1183,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                               1.8764999999999753e-05, 1.8449999999999578e-05, 1.813499999999968e-05,
                               1.7819999999999504e-05, 1.750499999999988e-05, 1.7189999999999983e-05,
                               1.6874999999999807e-05, 1.655999999999991e-05, 1.6244999999999734e-05]
-            self.out_x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+            self.out_x[0] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
                       27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
                       51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74,
                       75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98,
@@ -1198,7 +1198,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270,
                       271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289,
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]
-            self.out_nasae = 8
+            self.out_nasae[0] = 8
             #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Aerial' and self.drop_size == 'Fine'):
             #         self.out_y = self.terr_aerial_vf2f
             #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
@@ -1243,7 +1243,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
             #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
             #         self.z = 4
         else:
-            self.out_y = 3
+            self.out_y[0] = 3
 
     def express_extrapolate_f(self):
         """
@@ -1255,16 +1255,16 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
         """
         # XV = np.array([X0, X1, X2, X3, X4, X5, X6, X7, X8, X9])
 
-        # NASAE1=int(self.out_nasae)-1
-        # N=max(0,min(9,(self.out_nasae-1)))
-        # I=max(0,min(99,int(0.5*int(self.distance))+1))
-        i_f = max(1, min(100, int(0.5 * int(self.distance)) + 1))
+        # NASAE1=int(self.out_nasae[0])-1
+        # N=max(0,min(9,(self.out_nasae[0]-1)))
+        # I=max(0,min(99,int(0.5*int(self.distance[0]))+1))
+        i_f = max(1, min(100, int(0.5 * int(self.distance[0])) + 1))
         ym = 2.0 * (i_f - 1)
         yp = 2.0 * (i_f)
         i = i_f - 1  # to account for python being zero based
 
-        self.out_init_avg_dep_foa = (0.5 * (
-            self.out_y[i] * (yp - int(self.distance)) + self.out_y[i + 1] * (int(self.distance) - ym))) / 100
+        self.out_init_avg_dep_foa[0] = (0.5 * (
+            self.out_y[i] * (yp - int(self.distance[0])) + self.out_y[i + 1] * (int(self.distance[0]) - ym))) / 100
         return self.out_init_avg_dep_foa
 
     def extrapolate_from_fig(self, bisect_left, out_x):
@@ -1277,17 +1277,17 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
         :param out_y:
         :return:
         """
-        self.distance = int(self.distance)
-        if self.distance in self.out_x:
-            y_index = out_x.index(self.distance)
+        #self.distance = int(self.distance)
+        if self.distance[0] in self.out_x:
+            y_index = out_x.index(self.distance[0])
             self.out_init_avg_dep_foa = self.out_y[y_index]
         else:
-            i = bisect_left(self.out_x, self.distance)  # find largest distance closest to value
+            i = bisect_left(self.out_x, self.distance[0])  # find largest distance closest to value
             low1 = self.out_x[i - 1]  # assign nearest lowest out_x value for interpolation
             high1 = self.out_x[i]  # assign nearest highest out_x value for interpolation
             low_i = i - 1  # assign index values to use to find nearest out_y values for interpolation
             high_i = i  # assign index values to use to find nearest out_y values for interpolation
-            self.out_init_avg_dep_foa = ((self.distance - low1) * (self.out_y[high_i] - self.out_y[low_i]) / (high1 - low1)) + \
+            self.out_init_avg_dep_foa[0] = ((self.distance[0] - low1) * (self.out_y[high_i] - self.out_y[low_i]) / (high1 - low1)) + \
                                     self.out_y[low_i]
         return self.out_init_avg_dep_foa
 
@@ -1301,10 +1301,10 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
         :param out_y:
         :return:
         """
-        self.out_init_avg_dep_foa = float(self.out_init_avg_dep_foa)
+        #self.out_init_avg_dep_foa = float(self.out_init_avg_dep_foa)
         if self.out_init_avg_dep_foa in self.out_y:
-            x_index = out_y.index(self.out_init_avg_dep_foa)
-            self.distance = self.out_x[x_index]
+            x_index = out_y.index(self.out_init_avg_dep_foa[0])
+            self.distance[0] = self.out_x[x_index]
         else:
             i = min(enumerate(self.out_y), key=lambda out_x: abs(
                     out_x[1] - self.out_init_avg_dep_foa))  # finds smallest closest value closest to input value
@@ -1313,7 +1313,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
             high1 = self.out_y[i2 - 1]  # assign nearest highest out_x value for interpolation
             low_i = i2  # assign index values to use to find nearest out_y values for interpolation
             high_i = i2 - 1  # assign index values to use to find nearest out_y values for interpolation
-            self.distance = ((self.out_init_avg_dep_foa - low1) * (self.out_x[high_i] - self.out_x[low_i]) / (high1 - low1)) + \
+            self.distance[0] = ((self.out_init_avg_dep_foa[0] - low1) * (self.out_x[high_i] - self.out_x[low_i]) / (high1 - low1)) + \
                             self.out_x[low_i]
         return self.distance
 
@@ -1324,9 +1324,9 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
         :param application_rate:
         :return:
         """
-        application_rate = float(application_rate)
+        #application_rate = float(application_rate)
         # self.out_init_avg_dep_foa = float(out_init_avg_dep_foa)
-        self.out_avg_depo_gha = out_init_avg_dep_foa * 100.0 * application_rate * 10.0
+        self.out_avg_depo_gha[0] = out_init_avg_dep_foa * 100.0 * application_rate * 10.0
         return self.out_avg_depo_gha
 
     def deposition_foa_to_lbac_f(self):
@@ -1336,10 +1336,10 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
         :param application_rate:
         :return:
         """
-        self.application_rate = float(self.application_rate)
+        #self.application_rate = float(self.application_rate)
         # print self.application_rate
         # print self.out_init_avg_dep_foa
-        self.out_avg_depo_lbac = (self.out_init_avg_dep_foa) * self.application_rate
+        self.out_avg_depo_lbac[0] = self.out_init_avg_dep_foa[0] * self.application_rate[0]
         # print self.out_avg_depo_lbac
         return self.out_avg_depo_lbac
 
@@ -1350,8 +1350,8 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
         :param application_rate:
         :return:
         """
-        self.out_avg_depo_lbac = float(self.out_avg_depo_lbac)
-        self.out_avg_depo_gha = self.out_avg_depo_lbac * (453.592) / 0.404686
+        #self.out_avg_depo_lbac = float(self.out_avg_depo_lbac)
+        self.out_avg_depo_gha[0] = self.out_avg_depo_lbac[0] * (453.592) / 0.404686
         # print self.out_avg_depo_gha
         return self.out_avg_depo_gha
 
@@ -1363,10 +1363,9 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
         :return:
         """
         if (self.aquatic_type == '1'):
-
-            self.out_deposition_ngl = self.out_avg_depo_gha * 0.05 * 1000.0
+            self.out_deposition_ngl[0] = self.out_avg_depo_gha[0] * 0.05 * 1000.0
         else:
-            self.out_deposition_ngl = self.out_avg_depo_gha * 0.05 * 1000.0 * (6.56 / 0.4921)
+            self.out_deposition_ngl[0] = self.out_avg_depo_gha[0] * 0.05 * 1000.0 * (6.56 / 0.4921)
         return self.out_deposition_ngl
 
     def deposition_gha_to_mgcm_f(self):
@@ -1376,7 +1375,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
         :param application_rate:
         :return:
         """
-        self.out_deposition_mgcm = self.out_avg_depo_gha * 0.00001
+        self.out_deposition_mgcm[0] = self.out_avg_depo_gha[0] * 0.00001
         return self.out_deposition_mgcm
 
     def deposition_ngl_2_gha_f(self):
@@ -1386,11 +1385,11 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
         :param application_rate:
         :return:
         """
-        self.out_deposition_ngl = float(self.out_deposition_ngl)
+        #self.out_deposition_ngl = float(self.out_deposition_ngl)
         if (self.aquatic_type == '1'):
-            self.out_avg_depo_gha = self.out_deposition_ngl / (0.05 * 1000)
+            self.out_avg_depo_gha[0] = self.out_deposition_ngl[0] / (0.05 * 1000)
         else:
-            self.out_avg_depo_gha = ((self.out_deposition_ngl / 6.56) * 0.4921) / (0.05 * 1000)
+            self.out_avg_depo_gha[0] = ((self.out_deposition_ngl[0] / 6.56) * 0.4921) / (0.05 * 1000)
         return self.out_avg_depo_gha
 
     def deposition_ghac_to_lbac_f(self):
@@ -1400,8 +1399,8 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
         :param application_rate:
         :return:
         """
-        self.out_avg_depo_gha = float(self.out_avg_depo_gha)
-        self.out_avg_depo_lbac = (self.out_avg_depo_gha * 0.00220462 / 2.47105)
+        #self.out_avg_depo_gha = float(self.out_avg_depo_gha)
+        self.out_avg_depo_lbac[0] = (self.out_avg_depo_gha[0] * 0.00220462 / 2.47105)
         return self.out_avg_depo_lbac
 
     def deposition_lbac_to_foa_f(self):
@@ -1411,8 +1410,8 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
         :param application_rate:
         :return:
         """
-        self.application_rate = float(self.application_rate)
-        self.out_init_avg_dep_foa = self.out_avg_depo_lbac / self.application_rate
+        #self.application_rate = float(self.application_rate)
+        self.out_init_avg_dep_foa[0] = self.out_avg_depo_lbac[0] / self.application_rate[0]
         return self.out_init_avg_dep_foa
 
     def deposition_mgcm_to_gha_f(self):
@@ -1422,6 +1421,6 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
         :param application_rate:
         :return:
         """
-        self.out_deposition_mgcm = float(self.out_deposition_mgcm)
-        self.out_avg_depo_gha = self.out_deposition_mgcm / 0.00001
+        #self.out_deposition_mgcm = float(self.out_deposition_mgcm)
+        self.out_avg_depo_gha[0] = self.out_deposition_mgcm[0] / 0.00001
         return self.out_avg_depo_gha
