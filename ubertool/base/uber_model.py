@@ -1,6 +1,6 @@
 import importlib
 import pandas as pd
-
+import logging
 
 class UberModel(object):
     """
@@ -71,7 +71,11 @@ class UberModel(object):
     def fill_output_dataframe(self, model_obj):
         """ Combine all output properties into numpy pandas dataframe """
         for column in model_obj.pd_obj_out:
-            model_obj.pd_obj_out[column] = getattr(model_obj, column)
+            try:
+                logging.info(column)
+                model_obj.pd_obj_out[column] = getattr(model_obj, column)
+            except:
+                print("output dataframe error on " + column)
 
     @staticmethod
     def get_dict_rep(model_obj):
