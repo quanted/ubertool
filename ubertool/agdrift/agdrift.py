@@ -406,6 +406,8 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
 
     def results(self):
         logging.info('------------- Agdrift results' + self.ecosystem_type[0] + self.application_method[0] + self.drop_size[0])
+
+        # TIER I AERIAL
         if self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Aerial' and self.drop_size[0] == 'Fine':
             self.out_y = [self.pond_aerial_vf2f]
             # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
@@ -481,6 +483,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270,
                       271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289,
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]]
+        # TIER I AERIAL
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Aerial' and self.drop_size[0] == 'Medium'):
             self.out_y = [self.pond_aerial_f2m]
             # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
@@ -556,7 +559,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270,
                       271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289,
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]]
-
+        # TIER I AERIAL
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Aerial' and self.drop_size[0] == 'Coarse'):
             self.out_y = [self.pond_aerial_m2c]
             self.out_nasae = [2]
@@ -630,7 +633,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270,
                       271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289,
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]]
-
+        # TIER I AERIAL
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Aerial' and self.drop_size[0] == 'Very Coarse'):
             self.out_y = [self.pond_aerial_c2vc]
             # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
@@ -708,7 +711,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270,
                       271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289,
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]]
-
+        # TIER I GROUND
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Ground' and self.drop_size[0] == 'Fine' and self.boom_height[0] == 'low'):
             self.out_y = [self.pond_ground_low_vf2f]
             # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
@@ -789,7 +792,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270,
                       271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289,
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]]
-
+        # TIER I GROUND
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Ground' and self.drop_size[0] == 'Medium' and self.boom_height[0] == 'low'):
             self.out_y = [self.pond_ground_low_f2m]
             # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
@@ -873,7 +876,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270,
                       271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289,
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]]
-
+        # TIER I GROUND
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Ground' and self.drop_size[0] == 'Fine' and self.boom_height[0] == 'High'):
             self.out_y = [self.pond_ground_high_vf2f]
             # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
@@ -955,6 +958,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270,
                       271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289,
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]]
+        # TIER I GROUND
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Ground' and self.drop_size[0] == 'Medium' and self.boom_height[0] == 'High'):
             self.out_y = [self.pond_ground_high_f2m]
             # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
@@ -1036,7 +1040,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270,
                       271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289,
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]]
-
+        # TIER I ORCHARD/AIRBLAST
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Orchard/Airblast' and self.orchard_type[0] == 'Orchard'):
             self.out_y = [self.pond_airblast_orchard]
             # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
@@ -1121,7 +1125,7 @@ class Agdrift(UberModel, AgdriftInputs, AgdriftOutputs):
                       252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270,
                       271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289,
                       290, 291, 292, 293, 294, 295, 296, 297, 298, 299]]
-
+        # TIER I ORCHARD/AIRBLAST
         elif (self.ecosystem_type[0] == 'EPA Pond' and self.application_method[0] == 'Orchard/Airblast' and self.orchard_type[0] == 'Vineyard'):
             self.out_y = [self.pond_airblast_vineyard]
             self.out_express_y = [[0.002433, 0.0020455, 0.001658, 0.001466, 0.0012740000000000002, 0.0011565, 0.001039,
