@@ -34,6 +34,54 @@ class TestAgdrift(unittest.TestCase):
         """
         pass
 
+    def test_tier_I_aerial(self):
+        """
+        unittest for function agdrift.tier_I_aerial
+        :return:
+        """
+        try:
+            agdrift_empty.ecosystem_type = pd.Series(['EPA Pond'])
+            agdrift_empty.application_method = pd.Series(['Aerial'])
+            agdrift_empty.drop_size = pd.Series(['Very Coarse'])
+            result = agdrift_empty.tier_I_aerial()
+            expected = []
+            self.assertListEqual(result,expected)
+        finally:
+            pass
+        return
+
+    def test_tier_I_ground(self):
+        """
+        unittest for function agdrift.tier_I_ground
+        :return:
+        """
+        try:
+            agdrift_empty.ecosystem_type = pd.Series(['EPA Pond'])
+            agdrift_empty.application_method = pd.Series(['Ground'])
+            agdrift_empty.drop_size = pd.Series(['Fine'])
+            agdrift_empty.boom_height = pd.Series(['High'])
+            result = agdrift_empty.tier_I_ground()
+            expected = []
+            self.assertListEqual(result, expected)
+        finally:
+            pass
+        return
+
+    def test_tier_I_airblast(self):
+        """
+        unittest for function agdrift.tier_I_airblast
+        :return:
+        """
+        try:
+            agdrift_empty.ecosystem_type = pd.Series(['EPA Pond'])
+            agdrift_empty.application_method = pd.Series(['Orchard/Airblast'])
+            agdrift_empty.orchard_type = pd.Series(['Vineyard'])
+            result = agdrift_empty.tier_I_airblast()
+            expected = []
+            self.assertListEqual(result, expected)
+        finally:
+            pass
+        return
 
     def test_express_extrapolate_f(self):
         """
@@ -41,10 +89,8 @@ class TestAgdrift(unittest.TestCase):
         :return:
         """
         try:
-            agdrift_empty.threshold = pd.Series([0.6])
-            agdrift_empty.lc50 = pd.Series([3])
-            agdrift_empty.dose_response = pd.Series([2.5])
-            result = agdrift_empty.z_score_f()
+            agdrift_empty.distance = pd.Series([6.])
+            result = agdrift_empty.express_extrapolate_f()
             #npt.assert_array_almost_equal(result, -0.554622, 4, '', True)
             npt.assert_allclose(result,-0.554622,rtol,0,'',True)
         finally:
