@@ -5,7 +5,8 @@ python:
   - "2.7"
 
 # command to install dependencies
-install: 
+install:
+  - pip install --upgrade pip
   - pip install -r requirements.txt
   - pip install coveralls
 
