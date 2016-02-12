@@ -13,10 +13,7 @@ install:
 
 # command to run tests
 script:
-  - nosetests --with-coverage --cover-erase --cover-package=ubertool.ubertool.sip.sip -sv
-  - nosetests --with-coverage --cover-erase --cover-package=ubertool.ubertool.stir.stir -sv
-  - nosetests --with-coverage --cover-erase --cover-package=ubertool.ubertool.rice.rice -sv
-  - nosetests --with-coverage --cover-erase --cover-package=ubertool.ubertool.earthworm.earthworm -sv
+  - nosetests --with-coverage -sv
 
 after_success:
   - coveralls
