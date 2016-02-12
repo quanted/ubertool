@@ -17,8 +17,8 @@ before_install:
 
 # command to install dependencies
 install:
-  - conda install --yes python=$TRAVIS_PYTHON_VERSION atlas numpy scipy matplotlib nose dateutil pandas statsmodels
-  # Coverage packages are on my binstar channel
+  - conda install --yes python=2.7 atlas numpy scipy matplotlib nose dateutil pandas statsmodels
+  # Coverage packages are on dan blanchard's binstar channel
   - conda install --yes -c dan_blanchard python-coveralls nose-cov
   - python setup.py install
   - pip install --upgrade pip
