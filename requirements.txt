@@ -10,7 +10,7 @@ pylint
 pymongo==2.8.0
 pytz
 requests
-scipy #--use-wheel
+#scipy
 snakefood
 tabulate
 twine
