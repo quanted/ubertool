@@ -6,7 +6,6 @@ futures
 nose
 numpy
 pandas
-scipy
 pylint
 pymongo==2.8.0
 pytz
