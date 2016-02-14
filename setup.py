@@ -10,7 +10,7 @@ setup(name='ubertool',
       author='Tom Purucker',
       author_email='purucker.tom@epa.gov',
       url='https://github.com/puruckertom/ubertool',
-      py_modules=['ubertool.sip.sip', 'ubertool.stir.stir',
+      py_modules=['ubertool.base.uber_model', 'ubertool.sip.sip', 'ubertool.stir.stir',
                   'ubertool.rice.rice', 'ubertool.terrplant.terrplant',
                   'ubertool.iec.iec', 'ubertool.earthworm.earthworm']
       )
