@@ -8,7 +8,7 @@ from .. import agdrift as agdrift_model
 # create empty pandas dataframes to create empty sip object for testing
 df_empty = pd.DataFrame()
 # create an empty sip object
-agdrift_empty = agdrift_model.Agdrift("empty", df_empty, df_empty)
+agdrift_empty = agdrift_model.Agdrift(df_empty, df_empty)
 
 rtol = 1e-5 # set relative tolerance level for npt.assert_allclose assertion tests
 test = {}

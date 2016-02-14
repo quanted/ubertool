@@ -38,7 +38,7 @@ print(tabulate(pd_obj_exp_out.iloc[:,11:13], headers='keys', tablefmt='fancy_gri
 print(tabulate(pd_obj_exp_out.iloc[:,14:16], headers='keys', tablefmt='fancy_grid'))
 
 # create an instance of sip object with qaqc data
-sip_calc = sip_model.Sip("batch", pd_obj_inputs, pd_obj_exp_out)
+sip_calc = sip_model.Sip(pd_obj_inputs, pd_obj_exp_out)
 test = {}
 
 

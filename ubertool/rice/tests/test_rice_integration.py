@@ -35,7 +35,7 @@ print(pd_obj_exp_out.shape)
 print(tabulate(pd_obj_exp_out.iloc[:,:], headers='keys', tablefmt='fancy_grid'))
 
 # create an instance of rice object with qaqc data
-rice_calc = rice_model.Rice("batch", pd_obj_inputs, pd_obj_exp_out)
+rice_calc = rice_model.Rice(pd_obj_inputs, pd_obj_exp_out)
 test = {}
 
 class Testrice(unittest.TestCase):

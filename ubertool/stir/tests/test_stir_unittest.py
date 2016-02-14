@@ -19,7 +19,7 @@ from .. import stir as stir_model
 
 # create empty pandas dataframes to create empty stir object
 df_empty = pd.DataFrame()
-stir_empty = stir_model.Stir("empty", df_empty, df_empty)
+stir_empty = stir_model.Stir(df_empty, df_empty)
 
 test = {}
 

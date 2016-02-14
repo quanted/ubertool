@@ -13,7 +13,7 @@ from .. import rice as rice_model
 # create empty pandas dataframes to create empty rice object for testing
 df_empty = pd.DataFrame()
 # create an empty rice object
-rice_empty = rice_model.Rice("empty", df_empty, df_empty)
+rice_empty = rice_model.Rice(df_empty, df_empty)
 
 test = {}
 

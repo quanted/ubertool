@@ -38,7 +38,7 @@ print(tabulate(pd_obj_exp.iloc[:, 14:17], headers='keys', tablefmt='fancy_grid')
 print(tabulate(pd_obj_exp.iloc[:, 18:22], headers='keys', tablefmt='fancy_grid'))
 
 # create an instance of stir object with qaqc data
-stir_calc = stir_model.Stir("batch", pd_obj_inputs, pd_obj_exp)
+stir_calc = stir_model.Stir(pd_obj_inputs, pd_obj_exp)
 test = {}
 
 

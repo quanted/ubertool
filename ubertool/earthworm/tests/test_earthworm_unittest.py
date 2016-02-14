@@ -4,7 +4,7 @@ import unittest
 import numpy.testing as npt
 
 df_empty = pd.DataFrame()
-earthworm_empty = earthworm_model.Earthworm("empty", df_empty, df_empty)
+earthworm_empty = earthworm_model.Earthworm(df_empty, df_empty)
 
 test = {}
 
