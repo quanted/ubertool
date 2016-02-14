@@ -11,5 +11,5 @@ l_f_e,earthworm lipid fraction,"unitless (Llipid/Lworm)
 p_s,soil bulk density,kg/L,,,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5
 c_s,chemical concentration sorbed to soil,mg a.i./kg-dw,,,0.038692165,0.346519337,1.695135135,2.775221239,2.964083176,2.984392844,2.986439128,2.986643911,2.986664391,0.019346083,0.173259669,0.847567568,1.387610619,1.482041588,1.492196422,1.493219564,1.493321956,1.493332196
 k_d,soil-water partition coefficient,Lwater/kgsoil,,,0.0035,0.035,0.35,3.5,35,350,3500,35000,350000,0.0035,0.035,0.35,3.5,35,350,3500,35000,350000
-earthworm_fugacity_out,Earthworm chemical concentration (EFED's earthworm fugacity model),mg ai/kgworm,,,,,,,,,,,,,,,,,,,,
-earthworm_fugacity_exp,Earthworm chemical concentration (EFED's earthworm fugacity model),mg ai/kgworm,,,0.073699363,0.660036832,3.228828829,5.286135693,5.645872716,5.684557797,5.688455483,5.688845545,5.688884555,0.036849681,0.330018416,1.614414414,2.643067847,2.822936358,2.842278899,2.844227741,2.844422773,2.844442277
+out_earthworm_fugacity,Earthworm chemical concentration (EFED's earthworm fugacity model),mg ai/kgworm,,,,,,,,,,,,,,,,,,,,
+exp_earthworm_fugacity,Earthworm chemical concentration (EFED's earthworm fugacity model),mg ai/kgworm,,,0.073699363,0.660036832,3.228828829,5.286135693,5.645872716,5.684557797,5.688455483,5.688845545,5.688884555,0.036849681,0.330018416,1.614414414,2.643067847,2.822936358,2.842278899,2.844227741,2.844422773,2.844442277

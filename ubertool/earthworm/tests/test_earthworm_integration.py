@@ -15,13 +15,13 @@ from tabulate import tabulate
 # pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
 # print(pd_obj_inputs)
 # this works for both local nosetests and travis deploy
+
+#input details
 data_inputs = StringIO(pkgutil.get_data(__package__, 'earthworm_qaqc_in_transpose.csv'))
 pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
-print("earthworm inputs")
-print(pd_obj_inputs.shape)
-print(tabulate(pd_obj_inputs.iloc[:,0:5], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_inputs.iloc[:,6:11], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_inputs.iloc[:,12:17], headers='keys', tablefmt='fancy_grid'))
+print('earthworm inputs')
+print('earthworm input dimensions ' + str(pd_obj_inputs.shape))
+print('earthworm input keys ' + str(pd_obj_inputs.columns.values.tolist()))
 
 # load transposed qaqc data for expected outputs
 # works for local nosetests from parent directory
@@ -30,15 +30,26 @@ print(tabulate(pd_obj_inputs.iloc[:,12:17], headers='keys', tablefmt='fancy_grid
 # pd_obj_exp_out = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
 # print(pd_obj_exp_out)
 # this works for both local nosetests and travis deploy
+#expected output details
 data_exp_outputs = StringIO(pkgutil.get_data(__package__, 'earthworm_qaqc_exp_transpose.csv'))
 pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
 print("earthworm expected outputs")
-print(pd_obj_exp.shape)
+print('earthworm expected output dimensions ' + str(pd_obj_exp.shape))
+print('earthworm expected output keys ' + str(pd_obj_exp.columns.values.tolist()))
+
+#output details
+earthworm_calc = earthworm_model.Earthworm(pd_obj_inputs, pd_obj_exp)
+print("earthworm output")
+print(earthworm_calc)
+
+#print input tables
+print(tabulate(pd_obj_inputs.iloc[:,0:5], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_inputs.iloc[:,6:11], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_inputs.iloc[:,12:17], headers='keys', tablefmt='fancy_grid'))
+
+#print expected output tables
 print(tabulate(pd_obj_exp.iloc[:,0:1], headers='keys', tablefmt='fancy_grid'))
 
-earthworm_calc = earthworm_model.Earthworm(pd_obj_inputs, pd_obj_exp)
-print("####")
-print(earthworm_calc)
 test = {}
 
 
@@ -77,8 +88,8 @@ class TestEarthworm(unittest.TestCase):
         :return:
         """
         pd.set_option('display.float_format','{:.4E}'.format) # display model output in scientific notation
-        result = earthworm_calc.pd_obj_out[output + "_out"]
-        expected = earthworm_calc.pd_obj_exp[output + "_exp"]
+        result = earthworm_calc.pd_obj_out["out_" + output]
+        expected = earthworm_calc.pd_obj_exp["exp_" + output]
         tab = pd.concat([result,expected], axis=1)
         print(" ")
         print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))

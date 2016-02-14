@@ -26,7 +26,7 @@ class EarthwormOutputs(object):
     def __init__(self):
         """Class representing the outputs for Earthworm"""
         super(EarthwormOutputs, self).__init__()
-        self.earthworm_fugacity_out = pd.Series(name="earthworm_fugacity_out")
+        self.out_earthworm_fugacity = pd.Series(name="out_earthworm_fugacity")
 
 
 class Earthworm(UberModel, EarthwormInputs, EarthwormOutputs):
@@ -67,5 +67,5 @@ class Earthworm(UberModel, EarthwormInputs, EarthwormOutputs):
         most recent version of EFED equation circa 3-26-2013 is implemented in the formula below
         model runs documented in ubertool crosswalk use the EFED model in "earthworm models 3-26-13b.xlsx"
         """
-        self.earthworm_fugacity_out = self.k_ow * self.l_f_e * (self.c_s / (self.k_d * self.p_s))
-        return self.earthworm_fugacity_out
+        self.out_earthworm_fugacity = self.k_ow * self.l_f_e * (self.c_s / (self.k_d * self.p_s))
+        return self.out_earthworm_fugacity
