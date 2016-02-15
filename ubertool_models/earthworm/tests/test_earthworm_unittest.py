@@ -1,4 +1,4 @@
-from ubertool.ubertool_models.earthworm.earthworm import Earthworm
+from ubertool.ubertool_models.earthworm.earthworm_exe import Earthworm
 import pandas as pd
 import unittest
 import numpy.testing as npt
