@@ -1,12 +1,20 @@
 # -*- coding: utf-8 -*-
 
-from .. import earthworm as earthworm_model
+#from .. import earthworm as earthworm_model
+from ubertool_models import earthworm
 import pandas as pd
 import numpy.testing as npt
 import unittest
 import pkgutil
 from StringIO import StringIO
 from tabulate import tabulate
+import os
+
+try:
+    user_paths = os.environ['PYTHONPATH'].split(os.pathsep)
+except KeyError:
+    user_paths = []
+print("path =" + str(user_paths))
 
 # load transposed qaqc data for inputs and expected outputs
 # works for local nosetests from parent directory
@@ -15,7 +23,6 @@ from tabulate import tabulate
 # pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
 # print(pd_obj_inputs)
 # this works for both local nosetests and travis deploy
-
 #input details
 data_inputs = StringIO(pkgutil.get_data(__package__, 'earthworm_qaqc_in_transpose.csv'))
 pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
@@ -38,9 +45,11 @@ print('earthworm expected output dimensions ' + str(pd_obj_exp.shape))
 print('earthworm expected output keys ' + str(pd_obj_exp.columns.values.tolist()))
 
 #output details
-earthworm_calc = earthworm_model.Earthworm(pd_obj_inputs, pd_obj_exp)
+earthworm_calc = earthworm
+#earthworm_calc.execute_model()
+inputs_json, outputs_json, exp_out_json = earthworm_calc.get_dict_rep(earthworm_calc)
 print("earthworm output")
-print(earthworm_calc)
+print(inputs_json)
 
 #print input tables
 print(tabulate(pd_obj_inputs.iloc[:,0:5], headers='keys', tablefmt='fancy_grid'))
