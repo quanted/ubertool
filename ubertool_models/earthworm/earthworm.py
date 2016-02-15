@@ -1,6 +1,7 @@
 from __future__ import division
 #from ..base.uber_model import UberModel, ModelSharedInputs
-from ubertool.ubertool.base import uber_model #UberModel, ModelSharedInputs
+from ubertool.ubertool_models.base import uber_model
+#from ubertool.ubertool.base import uber_model #UberModel, ModelSharedInputs
 import pandas as pd
 
 

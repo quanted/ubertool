@@ -1,10 +1,10 @@
-from .. import earthworm as earthworm_model
+from ubertool.ubertool_models.earthworm.earthworm import Earthworm
 import pandas as pd
 import unittest
 import numpy.testing as npt
 
 df_empty = pd.DataFrame()
-earthworm_empty = earthworm_model.Earthworm(df_empty, df_empty)
+earthworm_empty = Earthworm(df_empty, df_empty)
 
 test = {}
 

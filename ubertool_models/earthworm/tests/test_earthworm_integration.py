@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 #from .. import earthworm as earthworm_model
-from ubertool_models import earthworm
+from ubertool.ubertool_models import earthworm as earthworm_model
 import pandas as pd
 import numpy.testing as npt
 import unittest
@@ -24,7 +24,8 @@ print("path =" + str(user_paths))
 # print(pd_obj_inputs)
 # this works for both local nosetests and travis deploy
 #input details
-data_inputs = StringIO(pkgutil.get_data(__package__, 'earthworm_qaqc_in_transpose.csv'))
+csv_data = pkgutil.get_data(__package__, 'earthworm_qaqc_in_transpose.csv')
+data_inputs = StringIO(csv_data)
 pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
 print('earthworm inputs')
 print('earthworm input dimensions ' + str(pd_obj_inputs.shape))
@@ -45,8 +46,8 @@ print('earthworm expected output dimensions ' + str(pd_obj_exp.shape))
 print('earthworm expected output keys ' + str(pd_obj_exp.columns.values.tolist()))
 
 #output details
-earthworm_calc = earthworm
-#earthworm_calc.execute_model()
+earthworm_calc = earthworm_model.Earthworm
+earthworm_calc.execute_model()
 inputs_json, outputs_json, exp_out_json = earthworm_calc.get_dict_rep(earthworm_calc)
 print("earthworm output")
 print(inputs_json)
