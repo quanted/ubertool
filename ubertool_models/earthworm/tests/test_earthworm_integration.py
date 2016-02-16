@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 #from .. import earthworm as earthworm_model
-from ubertool.ubertool_models import earthworm as earthworm_model
+#from ubertool.ubertool_models import earthworm as earthworm_model
+from ubertool.ubertool_models.earthworm.earthworm_exe import Earthworm
 import pandas as pd
 import numpy.testing as npt
 import unittest
@@ -19,17 +20,24 @@ print("path =" + str(user_paths))
 # load transposed qaqc data for inputs and expected outputs
 # works for local nosetests from parent directory
 # but not for travis container that calls nosetests:
-# csv_transpose_path_in = "./terrplant_qaqc_in_transpose.csv"
-# pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
-# print(pd_obj_inputs)
+
+
 # this works for both local nosetests and travis deploy
 #input details
-csv_data = pkgutil.get_data(__package__, 'earthworm_qaqc_in_transpose.csv')
-data_inputs = StringIO(csv_data)
-pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
-print('earthworm inputs')
-print('earthworm input dimensions ' + str(pd_obj_inputs.shape))
-print('earthworm input keys ' + str(pd_obj_inputs.columns.values.tolist()))
+try:
+    csv_data = pkgutil.get_data(__package__, 'earthworm_qaqc_in_transpose.csv')
+    data_inputs = StringIO(csv_data)
+    pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
+except:
+    print("csv package load fail")
+else:
+    csv_transpose_path_in = "./earthworm_qaqc_in_transpose.csv"
+    pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
+finally:
+    print('earthworm inputs')
+    print('earthworm input dimensions ' + str(pd_obj_inputs.shape))
+    print('earthworm input keys ' + str(pd_obj_inputs.columns.values.tolist()))
+    print(pd_obj_inputs)
 
 # load transposed qaqc data for expected outputs
 # works for local nosetests from parent directory
@@ -39,14 +47,17 @@ print('earthworm input keys ' + str(pd_obj_inputs.columns.values.tolist()))
 # print(pd_obj_exp_out)
 # this works for both local nosetests and travis deploy
 #expected output details
-data_exp_outputs = StringIO(pkgutil.get_data(__package__, 'earthworm_qaqc_exp_transpose.csv'))
-pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
-print("earthworm expected outputs")
-print('earthworm expected output dimensions ' + str(pd_obj_exp.shape))
-print('earthworm expected output keys ' + str(pd_obj_exp.columns.values.tolist()))
+try:
+    data_exp_outputs = StringIO(pkgutil.get_data(__package__, 'earthworm_qaqc_exp_transpose.csv'))
+    pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
+    print("earthworm expected outputs")
+    print('earthworm expected output dimensions ' + str(pd_obj_exp.shape))
+    print('earthworm expected output keys ' + str(pd_obj_exp.columns.values.tolist()))
+except:
+    print("csv package load fail")
 
 #output details
-earthworm_calc = earthworm_model.Earthworm
+earthworm_calc = Earthworm
 earthworm_calc.execute_model()
 inputs_json, outputs_json, exp_out_json = earthworm_calc.get_dict_rep(earthworm_calc)
 print("earthworm output")

@@ -1,8 +1,9 @@
+import pandas as pd
+
 # needs to be run whenever the qaqc csv is updated
 csv_path = "./earthworm_qaqc.csv"
 csv_in = "./earthworm_qaqc_in_transpose.csv"
 csv_exp = "./earthworm_qaqc_exp_transpose.csv"
-import pandas as pd
 
 pd_obj_inputs = pd.read_csv(csv_path, index_col=0, header=None, skiprows=1, skipfooter=2, engine='python')
 pd_obj_inputs = pd_obj_inputs.drop(labels=pd_obj_inputs.columns[range(4)], axis=1)
