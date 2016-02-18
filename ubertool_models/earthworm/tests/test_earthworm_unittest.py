@@ -9,7 +9,9 @@ try:
 except KeyError:
     user_paths = []
 print 'SYS.PATH: ' +str(user_paths)
+print(sys.path.__repr__())
 sys.path.append(os.path.join('..', 'earthworm'))
+print(sys.path.__repr__())
 try:
     user_paths = os.environ['PYTHONPATH'].split(os.pathsep)
 except KeyError:
