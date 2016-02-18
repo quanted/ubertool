@@ -2,24 +2,9 @@ import pandas as pd
 import unittest
 import numpy.testing as npt
 import sys
-import os
-print 'PYTHONPATH: ' + str(os.environ['HOME'])
-try:
-    user_paths = os.environ['PYTHONPATH'].split(os.pathsep)
-except KeyError:
-    user_paths = []
-print 'SYS.PATH: ' +str(user_paths)
-print(sys.path.__repr__())
-sys.path.append(os.path.join('..', 'earthworm'))
-print(sys.path.__repr__())
-try:
-    user_paths = os.environ['PYTHONPATH'].split(os.pathsep)
-except KeyError:
-    user_paths = []
-print 'SYS.PATH updated: ' +str(user_paths)
+sys.path.append('/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool_models/earthworm')
+sys.path.append('/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool_models/base')
 from earthworm_exe import Earthworm
-import module_in_src_folder
-
 
 
 df_empty = pd.DataFrame()

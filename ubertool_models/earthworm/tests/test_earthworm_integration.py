@@ -1,26 +1,19 @@
 # -*- coding: utf-8 -*-
-
-#from .. import earthworm as earthworm_model
-#from ubertool.ubertool_models import earthworm as earthworm_model
-from ubertool.ubertool_models.earthworm.earthworm_exe import Earthworm
 import pandas as pd
 import numpy.testing as npt
 import unittest
 import pkgutil
 from StringIO import StringIO
 from tabulate import tabulate
-import os
+import sys
+sys.path.append('/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool_models/earthworm')
+sys.path.append('/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool_models/base')
+from earthworm_exe import Earthworm
 
-try:
-    user_paths = os.environ['PYTHONPATH'].split(os.pathsep)
-except KeyError:
-    user_paths = []
-print("path =" + str(user_paths))
 
 # load transposed qaqc data for inputs and expected outputs
 # works for local nosetests from parent directory
 # but not for travis container that calls nosetests:
-
 
 # this works for both local nosetests and travis deploy
 #input details
@@ -32,12 +25,13 @@ except:
     print("csv package load fail")
 else:
     csv_transpose_path_in = "./earthworm_qaqc_in_transpose.csv"
+    print(csv_transpose_path_in)
     pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
 finally:
     print('earthworm inputs')
-    print('earthworm input dimensions ' + str(pd_obj_inputs.shape))
-    print('earthworm input keys ' + str(pd_obj_inputs.columns.values.tolist()))
-    print(pd_obj_inputs)
+    #print('earthworm input dimensions ' + str(pd_obj_inputs.shape))
+    #print('earthworm input keys ' + str(pd_obj_inputs.columns.values.tolist()))
+    #print(pd_obj_inputs)
 
 # load transposed qaqc data for expected outputs
 # works for local nosetests from parent directory
@@ -57,7 +51,7 @@ except:
     print("csv package load fail")
 
 #output details
-earthworm_calc = Earthworm
+earthworm_calc = Earthworm(pd_obj_inputs, pd_obj_exp)
 earthworm_calc.execute_model()
 inputs_json, outputs_json, exp_out_json = earthworm_calc.get_dict_rep(earthworm_calc)
 print("earthworm output")

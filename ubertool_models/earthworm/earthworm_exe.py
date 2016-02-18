@@ -1,11 +1,13 @@
 from __future__ import division
 #from ..base.uber_model import UberModel, ModelSharedInputs
-from ubertool.ubertool_models.base import uber_model
+import sys
+sys.path.append('/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool_models/base')
+from uber_model import UberModel, ModelSharedInputs
 #from ubertool.ubertool.base import uber_model #UberModel, ModelSharedInputs
 import pandas as pd
 
 
-class EarthwormInputs(uber_model.ModelSharedInputs):
+class EarthwormInputs(ModelSharedInputs):
     """
     Input class for Earthworm.
     """
@@ -31,7 +33,7 @@ class EarthwormOutputs(object):
         self.out_earthworm_fugacity = pd.Series(name="out_earthworm_fugacity")
 
 
-class Earthworm(uber_model.UberModel, EarthwormInputs, EarthwormOutputs):
+class Earthworm(UberModel, EarthwormInputs, EarthwormOutputs):
     """
     Earthworm model for annelid soil ingestion.
     """
