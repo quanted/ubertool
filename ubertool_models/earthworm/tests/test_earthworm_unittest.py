@@ -2,9 +2,8 @@ import pandas as pd
 import unittest
 import numpy.testing as npt
 import sys
-sys.path.append('/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool_models/earthworm')
-sys.path.append('/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool_models/base')
-from earthworm_exe import Earthworm
+sys.path.append('/Users/puruckertom/git/qed/ubertool_ecorest/ubertool')
+from ubertool_models.earthworm.earthworm_exe import Earthworm
 
 
 df_empty = pd.DataFrame()

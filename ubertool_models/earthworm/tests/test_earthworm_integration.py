@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os.path
 import pandas as pd
 import numpy.testing as npt
 import unittest
@@ -6,10 +7,11 @@ import pkgutil
 from StringIO import StringIO
 from tabulate import tabulate
 import sys
-sys.path.append('/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool_models/earthworm')
-sys.path.append('/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool_models/base')
-from earthworm_exe import Earthworm
+sys.path.append('/Users/puruckertom/git/qed/ubertool_ecorest/ubertool')
+from ubertool_models.earthworm.earthworm_exe import Earthworm
 
+
+print(os.path)
 
 # load transposed qaqc data for inputs and expected outputs
 # works for local nosetests from parent directory
@@ -18,15 +20,16 @@ from earthworm_exe import Earthworm
 # this works for both local nosetests and travis deploy
 #input details
 try:
-    csv_data = pkgutil.get_data(__package__, 'earthworm_qaqc_in_transpose.csv')
-    data_inputs = StringIO(csv_data)
-    pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
-except:
-    print("csv package load fail")
-else:
-    csv_transpose_path_in = "./earthworm_qaqc_in_transpose.csv"
-    print(csv_transpose_path_in)
-    pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
+    if __package__ is not None:
+        csv_data = pkgutil.get_data(__package__, 'earthworm_qaqc_in_transpose.csv')
+        data_inputs = StringIO(csv_data)
+        pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
+    else:
+        csv_transpose_path_in = "./earthworm_qaqc_in_transpose.csv"
+        print(csv_transpose_path_in)
+        pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
+        #with open('./earthworm_qaqc_in_transpose.csv') as f:
+            #csv_data = csv.reader(f)
 finally:
     print('earthworm inputs')
     #print('earthworm input dimensions ' + str(pd_obj_inputs.shape))
@@ -42,13 +45,18 @@ finally:
 # this works for both local nosetests and travis deploy
 #expected output details
 try:
-    data_exp_outputs = StringIO(pkgutil.get_data(__package__, 'earthworm_qaqc_exp_transpose.csv'))
-    pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
-    print("earthworm expected outputs")
-    print('earthworm expected output dimensions ' + str(pd_obj_exp.shape))
-    print('earthworm expected output keys ' + str(pd_obj_exp.columns.values.tolist()))
-except:
-    print("csv package load fail")
+    if __package__ is not None:
+        data_exp_outputs = StringIO(pkgutil.get_data(__package__, 'earthworm_qaqc_exp_transpose.csv'))
+        pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
+        print("earthworm expected outputs")
+        print('earthworm expected output dimensions ' + str(pd_obj_exp.shape))
+        print('earthworm expected output keys ' + str(pd_obj_exp.columns.values.tolist()))
+    else:
+        csv_transpose_path_exp = "./earthworm_qaqc_exp_transpose.csv"
+        print(csv_transpose_path_exp)
+        pd_obj_exp = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
+finally:
+    print('earthworm expected')
 
 #output details
 earthworm_calc = Earthworm(pd_obj_inputs, pd_obj_exp)

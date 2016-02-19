@@ -1,8 +1,8 @@
 from __future__ import division
 #from ..base.uber_model import UberModel, ModelSharedInputs
 import sys
-sys.path.append('/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool_models/base')
-from uber_model import UberModel, ModelSharedInputs
+sys.path.append('/Users/puruckertom/git/qed/ubertool_ecorest/ubertool')
+from ubertool_models.base.uber_model import UberModel, ModelSharedInputs
 #from ubertool.ubertool.base import uber_model #UberModel, ModelSharedInputs
 import pandas as pd
 
