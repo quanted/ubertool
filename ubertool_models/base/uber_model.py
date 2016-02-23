@@ -22,7 +22,7 @@ class UberModel(object):
         :param model_obj:
         """
 
-        mod_name = '.' + model_obj.name.lower(), 'ubertool_models.' + model_obj.name.lower() + '_exe'
+        mod_name = 'ubertool_models.' + model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
         print(mod_name)
         module = importlib.import_module(mod_name)
         model_inputs = getattr(module, model_obj.name + "Inputs")
@@ -61,7 +61,9 @@ class UberModel(object):
         :return:
         """
 
-        module = importlib.import_module('.' + model_obj.name.lower(), 'ubertool_models.' + model_obj.name.lower() + '_exe')
+        mod_name = 'ubertool_models.' + model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+        print(mod_name)
+        module = importlib.import_module(mod_name)
         model_outputs = getattr(module, model_obj.name + "Outputs")
         model_outputs_obj = model_outputs()
         df = pd.DataFrame()
