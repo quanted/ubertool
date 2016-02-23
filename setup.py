@@ -25,7 +25,7 @@ def read(*filenames, **kwargs):
 # run python setup.py sdist
 
 setup(name='ubertool',
-      version=ubertool.__version__,
+      version='0.1',
       description='ubertool ecological risk models',
       author='Tom Purucker',
       author_email='purucker.tom@epa.gov',
