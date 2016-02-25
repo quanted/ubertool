@@ -21,8 +21,7 @@ class UberModel(object):
         :param pd_obj: Pandas DataFrame object of model input parameters
         :param model_obj:
         """
-
-        mod_name = 'ubertool_models.' + model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+        mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
         print(mod_name)
         module = importlib.import_module(mod_name)
         model_inputs = getattr(module, model_obj.name + "Inputs")
@@ -61,7 +60,7 @@ class UberModel(object):
         :return:
         """
 
-        mod_name = 'ubertool_models.' + model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+        mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
         print(mod_name)
         module = importlib.import_module(mod_name)
         model_outputs = getattr(module, model_obj.name + "Outputs")
