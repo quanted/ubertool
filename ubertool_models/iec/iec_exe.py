@@ -1,8 +1,13 @@
 from __future__ import division
-from ..base.uber_model import UberModel, ModelSharedInputs
-import pandas as pd
+import os.path
 import numpy as np
+import pandas as pd
 from scipy.special import erfc
+import sys
+#find parent directory and import base (travis)
+parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parentddir)
+from base.uber_model import UberModel, ModelSharedInputs
 
 
 class IecInputs(ModelSharedInputs):
@@ -26,9 +31,9 @@ class IecOutputs(object):
     def __init__(self):
         """Class representing the outputs for IEC"""
         super(IecOutputs, self).__init__()
-        self.z_score_f_out = pd.Series(name="z_score_f_out")
-        self.f8_f_out = pd.Series(name="f8_f_out")
-        self.chance_f_out = pd.Series(name="chance_f_out")
+        self.out_z_score_f = pd.Series(name="out_z_score_f")
+        self.out_f8_f = pd.Series(name="out_f8_f")
+        self.out_chance_f = pd.Series(name="out_chance_f")
 
 
 class Iec(UberModel, IecInputs, IecOutputs):
@@ -73,21 +78,21 @@ class Iec(UberModel, IecInputs, IecOutputs):
         Calculate z score.
         :return:
         """
-        self.z_score_f_out = self.dose_response * (np.log10(self.lc50 * self.threshold) - np.log10(self.lc50))
-        return self.z_score_f_out
+        self.out_z_score_f = self.dose_response * (np.log10(self.lc50 * self.threshold) - np.log10(self.lc50))
+        return self.out_z_score_f
 
     def f8_f(self):
         """
         Use error function to get probability based on z-score.
         :return:
         """
-        self.f8_f_out = 0.5 * erfc(-self.z_score_f_out / np.sqrt(2))
-        return self.f8_f_out
+        self.out_f8_f = 0.5 * erfc(-self.out_z_score_f / np.sqrt(2))
+        return self.out_f8_f
 
     def chance_f(self):
         """
         Chance calculation.
         :return:
         """
-        self.chance_f_out = 1 / self.f8_f_out
-        return self.chance_f_out
+        self.out_chance_f = 1 / self.out_f8_f
+        return self.out_chance_f

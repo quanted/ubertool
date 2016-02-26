@@ -1,23 +1,18 @@
-# -*- coding: utf-8 -*-
+import numpy.testing as npt
 import os.path
 import pandas as pd
-import numpy.testing as npt
-import unittest
 import pkgutil
 from StringIO import StringIO
-from tabulate import tabulate
 import sys
-
+from tabulate import tabulate
+import unittest
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parentddir)
 from earthworm_exe import Earthworm
 
-#sys.path.append('/Users/puruckertom/git/qed/ubertool_ecorest/ubertool')
-#from ubertool_models.earthworm.earthworm_exe import Earthworm
-
-print(sys.path)
-print(os.path)
+#print(sys.path)
+#print(os.path)
 
 # load transposed qaqc data for inputs and expected outputs
 # works for local nosetests from parent directory

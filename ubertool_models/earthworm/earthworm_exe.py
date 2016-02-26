@@ -4,17 +4,11 @@ import pandas as pd
 import sys
 #find parent directory and import base (travis)
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-#basedir = parentddir + '/base'
-#print(basedir)
 sys.path.append(parentddir)
 from base.uber_model import UberModel, ModelSharedInputs
-#sys.path.append('/Users/puruckertom/git/qed/ubertool_ecorest/ubertool')
-#from ubertool_models.base.uber_model import UberModel, ModelSharedInputs
-#from ubertool.ubertool.base import uber_model #UberModel, ModelSharedInputs
-#from ..base.uber_model import UberModel, ModelSharedInputs
 
-print(sys.path)
-print(os.path)
+#print(sys.path)
+#print(os.path)
 
 class EarthwormInputs(ModelSharedInputs):
     """

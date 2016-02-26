@@ -1,14 +1,13 @@
-import pandas as pd
-import unittest
 import numpy.testing as npt
 import os.path
+import pandas as pd
 import sys
+import unittest
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parentddir)
 from earthworm_exe import Earthworm
-#sys.path.append('/Users/puruckertom/git/qed/ubertool_ecorest/ubertool')
-#from ubertool_models.earthworm.earthworm_exe import Earthworm
+
 
 df_empty = pd.DataFrame()
 earthworm_empty = Earthworm(df_empty, df_empty)

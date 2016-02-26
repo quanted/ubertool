@@ -1,14 +1,17 @@
-import unittest
-
 import numpy.testing as npt
+import os.path
 import pandas as pd
-
-from .. import iec as iec_model
+import sys
+import unittest
+#find parent directory and import model
+parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parentddir)
+from iec_exe import Iec
 
 # create empty pandas dataframes to create empty sip object for testing
 df_empty = pd.DataFrame()
 # create an empty sip object
-iec_empty = iec_model.Iec(df_empty, df_empty)
+iec_empty = Iec(df_empty, df_empty)
 
 rtol = 1e-5 # set relative tolerance level for npt.assert_allclose assertion tests
 test = {}

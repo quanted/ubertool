@@ -1,12 +1,16 @@
-import pkgutil
-import unittest
-from StringIO import StringIO
-from tabulate import tabulate
-
+import logging
 import numpy.testing as npt
+import os.path
 import pandas as pd
-
-from .. import iec as iec_model
+import pkgutil
+from StringIO import StringIO
+import sys
+from tabulate import tabulate
+import unittest
+#find parent directory and import model
+parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parentddir)
+from iec_exe import Iec
 
 # load transposed qaqc data for inputs
 #works for local nosetests from parent directory
@@ -38,7 +42,7 @@ pd_obj_exp = pd.read_csv(data_exp, index_col=0, engine='python')
 # create an instance of iec object with qaqc data
 #print("####")
 #print("dead here")
-iec_calc = iec_model.Iec(pd_obj_inputs, pd_obj_exp)
+iec_calc = Iec(pd_obj_inputs, pd_obj_exp)
 #print("####")
 #print(iec_calc)
 test = {}
@@ -115,8 +119,9 @@ class TestSip(unittest.TestCase):
         :return:
         """
         pd.set_option('display.float_format','{:.4E}'.format) # display model output in scientific notation
-        result = iec_calc.pd_obj_out[output + "_out"]
-        expected = iec_calc.pd_obj_exp[output + "_exp"]
+        logging.info(output)
+        result = iec_calc.pd_obj_out["out_" + output]
+        expected = iec_calc.pd_obj_exp["exp_" + output]
         tab = pd.concat([result, expected], axis=1)
         print(" ")
         print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
