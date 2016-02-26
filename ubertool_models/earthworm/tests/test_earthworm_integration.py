@@ -15,9 +15,6 @@ from earthworm_exe import Earthworm
 #print(os.path)
 
 # load transposed qaqc data for inputs and expected outputs
-# works for local nosetests from parent directory
-# but not for travis container that calls nosetests:
-
 # this works for both local nosetests and travis deploy
 #input details
 try:
