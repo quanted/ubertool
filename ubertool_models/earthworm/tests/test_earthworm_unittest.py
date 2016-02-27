@@ -8,8 +8,9 @@ parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.par
 sys.path.append(parentddir)
 from earthworm_exe import Earthworm
 
-
+# create empty pandas dataframes to create empty earthworm object for testing
 df_empty = pd.DataFrame()
+# create an empty earthworm object
 earthworm_empty = Earthworm(df_empty, df_empty)
 
 test = {}

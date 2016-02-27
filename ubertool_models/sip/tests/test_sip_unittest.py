@@ -1,18 +1,21 @@
-import unittest
-
 import numpy.testing as npt
+import os.path
 import pandas as pd
 import pandas.util.testing as pdt
-
-#importing as a package (specified in ../../setup.py
-from .. import sip as sip_model
+import sys
+import unittest
+#find parent directory and import model
+parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parentddir)
+from sip_exe import Sip
 
 # create empty pandas dataframes to create empty sip object for testing
 df_empty = pd.DataFrame()
 # create an empty sip object
-sip_empty = sip_model.Sip(df_empty, df_empty)
+sip_empty = Sip(df_empty, df_empty)
 
 test = {}
+
 
 class TestSip(unittest.TestCase):
     """

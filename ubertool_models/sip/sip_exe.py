@@ -1,6 +1,14 @@
 from __future__ import division
-from ..base.uber_model import UberModel, ModelSharedInputs
+import os.path
 import pandas as pd
+import sys
+#find parent directory and import base (travis)
+parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parentddir)
+from base.uber_model import UberModel, ModelSharedInputs
+
+#print(sys.path)
+#print(os.path)
 
 
 class SipInputs(ModelSharedInputs):
@@ -420,9 +428,10 @@ class Sip(UberModel, SipInputs, SipOutputs):
         """
         Message stating whether or not a risk is present
         """
-        boolean = self.chron_mamm_out < 1
-        self.chronconm_out = boolean.map(lambda x:
-                                         'Drinking water exposure alone is NOT a potential concern for mammals'
-                                         if x is True else
-                                         'Exposure through drinking water alone is a potential concern for mammals')
+        msg_pass = 'Drinking water exposure alone is NOT a potential concern for mammals'
+        msg_fail = 'Exposure through drinking water alone is a potential concern for mammals'
+        boo_ratios = [ratio < 1 for ratio in self.chron_mamm_out]
+        self.chronconm_out = [msg_pass if boo else msg_fail for boo in boo_ratios]
+        #boolean = self.chron_mamm_out < 1
+        #self.chronconm_out = boolean.map(lambda x: msg_pass if x is True else msg_fail)
         return self.chronconm_out

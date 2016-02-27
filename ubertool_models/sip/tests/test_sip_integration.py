@@ -1,44 +1,76 @@
-import pkgutil
-import unittest
-from StringIO import StringIO
-from tabulate import tabulate
-
 import numpy.testing as npt
+import os.path
 import pandas as pd
-import pandas.util.testing as pdt
+import pkgutil
+from StringIO import StringIO
+import sys
+from tabulate import tabulate
+import unittest
+#find parent directory and import model
+parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parentddir)
+from sip_exe import Sip
 
-from .. import sip as sip_model
+#print(sys.path)
+#print(os.path)
 
-# load transposed qaqc data for inputs
-#works for local nosetests from parent directory
-# but not for travis container that calls nosestests:
-#csv_transpose_path_in = "./tests/sip_qaqc_in_transpose.csv"
-#pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
-#this works for both local nosetests and travis deploy
-data_inputs = StringIO(pkgutil.get_data(__package__, 'sip_qaqc_in_transpose.csv'))
-pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
-print("sip inputs")
-print(pd_obj_inputs.shape)
+# load transposed qaqc data for inputs and expected outputs
+# this works for both local nosetests and travis deploy
+#input details
+try:
+    if __package__ is not None:
+        csv_data = pkgutil.get_data(__package__, 'sip_qaqc_in_transpose.csv')
+        data_inputs = StringIO(csv_data)
+        pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
+    else:
+        csv_transpose_path_in = "./sip_qaqc_in_transpose.csv"
+        print(csv_transpose_path_in)
+        pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
+        #with open('./sip_qaqc_in_transpose.csv') as f:
+            #csv_data = csv.reader(f)
+finally:
+    print('sip inputs')
+    #print('sip input dimensions ' + str(pd_obj_inputs.shape))
+    #print('sip input keys ' + str(pd_obj_inputs.columns.values.tolist()))
+    #print(pd_obj_inputs)
+
+# load transposed qaqc data for expected outputs
+# works for local nosetests from parent directory
+# but not for travis container that calls nosetests:
+# csv_transpose_path_exp = "./terrplant_qaqc_exp_transpose.csv"
+# pd_obj_exp_out = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
+# print(pd_obj_exp_out)
+# this works for both local nosetests and travis deploy
+#expected output details
+try:
+    if __package__ is not None:
+        data_exp_outputs = StringIO(pkgutil.get_data(__package__, 'sip_qaqc_exp_transpose.csv'))
+        pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
+        print("sip expected outputs")
+        print('sip expected output dimensions ' + str(pd_obj_exp.shape))
+        print('sip expected output keys ' + str(pd_obj_exp.columns.values.tolist()))
+    else:
+        csv_transpose_path_exp = "./sip_qaqc_exp_transpose.csv"
+        print(csv_transpose_path_exp)
+        pd_obj_exp = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
+finally:
+    print('sip expected')
+
+#generate output
+sip_calc = Sip(pd_obj_inputs, pd_obj_exp)
+sip_calc.execute_model()
+inputs_json, outputs_json, exp_out_json = sip_calc.get_dict_rep(sip_calc)
+print("sip output")
+print(inputs_json)
+
+#print input tables
 print(tabulate(pd_obj_inputs.iloc[:,0:5], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_inputs.iloc[:,6:10], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_inputs.iloc[:,11:16], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_inputs.iloc[:,6:11], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_inputs.iloc[:,12:17], headers='keys', tablefmt='fancy_grid'))
 
-# load transposed qaqc data for inputs
-#works for local nosetests, but not for travis container that calls nosetests:
-#csv_transpose_path_exp = "./tests/sip_qaqc_exp_transpose.csv"
-#pd_obj_exp_out = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
-#this works for both local nosetests and travis deploy
-data_exp_outputs = StringIO(pkgutil.get_data(__package__, 'sip_qaqc_exp_transpose.csv'))
-pd_obj_exp_out = pd.read_csv(data_exp_outputs, index_col=0, engine='python')
-print("sip expected outputs")
-print(pd_obj_exp_out.shape)
-print(tabulate(pd_obj_exp_out.iloc[:,0:5], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_exp_out.iloc[:,6:10], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_exp_out.iloc[:,11:13], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_exp_out.iloc[:,14:16], headers='keys', tablefmt='fancy_grid'))
+#print expected output tables
+print(tabulate(pd_obj_exp.iloc[:,0:1], headers='keys', tablefmt='fancy_grid'))
 
-# create an instance of sip object with qaqc data
-sip_calc = sip_model.Sip(pd_obj_inputs, pd_obj_exp_out)
 test = {}
 
 

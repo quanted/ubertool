@@ -1,4 +1,5 @@
 sip_property,description,units,type,valid_range,run1,run2,run3,run4,run5,run6,run7,run8,run9,run10
+version,this breaks the csv,,,,,,,,,,,,,
 chemical_name,Chemical name,na,string,na,Atrazine,Chlorothalonil,Chlorpyriphos,Diazinon,Endosulfan a,EPTC,Ethoprop,Malathion,Methamidiphos,Methyl Parathion
 pc_code,Chemical PC Code,na,string,na,80803,81901,59101,57801,79401,41401,41101,57701,101201,53501
 solubility,Solubility in water at 25 C,mg/L,float64,[0_inf),35,0.81,1.05,60,0.32,370,1300,148,200000,55
