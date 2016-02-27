@@ -62,8 +62,21 @@ finally:
 #print("####")
 #print("dead here")
 iec_calc = Iec(pd_obj_inputs, pd_obj_exp)
-print("####")
-print(iec_calc)
+iec_calc.execute_model()
+inputs_json, outputs_json, exp_out_json = iec_calc.get_dict_rep(iec_calc)
+print("iec output")
+print(inputs_json)
+
+#print input tables
+print(tabulate(pd_obj_inputs.iloc[:,0:5], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_inputs.iloc[:,6:11], headers='keys', tablefmt='fancy_grid'))
+print(tabulate(pd_obj_inputs.iloc[:,12:17], headers='keys', tablefmt='fancy_grid'))
+
+#print expected output tables
+print(tabulate(pd_obj_exp.iloc[:,0:1], headers='keys', tablefmt='fancy_grid'))
+
+logging.info("###iec_calc.pd_obj_exp")
+logging.info(iec_calc.pd_obj_exp)
 test = {}
 
 
@@ -83,10 +96,7 @@ class TestIec(unittest.TestCase):
 
     def setUp(self):
         """
-        sip2 = sip_model.sip(0, pd_obj_inputs, pd_obj_exp_out)
-        setup the test as needed
-        e.g. pandas to open sip qaqc csv
-        Read qaqc csv and create pandas DataFrames for inputs and expected outputs
+        Test setup method.
         :return:
         """
         pass
@@ -98,7 +108,6 @@ class TestIec(unittest.TestCase):
         :return:
         """
         pass
-
 
     def test_integration_z_score_f(self):
         """
@@ -137,7 +146,8 @@ class TestIec(unittest.TestCase):
         :return:
         """
         pd.set_option('display.float_format','{:.4E}'.format) # display model output in scientific notation
-        logging.info(output)
+        logging.info('### blackbox out_' + output)
+        logging.info(iec_calc.pd_obj_out)
         result = iec_calc.pd_obj_out["out_" + output]
         expected = iec_calc.pd_obj_exp["exp_" + output]
         tab = pd.concat([result, expected], axis=1)

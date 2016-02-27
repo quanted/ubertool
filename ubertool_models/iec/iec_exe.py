@@ -1,4 +1,5 @@
 from __future__ import division
+import logging
 import os.path
 import numpy as np
 import pandas as pd
@@ -45,7 +46,9 @@ class Iec(UberModel, IecInputs, IecOutputs):
         """Class representing the IEC model and containing all its methods"""
         super(Iec, self).__init__()
         self.pd_obj = pd_obj
+        logging.info(self.pd_obj)
         self.pd_obj_exp = pd_obj_exp
+        logging.info(self.pd_obj_exp)
         self.pd_obj_out = None
 
     def execute_model(self):

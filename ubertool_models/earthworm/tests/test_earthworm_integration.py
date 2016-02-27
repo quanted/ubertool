@@ -56,7 +56,7 @@ try:
 finally:
     print('earthworm expected')
 
-#output details
+#generate output
 earthworm_calc = Earthworm(pd_obj_inputs, pd_obj_exp)
 earthworm_calc.execute_model()
 inputs_json, outputs_json, exp_out_json = earthworm_calc.get_dict_rep(earthworm_calc)
@@ -116,7 +116,7 @@ class TestEarthworm(unittest.TestCase):
         print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
         #npt.assert_array_almost_equal(result, expected, 4, '', True)
         rtol = 1e-5
-        npt.assert_allclose(result,expected,rtol,0,'',True)
+        npt.assert_allclose(result, expected, rtol, 0, '', True)
 
 # unittest will
 # 1) call the setup method,
