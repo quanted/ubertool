@@ -1,19 +1,15 @@
-import unittest
-
 import numpy.testing as npt
+import os.path
 import pandas as pd
-import pandas.util.testing as pdt
+import sys
+import unittest
+#find parent directory and import model
+parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parentddir)
+from rice_exe import Rice
 
-#following works when running test script in parent directory as package:
-# python -m tests.stir_unit_test
-# following works for running as nosetests from parent directory:
-#importing as a package (specified in ../../setup.py)
-from .. import rice as rice_model
-
-# create empty pandas dataframes to create empty rice object for testing
 df_empty = pd.DataFrame()
-# create an empty rice object
-rice_empty = rice_model.Rice(df_empty, df_empty)
+rice_empty = Rice(df_empty, df_empty)
 
 test = {}
 

@@ -1,28 +1,35 @@
 from __future__ import division
-from ..base.uber_model import UberModel, ModelSharedInputs
+import os.path
 import pandas as pd
+import sys
+#find parent directory and import base (travis)
+parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parentddir)
+from base.uber_model import UberModel, ModelSharedInputs
 
+#print(sys.path)
+#print(os.path)
 
 class RiceInputs(ModelSharedInputs):
     """
-    Input class for SIP.
+    Input class for Rice.
     """
 
     def __init__(self):
-        """Class representing the inputs for SIP"""
+        """Class representing the inputs for Rice"""
         super(RiceInputs, self).__init__()
-        self.mai = pd.Series([], dtype="object")
-        self.dsed = pd.Series([], dtype="object")
-        self.area = pd.Series([], dtype="object")
-        self.pb = pd.Series([], dtype="object")
-        self.dw = pd.Series([], dtype="object")
-        self.osed = pd.Series([], dtype="object")
-        self.kd = pd.Series([], dtype="object")
+        self.mai = pd.Series([], dtype="float")
+        self.dsed = pd.Series([], dtype="float")
+        self.area = pd.Series([], dtype="float")
+        self.pb = pd.Series([], dtype="float")
+        self.dw = pd.Series([], dtype="float")
+        self.osed = pd.Series([], dtype="float")
+        self.kd = pd.Series([], dtype="float")
 
 
 class RiceOutputs(object):
     """
-    Output class for SIP.
+    Output class for Rice.
     """
 
     def __init__(self):
