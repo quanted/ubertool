@@ -300,8 +300,8 @@ class TestSip(unittest.TestCase):
         result = sip_calc.pd_obj_out[output + "_out"]
         expected = sip_calc.pd_obj_exp[output + "_exp"]
         tab = pd.concat([result, expected], axis=1)
-        print(" ")
-        print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
+        print("sip integration test for " + output + "\n")
+        print(tab)
         npt.assert_array_equal(result, expected)
 
 # unittest will

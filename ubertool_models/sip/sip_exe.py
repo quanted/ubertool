@@ -357,12 +357,15 @@ class Sip(UberModel, SipInputs, SipOutputs):
         """
         Message stating whether or not a risk is present
         """
-        boolean = self.acute_bird_out < 0.1
-        self.acuconb_out = boolean.map(lambda x:
-                                       'Drinking water exposure alone is NOT a potential concern for birds'
-                                       if x is True else
-                                       'Exposure through drinking water alone is a potential concern for birds')
-
+        msg_pass = 'Drinking water exposure alone is NOT a potential concern for birds'
+        msg_fail = 'Exposure through drinking water alone is a potential concern for birds'
+        boo_ratios = [ratio < 0.1 for ratio in self.acute_bird_out]
+        self.acuconb_out = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #boolean = self.acute_bird_out < 0.1
+        #self.acuconb_out = boolean.map(lambda x:
+        #                               'Drinking water exposure alone is NOT a potential concern for birds'
+        #                               if x is True else
+        #                               'Exposure through drinking water alone is a potential concern for birds')
         return self.acuconb_out
 
     # Acute exposures for mammals
@@ -381,11 +384,10 @@ class Sip(UberModel, SipInputs, SipOutputs):
         """
         Message stating whether or not a risk is present
         """
-        boolean = self.acute_mamm_out < 0.1
-        self.acuconm_out = boolean.map(lambda x:
-                                       'Drinking water exposure alone is NOT a potential concern for mammals'
-                                       if x is True else
-                                       'Exposure through drinking water alone is a potential concern for mammals')
+        msg_pass = 'Drinking water exposure alone is NOT a potential concern for mammals'
+        msg_fail = 'Exposure through drinking water alone is a potential concern for mammals'
+        boo_ratios = [ratio < 0.1 for ratio in self.acute_mamm_out]
+        self.acuconm_out = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
         return self.acuconm_out
 
     # Chronic Exposures for birds
@@ -409,11 +411,6 @@ class Sip(UberModel, SipInputs, SipOutputs):
         msg_fail = 'Exposure through drinking water alone is a potential concern for birds'
         boo_ratios = [ratio < 1 for ratio in self.chron_bird_out]
         self.chronconb_out = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
-        boolean = self.chron_bird_out < 1
-        self.chronconb_out = boolean.map(lambda x:
-                                         'Drinking water exposure alone is NOT a potential concern for birds'
-                                         if x is True else
-                                         'Exposure through drinking water alone is a potential concern for birds')
         return self.chronconb_out
 
     # Chronic exposures for mammals
