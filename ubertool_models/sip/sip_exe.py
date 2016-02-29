@@ -1,4 +1,5 @@
 from __future__ import division
+import logging
 import os.path
 import pandas as pd
 import sys
@@ -25,14 +26,14 @@ class SipInputs(ModelSharedInputs):
         self.bodyweight_bird_other_2 = pd.Series([], dtype="float")
         self.bodyweight_tested_mammal = pd.Series([], dtype="float")
         self.ld50_avian_water = pd.Series([], dtype="float")
-        self.ld50_species_tested_mammal = pd.Series([], dtype="object")
+        #self.ld50_species_tested_mammal = pd.Series([], dtype="object")
         self.noaec_quail = pd.Series([], dtype="float")
         self.noaec_duck = pd.Series([], dtype="float")
         self.noaec_bird_other_1 = pd.Series([], dtype="float")
         self.noaec_bird_other_2 = pd.Series([], dtype="float")
         self.noael_bodyweight_tested_mammal = pd.Series([], dtype="float")
-        self.noael_species_tested_mammal = pd.Series([], dtype="object")
-        self.species_tested_bird = pd.Series([], dtype="object")
+        #self.noael_species_tested_mammal = pd.Series([], dtype="object")
+        #self.species_tested_bird = pd.Series([], dtype="object")
         self.ld50_mammal_water = pd.Series([], dtype="float")
         self.noael_mammal_water = pd.Series([], dtype="float")
         self.mineau_scaling_factor = pd.Series([], dtype="float")
@@ -62,7 +63,7 @@ class SipOutputs(object):
         self.chron_bird_out = pd.Series(name="chron_bird_out")
         self.chronconb_out = pd.Series(name="chronconb_out")
         self.chron_mamm_out = pd.Series(name="chron_mamm_out")
-        self.chronconm_out = pd.Series(name="chronconm_out")
+        self.chronconm_out = pd.Series(name="chronconm_out", dtype = object)
         self.det_quail = pd.Series(name="det_quail")
         self.det_duck = pd.Series(name="det_duck")
         self.det_other_1 = pd.Series(name="det_other_1")
@@ -404,6 +405,10 @@ class Sip(UberModel, SipInputs, SipOutputs):
         """
         Message stating whether or not a risk is present
         """
+        msg_pass = 'Drinking water exposure alone is NOT a potential concern for birds'
+        msg_fail = 'Exposure through drinking water alone is a potential concern for birds'
+        boo_ratios = [ratio < 1 for ratio in self.chron_bird_out]
+        self.chronconb_out = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
         boolean = self.chron_bird_out < 1
         self.chronconb_out = boolean.map(lambda x:
                                          'Drinking water exposure alone is NOT a potential concern for birds'
@@ -431,7 +436,5 @@ class Sip(UberModel, SipInputs, SipOutputs):
         msg_pass = 'Drinking water exposure alone is NOT a potential concern for mammals'
         msg_fail = 'Exposure through drinking water alone is a potential concern for mammals'
         boo_ratios = [ratio < 1 for ratio in self.chron_mamm_out]
-        self.chronconm_out = [msg_pass if boo else msg_fail for boo in boo_ratios]
-        #boolean = self.chron_mamm_out < 1
-        #self.chronconm_out = boolean.map(lambda x: msg_pass if x is True else msg_fail)
+        self.chronconm_out = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
         return self.chronconm_out

@@ -49,7 +49,10 @@ class UberModel(object):
                 for column in pd_obj.columns:
                     setattr(model_obj, column, pd_obj[column])
             else:
-                raise ValueError("Inputs parameters do not have all required inputs. Please see API documentation.")
+                msg_err1 = "Inputs parameters do not have all required inputs. Please see API documentation.\n"
+                msg_err2 = "Expected: " + str(df.columns.order()) + "\n"
+                msg_err3 = "Received: " + str(pd_obj.columns.order()) + "\n"
+                raise ValueError(msg_err1 + msg_err2 + msg_err3)
 
     def populate_outputs(self, model_obj):
         # Create temporary DataFrame where each column name is the same as TerrplantOutputs attributes

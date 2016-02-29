@@ -1,3 +1,4 @@
+import logging
 import numpy.testing as npt
 import os.path
 import pandas as pd
@@ -333,17 +334,16 @@ class TestSip(unittest.TestCase):
         unittest for function sip.chronconb:
         :return:
         """
-        #boolean = self.chron_bird_out < 1
-        #self.chronconb_out = boolean.map(lambda x:
-        #   'Drinking water exposure alone is NOT a potential concern for birds' if x == True
-        #   else 'Exposure through drinking water alone is a potential concern for birds')
         try:
             sip_empty.chron_bird_out = pd.Series([3])
             result = sip_empty.chronconb()
             exp = pd.Series(["Exposure through drinking water alone is a potential concern for birds"])
             pdt.assert_series_equal(result, exp)
         finally:
-            pass
+            logging.info("chron bird result")
+            logging.info(result)
+            logging.info("chron bird result")
+            logging.info(exp)
         return
 
     def test_unit_chron_mamm(self):
@@ -363,16 +363,16 @@ class TestSip(unittest.TestCase):
         unittest for function sip.chronconm:
         :return:
         """
-        # self.chronconm_out = boolean.map(lambda x:
-        #   'Drinking water exposure alone is NOT a potential concern for mammals' if x == True
-        #   else 'Exposure through drinking water alone is a potential concern for mammals')
         try:
-            sip_empty.chron_mamm_out =  pd.Series([0.5])
+            sip_empty.chron_mamm_out = pd.Series([0.5])
             result = sip_empty.chronconm()
             exp = pd.Series(["Drinking water exposure alone is NOT a potential concern for mammals"])
             pdt.assert_series_equal(result, exp)
         finally:
-            pass
+            logging.info("chron mamm result")
+            logging.info(result)
+            logging.info("chron mamm result")
+            logging.info(exp)
         return
 
 # unittest will
