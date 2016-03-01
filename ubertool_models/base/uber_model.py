@@ -21,11 +21,15 @@ class UberModel(object):
         :param pd_obj: Pandas DataFrame object of model input parameters
         :param model_obj:
         """
-        mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
-        print(mod_name)
-        module = importlib.import_module(mod_name)
-        model_inputs = getattr(module, model_obj.name + "Inputs")
-        model_inputs_obj = model_inputs()
+        try:
+            mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+            logging.info("importing ..." + mod_name)
+            module = importlib.import_module(mod_name)
+            model_inputs = getattr(module, model_obj.name + "Inputs")
+            model_inputs_obj = model_inputs()
+        except ValueError as err:
+            print(mod_name)
+            print(err.args)
 
         # Create temporary DataFrame where each column name is the same as TerrplantInputs attributes
         df = pd.DataFrame()
