@@ -72,8 +72,8 @@ class TestSip(unittest.TestCase):
         :return:
         """
         try:
-            #(self.fw_bird_out * self.solubility)/(self.bodyweight_assessed_bird / 1000.)
-            sip_empty.fw_bird_out = pd.Series([10.], dtype='int')
+            #(self.out_fw_bird * self.solubility)/(self.bodyweight_assessed_bird / 1000.)
+            sip_empty.out_fw_bird = pd.Series([10.], dtype='int')
             sip_empty.solubility = pd.Series([100.], dtype='int')
             sip_empty.bodyweight_assessed_bird = pd.Series([1.], dtype='int')
             result = sip_empty.dose_bird()
@@ -88,8 +88,8 @@ class TestSip(unittest.TestCase):
         :return:
         """
         try:
-            #(self.fw_mamm_out * self.solubility)/(self.bodyweight_assessed_mammal / 1000)
-            sip_empty.fw_mamm_out = pd.Series([20.], dtype='int')
+            #(self.out_fw_mamm * self.solubility)/(self.bodyweight_assessed_mammal / 1000)
+            sip_empty.out_fw_mamm = pd.Series([20.], dtype='int')
             sip_empty.solubility = pd.Series([400.], dtype='int')
             sip_empty.bodyweight_assessed_mammal = pd.Series([1.], dtype='int')
             result = sip_empty.dose_mamm()
@@ -243,9 +243,9 @@ class TestSip(unittest.TestCase):
         :return:
         """
         try:
-            # self.acute_bird_out = self.dose_bird_out / self.at_bird_out
-            sip_empty.dose_bird_out = pd.Series([100.], dtype='int')
-            sip_empty.at_bird_out = pd.Series([10.], dtype='int')
+            # self.out_acute_bird = self.out_dose_bird / self.out_at_bird
+            sip_empty.out_dose_bird = pd.Series([100.], dtype='int')
+            sip_empty.out_at_bird = pd.Series([10.], dtype='int')
             result = sip_empty.acute_bird()
             npt.assert_array_almost_equal(result, 10., 4)
         finally:
@@ -258,16 +258,16 @@ class TestSip(unittest.TestCase):
         Message stating whether or not a risk is present
         :return:
         """
-        # if self.acuconb_out == -1:
-        #     if self.acute_bird_out == None:
+        # if self.out_acuconb == -1:
+        #     if self.out_acute_bird == None:
         #         raise ValueError\
         #         ('acute_bird variable equals None and therefor this function cannot be run.')
-        # if self.acute_bird_out < 0.1:
-        #     self.acuconb_out = ('Drinking water exposure alone is NOT a potential concern for birds')
+        # if self.out_acute_bird < 0.1:
+        #     self.out_acuconb = ('Drinking water exposure alone is NOT a potential concern for birds')
         # else:
-        #     self.acuconb_out = ('Exposure through drinking water alone is a potential concern for birds')
+        #     self.out_acuconb = ('Exposure through drinking water alone is a potential concern for birds')
         try:
-            sip_empty.acute_bird_out = pd.Series([0.2])
+            sip_empty.out_acute_bird = pd.Series([0.2])
             result = sip_empty.acuconb()
             exp = pd.Series(["Exposure through drinking water alone is a potential concern for birds"])
             pdt.assert_series_equal(result, exp)
@@ -280,10 +280,10 @@ class TestSip(unittest.TestCase):
         unittest for function sip.acute_mamm:
         :return:
         """
-        # self.acute_mamm_out = self.dose_mamm_out / self.at_mamm_out
+        # self.out_acute_mamm = self.out_dose_mamm / self.out_at_mamm
         try:
-            sip_empty.dose_mamm_out = pd.Series([100.], dtype='int')
-            sip_empty.at_mamm_out = pd.Series([10.], dtype='int')
+            sip_empty.out_dose_mamm = pd.Series([100.], dtype='int')
+            sip_empty.out_at_mamm = pd.Series([10.], dtype='int')
             result = sip_empty.acute_mamm()
             npt.assert_array_almost_equal(result, 10., 4)
         finally:
@@ -296,17 +296,17 @@ class TestSip(unittest.TestCase):
         Message stating whether or not a risk is present
         :return:
         """
-        # if self.acuconm_out == -1:
-        #     if self.acute_mamm_out == None:
+        # if self.out_acuconm == -1:
+        #     if self.out_acute_mamm == None:
         #         raise ValueError\
         #         ('acute_mamm variable equals None and therefor this function cannot be run.')
-        #     if self.acute_mamm_out < 0.1:
-        #         self.acuconm_out = ('Drinking water exposure alone is NOT a potential concern for mammals')
+        #     if self.out_acute_mamm < 0.1:
+        #         self.out_acuconm = ('Drinking water exposure alone is NOT a potential concern for mammals')
         #     else:
-        #         self.acuconm_out = ('Exposure through drinking water alone is a potential concern for mammals')
-        #     return self.acuconm_out
+        #         self.out_acuconm = ('Exposure through drinking water alone is a potential concern for mammals')
+        #     return self.out_acuconm
         try:
-            sip_empty.acute_mamm_out = pd.Series([0.2])
+            sip_empty.out_acute_mamm = pd.Series([0.2])
             result = sip_empty.acuconm()
             exp = pd.Series(["Exposure through drinking water alone is a potential concern for mammals"])
             pdt.assert_series_equal(result, exp)
@@ -319,10 +319,10 @@ class TestSip(unittest.TestCase):
         unittest for function sip.chron_bird:
         :return:
         """
-        #self.chron_bird_out = self.dose_bird_out / self.det_out
+        #self.out_chron_bird = self.out_dose_bird / self.out_det
         try:
-            sip_empty.dose_bird_out = pd.Series([5.], dtype='int')
-            sip_empty.det_out = pd.Series([10.], dtype='int')
+            sip_empty.out_dose_bird = pd.Series([5.], dtype='int')
+            sip_empty.out_det = pd.Series([10.], dtype='int')
             result = sip_empty.chron_bird()
             npt.assert_array_almost_equal(result, 0.5, 4, '', True)
         finally:
@@ -335,7 +335,7 @@ class TestSip(unittest.TestCase):
         :return:
         """
         try:
-            sip_empty.chron_bird_out = pd.Series([3])
+            sip_empty.out_chron_bird = pd.Series([3])
             result = sip_empty.chronconb()
             exp = pd.Series(["Exposure through drinking water alone is a potential concern for birds"])
             pdt.assert_series_equal(result, exp)
@@ -351,9 +351,9 @@ class TestSip(unittest.TestCase):
         unittest for function sip.chron_mamm:
         :return:
         """
-        # self.chron_mamm_out = self.dose_mamm_out / self.act_out
-        sip_empty.dose_mamm_out = pd.Series([8.], dtype='int')
-        sip_empty.act_out = pd.Series([4.], dtype='int')
+        # self.out_chron_mamm = self.out_dose_mamm / self.out_act
+        sip_empty.out_dose_mamm = pd.Series([8.], dtype='int')
+        sip_empty.out_act = pd.Series([4.], dtype='int')
         result = sip_empty.chron_mamm()
         npt.assert_array_almost_equal(result, 2, 4, '', True)
         return
@@ -364,7 +364,7 @@ class TestSip(unittest.TestCase):
         :return:
         """
         try:
-            sip_empty.chron_mamm_out = pd.Series([0.5])
+            sip_empty.out_chron_mamm = pd.Series([0.5])
             result = sip_empty.chronconm()
             exp = pd.Series(["Drinking water exposure alone is NOT a potential concern for mammals"])
             pdt.assert_series_equal(result, exp)

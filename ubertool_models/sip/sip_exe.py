@@ -47,27 +47,27 @@ class SipOutputs(object):
     def __init__(self):
         """Class representing the outputs for SIP"""
         super(SipOutputs, self).__init__()
-        self.fw_bird_out = pd.Series(name="fw_bird_out")
-        self.fw_mamm_out = pd.Series(name="fw_mamm_out")
-        self.dose_bird_out = pd.Series(name="dose_bird_out")
-        self.dose_mamm_out = pd.Series(name="dose_mamm_out")
-        self.at_bird_out = pd.Series(name="at_bird_out")
-        self.at_mamm_out = pd.Series(name="at_mamm_out")
-        self.fi_bird_out = pd.Series(name="fi_bird_out")
-        self.det_out = pd.Series(name="det_out")
-        self.act_out = pd.Series(name="act_out")
-        self.acute_bird_out = pd.Series(name="acute_bird_out")
-        self.acuconb_out = pd.Series(name="acuconb_out")
-        self.acute_mamm_out = pd.Series(name="acute_mamm_out")
-        self.acuconm_out = pd.Series(name="acuconm_out")
-        self.chron_bird_out = pd.Series(name="chron_bird_out")
-        self.chronconb_out = pd.Series(name="chronconb_out")
-        self.chron_mamm_out = pd.Series(name="chron_mamm_out")
-        self.chronconm_out = pd.Series(name="chronconm_out", dtype = object)
-        self.det_quail = pd.Series(name="det_quail")
-        self.det_duck = pd.Series(name="det_duck")
-        self.det_other_1 = pd.Series(name="det_other_1")
-        self.det_other_2 = pd.Series(name="det_other_2")
+        self.out_fw_bird = pd.Series(name="out_fw_bird")
+        self.out_fw_mamm = pd.Series(name="out_fw_mamm")
+        self.out_dose_bird = pd.Series(name="out_dose_bird")
+        self.out_dose_mamm = pd.Series(name="out_dose_mamm")
+        self.out_at_bird = pd.Series(name="out_at_bird")
+        self.out_at_mamm = pd.Series(name="out_at_mamm")
+        self.out_fi_bird = pd.Series(name="out_fi_bird")
+        self.out_det = pd.Series(name="out_det")
+        self.out_act = pd.Series(name="out_act")
+        self.out_acute_bird = pd.Series(name="out_acute_bird")
+        self.out_acuconb = pd.Series(name="out_acuconb")
+        self.out_acute_mamm = pd.Series(name="out_acute_mamm")
+        self.out_acuconm = pd.Series(name="out_acuconm")
+        self.out_chron_bird = pd.Series(name="out_chron_bird")
+        self.out_chronconb = pd.Series(name="out_chronconb")
+        self.out_chron_mamm = pd.Series(name="out_chron_mamm")
+        self.out_chronconm = pd.Series(name="out_chronconm")
+        self.out_det_quail = pd.Series(name="out_det_quail")
+        self.out_det_duck = pd.Series(name="out_det_duck")
+        self.out_det_other_1 = pd.Series(name="out_det_other_1")
+        self.out_det_other_2 = pd.Series(name="out_det_other_2")
 
 
 class Sip(UberModel, SipInputs, SipOutputs):
@@ -82,6 +82,7 @@ class Sip(UberModel, SipInputs, SipOutputs):
         self.pd_obj_exp = pd_obj_exp
         self.pd_obj_out = None
 
+        #need to vectorize
         # Class member variables that are not user inputs
         self.bodyweight_assessed_bird = 20.
         self.bodyweight_assessed_mammal = 1000.
@@ -138,8 +139,8 @@ class Sip(UberModel, SipInputs, SipOutputs):
         """
         Using fixed value to correctly handle floating point decimals as compared to spreadsheet implementation
         """
-        self.fw_bird_out = 0.0162
-        return self.fw_bird_out
+        self.out_fw_bird = 0.0162
+        return self.out_fw_bird
 
     # Daily water intake rate for mammals
     def fw_mamm(self):
@@ -159,8 +160,8 @@ class Sip(UberModel, SipInputs, SipOutputs):
         """
         Using fixed value to correctly handle floating point decimals as compared to spreadsheet implementation
         """
-        self.fw_mamm_out = 0.172
-        return self.fw_mamm_out
+        self.out_fw_mamm = 0.172
+        return self.out_fw_mamm
 
     # Upper bound estimate of exposure for birds
     def dose_bird(self):
@@ -176,8 +177,8 @@ class Sip(UberModel, SipInputs, SipOutputs):
 
             where: BW = body weight (kg) of the assessed bird (e.g. mallard duck, bobtail quail, other)
         """
-        self.dose_bird_out = (self.fw_bird_out * self.solubility) / (self.bodyweight_assessed_bird / 1000.)
-        return self.dose_bird_out
+        self.out_dose_bird = (self.out_fw_bird * self.solubility) / (self.bodyweight_assessed_bird / 1000.)
+        return self.out_dose_bird
 
     # Upper bound estimate of exposure for mammals
     def dose_mamm(self):
@@ -193,8 +194,8 @@ class Sip(UberModel, SipInputs, SipOutputs):
 
             where: BW = body weight (kg) of the assessed animal (e.g. laboratory rat, other)
         """
-        self.dose_mamm_out = (self.fw_mamm_out * self.solubility) / (self.bodyweight_assessed_mammal / 1000.)
-        return self.dose_mamm_out
+        self.out_dose_mamm = (self.out_fw_mamm * self.solubility) / (self.bodyweight_assessed_mammal / 1000.)
+        return self.out_dose_mamm
 
     # Acute adjusted toxicity value for birds
     def at_bird(self):
@@ -213,9 +214,9 @@ class Sip(UberModel, SipInputs, SipOutputs):
             worksheet titled "Mineau scaling factors." If no chemical specific data are available,
             the default value of 1.15 should be used for this parameter.
         """
-        self.at_bird_out = self.ld50_avian_water * (
+        self.out_at_bird = self.ld50_avian_water * (
             (self.bodyweight_assessed_bird / self.bodyweight_tested_bird) ** (self.mineau_scaling_factor - 1.))
-        return self.at_bird_out
+        return self.out_at_bird
 
     # Acute adjusted toxicity value for mammals
     def at_mamm(self):
@@ -234,9 +235,9 @@ class Sip(UberModel, SipInputs, SipOutputs):
             worksheet titled "Mineau scaling factors." If no chemical specific data are available,
             the default value of 1.15 should be used for this parameter.
         """
-        self.at_mamm_out = self.ld50_mammal_water * (
+        self.out_at_mamm = self.ld50_mammal_water * (
             (self.bodyweight_tested_mammal / self.bodyweight_assessed_mammal) ** 0.25)
-        return self.at_mamm_out
+        return self.out_at_mamm
 
     # Adjusted chronic toxicity values for birds
     # FI = Food Intake Rate
@@ -258,8 +259,8 @@ class Sip(UberModel, SipInputs, SipOutputs):
             rate for all birds, which generates a lower food intake rate compared to passerines.
             The equation is more conservative because it results in a lower dose-equivalent toxicity value.
         """
-        self.fi_bird_out = 0.0582 * ((bw_grams / 1000.) ** 0.651)
-        return self.fi_bird_out
+        self.out_fi_bird = 0.0582 * ((bw_grams / 1000.) ** 0.651)
+        return self.out_fi_bird
 
     # Dose-equivalent chronic toxicity value for birds
     def det(self):
@@ -278,48 +279,48 @@ class Sip(UberModel, SipInputs, SipOutputs):
         """
         try:
             # Body weight of bobtail quail is 178 g
-            self.det_quail = (self.noaec_quail * self.fi_bird(178.)) / (178. / 1000.)
+            self.out_det_quail = (self.noaec_quail * self.fi_bird(178.)) / (178. / 1000.)
         except Exception as e:
             print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
             # TODO: vectorize
-            self.det_quail = None
+            self.out_det_quail = None
 
         try:
             # Body weight of mallard duck is 1580 g
-            self.det_duck = (self.noaec_duck * self.fi_bird(1580.)) / (1580. / 1000.)
+            self.out_det_duck = (self.noaec_duck * self.fi_bird(1580.)) / (1580. / 1000.)
         except Exception as e:
             print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
             # TODO: vectorize
-            self.det_duck = None
+            self.out_det_duck = None
 
         try:
-            self.det_other_1 = (self.noaec_bird_other_1 * self.fi_bird(self.bodyweight_bird_other_1)) / (
+            self.out_det_other_1 = (self.noaec_bird_other_1 * self.fi_bird(self.bodyweight_bird_other_1)) / (
                 self.bodyweight_bird_other_1 / 1000.)
         except Exception as e:
             print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
             # TODO: Vectorize
-            self.det_other_1 = None
+            self.out_det_other_1 = None
 
         try:
-            self.det_other_2 = (self.noaec_bird_other_2 * self.fi_bird(self.bodyweight_bird_other_2)) / (
+            self.out_det_other_2 = (self.noaec_bird_other_2 * self.fi_bird(self.bodyweight_bird_other_2)) / (
                 self.bodyweight_bird_other_2 / 1000.)
         except Exception as e:
             print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
             # TODO: vectorize
-            self.det_other_2 = None
+            self.out_det_other_2 = None
 
         # Create DataFrame containing method Series created above
         df_noaec = pd.DataFrame({
-            'det_quail': self.det_quail,
-            'det_duck': self.det_duck,
-            'det_other_1': self.det_other_1,
-            'det_other_2': self.det_other_2
+            'out_det_quail': self.out_det_quail,
+            'out_det_duck': self.out_det_duck,
+            'out_det_other_1': self.out_det_other_1,
+            'out_det_other_2': self.out_det_other_2
         })
 
         # Create a Series of the minimum values for each row/model run of the above DataFrame
-        self.det_out = df_noaec.min(axis=1, numeric_only=True)
+        self.out_det = df_noaec.min(axis=1, numeric_only=True)
 
-        return self.det_out
+        return self.out_det
 
     # Adjusted chronic toxicty value for mammals
     def act(self):
@@ -333,13 +334,13 @@ class Sip(UberModel, SipInputs, SipOutputs):
 
         AT = NOAEL * (TW / AW)^0.25
         """
-        self.act_out = self.noael_mammal_water * (
+        self.out_act = self.noael_mammal_water * (
             (self.bodyweight_tested_mammal / self.bodyweight_assessed_mammal) ** 0.25)
 
         # MAMMILIAN:  If only a NOAEC value (in mg/kg-diet) is available, the model user should divide the NOAEC
         # by 20 to determine the equivalent chronic daily dose (NOAEL)
 
-        return self.act_out
+        return self.out_act
 
     # Acute exposures for birds
     def acute_bird(self):
@@ -350,8 +351,8 @@ class Sip(UberModel, SipInputs, SipOutputs):
         the adjusted LD50 value is  >=0.1, the risk assessor can conclude that pesticide exposure to
         mammals or birds through drinking water by itself is an exposure route of concern.
         """
-        self.acute_bird_out = self.dose_bird_out / self.at_bird_out
-        return self.acute_bird_out
+        self.out_acute_bird = self.out_dose_bird / self.out_at_bird
+        return self.out_acute_bird
 
     def acuconb(self):
         """
@@ -359,14 +360,14 @@ class Sip(UberModel, SipInputs, SipOutputs):
         """
         msg_pass = 'Drinking water exposure alone is NOT a potential concern for birds'
         msg_fail = 'Exposure through drinking water alone is a potential concern for birds'
-        boo_ratios = [ratio < 0.1 for ratio in self.acute_bird_out]
-        self.acuconb_out = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
-        #boolean = self.acute_bird_out < 0.1
-        #self.acuconb_out = boolean.map(lambda x:
+        boo_ratios = [ratio < 0.1 for ratio in self.out_acute_bird]
+        self.out_acuconb = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #boolean = self.out_acute_bird < 0.1
+        #self.out_acuconb = boolean.map(lambda x:
         #                               'Drinking water exposure alone is NOT a potential concern for birds'
         #                               if x is True else
         #                               'Exposure through drinking water alone is a potential concern for birds')
-        return self.acuconb_out
+        return self.out_acuconb
 
     # Acute exposures for mammals
     def acute_mamm(self):
@@ -377,8 +378,8 @@ class Sip(UberModel, SipInputs, SipOutputs):
         the adjusted LD50 value is >=0.1, the risk assessor can conclude that pesticide exposure to
         mammals or birds through drinking water by itself is an exposure route of concern.
         """
-        self.acute_mamm_out = self.dose_mamm_out / self.at_mamm_out
-        return self.acute_mamm_out
+        self.out_acute_mamm = self.out_dose_mamm / self.out_at_mamm
+        return self.out_acute_mamm
 
     def acuconm(self):
         """
@@ -386,9 +387,9 @@ class Sip(UberModel, SipInputs, SipOutputs):
         """
         msg_pass = 'Drinking water exposure alone is NOT a potential concern for mammals'
         msg_fail = 'Exposure through drinking water alone is a potential concern for mammals'
-        boo_ratios = [ratio < 0.1 for ratio in self.acute_mamm_out]
-        self.acuconm_out = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
-        return self.acuconm_out
+        boo_ratios = [ratio < 0.1 for ratio in self.out_acute_mamm]
+        self.out_acuconm = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        return self.out_acuconm
 
     # Chronic Exposures for birds
     def chron_bird(self):
@@ -400,8 +401,8 @@ class Sip(UberModel, SipInputs, SipOutputs):
         assessor can conclude that pesticide exposure to mammals or birds through drinking water
         by itself is an exposure route of concern.
         """
-        self.chron_bird_out = self.dose_bird_out / self.det_out
-        return self.chron_bird_out
+        self.out_chron_bird = self.out_dose_bird / self.out_det
+        return self.out_chron_bird
 
     def chronconb(self):
         """
@@ -409,9 +410,9 @@ class Sip(UberModel, SipInputs, SipOutputs):
         """
         msg_pass = 'Drinking water exposure alone is NOT a potential concern for birds'
         msg_fail = 'Exposure through drinking water alone is a potential concern for birds'
-        boo_ratios = [ratio < 1 for ratio in self.chron_bird_out]
-        self.chronconb_out = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
-        return self.chronconb_out
+        boo_ratios = [ratio < 1 for ratio in self.out_chron_bird]
+        self.out_chronconb = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        return self.out_chronconb
 
     # Chronic exposures for mammals
     def chron_mamm(self):
@@ -423,8 +424,8 @@ class Sip(UberModel, SipInputs, SipOutputs):
         assessor can conclude that pesticide exposure to mammals or birds through drinking water
         by itself is an exposure route of concern.
         """
-        self.chron_mamm_out = self.dose_mamm_out / self.act_out
-        return self.chron_mamm_out
+        self.out_chron_mamm = self.out_dose_mamm / self.out_act
+        return self.out_chron_mamm
 
     def chronconm(self):
         """
@@ -432,6 +433,6 @@ class Sip(UberModel, SipInputs, SipOutputs):
         """
         msg_pass = 'Drinking water exposure alone is NOT a potential concern for mammals'
         msg_fail = 'Exposure through drinking water alone is a potential concern for mammals'
-        boo_ratios = [ratio < 1 for ratio in self.chron_mamm_out]
-        self.chronconm_out = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
-        return self.chronconm_out
+        boo_ratios = [ratio < 1 for ratio in self.out_chron_mamm]
+        self.out_chronconm = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        return self.out_chronconm

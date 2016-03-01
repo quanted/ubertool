@@ -282,8 +282,8 @@ class TestSip(unittest.TestCase):
         :return:
         """
         pd.set_option('display.float_format','{:.4E}'.format) # display model output in scientific notation
-        result = sip_calc.pd_obj_out[output + "_out"]
-        expected = sip_calc.pd_obj_exp[output + "_exp"]
+        result = sip_calc.pd_obj_out["out_" + output]
+        expected = sip_calc.pd_obj_exp["exp_" + output]
         tab = pd.concat([result, expected], axis=1)
         print(" ")
         print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
@@ -297,8 +297,8 @@ class TestSip(unittest.TestCase):
         :param output:
         :return:
         """
-        result = sip_calc.pd_obj_out[output + "_out"]
-        expected = sip_calc.pd_obj_exp[output + "_exp"]
+        result = sip_calc.pd_obj_out["out_" + output]
+        expected = sip_calc.pd_obj_exp["exp_" + output]
         tab = pd.concat([result, expected], axis=1)
         print("sip integration test for " + output + "\n")
         print(tab)
