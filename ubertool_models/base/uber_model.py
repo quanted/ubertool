@@ -28,8 +28,8 @@ class UberModel(object):
             model_inputs = getattr(module, model_obj.name + "Inputs")
             model_inputs_obj = model_inputs()
         except ValueError as err:
-            print(mod_name)
-            print(err.args)
+            logging.info(mod_name)
+            logging.info(err.args)
 
         # Create temporary DataFrame where each column name is the same as TerrplantInputs attributes
         df = pd.DataFrame()

@@ -68,200 +68,200 @@ class TestStir(unittest.TestCase):
 
     def test_sat_air_conc(self):
         """
-        Integration test for stir.sat_air_conc
+        Integration test for stir.out_sat_air_conc
         """
         try:
-            self.blackbox_method_int('sat_air_conc')
+            self.blackbox_method_int('out_sat_air_conc')
         finally:
             pass
         return
 
     def test_inh_rate_avian(self):
         """
-        integration test for stir.inh_rate_avian
+        integration test for stir.out_inh_rate_avian
         """
         try:
-            self.blackbox_method_int('inh_rate_avian')
+            self.blackbox_method_int('out_inh_rate_avian')
         finally:
             pass
         return
 
     def test_vid_avian(self):
         """
-        integration test for stir.vid_avian
+        integration test for stir.out_vid_avian
         """
         try:
-            self.blackbox_method_int('vid_avian')
+            self.blackbox_method_int('out_vid_avian')
         finally:
             pass
         return
 
     def test_inh_rate_mammal(self):
         """
-        integration test for stir.inh_rate_mammal
+        integration test for stir.out_inh_rate_mammal
         """
         try:
-            self.blackbox_method_int('inh_rate_mammal')
+            self.blackbox_method_int('out_inh_rate_mammal')
         finally:
             pass
         return
 
     def test_vid_mammal(self):
         """
-        integration test for stir.vid_mammal
+        integration test for stir.out_vid_mammal
         """
         try:
-            self.blackbox_method_int('vid_mammal')
+            self.blackbox_method_int('out_vid_mammal')
         finally:
             pass
         return
 
     def test_air_conc(self):
         """
-        integration test for stir.air_conc
+        integration test for stir.out_air_conc
         """
         try:
-            self.blackbox_method_int('air_conc')
+            self.blackbox_method_int('out_air_conc')
         finally:
             pass
         return
 
     def test_sid_avian(self):
         """
-        integration test for stir.sid_avian
+        integration test for stir.out_sid_avian
         """
         try:
-            self.blackbox_method_int('sid_avian')
+            self.blackbox_method_int('out_sid_avian')
         finally:
             pass
         return
 
     def test_sid_mammal(self):
         """
-        integration test for stir.sid_mammal
+        integration test for stir.out_sid_mammal
         """
         try:
-            self.blackbox_method_int('sid_mammal')
+            self.blackbox_method_int('out_sid_mammal')
         finally:
             pass
         return
 
     def test_mammal_inhalation_ld50(self):
         """
-        integration test for stir.mammal_inhalation_ld50
+        integration test for stir.out_mammal_inhalation_ld50
         """
         try:
-            self.blackbox_method_int('mammal_inhalation_ld50')
+            self.blackbox_method_int('out_mammal_inhalation_ld50')
         finally:
             pass
         return
 
     def test_adjusted_mammal_inhalation_ld50(self):
         """
-        integration test for stir.adjusted_mammal_inhalation_ld50
+        integration test for stir.out_adjusted_mammal_inhalation_ld50
         """
         try:
-            self.blackbox_method_int('adjusted_mammal_inhalation_ld50')
+            self.blackbox_method_int('out_adjusted_mammal_inhalation_ld50')
         finally:
             pass
         return
 
     def test_estimated_avian_inhalation_ld50(self):
         """
-        integration test for stir.estimated_avian_inhalation_ld50
+        integration test for stir.out_estimated_avian_inhalation_ld50
         """
         try:
-            self.blackbox_method_int('estimated_avian_inhalation_ld50')
+            self.blackbox_method_int('out_estimated_avian_inhalation_ld50')
         finally:
             pass
         return
 
     def test_adjusted_avian_inhalation_ld50(self):
         """
-        integration test for stir.adjusted_avian_inhalation_ld50
+        integration test for stir.out_adjusted_avian_inhalation_ld50
         """
         try:
-            self.blackbox_method_int('adjusted_avian_inhalation_ld50')
+            self.blackbox_method_int('out_adjusted_avian_inhalation_ld50')
         finally:
             pass
         return
 
     def test_ratio_vid_avian(self):
         """
-        integration test for stir.ratio_vid_avian
+        integration test for stir.out_ratio_vid_avian
         """
         try:
-            self.blackbox_method_int('ratio_vid_avian')
+            self.blackbox_method_int('out_ratio_vid_avian')
         finally:
             pass
         return
 
     def test_loc_vid_avian(self):
         """
-        integration test for stir.loc_vid_avian
+        integration test for stir.out_loc_vid_avian
         """
         try:
-            self.blackbox_method_str('loc_vid_avian')
+            self.blackbox_method_str('out_loc_vid_avian')
         finally:
             pass
         return
 
     def test_ratio_sid_avian(self):
         """
-        integration test for stir.ratio_sid_avian
+        integration test for stir.out_ratio_sid_avian
         """
         try:
-            self.blackbox_method_int('ratio_sid_avian')
+            self.blackbox_method_int('out_ratio_sid_avian')
         finally:
             pass
         return
 
     def test_loc_sid_avian(self):
         """
-        integration test for stir.loc_sid_avian
+        integration test for stir.out_loc_sid_avian
         """
         try:
-            self.blackbox_method_str('loc_sid_avian')
+            self.blackbox_method_str('out_loc_sid_avian')
         finally:
             pass
         return
 
     def test_ratio_vid_mammal(self):
         """
-        integration test for stir.ratio_vid_mammal
+        integration test for stir.out_ratio_vid_mammal
         """
         try:
-            self.blackbox_method_int('ratio_vid_mammal')
+            self.blackbox_method_int('out_ratio_vid_mammal')
         finally:
             pass
         return
 
     def test_loc_vid_mammal(self):
         """
-        integration test for stir.loc_vid_mammal
+        integration test for stir.out_loc_vid_mammal
         """
         try:
-            self.blackbox_method_str('loc_vid_mammal')
+            self.blackbox_method_str('out_loc_vid_mammal')
         finally:
             pass
         return
 
     def test_ratio_sid_mammal(self):
         """
-        integration test for stir.ratio_sid_mammal
+        integration test for stir.out_ratio_sid_mammal
         """
         try:
-            self.blackbox_method_int('ratio_sid_mammal')
+            self.blackbox_method_int('out_ratio_sid_mammal')
         finally:
             pass
         return
 
     def test_loc_sid_mammal(self):
         """
-        integration test for stir.loc_sid_mammal
+        integration test for stir.out_loc_sid_mammal
         """
         try:
-            self.blackbox_method_str('loc_sid_mammal')
+            self.blackbox_method_str('out_loc_sid_mammal')
         finally:
             pass
         return
