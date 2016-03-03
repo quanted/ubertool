@@ -1,25 +1,19 @@
-import unittest
-import pandas as pd
+import logging
 import numpy.testing as npt
+import os.path
+import pandas as pd
 import pandas.util.testing as pdt
+import sys
+import unittest
+#find parent directory and import model
+parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parentddir)
+from stir_exe import Stir
 
-# following works when running test script in parent directory as package:
-# python -m tests.stir_unit_test
-# following works for running as nosetests from parent directory:
-# importing as a package (specified in ../../setup.py
-from .. import stir as stir_model
-
-# # load transposed qaqc data for inputs and expected outputs
-# csv_transpose_path_in = "./stir_qaqc_in_transpose.csv"
-# pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
-# # print(pd_obj_inputs)
-# csv_transpose_path_exp = "./stir_qaqc_exp_transpose.csv"
-# pd_obj_exp_out = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
-# # print(pd_obj_exp_out)
-
-# create empty pandas dataframes to create empty stir object
+# create empty pandas dataframes to create empty sip object for testing
 df_empty = pd.DataFrame()
-stir_empty = stir_model.Stir(df_empty, df_empty)
+# create an empty sip object
+stir_empty = Stir(df_empty, df_empty)
 
 test = {}
 
