@@ -1,3 +1,4 @@
+import logging
 import numpy.testing as npt
 import os.path
 import pandas as pd
@@ -21,52 +22,56 @@ try:
         pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
     else:
         csv_transpose_path_in = "./stir_qaqc_in_transpose.csv"
-        print(csv_transpose_path_in)
+        logging.info(csv_transpose_path_in)
         pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
         #with open('./stir_qaqc_in_transpose.csv') as f:
             #csv_data = csv.reader(f)
 finally:
-    print('stir inputs')
-    #print('stir input dimensions ' + str(pd_obj_inputs.shape))
-    #print('stir input keys ' + str(pd_obj_inputs.columns.values.tolist()))
-    #print(pd_obj_inputs)
+    logging.info('stir inputs')
+    logging.info('stir input dimensions ' + str(pd_obj_inputs.shape))
+    logging.info('stir input keys ' + str(pd_obj_inputs.columns.values.tolist()))
+    logging.info(pd_obj_inputs)
 
 # load transposed qaqc data for expected outputs
 # works for local nosetests from parent directory
 # but not for travis container that calls nosetests:
 # csv_transpose_path_exp = "./terrplant_qaqc_exp_transpose.csv"
 # pd_obj_exp_out = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
-# print(pd_obj_exp_out)
+# logging.info(pd_obj_exp_out)
 # this works for both local nosetests and travis deploy
 #expected output details
 try:
     if __package__ is not None:
         data_exp_outputs = StringIO(pkgutil.get_data(__package__, 'stir_qaqc_exp_transpose.csv'))
         pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
-        print("stir expected outputs")
-        print('stir expected output dimensions ' + str(pd_obj_exp.shape))
-        print('stir expected output keys ' + str(pd_obj_exp.columns.values.tolist()))
+        logging.info("stir expected outputs")
+        logging.info('stir expected output dimensions ' + str(pd_obj_exp.shape))
+        logging.info('stir expected output keys ' + str(pd_obj_exp.columns.values.tolist()))
     else:
         csv_transpose_path_exp = "./stir_qaqc_exp_transpose.csv"
-        print(csv_transpose_path_exp)
+        logging.info(csv_transpose_path_exp)
         pd_obj_exp = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
 finally:
-    print('stir expected')
+    logging.info('stir expected')
+    logging.info('stir expected dimensions ' + str(pd_obj_exp.shape))
+    logging.info('stir expected keys ' + str(pd_obj_exp.columns.values.tolist()))
+    logging.info(pd_obj_exp)
+
 
 # create an instance of stir object with qaqc data
 stir_calc = Stir(pd_obj_inputs, pd_obj_exp)
 stir_calc.execute_model
-inputs_json, outputs_json, exp_out_json = sip_calc.get_dict_rep(sip_calc)
-print("stir output")
-print(inputs_json)
+inputs_json, outputs_json, exp_out_json = stir_calc.get_dict_rep(stir_calc)
+logging.info("stir output")
+logging.info(inputs_json)
 
-#print input tables
-print(tabulate(pd_obj_inputs.iloc[:,0:5], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_inputs.iloc[:,6:11], headers='keys', tablefmt='fancy_grid'))
-print(tabulate(pd_obj_inputs.iloc[:,12:17], headers='keys', tablefmt='fancy_grid'))
+#logging.info input tables
+logging.info(tabulate(pd_obj_inputs.iloc[:,0:5], headers='keys', tablefmt='fancy_grid'))
+logging.info(tabulate(pd_obj_inputs.iloc[:,6:11], headers='keys', tablefmt='fancy_grid'))
+logging.info(tabulate(pd_obj_inputs.iloc[:,12:17], headers='keys', tablefmt='fancy_grid'))
 
-#print expected output tables
-print(tabulate(pd_obj_exp.iloc[:,0:1], headers='keys', tablefmt='fancy_grid'))
+#logging.info expected output tables
+logging.info(tabulate(pd_obj_exp.iloc[:,0:1], headers='keys', tablefmt='fancy_grid'))
 
 test = {}
 
@@ -305,7 +310,7 @@ class TestStir(unittest.TestCase):
         result = stir_calc.pd_obj_out[output]
         expected = stir_calc.pd_obj_exp["exp_" + output]
         tab = pd.concat([result, expected], axis=1)
-        print(" ")
+        logging.info(" ")
         print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
         # npt.assert_array_almost_equal(result, expected, 4, '', True)
         rtol = 1e-5
