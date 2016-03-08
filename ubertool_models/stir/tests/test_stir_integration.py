@@ -60,7 +60,7 @@ finally:
 
 # create an instance of stir object with qaqc data
 stir_calc = Stir(pd_obj_inputs, pd_obj_exp)
-stir_calc.execute_model
+stir_calc.execute_model()
 inputs_json, outputs_json, exp_out_json = stir_calc.get_dict_rep(stir_calc)
 logging.info("stir output")
 logging.info(inputs_json)
