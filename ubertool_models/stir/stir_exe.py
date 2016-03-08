@@ -255,10 +255,14 @@ class Stir(UberModel, StirInputs, StirOutputs):
         """
         results #2: Level of Concern for avian vapor phase risk
         """
-        exceed_boolean = self.out_ratio_vid_avian < 0.1
-        self.out_loc_vid_avian = exceed_boolean.map(lambda x:
-                                                'Exposure not Likely Significant' if x is True
-                                                else 'Proceed to Refinements')
+        msg_pass = 'Exposure not Likely Significant'
+        msg_fail = 'Proceed to Refinements'
+        boo_ratios = [ratio < 0.1 for ratio in self.out_ratio_vid_avian]
+        self.out_loc_vid_avian = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #exceed_boolean = self.out_ratio_vid_avian < 0.1
+        #self.out_loc_vid_avian = exceed_boolean.map(lambda x:
+        #                                        'Exposure not Likely Significant' if x is True
+        #                                        else 'Proceed to Refinements')
         return self.out_loc_vid_avian
 
     def return_ratio_sid_avian(self):
@@ -272,10 +276,14 @@ class Stir(UberModel, StirInputs, StirOutputs):
         """
         results #4: Level of Concern for avian droplet inhalation risk
         """
-        exceed_boolean = self.out_ratio_sid_avian < 0.1
-        self.out_loc_sid_avian = exceed_boolean.map(lambda x:
-                                                'Exposure not Likely Significant' if x is True
-                                                else 'Proceed to Refinements')
+        msg_pass = 'Exposure not Likely Significant'
+        msg_fail = 'Proceed to Refinements'
+        boo_ratios = [ratio < 0.1 for ratio in self.out_ratio_sid_avian]
+        self.out_loc_sid_avian = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #exceed_boolean = self.out_ratio_sid_avian < 0.1
+        #self.out_loc_sid_avian = exceed_boolean.map(lambda x:
+        #                                        'Exposure not Likely Significant' if x is True
+        #                                        else 'Proceed to Refinements')
         return self.out_loc_sid_avian
 
     def return_ratio_vid_mammal(self):
@@ -289,10 +297,14 @@ class Stir(UberModel, StirInputs, StirOutputs):
         """
         results #6: Level of Concern for mammalian vapor phase risk
         """
-        exceed_boolean = self.out_ratio_vid_mammal < 0.1
-        self.out_loc_vid_mammal = exceed_boolean.map(lambda x:
-                                                 'Exposure not Likely Significant' if x is True
-                                                 else 'Proceed to Refinements')
+        msg_pass = 'Exposure not Likely Significant'
+        msg_fail = 'Proceed to Refinements'
+        boo_ratios = [ratio < 0.1 for ratio in self.out_ratio_vid_mammal]
+        self.out_loc_vid_mammal = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #exceed_boolean = self.out_ratio_vid_mammal < 0.1
+        #self.out_loc_vid_mammal = exceed_boolean.map(lambda x:
+        #                                         'Exposure not Likely Significant' if x is True
+        #                                         else 'Proceed to Refinements')
         return self.out_loc_vid_mammal
 
     def return_ratio_sid_mammal(self):
@@ -306,10 +318,14 @@ class Stir(UberModel, StirInputs, StirOutputs):
         """
         results #8: Level of Concern for mammaliam droplet inhalation risk
         """
-        exceed_boolean = self.out_ratio_sid_mammal < 0.1
-        self.out_loc_sid_mammal = exceed_boolean.map(lambda x:
-                                                 'Exposure not Likely Significant' if x is True
-                                                 else 'Proceed to Refinements')
+        msg_pass = 'Exposure not Likely Significant'
+        msg_fail = 'Proceed to Refinements'
+        boo_ratios = [ratio < 0.1 for ratio in self.out_ratio_sid_mammal]
+        self.out_loc_sid_mammal = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #exceed_boolean = self.out_ratio_sid_mammal < 0.1
+        #self.out_loc_sid_mammal = exceed_boolean.map(lambda x:
+        #                                         'Exposure not Likely Significant' if x is True
+        #                                         else 'Proceed to Refinements')
         return self.out_loc_sid_mammal
 
 

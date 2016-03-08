@@ -105,7 +105,7 @@ class TestStir(unittest.TestCase):
         Integration test for stir.out_sat_air_conc
         """
         try:
-            self.blackbox_method_int('out_sat_air_conc')
+            self.blackbox_method_int('sat_air_conc')
         finally:
             pass
         return
@@ -115,7 +115,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_inh_rate_avian
         """
         try:
-            self.blackbox_method_int('out_inh_rate_avian')
+            self.blackbox_method_int('inh_rate_avian')
         finally:
             pass
         return
@@ -125,7 +125,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_vid_avian
         """
         try:
-            self.blackbox_method_int('out_vid_avian')
+            self.blackbox_method_int('vid_avian')
         finally:
             pass
         return
@@ -135,7 +135,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_inh_rate_mammal
         """
         try:
-            self.blackbox_method_int('out_inh_rate_mammal')
+            self.blackbox_method_int('inh_rate_mammal')
         finally:
             pass
         return
@@ -145,7 +145,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_vid_mammal
         """
         try:
-            self.blackbox_method_int('out_vid_mammal')
+            self.blackbox_method_int('vid_mammal')
         finally:
             pass
         return
@@ -155,7 +155,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_air_conc
         """
         try:
-            self.blackbox_method_int('out_air_conc')
+            self.blackbox_method_int('air_conc')
         finally:
             pass
         return
@@ -165,7 +165,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_sid_avian
         """
         try:
-            self.blackbox_method_int('out_sid_avian')
+            self.blackbox_method_int('sid_avian')
         finally:
             pass
         return
@@ -175,7 +175,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_sid_mammal
         """
         try:
-            self.blackbox_method_int('out_sid_mammal')
+            self.blackbox_method_int('sid_mammal')
         finally:
             pass
         return
@@ -185,7 +185,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_mammal_inhalation_ld50
         """
         try:
-            self.blackbox_method_int('out_mammal_inhalation_ld50')
+            self.blackbox_method_int('mammal_inhalation_ld50')
         finally:
             pass
         return
@@ -195,7 +195,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_adjusted_mammal_inhalation_ld50
         """
         try:
-            self.blackbox_method_int('out_adjusted_mammal_inhalation_ld50')
+            self.blackbox_method_int('adjusted_mammal_inhalation_ld50')
         finally:
             pass
         return
@@ -205,7 +205,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_estimated_avian_inhalation_ld50
         """
         try:
-            self.blackbox_method_int('out_estimated_avian_inhalation_ld50')
+            self.blackbox_method_int('estimated_avian_inhalation_ld50')
         finally:
             pass
         return
@@ -215,7 +215,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_adjusted_avian_inhalation_ld50
         """
         try:
-            self.blackbox_method_int('out_adjusted_avian_inhalation_ld50')
+            self.blackbox_method_int('adjusted_avian_inhalation_ld50')
         finally:
             pass
         return
@@ -225,7 +225,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_ratio_vid_avian
         """
         try:
-            self.blackbox_method_int('out_ratio_vid_avian')
+            self.blackbox_method_int('ratio_vid_avian')
         finally:
             pass
         return
@@ -235,7 +235,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_loc_vid_avian
         """
         try:
-            self.blackbox_method_str('out_loc_vid_avian')
+            self.blackbox_method_str('loc_vid_avian')
         finally:
             pass
         return
@@ -245,7 +245,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_ratio_sid_avian
         """
         try:
-            self.blackbox_method_int('out_ratio_sid_avian')
+            self.blackbox_method_int('ratio_sid_avian')
         finally:
             pass
         return
@@ -255,7 +255,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_loc_sid_avian
         """
         try:
-            self.blackbox_method_str('out_loc_sid_avian')
+            self.blackbox_method_str('loc_sid_avian')
         finally:
             pass
         return
@@ -265,7 +265,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_ratio_vid_mammal
         """
         try:
-            self.blackbox_method_int('out_ratio_vid_mammal')
+            self.blackbox_method_int('ratio_vid_mammal')
         finally:
             pass
         return
@@ -275,7 +275,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_loc_vid_mammal
         """
         try:
-            self.blackbox_method_str('out_loc_vid_mammal')
+            self.blackbox_method_str('loc_vid_mammal')
         finally:
             pass
         return
@@ -285,7 +285,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_ratio_sid_mammal
         """
         try:
-            self.blackbox_method_int('out_ratio_sid_mammal')
+            self.blackbox_method_int('ratio_sid_mammal')
         finally:
             pass
         return
@@ -295,7 +295,7 @@ class TestStir(unittest.TestCase):
         integration test for stir.out_loc_sid_mammal
         """
         try:
-            self.blackbox_method_str('out_loc_sid_mammal')
+            self.blackbox_method_str('loc_sid_mammal')
         finally:
             pass
         return
@@ -307,7 +307,7 @@ class TestStir(unittest.TestCase):
         :return:
         """
         pd.set_option('display.float_format', '{:.4E}'.format)  # display model output in scientific notation
-        result = stir_calc.pd_obj_out[output]
+        result = stir_calc.pd_obj_out["out_" + output]
         expected = stir_calc.pd_obj_exp["exp_" + output]
         tab = pd.concat([result, expected], axis=1)
         logging.info(" ")
@@ -322,7 +322,7 @@ class TestStir(unittest.TestCase):
         :param output:
         :return:
         """
-        result = stir_calc.pd_obj_out[output]
+        result = stir_calc.pd_obj_out["out_" + output]
         expected = stir_calc.pd_obj_exp["exp_" + output]
         tab = pd.concat([result, expected], axis=1)
         print(" ")

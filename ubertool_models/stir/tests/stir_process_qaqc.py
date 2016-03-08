@@ -6,9 +6,9 @@ csv_transpose_path_in = "./stir_qaqc_in_transpose.csv"
 csv_transpose_path_exp = "./stir_qaqc_exp_transpose.csv"
 
 #skiprows 0-indexed (supposably, but does not seem to be the case)
-#skipfooter- number of rows at bottom to skip
+#skipfooter- number of rows at bottom to skip (lastrow# - lastinputrow#)
 try:
-    pd_obj_inputs = pd.read_csv(csv_path, index_col=0, header=None, na_values=[''], skiprows=1, skipfooter=45, engine='python')
+    pd_obj_inputs = pd.read_csv(csv_path, index_col=0, header=None, na_values=[''], skiprows=1, skipfooter=44, engine='python')
     pd_obj_inputs = pd_obj_inputs.drop(labels=pd_obj_inputs.columns[range(4)], axis=1)
     pd_obj_inputs.index.name = None
     pd_obj_inputs.columns -= 5
