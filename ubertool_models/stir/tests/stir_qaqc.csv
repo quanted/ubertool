@@ -1,4 +1,5 @@
 stir_property,description,units,type,valid_range,run1,run2,run3,run4,run5,run6,run7,run8,run9,run10,run11
+version,version,,,,,,,,,,,,,,
 chemical_name,chemical_name,na,string,na,Quinoxyfen,Atrazine,Chlorothalonil,Chlorpyriphos,Diazinon,Endosulfan,EPTC,Ethoprop,Malathion,Methamidiphos,Methyl-parathion
 pc_code,pc_code,na,string,na,,,,,,,,,,,
 application_rate,Application rate,lbs ai/A,float,[0_inf),0.107,1.89,3,6,2,1.05,5.7,10,1.5,1,2
