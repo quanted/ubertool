@@ -31,13 +31,12 @@ class UberModel(object):
             logging.info(mod_name)
             logging.info(err.args)
 
-        # Create temporary DataFrame where each column name is the same as TerrplantInputs attributes
+        # Create temporary DataFrame where each column name is the same as ModelInputs attributes
         df = pd.DataFrame()
         for input_param in model_inputs_obj.__dict__:
             df[input_param] = getattr(self, input_param)
 
         # Compare column names of temporary DataFrame (created above) to user-supply DataFrame from JSON
-
         print "Expected:", df.columns.order()
         print "User Ins:", pd_obj.columns.order()
         if df.columns.order().equals(pd_obj.columns.order()):
