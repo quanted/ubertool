@@ -67,11 +67,14 @@ class Rice(UberModel, RiceInputs, RiceOutputs):
         self.fill_output_dataframe(self)
 
     def run_methods(self):
-        """ Execute all algorithm methods for model logic """
-        self.calc_msed()
-        self.calc_vw()
-        self.calc_mass_area()
-        self.calc_cw()
+        try:
+            """ Execute all algorithm methods for model logic """
+            self.calc_msed()
+            self.calc_vw()
+            self.calc_mass_area()
+            self.calc_cw()
+        except TypeError:
+            print "Type Error: Your variables are not set correctly."
 
     def calc_msed(self):
         """

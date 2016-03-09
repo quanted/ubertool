@@ -10,7 +10,7 @@ parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.par
 sys.path.append(parentddir)
 from terrplant_exe import Terrplant
 
-# create empty pandas dataframes to create empty sip object for testing
+# create empty pandas dataframes to create empty terrplant object for testing
 df_empty = pd.DataFrame()
 # create an empty sip object
 terrplant_empty = Terrplant(df_empty, df_empty)
@@ -123,7 +123,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_totaldry = pd.Series([5.5], dtype='float')
             terrplant_empty.ec25_nonlisted_seedling_emergence_monocot = pd.Series([0.05], dtype='float')
             result = terrplant_empty.nms_rq_dry()
-            npt.assert_array_almost_equal(result, 110, 4, '', True)
+            npt.assert_array_almost_equal(result, 110., 4, '', True)
         finally:
             pass
         return
@@ -156,7 +156,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_totalsemi = pd.Series([10.], dtype='int')
             terrplant_empty.ec25_nonlisted_seedling_emergence_monocot = pd.Series([0.05], dtype='float')
             result = terrplant_empty.nms_rq_semi()
-            npt.assert_array_almost_equal(result, 200, 4, '', True)
+            npt.assert_array_almost_equal(result, 200., 4, '', True)
         finally:
             pass
         return
@@ -223,7 +223,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_totaldry = pd.Series([5.5], dtype='float')
             terrplant_empty.noaec_listed_seedling_emergence_monocot = pd.Series([0.01], dtype='float')
             result = terrplant_empty.lms_rq_dry()
-            npt.assert_array_almost_equal(result, 550, 4, '', True)
+            npt.assert_array_almost_equal(result, 550., 4, '', True)
         finally:
             pass
         return
@@ -256,7 +256,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_totalsemi = pd.Series([10.], dtype='int')
             terrplant_empty.noaec_listed_seedling_emergence_monocot = pd.Series([0.01], dtype='float')
             result = terrplant_empty.lms_rq_semi()
-            npt.assert_array_almost_equal(result, 1000, 4, '', True)
+            npt.assert_array_almost_equal(result, 1000., 4, '', True)
         finally:
             pass
         return
@@ -324,7 +324,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_totaldry = pd.Series([5.5], dtype='float')
             terrplant_empty.ec25_nonlisted_seedling_emergence_dicot = pd.Series([0.02], dtype='float')
             result = terrplant_empty.nds_rq_dry()
-            npt.assert_array_almost_equal(result, 275, 4, '', True)
+            npt.assert_array_almost_equal(result, 275., 4, '', True)
         finally:
             pass
         return
@@ -357,7 +357,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_totalsemi = pd.Series([10.], dtype='int')
             terrplant_empty.ec25_nonlisted_seedling_emergence_dicot = pd.Series([0.02], dtype='float')
             result = terrplant_empty.nds_rq_semi()
-            npt.assert_array_almost_equal(result, 500, 4, '', True)
+            npt.assert_array_almost_equal(result, 500., 4, '', True)
         finally:
             pass
         return
@@ -424,7 +424,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_totaldry = pd.Series([5.5], dtype='float')
             terrplant_empty.noaec_listed_seedling_emergence_dicot = pd.Series([0.1], dtype='float')
             result = terrplant_empty.lds_rq_dry()
-            npt.assert_array_almost_equal(result, 55, 4, '', True)
+            npt.assert_array_almost_equal(result, 55., 4, '', True)
         finally:
             pass
         return
@@ -457,7 +457,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_totalsemi = pd.Series([10.], dtype='int')
             terrplant_empty.noaec_listed_seedling_emergence_dicot = pd.Series([0.1], dtype='float')
             result = terrplant_empty.lds_rq_semi()
-            npt.assert_array_almost_equal(result, 100, 4, '', True)
+            npt.assert_array_almost_equal(result, 100., 4, '', True)
         finally:
             pass
         return
