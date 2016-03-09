@@ -34,13 +34,6 @@ finally:
     #print('sip input keys ' + str(pd_obj_inputs.columns.values.tolist()))
     #print(pd_obj_inputs)
 
-# load transposed qaqc data for expected outputs
-# works for local nosetests from parent directory
-# but not for travis container that calls nosetests:
-# csv_transpose_path_exp = "./terrplant_qaqc_exp_transpose.csv"
-# pd_obj_exp_out = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
-# print(pd_obj_exp_out)
-# this works for both local nosetests and travis deploy
 #expected output details
 try:
     if __package__ is not None:

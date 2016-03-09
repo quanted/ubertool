@@ -1,24 +1,19 @@
-import unittest
-import pandas as pd
+import logging
 import numpy.testing as npt
+import os.path
+import pandas as pd
 import pandas.util.testing as pdt
-# the following works when running test script in parent directory as package:
-# python -m tests.test_terrplant_unittest
-# the following works for running as nosetests from parent directory:
-from .. import terrplant as terrplant_model
+import sys
+import unittest
+#find parent directory and import model
+parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parentddir)
+from terrplant_exe import Terrplant
 
-# load transposed qaqc data for inputs and expected outputs
-# csv_transpose_path_in = "./terrplant_qaqc_in_transpose.csv"
-# pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
-# print(pd_obj_inputs)
-# csv_transpose_path_exp = "./terrplant_qaqc_exp_transpose.csv"
-# pd_obj_exp_out = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
-# print(pd_obj_exp_out)
-
-# create empty pandas dataframes to create empty terrplant object
+# create empty pandas dataframes to create empty sip object for testing
 df_empty = pd.DataFrame()
-#terrplant_empty = terrplant_model.Terrplant("empty", df_empty, df_empty)
-terrplant_empty = terrplant_model.Terrplant(df_empty, df_empty)
+# create an empty sip object
+terrplant_empty = Terrplant(df_empty, df_empty)
 
 test = {}
 
