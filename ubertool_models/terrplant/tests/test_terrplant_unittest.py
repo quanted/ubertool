@@ -120,7 +120,7 @@ class TestTerrplant(unittest.TestCase):
         """
         #self.out_nms_rq_dry = self.out_totaldry/self.ec25_nonlisted_seedling_emergence_monocot
         try:
-            terrplant_empty.out_totaldry = pd.Series([5.5], dtype='float')
+            terrplant_empty.out_total_dry = pd.Series([5.5], dtype='float')
             terrplant_empty.ec25_nonlisted_seedling_emergence_monocot = pd.Series([0.05], dtype='float')
             result = terrplant_empty.nms_rq_dry()
             npt.assert_array_almost_equal(result, 110., 4, '', True)
@@ -153,7 +153,7 @@ class TestTerrplant(unittest.TestCase):
         """
         #self.out_nms_rq_semi = self.out_totalsemi/self.ec25_nonlisted_seedling_emergence_monocot
         try:
-            terrplant_empty.out_totalsemi = pd.Series([10.], dtype='int')
+            terrplant_empty.out_total_semi = pd.Series([10.], dtype='int')
             terrplant_empty.ec25_nonlisted_seedling_emergence_monocot = pd.Series([0.05], dtype='float')
             result = terrplant_empty.nms_rq_semi()
             npt.assert_array_almost_equal(result, 200., 4, '', True)
@@ -220,7 +220,7 @@ class TestTerrplant(unittest.TestCase):
         """
         #self.out_lms_rq_dry = self.out_totaldry/self.ec25_nonlisted_seedling_emergence_dicot
         try:
-            terrplant_empty.out_totaldry = pd.Series([5.5], dtype='float')
+            terrplant_empty.out_total_dry = pd.Series([5.5], dtype='float')
             terrplant_empty.noaec_listed_seedling_emergence_monocot = pd.Series([0.01], dtype='float')
             result = terrplant_empty.lms_rq_dry()
             npt.assert_array_almost_equal(result, 550., 4, '', True)
@@ -253,7 +253,7 @@ class TestTerrplant(unittest.TestCase):
         """
         #self.out_lms_rq_semi = self.out_totalsemi/self.ec25_nonlisted_seedling_emergence_dicot
         try:
-            terrplant_empty.out_totalsemi = pd.Series([10.], dtype='int')
+            terrplant_empty.out_total_semi = pd.Series([10.], dtype='int')
             terrplant_empty.noaec_listed_seedling_emergence_monocot = pd.Series([0.01], dtype='float')
             result = terrplant_empty.lms_rq_semi()
             npt.assert_array_almost_equal(result, 1000., 4, '', True)
@@ -321,7 +321,7 @@ class TestTerrplant(unittest.TestCase):
         """
         #self.out_nds_rq_dry = self.out_totaldry/self.noaec_listed_seedling_emergence_monocot
         try:
-            terrplant_empty.out_totaldry = pd.Series([5.5], dtype='float')
+            terrplant_empty.out_total_dry = pd.Series([5.5], dtype='float')
             terrplant_empty.ec25_nonlisted_seedling_emergence_dicot = pd.Series([0.02], dtype='float')
             result = terrplant_empty.nds_rq_dry()
             npt.assert_array_almost_equal(result, 275., 4, '', True)
@@ -354,7 +354,7 @@ class TestTerrplant(unittest.TestCase):
         """
         #self.out_nds_rq_semi = self.out_totalsemi/self.noaec_listed_seedling_emergence_monocot
         try:
-            terrplant_empty.out_totalsemi = pd.Series([10.], dtype='int')
+            terrplant_empty.out_total_semi = pd.Series([10.], dtype='int')
             terrplant_empty.ec25_nonlisted_seedling_emergence_dicot = pd.Series([0.02], dtype='float')
             result = terrplant_empty.nds_rq_semi()
             npt.assert_array_almost_equal(result, 500., 4, '', True)
@@ -421,7 +421,7 @@ class TestTerrplant(unittest.TestCase):
         """
         #self.out_lds_rq_dry = self.out_totaldry/self.noaec_listed_seedling_emergence_dicot
         try:
-            terrplant_empty.out_totaldry = pd.Series([5.5], dtype='float')
+            terrplant_empty.out_total_dry = pd.Series([5.5], dtype='float')
             terrplant_empty.noaec_listed_seedling_emergence_dicot = pd.Series([0.1], dtype='float')
             result = terrplant_empty.lds_rq_dry()
             npt.assert_array_almost_equal(result, 55., 4, '', True)
@@ -454,7 +454,7 @@ class TestTerrplant(unittest.TestCase):
         """
         #self.out_lds_rq_semi = self.out_totalsemi/self.noaec_listed_seedling_emergence_dicot
         try:
-            terrplant_empty.out_totalsemi = pd.Series([10.], dtype='int')
+            terrplant_empty.out_total_semi = pd.Series([10.], dtype='int')
             terrplant_empty.noaec_listed_seedling_emergence_dicot = pd.Series([0.1], dtype='float')
             result = terrplant_empty.lds_rq_semi()
             npt.assert_array_almost_equal(result, 100., 4, '', True)

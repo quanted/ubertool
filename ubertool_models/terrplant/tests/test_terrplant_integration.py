@@ -57,7 +57,7 @@ finally:
 # create an instance of terrplant object with qaqc data
 terrplant_calc = Terrplant(pd_obj_inputs, pd_obj_exp)
 terrplant_calc.execute_model()
-inputs_json, outputs_json, exp_out_json = sip_calc.get_dict_rep(terrplant_calc)
+inputs_json, outputs_json, exp_out_json = terrplant_calc.get_dict_rep(terrplant_calc)
 print("terrplant output")
 print(inputs_json)
 print("####")
@@ -88,7 +88,7 @@ class TestTerrplant(unittest.TestCase):
         Integration test for terrplant.rundry
         """
         try:
-            self.blackbox_method_int('rundry')
+            self.blackbox_method_int('run_dry')
         finally:
             pass
         return
@@ -98,7 +98,7 @@ class TestTerrplant(unittest.TestCase):
         Integration test for terrplant.runsemi
         """
         try:
-            self.blackbox_method_int('runsemi')
+            self.blackbox_method_int('run_semi')
         finally:
             pass
         return
@@ -117,7 +117,7 @@ class TestTerrplant(unittest.TestCase):
         Integration test for terrplant.totaldry
         """
         try:
-            self.blackbox_method_int('totaldry')
+            self.blackbox_method_int('total_dry')
         finally:
             pass
         return
@@ -126,7 +126,7 @@ class TestTerrplant(unittest.TestCase):
         Integration test for terrplant.totalsemi
         """
         try:
-            self.blackbox_method_int('totalsemi')
+            self.blackbox_method_int('total_semi')
         finally:
             pass
         return

@@ -192,10 +192,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         """
         Level of concern for non-listed monocot seedlings exposed to pesticide X in a dry area
         """
-        exceed_boolean = self.out_nms_rq_dry >= 1.0
-        self.out_nms_loc_dry = exceed_boolean.map(lambda x:
-                                                  'The risk quotient for non-listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates a potential risk.' if x == True
-                                                  else 'The risk quotient for non-listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal.')
+        msg_pass = "The risk quotient for non-listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates a potential risk."
+        msg_fail = "The risk quotient for non-listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal."
+        boo_ratios = [ratio >= 1.0 for ratio in self.out_nms_rq_dry]
+        self.out_nms_loc_dry = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #exceed_boolean = self.out_nms_rq_dry >= 1.0
+        #self.out_nms_loc_dry = exceed_boolean.map(lambda x:
+        #                                          'The risk quotient for non-listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates a potential risk.' if x == True
+        #                                          else 'The risk quotient for non-listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal.')
         return self.out_nms_loc_dry
 
     def nms_rq_semi(self):
@@ -209,10 +213,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         """
         Level of concern for non-listed monocot seedlings exposed to pesticide X in a semi-aquatic area
         """
-        exceed_boolean = self.out_nms_rq_semi >= 1.0
-        self.out_nms_loc_semi = exceed_boolean.map(lambda x:
-                                                   'The risk quotient for non-listed monocot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates a potential risk.' if x == True
-                                                   else 'The risk quotient for non-listed monocot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal.')
+        msg_pass = "The risk quotient for non-listed monocot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates a potential risk."
+        msg_fail = "The risk quotient for non-listed monocot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal."
+        boo_ratios = [ratio >= 1.0 for ratio in self.out_nms_rq_semi]
+        self.out_nms_loc_semi = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #exceed_boolean = self.out_nms_rq_semi >= 1.0
+        #self.out_nms_loc_semi = exceed_boolean.map(lambda x:
+        #                                           'The risk quotient for non-listed monocot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates a potential risk.' if x == True
+        #                                           else 'The risk quotient for non-listed monocot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal.')
         return self.out_nms_loc_semi
 
     def nms_rq_spray(self):
@@ -226,10 +234,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         """
         Level of concern for non-listed monocot seedlings exposed to pesticide via spray drift
         """
-        exceed_boolean = self.out_nms_rq_spray >= 1.0
-        self.out_nms_loc_spray = exceed_boolean.map(lambda x:
-                                                    'The risk quotient for non-listed monocot seedlings exposed to the pesticide via spray drift indicates a potential risk.' if x == True
-                                                    else 'The risk quotient for non-listed monocot seedlings exposed to the pesticide via spray drift indicates that potential risk is minimal.')
+        msg_pass = "The risk quotient for non-listed monocot seedlings exposed to the pesticide via spray drift indicates a potential risk."
+        msg_fail = "The risk quotient for non-listed monocot seedlings exposed to the pesticide via spray drift indicates that potential risk is minimal."
+        boo_ratios = [ratio >= 1.0 for ratio in self.out_nms_rq_spray]
+        self.out_nms_loc_spray = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #exceed_boolean = self.out_nms_rq_spray >= 1.0
+        #self.out_nms_loc_spray = exceed_boolean.map(lambda x:
+        #                                            'The risk quotient for non-listed monocot seedlings exposed to the pesticide via spray drift indicates a potential risk.' if x == True
+        #                                            else 'The risk quotient for non-listed monocot seedlings exposed to the pesticide via spray drift indicates that potential risk is minimal.')
         return self.out_nms_loc_spray
 
     def lms_rq_dry(self):
@@ -243,10 +255,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         """
         Level of concern for listed monocot seedlings exposed to pesticide via runoff in a dry area
         """
-        exceed_boolean = self.out_lms_rq_dry >= 1.0
-        self.out_lms_loc_dry = exceed_boolean.map(lambda x:
-                                                  'The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates a potential risk.' if x == True
-                                                  else 'The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal.')
+        msg_pass = "The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates a potential risk."
+        msg_fail = "The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal."
+        boo_ratios = [ratio >= 1.0 for ratio in self.out_lms_rq_dry]
+        self.out_lms_loc_dry = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #exceed_boolean = self.out_lms_rq_dry >= 1.0
+        #self.out_lms_loc_dry = exceed_boolean.map(lambda x:
+        #                                          'The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates a potential risk.' if x == True
+        #                                          else 'The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal.')
         return self.out_lms_loc_dry
 
     def lms_rq_semi(self):
@@ -260,10 +276,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         """
         Level of concern for listed monocot seedlings exposed to pesticide X in semi-aquatic areas
         """
-        exceed_boolean = self.out_lms_rq_semi >= 1.0
-        self.out_lms_loc_semi = exceed_boolean.map(lambda x:
-                                                   'The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates a potential risk.' if x == True
-                                                   else 'The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal.')
+        msg_pass = "The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates a potential risk."
+        msg_fail = "The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal."
+        boo_ratios = [ratio >= 1.0 for ratio in self.out_lms_rq_semi]
+        self.out_lms_loc_semi = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #exceed_boolean = self.out_lms_rq_semi >= 1.0
+        #self.out_lms_loc_semi = exceed_boolean.map(lambda x:
+        #                                           'The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates a potential risk.' if x == True
+        #                                           else 'The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal.')
         return self.out_lms_loc_semi
 
     def lms_rq_spray(self):
@@ -277,10 +297,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         """
         Level of concern for listed monocot seedlings exposed to pesticide X via spray drift
         """
-        exceed_boolean = self.out_lms_rq_spray >= 1.0
-        self.out_lms_loc_spray = exceed_boolean.map(lambda x:
-                                                    'The risk quotient for listed monocot seedlings exposed to the pesticide via spray drift indicates a potential risk.' if x == True
-                                                    else 'The risk quotient for listed monocot seedlings exposed to the pesticide via spray drift indicates that potential risk is minimal.')
+        msg_pass = "The risk quotient for listed monocot seedlings exposed to the pesticide via spray drift indicates a potential risk."
+        msg_fail = "The risk quotient for listed monocot seedlings exposed to the pesticide via spray drift indicates that potential risk is minimal."
+        boo_ratios = [ratio >= 1.0 for ratio in self.out_lms_rq_spray]
+        self.out_lms_loc_spray = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #exceed_boolean = self.out_lms_rq_spray >= 1.0
+        #self.out_lms_loc_spray = exceed_boolean.map(lambda x:
+        #                                            'The risk quotient for listed monocot seedlings exposed to the pesticide via spray drift indicates a potential risk.' if x == True
+        #                                            else 'The risk quotient for listed monocot seedlings exposed to the pesticide via spray drift indicates that potential risk is minimal.')
         return self.out_lms_loc_spray
 
     def nds_rq_dry(self):
@@ -294,10 +318,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         """
         Level of concern for non-listed dicot seedlings exposed to pesticide X in dry areas
         """
-        exceed_boolean = self.out_nds_rq_dry >= 1.0
-        self.out_nds_loc_dry = exceed_boolean.map(lambda x:
-                                                  'The risk quotient for non-listed dicot seedlings exposed to the pesticide via runoff to dry areas indicates a potential risk.' if x == True
-                                                  else 'The risk quotient for non-listed dicot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal.')
+        msg_pass = "The risk quotient for non-listed dicot seedlings exposed to the pesticide via runoff to dry areas indicates a potential risk."
+        msg_fail = "The risk quotient for non-listed dicot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal."
+        boo_ratios = [ratio >= 1.0 for ratio in self.out_nds_rq_dry]
+        self.out_nds_loc_dry = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #exceed_boolean = self.out_nds_rq_dry >= 1.0
+        #self.out_nds_loc_dry = exceed_boolean.map(lambda x:
+        #                                          'The risk quotient for non-listed dicot seedlings exposed to the pesticide via runoff to dry areas indicates a potential risk.' if x == True
+        #                                          else 'The risk quotient for non-listed dicot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal.')
         return self.out_nds_loc_dry
 
     def nds_rq_semi(self):
@@ -311,10 +339,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         """
         Level of concern for non-listed dicot seedlings exposed to pesticide X in semi-aquatic areas
         """
-        exceed_boolean = self.out_nds_rq_semi >= 1.0
-        self.out_nds_loc_semi = exceed_boolean.map(lambda x:
-                                                   'The risk quotient for non-listed dicot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates a potential risk.' if x == True
-                                                   else 'The risk quotient for non-listed dicot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal.')
+        msg_pass = "The risk quotient for non-listed dicot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates a potential risk."
+        msg_fail = "The risk quotient for non-listed dicot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal."
+        boo_ratios = [ratio >= 1.0 for ratio in self.out_nds_rq_semi]
+        self.out_nds_loc_semi = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #exceed_boolean = self.out_nds_rq_semi >= 1.0
+        #self.out_nds_loc_semi = exceed_boolean.map(lambda x:
+        #                                           'The risk quotient for non-listed dicot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates a potential risk.' if x == True
+        #                                           else 'The risk quotient for non-listed dicot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal.')
         return self.out_nds_loc_semi
 
     def nds_rq_spray(self):
@@ -328,10 +360,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         """
         Level of concern for non-listed dicot seedlings exposed to pesticide X via spray drift
         """
-        exceed_boolean = self.out_nds_rq_spray >= 1.0
-        self.out_nds_loc_spray = exceed_boolean.map(lambda x:
-                                                    'The risk quotient for non-listed dicot seedlings exposed to the pesticide via spray drift indicates a potential risk.' if x == True
-                                                    else 'The risk quotient for non-listed dicot seedlings exposed to the pesticide via spray drift indicates that potential risk is minimal.')
+        msg_pass = "The risk quotient for non-listed dicot seedlings exposed to the pesticide via spray drift indicates a potential risk."
+        msg_fail = "The risk quotient for non-listed dicot seedlings exposed to the pesticide via spray drift indicates that potential risk is minimal."
+        boo_ratios = [ratio >= 1.0 for ratio in self.out_nds_rq_spray]
+        self.out_nds_loc_spray = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #exceed_boolean = self.out_nds_rq_spray >= 1.0
+        #self.out_nds_loc_spray = exceed_boolean.map(lambda x:
+        #                                            'The risk quotient for non-listed dicot seedlings exposed to the pesticide via spray drift indicates a potential risk.' if x == True
+        #                                            else 'The risk quotient for non-listed dicot seedlings exposed to the pesticide via spray drift indicates that potential risk is minimal.')
         return self.out_nds_loc_spray
 
     def lds_rq_dry(self):
@@ -345,10 +381,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         """
         Level of concern for listed dicot seedlings exposed to pesticideX in dry areas
         """
-        exceed_boolean = self.out_lds_rq_dry >= 1.0
-        self.out_lds_loc_dry = exceed_boolean.map(lambda x:
-                                                  'The risk quotient for listed dicot seedlings exposed to the pesticide via runoff to dry areas indicates a potential risk.' if x == True
-                                                  else 'The risk quotient for listed dicot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal.')
+        msg_pass = "The risk quotient for listed dicot seedlings exposed to the pesticide via runoff to dry areas indicates a potential risk."
+        msg_fail = "The risk quotient for listed dicot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal."
+        boo_ratios = [ratio >= 1.0 for ratio in self.out_lds_rq_dry]
+        self.out_lds_loc_dry = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #exceed_boolean = self.out_lds_rq_dry >= 1.0
+        #self.out_lds_loc_dry = exceed_boolean.map(lambda x:
+        #                                          'The risk quotient for listed dicot seedlings exposed to the pesticide via runoff to dry areas indicates a potential risk.' if x == True
+        #                                          else 'The risk quotient for listed dicot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal.')
         return self.out_lds_loc_dry
 
     def lds_rq_semi(self):
@@ -362,10 +402,14 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         """
         Level of concern for listed dicot seedlings exposed to pesticide X in dry areas
         """
-        exceed_boolean = self.out_lds_rq_semi >= 1.0
-        self.out_lds_loc_semi = exceed_boolean.map(lambda x:
-                                                   'The risk quotient for listed dicot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates a potential risk.' if x == True
-                                                   else 'The risk quotient for listed dicot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal.')
+        msg_pass = "The risk quotient for listed dicot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates a potential risk."
+        msg_fail = "The risk quotient for listed dicot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal."
+        boo_ratios = [ratio >= 1.0 for ratio in self.out_lds_rq_semi]
+        self.out_lds_loc_semi = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #exceed_boolean = self.out_lds_rq_semi >= 1.0
+        #self.out_lds_loc_semi = exceed_boolean.map(lambda x:
+        #                                           'The risk quotient for listed dicot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates a potential risk.' if x == True
+        #                                           else 'The risk quotient for listed dicot seedlings exposed to the pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal.')
         return self.out_lds_loc_semi
 
     def lds_rq_spray(self):
@@ -379,13 +423,15 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs):
         """
         Level of concern for listed dicot seedlings exposed to pesticide X via spray drift
         """
-        exceed_boolean = self.out_lds_rq_spray >= 1.0
-        self.out_lds_loc_spray = exceed_boolean.map(
-                lambda
-                    x: 'The risk quotient for listed dicot seedlings exposed to the pesticide via spray drift indicates '
-                       'a potential risk.' if x == True else 'The risk quotient for listed dicot seedlings exposed to '
-                                                             'the pesticide via spray drift indicates that potential '
-                                                             'risk is minimal.')
+        msg_pass = "The risk quotient for listed dicot seedlings exposed to the pesticide via spray drift indicates a potential risk."
+        msg_fail = "The risk quotient for listed dicot seedlings exposed to the pesticide via spray drift indicates that potential risk is minimal."
+        boo_ratios = [ratio >= 1.0 for ratio in self.out_lds_rq_spray]
+        self.out_lds_loc_spray = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
+        #exceed_boolean = self.out_lds_rq_spray >= 1.0
+        #self.out_lds_loc_spray = exceed_boolean.map(
+        #        lambda x:
+        #           'The risk quotient for listed dicot seedlings exposed to the pesticide via spray drift indicates a potential risk.' if x == True
+        #           else 'The risk quotient for listed dicot seedlings exposed to the pesticide via spray drift indicates that potential risk is minimal.')
         return self.out_lds_loc_spray
 
     def min_nms_spray(self):
