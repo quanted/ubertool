@@ -1,6 +1,5 @@
-terrplant_property,description,units,type,valid_range,run1,run2,run3,run4,run5,run6,run7,run8,run9,run10,run11,run12
-model,model,na,string,na,terrplant,terrplant,terrplant,terrplant,terrplant,terrplant,terrplant,terrplant,terrplant,terrplant,terrplant,terrplant
-version_terrplant,version_terrplant,na,string,na,1.2.2,1.2.2,1.2.2,1.2.3,1.2.4,1.2.5,1.2.6,1.2.7,1.2.8,1.2.9,1.2.10,1.2.11
+,description,units,type,valid_range,run1,run2,run3,run4,run5,run6,run7,run8,run9,run10,run11,run12
+version,version,na,string,na,1.2.2,1.2.2,1.2.2,1.2.3,1.2.4,1.2.5,1.2.6,1.2.7,1.2.8,1.2.9,1.2.10,1.2.11
 chemical_name,chemical_name,na,string,na,Alachlor,Alachlor,Alachlor,Mesotrione,Mesotrione,Mesotrione,Mesotrione,Mesotrione,Profenofos,Dicamba,Picloram K Salt,Picloram K Salt
 pc_code,pc_code,na,string,na,90501,90501,90501,122990,122990,122990,122990,122990,111401,128931,5104,5104
 use,use,na,string,na,Corn,Corn,Corn,Corn,Corn,Corn,Corn,Corn,Cotton,Cotton,Ag Fallow/Conservation Reserve/Pasture,Ag Fallow/Conservation Reserve/Pasture
@@ -23,11 +22,11 @@ out_min_nms_spray,out_min_nms_spray,lbs ai/acre,float,[0_inf),,,,,,,,,,,,
 out_min_lms_spray,out_min_lms_spray,lbs ai/acre,float,[0_inf),,,,,,,,,,,,
 out_min_nds_spray,out_min_nds_spray,lbs ai/acre,float,[0_inf),,,,,,,,,,,,
 out_min_lds_spray,out_min_lds_spray,lbs ai/acre,float,[0_inf),,,,,,,,,,,,
-out_rundry,out_rundry,lbs ai/A,float,[0_inf),,,,,,,,,,,,
-out_runsemi,out_runsemi,lbs ai/A,float,[0_inf),,,,,,,,,,,,
+out_run_dry,out_run_dry,lbs ai/A,float,[0_inf),,,,,,,,,,,,
+out_run_semi,out_run_semi,lbs ai/A,float,[0_inf),,,,,,,,,,,,
 out_spray,out_spray,lbs ai/A,float,[0_inf),,,,,,,,,,,,
-out_totaldry,out_totaldry,lbs ai/A,float,[0_inf),,,,,,,,,,,,
-out_totalsemi,out_totalsemi,lbs ai/A,float,[0_inf),,,,,,,,,,,,
+out_total_dry,out_total_dry,lbs ai/A,float,[0_inf),,,,,,,,,,,,
+out_total_semi,out_total_semi,lbs ai/A,float,[0_inf),,,,,,,,,,,,
 out_nms_rq_dry,out_nms_rq_dry,unitless,float,[0_inf),,,,,,,,,,,,
 out_lms_rq_dry,out_lms_rq_dry,unitless,float,[0_inf),,,,,,,,,,,,
 out_nds_rq_dry,out_nds_rq_dry,unitless,float,[0_inf),,,,,,,,,,,,
