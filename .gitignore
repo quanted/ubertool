@@ -1,4 +1,5 @@
 # custom
+*ipynb_checkpoints
 .idea/*
 .DS_Store
 
