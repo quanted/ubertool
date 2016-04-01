@@ -73,6 +73,7 @@ class Earthworm(UberModel, EarthwormInputs, EarthwormOutputs):
         """
         most recent version of EFED equation circa 3-26-2013 is implemented in the formula below
         model runs documented in ubertool crosswalk use the EFED model in "earthworm models 3-26-13b.xlsx"
+        in this calculatoin Cw (concentration of pesticide in pore water) is assumed to be 0.0 mol/m3
         """
         self.out_earthworm_fugacity = self.k_ow * self.l_f_e * (self.c_s / (self.k_d * self.p_s))
         return self.out_earthworm_fugacity

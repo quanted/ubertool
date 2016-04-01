@@ -42,14 +42,15 @@ class TestEarthworm(unittest.TestCase):
         Test the only real earthworm method.
         :return:
         """
+        expected_results = [0.73699363, 1.908571, 5.194805]
         try:
-            earthworm_empty.k_ow = pd.Series([1])
-            earthworm_empty.l_f_e = pd.Series([0.01])
-            earthworm_empty.c_s = pd.Series([0.038692165])
-            earthworm_empty.k_d = pd.Series([0.0035])
-            earthworm_empty.p_s = pd.Series([1.5])
+            earthworm_empty.k_ow = pd.Series([10.0, 100.0, 1000.0  ])
+            earthworm_empty.l_f_e = pd.Series([0.01, 0.02, 0.03])
+            earthworm_empty.c_s = pd.Series([0.038692165, 0.05344, 0.10])
+            earthworm_empty.k_d = pd.Series([0.0035, 0.035, 0.35])
+            earthworm_empty.p_s = pd.Series([1.5, 1.60, 1.65])
             result = earthworm_empty.earthworm_fugacity()
-            npt.assert_array_almost_equal(result,0.073699363, 4, '', True)
+            npt.assert_array_almost_equal(result,expected_results, 5, '', True)
         finally:
             pass
         return
