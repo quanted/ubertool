@@ -37,8 +37,8 @@ class UberModel(object):
             df[input_param] = getattr(self, input_param)
 
         # Compare column names of temporary DataFrame (created above) to user-supply DataFrame from JSON
-        print "Expected:", df.columns.order()
-        print "User Ins:", pd_obj.columns.order()
+        #logging.info("Expected: ", str(df.columns.order()))
+        #logging.info("User Ins: ", str(pd_obj.columns.order()))
         if df.columns.order().equals(pd_obj.columns.order()):
             # If the user-supplied DataFrame has the same column names as required by TerrplantInputs...
             # set each Series in the DataFrame to the corresponding TerrplantInputs attribute (member variable)

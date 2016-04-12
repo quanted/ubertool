@@ -53,7 +53,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.incorporation_depth = pd.Series([2, 1, 4], dtype='int')
             terrplant_empty.runoff_fraction = pd.Series([0.1, 0.21, 0.432 ], dtype='float')
             result = terrplant_empty.run_dry()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -69,7 +69,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.incorporation_depth = pd.Series([2, 4, 3], dtype='int')
             terrplant_empty.runoff_fraction = pd.Series([0.1, 0.05, 0.19], dtype='float')
             result = terrplant_empty.run_semi()
-            npt.assert_array_almost_equal(result,expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -84,7 +84,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.application_rate = pd.Series([10, 20, 30], dtype='int')
             terrplant_empty.drift_fraction = pd.Series([0.5, .268, 0.635], dtype='float')
             result = terrplant_empty.spray()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -99,7 +99,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_run_dry = pd.Series([0.5, 3.65, 12.32], dtype='float')
             terrplant_empty.out_spray = pd.Series([5.0, 12.0, 23.0], dtype='float')
             result = terrplant_empty.total_dry()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -114,7 +114,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_run_semi = pd.Series([5.0, 12.32, 59.439], dtype='float')
             terrplant_empty.out_spray = pd.Series([0.034, 34.2, 12.23], dtype='float')
             result = terrplant_empty.total_semi()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -129,7 +129,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_total_dry = pd.Series([5.5, 17.89, 23.12345], dtype='float')
             terrplant_empty.ec25_nonlisted_seedling_emergence_monocot = pd.Series([0.05, 12.32, 345.231], dtype='float')
             result = terrplant_empty.nms_rq_dry()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
 
         finally:
             pass
@@ -170,7 +170,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_total_semi = pd.Series([10., 1.234, 23.984], dtype='float')
             terrplant_empty.ec25_nonlisted_seedling_emergence_monocot = pd.Series([0.05, 0.294, 1.482], dtype='float')
             result = terrplant_empty.nms_rq_semi()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -210,7 +210,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_spray = pd.Series([5.045, 2.43565, 9.04332], dtype='float')
             terrplant_empty.out_min_nms_spray = pd.Series([0.02341, 1.2842, 0.54474], dtype='float')
             result = terrplant_empty.nms_rq_spray()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -248,7 +248,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_total_dry = pd.Series([5.5, 1.094, 19.5436], dtype='float')
             terrplant_empty.noaec_listed_seedling_emergence_monocot = pd.Series([0.01, 0.3215, 0.08349], dtype='float')
             result = terrplant_empty.lms_rq_dry()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -287,7 +287,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_total_semi = pd.Series([10., 0.099, 24.5467], dtype='float')
             terrplant_empty.noaec_listed_seedling_emergence_monocot = pd.Series([0.01, 4.556, 0.34], dtype='float')
             result = terrplant_empty.lms_rq_semi()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -326,7 +326,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_spray = pd.Series([5., 9.1231, 0.09231], dtype='float')
             terrplant_empty.out_min_lms_spray = pd.Series([0.01, 2.43, 1.93429], dtype='float')
             result = terrplant_empty.lms_rq_spray()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -366,7 +366,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_total_dry = pd.Series([5.5, 1.0023, 19.32436], dtype='float')
             terrplant_empty.ec25_nonlisted_seedling_emergence_dicot = pd.Series([0.02, 0.99, 2.1324], dtype='float')
             result = terrplant_empty.nds_rq_dry()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -406,7 +406,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_total_semi = pd.Series([10., 3.4295, 12.82323], dtype='float')
             terrplant_empty.ec25_nonlisted_seedling_emergence_dicot = pd.Series([0.02, 0.99, 12.8234], dtype='float')
             result = terrplant_empty.nds_rq_semi()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -446,7 +446,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_spray = pd.Series([5., 0.9912, 23.9321], dtype='float')
             terrplant_empty.out_min_nds_spray = pd.Series([0.02123, 3.8347, 12.0012], dtype='float')
             result = terrplant_empty.nds_rq_spray()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -485,7 +485,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_total_dry = pd.Series([5.5, 0.991843, 12.7643], dtype='float')
             terrplant_empty.noaec_listed_seedling_emergence_dicot = pd.Series([0.1, .99, 2.112], dtype='float')
             result = terrplant_empty.lds_rq_dry()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -525,7 +525,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_total_semi = pd.Series([10., 0.8632, 34.2321], dtype='float')
             terrplant_empty.noaec_listed_seedling_emergence_dicot = pd.Series([0.1, 0.000345, 2.12846], dtype='float')
             result = terrplant_empty.lds_rq_semi()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -565,7 +565,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.out_spray = pd.Series([5.0, 0.94435, 12.7283], dtype='float')
             terrplant_empty.out_min_lds_spray = pd.Series([0.02, 1.329, 9.8823], dtype='float')
             result = terrplant_empty.lds_rq_spray()
-            npt.assert_array_almost_equal(result, expected_results, True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -604,7 +604,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.ec25_nonlisted_seedling_emergence_monocot = pd.Series([0.0501, 1.0004, 12.943], dtype='float')
             terrplant_empty.ec25_nonlisted_vegetative_vigor_monocot = pd.Series([0.0801, 0.9999, 1.9450], dtype='float')
             result = terrplant_empty.min_nms_spray()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -618,7 +618,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.noaec_listed_vegetative_vigor_monocot = pd.Series([0.0211, 1.9234, 0.001112], dtype='float')
             terrplant_empty.noaec_listed_seedling_emergence_monocot = pd.Series([0.0205, 3.231, 0.000453], dtype='float')
             result = terrplant_empty.min_lms_spray()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -632,7 +632,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.ec25_nonlisted_vegetative_vigor_dicot = pd.Series([0.0325, 3.432, 1.3456], dtype='float')
             terrplant_empty.ec25_nonlisted_seedling_emergence_dicot = pd.Series([0.5022, 0.00342, 1.34567], dtype='float')
             result = terrplant_empty.min_nds_spray()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -646,7 +646,7 @@ class TestTerrplant(unittest.TestCase):
             terrplant_empty.noaec_listed_seedling_emergence_dicot = pd.Series([0.3206, 1.0032, 43.4294], dtype='float')
             terrplant_empty.noaec_listed_vegetative_vigor_dicot = pd.Series([0.5872, 1.00319, 12.32], dtype='float')
             result = terrplant_empty.min_lds_spray()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return

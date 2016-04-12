@@ -43,13 +43,14 @@ class TestIEC(unittest.TestCase):
         unittest for function iec.z_score_f:
         :return:
         """
+        expected_results = [-0.5546622, 0.1524928, 5.861204]
         try:
-            iec_empty.threshold = pd.Series([0.6])
-            iec_empty.lc50 = pd.Series([3])
-            iec_empty.dose_response = pd.Series([2.5])
+            iec_empty.threshold = pd.Series([0.6, 1.45, 4.39], dtype='float')
+            iec_empty.lc50 = pd.Series([3.0, 1.834, 6.83], dtype='float')
+            iec_empty.dose_response = pd.Series([2.5, 0.945, 9.123], dtype='float')
             result = iec_empty.z_score_f()
             #npt.assert_array_almost_equal(result, -0.554622, 4, '', True)
-            npt.assert_allclose(result,-0.554622,rtol,0,'',True)
+            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             pass
         return
@@ -58,11 +59,12 @@ class TestIEC(unittest.TestCase):
         """
         unittest for function iec.f8_f:
         """
+        expected_results = [0.19215, 0.674726, 0.130719]
         try:
-            iec_empty.z_score_f_out = pd.Series([-0.87])
+            iec_empty.out_z_score_f = pd.Series([-0.87, 0.453, -1.123])
             result = iec_empty.f8_f()
             #npt.assert_array_almost_equal(result, 0.19215, 4, '', True)
-            npt.assert_allclose(result,0.19215,rtol,0,'',True)
+            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             pass
         return
@@ -71,11 +73,12 @@ class TestIEC(unittest.TestCase):
         """
         unittest for function iec.chance_f:
         """
+        expected_results = [2.941176, 0.722543, 0.0816787]
         try:
-            iec_empty.f8_f_out = pd.Series([0.34])
+            iec_empty.out_f8_f = pd.Series([0.34, 1.384, 11.342])
             result = iec_empty.chance_f()
             #npt.assert_array_almost_equal(result, 2.941176, 4, '', True)
-            npt.assert_allclose(result,2.941176,rtol,0,'',True)
+            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             pass
         return

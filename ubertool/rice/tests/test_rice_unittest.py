@@ -52,7 +52,7 @@ class TestRice(unittest.TestCase):
             rice_empty.pb = pd.Series([1.0, 1.5, 2.0], dtype='float')
 
             result = rice_empty.calc_msed()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -71,7 +71,7 @@ class TestRice(unittest.TestCase):
             rice_empty.osed = pd.Series([0.389, 0.459, 0.582], dtype='float')
 
             result = rice_empty.calc_vw()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -87,7 +87,7 @@ class TestRice(unittest.TestCase):
             rice_empty.area = pd.Series([10.0, 345.3, 23.437], dtype='float')
             rice_empty.mai = pd.Series([8.96, 90.0, 324.76], dtype='float')
             result = rice_empty.calc_mass_area()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -107,7 +107,7 @@ class TestRice(unittest.TestCase):
             rice_empty.kd = pd.Series([10.0, 10000.0, 100000.0], dtype='float')
             rice_empty.out_mass_area = pd.Series([8.96, 90.0, 324.76], dtype='float')
             result = rice_empty.calc_cw()
-            npt.assert_array_almost_equal(result, expected_results, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return

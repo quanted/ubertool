@@ -50,7 +50,7 @@ class TestEarthworm(unittest.TestCase):
             earthworm_empty.k_d = pd.Series([0.0035, 0.035, 0.35])
             earthworm_empty.p_s = pd.Series([1.5, 1.60, 1.65])
             result = earthworm_empty.earthworm_fugacity()
-            npt.assert_array_almost_equal(result,expected_results, 5, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return

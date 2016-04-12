@@ -49,11 +49,12 @@ class TestStir(unittest.TestCase):
         :return:
         """
         # self.out_sat_air_conc = (self.vapor_pressure * self.molecular_weight * conv)/(pressure * air_vol)
+        expected_results = [0.086105, 0.4238209,0.048933]
         try:
-            stir_empty.vapor_pressure = pd.Series([0.000008])
-            stir_empty.molecular_weight = pd.Series([200.])
+            stir_empty.vapor_pressure = pd.Series([0.000008, .00008, .0000048], dtype='float')
+            stir_empty.molecular_weight = pd.Series([200., 98.443, 189.433], dtype='float')
             result = stir_empty.calc_sat_air_conc()
-            npt.assert_array_almost_equal(result, 0.086105, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -65,10 +66,11 @@ class TestStir(unittest.TestCase):
         :return:
         """
         # self.out_inh_rate_avian = magic1 * (self.body_weight_assessed_bird**magic2) * conversion * activity_factor
+        expected_results = [5090.9373, 29977.66, 52038.63]
         try:
-            stir_empty.body_weight_assessed_bird = pd.Series([0.05])
+            stir_empty.body_weight_assessed_bird = pd.Series([0.05, 0.5, 1.0234], dtype='float')
             result = stir_empty.calc_inh_rate_avian()
-            npt.assert_array_almost_equal(result, 5090.9373, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -80,12 +82,13 @@ class TestStir(unittest.TestCase):
         :return:
         """
         # self.out_vid_avian = (self.out_sat_air_conc * self.out_inh_rate_avian * duration_hours)/(conversion_factor * self.body_weight_assessed_bird)
+        expected_results = [0.04, 0.0008686, 0.000532904]
         try:
-            stir_empty.out_sat_air_conc = pd.Series([200.])
-            stir_empty.out_inh_rate_avian = pd.Series([10.])
-            stir_empty.body_weight_assessed_bird = pd.Series([0.05])
+            stir_empty.out_sat_air_conc = pd.Series([200., 100., 397.994], dtype='float')
+            stir_empty.out_inh_rate_avian = pd.Series([10., 4.343, 1.3845], dtype='float')
+            stir_empty.body_weight_assessed_bird = pd.Series([0.05, 0.5, 1.034], dtype='float')
             result = stir_empty.calc_vid_avian()
-            npt.assert_array_almost_equal(result, 0.04, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -97,10 +100,12 @@ class TestStir(unittest.TestCase):
         :return:
         """
         # self.out_inh_rate_mammal = magic1 * (self.body_weight_assessed_mammal**magic2) * minutes_conversion * activity_factor
+        expected_results = [9044.4821, 63984.25, 127862.3]
         try:
-            stir_empty.body_weight_assessed_mammal = pd.Series([0.08])
+            stir_empty.body_weight_assessed_mammal = pd.Series([0.08, 0.923, 2.193], dtype='float')
             result = stir_empty.calc_inh_rate_mammal()
-            npt.assert_array_almost_equal(result, 9044.4821, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
+
         finally:
             pass
         return
@@ -112,12 +117,13 @@ class TestStir(unittest.TestCase):
         :return:
         """
         # self.out_vid_mammal = (self.out_sat_air_conc * self.out_inh_rate_mammal * duration_hours)/(conversion_factor * self.body_weight_assessed_mammal)
+        expected_results = [0.0625, 0.0343144, 0.000163607]
         try:
-            stir_empty.out_sat_air_conc = pd.Series([100.])
-            stir_empty.out_inh_rate_mammal = pd.Series([50.])
-            stir_empty.body_weight_assessed_mammal = pd.Series([0.08])
+            stir_empty.out_sat_air_conc = pd.Series([100., 329.432, 45.777], dtype='float')
+            stir_empty.out_inh_rate_mammal = pd.Series([50., 83.33, 12.291], dtype='float')
+            stir_empty.body_weight_assessed_mammal = pd.Series([0.08, 0.8, 3.439], dtype='float')
             result = stir_empty.calc_vid_mammal()
-            npt.assert_array_almost_equal(result, 0.0625, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -133,11 +139,12 @@ class TestStir(unittest.TestCase):
         # cf_mg_g = 1000.
         # cf_cm2_acre = 40468564.2
         # self.out_air_conc = ((self.application_rate*cf_g_lbs*cf_mg_g)/cf_cm2_acre)/(self.column_height * conversion_factor)
+        expected_results = [0.000112085, 0.0000587687, 0.001816198]
         try:
-            stir_empty.application_rate = pd.Series([2.])
-            stir_empty.column_height = pd.Series([2.])
+            stir_empty.application_rate = pd.Series([2., 12.2293, 4.7639], dtype='float')
+            stir_empty.column_height = pd.Series([2., 23.324, 0.294 ], dtype='float')
             result = stir_empty.calc_conc_air()
-            npt.assert_array_almost_equal(result, 0.0001121, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -149,14 +156,16 @@ class TestStir(unittest.TestCase):
         :return:
         """
         # self.out_sid_avian = (self.out_air_conc * self.out_inh_rate_avian * self.direct_spray_duration * self.spray_drift_fraction)/(60.0 * self.body_weight_assessed_bird)
+
+        expected_results = [468.75, 4.872462, 2341.357]
         try:
-            stir_empty.out_air_conc = pd.Series([150.])
-            stir_empty.out_inh_rate_avian = pd.Series([10.])
-            stir_empty.direct_spray_duration = pd.Series([0.5])
-            stir_empty.spray_drift_fraction = pd.Series([0.75])
-            stir_empty.body_weight_assessed_bird = pd.Series([0.02])
+            stir_empty.out_air_conc = pd.Series([150., 82.343, 3832.342], dtype='float')
+            stir_empty.out_inh_rate_avian = pd.Series([10., 2.023, 21.8392], dtype='float')
+            stir_empty.direct_spray_duration = pd.Series([0.5, 1.5, 4.34], dtype='float')
+            stir_empty.spray_drift_fraction = pd.Series([0.75, 0.234, 0.823], dtype='float')
+            stir_empty.body_weight_assessed_bird = pd.Series([0.02, 0.2, 2.128], dtype='float')
             result = stir_empty.calc_sid_avian()
-            npt.assert_array_almost_equal(result, 468.75, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -168,14 +177,16 @@ class TestStir(unittest.TestCase):
         :return:
         """
         # self.out_sid_mammal = (self.out_air_conc * self.out_inh_rate_mammal * self.direct_spray_duration * self.spray_drift_fraction)/(60.0 * self.body_weight_assessed_mammal)
+
+        expected_results = [585.9375, 26.88064, 52.017548]
         try:
-            stir_empty.out_air_conc = pd.Series([150.])
-            stir_empty.out_inh_rate_mammal = pd.Series([50.])
-            stir_empty.direct_spray_duration = pd.Series([0.5])
-            stir_empty.spray_drift_fraction = pd.Series([0.75])
-            stir_empty.body_weight_assessed_mammal = pd.Series([0.08])
+            stir_empty.out_air_conc = pd.Series([150., 84.234, 394.223], dtype='float')
+            stir_empty.out_inh_rate_mammal = pd.Series([50., 34.734, 10.293], dtype='float')
+            stir_empty.direct_spray_duration = pd.Series([0.5, 1.5, 3.423], dtype='float')
+            stir_empty.spray_drift_fraction = pd.Series([0.75, 0.294, 0.493], dtype='float')
+            stir_empty.body_weight_assessed_mammal = pd.Series([0.08, 0.8, 2.194], dtype='float')
             result = stir_empty.calc_sid_mammal()
-            npt.assert_array_almost_equal(result, 585.9375, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -189,13 +200,14 @@ class TestStir(unittest.TestCase):
         # activity_factor = 1.
         # absorption = 1.
         # self.out_mammal_inhalation_ld50 = self.mammal_inhalation_lc50 * absorption * ((self.out_inh_rate_mammal * 0.001)/self.body_weight_tested_mammal) * self.duration_mammal_inhalation_study * activity_factor
+        expected_results = [0.14286, 0.04316245, 0.1722205]
         try:
-            stir_empty.mammal_inhalation_lc50 = pd.Series([0.5])
-            stir_empty.out_inh_rate_mammal = pd.Series([50.])
-            stir_empty.body_weight_tested_mammal = pd.Series([0.35])
-            stir_empty.duration_mammal_inhalation_study = pd.Series([2.])
+            stir_empty.mammal_inhalation_lc50 = pd.Series([0.5, 0.83, 2.834], dtype='float')
+            stir_empty.out_inh_rate_mammal = pd.Series([50., 5.543, 73.334], dtype='float')
+            stir_empty.body_weight_tested_mammal = pd.Series([0.35, 1.292, 4.221], dtype='float')
+            stir_empty.duration_mammal_inhalation_study = pd.Series([2., 12.1212, 3.4978], dtype='float')
             result = stir_empty.calc_convert_mammal_inhalation_lc50_to_ld50()
-            npt.assert_array_almost_equal(result, 0.14286, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -207,12 +219,13 @@ class TestStir(unittest.TestCase):
         :return:
         """
         # self.out_adjusted_mammal_inhalation_ld50 = self.out_mammal_inhalation_ld50 * (self.body_weight_tested_mammal/self.body_weight_assessed_mammal)**magicpower
+        expected_results = [2.3003, 14.62509, 3.941703]
         try:
-            stir_empty.out_mammal_inhalation_ld50 = pd.Series([2.])
-            stir_empty.body_weight_tested_mammal = pd.Series([0.35])
-            stir_empty.body_weight_assessed_mammal = pd.Series([0.2])
+            stir_empty.out_mammal_inhalation_ld50 = pd.Series([2., 13.834, 3.840], dtype='float')
+            stir_empty.body_weight_tested_mammal = pd.Series([0.35, 3.54, 8.209], dtype='float')
+            stir_empty.body_weight_assessed_mammal = pd.Series([0.2, 2.834, 7.394], dtype='float')
             result = stir_empty.calc_adjusted_mammal_inhalation_ld50()
-            npt.assert_array_almost_equal(result, 2.3003, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -225,12 +238,13 @@ class TestStir(unittest.TestCase):
         """
         # three_five = 3.5
         # self.out_estimated_avian_inhalation_ld50 = (self.avian_oral_ld50 * self.out_mammal_inhalation_ld50)/(three_five * self.mammal_oral_ld50)
+        expected_results = [14.2857, 27.83401, 38.32042]
         try:
-            stir_empty.avian_oral_ld50 = pd.Series([500.])
-            stir_empty.out_mammal_inhalation_ld50 = pd.Series([2.])
-            stir_empty.mammal_oral_ld50 = pd.Series([20.])
+            stir_empty.avian_oral_ld50 = pd.Series([500., 175., 750.], dtype='float')
+            stir_empty.out_mammal_inhalation_ld50 = pd.Series([2., 5.5, 10.43], dtype='float')
+            stir_empty.mammal_oral_ld50 = pd.Series([20., 9.88, 58.324], dtype='float')
             result = stir_empty.calc_estimated_avian_inhalation_ld50()
-            npt.assert_array_almost_equal(result, 14.2857, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -242,13 +256,14 @@ class TestStir(unittest.TestCase):
         :return:
         """
         # self.out_adjusted_avian_inhalation_ld50 = self.out_estimated_avian_inhalation_ld50 * (self.body_weight_assessed_bird/self.body_weight_tested_bird)**(self.mineau_scaling_factor - 1)
+        expected_results = [0.1, 0.3510674, 9.585158]
         try:
-            stir_empty.out_estimated_avian_inhalation_ld50 = pd.Series([0.5])
-            stir_empty.body_weight_assessed_bird = pd.Series([0.02])
-            stir_empty.body_weight_tested_bird = pd.Series([0.1])
-            stir_empty.mineau_scaling_factor = pd.Series([2.])
+            stir_empty.out_estimated_avian_inhalation_ld50 = pd.Series([0.5, 1.194, 8.339], dtype='float')
+            stir_empty.body_weight_assessed_bird = pd.Series([0.02, 0.25, 2.334], dtype='float')
+            stir_empty.body_weight_tested_bird = pd.Series([0.1, 0.435, 1.992], dtype='float')
+            stir_empty.mineau_scaling_factor = pd.Series([2., 3.21, 1.879], dtype='float')
             result = stir_empty.calc_adjusted_avian_inhalation_ld50()
-            npt.assert_array_almost_equal(result, 0.1, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -260,11 +275,12 @@ class TestStir(unittest.TestCase):
         :return:
         """
         # self.out_ratio_vid_avian = self.out_vid_avian/self.out_adjusted_avian_inhalation_ld50
+        expected_results = [0.008, 0.0352941, 0.1453338]
         try:
-            stir_empty.out_vid_avian = pd.Series([0.04])
-            stir_empty.out_adjusted_avian_inhalation_ld50 = pd.Series([5.])
+            stir_empty.out_vid_avian = pd.Series([0.04, 0.456, 1.291], dtype='float')
+            stir_empty.out_adjusted_avian_inhalation_ld50 = pd.Series([5., 12.92, 8.883], dtype='float')
             result = stir_empty.return_ratio_vid_avian()
-            npt.assert_array_almost_equal(result, 0.008, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -279,11 +295,12 @@ class TestStir(unittest.TestCase):
         #    self.out_loc_vid_avian = 'Exposure not Likely Significant'
         # else:
         #    self.out_loc_vid_avian = 'Proceed to Refinements'
+        expected_results = pd.Series(["Exposure not Likely Significant", "Proceed "
+                            "to Refinements", "Exposure not Likely Significant"])
         try:
-            stir_empty.out_ratio_vid_avian = pd.Series([0.2])
+            stir_empty.out_ratio_vid_avian = pd.Series([0.09, 0.2, 0.002], dtype='float')
             result = stir_empty.return_loc_vid_avian()
-            exp = pd.Series("Proceed to Refinements")
-            pdt.assert_series_equal(result, exp)
+            pdt.assert_series_equal(result, expected_results, True)
         finally:
             pass
         return
@@ -295,11 +312,13 @@ class TestStir(unittest.TestCase):
         :return:
         """
         # self.out_ratio_sid_avian = self.out_sid_avian/self.out_adjusted_avian_inhalation_ld50
+
+        expected_results = [0.4, 1.989259, 0.09725747]
         try:
-            stir_empty.out_sid_avian = pd.Series([4.])
-            stir_empty.out_adjusted_avian_inhalation_ld50 = pd.Series([10.])
+            stir_empty.out_sid_avian = pd.Series([4., 9.445, 1.993], dtype='float')
+            stir_empty.out_adjusted_avian_inhalation_ld50 = pd.Series([10., 4.748, 20.492], dtype='float')
             result = stir_empty.return_ratio_sid_avian()
-            npt.assert_array_almost_equal(result, 0.4, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -314,11 +333,12 @@ class TestStir(unittest.TestCase):
         #    self.out_loc_sid_avian = 'Exposure not Likely Significant'
         # else:
         #    self.out_loc_sid_avian = 'Proceed to Refinements'
+        expected_results = pd.Series(["Exposure not Likely Significant", "Proceed "
+                           "to Refinements", "Exposure not Likely Significant"])
         try:
-            stir_empty.out_ratio_sid_avian = pd.Series([0.2])
+            stir_empty.out_ratio_sid_avian = pd.Series([0.099, 0.2, 0.0099], dtype='float')
             result = stir_empty.return_loc_sid_avian()
-            exp = pd.Series("Proceed to Refinements")
-            pdt.assert_series_equal(result, exp)
+            pdt.assert_series_equal(result, expected_results, True)
         finally:
             pass
         return
@@ -330,12 +350,12 @@ class TestStir(unittest.TestCase):
         :return:
         """
         # self.out_ratio_vid_mammal = self.out_vid_mammal/self.out_adjusted_mammal_inhalation_ld50
+        expected_results = [2.0, 0.0211981, 1.127584]
         try:
-            stir_empty.out_vid_mammal = pd.Series([4.])
-            stir_empty.out_adjusted_mammal_inhalation_ld50 = pd.Series([2.])
+            stir_empty.out_vid_mammal = pd.Series([4., 0.092, 12.329], dtype='float')
+            stir_empty.out_adjusted_mammal_inhalation_ld50 = pd.Series([2., 4.34, 10.934], dtype='float')
             result = stir_empty.return_ratio_vid_mammal()
-            print(result)
-            npt.assert_array_almost_equal(result, 2., 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -350,11 +370,12 @@ class TestStir(unittest.TestCase):
         #    self.out_loc_vid_mammal = 'Exposure not Likely Significant'
         # else:
         #    self.out_loc_vid_mammal = 'Proceed to Refinements'
+        expected_results = pd.Series(["Exposure not Likely Significant", "Proceed "
+                           "to Refinements", "Exposure not Likely Significant"])
         try:
-            stir_empty.out_ratio_vid_mammal = pd.Series([0.3])
+            stir_empty.out_ratio_vid_mammal = pd.Series([0.084, 0.3, 0.01], dtype='float')
             result = stir_empty.return_loc_vid_mammal()
-            exp = pd.Series("Proceed to Refinements")
-            pdt.assert_series_equal(result, exp)
+            pdt.assert_series_equal(result, expected_results, True)
         finally:
             pass
         return
@@ -366,11 +387,12 @@ class TestStir(unittest.TestCase):
         :return:
         """
         # self.out_ratio_sid_mammal = self.out_sid_mammal/self.out_adjusted_mammal_inhalation_ld50
+        expected_results = [0.25, 2.327008, 0.284566]
         try:
-            stir_empty.out_sid_mammal = pd.Series([0.5])
-            stir_empty.out_adjusted_mammal_inhalation_ld50 = pd.Series([2.])
+            stir_empty.out_sid_mammal = pd.Series([0.5, 2.3298, 1.233], dtype='float')
+            stir_empty.out_adjusted_mammal_inhalation_ld50 = pd.Series([2., 1.0012, 4.3329], dtype='float')
             result = stir_empty.return_ratio_sid_mammal()
-            npt.assert_array_almost_equal(result, 0.25, 4, '', True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass
         return
@@ -385,11 +407,12 @@ class TestStir(unittest.TestCase):
         #    self.out_loc_sid_mammal = 'Exposure not Likely Significant'
         # else:
         #    self.out_loc_sid_mammal = 'Proceed to Refinements'
+        expected_results = pd.Series(["Exposure not Likely Significant", "Proceed "
+                           "to Refinements", "Exposure not Likely Significant"])
         try:
-            stir_empty.out_ratio_sid_mammal = pd.Series([0.6])
+            stir_empty.out_ratio_sid_mammal = pd.Series([0.056, 0.6, 0.01001], dtype='float')
             result = stir_empty.return_loc_sid_mammal()
-            exp = pd.Series("Proceed to Refinements")
-            pdt.assert_series_equal(result, exp)
+            pdt.assert_series_equal(result, expected_results, test)
         finally:
             pass
         return
