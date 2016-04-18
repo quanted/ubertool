@@ -17,7 +17,7 @@ def timefn(fn):
     return measure_time
 
 
-class trex2(object):
+class TRex(object):
     @timefn
     def __init__(self, run_type, pd_obj, pd_obj_exp):
         logging.info("************** trex back end **********************")
