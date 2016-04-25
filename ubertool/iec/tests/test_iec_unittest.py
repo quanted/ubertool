@@ -13,7 +13,7 @@ df_empty = pd.DataFrame()
 # create an empty sip object
 iec_empty = Iec(df_empty, df_empty)
 
-rtol = 1e-5 # set relative tolerance level for npt.assert_allclose assertion tests
+rtol = 1e-4 # set relative tolerance level for npt.assert_allclose assertion tests
 test = {}
 
 class TestIEC(unittest.TestCase):
@@ -73,7 +73,7 @@ class TestIEC(unittest.TestCase):
         """
         unittest for function iec.chance_f:
         """
-        expected_results = [2.941176, 0.722543, 0.0816787]
+        expected_results = [2.941176, 0.722543, 0.0881678]
         try:
             iec_empty.out_f8_f = pd.Series([0.34, 1.384, 11.342])
             result = iec_empty.chance_f()
