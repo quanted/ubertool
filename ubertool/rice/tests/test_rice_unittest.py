@@ -3,6 +3,7 @@ import os.path
 import pandas as pd
 import sys
 import unittest
+
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parentddir)
@@ -40,6 +41,7 @@ class TestRice(unittest.TestCase):
 
     #   dsed * area * pb
     #   (self.dsed * self.area * self.pb)
+
     def test_unit_calcmsed(self):
         """
         Unit tests for calcmsed

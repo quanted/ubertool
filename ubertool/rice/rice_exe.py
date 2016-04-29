@@ -33,7 +33,7 @@ class RiceOutputs(object):
     """
 
     def __init__(self):
-        """Class representing the outputs for SIP"""
+        """Class representing the outputs for Rice"""
         super(RiceOutputs, self).__init__()
         self.out_msed = pd.Series(name="out_msed")
         self.out_vw = pd.Series(name="out_vw")
@@ -45,7 +45,7 @@ class Rice(UberModel, RiceInputs, RiceOutputs):
     """
     Estimate surface water exposure from the use of pesticide in rice paddies
     """
-
+#?? does the following __init__ override the __init__ located in the inherited classes
     def __init__(self, pd_obj, pd_obj_exp):
         """Class representing the Terrplant model and containing all its methods"""
         super(Rice, self).__init__()
