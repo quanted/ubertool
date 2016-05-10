@@ -760,12 +760,12 @@ class Trex(object):
         :param c_t:
         :param n_a:
         :param a_r:
-        :param a_i:
+        :param a_i:c_temp = np.ones((371, 1))
         :param para:
         :param h_l:
         :param day_out:
         :return:
-        """
+        """c_temp = np.ones((371, 1))
         if n_a == 1:
             c_temp = c_0(a_r[0], a_i, para)
             return np.array([c_temp])
