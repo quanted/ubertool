@@ -19,7 +19,7 @@ def timefn(fn):
     return measure_time
 
 @timefn
-def Conc_initial(self, app_rate, food_multiplier):
+def conc_initial(self, app_rate, food_multiplier):
 # Initial concentration from new application
     conc_0 = (app_rate * self.fract_act_ing * food_multiplier)
     return conc_0
@@ -72,7 +72,7 @@ def conc_food_timeseries(self, food_multiplier):
             if i == app_day:  # application day
                 if i > 0:  # decay yesterdays concentration
                     existing_conc = conc_timestep(conc_food[i - 1], self.foliar_diss_hlife)
-                add_conc = conc_initial(app_rate, self.frac_act_ing, food_multiplier)  # new application conc
+                add_conc = conc_initial(app_rate, food_multiplier)  # new application conc
                 conc_food[i] = existing_conc + add_conc  # calculate today's total concentration
                 app_counter += 1  # increment number of applications so far
             elif i > 0:
@@ -96,15 +96,15 @@ def sa_bird_1(self, size):
     sa_bird_1_return = pd.Series(name="sa_bird_1_return")
 
     if size == "small":
-        mf_w_bird = self.mf_w_bird_sm
+        mf_w_bird = self.mf_w_bird_1
         nagy_bird_coef = self.nagy_bird_coef_sm
         aw_bird = self.aw_bird_sm
     elif size == "medium":
-        mf_w_bird = self.mf_w_bird_md
+        mf_w_bird = self.mf_w_bird_1
         nagy_bird_coef = self.nagy_bird_coef_md
         aw_bird = self.aw_bird_md
     elif size == "large":
-        mf_w_bird = self.mf_w_bird_lg
+        mf_w_bird = self.mf_w_bird_1
         nagy_bird_coef = self.nagy_bird_coef_lg
         aw_bird = self.aw_bird_lg
 
@@ -153,15 +153,15 @@ def sa_mamm_1(self, size):
     # Seed treatment acute RQ for mammals method 1
 
     if size == "small":
-        mf_w_bird = self.mf_w_bird_sm
+        mf_w_bird = self.mf_w_bird_1
         nagy_mamm_coef = self.nagy_mamm_coef_sm
         aw_mamm = self.aw_mamm_sm
     elif size == "medium":
-        mf_w_bird = self.mf_w_bird_md
+        mf_w_bird = self.mf_w_bird_1
         nagy_mamm_coef = self.nagy_mamm_coef_md
         aw_mamm = self.aw_mamm_md
     elif size == "large":
-        mf_w_bird = self.mf_w_bird_lg
+        mf_w_bird = self.mf_w_bird_1
         nagy_mamm_coef = self.nagy_mamm_coef_lg
         aw_mamm = self.aw_mamm_lg
 
@@ -197,15 +197,15 @@ def sc_mamm(self, size):
     # Seed treatment chronic RQ for mammals
 
     if size == "small":
-        mf_w_bird = self.mf_w_bird_sm
+        mf_w_bird = self.mf_w_bird_1
         nagy_mamm_coef = self.nagy_mamm_coef_sm
         aw_mamm = self.aw_mamm_sm
     elif size == "medium":
-        mf_w_bird = self.mf_w_bird_md
+        mf_w_bird = self.mf_w_bird_1
         nagy_mamm_coef = self.nagy_mamm_coef_md
         aw_mamm = self.aw_mamm_md
     elif size == "large":
-        mf_w_bird = self.mf_w_bird_lg
+        mf_w_bird = self.mf_w_bird_1
         nagy_mamm_coef = self.nagy_mamm_coef_lg
         aw_mamm = self.aw_mamm_lg
 
@@ -246,15 +246,17 @@ def at_mamm(self, aw_mamm):
     return adjusted_toxicity
 
 
+
+@timefn
+def anoael_mamm(self, aw_mamm):
 # Adjusted chronic toxicity (NOAEL) value for mammals
-@timefn
-def ANOAEL_mamm(NOAEL_mamm, aw_mamm, tw_mamm):
-    return NOAEL_mamm * ((tw_mamm / aw_mamm) ** 0.25)
+    adjusted_toxicity = self.noael_mamm * ((self.tw_mamm / aw_mamm) ** 0.25)
+    return adjusted_toxicity
 
 
 
 @timefn
-def EEC_diet(self, food_multiplier):
+def eec_diet(self, food_multiplier):
 # concentration over time if application rate or time interval is variable
 # returns max daily concentration, can be multiple applications
 # Dietary based EECs
@@ -271,12 +273,12 @@ def EEC_diet(self, food_multiplier):
         day_out_l = len(self.day_out)
         for i in range(0, 371):
             if i == 0:  # first day of application
-                C_temp[i] = Conc_initial(self.first_app_rate[0], food_multiplier)
+                C_temp[i] = conc_initial(self.first_app_rate[0], food_multiplier)
                 num_apps_temp += 1
                 dayt += 1
             elif dayt <= self.day_out_l - 1 and num_apps_temp <= self.num_apps:  # next application day
                 if i == self.day_out[dayt]:
-                    C_temp[i] = Conc_timestep(C_temp[i - 1]) + Conc_initial(self.first_app_rate[dayt], food_multiplier)
+                    C_temp[i] = conc_timestep(C_temp[i - 1]) + conc_initial(self.first_app_rate[dayt], food_multiplier)
                     num_apps_temp += 1
                     dayt += 1
                 else:
@@ -287,14 +289,14 @@ def EEC_diet(self, food_multiplier):
 
 
 @timefn
-def EEC_dose_bird(self, aw_bird, mf_w_bird, food_multiplier):
+def eec_dose_bird(self, aw_bird, mf_w_bird, food_multiplier):
 # Dose based EECs for birds
 
 #self.aw_bird_sm, self.fi_bird, 0.9, self.c_0,self.c_t, self.num_apps, self.first_app_rate,
 #self.frac_act_ing, 240, self.foliar_diss_hlife, self.day_out
 
     fi_bird_calc = fi_bird(aw_bird, mf_w_bird)
-    eec_diet_temp = EEC_diet(food_multiplier)
+    eec_diet_temp = eec_diet(food_multiplier)
     eec_out = eec_diet_temp * fi_bird_calc / aw_bird
     return eec_out
 
@@ -317,12 +319,14 @@ def EEC_dose_bird(self, aw_bird, mf_w_bird, food_multiplier):
 # else:
 # return(0)
 
-# Dose based EECs for mammals
+
 @timefn
-def EEC_dose_mamm(eec_diet, aw_mamm, fi_mamm, mf_w_mamm, c_0, c_t, noa, a_r, frac_act_ing, para, foliar_diss_hlife, day_out):
-    eec_diet = eec_diet(c_0, c_t, noa, a_r, frac_act_ing, para, foliar_diss_hlife, day_out)
-    fi_mamm = fi_mamm(aw_mamm, mf_w_mamm)
-    return eec_diet * fi_mamm / aw_mamm
+def eec_dose_mamm(self, aw_mamm, mf_w_mamm, food_multiplier):
+# Dose based EECs for mammals
+    eec_diet_temp = eec_diet(food_multiplier)
+    fi_mamm_temp = fi_mamm(aw_mamm, mf_w_mamm)
+    dose_eec = eec_diet_temp * fi_mamm_temp / aw_mamm
+    return dose_eec
 
 
 # Dose based EECs for granivores mammals
@@ -336,14 +340,14 @@ def EEC_dose_mamm(eec_diet, aw_mamm, fi_mamm, mf_w_mamm, c_0, c_t, noa, a_r, fra
 # else:
 # return(0)
 
-# Acute dose-based risk quotients for birds
+
 @timefn
-def ARQ_dose_bird(eec_dose_bird, eec_diet, aw_bird, fi_bird, at_bird, ld50_bird, tw_bird, mineau_sca_fact, mf_w_bird, c_0,
-                  c_t, noa, a_r, frac_act_ing, para, foliar_diss_hlife, day_out):
-    eec_dose_bird = eec_dose_bird(eec_diet, aw_bird, fi_bird, mf_w_bird, c_0, c_t, noa, a_r, frac_act_ing, para, foliar_diss_hlife,
-                                  day_out)
-    at_bird = at_bird(ld50_bird, aw_bird, tw_bird, mineau_sca_fact)
-    return eec_dose_bird / at_bird
+def arq_dose_bird(self, aw_bird, mf_w_bird, food_multiplier):
+# Acute dose-based risk quotients for birds
+    eec_dose_bird_temp = eec_dose_bird(aw_bird, mf_w_bird, food_multiplier)
+    at_bird_temp = at_bird(aw_bird)
+    risk_quotient = eec_dose_bird_temp / at_bird_temp
+    return risk_quotient
 
 
 # Acute dose-based risk quotients for granivores birds
@@ -357,14 +361,14 @@ def ARQ_dose_bird(eec_dose_bird, eec_diet, aw_bird, fi_bird, at_bird, ld50_bird,
 # else:
 # return (0)
 
-# Acute dose-based risk quotients for mammals
+
 @timefn
-def ARQ_dose_mamm(eec_dose_mamm, eec_diet, at_mamm, aw_mamm, fi_mamm, ld50_mamm, tw_mamm, mf_w_mamm, c_0, c_t,
-                  noa, a_r, frac_act_ing, para, foliar_diss_hlife, day_out):
-    eec_dose_mamm = eec_dose_mamm(eec_diet, aw_mamm, fi_mamm, mf_w_mamm, c_0, c_t, noa, a_r, frac_act_ing, para, foliar_diss_hlife,
-                                  day_out)
-    at_mamm = at_mamm(ld50_mamm, aw_mamm, tw_mamm)
-    return eec_dose_mamm / at_mamm
+def arq_dose_mamm(aw_mamm, mf_w_mamm, food_multiplier):
+# Acute dose-based risk quotients for mammals
+    eec_dose_mamm_temp = eec_dose_mamm(aw_mamm, mf_w_mamm, food_multiplier)
+    at_mamm_temp = at_mamm(aw_mamm)
+    risk_quotient = eec_dose_mamm_temp / at_mamm_temp
+    return risk_quotient
 
 
 # Acute dose-based risk quotients for granivores mammals
@@ -376,44 +380,48 @@ def ARQ_dose_mamm(eec_dose_mamm, eec_diet, at_mamm, aw_mamm, fi_mamm, ld50_mamm,
 # else:
 # return(0)
 
+
+@timefn
+def arq_diet_bird(self, food_multiplier):
 # Acute dietary-based risk quotients for birds
+    eec_diet_temp = eec_diet(food_multiplier)
+    risk_quotient = eec_diet_temp / self.lc50_bird
+    return risk_quotient
+
 @timefn
-def ARQ_diet_bird(eec_diet, lc50_bird, c_0, c_t, noa, a_r, frac_act_ing, para, foliar_diss_hlife, day_out):
-    eec_diet = eec_diet(c_0, c_t, noa, a_r, frac_act_ing, para, foliar_diss_hlife, day_out)
-    return eec_diet / lc50_bird
-
-
+def arq_diet_mamm(self, food_multiplier):
 # Acute dietary-based risk quotients for mammals
+    eec_diet_temp = eec_diet(food_multiplier)
+    risk_quotient = eec_diet_temp / self.lc50_mamm
+    return
+
+
+
 @timefn
-def ARQ_diet_mamm(eec_diet, lc50_mamm, c_0, c_t, noa, a_r, frac_act_ing, para, foliar_diss_hlife, day_out):
-    eec_diet = eec_diet(c_0, c_t, noa, a_r, frac_act_ing, para, foliar_diss_hlife, day_out)
-    return eec_diet / lc50_mamm
-
-
+def crq_diet_bird(self, food_multiplier):
 # Chronic dietary-based risk quotients for birds
-@timefn
-def CRQ_diet_bird(eec_diet, noaec_bird, c_0, c_t, noa, a_r, frac_act_ing, para, foliar_diss_hlife, day_out):
-    eec_diet = eec_diet(c_0, c_t, noa, a_r, frac_act_ing, para, foliar_diss_hlife, day_out)
-    return eec_diet / noaec_bird
+    eec_diet_temp = eec_diet(food_multiplier)
+    risk_quotient = eec_diet_temp / self.noaec_bird
+    return risk_quotient
 
 
 
 @timefn
-def CRQ_diet_mamm(self, para):
+def crq_diet_mamm(self, food_multiplier):
 # Chronic dietary-based risk quotients for mammals
-    eec_diet_temp = EEC_diet(para)
+    eec_diet_temp = eec_diet(food_multiplier)
     crq_diet_mamm_temp = eec_diet_temp / self.noaec_mamm
     return crq_diet_mamm_temp
 
 
-# Chronic dose-based risk quotients for mammals
+
 @timefn
-def CRQ_dose_mamm(eec_diet, eec_dose_mamm, anoael_mamm, noael_mamm, aw_mamm, fi_mamm, tw_mamm, mf_w_mamm, c_0,
-                  c_t, noa, a_r, frac_act_ing, para, foliar_diss_hlife, day_out):
-    anoael_mamm = anoael_mamm(noael_mamm, aw_mamm, tw_mamm)
-    eec_dose_mamm = eec_dose_mamm(eec_diet, aw_mamm, fi_mamm, mf_w_mamm, c_0, c_t, noa, a_r, frac_act_ing, para,
-                                  foliar_diss_hlife, day_out)
-    return eec_dose_mamm / anoael_mamm
+def crq_dose_mamm(self, aw_mamm, mf_w_mamm, food_multiplier):
+# Chronic dose-based risk quotients for mammals
+    anoael_mamm_temp = anoael_mamm(aw_mamm)
+    eec_dose_mamm_temp = eec_dose_mamm(aw_mamm, mf_w_mamm, food_multiplier)
+    risk_quotient = eec_dose_mamm_temp / anoael_mamm_temp
+    return risk_quotient
 
 # Chronic dose-based risk quotients for granviores mammals
 # def CRQ_dose_mamm_g(EEC_diet, EEC_dose_mamm, ANOAEL_mamm, NOAEL_mamm, aw_mamm, tw_mamm, mf_w_mamm, noa, a_r,
@@ -427,7 +435,7 @@ def CRQ_dose_mamm(eec_diet, eec_dose_mamm, anoael_mamm, noael_mamm, aw_mamm, fi_
 
 
 @timefn
-def LD50_rg_bird(self, aw_bird):
+def ld50_rg_bird(self, aw_bird):
 # LD50ft-2 for row/band/in-furrow granular birds
     if self.application_type == 'Row/Band/In-furrow-Granular':
         at_bird_temp = at_bird(aw_bird)
@@ -442,7 +450,7 @@ def LD50_rg_bird(self, aw_bird):
 
 
 @timefn
-def LD50_rl_bird(self, aw_bird):
+def ld50_rl_bird(self, aw_bird):
 # LD50ft-2 for row/band/in-furrow liquid birds
     if self.application_type == 'Row/Band/In-furrow-Liquid':
         at_bird_temp = at_bird(aw_bird)
@@ -456,7 +464,7 @@ def LD50_rl_bird(self, aw_bird):
 
 
 @timefn
-def LD50_rg_mamm(self, aw_mamm):
+def ld50_rg_mamm(self, aw_mamm):
 # LD50ft-2 for row/band/in-furrow granular mammals
     if self.application_type == 'Row/Band/In-furrow-Granular':
         # a_r = max(first_app_lb)
@@ -471,7 +479,7 @@ def LD50_rg_mamm(self, aw_mamm):
 
 # LD50ft-2 for row/band/in-furrow liquid mammals
 @timefn
-def LD50_rl_mamm(self, aw_mamm):
+def ld50_rl_mamm(self, aw_mamm):
 # LD50ft-2 for row/band/in-furrow liquid mammals
     if self.application_type == 'Row/Band/In-furrow-Liquid':
         at_mamm_temp = at_mamm(aw_mamm)
@@ -485,7 +493,7 @@ def LD50_rl_mamm(self, aw_mamm):
 
 # LD50ft-2 for broadcast granular birds
 @timefn
-def LD50_bg_bird(self, aw_bird):
+def ld50_bg_bird(self, aw_bird):
 # LD50ft-2 for broadcast granular birds
     if self.application_type == 'Broadcast-Granular':
         at_bird_temp = at_bird(aw_bird)
@@ -498,7 +506,7 @@ def LD50_bg_bird(self, aw_bird):
 
 
 @timefn
-def LD50_bl_bird(self, aw_bird):
+def ld50_bl_bird(self, aw_bird):
 # LD50ft-2 for broadcast liquid birds
     if self.application_type == 'Broadcast-Liquid':
         at_bird_temp = at_bird(self.ld50_bird, aw_bird, slef.tw_bird, self.mineau_sca_fact)
@@ -512,7 +520,7 @@ def LD50_bl_bird(self, aw_bird):
 
 
 @timefn
-def LD50_bg_mamm(self, aw_mamm):
+def ld50_bg_mamm(self, aw_mamm):
 # LD50ft-2 for broadcast granular mammals
     if self.application_type == 'Broadcast-Granular':
         at_mamm_temp = at_mamm(aw_mamm)
@@ -525,7 +533,7 @@ def LD50_bg_mamm(self, aw_mamm):
 
 
 @timefn
-def LD50_bl_mamm(self, aw_mamm):
+def ld50_bl_mamm(self, aw_mamm):
 # LD50ft-2 for broadcast liquid mammals
     if self.application_type == 'Broadcast-Liquid':
         at_mamm_temp = at_mamm(aw_mamm)

@@ -4,7 +4,6 @@ import os.path
 import sys
 import pandas as pd
 import trex_functions
-# ?? do we want time and logging to be in this code
 import time
 from functools import wraps
 import logging
@@ -105,8 +104,8 @@ class TrexInputs(ModelSharedInputs):
         self.food_multiplier_init_sg = 240.  # short grass
         self.food_multiplier_init_tg = 110.  # tall grass
         self.food_multiplier_init_blp = 135.  # broad-leafed plants
-        self.food_multiplier_inti_fp = 15.  # fruits/pods
-        self.food_multiplier_inti_arthro = 94.  # arthropods
+        self.food_multiplier_init_fp = 15.  # fruits/pods
+        self.food_multiplier_init_arthro = 94.  # arthropods
 
         #mean residue concentration multiplier
         self.food_multiplier_mean_sg = 85.  # short grass
@@ -115,13 +114,11 @@ class TrexInputs(ModelSharedInputs):
         self.food_multiplier_mean_fp = 7.  # fruits/pods
         self.food_multiplier_mean_arthro = 65.  # arthropods
 
-        #leaving 'mf_w_bird' size dependent even though current values in calling statements are same
-        self.mf_w_bird_sm = 0.1
-        self.mf_w_bird_md = 0.1
-        self.mf_w_bird_lg = 0.1
-        self.mf_w_bird_sm_2 = 0.9
-        self.mf_w_bird_md_2 = 0.9
-        self.mf_w_bird_lg_2 = 0.9
+        # mass fraction of water in food source (higher values for herbivores and lower for granivores)
+
+        self.mf_w_bird_1 = 0.1
+        self.mf_w_bird_2 = 0.8
+        self.mf_w_bird_3 = 0.9
 
         self.nagy_bird_coef_sm = 0.02
         self.nagy_bird_coef_md = 0.1
@@ -399,8 +396,6 @@ class TRex(UberModel, TrexInputs, TrexOutputs):
     # Begin model methods
     @timefn
     def run_methods(self):
-        logging.info("run_methods")
-
         # Perform units conversions on necessary raw inputs
         self.frac_act_ing = pd_obj['frac_act_ing']
         self.frac_act_ing = trex_functions.percent_to_frac(self.percent_act_ing)
@@ -412,18 +407,17 @@ class TRex(UberModel, TrexInputs, TrexOutputs):
 
         # initial concentrations for different food types
         # need to pass in first_app_rate because other functions calculate c_initial per timestep application rate
-        self.out_c_0_sg = trex_functions.Conc_initial(self.first_app_rate[0], self.food_multiplier_init_sg)
-        self.out_c_0_tg = trex_functions.Conc_initial(self.first_app_rate[0], self.food_multiplier_init_tg)
-        self.out_c_0_blp = trex_functions.Conc_initial(self.first_app_rate[0], self.food_multiplier_init_blp)
-        self.out_c_0_fp = trex_functions.Conc_initial(self.first_app_rate[0], self.food_multiplier_init_fp)
-        self.out_c_0_arthro = trex_functions.Conc_initial(self.first_app_rate[0], self.food_multiplier_init_arthro)
-
+        self.out_c_0_sg = trex_functions.conc_initial(self.first_app_rate[0], self.food_multiplier_init_sg)
+        self.out_c_0_tg = trex_functions.conc_initial(self.first_app_rate[0], self.food_multiplier_init_tg)
+        self.out_c_0_blp = trex_functions.conc_initial(self.first_app_rate[0], self.food_multiplier_init_blp)
+        self.out_c_0_fp = trex_functions.conc_initial(self.first_app_rate[0], self.food_multiplier_init_fp)
+        self.out_c_0_arthro = trex_functions.conc_initial(self.first_app_rate[0], self.food_multiplier_init_arthro)
         # mean concentration estimate based on first application rate
-        self.out_c_mean_sg = trex_functions.Conc_initial(self.first_app_rate[0], self.food_multiplier_mean_sg)
-        self.out_c_mean_tg = trex_functions.Conc_initial(self.first_app_rate[0], self.food_multiplier_mean_tg)
-        self.out_c_mean_blp = trex_functions.Conc_initial(self.first_app_rate[0], self.food_multiplier_mean_blp)
-        self.out_c_mean_fp = trex_functions.Conc_initial(self.first_app_rate[0], self.food_multiplier_mean_fp)
-        self.out_c_mean_arthro = trex_functions.Conc_initial(self.first_app_rate[0], self.food_multiplier_mean_arthro)
+        self.out_c_mean_sg = trex_functions.conc_initial(self.first_app_rate[0], self.food_multiplier_mean_sg)
+        self.out_c_mean_tg = trex_functions.conc_initial(self.first_app_rate[0], self.food_multiplier_mean_tg)
+        self.out_c_mean_blp = trex_functions.conc_initial(self.first_app_rate[0], self.food_multiplier_mean_blp)
+        self.out_c_mean_fp = trex_functions.conc_initial(self.first_app_rate[0], self.food_multiplier_mean_fp)
+        self.out_c_mean_arthro = trex_functions.conc_initial(self.first_app_rate[0], self.food_multiplier_mean_arthro)
 
         # ?? need to process these time series
         # time series estimate based on first application rate - needs to be matrices for batch runs
@@ -434,10 +428,9 @@ class TRex(UberModel, TrexInputs, TrexOutputs):
         self.out_c_ts_arthro = trex_functions.conc_food_timeseries(self.food_multiplier_init_arthro)  # arthropods
 
         # Table5
-        logging.info("table 5")
         self.out_sa_bird_1_s = trex_functions.sa_bird_1("small")
         self.out_sa_bird_2_s = trex_functions.sa_bird_2("small")
-        self.out_sc_bird_s = trex_functions.sc_bird(self)
+        self.out_sc_bird_s = trex_functions.sc_bird()
         self.out_sa_mamm_1_s = trex_functions.sa_mamm_1("small")
         self.out_sa_mamm_2_s = trex_functions.sa_mamm_2("small" )
         self.out_sc_mamm_s = trex_functions.sc_mamm("small")
@@ -457,7 +450,6 @@ class TRex(UberModel, TrexInputs, TrexOutputs):
         self.out_sc_mamm_l = trex_functions.sc_mamm("large")
 
         # Table 6
-        logging.info("table 6")
 #??the use of 'first_app_rate' here should be checked to ensure list is available in functions
         self.out_eec_diet_sg = trex_functions.eec_diet(self.first_app_rate, self.food_multiplier_init_sg)
         self.out_eec_diet_tg = trex_functions.eec_diet(self.first_app_rate, self.food_multiplier_init_tg)
@@ -466,483 +458,126 @@ class TRex(UberModel, TrexInputs, TrexOutputs):
         self.out_eec_diet_ar = trex_functions.eec_diet(self.first_app_rate, self.food_multiplier_init_arthro)
 
         # Table 7
-        logging.info("table 7")
-        self.out_eec_dose_bird_sg_sm = trex_functions.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_sm_2, self.food_multiplier_init_sg)
-        self.out_eec_dose_bird_sg_md = trex_functions.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_md_2, self.food_multiplier_init_sg)
-        self.out_eec_dose_bird_sg_lg = trex_functions.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_lg_2, self.food_multiplier_init_sg)
-        self.out_eec_dose_bird_tg_sm = trex_functions.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_sm_2, self.food_multiplier_init_tg)
-        self.out_eec_dose_bird_tg_md = trex_functions.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_md_2, self.food_multiplier_init_tg)
-        self.out_eec_dose_bird_tg_lg = trex_functions.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_lg_2, self.food_multiplier_init_tg)
-        self.out_eec_dose_bird_bp_sm = trex_functions.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_sm_2, self.food_multiplier_init_blp)
-        self.out_eec_dose_bird_bp_md = trex_functions.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_md_2, self.food_multiplier_init_blp)
-        self.out_eec_dose_bird_bp_lg = trex_functions.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_lg_2, self.food_multiplier_init_blp)
-        self.out_eec_dose_bird_fp_sm = trex_functions.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_sm_2, self.food_multiplier_init_fp)
-        self.out_eec_dose_bird_fp_md = trex_functions.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_md_2, self.food_multiplier_init_fp)
-        self.out_eec_dose_bird_fp_lg = trex_functions.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_lg_2, self.food_multiplier_init_fp)
-        self.out_eec_dose_bird_ar_sm = trex_functions.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_sm_2, self.food_multiplier_init_arthro)
-        self.out_eec_dose_bird_ar_md = trex_functions.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_md_2, self.food_multiplier_init_arthro)
-        self.out_eec_dose_bird_ar_lg = trex_functions.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_lg_2, self.food_multiplier_init_arthro)
-        self.out_eec_dose_bird_se_sm = trex_functions.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_sm, self.food_multiplier_init_fp)
-        self.out_eec_dose_bird_se_md = trex_functions.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_md, self.food_multiplier_init_fp)
-        self.out_eec_dose_bird_se_lg = trex_functions.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_lg, self.food_multiplier_init_fp)
+        self.out_eec_dose_bird_sg_sm = trex_functions.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_3, self.food_multiplier_init_sg)
+        self.out_eec_dose_bird_sg_md = trex_functions.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_3, self.food_multiplier_init_sg)
+        self.out_eec_dose_bird_sg_lg = trex_functions.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_3, self.food_multiplier_init_sg)
+        self.out_eec_dose_bird_tg_sm = trex_functions.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_3, self.food_multiplier_init_tg)
+        self.out_eec_dose_bird_tg_md = trex_functions.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_3, self.food_multiplier_init_tg)
+        self.out_eec_dose_bird_tg_lg = trex_functions.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_3, self.food_multiplier_init_tg)
+        self.out_eec_dose_bird_bp_sm = trex_functions.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_3, self.food_multiplier_init_blp)
+        self.out_eec_dose_bird_bp_md = trex_functions.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_3, self.food_multiplier_init_blp)
+        self.out_eec_dose_bird_bp_lg = trex_functions.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_3, self.food_multiplier_init_blp)
+        self.out_eec_dose_bird_fp_sm = trex_functions.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_3, self.food_multiplier_init_fp)
+        self.out_eec_dose_bird_fp_md = trex_functions.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_3, self.food_multiplier_init_fp)
+        self.out_eec_dose_bird_fp_lg = trex_functions.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_3, self.food_multiplier_init_fp)
+        self.out_eec_dose_bird_ar_sm = trex_functions.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_3, self.food_multiplier_init_arthro)
+        self.out_eec_dose_bird_ar_md = trex_functions.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_3, self.food_multiplier_init_arthro)
+        self.out_eec_dose_bird_ar_lg = trex_functions.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_3, self.food_multiplier_init_arthro)
+        self.out_eec_dose_bird_se_sm = trex_functions.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_1, self.food_multiplier_init_fp)
+        self.out_eec_dose_bird_se_md = trex_functions.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_1, self.food_multiplier_init_fp)
+        self.out_eec_dose_bird_se_lg = trex_functions.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_1, self.food_multiplier_init_fp)
 
         # Table 7_add
-        self.out_arq_bird_sg_sm = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_sm, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.8, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 240, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_sg_md = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_md, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.8, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 240, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_sg_lg = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_lg, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.8, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 240, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_tg_sm = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_sm, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.8, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 110, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_tg_md = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_md, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.8, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 110, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_tg_lg = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_lg, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.8, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 110, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_bp_sm = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_sm, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.8, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 135, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_bp_md = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_md, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.8, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 135, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_bp_lg = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_lg, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.8, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 135, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_fp_sm = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_sm, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.8, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_fp_md = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_md, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.8, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_fp_lg = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_lg, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.8, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_ar_sm = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_sm, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.8, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 94, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_ar_md = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_md, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.8, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 94, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_ar_lg = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_lg, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.8, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 94, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_se_sm = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_sm, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.1, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_se_md = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_md, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.1, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                               self.day_out)
-        self.out_arq_bird_se_lg = trex_functions.arq_dose_bird(self.eec_diet, self.aw_bird_lg, self.fi_bird,
-                                                               self.at_bird, self.ld50_bird, self.tw_bird_ld50,
-                                                               self.mineau_sca_fact, 0.1, self.c_0,
-                                                               self.c_t, self.num_apps, self.first_app_rate,
-                                                               self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                               self.day_out)
+        self.out_arq_bird_sg_sm = trex_functions.arq_dose_bird(self.aw_bird_sm, self.mf_w_bird_2, self.food_multiplier_init_sg)
+        self.out_arq_bird_sg_md = trex_functions.arq_dose_bird(self.aw_bird_md, self.mf_w_bird_2, self.food_multiplier_init_sg)
+        self.out_arq_bird_sg_lg = trex_functions.arq_dose_bird(self.aw_bird_lg, self.mf_w_bird_2, self.food_multiplier_init_sg)
+        self.out_arq_bird_tg_sm = trex_functions.arq_dose_bird(self.aw_bird_sm, self.mf_w_bird_2, self.food_multiplier_init_tg)
+        self.out_arq_bird_tg_md = trex_functions.arq_dose_bird(self.aw_bird_md, self.mf_w_bird_2, self.food_multiplier_init_tg)
+        self.out_arq_bird_tg_lg = trex_functions.arq_dose_bird(self.aw_bird_lg, self.mf_w_bird_2, self.food_multiplier_init_tg)
+        self.out_arq_bird_bp_sm = trex_functions.arq_dose_bird(self.aw_bird_sm, self.mf_w_bird_2, self.food_multiplier_init_blp)
+        self.out_arq_bird_bp_md = trex_functions.arq_dose_bird(self.aw_bird_md, self.mf_w_bird_2, self.food_multiplier_init_blp)
+        self.out_arq_bird_bp_lg = trex_functions.arq_dose_bird(self.aw_bird_lg, self.mf_w_bird_2, self.food_multiplier_init_blp)
+        self.out_arq_bird_fp_sm = trex_functions.arq_dose_bird(self.aw_bird_sm, self.mf_w_bird_2, self.food_multiplier_init_fp)
+        self.out_arq_bird_fp_md = trex_functions.arq_dose_bird(self.aw_bird_md, self.mf_w_bird_2, self.food_multiplier_init_fp)
+        self.out_arq_bird_fp_lg = trex_functions.arq_dose_bird(self.aw_bird_lg, self.mf_w_bird_2, self.food_multiplier_init_fp)
+        self.out_arq_bird_ar_sm = trex_functions.arq_dose_bird(self.aw_bird_sm, self.mf_w_bird_2, self.food_multiplier_init_arthro)
+        self.out_arq_bird_ar_md = trex_functions.arq_dose_bird(self.aw_bird_md, self.mf_w_bird_2, self.food_multiplier_init_arthro)
+        self.out_arq_bird_ar_lg = trex_functions.arq_dose_bird(self.aw_bird_lg, self.mf_w_bird_2, self.food_multiplier_init_arthro)
+        self.out_arq_bird_se_sm = trex_functions.arq_dose_bird(self.aw_bird_sm, self.mf_w_bird_1, self.food_multiplier_init_fp)
+        self.out_arq_bird_se_md = trex_functions.arq_dose_bird(self.aw_bird_md, self.mf_w_bird_1, self.food_multiplier_init_fp)
+        self.out_arq_bird_se_lg = trex_functions.arq_dose_bird(self.aw_bird_lg, self.mf_w_bird_1, self.food_multiplier_init_fp)
 
         # Table 8
-        logging.info("table 8")
-        self.out_arq_diet_bird_sg_a = trex_functions.arq_diet_bird(self.lc50_bird, self.c_0, self.c_t, self.num_apps,
-                                                                   self.first_app_rate, self.frac_act_ing, 240,
-                                                                   self.foliar_diss_hlife, self.day_out)
-        self.out_arq_diet_bird_sg_c = trex_functions.crq_diet_bird(self.noaec_bird, self.c_0, self.c_t, self.num_apps,
-                                                                   self.first_app_rate, self.frac_act_ing, 240,
-                                                                   self.foliar_diss_hlife, self.day_out)
-        self.out_arq_diet_bird_tg_a = trex_functions.arq_diet_bird(self.lc50_bird, self.c_0, self.c_t, self.num_apps,
-                                                                   self.first_app_rate, self.frac_act_ing, 110,
-                                                                   self.foliar_diss_hlife, self.day_out)
-        self.out_arq_diet_bird_tg_c = trex_functions.crq_diet_bird(self.noaec_bird, self.c_0, self.c_t, self.num_apps,
-                                                                   self.first_app_rate, self.frac_act_ing, 110,
-                                                                   self.foliar_diss_hlife, self.day_out)
-        self.out_arq_diet_bird_bp_a = trex_functions.arq_diet_bird(self.lc50_bird, self.c_0, self.c_t, self.num_apps,
-                                                                   self.first_app_rate, self.frac_act_ing, 135,
-                                                                   self.foliar_diss_hlife, self.day_out)
-        self.out_arq_diet_bird_bp_c = trex_functions.crq_diet_bird(self.noaec_bird, self.c_0, self.c_t, self.num_apps,
-                                                                   self.first_app_rate, self.frac_act_ing, 135,
-                                                                   self.foliar_diss_hlife, self.day_out)
-        self.out_arq_diet_bird_fp_a = trex_functions.arq_diet_bird(self.lc50_bird, self.c_0, self.c_t, self.num_apps,
-                                                                   self.first_app_rate, self.frac_act_ing, 15,
-                                                                   self.foliar_diss_hlife, self.day_out)
-        self.out_arq_diet_bird_fp_c = trex_functions.crq_diet_bird(self.noaec_bird, self.c_0, self.c_t, self.num_apps,
-                                                                   self.first_app_rate, self.frac_act_ing, 15,
-                                                                   self.foliar_diss_hlife, self.day_out)
-        self.out_arq_diet_bird_ar_a = trex_functions.arq_diet_bird(self.lc50_bird, self.c_0, self.c_t, self.num_apps,
-                                                                   self.first_app_rate, self.frac_act_ing, 94,
-                                                                   self.foliar_diss_hlife, self.day_out)
-        self.out_arq_diet_bird_ar_c = trex_functions.crq_diet_bird(self.noaec_bird, self.c_0, self.c_t, self.num_apps,
-                                                                   self.first_app_rate, self.frac_act_ing, 94,
-                                                                   self.foliar_diss_hlife, self.day_out)
+        self.out_arq_diet_bird_sg_a = trex_functions.arq_diet_bird(self.food_multiplier_init_sg)
+        self.out_arq_diet_bird_sg_c = trex_functions.crq_diet_bird(self.food_multiplier_init_sg)
+        self.out_arq_diet_bird_tg_a = trex_functions.arq_diet_bird(self.food_multiplier_init_tg)
+        self.out_arq_diet_bird_tg_c = trex_functions.crq_diet_bird(self.food_multiplier_init_tg)
+        self.out_arq_diet_bird_bp_a = trex_functions.arq_diet_bird(self.food_multiplier_init_blp)
+        self.out_arq_diet_bird_bp_c = trex_functions.crq_diet_bird(self.food_multiplier_init_blp)
+        self.out_arq_diet_bird_fp_a = trex_functions.arq_diet_bird(self.food_multiplier_init_fp)
+        self.out_arq_diet_bird_fp_c = trex_functions.crq_diet_bird(self.food_multiplier_init_fp)
+        self.out_arq_diet_bird_ar_a = trex_functions.arq_diet_bird(self.food_multiplier_init_arthro)
+        self.out_arq_diet_bird_ar_c = trex_functions.crq_diet_bird(self.food_multiplier_init_arthro)
 
         # Table 9
-        logging.info("table 9")
-        self.out_eec_dose_mamm_sg_sm = trex_functions.eec_dose_mamm(self.aw_mamm_sm, self.fi_mamm, 0.8, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 240, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_sg_md = trex_functions.eec_dose_mamm(self.aw_mamm_md, self.fi_mamm, 0.8, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 240, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_sg_lg = trex_functions.eec_dose_mamm(self.aw_mamm_lg, self.fi_mamm, 0.8, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 240, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_tg_sm = trex_functions.eec_dose_mamm(self.aw_mamm_sm, self.fi_mamm, 0.8, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 110, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_tg_md = trex_functions.eec_dose_mamm(self.aw_mamm_md, self.fi_mamm, 0.8, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 110, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_tg_lg = trex_functions.eec_dose_mamm(self.aw_mamm_lg, self.fi_mamm, 0.8, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 110, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_bp_sm = trex_functions.eec_dose_mamm(self.aw_mamm_sm, self.fi_mamm, 0.8, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 135, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_bp_md = trex_functions.eec_dose_mamm(self.aw_mamm_md, self.fi_mamm, 0.8, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 135, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_bp_lg = trex_functions.eec_dose_mamm(self.aw_mamm_lg, self.fi_mamm, 0.8, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 135, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_fp_sm = trex_functions.eec_dose_mamm(self.aw_mamm_sm, self.fi_mamm, 0.8, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_fp_md = trex_functions.eec_dose_mamm(self.aw_mamm_md, self.fi_mamm, 0.8, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_fp_lg = trex_functions.eec_dose_mamm(self.aw_mamm_lg, self.fi_mamm, 0.8, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_ar_sm = trex_functions.eec_dose_mamm(self.aw_mamm_sm, self.fi_mamm, 0.8, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 94, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_ar_md = trex_functions.eec_dose_mamm(self.aw_mamm_md, self.fi_mamm, 0.8, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 94, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_ar_lg = trex_functions.eec_dose_mamm(self.aw_mamm_lg, self.fi_mamm, 0.8, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 94, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_se_sm = trex_functions.eec_dose_mamm(self.aw_mamm_sm, self.fi_mamm, 0.1, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_se_md = trex_functions.eec_dose_mamm(self.aw_mamm_md, self.fi_mamm, 0.1, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_eec_dose_mamm_se_lg = trex_functions.eec_dose_mamm(self.aw_mamm_lg, self.fi_mamm, 0.1, self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                                    self.day_out)
+        self.out_eec_dose_mamm_sg_sm = trex_functions.eec_dose_mamm(self.aw_mamm_sm, self.mf_w_bird_2, self.food_multiplier_init_sg)
+        self.out_eec_dose_mamm_sg_md = trex_functions.eec_dose_mamm(self.aw_mamm_md, self.mf_w_bird_2, self.food_multiplier_init_sg)
+        self.out_eec_dose_mamm_sg_lg = trex_functions.eec_dose_mamm(self.aw_mamm_lg, self.mf_w_bird_2, self.food_multiplier_init_sg)
+        self.out_eec_dose_mamm_tg_sm = trex_functions.eec_dose_mamm(self.aw_mamm_sm, self.mf_w_bird_2, self.food_multiplier_init_tg)
+        self.out_eec_dose_mamm_tg_md = trex_functions.eec_dose_mamm(self.aw_mamm_md, self.mf_w_bird_2, self.food_multiplier_init_tg)
+        self.out_eec_dose_mamm_tg_lg = trex_functions.eec_dose_mamm(self.aw_mamm_lg, self.mf_w_bird_2, self.food_multiplier_init_tg)
+        self.out_eec_dose_mamm_bp_sm = trex_functions.eec_dose_mamm(self.aw_mamm_sm, self.mf_w_bird_2, self.food_multiplier_init_blp)
+        self.out_eec_dose_mamm_bp_md = trex_functions.eec_dose_mamm(self.aw_mamm_md, self.mf_w_bird_2, self.food_multiplier_init_blp)
+        self.out_eec_dose_mamm_bp_lg = trex_functions.eec_dose_mamm(self.aw_mamm_lg, self.mf_w_bird_2, self.food_multiplier_init_blp)
+        self.out_eec_dose_mamm_fp_sm = trex_functions.eec_dose_mamm(self.aw_mamm_sm, self.mf_w_bird_2, self.food_multiplier_init_fp)
+        self.out_eec_dose_mamm_fp_md = trex_functions.eec_dose_mamm(self.aw_mamm_md, self.mf_w_bird_2, self.food_multiplier_init_fp)
+        self.out_eec_dose_mamm_fp_lg = trex_functions.eec_dose_mamm(self.aw_mamm_lg, self.mf_w_bird_2, self.food_multiplier_init_fp)
+        self.out_eec_dose_mamm_ar_sm = trex_functions.eec_dose_mamm(self.aw_mamm_sm, self.mf_w_bird_2, self.food_multiplier_init_arthro)
+        self.out_eec_dose_mamm_ar_md = trex_functions.eec_dose_mamm(self.aw_mamm_md, self.mf_w_bird_2, self.food_multiplier_init_arthro)
+        self.out_eec_dose_mamm_ar_lg = trex_functions.eec_dose_mamm(self.aw_mamm_lg, self.mf_w_bird_2, self.food_multiplier_init_arthro)
+        self.out_eec_dose_mamm_se_sm = trex_functions.eec_dose_mamm(self.aw_mamm_sm, self.mf_w_bird_1, self.food_multiplier_init_fp)
+        self.out_eec_dose_mamm_se_md = trex_functions.eec_dose_mamm(self.aw_mamm_md, self.mf_w_bird_1, self.food_multiplier_init_fp)
+        self.out_eec_dose_mamm_se_lg = trex_functions.eec_dose_mamm(self.aw_mamm_lg, self.mf_w_bird_1, self.food_multiplier_init_fp)
 
         # Table 10
-        logging.info("table 10")
-        self.out_arq_dose_mamm_sg_sm = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_sm,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.8,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 240, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_sg_sm = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_sm, self.fi_mamm,
-                                                                    self.tw_mamm, 0.8,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 240,
-                                                                    self.foliar_diss_hlife, self.day_out)
-        self.out_arq_dose_mamm_sg_md = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_md,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.8,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 240, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_sg_md = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_md, self.fi_mamm,
-                                                                    self.tw_mamm, 0.8,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 240,
-                                                                    self.foliar_diss_hlife, self.day_out)
-        self.out_arq_dose_mamm_sg_lg = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_lg,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.8,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 240, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_sg_lg = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_lg, self.fi_mamm,
-                                                                    self.tw_mamm, 0.8,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 240,
-                                                                    self.foliar_diss_hlife, self.day_out)
+        self.out_arq_dose_mamm_sg_sm = trex_functions.arq_dose_mamm(self.aw_mamm_sm,self.mf_w_bird_2,self.food_multiplier_init_sg)
+        self.out_crq_dose_mamm_sg_sm = trex_functions.crq_dose_mamm(self.aw_mamm_sm, self.mf_w_bird_2,self.food_multiplier_init_sg)
+        self.out_arq_dose_mamm_sg_md = trex_functions.arq_dose_mamm(self.aw_mamm_md,self.mf_w_bird_2,self.food_multiplier_init_sg)
+        self.out_crq_dose_mamm_sg_md = trex_functions.crq_dose_mamm(self.aw_mamm_md, self.mf_w_bird_2,self.food_multiplier_init_sg)
+        self.out_arq_dose_mamm_sg_lg = trex_functions.arq_dose_mamm(self.aw_mamm_lg,self.mf_w_bird_2,self.food_multiplier_init_sg)
+        self.out_crq_dose_mamm_sg_lg = trex_functions.crq_dose_mamm(self.aw_mamm_lg, self.mf_w_bird_2,self.food_multiplier_init_sg)
 
-        self.out_arq_dose_mamm_tg_sm = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_sm,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.8,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 110, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_tg_sm = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_sm, self.fi_mamm,
-                                                                    self.tw_mamm, 0.8,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 110,
-                                                                    self.foliar_diss_hlife, self.day_out)
-        self.out_arq_dose_mamm_tg_md = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_md,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.8,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 110, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_tg_md = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_md, self.fi_mamm,
-                                                                    self.tw_mamm, 0.8,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 110,
-                                                                    self.foliar_diss_hlife, self.day_out)
-        self.out_arq_dose_mamm_tg_lg = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_lg,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.8,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 110, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_tg_lg = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_lg, self.fi_mamm,
-                                                                    self.tw_mamm, 0.8,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 110,
-                                                                    self.foliar_diss_hlife, self.day_out)
+        self.out_arq_dose_mamm_tg_sm = trex_functions.arq_dose_mamm(self.aw_mamm_sm,self.mf_w_bird_2,self.food_multiplier_init_tg)
+        self.out_crq_dose_mamm_tg_sm = trex_functions.crq_dose_mamm(self.aw_mamm_sm, self.mf_w_bird_2,self.food_multiplier_init_tg)
+        self.out_arq_dose_mamm_tg_md = trex_functions.arq_dose_mamm(self.aw_mamm_md,self.mf_w_bird_2,self.food_multiplier_init_tg)
+        self.out_crq_dose_mamm_tg_md = trex_functions.crq_dose_mamm(self.aw_mamm_md, self.mf_w_bird_2,self.food_multiplier_init_tg)
+        self.out_arq_dose_mamm_tg_lg = trex_functions.arq_dose_mamm(self.aw_mamm_lg,self.mf_w_bird_2,self.food_multiplier_init_tg)
+        self.out_crq_dose_mamm_tg_lg = trex_functions.crq_dose_mamm(self.aw_mamm_lg, self.mf_w_bird_2,self.food_multiplier_init_tg)
 
-        self.out_arq_dose_mamm_bp_sm = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_sm,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.8,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 135, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_bp_sm = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_sm, self.fi_mamm,
-                                                                    self.tw_mamm, 0.8,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 135,
-                                                                    self.foliar_diss_hlife, self.day_out)
-        self.out_arq_dose_mamm_bp_md = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_md,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.8,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 135, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_bp_md = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_md, self.fi_mamm,
-                                                                    self.tw_mamm, 0.8,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 135,
-                                                                    self.foliar_diss_hlife, self.day_out)
-        self.out_arq_dose_mamm_bp_lg = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_lg,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.8,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 135, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_bp_lg = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_lg, self.fi_mamm,
-                                                                    self.tw_mamm, 0.8,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 135,
-                                                                    self.foliar_diss_hlife, self.day_out)
+        self.out_arq_dose_mamm_bp_sm = trex_functions.arq_dose_mamm(self.aw_mamm_sm,self.mf_w_bird_2,self.food_multiplier_init_blp)
+        self.out_crq_dose_mamm_bp_sm = trex_functions.crq_dose_mamm(self.aw_mamm_sm, self.mf_w_bird_2,self.food_multiplier_init_blp)
+        self.out_arq_dose_mamm_bp_md = trex_functions.arq_dose_mamm(self.aw_mamm_md,self.mf_w_bird_2,self.food_multiplier_init_blp)
+        self.out_crq_dose_mamm_bp_md = trex_functions.crq_dose_mamm(self.aw_mamm_md, self.mf_w_bird_2,self.food_multiplier_init_blp)
+        self.out_arq_dose_mamm_bp_lg = trex_functions.arq_dose_mamm(self.aw_mamm_lg,self.mf_w_bird_2,self.food_multiplier_init_blp)
+        self.out_crq_dose_mamm_bp_lg = trex_functions.crq_dose_mamm(self.aw_mamm_lg, self.mf_w_bird_2,self.food_multiplier_init_blp)
 
-        self.out_arq_dose_mamm_fp_sm = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_sm,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.8,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_fp_sm = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_sm, self.fi_mamm,
-                                                                    self.tw_mamm, 0.8,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15,
-                                                                    self.foliar_diss_hlife, self.day_out)
-        self.out_arq_dose_mamm_fp_md = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_md,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.8,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_fp_md = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_md, self.fi_mamm,
-                                                                    self.tw_mamm, 0.8,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15,
-                                                                    self.foliar_diss_hlife, self.day_out)
-        self.out_arq_dose_mamm_fp_lg = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_lg,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.8,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_fp_lg = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_lg, self.fi_mamm,
-                                                                    self.tw_mamm, 0.8,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15,
-                                                                    self.foliar_diss_hlife, self.day_out)
+        self.out_arq_dose_mamm_fp_sm = trex_functions.arq_dose_mamm(self.aw_mamm_sm,self.mf_w_bird_2,self.food_multiplier_init_fp)
+        self.out_crq_dose_mamm_fp_sm = trex_functions.crq_dose_mamm(self.aw_mamm_sm, self.mf_w_bird_2,self.food_multiplier_init_fp)
+        self.out_arq_dose_mamm_fp_md = trex_functions.arq_dose_mamm(self.aw_mamm_md,self.mf_w_bird_2,self.food_multiplier_init_fp)
+        self.out_crq_dose_mamm_fp_md = trex_functions.crq_dose_mamm(self.aw_mamm_md, self.mf_w_bird_2,self.food_multiplier_init_fp)
+        self.out_arq_dose_mamm_fp_lg = trex_functions.arq_dose_mamm(self.aw_mamm_lg,self.mf_w_bird_2,self.food_multiplier_init_fp)
+        self.out_crq_dose_mamm_fp_lg = trex_functions.crq_dose_mamm(self.aw_mamm_lg, self.mf_w_bird_2,self.food_multiplier_init_fp)
 
-        self.out_arq_dose_mamm_ar_sm = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_sm,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.8,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 94, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_ar_sm = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_sm, self.fi_mamm,
-                                                                    self.tw_mamm, 0.8,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 94,
-                                                                    self.foliar_diss_hlife, self.day_out)
-        self.out_arq_dose_mamm_ar_md = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_md,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.8,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 94, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_ar_md = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_md, self.fi_mamm,
-                                                                    self.tw_mamm, 0.8,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 94,
-                                                                    self.foliar_diss_hlife, self.day_out)
-        self.out_arq_dose_mamm_ar_lg = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_lg,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.8,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 94, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_ar_lg = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_lg, self.fi_mamm,
-                                                                    self.tw_mamm, 0.8,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 94,
-                                                                    self.foliar_diss_hlife, self.day_out)
+        self.out_arq_dose_mamm_ar_sm = trex_functions.arq_dose_mamm(self.aw_mamm_sm,self.mf_w_bird_2,self.food_multiplier_init_arthro)
+        self.out_crq_dose_mamm_ar_sm = trex_functions.crq_dose_mamm(self.aw_mamm_sm, self.mf_w_bird_2,self.food_multiplier_init_arthro)
+        self.out_arq_dose_mamm_ar_md = trex_functions.arq_dose_mamm(self.aw_mamm_md,self.mf_w_bird_2,self.food_multiplier_init_arthro)
+        self.out_crq_dose_mamm_ar_md = trex_functions.crq_dose_mamm(self.aw_mamm_md, self.mf_w_bird_2,self.food_multiplier_init_arthro)
+        self.out_arq_dose_mamm_ar_lg = trex_functions.arq_dose_mamm(self.aw_mamm_lg,self.mf_w_bird_2,self.food_multiplier_init_arthro)
+        self.out_crq_dose_mamm_ar_lg = trex_functions.crq_dose_mamm(self.aw_mamm_lg, self.mf_w_bird_2,self.food_multiplier_init_arthro)
 
-        self.out_arq_dose_mamm_se_sm = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_sm,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.1,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_se_sm = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_sm, self.fi_mamm,
-                                                                    self.tw_mamm, 0.1,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15,
-                                                                    self.foliar_diss_hlife, self.day_out)
-        self.out_arq_dose_mamm_se_md = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_md,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.1,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_se_md = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_md, self.fi_mamm,
-                                                                    self.tw_mamm, 0.1,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15,
-                                                                    self.foliar_diss_hlife, self.day_out)
-        self.out_arq_dose_mamm_se_lg = trex_functions.arq_dose_mamm(self.eec_diet, self.at_mamm, self.aw_mamm_lg,
-                                                                    self.fi_mamm, self.ld50_mamm, self.tw_mamm, 0.1,
-                                                                    self.c_0,
-                                                                    self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15, self.foliar_diss_hlife,
-                                                                    self.day_out)
-        self.out_crq_dose_mamm_se_lg = trex_functions.crq_dose_mamm(self.eec_dose_mamm, self.anoael_mamm,
-                                                                    self.noael_mamm, self.aw_mamm_lg, self.fi_mamm,
-                                                                    self.tw_mamm, 0.1,
-                                                                    self.c_0, self.c_t, self.num_apps, self.first_app_rate,
-                                                                    self.frac_act_ing, 15,
-                                                                    self.foliar_diss_hlife, self.day_out)
+        self.out_arq_dose_mamm_se_sm = trex_functions.arq_dose_mamm(self.aw_mamm_sm,self.mf_w_bird_1,self.food_multiplier_init_fp)
+        self.out_crq_dose_mamm_se_sm = trex_functions.crq_dose_mamm(self.aw_mamm_sm, self.mf_w_bird_1,self.food_multiplier_init_fp)
+        self.out_arq_dose_mamm_se_md = trex_functions.arq_dose_mamm(self.aw_mamm_md,self.mf_w_bird_1,self.food_multiplier_init_fp)
+        self.out_crq_dose_mamm_se_md = trex_functions.crq_dose_mamm(self.aw_mamm_md, self.mf_w_bird_1,self.food_multiplier_init_fp)
+        self.out_arq_dose_mamm_se_lg = trex_functions.arq_dose_mamm(self.aw_mamm_lg,self.mf_w_bird_1, self.food_multiplier_init_fp)
+        self.out_crq_dose_mamm_se_lg = trex_functions.crq_dose_mamm(self.aw_mamm_lg, self.mf_w_bird_1, self.food_multiplier_init_fp)
 
         # table 11
-        logging.info("table 11")
         if self.lc50_mamm != 'N/A':
-            self.out_arq_diet_mamm_sg = trex_functions.arq_diet_mamm(self.lc50_mamm, self.c_0, self.c_t, self.num_apps,
-                                                                     self.first_app_rate, self.frac_act_ing, 240,
-                                                                     self.foliar_diss_hlife, self.day_out)
-            self.out_arq_diet_mamm_tg = trex_functions.arq_diet_mamm(self.lc50_mamm, self.c_0, self.c_t, self.num_apps,
-                                                                     self.first_app_rate, self.frac_act_ing, 110,
-                                                                     self.foliar_diss_hlife, self.day_out)
-            self.out_arq_diet_mamm_bp = trex_functions.arq_diet_mamm(self.lc50_mamm, self.c_0, self.c_t, self.num_apps,
-                                                                     self.first_app_rate, self.frac_act_ing, 135,
-                                                                     self.foliar_diss_hlife, self.day_out)
-            self.out_arq_diet_mamm_fp = trex_functions.arq_diet_mamm(self.lc50_mamm, self.c_0, self.c_t, self.num_apps,
-                                                                     self.first_app_rate, self.frac_act_ing, 15,
-                                                                     self.foliar_diss_hlife, self.day_out)
+            self.out_arq_diet_mamm_sg = trex_functions.arq_diet_mamm(self.food_multiplier_inti_sg)
+            self.out_arq_diet_mamm_tg = trex_functions.arq_diet_mamm(self.food_multiplier_inti_tg)
+            self.out_arq_diet_mamm_bp = trex_functions.arq_diet_mamm(self.food_multiplier_inti_blp)
+            self.out_arq_diet_mamm_fp = trex_functions.arq_diet_mamm(self.food_multiplier_inti_fp)
             self.out_arq_diet_mamm_ar = trex_functions.arq_diet_mamm(self.food_multiplier_inti_arthro)
         else:
             self.out_arq_diet_mamm_sg = 'n/a'
@@ -951,24 +586,13 @@ class TRex(UberModel, TrexInputs, TrexOutputs):
             self.out_arq_diet_mamm_fp = 'n/a'
             self.out_arq_diet_mamm_ar = 'n/a'
 
-        self.out_crq_diet_mamm_sg = trex_functions.crq_diet_mamm(self.noaec_mamm, self.c_0, self.c_t, self.num_apps,
-                                                                 self.first_app_rate, self.frac_act_ing, 240,
-                                                                 self.foliar_diss_hlife, self.day_out)
-        self.out_crq_diet_mamm_tg = trex_functions.crq_diet_mamm(self.noaec_mamm, self.c_0, self.c_t, self.num_apps,
-                                                                 self.first_app_rate, self.frac_act_ing, 110,
-                                                                 self.foliar_diss_hlife, self.day_out)
-        self.out_crq_diet_mamm_bp = trex_functions.crq_diet_mamm(self.noaec_mamm, self.c_0, self.c_t, self.num_apps,
-                                                                 self.first_app_rate, self.frac_act_ing, 135,
-                                                                 self.foliar_diss_hlife, self.day_out)
-        self.out_crq_diet_mamm_fp = trex_functions.crq_diet_mamm(self.noaec_mamm, self.c_0, self.c_t, self.num_apps,
-                                                                 self.first_app_rate, self.frac_act_ing, 15,
-                                                                 self.foliar_diss_hlife, self.day_out)
-        self.out_crq_diet_mamm_ar = trex_functions.crq_diet_mamm(self.noaec_mamm, self.c_0, self.c_t, self.num_apps,
-                                                                 self.first_app_rate, self.frac_act_ing, self.food_multiplier_inti_arthro,
-                                                                 self.foliar_diss_hlife, self.day_out)
+        self.out_crq_diet_mamm_sg = trex_functions.crq_diet_mamm(self.food_multiplier_inti_sg)
+        self.out_crq_diet_mamm_tg = trex_functions.crq_diet_mamm(self.food_multiplier_inti_tg)
+        self.out_crq_diet_mamm_bp = trex_functions.crq_diet_mamm(self.food_multiplier_inti_blp)
+        self.out_crq_diet_mamm_fp = trex_functions.crq_diet_mamm(self.food_multiplier_inti_fp)
+        self.out_crq_diet_mamm_ar = trex_functions.crq_diet_mamm(self.food_multiplier_inti_arthro)
 
         # Table12
-        logging.info("table 12")
         self.out_ld50_rg_bird_sm = trex_functions.ld50_rg_bird(self.aw_bird_sm)
         self.out_ld50_rg_mamm_sm = trex_functions.ld50_rg_mamm(self.aw_mamm_sm)
         self.out_ld50_rg_bird_md = trex_functions.ld50_rg_bird(self.aw_bird_md)
@@ -977,7 +601,6 @@ class TRex(UberModel, TrexInputs, TrexOutputs):
         self.out_ld50_rg_mamm_lg = trex_functions.ld50_rg_mamm(self.aw_mamm_lg)
 
         # Table13
-        logging.info("table 13")
         self.out_ld50_rl_bird_sm = trex_functions.ld50_rl_bird(self.aw_bird_sm)
         self.out_ld50_rl_mamm_sm = trex_functions.ld50_rl_mamm(self.aw_mamm_sm)
         self.out_ld50_rl_bird_md = trex_functions.ld50_rl_bird(self.aw_bird_md)
@@ -986,16 +609,14 @@ class TRex(UberModel, TrexInputs, TrexOutputs):
         self.out_ld50_rl_mamm_lg = trex_functions.ld50_rl_mamm(self.aw_mamm_lg)
 
         # Table14
-        logging.info("table 14")
         self.out_ld50_bg_bird_sm = trex_functions.ld50_bg_bird(self.aw_bird_sm)
         self.out_ld50_bg_mamm_sm = trex_functions.ld50_bg_mamm(self.aw_mamm_sm)
         self.out_ld50_bg_bird_md = trex_functions.ld50_bg_bird(self.aw_bird_md)
         self.out_ld50_bg_mamm_md = trex_functions.ld50_bg_mamm(self.aw_mamm_md)
         self.out_ld50_bg_bird_lg = trex_functions.ld50_bg_bird(self.aw_bird_lg)
-        self.out_ld50_bg_mamm_lg = trex_functions.ld50_bg_mamm( self.aw_mamm_lg)
+        self.out_ld50_bg_mamm_lg = trex_functions.ld50_bg_mamm(self.aw_mamm_lg)
 
         # Table15
-        logging.info("table 15")
         self.out_ld50_bl_bird_sm = trex_functions.ld50_bl_bird(self.aw_bird_sm)
         self.out_ld50_bl_mamm_sm = trex_functions.ld50_bl_mamm(self.aw_mamm_sm)
         self.out_ld50_bl_bird_md = trex_functions.ld50_bl_bird(self.aw_bird_md)
