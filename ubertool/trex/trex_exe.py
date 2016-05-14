@@ -1,4 +1,3 @@
-# ?? do we need the following import
 from __future__ import division
 import os.path
 import sys

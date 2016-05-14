@@ -1,11 +1,91 @@
 from __future__ import division
 import numpy as np
+import os.path
+import sys
+import pandas as pd
+import trex_functions
+import time
+from functools import wraps
+import logging
+
+parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parentddir)
+from base.uber_model import UberModel, ModelSharedInputs
 
 
-class Therps(object):
+def timefn(fn):
+    @wraps(fn)
+    def measure_time(*args, **kwargs):
+        t1 = time.time()
+        result = fn(*args, **kwargs)
+        t2 = time.time()
+        print("therps_model_rest.py@timefn: " + fn.func_name + " took " + "{:.6f}".format(t2 - t1) + " seconds")
+        return result
+
+    return measure_time
+
+class TherpsInputs(ModelSharedInputs):
+    """
+    Input class for Therps.
+    """
+
+    def __init__(self):
+        """Class representing the inputs for Therps"""
+        super(TherpsInputs, self).__init__()
+        # Inputs: Assign object attribute variables from the input Pandas DataFrame
+
+
+class TherpsOutputs(object):
+    """
+    Output class for Therps.
+    """
+
+    def __init__(self):
+        """Class representing the outputs for Therps"""
+        super(TherpsOutputs, self).__init__()
+
+
+class Therps(UberModel, TrexInputs, TrexOutputs):
     """
     Estimate dietary exposure and risk to terrestrial-phase amphibians and reptiles from pesticide use.
     """
+
+    def __init__(self, pd_obj, pd_obj_exp):
+        """Class representing the Trex model and containing all its methods"""
+        super(TRex, self).__init__()
+        self.pd_obj = pd_obj
+        self.pd_obj_exp = pd_obj_exp
+        self.pd_obj_out = None
+
+    def json(self, pd_obj, pd_obj_out, pd_obj_exp):
+        """
+            Convert DataFrames to JSON, returning a tuple
+            of JSON strings (inputs, outputs, exp_out)
+        """
+
+        pd_obj_json = pd_obj.to_json()
+        pd_obj_out_json = pd_obj_out.to_json()
+        try:
+            pd_obj_exp_json = pd_obj_exp.to_json()
+        except:
+            pd_obj_exp_json = "{}"
+
+        return pd_obj_json, pd_obj_out_json, pd_obj_exp_json
+
+    def execute_model(self):
+        """
+        Callable to execute the running of the model:
+            1) Populate input parameters
+            2) Create output DataFrame to hold the model outputs
+            3) Run the model's methods to generate outputs
+            4) Fill the output DataFrame with the generated model outputs
+        """
+        self.populate_inputs(self.pd_obj, self)
+        self.pd_obj_out = self.populate_outputs(self)
+        self.run_methods()
+        self.fill_output_dataframe(self)
+
+    def run_methods(self):
 
     def __init__(self, chem_name, use, formu_name, a_i, h_l, n_a, i_a, a_r, avian_ld50, avian_lc50, avian_noaec,
                  avian_noael,
