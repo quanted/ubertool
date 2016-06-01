@@ -13,7 +13,7 @@ df_empty = pd.DataFrame()
 # create an empty sip object
 iec_empty = Iec(df_empty, df_empty)
 
-rtol = 1e-5 # set relative tolerance level for npt.assert_allclose assertion tests
+rtol = 1e-4 # set relative tolerance level for npt.assert_allclose assertion tests
 test = {}
 
 class TestIEC(unittest.TestCase):
@@ -69,11 +69,17 @@ class TestIEC(unittest.TestCase):
             pass
         return
 
+    def test_chance_f(self):
+        """
+        unittest for function iec.chance_f:
+        """
+        expected_results = [2.941176, 0.722543, 0.0881678]
+        try:
+            iec_empty.out_f8_f = pd.Series([0.34, 1.384, 11.342])
+            result = iec_empty.chance_f()
+            #npt.assert_array_almost_equal(result, 2.941176, 4, '', True)
+            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            pass
+        return
 
-# unittest will
-# 1) call the setup method,
-# 2) then call every method starting with "test",
-# 3) then the teardown method
-if __name__ == '__main__':
-    unittest.main()
-    #pass
