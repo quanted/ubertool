@@ -11,7 +11,7 @@ def timefn(fn):
         t1 = time.time()
         result = fn(*args, **kwargs)
         t2 = time.time()
-        print("trex2_model_rest.py@timefn: " + fn.func_name + " took " + "{:.6f}".format(t2 - t1) + " seconds")
+        print("trex_model_rest.py@timefn: " + fn.func_name + " took " + "{:.6f}".format(t2 - t1) + " seconds")
         return result
 
     return measure_time
@@ -37,16 +37,16 @@ class TrexFunctions(object):
         return
 
     @timefn
-    def conc_initial(self, food_multiplier):
+    def conc_initial(self, i, application_rate, food_multiplier):
     # Initial concentration from new application
-        conc_0 = (self.first_app_rate * self.frac_act_ing * food_multiplier)
+        conc_0 = (application_rate * self.frac_act_ing[i] * food_multiplier)
         return conc_0
 
     # Concentration over time
     @timefn
     #??what is the purpose of the '* 1', just a timestep value to be complete
-    def conc_timestep(self,conc_ini):
-        conc = conc_ini * np.exp(-(np.log(2) / self.foliar_diss_hlife) * 1)
+    def conc_timestep(self, i, conc_ini):
+        conc = conc_ini * np.exp(-(np.log(2) / self.foliar_diss_hlife[i]) * 1)
         return conc
 
     @timefn
@@ -124,8 +124,8 @@ class TrexFunctions(object):
             aw_bird = self.aw_bird_lg
 
         # run calculations
-        at_bird_temp = at_bird(aw_bird)
-        fi_bird_temp = fi_bird(aw_bird, mf_w_bird)
+        at_bird_temp = self.at_bird(aw_bird)
+        fi_bird_temp = self.fi_bird(aw_bird, mf_w_bird)
         # maximum seed application rate=application rate*10000
     #??should assign these constants to variables in TrexInputs class or explain conversions
         m_s_a_r_temp = ((self.app_rates * self.frac_act_ing) / 128.) * self.density * 10000
@@ -148,7 +148,7 @@ class TrexFunctions(object):
             nagy_bird_coef = self.nagy_bird_coef_lg
             aw_bird = self.aw_bird_lg
 
-        at_bird_temp = at_bird(self.ld50_bird, aw_bird, self.tw_bird_ld50, self.mineau_sca_fact)
+        at_bird_temp = self.at_bird(self.ld50_bird, aw_bird, self.tw_bird_ld50, self.mineau_sca_fact)
         m_a_r = (self.max_seed_rate * ((self.frac_act_ing * self.app_rates[0]) / 128) * self.density) / 100  # maximum application rate
         av_ai = m_a_r * 1e6 / (43560 * 2.2)
         sa_bird_2_return = av_ai / (at_bird_temp * nagy_bird_coef)
@@ -178,8 +178,8 @@ class TrexFunctions(object):
             nagy_mamm_coef = self.nagy_mamm_coef_lg
             aw_mamm = self.aw_mamm_lg
 
-        at_mamm_temp = at_mamm(aw_mamm)
-        fi_mamm_temp = fi_mamm(aw_mamm, mf_w_bird)
+        at_mamm_temp = self.at_mamm(aw_mamm)
+        fi_mamm_temp = self.fi_mamm(aw_mamm, mf_w_bird)
         m_s_a_r = ((self.app_rates * self.frac_act_ing) / 128) * self.density * 10000  # maximum seed application rate=application rate*10000
         nagy_mamm = fi_mamm_temp * 0.001 * m_s_a_r / nagy_mamm_coef
         quotient = nagy_mamm / at_mamm_temp
@@ -199,7 +199,7 @@ class TrexFunctions(object):
             nagy_mamm_coef = self.nagy_mamm_coef_lg
             aw_mamm = self.aw_mamm_lg
 
-        at_mamm_temp = at_mamm(aw_mamm)
+        at_mamm_temp = self.at_mamm(aw_mamm)
         m_a_r = (self.max_seed_rate * ((self.app_rates * self.frac_act_ing) / 128) * self.density) / 100  # maximum application rate
         av_ai = m_a_r * 1000000 / (43560 * 2.2)
         quotient = av_ai / (at_mamm_temp * nagy_mamm_coef)
@@ -222,8 +222,8 @@ class TrexFunctions(object):
             nagy_mamm_coef = self.nagy_mamm_coef_lg
             aw_mamm = self.aw_mamm_lg
 
-        anoael_mamm_temp = anoael_mamm(aw_mamm)
-        fi_mamm_temp = fi_mamm(aw_mamm, mf_w_bird)
+        anoael_mamm_temp = self.anoael_mamm(aw_mamm)
+        fi_mamm_temp = self.fi_mamm(aw_mamm, mf_w_bird)
         m_s_a_r = ((self.app_rates * self.frac_act_ing) / 128) * self.density * 10000  # maximum seed application rate=application rate*10000
         nagy_mamm = fi_mamm_temp * 0.001 * m_s_a_r / nagy_mamm_coef
         quotient = nagy_mamm / anoael_mamm_temp
@@ -245,7 +245,13 @@ class TrexFunctions(object):
 
 
     @timefn
-    def at_bird(self, aw_bird):
+    def at_bird(self, i, aw_bird):
+        # Acute adjusted toxicity value for birds
+        adjusted_toxicity = self.ld50_bird[i] * (aw_bird / self.tw_bird_ld50[i]) ** (self.mineau_sca_fact[i] - 1)
+        return adjusted_toxicity
+
+    @timefn
+    def at_bird1(self, aw_bird):
         # Acute adjusted toxicity value for birds
         adjusted_toxicity = self.ld50_bird * (aw_bird / self.tw_bird_ld50) ** (self.mineau_sca_fact - 1)
         return adjusted_toxicity
@@ -253,12 +259,10 @@ class TrexFunctions(object):
 
 
     @timefn
-    def at_mamm(self, aw_mamm):
+    def at_mamm(self, i, aw_mamm):
         # Acute adjusted toxicity value for mammals
-        adjusted_toxicity = self.ld50_mamm * ((self.tw_mamm / aw_mamm) ** 0.25)
+        adjusted_toxicity = self.ld50_mamm[i] * ((self.tw_mamm[i] / aw_mamm) ** 0.25)
         return adjusted_toxicity
-
-
 
     @timefn
     def anoael_mamm(self, aw_mamm):
@@ -267,45 +271,87 @@ class TrexFunctions(object):
         return adjusted_toxicity
 
 
+    # ORIGINAL CODE (saved here to inform refactoring below
+    # @timefn
+    # def eec_diet(self, food_multiplier):
+    # # concentration over time if application rate or time interval is variable
+    # # returns max daily concentration, can be multiple applications
+    # # Dietary based EECs
+    #
+    #     # new in trex1.5.1
+    #     if self.num_apps.any() == 1:
+    #         # get initial concentration
+    #         C_temp = self.conc_initial(self, self.app_rates[0], food_multiplier)
+    #         return np.array([C_temp])
+    #     else:
+    #         C_temp = np.ones((371, 1))  # empty array to hold the concentrations over daysp
+    #         num_apps_temp = 0  # number of existing applications
+    #         dayt = 0
+    #         day_out_l = len(self.day_out)
+    #         for i in range(0, 371):
+    #             if i == 0:  # first day of application
+    #                 C_temp[i] = self.conc_initial(self.app_rates[0], food_multiplier)
+    #                 num_apps_temp += 1
+    #                 dayt += 1
+    #             elif dayt <= self.day_out_l - 1 and num_apps_temp <= self.num_apps:  # next application day
+    #                 if i == self.day_out[dayt]:
+    #                     C_temp[i] = self.conc_timestep(C_temp[i - 1]) + conc_initial(self.app_rates[dayt], food_multiplier)
+    #                     num_apps_temp += 1
+    #                     dayt += 1
+    #                 else:
+    #                     C_temp[i] = self.conc_timestep(C_temp[i - 1])
+    #         max_c_return = max(C_temp)
+    #         return max_c_return
 
     @timefn
     def eec_diet(self, food_multiplier):
-    # concentration over time if application rate or time interval is variable
-    # returns max daily concentration, can be multiple applications
-    # Dietary based EECs
+        # Dietary based EECs
+        # returns maximum daily concentration that occurs during year as result of one or more applications
+        # calculations are performed daily from day of first application through the day of the last application
+#?? the day numbering here may need to be looked at, as it stands the '0' index (eg., on c_temp) implies day 1 of the year
+#?? (it may not make a difference here because we're only looking for the annual maximum concentration  --  if we wanted
+#?? to preserve the daily time series the day number may need to be explicitly assigned rather than assumed to be the array index
 
-        # new in trex1.5.1
-        if self.num_apps.any() == 1:
-            # get initial concentration
-            C_temp = conc_initial(self, self.app_rates[0], food_multiplier)
-            return np.array([C_temp])
-        else:
-            C_temp = np.ones((371, 1))  # empty array to hold the concentrations over daysp
-            num_apps_temp = 0  # number of existing applications
-            dayt = 0
-            day_out_l = len(self.day_out)
-            for i in range(0, 371):
-                if i == 0:  # first day of application
-                    C_temp[i] = conc_initial(self.app_rates[0], food_multiplier)
-                    num_apps_temp += 1
-                    dayt += 1
-                elif dayt <= self.day_out_l - 1 and num_apps_temp <= self.num_apps:  # next application day
-                    if i == self.day_out[dayt]:
-                        C_temp[i] = conc_timestep(C_temp[i - 1]) + conc_initial(self.app_rates[dayt], food_multiplier)
+        max_conc = pd.Series([], dtype = 'float')
+        for i in range(len(self.num_apps)):  #i denotes model simulation (e.g., within monte carlo simulation)
+            # new in trex1.5.1
+            if self.num_apps[i] == 1:         #only one application for this simulation
+                    # get concentration for application day; which is also max daily conc for year when only one application occurs
+                max_conc[i] = self.conc_initial(i, self.app_rates[i][0], food_multiplier[i])
+            else:
+                c_temp = np.zeros((371, 1))  # empty array to hold the concentrations over days of year
+                num_apps_temp = 0  # number of existing application
+                dayt = 0  #iniitalize application number counter for this iteration
+                day_out_l = len(self.day_out[i])
+                for day in range(self.day_out[i][0], 371):     # day number of first application
+                    if day == self.day_out[i][0]:  # first day of application of a multiple application model simulation run
+                        c_temp[day] = self.conc_initial(i, self.app_rates[i][0], food_multiplier[i])
                         num_apps_temp += 1
                         dayt += 1
-                    else:
-                        C_temp[i] = conc_timestep(C_temp[i - 1])
-            max_c_return = max(C_temp)
-            return max_c_return
-
-
+                    elif dayt <= day_out_l - 1 and num_apps_temp <= self.num_apps[i]:  # next application day
+                        if day == self.day_out[i][dayt]:
+                            c_temp[day] = (self.conc_timestep(i, c_temp[day - 1]) +
+                                          self.conc_initial(i, self.app_rates[i][dayt], food_multiplier[i]))
+                            num_apps_temp += 1
+                            dayt += 1
+                        else:
+#?? when passing 'c_temp[day-1]' into method the ndarray type gets placed on the resulting output variable
+#?? it should be a single float rather than a ndarray; should this reference to 'c_temp[]' be 'float(c)_temp[])'
+#it doesn't seem to impact the results but in terms of data types they do not match what should be
+                            c_temp[day] = self.conc_timestep(i, c_temp[day - 1])
+#??the following two lines should be added if entire year times series is desired;
+#??otherwise daily calculations end the day of the last application;
+#??(which is all that is necessary to find the max_conc for the year)
+                    #else:
+                    #        c_temp[day] = self.conc_timestep(i, c_temp[day - 1])
+                max_conc[i] = float(max(c_temp))
+        return max_conc
 
     @timefn
     def eec_dose_bird(self, aw_bird, mf_w_bird, food_multiplier):
     # Dose based EECs for birds
-        fi_bird_calc = fi_bird(aw_bird, mf_w_bird)
-        eec_diet_temp = eec_diet(food_multiplier)
+        fi_bird_calc = self.fi_bird(aw_bird, mf_w_bird)
+        eec_diet_temp = self.eec_diet(food_multiplier)
         eec_out = eec_diet_temp * fi_bird_calc / aw_bird
         return eec_out
 
@@ -332,8 +378,8 @@ class TrexFunctions(object):
     @timefn
     def eec_dose_mamm(self, aw_mamm, mf_w_mamm, food_multiplier):
     # Dose based EECs for mammals
-        eec_diet_temp = eec_diet(food_multiplier)
-        fi_mamm_temp = fi_mamm(aw_mamm, mf_w_mamm)
+        eec_diet_temp = self.eec_diet(food_multiplier)
+        fi_mamm_temp = self.fi_mamm(aw_mamm, mf_w_mamm)
         dose_eec = eec_diet_temp * fi_mamm_temp / aw_mamm
         return dose_eec
 
@@ -353,8 +399,10 @@ class TrexFunctions(object):
     @timefn
     def arq_dose_bird(self, aw_bird, mf_w_bird, food_multiplier):
     # Acute dose-based risk quotients for birds
-        eec_dose_bird_temp = eec_dose_bird(aw_bird, mf_w_bird, food_multiplier)
-        at_bird_temp = at_bird(aw_bird)
+        at_bird_temp = pd.Series([], dtype = 'float')
+        eec_dose_bird_temp = self.eec_dose_bird(aw_bird, mf_w_bird, food_multiplier)
+        for i in range(len(aw_bird)):
+            at_bird_temp[i] = self.at_bird(i, aw_bird[i])
         risk_quotient = eec_dose_bird_temp / at_bird_temp
         return risk_quotient
 
@@ -374,8 +422,10 @@ class TrexFunctions(object):
     @timefn
     def arq_dose_mamm(self, aw_mamm, mf_w_mamm, food_multiplier):
     # Acute dose-based risk quotients for mammals
-        eec_dose_mamm_temp = eec_dose_mamm(aw_mamm, mf_w_mamm, food_multiplier)
-        at_mamm_temp = at_mamm(aw_mamm)
+        at_mamm_temp = pd.Series([], dtype = 'float')
+        eec_dose_mamm_temp = self.eec_dose_mamm(aw_mamm, mf_w_mamm, food_multiplier)
+        for i in range(len(aw_mamm)):
+            at_mamm_temp[i] = self.at_mamm(i, aw_mamm[i])
         risk_quotient = eec_dose_mamm_temp / at_mamm_temp
         return risk_quotient
 
@@ -393,14 +443,14 @@ class TrexFunctions(object):
     @timefn
     def arq_diet_bird(self, food_multiplier):
     # Acute dietary-based risk quotients for birds
-        eec_diet_temp = eec_diet(food_multiplier)
+        eec_diet_temp = self.eec_diet(food_multiplier)
         risk_quotient = eec_diet_temp / self.lc50_bird
         return risk_quotient
 
     @timefn
     def arq_diet_mamm(self, food_multiplier):
     # Acute dietary-based risk quotients for mammals
-        eec_diet_temp = eec_diet(food_multiplier)
+        eec_diet_temp = self.eec_diet(food_multiplier)
         risk_quotient = eec_diet_temp / self.lc50_mamm
         return risk_quotient
 
@@ -409,7 +459,7 @@ class TrexFunctions(object):
     @timefn
     def crq_diet_bird(self, food_multiplier):
     # Chronic dietary-based risk quotients for birds
-        eec_diet_temp = eec_diet(food_multiplier)
+        eec_diet_temp = self.eec_diet(food_multiplier)
         risk_quotient = eec_diet_temp / self.noaec_bird
         return risk_quotient
 
@@ -418,7 +468,7 @@ class TrexFunctions(object):
     @timefn
     def crq_diet_mamm(self, food_multiplier):
     # Chronic dietary-based risk quotients for mammals
-        eec_diet_temp = eec_diet(food_multiplier)
+        eec_diet_temp = self.eec_diet(food_multiplier)
         crq_diet_mamm_temp = eec_diet_temp / self.noaec_mamm
         return crq_diet_mamm_temp
 
@@ -427,8 +477,8 @@ class TrexFunctions(object):
     @timefn
     def crq_dose_mamm(self, aw_mamm, mf_w_mamm, food_multiplier):
     # Chronic dose-based risk quotients for mammals
-        anoael_mamm_temp = anoael_mamm(aw_mamm)
-        eec_dose_mamm_temp = eec_dose_mamm(aw_mamm, mf_w_mamm, food_multiplier)
+        anoael_mamm_temp = self.anoael_mamm(aw_mamm)
+        eec_dose_mamm_temp = self.eec_dose_mamm(aw_mamm, mf_w_mamm, food_multiplier)
         risk_quotient = eec_dose_mamm_temp / anoael_mamm_temp
         return risk_quotient
 
@@ -442,113 +492,149 @@ class TrexFunctions(object):
     # else:
     # return (0)
 
-
     @timefn
     def ld50_rg_bird(self, aw_bird):
-    # LD50ft-2 for row/band/in-furrow granular birds
-        if self.application_type == 'Row/Band/In-furrow-Granular':
-            at_bird_temp = at_bird(aw_bird)
-            n_r = (43560 ** 0.5) / self.row_spacing
-            expo_rg_bird = (max(self.app_rates) * self.frac_act_ing * 453590.0) / \
-                           (n_r * (43560.0 ** 0.5) * self.bandwidth) * (1 - self.frac_incorp)
-            ld50_rg_bird_temp = expo_rg_bird / (at_bird_temp * (aw_bird / 1000.0))
-            return ld50_rg_bird_temp
-        else:
-            return 0
+        # LD50ft-2 for row/band/in-furrow granular birds
+        ld50_rg_bird_temp = pd.Series([], dtype='float')
+        at_bird_temp = pd.Series([], dtype = 'float')
+        num_rows_peracre = pd.Series([], dtype = 'float')
+        expo_rg_bird = pd.Series([], dtype = 'float')
+        for i in range(len(aw_bird)):
+            if self.application_type[i] == 'Row/Band/In-furrow-Granular':
+                at_bird_temp = self.at_bird(i, aw_bird[i])
+                num_rows_peracre = (43560 ** 0.5) / self.row_spacing[i]
+                expo_rg_bird = ((max(self.app_rates[i]) * self.frac_act_ing[i] * 453590.0) /
+                               (num_rows_peracre * (43560.0 ** 0.5) * self.bandwidth[i])) * (1 - self.frac_incorp[i])
+                ld50_rg_bird_temp[i] = expo_rg_bird / (at_bird_temp * (aw_bird[i] / 1000.0))
+            else:
+                ld50_rg_bird_temp[i] = 0
+        return ld50_rg_bird_temp
 
-
+    @timefn
+    def ld50_rg_bird1(self, aw_bird):
+        # LD50ft-2 for row/band/in-furrow granular birds
+        ld50_rg_bird_temp = pd.Series([], dtype='float')
+        at_bird_temp = pd.Series([], dtype = 'float')
+        num_rows_peracre = pd.Series([], dtype = 'float')
+        expo_rg_bird = pd.Series([], dtype = 'float')
+        #max_app_rates = pd.Series([], dtype = 'float')
+        # for i in range(len(aw_bird)):
+        #     if self.application_type[i] == 'Row/Band/In-furrow-Granular':
+        #         at_bird_temp = self.at_bird(i, aw_bird[i])
+        #         num_rows_peracre = (43560 ** 0.5) / self.row_spacing[i]
+        #         expo_rg_bird = ((max(self.app_rates[i]) * self.frac_act_ing[i] * 453590.0) /
+        #                        (num_rows_peracre * (43560.0 ** 0.5) * self.bandwidth[i])) * (1 - self.frac_incorp[i])
+        #         ld50_rg_bird_temp[i] = expo_rg_bird / (at_bird_temp * (aw_bird[i] / 1000.0))
+        #     else:
+        #         ld50_rg_bird_temp[i] = 0
+        # calculate all values of 'ld50_rg_bird_temp' regardless of application_type (to facilitate vectorization)
+        at_bird_temp = self.at_bird1(aw_bird)
+        num_rows_peracre = (43560 ** 0.5) / self.row_spacing
+        expo_rg_bird = ((self.max_app_rate * self.frac_act_ing * 453590.0) /
+                       (num_rows_peracre * (43560.0 ** 0.5) * self.bandwidth)) * (1 - self.frac_incorp)
+        ld50_rg_bird_temp = expo_rg_bird / (at_bird_temp * (aw_bird / 1000.0))
+        #go back and replace all non 'Row/Band/In-furrow-Granular' app types with value of zero
+        for i in range(len(aw_bird)):
+            if self.application_type[i] != 'Row/Band/In-furrow-Granular':
+                ld50_rg_bird_temp[i] = 0
+        return ld50_rg_bird_temp
 
     @timefn
     def ld50_rl_bird(self, aw_bird):
-    # LD50ft-2 for row/band/in-furrow liquid birds
-        if self.application_type == 'Row/Band/In-furrow-Liquid':
-            at_bird_temp = at_bird(aw_bird)
-            expo_rl_bird = ((max(self.app_rates) * 28349 * self.frac_act_ing) / (1000 * self.bandwidth)) * \
-                           (1 - self.frac_incorp)
-            ld50_rl_bird_temp = expo_rl_bird / (at_bird_temp * (aw_bird / 1000.0))
-            return ld50_rl_bird_temp
-        else:
-            return 0
+        # LD50ft-2 for row/band/in-furrow liquid birds
+        ld50_rl_bird_temp = pd.Series([], dtype = 'float')
+        for i in range(len(aw_bird)):
+            if self.application_type[i] == 'Row/Band/In-furrow-Liquid':
+                at_bird_temp = self.at_bird(i, aw_bird[i])
+                expo_rl_bird = ((max(self.app_rates[i]) * 28349 * self.frac_act_ing[i]) /
+                                (1000 * self.bandwidth[i])) * (1 - self.frac_incorp[i])
+                ld50_rl_bird_temp[i] = expo_rl_bird / (at_bird_temp * (aw_bird[i] / 1000.0))
+            else:
+                ld50_rl_bird_temp[i] = 0
+        return ld50_rl_bird_temp
 
-
-
-    @timefn
-    def ld50_rg_mamm(self, aw_mamm):
-    # LD50ft-2 for row/band/in-furrow granular mammals
-        if self.application_type == 'Row/Band/In-furrow-Granular':
-            # a_r = max(app_rates)
-            at_mamm_temp = at_mamm(aw_mamm)
-            n_r = (43560 ** 0.5) / self.row_spacing
-            expo_rg_mamm = (max(self.app_rates) * self.frac_act_ing * 453590) / (n_r * (43560 ** 0.5) * bandwidth) * (1 - frac_incorp)
-            ld50_rg_mamm_temp = expo_rg_mamm / (at_mamm_temp * (aw_mamm / 1000.0))
-            return ld50_rg_mamm_temp
-        else:
-            return 0
-
-
-    # LD50ft-2 for row/band/in-furrow liquid mammals
-    @timefn
-    def ld50_rl_mamm(self, aw_mamm):
-    # LD50ft-2 for row/band/in-furrow liquid mammals
-        if self.application_type == 'Row/Band/In-furrow-Liquid':
-            at_mamm_temp = at_mamm(aw_mamm)
-            expo_rl_bird = ((max(self.app_rates) * 28349 * self.frac_act_ing) / (1000 * self.bandwidth)) * \
-                           (1 - self.frac_incorp)
-            ld50_rl_mamm_temp = expo_rl_bird / (at_mamm_temp * (aw_mamm / 1000.0))
-            return ld50_rl_mamm_temp
-        else:
-            return 0
-
-
-    # LD50ft-2 for broadcast granular birds
     @timefn
     def ld50_bg_bird(self, aw_bird):
-    # LD50ft-2 for broadcast granular birds
-        if self.application_type == 'Broadcast-Granular':
-            at_bird_temp = at_bird(aw_bird)
-            expo_bg_bird = ((max(self.app_rates) * self.frac_act_ing * 453590) / 43560)
-            ld50_bg_bird_temp = expo_bg_bird / (at_bird_temp * (aw_bird / 1000.0))
-            return ld50_bg_bird_temp
-        else:
-            return 0
-
-
+        # LD50ft-2 for broadcast granular birds
+        ld50_bg_bird_temp = pd.Series([], dtype = 'float')
+        for i in range(len(aw_bird)):
+            if self.application_type[i] == 'Broadcast-Granular':
+                at_bird_temp = self.at_bird(i, aw_bird[i])
+                expo_bg_bird = ((max(self.app_rates[i]) * self.frac_act_ing[i] * 453590) / 43560)
+                ld50_bg_bird_temp[i] = expo_bg_bird / (at_bird_temp * (aw_bird[i] / 1000.0))
+            else:
+                ld50_bg_bird_temp[i] = 0
+        return ld50_bg_bird_temp
 
     @timefn
     def ld50_bl_bird(self, aw_bird):
-    # LD50ft-2 for broadcast liquid birds
-        if self.application_type == 'Broadcast-Liquid':
-            at_bird_temp = at_bird(self.ld50_bird, aw_bird, self.tw_bird, self.mineau_sca_fact)
-            # expo_bl_bird=((max(self.app_rates)*28349*frac_act_ing)/43560)*(1-frac_incorp)
-            expo_bl_bird = ((max(self.app_rates) * 453590 * self.frac_act_ing) / 43560)
-            ld50_bl_bird_temp = expo_bl_bird / (at_bird_temp * (aw_bird / 1000.0))
-            return ld50_bl_bird_temp
-        else:
-            return 0
+        # LD50ft-2 for broadcast liquid birds
+        ld50_bl_bird_temp = pd.Series([], dtype = 'float')
+        for i in range(len(aw_bird)):
+            if self.application_type[i] == 'Broadcast-Liquid':
+                at_bird_temp = self.at_bird(i, aw_bird[i])
+                # this would be used for fl oz but front end requires lb/a
+                # expo_bl_bird=((max(self.app_rates)*28349*frac_act_ing)/43560)*(1-frac_incorp)
+                # for lb based liquid application rates
+                expo_bl_bird = ((max(self.app_rates[i]) * 453590 * self.frac_act_ing[i]) / 43560)
+                ld50_bl_bird_temp[i] = expo_bl_bird / (at_bird_temp * (aw_bird[i] / 1000.0))
+            else:
+                ld50_bl_bird_temp[i] = 0
+        return ld50_bl_bird_temp
 
+    @timefn
+    def ld50_rg_mamm(self, aw_mamm):
+        # LD50ft-2 for row/band/in-furrow granular mammals
+        ld50_rg_mamm_temp = pd.Series([], dtype = 'float')
+        for i in range(len(aw_mamm)):
+            if self.application_type[i] == 'Row/Band/In-furrow-Granular':
+                # a_r = max(app_rates)
+                at_mamm_temp = self.at_mamm(i, aw_mamm[i])
+                num_rows_peracre = (43560 ** 0.5) / self.row_spacing[i]
+                expo_rg_mamm = ((max(self.app_rates[i]) * self.frac_act_ing[i] * 453590) /
+                               (num_rows_peracre * (43560 ** 0.5) * self.bandwidth[i]) * (1 - self.frac_incorp[i]))
+                ld50_rg_mamm_temp[i] = expo_rg_mamm / (at_mamm_temp * (aw_mamm[i] / 1000.0))
+            else:
+                ld50_rg_mamm_temp[i] = 0
+        return ld50_rg_mamm_temp
 
+    @timefn
+    def ld50_rl_mamm(self, aw_mamm):
+        # LD50ft-2 for row/band/in-furrow liquid mammals
+        ld50_rl_mamm_temp = pd.Series([], dtype = 'float')
+        for i in range(len(aw_mamm)):
+            if self.application_type[i] == 'Row/Band/In-furrow-Liquid':
+                at_mamm_temp = self.at_mamm(i, aw_mamm[i])
+                expo_rl_mamm = ((max(self.app_rates[i]) * 28349 * self.frac_act_ing[i]) /
+                                (1000 * self.bandwidth[i])) * (1 - self.frac_incorp[i])
+                ld50_rl_mamm_temp[i] = expo_rl_mamm / (at_mamm_temp * (aw_mamm[i] / 1000.0))
+            else:
+                ld50_rl_mamm_temp[i] = 0
+        return ld50_rl_mamm_temp
 
     @timefn
     def ld50_bg_mamm(self, aw_mamm):
     # LD50ft-2 for broadcast granular mammals
-        if self.application_type == 'Broadcast-Granular':
-            at_mamm_temp = at_mamm(aw_mamm)
-            expo_bg_mamm = ((max(self.app_rates) * self.frac_act_ing * 453590) / 43560)
-            ld50_bg_mamm_temp = expo_bg_mamm / (at_mamm_temp * (aw_mamm / 1000.0))
-            return ld50_bg_mamm_temp
-        else:
-            return 0
-
-
+        ld50_bg_mamm_temp = pd.Series([], dtype="float")
+        for i in range(len(aw_mamm)):
+            if self.application_type[i] == 'Broadcast-Granular':
+                at_mamm_temp = self.at_mamm(i, aw_mamm[i])
+                expo_bg_mamm = ((max(self.app_rates[i]) * self.frac_act_ing[i] * 453590) / 43560)
+                ld50_bg_mamm_temp[i] = expo_bg_mamm / (at_mamm_temp * (aw_mamm[i] / 1000.0))
+            else:
+                ld50_bg_mamm_temp[i] = 0
+        return ld50_bg_mamm_temp
 
     @timefn
     def ld50_bl_mamm(self, aw_mamm):
     # LD50ft-2 for broadcast liquid mammals
-        if self.application_type == 'Broadcast-Liquid':
-            at_mamm_temp = at_mamm(aw_mamm)
-            # expo_bl_mamm=((max(self.app_rates)*28349*self.frac_act_ing)/43560)*(1-frac_incorp)
-            expo_bl_mamm = ((max(self.app_rates) * self.frac_act_ing * 453590) / 43560)  #453590 mg/lb; 43560ft2/acre
-            ld50_bl_mamm_temp = expo_bl_mamm / (at_mamm_temp * (aw_mamm / 1000.0))
-            return ld50_bl_mamm_temp
-        else:
-            return 0
+        ld50_bl_mamm_temp = pd.Series([], dtype="float")
+        for i in range(len(aw_mamm)):
+            if self.application_type[i] == 'Broadcast-Liquid':
+                at_mamm_temp = self.at_mamm(i, aw_mamm[i])
+                # expo_bl_mamm=((max(self.app_rates)*28349*self.frac_act_ing)/43560)*(1-frac_incorp)
+                expo_bl_mamm = ((max(self.app_rates[i]) * self.frac_act_ing[i] * 453590) / 43560)  #453590 mg/lb; 43560ft2/acre
+                ld50_bl_mamm_temp[i] = expo_bl_mamm / (at_mamm_temp * (aw_mamm[i] / 1000.0))
+            else:
+                ld50_bl_mamm_temp[i] = 0
+        return ld50_bl_mamm_temp
