@@ -131,6 +131,7 @@ class TestTrex(unittest.TestCase):
             trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
             trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
             trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            #following variable is unique to
             trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
             for i in range(len(trex_empty.aw_bird_sm)):
                 result[i] = trex_empty.at_bird(i, trex_empty.aw_bird_sm[i])
@@ -167,6 +168,8 @@ class TestTrex(unittest.TestCase):
         """
         expected_results = [4.19728, 22.7780, 59.31724]
         try:
+#?? 'mf_w_bird_1' is a constant (i.e., not an input whose value changes per model simulation run); thus it should
+#?? be specified here as a constant and not a pd.series -- if this is correct then go ahead and change next line
             trex_empty.mf_w_bird_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
             trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
             result = trex_empty.fi_bird(trex_empty.aw_bird_sm, trex_empty.mf_w_bird_1)
@@ -180,14 +183,287 @@ class TestTrex(unittest.TestCase):
         unittest for function sc_bird:
         m_s_a_r = ((self.app_rate * self.frac_act_ing) / 128) * self.density * 10000  # maximum seed application rate=application rate*10000
         risk_quotient = m_s_a_r / self.noaec_bird        """
-        expected_results = [40.9992, 1226.925, 68.1328]
+        expected_results = [6.637969, 77.805, 34.96289]
         try:
-            trex_empty.app_rates[0] = pd.Series([2.1, 12.3, 4.56], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+                                          [2.34, 1.384, 3.4]], dtype='float')
+            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
             trex_empty.frac_act_ing = pd.Series([0.15, 0.20, 0.34], dtype='float')
             trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
             trex_empty.noaec_bird = pd.Series([5., 1.25, 12.], dtype='float')
-            result = trex_empty.sc_bird(trex_empty.app_rates[0])
+            result = trex_empty.sc_bird()
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            pass
+        return
+
+    # def test_sa_bird_1a(self):
+    #     """
+    #     # unit test for function sa_bird_1
+    #     """
+    #     result = pd.Series([], dtype = 'float')
+    #     expected_results = [0.228229, 0.540822, 0.01199]
+    #     try:
+    #         # following parameter values are unique for sa_bird_1
+    #         bird_size = pd.Series(['small','medium','large'], dtype='object')
+    #
+    #         trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+    #         trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+    #                                       [2.34, 1.384, 3.4]], dtype='float')
+    #         trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+    #         trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
+    #
+    #         # following parameter values are needed for internal call to "test_at_bird"
+    #         # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
+    #         trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+    #         trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+    #         trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+    #
+    #         trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+    #         trex_empty.aw_bird_md = pd.Series([115., 120., 130.], dtype='float')
+    #         trex_empty.aw_bird_lg = pd.Series([1015., 1020., 1030.], dtype='float')
+    #
+    #         #reitierate constants here (they have been set in 'trex_inputs'; repeated here for clarity)
+    #         trex_empty.mf_w_bird_1 = 0.1
+    #         trex_empty.nagy_bird_coef_sm = 0.02
+    #         trex_empty.nagy_bird_coef_md = 0.1
+    #         trex_empty.nagy_bird_coef_lg = 1.0
+    #
+    #         for i in range(len(bird_size)):
+    #             result[i] = trex_empty.sa_bird_1a(i, bird_size[i])
+    #         npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
+    #     finally:
+    #         pass
+    #     return
+
+    def test_sa_bird_1(self):
+        """
+        # unit test for function sa_bird_1
+        """
+        result_sm = pd.Series([], dtype = 'float')
+        result_md = pd.Series([], dtype = 'float')
+        result_lg = pd.Series([], dtype = 'float')
+
+        expected_results_sm = pd.Series([0.228229, 0.704098, 0.145205], dtype = 'float')
+        expected_results_md = pd.Series([0.126646, 0.540822, 0.052285], dtype = 'float')
+        expected_results_lg = pd.Series([0.037707, 0.269804, 0.01199], dtype = 'float')
+
+        try:
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+                                          [2.34, 1.384, 3.4]], dtype='float')
+            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
+
+            # following parameter values are needed for internal call to "test_at_bird"
+            # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
+            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+
+            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.aw_bird_md = pd.Series([115., 120., 130.], dtype='float')
+            trex_empty.aw_bird_lg = pd.Series([1015., 1020., 1030.], dtype='float')
+
+            #reitierate constants here (they have been set in 'trex_inputs'; repeated here for clarity)
+            trex_empty.mf_w_bird_1 = 0.1
+            trex_empty.nagy_bird_coef_sm = 0.02
+            trex_empty.nagy_bird_coef_md = 0.1
+            trex_empty.nagy_bird_coef_lg = 1.0
+
+            result_sm = trex_empty.sa_bird_1("small")
+            npt.assert_allclose(result_sm,expected_results_sm,rtol=1e-4, atol=0, err_msg='', verbose=True)
+
+            result_md = trex_empty.sa_bird_1("medium")
+            npt.assert_allclose(result_md,expected_results_md,rtol=1e-4, atol=0, err_msg='', verbose=True)
+
+            result_lg = trex_empty.sa_bird_1("large")
+            npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            pass
+        return
+
+    def test_sa_bird_2(self):
+        """
+        # unit test for function sa_bird_1
+        """
+        result_sm = pd.Series([], dtype = 'float')
+        result_md = pd.Series([], dtype = 'float')
+        result_lg = pd.Series([], dtype = 'float')
+
+        expected_results_sm =pd.Series([0.018832, 0.029030, 0.010483], dtype = 'float')
+        expected_results_md = pd.Series([2.774856e-3, 6.945353e-3, 1.453192e-3], dtype = 'float')
+        expected_results_lg =pd.Series([2.001591e-4, 8.602729e-4, 8.66163e-5], dtype = 'float')
+
+        try:
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+                                          [2.34, 1.384, 3.4]], dtype='float')
+            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
+            trex_empty.max_seed_rate = pd.Series([33.19, 20.0, 45.6])
+
+            # following parameter values are needed for internal call to "test_at_bird"
+            # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
+            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+
+            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.aw_bird_md = pd.Series([115., 120., 130.], dtype='float')
+            trex_empty.aw_bird_lg = pd.Series([1015., 1020., 1030.], dtype='float')
+
+            #reitierate constants here (they have been set in 'trex_inputs'; repeated here for clarity)
+            trex_empty.nagy_bird_coef_sm = 0.02
+            trex_empty.nagy_bird_coef_md = 0.1
+            trex_empty.nagy_bird_coef_lg = 1.0
+
+            result_sm = trex_empty.sa_bird_2("small")
+            npt.assert_allclose(result_sm,expected_results_sm,rtol=1e-4, atol=0, err_msg='', verbose=True)
+
+            result_md = trex_empty.sa_bird_2("medium")
+            npt.assert_allclose(result_md,expected_results_md,rtol=1e-4, atol=0, err_msg='', verbose=True)
+
+            result_lg = trex_empty.sa_bird_2("large")
+            npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            pass
+        return
+
+    def test_sa_mamm_1(self):
+        """
+        # unit test for function sa_bird_1
+        """
+        result_sm = pd.Series([], dtype = 'float')
+        result_md = pd.Series([], dtype = 'float')
+        result_lg = pd.Series([], dtype = 'float')
+
+        expected_results_sm =pd.Series([0.022593, 0.555799, 0.010178], dtype = 'float')
+        expected_results_md = pd.Series([0.019298, 0.460911, 0.00376], dtype = 'float')
+        expected_results_lg =pd.Series([0.010471, 0.204631, 0.002715], dtype = 'float')
+
+        try:
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+                                          [2.34, 1.384, 3.4]], dtype='float')
+            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
+
+            # following parameter values are needed for internal call to "test_at_bird"
+            # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
+            trex_empty.tw_mamm = pd.Series([350., 225., 390.], dtype='float')
+            trex_empty.ld50_mamm = pd.Series([321., 100., 400.], dtype='float')
+
+            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.aw_mamm_md = pd.Series([35., 45., 25.], dtype='float')
+            trex_empty.aw_mamm_lg = pd.Series([1015., 1020., 1030.], dtype='float')
+
+            #reitierate constants here (they have been set in 'trex_inputs'; repeated here for clarity)
+            trex_empty.mf_w_mamm_1 = 0.1
+            trex_empty.nagy_mamm_coef_sm = 0.015
+            trex_empty.nagy_mamm_coef_md = 0.035
+            trex_empty.nagy_mamm_coef_lg = 1.0
+
+            result_sm = trex_empty.sa_mamm_1("small")
+            npt.assert_allclose(result_sm,expected_results_sm,rtol=1e-4, atol=0, err_msg='', verbose=True)
+
+            result_md = trex_empty.sa_mamm_1("medium")
+            npt.assert_allclose(result_md,expected_results_md,rtol=1e-4, atol=0, err_msg='', verbose=True)
+
+            result_lg = trex_empty.sa_mamm_1("large")
+            npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            pass
+        return
+
+    def test_sa_mamm_2(self):
+        """
+        # unit test for function sa_bird_1
+        """
+        result_sm = pd.Series([], dtype = 'float')
+        result_md = pd.Series([], dtype = 'float')
+        result_lg = pd.Series([], dtype = 'float')
+
+        expected_results_sm =pd.Series([2.46206e-3, 3.103179e-2, 1.03076e-3], dtype = 'float')
+        expected_results_md = pd.Series([1.304116e-3, 1.628829e-2, 4.220702e-4], dtype = 'float')
+        expected_results_lg =pd.Series([1.0592147e-4, 1.24391489e-3, 3.74263186e-5], dtype = 'float')
+
+        try:
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+                                          [2.34, 1.384, 3.4]], dtype='float')
+            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
+
+            # following parameter values are needed for internal call to "test_at_bird"
+            # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
+            trex_empty.tw_mamm = pd.Series([350., 225., 390.], dtype='float')
+            trex_empty.ld50_mamm = pd.Series([321., 100., 400.], dtype='float')
+
+            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.aw_mamm_md = pd.Series([35., 45., 25.], dtype='float')
+            trex_empty.aw_mamm_lg = pd.Series([1015., 1020., 1030.], dtype='float')
+
+            #reitierate constants here (they have been set in 'trex_inputs'; repeated here for clarity)
+            trex_empty.mf_w_mamm_1 = 0.1
+            trex_empty.nagy_mamm_coef_sm = 0.015
+            trex_empty.nagy_mamm_coef_md = 0.035
+            trex_empty.nagy_mamm_coef_lg = 1.0
+
+            result_sm = trex_empty.sa_mamm_2("small")
+            npt.assert_allclose(result_sm,expected_results_sm,rtol=1e-4, atol=0, err_msg='', verbose=True)
+
+            result_md = trex_empty.sa_mamm_2("medium")
+            npt.assert_allclose(result_md,expected_results_md,rtol=1e-4, atol=0, err_msg='', verbose=True)
+
+            result_lg = trex_empty.sa_mamm_2("large")
+            npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            pass
+        return
+
+    def test_sc_mamm(self):
+        """
+        # unit test for function sa_bird_1
+        """
+        result_sm = pd.Series([], dtype = 'float')
+        result_md = pd.Series([], dtype = 'float')
+        result_lg = pd.Series([], dtype = 'float')
+
+        expected_results_sm =pd.Series([2.90089, 15.87995, 8.142130], dtype = 'float')
+        expected_results_md = pd.Series([2.477926, 13.16889, 3.008207], dtype = 'float')
+        expected_results_lg =pd.Series([1.344461, 5.846592, 2.172211], dtype = 'float')
+
+        try:
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+                                          [2.34, 1.384, 3.4]], dtype='float')
+            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
+
+            # following parameter values are needed for internal call to "test_at_bird"
+            # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
+            trex_empty.tw_mamm = pd.Series([350., 225., 390.], dtype='float')
+            trex_empty.noael_mamm = pd.Series([2.5, 3.5, 0.5], dtype='float')
+
+            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.aw_mamm_md = pd.Series([35., 45., 25.], dtype='float')
+            trex_empty.aw_mamm_lg = pd.Series([1015., 1020., 1030.], dtype='float')
+
+            #reitierate constants here (they have been set in 'trex_inputs'; repeated here for clarity)
+            trex_empty.mf_w_mamm_1 = 0.1
+            trex_empty.nagy_mamm_coef_sm = 0.015
+            trex_empty.nagy_mamm_coef_md = 0.035
+            trex_empty.nagy_mamm_coef_lg = 1.0
+
+            result_sm = trex_empty.sc_mamm("small")
+            npt.assert_allclose(result_sm,expected_results_sm,rtol=1e-4, atol=0, err_msg='', verbose=True)
+
+            result_md = trex_empty.sc_mamm("medium")
+            npt.assert_allclose(result_md,expected_results_md,rtol=1e-4, atol=0, err_msg='', verbose=True)
+
+            result_lg = trex_empty.sc_mamm("large")
+            npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             pass
         return
@@ -500,31 +776,37 @@ class TestTrex(unittest.TestCase):
             pass
         return
 
-    def test_eec_diet(self):
+    def test_eec_diet_max(self):
         """
-        unit test for function eec_diet;
-        internal calls to 'conc_initial' and 'conc_timestep' are included
+        combined unit test for methods eec_diet_max & eec_diet_timeseries;
 
-        unit tests of this routine include the following approach:
-        * this test verifies that the logic & calculations performed within the 'eec_diet' are correctly implemented
-        * methods called inside of 'eec_diet', i.e., 'conc_initial' & 'conc_timestep', are not retested/recalculated
-        * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
+        * this test calls eec_diet_max, which in turn calls eec_diet_timeseries (which produces
+          concentration timeseries), which in turn calls conc_initial and conc_timestep
+        * eec_diet_max processes the timeseries and extracts the maximum values
+
+        * this test tests both eec_diet_max & eec_diet_timeseries together (ok, so this violates the exact definition
+        * of 'unittest', get over it)
+        * the assertion check is that the maximum values from the timeseries match expectations
+        * this assumes that for the maximums to be 'as expected' then the timeseries are as well
+        * note: the 1st application day ('day_out') for the 2nd model simulation run is set to 0 here
+        * to make sure the timeseries processing works when an application occurs on 1st day of year
         """
-        expected_results = [12.716, 147.798, 11.232]
+
+        expected_results = [12.716, 145.3409, 11.232]
         num_app_days = pd.Series([], dtype='int')
         try:
             #specifying 3 different application scenarios of 1, 4, and 2 applications
             trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            trex_empty.day_out = pd.Series([[5], [0, 10, 20, 50], [150, 250]], dtype='object')
             for i in range(len(trex_empty.app_rates)):
                 trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
                 num_app_days[i] = len(trex_empty.day_out[i])
-                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+                assert (trex_empty.num_apps[i] == num_app_days[i]), 'series of app-rates and app_days do not match'
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
             trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
             trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
-            result = trex_empty.eec_diet(trex_empty.food_multiplier_init_sg)
+            result = trex_empty.eec_diet_max(trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             pass
@@ -533,18 +815,17 @@ class TestTrex(unittest.TestCase):
     def test_eec_dose_bird(self):
         """
         unit test for function eec_dose_bird;
-        internal call to 'eec_diet' --> conc_initial' and 'conc_timestep' are included;
+        internal call to 'eec_diet_max' --> 'eed_diet_timeseries' --> conc_initial' and 'conc_timestep' are included;
         internal call  to 'fi_bird' included
 
         unit tests of this routine include the following approach:
         * this test verifies that the logic & calculations performed within the 'eec_dose_bird' are correctly implemented
         * methods called inside of 'eec_dose_bird' are not retested/recalculated but rather the
-          same values sets used for those unittests are repeated/verified here
+          same variable value sets used for those unittests are repeated/verified here
         """
         expected_results = [3.55817, 168.32712, 22.20837]
         num_app_days = pd.Series([], dtype='int')
         try:
-            #specifying 3 different application scenarios of 1, 4, and 2 applications
             trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
             trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
             for i in range(len(trex_empty.app_rates)):
@@ -573,7 +854,7 @@ class TestTrex(unittest.TestCase):
     def test_arq_dose_bird(self):
         """
         unit test for function eec_dose_bird;
-        internal call to 'eec_dose_bird' --> 'eec_diet_bird' --> conc_initial' and 'conc_timestep' are included;
+        internal call to 'arq_dose_bird' --> 'eec_diet_bird' --> conc_initial' and 'conc_timestep' are included;
         internal call  to 'at_bird' included
 
         unit tests of this routine include the following approach:

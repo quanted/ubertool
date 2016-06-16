@@ -49,7 +49,6 @@ class TrexInputs(ModelSharedInputs):
         self.frac_incorp = pd.Series([], dtype="float")  #not direct input; result of units conversion
         self.density = pd.Series([], dtype="float")
         self.foliar_diss_hlife = pd.Series([], dtype="float")
-        self.num_apps = pd.Series([], dtype="float")
 
 #old code
 #===================================================================================
@@ -77,8 +76,9 @@ class TrexInputs(ModelSharedInputs):
 
 #new code
 #======================================================================
-        self.app_rates = pd.Series([], dtype="object") #Series of lists, each list contains app_rates of a simulation
+        self.app_rates = pd.Series([], dtype="object") #Series of lists, each list contains app_rates of a model simulation run
         self.day_out = pd.Series([], dtype="object") #Series of lists, each list contains day #'s of applications
+        self.num_apps = pd.Series([], dtype="float") # number of applications per model simulation run
         # could calculate self.num_apps = len(self.app_rates) # should at least check if user supplied value is consistent
         # following two variables will be specified from parsing app_rates Series of lists
         self.first_app_rate = pd.Series([], dtype='float') #series of first_day app rates across model simulations
@@ -437,12 +437,12 @@ class TRex(UberModel, TrexInputs, TrexOutputs, TrexFunctions):
         self.out_c_mean_arthro = self.conc_initial(self.food_multiplier_mean_arthro)
 
         # ?? need to process these time series
-        # time series estimate based on first application rate - needs to be matrices for batch runs
-        self.out_c_ts_sg = self.conc_food_timeseries(self.food_multiplier_init_sg)  # short grass
-        self.out_c_ts_tg = self.conc_food_timeseries(self.food_mulitplier_init_tg)  # tall grass
-        self.out_c_ts_blp = self.conc_food_timeseries(self.food_multiplier_init_blp)  # broad-leafed plants
-        self.out_c_ts_fp = self.conc_food_timeseries(self.food_multiplier_init_fp)  # fruits/pods
-        self.out_c_ts_arthro = self.conc_food_timeseries(self.food_multiplier_init_arthro)  # arthropods
+        # time series estimate based on first test case - needs to be matrices for batch runs
+        self.out_c_ts_sg = self.eec_diet_timeseries(self.food_multiplier_init_sg)  # short grass
+        self.out_c_ts_tg = self.eec_diet_timeseries(self.food_mulitplier_init_tg)  # tall grass
+        self.out_c_ts_blp = self.eec_diet_timeseries(self.food_multiplier_init_blp)  # broad-leafed plants
+        self.out_c_ts_fp = self.eec_diet_timeseries(self.food_multiplier_init_fp)  # fruits/pods
+        self.out_c_ts_arthro = self.eec_diet_timeseries(self.food_multiplier_init_arthro)  # arthropods
 
         # Table5
         self.out_sa_bird_1_s = self.sa_bird_1("small")
@@ -467,12 +467,11 @@ class TRex(UberModel, TrexInputs, TrexOutputs, TrexFunctions):
         self.out_sc_mamm_l = self.sc_mamm("large")
 
         # Table 6
-#??the use of 'app_rates' here should be checked to ensure list is available in functions
-        self.out_eec_diet_sg = self.eec_diet(self.app_rates, self.food_multiplier_init_sg)
-        self.out_eec_diet_tg = self.eec_diet(self.app_rates, self.food_multiplier_init_tg)
-        self.out_eec_diet_bp = self.eec_diet(self.app_rates, self.food_multiplier_init_blp)
-        self.out_eec_diet_fr = self.eec_diet(self.app_rates, self.food_multiplier_init_fp)
-        self.out_eec_diet_ar = self.eec_diet(self.app_rates, self.food_multiplier_init_arthro)
+        self.out_eec_diet_sg = self.eec_diet_max(self.app_rates, self.food_multiplier_init_sg)
+        self.out_eec_diet_tg = self.eec_diet_max(self.app_rates, self.food_multiplier_init_tg)
+        self.out_eec_diet_bp = self.eec_diet_max(self.app_rates, self.food_multiplier_init_blp)
+        self.out_eec_diet_fr = self.eec_diet_max(self.app_rates, self.food_multiplier_init_fp)
+        self.out_eec_diet_ar = self.eec_diet_max(self.app_rates, self.food_multiplier_init_arthro)
 
         # Table 7
         self.out_eec_dose_bird_sg_sm = self.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_3, self.food_multiplier_init_sg)

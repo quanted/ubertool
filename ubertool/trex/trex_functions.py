@@ -58,86 +58,153 @@ class TrexFunctions(object):
         feet = inches / 12
         return feet
 
-    @timefn
-    def conc_food_timeseries(self, food_multiplier):
-        # Concentration time series for a selected food item
-        """
-        :type
+    # @timefn
+    # def conc_food_timeseries(self, food_multiplier):
+    #     # Concentration time series for a selected food item
+    #     """
+    #     :type
+    #
+    #     """
+    #     conc_food = np.zeros((371, 1))  # empty array to hold the concentrations over days
+    #     existing_conc = 0.  # start concentration
+    #             # add_conc = 0.  # intermediate concentration calculation
+    #             # app_check = False  # checks to see if there are more applications left in the year
+    #     app_counter = 0  # tracks number of applications
+    #             # app_day = 0  # app_day tracks day number of the next application
+    #             # app_rate = 0.  # application rate of next application
+    #             # app_total = 0  # total number of applications
+    #     app_total = len(self.day_out)
+    #
+    #     for i in range(0, 371):  # i is day number in the year
+    #         app_check = bool(app_counter <= app_total)
+    #         if app_check:  # check for next application day
+    #                     # logging.info("day_out")
+    #                     # logging.info(self.day_out)
+    #                     # logging.info("rate_out")
+    #                     # logging.info(self.rate_out)
+    #             app_day = int(self.day_out[0][app_counter])  # day number of the next application
+    #                     # logging.info(app_day)
+    #             app_rates = float(self.rate_out[0])  # application rate of next application
+    #                     # logging.info(app_rates)
+    #             if i == app_day:  # application day
+    #                 if i > 0:  # decay yesterdays concentration
+    #                     existing_conc = conc_timestep(conc_food[i - 1], self.foliar_diss_hlife)
+    #                 add_conc = conc_initial(app_rates, food_multiplier)  # new application conc
+    #                 conc_food[i] = existing_conc + add_conc  # calculate today's total concentration
+    #                 app_counter += 1  # increment number of applications so far
+    #             elif i > 0:
+    #                 # decay yesterdays concentration if no application
+    #                 conc_food[i] = conc_timestep(conc_food[i - 1], self.foliar_diss_hlife)
+    #             else:
+    #                 conc_food[i] = 0  # handle first day if no application
+    #     return conc_food
 
-        """
-        conc_food = np.zeros((371, 1))  # empty array to hold the concentrations over days
-        existing_conc = 0.  # start concentration
-                # add_conc = 0.  # intermediate concentration calculation
-                # app_check = False  # checks to see if there are more applications left in the year
-        app_counter = 0  # tracks number of applications
-                # app_day = 0  # app_day tracks day number of the next application
-                # app_rate = 0.  # application rate of next application
-                # app_total = 0  # total number of applications
-        app_total = len(self.day_out)
+    # @timefn
+    # def sa_bird_1(self, size):
+    # # Seed treatment acute RQ for birds method 1
+    #
+    #     # setup panda series
+    #     at_bird_temp = pd.Series(name="at_bird_temp")
+    #     fi_bird_temp = pd.Series(name="fi_bird_temp")
+    #     m_s_a_r_temp = pd.Series(name="m_s_a_r_temp")
+    #     nagy_bird_temp = pd.Series(name="nagy_bird_temp")
+    #     sa_bird_1_return = pd.Series(name="sa_bird_1_return")
+    #
+    #     if size == "small":
+    #         mf_w_bird = self.mf_w_bird_1
+    #         nagy_bird_coef = self.nagy_bird_coef_sm
+    #         aw_bird = self.aw_bird_sm
+    #     elif size == "medium":
+    #         mf_w_bird = self.mf_w_bird_1
+    #         nagy_bird_coef = self.nagy_bird_coef_md
+    #         aw_bird = self.aw_bird_md
+    #     elif size == "large":
+    #         mf_w_bird = self.mf_w_bird_1
+    #         nagy_bird_coef = self.nagy_bird_coef_lg
+    #         aw_bird = self.aw_bird_lg
+    #
+    #     # run calculations
+    #     at_bird_temp = self.at_bird(aw_bird)
+    #     fi_bird_temp = self.fi_bird(aw_bird, mf_w_bird)
+    #     # maximum seed application rate=application rate*10000
+    # #??should assign these constants to variables in TrexInputs class or explain conversions
+    #     m_s_a_r_temp = ((self.app_rates * self.frac_act_ing) / 128.) * self.density * 10000
+    #     nagy_bird_temp = fi_bird_temp * 0.001 * m_s_a_r_temp / nagy_bird_coef
+    #     sa_bird_1_return = nagy_bird_temp / at_bird_temp
+    #     return sa_bird_1_return
 
-        for i in range(0, 371):  # i is day number in the year
-            app_check = bool(app_counter <= app_total)
-            if app_check:  # check for next application day
-                        # logging.info("day_out")
-                        # logging.info(self.day_out)
-                        # logging.info("rate_out")
-                        # logging.info(self.rate_out)
-                app_day = int(self.day_out[0][app_counter])  # day number of the next application
-                        # logging.info(app_day)
-                app_rates = float(self.rate_out[0])  # application rate of next application
-                        # logging.info(app_rates)
-                if i == app_day:  # application day
-                    if i > 0:  # decay yesterdays concentration
-                        existing_conc = conc_timestep(conc_food[i - 1], self.foliar_diss_hlife)
-                    add_conc = conc_initial(app_rates, food_multiplier)  # new application conc
-                    conc_food[i] = existing_conc + add_conc  # calculate today's total concentration
-                    app_counter += 1  # increment number of applications so far
-                elif i > 0:
-                    # decay yesterdays concentration if no application
-                    conc_food[i] = conc_timestep(conc_food[i - 1], self.foliar_diss_hlife)
-                else:
-                    conc_food[i] = 0  # handle first day if no application
-        return conc_food
+#     @timefn
+#     def sa_bird_1a(self, i, size):
+#     # Seed treatment acute RQ for birds method 1
+#
+#         # # setup panda series
+#         # at_bird_temp = pd.Series(name="at_bird_temp")
+#         # fi_bird_temp = pd.Series(name="fi_bird_temp")
+#         # m_s_a_r_temp = pd.Series(name="m_s_a_r_temp")
+#         # nagy_bird_temp = pd.Series(name="nagy_bird_temp")
+#
+#         if size == "small":
+#             mf_w_bird = self.mf_w_bird_1
+#             nagy_bird_coef = self.nagy_bird_coef_sm
+#             aw_bird = self.aw_bird_sm[i]
+#         elif size == "medium":
+#             mf_w_bird = self.mf_w_bird_1
+#             nagy_bird_coef = self.nagy_bird_coef_md
+#             aw_bird = self.aw_bird_md[i]
+#         elif size == "large":
+#             mf_w_bird = self.mf_w_bird_1
+#             nagy_bird_coef = self.nagy_bird_coef_lg
+#             aw_bird = self.aw_bird_lg[i]
+#
+#         # run calculations
+#         at_bird_temp = self.at_bird(i, aw_bird)
+#         fi_bird_temp = self.fi_bird(aw_bird, mf_w_bird)
+#         # maximum seed application rate=application rate*10000
+# #??should assign these constants to variables in TrexInputs class or explain conversions
+#         m_s_a_r_temp = ((self.first_app_rate[i]  * self.frac_act_ing[i]) / 128.) * self.density[i] * 10000
+#         nagy_bird_temp = fi_bird_temp * 0.001 * m_s_a_r_temp / nagy_bird_coef
+#         sa_bird_1_return = nagy_bird_temp / at_bird_temp
+#         return sa_bird_1_return
 
     @timefn
     def sa_bird_1(self, size):
     # Seed treatment acute RQ for birds method 1
 
-        # setup panda series
-        at_bird_temp = pd.Series(name="at_bird_temp")
-        fi_bird_temp = pd.Series(name="fi_bird_temp")
-        m_s_a_r_temp = pd.Series(name="m_s_a_r_temp")
-        nagy_bird_temp = pd.Series(name="nagy_bird_temp")
-        sa_bird_1_return = pd.Series(name="sa_bird_1_return")
+        # # setup panda series
+        at_bird_temp = pd.Series([], dtype='float', name="at_bird_temp")
+        fi_bird_temp = pd.Series([], dtype='float',name="fi_bird_temp")
+        #maximum seed application rate (m_s_r_p)
+        m_s_a_r_temp = pd.Series([], dtype='float',name="m_s_a_r_temp")
+        nagy_bird_temp = pd.Series([], dtype='float',name="nagy_bird_temp")
+        aw_bird = pd.Series([], dtype = 'float')
 
         if size == "small":
-            mf_w_bird = self.mf_w_bird_1
-            nagy_bird_coef = self.nagy_bird_coef_sm
-            aw_bird = self.aw_bird_sm
+                mf_w_bird = self.mf_w_bird_1
+                nagy_bird_coef = self.nagy_bird_coef_sm
+                aw_bird = self.aw_bird_sm
         elif size == "medium":
-            mf_w_bird = self.mf_w_bird_1
-            nagy_bird_coef = self.nagy_bird_coef_md
-            aw_bird = self.aw_bird_md
+                mf_w_bird = self.mf_w_bird_1
+                nagy_bird_coef = self.nagy_bird_coef_md
+                aw_bird = self.aw_bird_md
         elif size == "large":
-            mf_w_bird = self.mf_w_bird_1
-            nagy_bird_coef = self.nagy_bird_coef_lg
-            aw_bird = self.aw_bird_lg
+                mf_w_bird = self.mf_w_bird_1
+                nagy_bird_coef = self.nagy_bird_coef_lg
+                aw_bird = self.aw_bird_lg
 
-        # run calculations
-        at_bird_temp = self.at_bird(aw_bird)
         fi_bird_temp = self.fi_bird(aw_bird, mf_w_bird)
-        # maximum seed application rate=application rate*10000
-    #??should assign these constants to variables in TrexInputs class or explain conversions
-        m_s_a_r_temp = ((self.app_rates * self.frac_act_ing) / 128.) * self.density * 10000
+        for i in range(len(aw_bird)):
+            at_bird_temp[i] = self.at_bird(i, aw_bird[i])
+        m_s_a_r_temp = ((self.first_app_rate  * self.frac_act_ing) / 128.) * self.density * 10000
         nagy_bird_temp = fi_bird_temp * 0.001 * m_s_a_r_temp / nagy_bird_coef
         sa_bird_1_return = nagy_bird_temp / at_bird_temp
         return sa_bird_1_return
-
 
     @timefn
     def sa_bird_2(self, size):
         # Seed treatment acute RQ for birds method 2
 
+        at_bird_temp = pd.Series([], dtype='float', name="at_bird_temp")
+
         if size == "small":
             nagy_bird_coef = self.nagy_bird_coef_sm
             aw_bird = self.aw_bird_sm
@@ -148,22 +215,25 @@ class TrexFunctions(object):
             nagy_bird_coef = self.nagy_bird_coef_lg
             aw_bird = self.aw_bird_lg
 
-        at_bird_temp = self.at_bird(self.ld50_bird, aw_bird, self.tw_bird_ld50, self.mineau_sca_fact)
-        m_a_r = (self.max_seed_rate * ((self.frac_act_ing * self.app_rates[0]) / 128) * self.density) / 100  # maximum application rate
+        for i in range(len(aw_bird)):
+            at_bird_temp[i] = self.at_bird(i, aw_bird[i])
+        m_a_r = (self.max_seed_rate * ((self.frac_act_ing * self.first_app_rate) / 128) * self.density) / 100  # maximum application rate
         av_ai = m_a_r * 1e6 / (43560 * 2.2)
         sa_bird_2_return = av_ai / (at_bird_temp * nagy_bird_coef)
         return sa_bird_2_return
 
     @timefn
-    def sc_bird(self, app_rates):
+    def sc_bird(self):
         # Seed treatment chronic RQ for birds
-        m_s_a_r = ((app_rates * self.frac_act_ing) / 128) * self.density * 10000  # maximum seed application rate=application rate*10000
+        m_s_a_r = ((self.first_app_rate * self.frac_act_ing) / 128) * self.density * 10000  # maximum seed application rate=application rate*10000
         risk_quotient = m_s_a_r / self.noaec_bird
         return risk_quotient
 
     @timefn
     def sa_mamm_1(self, size):
         # Seed treatment acute RQ for mammals method 1
+
+        at_mamm_temp = pd.Series([], dtype='float', name="at_mamm_temp")
 
         if size == "small":
             mf_w_bird = self.mf_w_bird_1
@@ -178,9 +248,10 @@ class TrexFunctions(object):
             nagy_mamm_coef = self.nagy_mamm_coef_lg
             aw_mamm = self.aw_mamm_lg
 
-        at_mamm_temp = self.at_mamm(aw_mamm)
+        for i in range(len(aw_mamm)):
+            at_mamm_temp[i] = self.at_mamm(i, aw_mamm[i])
         fi_mamm_temp = self.fi_mamm(aw_mamm, mf_w_bird)
-        m_s_a_r = ((self.app_rates * self.frac_act_ing) / 128) * self.density * 10000  # maximum seed application rate=application rate*10000
+        m_s_a_r = ((self.first_app_rate * self.frac_act_ing) / 128) * self.density * 10000  # maximum seed application rate=application rate*10000
         nagy_mamm = fi_mamm_temp * 0.001 * m_s_a_r / nagy_mamm_coef
         quotient = nagy_mamm / at_mamm_temp
         return quotient
@@ -189,6 +260,8 @@ class TrexFunctions(object):
     def sa_mamm_2(self, size):
         # Seed treatment acute RQ for mammals method 2
 
+        at_mamm_temp = pd.Series([], dtype='float', name="at_mamm_temp")
+
         if size == "small":
             nagy_mamm_coef = self.nagy_mamm_coef_sm
             aw_mamm = self.aw_mamm_sm
@@ -199,8 +272,9 @@ class TrexFunctions(object):
             nagy_mamm_coef = self.nagy_mamm_coef_lg
             aw_mamm = self.aw_mamm_lg
 
-        at_mamm_temp = self.at_mamm(aw_mamm)
-        m_a_r = (self.max_seed_rate * ((self.app_rates * self.frac_act_ing) / 128) * self.density) / 100  # maximum application rate
+        for i in range(len(aw_mamm)):
+            at_mamm_temp[i] = self.at_mamm(i, aw_mamm[i])
+        m_a_r = (self.max_seed_rate * ((self.first_app_rate * self.frac_act_ing) / 128) * self.density) / 100  # maximum application rate
         av_ai = m_a_r * 1000000 / (43560 * 2.2)
         quotient = av_ai / (at_mamm_temp * nagy_mamm_coef)
         return quotient
@@ -210,21 +284,21 @@ class TrexFunctions(object):
         # Seed treatment chronic RQ for mammals
 
         if size == "small":
-            mf_w_bird = self.mf_w_bird_1
+            mf_w_mamm = self.mf_w_mamm_1
             nagy_mamm_coef = self.nagy_mamm_coef_sm
             aw_mamm = self.aw_mamm_sm
         elif size == "medium":
-            mf_w_bird = self.mf_w_bird_1
+            mf_w_mamm = self.mf_w_mamm_1
             nagy_mamm_coef = self.nagy_mamm_coef_md
             aw_mamm = self.aw_mamm_md
         elif size == "large":
-            mf_w_bird = self.mf_w_bird_1
+            mf_w_mamm = self.mf_w_mamm_1
             nagy_mamm_coef = self.nagy_mamm_coef_lg
             aw_mamm = self.aw_mamm_lg
 
         anoael_mamm_temp = self.anoael_mamm(aw_mamm)
-        fi_mamm_temp = self.fi_mamm(aw_mamm, mf_w_bird)
-        m_s_a_r = ((self.app_rates * self.frac_act_ing) / 128) * self.density * 10000  # maximum seed application rate=application rate*10000
+        fi_mamm_temp = self.fi_mamm(aw_mamm, mf_w_mamm)
+        m_s_a_r = ((self.first_app_rate * self.frac_act_ing) / 128) * self.density * 10000  # maximum seed application rate=application rate*10000
         nagy_mamm = fi_mamm_temp * 0.001 * m_s_a_r / nagy_mamm_coef
         quotient = nagy_mamm / anoael_mamm_temp
         return quotient
@@ -242,7 +316,6 @@ class TrexFunctions(object):
         # food intake for mammals
         food_intake = (0.621 * (aw_mamm ** 0.564)) / (1 - mf_w_mamm)
         return food_intake
-
 
     @timefn
     def at_bird(self, i, aw_bird):
@@ -303,55 +376,94 @@ class TrexFunctions(object):
     #         max_c_return = max(C_temp)
     #         return max_c_return
 
+    # @timefn
+    # def eec_diet(self, food_multiplier):
+    #     # Dietary based EECs
+    #     # returns maximum daily concentration that occurs during year as result of one or more applications
+    #     # calculations are performed daily from day of first application through the last day of the year
+    #     # note: day numbers are synchronized with 0-based array indexing; thus January 1 is the 0th array index
+    #     max_conc = pd.Series([], dtype = 'float')
+    #
+    #     for i in range(len(self.num_apps)):  #i denotes model simulation (e.g., within monte carlo simulation)
+    #
+    #         c_temp = np.zeros((371, 1))  # empty array to hold the concentrations over days of year (index 0 = Jan 1)
+    #         app_counter = 0  #iniitalize application number counter for this iteration
+    #         temp_num_apps = self.num_apps[i]
+    #         temp_app_indices = np.asarray(self.day_out[i]) - 1
+    #         temp_app_rates = np.asarray(self.app_rates[i])
+    #         temp_food_multiplier = np.float(food_multiplier[i])
+    #
+    #         for day_index in range(temp_app_indices[0], 371):     # day number of first application
+    #             if day_index == temp_app_indices[0]:  # first day of application ( single or multiple application model simulation run)
+    #                 c_temp[day_index] = self.conc_initial(i, temp_app_rates[0], temp_food_multiplier)
+    #                 app_counter += 1
+    #             elif app_counter <= temp_num_apps - 1:  # next application day
+    #                 if day_index == temp_app_indices[app_counter]:
+    #                     c_temp[day_index] = (self.conc_timestep(i, c_temp[day_index - 1]) +
+    #                                          self.conc_initial(i, temp_app_rates[app_counter], temp_food_multiplier))
+    #                     app_counter += 1
+    #                 else:
+    #                     c_temp[day_index] = self.conc_timestep(i, c_temp[day_index - 1])
+    #             else:
+    #                 #following line allows for all days after last application
+    #                 c_temp[day_index] = self.conc_timestep(i, c_temp[day_index - 1])
+    #         max_conc[i] = float(max(c_temp))
+    #     return max_conc
+
     @timefn
-    def eec_diet(self, food_multiplier):
+    def eec_diet_max(self, food_multiplier):
+        """
+        method produces a concentration timeseries (daily for 1 yr + a week) and extracts the maximum concentration value
+        """
+        max_concs = pd.Series([], dtype = 'float')
+        temp_ts = pd.Series([], dtype = 'float')
+
+        #get timeseries
+        temp_ts = self.eec_diet_timeseries(food_multiplier)
+        max_concs = [temp_ts[i].max() for i in range(temp_ts.__len__())]
+        return max_concs
+
+    @timefn
+    def eec_diet_timeseries(self, food_multiplier):
         # Dietary based EECs
         # returns maximum daily concentration that occurs during year as result of one or more applications
-        # calculations are performed daily from day of first application through the day of the last application
-#?? the day numbering here may need to be looked at, as it stands the '0' index (eg., on c_temp) implies day 1 of the year
-#?? (it may not make a difference here because we're only looking for the annual maximum concentration  --  if we wanted
-#?? to preserve the daily time series the day number may need to be explicitly assigned rather than assumed to be the array index
+        # calculations are performed daily from day of first application through the last day of the year
+        # note: day numbers are synchronized with 0-based array indexing; thus January 1 is the 0th array index
+        #max_conc = pd.Series([], dtype = 'float')
+        c_temp_1 = pd.Series([], dtype='object')
 
-        max_conc = pd.Series([], dtype = 'float')
         for i in range(len(self.num_apps)):  #i denotes model simulation (e.g., within monte carlo simulation)
-            # new in trex1.5.1
-            if self.num_apps[i] == 1:         #only one application for this simulation
-                    # get concentration for application day; which is also max daily conc for year when only one application occurs
-                max_conc[i] = self.conc_initial(i, self.app_rates[i][0], food_multiplier[i])
-            else:
-                c_temp = np.zeros((371, 1))  # empty array to hold the concentrations over days of year
-                num_apps_temp = 0  # number of existing application
-                dayt = 0  #iniitalize application number counter for this iteration
-                day_out_l = len(self.day_out[i])
-                for day in range(self.day_out[i][0], 371):     # day number of first application
-                    if day == self.day_out[i][0]:  # first day of application of a multiple application model simulation run
-                        c_temp[day] = self.conc_initial(i, self.app_rates[i][0], food_multiplier[i])
-                        num_apps_temp += 1
-                        dayt += 1
-                    elif dayt <= day_out_l - 1 and num_apps_temp <= self.num_apps[i]:  # next application day
-                        if day == self.day_out[i][dayt]:
-                            c_temp[day] = (self.conc_timestep(i, c_temp[day - 1]) +
-                                          self.conc_initial(i, self.app_rates[i][dayt], food_multiplier[i]))
-                            num_apps_temp += 1
-                            dayt += 1
-                        else:
-#?? when passing 'c_temp[day-1]' into method the ndarray type gets placed on the resulting output variable
-#?? it should be a single float rather than a ndarray; should this reference to 'c_temp[]' be 'float(c)_temp[])'
-#it doesn't seem to impact the results but in terms of data types they do not match what should be
-                            c_temp[day] = self.conc_timestep(i, c_temp[day - 1])
-#??the following two lines should be added if entire year times series is desired;
-#??otherwise daily calculations end the day of the last application;
-#??(which is all that is necessary to find the max_conc for the year)
-                    #else:
-                    #        c_temp[day] = self.conc_timestep(i, c_temp[day - 1])
-                max_conc[i] = float(max(c_temp))
-        return max_conc
+
+            c_temp = np.zeros((371, 1))  # empty array to hold the concentrations over days of year (index 0 = Jan 1)
+            app_counter = 0  #iniitalize application number counter for this iteration
+            temp_num_apps = self.num_apps[i]
+            temp_app_indices = np.asarray(self.day_out[i]) - 1
+            temp_app_rates = np.asarray(self.app_rates[i])
+            temp_food_multiplier = np.float(food_multiplier[i])
+
+            for day_index in range(temp_app_indices[0], 371):     # day number of first application
+                if day_index == temp_app_indices[0]:  # first day of application ( single or multiple application model simulation run)
+                    c_temp[day_index] = self.conc_initial(i, temp_app_rates[0], temp_food_multiplier)
+                    app_counter += 1
+                elif app_counter <= temp_num_apps - 1:  # next application day
+                    if day_index == temp_app_indices[app_counter]:
+                        c_temp[day_index] = (self.conc_timestep(i, c_temp[day_index - 1]) +
+                                             self.conc_initial(i, temp_app_rates[app_counter], temp_food_multiplier))
+                        app_counter += 1
+                    else:
+                        c_temp[day_index] = self.conc_timestep(i, c_temp[day_index - 1])
+                else:
+                    #following line allows for all days after last application to be computed
+                    c_temp[day_index] = self.conc_timestep(i, c_temp[day_index - 1])
+            #max_conc[i] = float(max(c_temp))
+            c_temp_1[i] = c_temp #complete set of time series (e.g., for plotting)
+        return c_temp_1
 
     @timefn
     def eec_dose_bird(self, aw_bird, mf_w_bird, food_multiplier):
     # Dose based EECs for birds
         fi_bird_calc = self.fi_bird(aw_bird, mf_w_bird)
-        eec_diet_temp = self.eec_diet(food_multiplier)
+        eec_diet_temp = self.eec_diet_max(food_multiplier)
         eec_out = eec_diet_temp * fi_bird_calc / aw_bird
         return eec_out
 
@@ -378,7 +490,7 @@ class TrexFunctions(object):
     @timefn
     def eec_dose_mamm(self, aw_mamm, mf_w_mamm, food_multiplier):
     # Dose based EECs for mammals
-        eec_diet_temp = self.eec_diet(food_multiplier)
+        eec_diet_temp = self.eec_diet_max(food_multiplier)
         fi_mamm_temp = self.fi_mamm(aw_mamm, mf_w_mamm)
         dose_eec = eec_diet_temp * fi_mamm_temp / aw_mamm
         return dose_eec
@@ -443,14 +555,14 @@ class TrexFunctions(object):
     @timefn
     def arq_diet_bird(self, food_multiplier):
     # Acute dietary-based risk quotients for birds
-        eec_diet_temp = self.eec_diet(food_multiplier)
+        eec_diet_temp = self.eec_diet_max(food_multiplier)
         risk_quotient = eec_diet_temp / self.lc50_bird
         return risk_quotient
 
     @timefn
     def arq_diet_mamm(self, food_multiplier):
     # Acute dietary-based risk quotients for mammals
-        eec_diet_temp = self.eec_diet(food_multiplier)
+        eec_diet_temp = self.eec_diet_max(food_multiplier)
         risk_quotient = eec_diet_temp / self.lc50_mamm
         return risk_quotient
 
@@ -459,7 +571,7 @@ class TrexFunctions(object):
     @timefn
     def crq_diet_bird(self, food_multiplier):
     # Chronic dietary-based risk quotients for birds
-        eec_diet_temp = self.eec_diet(food_multiplier)
+        eec_diet_temp = self.eec_diet_max(food_multiplier)
         risk_quotient = eec_diet_temp / self.noaec_bird
         return risk_quotient
 
@@ -468,7 +580,7 @@ class TrexFunctions(object):
     @timefn
     def crq_diet_mamm(self, food_multiplier):
     # Chronic dietary-based risk quotients for mammals
-        eec_diet_temp = self.eec_diet(food_multiplier)
+        eec_diet_temp = self.eec_diet_max(food_multiplier)
         crq_diet_mamm_temp = eec_diet_temp / self.noaec_mamm
         return crq_diet_mamm_temp
 
@@ -527,6 +639,7 @@ class TrexFunctions(object):
         #         ld50_rg_bird_temp[i] = expo_rg_bird / (at_bird_temp * (aw_bird[i] / 1000.0))
         #     else:
         #         ld50_rg_bird_temp[i] = 0
+
         # calculate all values of 'ld50_rg_bird_temp' regardless of application_type (to facilitate vectorization)
         at_bird_temp = self.at_bird1(aw_bird)
         num_rows_peracre = (43560 ** 0.5) / self.row_spacing
