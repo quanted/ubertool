@@ -1,7 +1,7 @@
 # needs to be run whenever the qaqc csv is updated
-csv_path = "./terrplant_qaqc.csv"
-csv_in = "./terrplant_qaqc_in_transpose.csv"
-csv_exp = "./terrplant_qaqc_exp_transpose.csv"
+csv_path = "./trex_qaqc.csv"
+csv_in = "./trex_qaqc_in_transpose.csv"
+csv_exp = "./trex_qaqc_exp_transpose.csv"
 import pandas as pd
 
 pd_obj_inputs = pd.read_csv(csv_path, index_col=0, header=None, skiprows=1, skipfooter=66, engine='python')
