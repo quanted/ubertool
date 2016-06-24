@@ -2,7 +2,7 @@ from __future__ import division
 import os.path
 import sys
 import pandas as pd
-from trex_functions import TrexFunctions
+from trex_functions import TRexFunctions
 import time
 from functools import wraps
 #import logging
@@ -25,14 +25,14 @@ def timefn(fn):
     return measure_time
 
 
-class TrexInputs(ModelSharedInputs):
+class TRexInputs(ModelSharedInputs):
     """
     Input class for Trex.
     """
 
     def __init__(self):
         """Class representing the inputs for Trex"""
-        super(TrexInputs, self).__init__()
+        super(TRexInputs, self).__init__()
         # Inputs: Assign object attribute variables from the input Pandas DataFrame
         self.use = pd.Series([], dtype="object")
         self.formu_name = pd.Series([], dtype="object")
@@ -41,8 +41,9 @@ class TrexInputs(ModelSharedInputs):
         self.application_type = pd.Series([], dtype="object")
         self.seed_treatment_formulation_name = pd.Series([], dtype="object")
         self.seed_crop = pd.Series([], dtype="object")
-# ??what is the seed_crop_v, not listed in the crosswalk table, not referenced in code
-        self.seed_crop_v = pd.Series([], dtype="float")
+        # ??what is the seed_crop_v,
+        # not listed in the crosswalk table, not referenced in code
+        #self.seed_crop_v = pd.Series([], dtype="float")
         self.row_spacing = pd.Series([], dtype="float")
         self.bandwidth = pd.Series([], dtype="float")
         self.percent_incorp = pd.Series([], dtype="float")
@@ -113,47 +114,15 @@ class TrexInputs(ModelSharedInputs):
         self.tw_mamm = pd.Series([], dtype="float")
         self.max_seed_rate = pd.Series([], dtype="float")
 
-        # Assigned constants
 
-        #initial residue concentration multiplier
-        self.food_multiplier_init_sg = 240.  # short grass
-        self.food_multiplier_init_tg = 110.  # tall grass
-        self.food_multiplier_init_blp = 135.  # broad-leafed plants
-        self.food_multiplier_init_fp = 15.  # fruits/pods
-        self.food_multiplier_init_arthro = 94.  # arthropods
-
-        #mean residue concentration multiplier
-        self.food_multiplier_mean_sg = 85.  # short grass
-        self.food_multiplier_mean_tg = 36.  # tall grass
-        self.food_multiplier_mean_blp = 45.  # broad-leafed plants
-        self.food_multiplier_mean_fp = 7.  # fruits/pods
-        self.food_multiplier_mean_arthro = 65.  # arthropods
-
-        # mass fraction of water in food source (higher values for herbivores and lower for granivores)
-
-        self.mf_w_bird_1 = 0.1
-        self.mf_w_bird_2 = 0.8
-        self.mf_w_bird_3 = 0.9
-        self.mf_w_mamm_1 = 0.1
-        self.mf_w_mamm_2 = 0.8
-        self.mf_w_mamm_3 = 0.9
-
-        self.nagy_bird_coef_sm = 0.02
-        self.nagy_bird_coef_md = 0.1
-        self.nagy_bird_coef_lg = 1.0
-        self.nagy_mamm_coef_sm = 0.015
-        self.nagy_mamm_coef_md = 0.035
-        self.nagy_mamm_coef_lg = 1.0
-
-
-class TrexOutputs(object):
+class TRexOutputs(object):
     """
     Output class for Trex.
     """
 
     def __init__(self):
         """Class representing the outputs for Trex"""
-        super(TrexOutputs, self).__init__()
+        super(TRexOutputs, self).__init__()
 
         # ??do the following 15 variables need to be included in the crosswalk table
         # initial concentrations for different food types
@@ -368,7 +337,7 @@ class TrexOutputs(object):
         self.out_ld50_bl_mamm_lg = pd.Series(name="out_ld50_bl_mamm_lg")
 
 
-class TRex(UberModel, TrexInputs, TrexOutputs, TrexFunctions):
+class TRex(UberModel, TRexInputs, TRexOutputs, TRexFunctions):
     """
     Estimate exposure concentrations and risk quotients for birds and mammals.
     """
@@ -414,6 +383,7 @@ class TRex(UberModel, TrexInputs, TrexOutputs, TrexFunctions):
     @timefn
     def run_methods(self):
         # Perform units conversions on necessary raw inputs
+        self.set_global_constants()
         self.frac_act_ing = self.percent_to_frac(self.percent_act_ing)
         self.frac_incorp = self.percent_to_frac(self.percent_incorp)
         self.bandwidth = self.inches_to_feet(self.bandwidth)
@@ -639,3 +609,36 @@ class TRex(UberModel, TrexInputs, TrexOutputs, TrexFunctions):
         self.out_ld50_bl_mamm_md = self.ld50_bl_mamm(self.aw_mamm_md)
         self.out_ld50_bl_bird_lg = self.ld50_bl_bird(self.aw_bird_lg)
         self.out_ld50_bl_mamm_lg = self.ld50_bl_mamm(self.aw_mamm_lg)
+
+    def set_global_constants(self):
+        # Assigned constants
+
+        #initial residue concentration multiplier
+        self.food_multiplier_init_sg = 240.  # short grass
+        self.food_multiplier_init_tg = 110.  # tall grass
+        self.food_multiplier_init_blp = 135.  # broad-leafed plants
+        self.food_multiplier_init_fp = 15.  # fruits/pods
+        self.food_multiplier_init_arthro = 94.  # arthropods
+
+        #mean residue concentration multiplier
+        self.food_multiplier_mean_sg = 85.  # short grass
+        self.food_multiplier_mean_tg = 36.  # tall grass
+        self.food_multiplier_mean_blp = 45.  # broad-leafed plants
+        self.food_multiplier_mean_fp = 7.  # fruits/pods
+        self.food_multiplier_mean_arthro = 65.  # arthropods
+
+        # mass fraction of water in food source (higher values for herbivores and lower for granivores)
+
+        self.mf_w_bird_1 = 0.1
+        self.mf_w_bird_2 = 0.8
+        self.mf_w_bird_3 = 0.9
+        self.mf_w_mamm_1 = 0.1
+        self.mf_w_mamm_2 = 0.8
+        self.mf_w_mamm_3 = 0.9
+
+        self.nagy_bird_coef_sm = 0.02
+        self.nagy_bird_coef_md = 0.1
+        self.nagy_bird_coef_lg = 1.0
+        self.nagy_mamm_coef_sm = 0.015
+        self.nagy_mamm_coef_md = 0.035
+        self.nagy_mamm_coef_lg = 1.0

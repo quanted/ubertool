@@ -1,6 +1,12 @@
 import importlib
 import pandas as pd
 import logging
+import os.path
+import sys
+
+#don't need to add parent directory
+
+
 
 class UberModel(object):
     """
@@ -22,9 +28,13 @@ class UberModel(object):
         :param model_obj:
         """
         try:
-            mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+            logging.info("..."+str(model_obj.name))
+            #mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+            mod_name = model_obj.name.lower() + '_exe'
             logging.info("importing ..." + mod_name)
+            print(sys.path)
             module = importlib.import_module(mod_name)
+            #bring in model_obj input names
             model_inputs = getattr(module, model_obj.name + "Inputs")
             model_inputs_obj = model_inputs()
         except ValueError as err:

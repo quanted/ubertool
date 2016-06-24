@@ -9,7 +9,7 @@ import unittest
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parentddir)
-from trex_exe import Terrplant
+from trex_exe import TRex
 
 #print(sys.path)
 #print(os.path)
@@ -23,7 +23,7 @@ try:
         data_inputs = StringIO(csv_data)
         pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
     else:
-        csv_transpose_path_in = "./sip_qaqc_in_transpose.csv"
+        csv_transpose_path_in = "./trex_qaqc_in_transpose.csv"
         print(csv_transpose_path_in)
         pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
         #with open('./sip_qaqc_in_transpose.csv') as f:
@@ -42,7 +42,7 @@ try:
         data_exp_outputs = StringIO(pkgutil.get_data(__package__, 'trex_qaqc_exp_transpose.csv'))
         pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
     else:
-        csv_transpose_path_exp = "./sip_qaqc_exp_transpose.csv"
+        csv_transpose_path_exp = "./trex_qaqc_exp_transpose.csv"
         print(csv_transpose_path_exp)
         pd_obj_exp = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
 finally:
@@ -55,7 +55,7 @@ finally:
     print(tabulate(pd_obj_exp.iloc[:,15:16], headers='keys', tablefmt='plain'))
 
 # create an instance of trex object with qaqc data
-trex_calc = Trex(pd_obj_inputs, pd_obj_exp)
+trex_calc = TRex(pd_obj_inputs, pd_obj_exp)
 trex_calc.execute_model()
 inputs_json, outputs_json, exp_out_json = trex_calc.get_dict_rep(trex_calc)
 print("trex output")

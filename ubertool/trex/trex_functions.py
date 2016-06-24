@@ -17,14 +17,14 @@ def timefn(fn):
     return measure_time
 
 
-class TrexFunctions(object):
+class TRexFunctions(object):
     """
     Function class for Trex.
     """
 
     def __init__(self):
         """Class representing the functions for Trex"""
-        super(TrexFunctions, self).__init__()
+        super(TRexFunctions, self).__init__()
 
 
     @timefn
