@@ -36,7 +36,7 @@ install:
 
 # command to run tests
 script:
-  - nosetests --with-cov --cov ubertool --cov-config .coveragerc --logging-level=INFO
-
+  #- nosetests --with-cov --cov ubertool --cov-config .coveragerc --logging-level=INFO
+  - nose2 --with-cov
 after_success:
   - coveralls --config_file .coveragerc

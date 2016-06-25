@@ -4,7 +4,7 @@ codecov
 coverage
 coveralls
 futures
-nose
+nose2
 nose-cov
 numpy
 pandas
