@@ -1,7 +1,9 @@
+import inspect
 import numpy.testing as npt
 import os.path
 import pandas as pd
 import sys
+from tabulate import tabulate
 import unittest
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
@@ -50,6 +52,9 @@ class TestEarthworm(unittest.TestCase):
             earthworm_empty.k_d = pd.Series([0.0035, 0.035, 0.35])
             earthworm_empty.p_s = pd.Series([1.5, 1.60, 1.65])
             result = earthworm_empty.earthworm_fugacity()
+            tab = [result, expected_results]
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             pass

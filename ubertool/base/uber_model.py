@@ -32,7 +32,7 @@ class UberModel(object):
             #mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
             mod_name = model_obj.name.lower() + '_exe'
             logging.info("importing ..." + mod_name)
-            print(sys.path)
+            #print(sys.path)
             module = importlib.import_module(mod_name)
             #bring in model_obj input names
             model_inputs = getattr(module, model_obj.name + "Inputs")
