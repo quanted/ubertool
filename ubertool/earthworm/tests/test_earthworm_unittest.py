@@ -39,25 +39,25 @@ class TestEarthworm(unittest.TestCase):
         """
         pass
 
-    def test_earthworm_fugacity(self):
+    def test_earthworm_fugacity_unit(self):
         """
         Test the only real earthworm method.
         :return:
         """
-        expected_results = [0.73699363, 1.908571, 5.194805]
         try:
+            expected_results = [0.73699363, 1.908571, 5.194805]
             earthworm_empty.k_ow = pd.Series([10.0, 100.0, 1000.0  ])
             earthworm_empty.l_f_e = pd.Series([0.01, 0.02, 0.03])
             earthworm_empty.c_s = pd.Series([0.038692165, 0.05344, 0.10])
             earthworm_empty.k_d = pd.Series([0.0035, 0.035, 0.35])
             earthworm_empty.p_s = pd.Series([1.5, 1.60, 1.65])
             result = earthworm_empty.earthworm_fugacity()
-            tab = [result, expected_results]
-            print(inspect.currentframe().f_code.co_name)
-            print(tabulate(tab, headers='keys', tablefmt='rst'))
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
 # unittest will

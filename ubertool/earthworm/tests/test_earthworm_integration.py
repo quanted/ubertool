@@ -96,32 +96,36 @@ class TestEarthworm(unittest.TestCase):
         """
         pass
 
-    def test_earthworm_fugacity(self):
+    def test_earthworm_fugacity_integration(self):
         """
         Integration test for earthworm.earthworm_fugacity
         """
         func_name = inspect.currentframe().f_code.co_name
         try:
-            self.blackbox_method_int('earthworm_fugacity', func_name)
+            self.blackbox_method_float('earthworm_fugacity', func_name)
         finally:
             pass
         return
 
-    def blackbox_method_int(self, output, func_name):
+    def blackbox_method_float(self, output, func_name):
         """
         Helper method to reuse code for testing numpy array outputs from TerrPlant model
         :param output: String; Pandas Series name (e.g. column name) without '_out'
         :return:
         """
-        pd.set_option('display.float_format','{:.4E}'.format) # display model output in scientific notation
-        result = earthworm_calc.pd_obj_out["out_" + output]
-        expected = earthworm_calc.pd_obj_exp["exp_" + output]
-        tab = pd.concat([result,expected], axis=1)
-        print(func_name)
-        print(tabulate(tab, headers='keys', tablefmt='rst'))
-        #npt.assert_array_almost_equal(result, expected, 4, '', True)
-        rtol = 1e-5
-        npt.assert_allclose(result, expected, rtol, 0, '', True)
+        try:
+            pd.set_option('display.float_format','{:.4E}'.format) # display model output in scientific notation
+            result = earthworm_calc.pd_obj_out["out_" + output]
+            expected = earthworm_calc.pd_obj_exp["exp_" + output]
+            #npt.assert_array_almost_equal(result, expected, 4, '', True)
+            rtol = 1e-5
+            npt.assert_allclose(result, expected, rtol, 0, '', True)
+        finally:
+            tab = pd.concat([result, expected], axis=1)
+            print("\n")
+            print(func_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
 # unittest will
 # 1) call the setup method,
