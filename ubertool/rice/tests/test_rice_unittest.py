@@ -1,3 +1,4 @@
+import datetime
 import inspect
 import numpy.testing as npt
 import os.path
@@ -21,6 +22,8 @@ class TestRice(unittest.TestCase):
     """
     Unit tests for Rice.
     """
+    print("rice unittests conducted at " + str(datetime.datetime.today()))
+
     def setup(self):
         """
         Setup routine for rice tests

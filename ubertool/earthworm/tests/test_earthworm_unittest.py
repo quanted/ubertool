@@ -1,3 +1,4 @@
+import datetime
 import inspect
 import numpy.testing as npt
 import os.path
@@ -5,6 +6,7 @@ import pandas as pd
 import sys
 from tabulate import tabulate
 import unittest
+
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parentddir)
@@ -22,6 +24,8 @@ class TestEarthworm(unittest.TestCase):
     """
     Unit tests for earthworm model.
     """
+    print("earthworm unittests conducted at " + str(datetime.datetime.today()))
+    
     def setUp(self):
         """
         setup the test as needed

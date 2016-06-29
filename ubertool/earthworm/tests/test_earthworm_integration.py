@@ -1,3 +1,4 @@
+import datetime
 import inspect
 import numpy.testing as npt
 import os.path
@@ -82,6 +83,8 @@ class TestEarthworm(unittest.TestCase):
     """
     Integration tests for earthworm model.
     """
+    print("earthworm integration tests conducted at " + str(datetime.datetime.today()))
+
     def setUp(self):
         """
         Test setup method.
