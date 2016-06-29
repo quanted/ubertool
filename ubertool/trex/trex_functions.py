@@ -26,11 +26,12 @@ class TRexFunctions(object):
         """Class representing the functions for Trex"""
         super(TRexFunctions, self).__init__()
 
-
     @timefn
     def app_rate_parsing(self):
         # extract first day and maximum application rates from each model simulation run
         # these variables are needed in various methods
+        self.first_app_rate = pd.Series([], dtype='float') #series of first_day app rates across model simulations
+        self.max_app_rate = pd.Series([], dtype='float') #series of maximum app_rates across model simulations
         for i in range(len(self.app_rates)):
             self.first_app_rate[i] = self.app_rates[i][0]
             self.max_app_rate[i] = max(self.app_rates[i])

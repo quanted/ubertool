@@ -31,6 +31,7 @@ try:
 finally:
     print("trex inputs")
     print(pd_obj_inputs.shape)
+    print('trex expected output keys ' + str(pd_obj_inputs.columns.values.tolist()))
     print(tabulate(pd_obj_inputs.iloc[:,0:5], headers='keys', tablefmt='plain'))
     print(tabulate(pd_obj_inputs.iloc[:,6:10], headers='keys', tablefmt='plain'))
     print(tabulate(pd_obj_inputs.iloc[:,11:13], headers='keys', tablefmt='plain'))

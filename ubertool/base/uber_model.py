@@ -50,10 +50,11 @@ class UberModel(object):
         #logging.info("Expected: ", str(df.columns.order()))
         #logging.info("User Ins: ", str(pd_obj.columns.order()))
         if df.columns.order().equals(pd_obj.columns.order()):
-            # If the user-supplied DataFrame has the same column names as required by TerrplantInputs...
-            # set each Series in the DataFrame to the corresponding TerrplantInputs attribute (member variable)
+            # If the user-supplied DataFrame has the same column names as required by TRexInputs...
+            # set each Series in the DataFrame to the corresponding TRexInputs attribute (member variable)
             for column in pd_obj.columns:
                 setattr(model_obj, column, pd_obj[column])
+            pass
         else:
             df['model'] = pd.Series(name=self.name)
             if df.columns.order().equals(pd_obj.columns.order()):
@@ -68,7 +69,7 @@ class UberModel(object):
                 raise ValueError(msg_err1 + msg_err2 + msg_err3)
 
     def populate_outputs(self, model_obj):
-        # Create temporary DataFrame where each column name is the same as TerrplantOutputs attributes
+        # Create temporary DataFrame where each column name is the same as TRexOutputs attributes
         """
         Create and return Model Output DataFrame where each column name is a model output parameter
         :param model: string, name of the model as referred to in class names (e.g. terrplant, sip, stir, etc..)
@@ -76,7 +77,8 @@ class UberModel(object):
         :return:
         """
 
-        mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+        #mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+        mod_name = model_obj.name.lower() + '_exe'
         print(mod_name)
         module = importlib.import_module(mod_name)
         model_outputs = getattr(module, model_obj.name + "Outputs")

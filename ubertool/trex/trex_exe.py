@@ -27,7 +27,7 @@ def timefn(fn):
 
 class TRexInputs(ModelSharedInputs):
     """
-    Input class for Trex.
+    Required inputs class for Trex.
     """
 
     def __init__(self):
@@ -37,7 +37,6 @@ class TRexInputs(ModelSharedInputs):
         self.use = pd.Series([], dtype="object")
         self.formu_name = pd.Series([], dtype="object")
         self.percent_act_ing = pd.Series([], dtype="float")
-        self.frac_act_ing = pd.Series([], dtype="float")  #not direct input; result of units conversion
         self.application_type = pd.Series([], dtype="object")
         self.seed_treatment_formulation_name = pd.Series([], dtype="object")
         self.seed_crop = pd.Series([], dtype="object")
@@ -47,43 +46,12 @@ class TRexInputs(ModelSharedInputs):
         self.row_spacing = pd.Series([], dtype="float")
         self.bandwidth = pd.Series([], dtype="float")
         self.percent_incorp = pd.Series([], dtype="float")
-        self.frac_incorp = pd.Series([], dtype="float")  #not direct input; result of units conversion
         self.density = pd.Series([], dtype="float")
         self.foliar_diss_hlife = pd.Series([], dtype="float")
-
-#old code
-#===================================================================================
-        # self.rate_list = []  # application rates for each application day (needs to be built)
-        # self.day_list = []  # day numbers of the applications (needs to be built as a dataframe)
-        # napps = self.num_apps.iloc[0]
-        # for i in range(napps):
-        #     j = i + 1  # front end variables are one-based
-        #     # rate_temp = request.POST.get('rate'+str(j))
-        #     rate_temp = getattr(pd_obj, 'rate' + str(j))
-        #     self.rate_list.append(float(rate_temp))
-        #     # day_temp = float(request.POST.get('day'+str(j)))
-        #     day_temp = getattr(pd_obj, 'day' + str(j))
-        #     self.day_list.append(day_temp)
-        #
-        # # needs to be dataframe for batch runs (convert lists to series)
-        # self.rate_out = pd.Series(name="rate_out")
-        # self.rate_out = self.rate_list
-        # self.day_out = pd.Series(name="day_out")
-        # self.day_out = self.day_list
-        # # self.first_app_rate = self.rate_out[0] #?
-        # self.first_app_rate = pd.Series(name="first_app_rate")
-        # self.first_app_rate = self.rate_out[0]
-#=====================================================================
-
-#new code
-#======================================================================
         self.app_rates = pd.Series([], dtype="object") #Series of lists, each list contains app_rates of a model simulation run
         self.day_out = pd.Series([], dtype="object") #Series of lists, each list contains day #'s of applications
         self.num_apps = pd.Series([], dtype="float") # number of applications per model simulation run
         # could calculate self.num_apps = len(self.app_rates) # should at least check if user supplied value is consistent
-        # following two variables will be specified from parsing app_rates Series of lists
-        self.first_app_rate = pd.Series([], dtype='float') #series of first_day app rates across model simulations
-        self.max_app_rate = pd.Series([], dtype='float') #series of maximum app_rates across model simulations
 #=======================================================================
 
         self.ld50_bird = pd.Series([], dtype="float")
@@ -382,8 +350,31 @@ class TRex(UberModel, TRexInputs, TRexOutputs, TRexFunctions):
     # Begin model methods
     @timefn
     def run_methods(self):
-        # Perform units conversions on necessary raw inputs
+
+        # fix string to array issues
+        #create list of strings
+        temp = self.app_rates.tolist()
+        #create list of vectors of strings
+        temp2 = [i.split(',') for i in temp]
+        #convert to floats and assign back to series
+        for j, item in enumerate(temp2):
+            self.app_rates[j] = ([float(i) for i in temp2[j]])
+            #print(self.app_rates[j])
+
+        # fix string to array issues
+        #create list of strings
+        temp = self.day_out.tolist()
+        #create list of vectors of strings
+        temp2 = [i.split(',') for i in temp]
+        #convert to floats and assign back to series
+        for j, item in enumerate(temp2):
+            self.day_out[j] = ([int(i) for i in temp2[j]])
+            #print(self.day_out[j])
+
+        # Define constants and perform units conversions on necessary raw inputs
         self.set_global_constants()
+        self.frac_incorp = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.frac_act_ing = pd.Series([], dtype="float")  #not direct input; result of units conversion
         self.frac_act_ing = self.percent_to_frac(self.percent_act_ing)
         self.frac_incorp = self.percent_to_frac(self.percent_incorp)
         self.bandwidth = self.inches_to_feet(self.bandwidth)
