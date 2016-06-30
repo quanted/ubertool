@@ -38,6 +38,28 @@ class TRexFunctions(object):
         return
 
     @timefn
+    def convert_strlist(self, dtype_out, strlist):
+        #method converts a panda series that is a series of lists whose elements are strings
+        #to a series of lists of either floats or integers
+        if dtype_out == 'to_float':
+            #create list of strings
+            temp = strlist.tolist()
+            #create list of vectors of strings
+            temp2 = [i.split(',') for i in temp]
+            #convert to floats and assign back to series
+            for j, item in enumerate(temp2):
+                strlist[j] = ([float(i) for i in temp2[j]])
+        elif dtype_out == 'to_int':
+            #create list of strings
+            temp = strlist.tolist()
+            #create list of vectors of strings
+            temp2 = [i.split(',') for i in temp]
+            #convert to integers and assign back to series
+            for j, item in enumerate(temp2):
+                strlist[j] = ([int(i) for i in temp2[j]])
+        return strlist
+
+    @timefn
     def conc_initial(self, i, application_rate, food_multiplier):
     # Initial concentration from new application
         conc_0 = (application_rate * self.frac_act_ing[i] * food_multiplier)
@@ -63,7 +85,7 @@ class TRexFunctions(object):
     def sa_bird_1(self, size):
     # Seed treatment acute RQ for birds method 1
 
-        # # setup panda series
+        # setup panda series
         at_bird_temp = pd.Series([], dtype='float', name="at_bird_temp")
         fi_bird_temp = pd.Series([], dtype='float',name="fi_bird_temp")
         #maximum seed application rate (m_s_r_p)
@@ -268,7 +290,7 @@ class TRexFunctions(object):
             temp_food_multiplier = np.float(food_multiplier[i])
 
             for day_index in range(temp_app_indices[0], 371):     # day number of first application
-                if day_index == temp_app_indices[0]:  # first day of application ( single or multiple application model simulation run)
+                if day_index == temp_app_indices[0]:  # first day of application (single or multiple application model simulation run)
                     c_temp[day_index] = self.conc_initial(i, temp_app_rates[0], temp_food_multiplier)
                     app_counter += 1
                 elif app_counter <= temp_num_apps - 1:  # next application day

@@ -351,25 +351,10 @@ class TRex(UberModel, TRexInputs, TRexOutputs, TRexFunctions):
     @timefn
     def run_methods(self):
 
-        # fix string to array issues
-        #create list of strings
-        temp = self.app_rates.tolist()
-        #create list of vectors of strings
-        temp2 = [i.split(',') for i in temp]
-        #convert to floats and assign back to series
-        for j, item in enumerate(temp2):
-            self.app_rates[j] = ([float(i) for i in temp2[j]])
-            #print(self.app_rates[j])
-
-        # fix string to array issues
-        #create list of strings
-        temp = self.day_out.tolist()
-        #create list of vectors of strings
-        temp2 = [i.split(',') for i in temp]
-        #convert to floats and assign back to series
-        for j, item in enumerate(temp2):
-            self.day_out[j] = ([int(i) for i in temp2[j]])
-            #print(self.day_out[j])
+        # convert user supplied app_rates/day_out from series of lists as
+        # strings to series of lists as floats/integers
+        self.app_rates = self.convert_strlist('to_float', self.app_rates)
+        self.day_out = self.convert_strlist('to_int', self.day_out)
 
         # Define constants and perform units conversions on necessary raw inputs
         self.set_global_constants()
@@ -382,20 +367,20 @@ class TRex(UberModel, TRexInputs, TRexOutputs, TRexFunctions):
         # extract first day and maximum application rates from each model simulation run
         self.app_rate_parsing()
 
-        # initial concentrations for different food types
-        # need to pass in app_rates because other functions calculate c_initial per timestep application rate
-        self.out_c_0_sg = self.conc_initial(self.food_multiplier_init_sg)
-        self.out_c_0_tg = self.conc_initial(self.food_multiplier_init_tg)
-        self.out_c_0_blp = self.conc_initial(self.food_multiplier_init_blp)
-        self.out_c_0_fp = self.conc_initial(self.food_multiplier_init_fp)
-        self.out_c_0_arthro = self.conc_initial(self.food_multiplier_init_arthro)
-
-        # mean concentration estimate based on first application rate
-        self.out_c_mean_sg = self.conc_initial(self.food_multiplier_mean_sg)
-        self.out_c_mean_tg = self.conc_initial(self.food_multiplier_mean_tg)
-        self.out_c_mean_blp = self.conc_initial(self.food_multiplier_mean_blp)
-        self.out_c_mean_fp = self.conc_initial(self.food_multiplier_mean_fp)
-        self.out_c_mean_arthro = self.conc_initial(self.food_multiplier_mean_arthro)
+        # # initial concentrations for different food types
+        # # need to pass in app_rates because other functions calculate c_initial per timestep application rate
+        # self.out_c_0_sg = self.conc_initial(self.food_multiplier_init_sg)
+        # self.out_c_0_tg = self.conc_initial(self.food_multiplier_init_tg)
+        # self.out_c_0_blp = self.conc_initial(self.food_multiplier_init_blp)
+        # self.out_c_0_fp = self.conc_initial(self.food_multiplier_init_fp)
+        # self.out_c_0_arthro = self.conc_initial(self.food_multiplier_init_arthro)
+        #
+        # # mean concentration estimate based on first application rate
+        # self.out_c_mean_sg = self.conc_initial(self.food_multiplier_mean_sg)
+        # self.out_c_mean_tg = self.conc_initial(self.food_multiplier_mean_tg)
+        # self.out_c_mean_blp = self.conc_initial(self.food_multiplier_mean_blp)
+        # self.out_c_mean_fp = self.conc_initial(self.food_multiplier_mean_fp)
+        # self.out_c_mean_arthro = self.conc_initial(self.food_multiplier_mean_arthro)
 
         # ?? need to process these time series
         # time series estimate based on first test case - needs to be matrices for batch runs
