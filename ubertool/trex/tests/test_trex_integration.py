@@ -24,18 +24,19 @@ try:
         pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
     else:
         csv_transpose_path_in = "./trex_qaqc_in_transpose.csv"
-        print(csv_transpose_path_in)
+        #print(csv_transpose_path_in)
         pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
         #with open('./sip_qaqc_in_transpose.csv') as f:
             #csv_data = csv.reader(f)
 finally:
-    print("trex inputs")
-    print(pd_obj_inputs.shape)
-    print('trex expected output keys ' + str(pd_obj_inputs.columns.values.tolist()))
-    print(tabulate(pd_obj_inputs.iloc[:,0:5], headers='keys', tablefmt='plain'))
-    print(tabulate(pd_obj_inputs.iloc[:,6:10], headers='keys', tablefmt='plain'))
-    print(tabulate(pd_obj_inputs.iloc[:,11:13], headers='keys', tablefmt='plain'))
-    print(tabulate(pd_obj_inputs.iloc[:,14:17], headers='keys', tablefmt='plain'))
+    pass
+    #print("trex inputs")
+    #print(pd_obj_inputs.shape)
+    #print('trex expected output keys ' + str(pd_obj_inputs.columns.values.tolist()))
+    #print(tabulate(pd_obj_inputs.iloc[:,0:5], headers='keys', tablefmt='plain'))
+    #print(tabulate(pd_obj_inputs.iloc[:,6:10], headers='keys', tablefmt='plain'))
+    #print(tabulate(pd_obj_inputs.iloc[:,11:13], headers='keys', tablefmt='plain'))
+    #print(tabulate(pd_obj_inputs.iloc[:,14:17], headers='keys', tablefmt='plain'))
 
 # load transposed qaqc data for expected outputs
 try:
@@ -44,24 +45,25 @@ try:
         pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
     else:
         csv_transpose_path_exp = "./trex_qaqc_exp_transpose.csv"
-        print(csv_transpose_path_exp)
+        #print(csv_transpose_path_exp)
         pd_obj_exp = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
 finally:
-    print("trex expected outputs")
-    print('trex expected output dimensions ' + str(pd_obj_exp.shape))
-    print('trex expected output keys ' + str(pd_obj_exp.columns.values.tolist()))
-    print(tabulate(pd_obj_exp.iloc[:,0:5], headers='keys', tablefmt='plain'))
-    print(tabulate(pd_obj_exp.iloc[:,6:10], headers='keys', tablefmt='plain'))
-    print(tabulate(pd_obj_exp.iloc[:,11:14], headers='keys', tablefmt='plain'))
-    print(tabulate(pd_obj_exp.iloc[:,15:16], headers='keys', tablefmt='plain'))
+    pass
+    #print("trex expected outputs")
+    #print('trex expected output dimensions ' + str(pd_obj_exp.shape))
+    #print('trex expected output keys ' + str(pd_obj_exp.columns.values.tolist()))
+    #print(tabulate(pd_obj_exp.iloc[:,0:5], headers='keys', tablefmt='plain'))
+    #print(tabulate(pd_obj_exp.iloc[:,6:10], headers='keys', tablefmt='plain'))
+    #print(tabulate(pd_obj_exp.iloc[:,11:14], headers='keys', tablefmt='plain'))
+    #print(tabulate(pd_obj_exp.iloc[:,15:16], headers='keys', tablefmt='plain'))
 
 # create an instance of trex object with qaqc data
 trex_calc = TRex(pd_obj_inputs, pd_obj_exp)
 trex_calc.execute_model()
 inputs_json, outputs_json, exp_out_json = trex_calc.get_dict_rep(trex_calc)
-print("trex output")
-print(inputs_json)
-print("####")
+#print("trex output")
+#print(inputs_json)
+#print("####")
 print(trex_calc)
 test = {}
 trex_calc.execute_model()
@@ -100,6 +102,16 @@ class TestTRex(unittest.TestCase):
         """
         try:
             self.blackbox_method_int('eec_diet_tg')
+        finally:
+            pass
+        return
+
+    def test_sc_mamm_l(self):
+        """
+        Integration test for trex.runsemi
+        """
+        try:
+            self.blackbox_method_int('sc_mamm_l')
         finally:
             pass
         return
