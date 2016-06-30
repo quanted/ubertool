@@ -21,7 +21,6 @@ def timefn(fn):
         t2 = time.time()
         print("trex_model_rest.py@timefn: " + fn.func_name + " took " + "{:.6f}".format(t2 - t1) + " seconds")
         return result
-
     return measure_time
 
 
@@ -353,8 +352,10 @@ class TRex(UberModel, TRexInputs, TRexOutputs, TRexFunctions):
 
         # convert user supplied app_rates/day_out from series of lists as
         # strings to series of lists as floats/integers
-        self.app_rates = self.convert_strlist('to_float', self.app_rates)
-        self.day_out = self.convert_strlist('to_int', self.day_out)
+        self.app_rates = self.convert_strlist_float(self.app_rates)
+        print(self.app_rates)
+        self.day_out = self.convert_strlist_int(self.day_out)
+        print(self.day_out)
 
         # Define constants and perform units conversions on necessary raw inputs
         self.set_global_constants()
@@ -385,7 +386,7 @@ class TRex(UberModel, TRexInputs, TRexOutputs, TRexFunctions):
         # ?? need to process these time series
         # time series estimate based on first test case - needs to be matrices for batch runs
         self.out_c_ts_sg = self.eec_diet_timeseries(self.food_multiplier_init_sg)  # short grass
-        self.out_c_ts_tg = self.eec_diet_timeseries(self.food_mulitplier_init_tg)  # tall grass
+        self.out_c_ts_tg = self.eec_diet_timeseries(self.food_multiplier_init_tg)  # tall grass
         self.out_c_ts_blp = self.eec_diet_timeseries(self.food_multiplier_init_blp)  # broad-leafed plants
         self.out_c_ts_fp = self.eec_diet_timeseries(self.food_multiplier_init_fp)  # fruits/pods
         self.out_c_ts_arthro = self.eec_diet_timeseries(self.food_multiplier_init_arthro)  # arthropods
@@ -395,29 +396,29 @@ class TRex(UberModel, TRexInputs, TRexOutputs, TRexFunctions):
         self.out_sa_bird_2_s = self.sa_bird_2("small")
         self.out_sc_bird_s = self.sc_bird()
         self.out_sa_mamm_1_s = self.sa_mamm_1("small")
-        self.out_sa_mamm_2_s = self.sa_mamm_2("small" )
+        self.out_sa_mamm_2_s = self.sa_mamm_2("small")
         self.out_sc_mamm_s = self.sc_mamm("small")
 
         self.out_sa_bird_1_m = self.sa_bird_1("medium")
         self.out_sa_bird_2_m = self.sa_bird_2("medium")
-        self.out_sc_bird_m = self.sc_bird(self)
+        self.out_sc_bird_m = self.sc_bird()
         self.out_sa_mamm_1_m = self.sa_mamm_1("medium")
         self.out_sa_mamm_2_m = self.sa_mamm_2("medium")
         self.out_sc_mamm_m = self.sc_mamm("medium")
 
         self.out_sa_bird_1_l = self.sa_bird_1("large")
         self.out_sa_bird_2_l = self.sa_bird_2("large")
-        self.out_sc_bird_l = self.sc_bird(self)
+        self.out_sc_bird_l = self.sc_bird()
         self.out_sa_mamm_1_l = self.sa_mamm_1("large")
         self.out_sa_mamm_2_l = self.sa_mamm_2("large")
         self.out_sc_mamm_l = self.sc_mamm("large")
 
         # Table 6
-        self.out_eec_diet_sg = self.eec_diet_max(self.app_rates, self.food_multiplier_init_sg)
-        self.out_eec_diet_tg = self.eec_diet_max(self.app_rates, self.food_multiplier_init_tg)
-        self.out_eec_diet_bp = self.eec_diet_max(self.app_rates, self.food_multiplier_init_blp)
-        self.out_eec_diet_fr = self.eec_diet_max(self.app_rates, self.food_multiplier_init_fp)
-        self.out_eec_diet_ar = self.eec_diet_max(self.app_rates, self.food_multiplier_init_arthro)
+        self.out_eec_diet_sg = self.eec_diet_max(self.food_multiplier_init_sg)
+        self.out_eec_diet_tg = self.eec_diet_max(self.food_multiplier_init_tg)
+        self.out_eec_diet_bp = self.eec_diet_max(self.food_multiplier_init_blp)
+        self.out_eec_diet_fr = self.eec_diet_max(self.food_multiplier_init_fp)
+        self.out_eec_diet_ar = self.eec_diet_max(self.food_multiplier_init_arthro)
 
         # Table 7
         self.out_eec_dose_bird_sg_sm = self.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_3, self.food_multiplier_init_sg)
@@ -535,24 +536,17 @@ class TRex(UberModel, TRexInputs, TRexOutputs, TRexFunctions):
         self.out_crq_dose_mamm_se_lg = self.crq_dose_mamm(self.aw_mamm_lg, self.mf_w_bird_1, self.food_multiplier_init_fp)
 
         # table 11
-        if self.lc50_mamm != 'N/A':
-            self.out_arq_diet_mamm_sg = self.arq_diet_mamm(self.food_multiplier_inti_sg)
-            self.out_arq_diet_mamm_tg = self.arq_diet_mamm(self.food_multiplier_inti_tg)
-            self.out_arq_diet_mamm_bp = self.arq_diet_mamm(self.food_multiplier_inti_blp)
-            self.out_arq_diet_mamm_fp = self.arq_diet_mamm(self.food_multiplier_inti_fp)
-            self.out_arq_diet_mamm_ar = self.arq_diet_mamm(self.food_multiplier_inti_arthro)
-        else:
-            self.out_arq_diet_mamm_sg = 'n/a'
-            self.out_arq_diet_mamm_tg = 'n/a'
-            self.out_arq_diet_mamm_bp = 'n/a'
-            self.out_arq_diet_mamm_fp = 'n/a'
-            self.out_arq_diet_mamm_ar = 'n/a'
+        self.out_arq_diet_mamm_sg = self.arq_diet_mamm(self.food_multiplier_init_sg)
+        self.out_arq_diet_mamm_tg = self.arq_diet_mamm(self.food_multiplier_init_tg)
+        self.out_arq_diet_mamm_bp = self.arq_diet_mamm(self.food_multiplier_init_blp)
+        self.out_arq_diet_mamm_fp = self.arq_diet_mamm(self.food_multiplier_init_fp)
+        self.out_arq_diet_mamm_ar = self.arq_diet_mamm(self.food_multiplier_init_arthro)
 
-        self.out_crq_diet_mamm_sg = self.crq_diet_mamm(self.food_multiplier_inti_sg)
-        self.out_crq_diet_mamm_tg = self.crq_diet_mamm(self.food_multiplier_inti_tg)
-        self.out_crq_diet_mamm_bp = self.crq_diet_mamm(self.food_multiplier_inti_blp)
-        self.out_crq_diet_mamm_fp = self.crq_diet_mamm(self.food_multiplier_inti_fp)
-        self.out_crq_diet_mamm_ar = self.crq_diet_mamm(self.food_multiplier_inti_arthro)
+        self.out_crq_diet_mamm_sg = self.crq_diet_mamm(self.food_multiplier_init_sg)
+        self.out_crq_diet_mamm_tg = self.crq_diet_mamm(self.food_multiplier_init_tg)
+        self.out_crq_diet_mamm_bp = self.crq_diet_mamm(self.food_multiplier_init_blp)
+        self.out_crq_diet_mamm_fp = self.crq_diet_mamm(self.food_multiplier_init_fp)
+        self.out_crq_diet_mamm_ar = self.crq_diet_mamm(self.food_multiplier_init_arthro)
 
         # Table12
         self.out_ld50_rg_bird_sm = self.ld50_rg_bird(self.aw_bird_sm)

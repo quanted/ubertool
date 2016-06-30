@@ -24,30 +24,34 @@ class TRexFunctions(object):
             self.max_app_rate[i] = max(self.app_rates[i])
         return
 
+    def convert_strlist_float(self, pd_series_strings):
+        #method converts a panda series of lists whose elements are strings
+        #to a series of lists of either floats
+        #create list of strings
+        pd_series_floats = pd.Series([], dtype="object")
+        temp = pd_series_strings.tolist()
+        #create list of vectors of strings
+        temp2 = [str(i).split(',') for i in temp]
+        #convert to floats and assign back to series
+        for j, item in enumerate(temp2):
+            temp_item = map(float, item)
+            pd_series_floats.loc[j] = temp_item
+        return pd_series_floats
 
-    @timefn
-    def convert_strlist(self, dtype_out, strlist):
-        #method converts a panda series that is a series of lists whose elements are strings
-        #to a series of lists of either floats or integers
-        if dtype_out == 'to_float':
-            #create list of strings
-            temp = strlist.tolist()
-            #create list of vectors of strings
-            temp2 = [i.split(',') for i in temp]
-            #convert to floats and assign back to series
-            for j, item in enumerate(temp2):
-                strlist[j] = ([float(i) for i in temp2[j]])
-        elif dtype_out == 'to_int':
-            #create list of strings
-            temp = strlist.tolist()
-            #create list of vectors of strings
-            temp2 = [i.split(',') for i in temp]
-            #convert to integers and assign back to series
-            for j, item in enumerate(temp2):
-                strlist[j] = ([int(i) for i in temp2[j]])
-        return strlist
+    def convert_strlist_int(self, pd_series_strings):
+        #method converts a panda series of lists whose elements are strings
+        #to a series of lists of either floats
+        #create list of strings
+        pd_series_ints = pd.Series([], dtype="object")
+        temp = pd_series_strings.tolist()
+        #create list of vectors of strings
+        temp2 = [str(i).split(',') for i in temp]
+        #convert to floats and assign back to series
+        for j, item in enumerate(temp2):
+            temp_item = map(int, item)
+            pd_series_ints.loc[j] = temp_item
+        return pd_series_ints
 
-    @timefn
     def conc_initial(self, i, application_rate, food_multiplier):
     # Initial concentration from new application
         conc_0 = (application_rate * self.frac_act_ing[i] * food_multiplier)
@@ -255,16 +259,16 @@ class TRexFunctions(object):
             temp_num_apps = self.num_apps[i]
             temp_app_indices = np.asarray(self.day_out[i]) - 1
             temp_app_rates = np.asarray(self.app_rates[i])
-            temp_food_multiplier = np.float(food_multiplier[i])
+            #temp_food_multiplier = np.float(food_multiplier[i])
 
             for day_index in range(temp_app_indices[0], 371):     # day number of first application
                 if day_index == temp_app_indices[0]:  # first day of application (single or multiple application model simulation run)
-                    c_temp[day_index] = self.conc_initial(i, temp_app_rates[0], temp_food_multiplier)
+                    c_temp[day_index] = self.conc_initial(i, temp_app_rates[0], food_multiplier)
                     app_counter += 1
                 elif app_counter <= temp_num_apps - 1:  # next application day
                     if day_index == temp_app_indices[app_counter]:
                         c_temp[day_index] = (self.conc_timestep(i, c_temp[day_index - 1]) +
-                                             self.conc_initial(i, temp_app_rates[app_counter], temp_food_multiplier))
+                                             self.conc_initial(i, temp_app_rates[app_counter], food_multiplier))
                         app_counter += 1
                     else:
                         c_temp[day_index] = self.conc_timestep(i, c_temp[day_index - 1])

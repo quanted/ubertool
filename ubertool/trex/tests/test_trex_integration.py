@@ -64,9 +64,9 @@ print(inputs_json)
 print("####")
 print(trex_calc)
 test = {}
+trex_calc.execute_model()
 
-
-class TestTerrplant(unittest.TestCase):
+class TestTRex(unittest.TestCase):
     """
     Integration tests for trex.
     """
@@ -75,7 +75,7 @@ class TestTerrplant(unittest.TestCase):
         Setup routine for trex.
         :return:
         """
-        trex_calc.execute_model()
+        pass
 
     def tearDown(self):
         """
@@ -84,22 +84,22 @@ class TestTerrplant(unittest.TestCase):
         """
         pass
 
-    def test_rundry(self):
+    def test_eec_diet_sg(self):
         """
         Integration test for trex.rundry
         """
         try:
-            self.blackbox_method_int('run_dry')
+            self.blackbox_method_int('eec_diet_sg')
         finally:
             pass
         return
 
-    def test_runsemi(self):
+    def test_eec_diet_tg(self):
         """
         Integration test for trex.runsemi
         """
         try:
-            self.blackbox_method_int('run_semi')
+            self.blackbox_method_int('eec_diet_tg')
         finally:
             pass
         return
