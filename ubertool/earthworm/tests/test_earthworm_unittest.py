@@ -25,7 +25,7 @@ class TestEarthworm(unittest.TestCase):
     Unit tests for earthworm model.
     """
     print("earthworm unittests conducted at " + str(datetime.datetime.today()))
-    
+
     def setUp(self):
         """
         setup the test as needed

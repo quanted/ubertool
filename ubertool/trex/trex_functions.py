@@ -5,18 +5,6 @@ import pandas as pd
 import time
 
 
-def timefn(fn):
-    @wraps(fn)
-    def measure_time(*args, **kwargs):
-        t1 = time.time()
-        result = fn(*args, **kwargs)
-        t2 = time.time()
-        print("trex_model_rest.py@timefn: " + fn.func_name + " took " + "{:.6f}".format(t2 - t1) + " seconds")
-        return result
-
-    return measure_time
-
-
 class TRexFunctions(object):
     """
     Function class for Trex.
@@ -26,7 +14,6 @@ class TRexFunctions(object):
         """Class representing the functions for Trex"""
         super(TRexFunctions, self).__init__()
 
-    @timefn
     def app_rate_parsing(self):
         # extract first day and maximum application rates from each model simulation run
         # these variables are needed in various methods
@@ -36,6 +23,7 @@ class TRexFunctions(object):
             self.first_app_rate[i] = self.app_rates[i][0]
             self.max_app_rate[i] = max(self.app_rates[i])
         return
+
 
     @timefn
     def convert_strlist(self, dtype_out, strlist):
@@ -65,14 +53,12 @@ class TRexFunctions(object):
         conc_0 = (application_rate * self.frac_act_ing[i] * food_multiplier)
         return conc_0
 
-    # Concentration over time
-    @timefn
-    #??what is the purpose of the '* 1', just a timestep value to be complete
     def conc_timestep(self, i, conc_ini):
+        # calculate concentration resulting from degradation for a daily timestep
+        #??what is the purpose of the '* 1', just a timestep value to be complete
         conc = conc_ini * np.exp(-(np.log(2) / self.foliar_diss_hlife[i]) * 1)
         return conc
 
-    @timefn
     def percent_to_frac(self, percent):
         fraction = percent / 100
         return fraction
@@ -81,7 +67,6 @@ class TRexFunctions(object):
         feet = inches / 12
         return feet
 
-    @timefn
     def sa_bird_1(self, size):
     # Seed treatment acute RQ for birds method 1
 
@@ -114,7 +99,6 @@ class TRexFunctions(object):
         sa_bird_1_return = nagy_bird_temp / at_bird_temp
         return sa_bird_1_return
 
-    @timefn
     def sa_bird_2(self, size):
         # Seed treatment acute RQ for birds method 2
 
@@ -137,14 +121,12 @@ class TRexFunctions(object):
         sa_bird_2_return = av_ai / (at_bird_temp * nagy_bird_coef)
         return sa_bird_2_return
 
-    @timefn
     def sc_bird(self):
         # Seed treatment chronic RQ for birds
         m_s_a_r = ((self.first_app_rate * self.frac_act_ing) / 128) * self.density * 10000  # maximum seed application rate=application rate*10000
         risk_quotient = m_s_a_r / self.noaec_bird
         return risk_quotient
 
-    @timefn
     def sa_mamm_1(self, size):
         # Seed treatment acute RQ for mammals method 1
 
@@ -171,7 +153,6 @@ class TRexFunctions(object):
         quotient = nagy_mamm / at_mamm_temp
         return quotient
 
-    @timefn
     def sa_mamm_2(self, size):
         # Seed treatment acute RQ for mammals method 2
 
@@ -194,7 +175,6 @@ class TRexFunctions(object):
         quotient = av_ai / (at_mamm_temp * nagy_mamm_coef)
         return quotient
 
-    @timefn
     def sc_mamm(self, size):
         # Seed treatment chronic RQ for mammals
 
@@ -218,47 +198,36 @@ class TRexFunctions(object):
         quotient = nagy_mamm / anoael_mamm_temp
         return quotient
 
-
-    @timefn
     def fi_bird(self, aw_bird, mf_w_bird):
         # food intake for birds
         food_intake = (0.648 * (aw_bird ** 0.651)) / (1 - mf_w_bird)
         return food_intake
 
-
-    @timefn
     def fi_mamm(self, aw_mamm, mf_w_mamm):
         # food intake for mammals
         food_intake = (0.621 * (aw_mamm ** 0.564)) / (1 - mf_w_mamm)
         return food_intake
 
-    @timefn
     def at_bird(self, i, aw_bird):
         # Acute adjusted toxicity value for birds
         adjusted_toxicity = self.ld50_bird[i] * (aw_bird / self.tw_bird_ld50[i]) ** (self.mineau_sca_fact[i] - 1)
         return adjusted_toxicity
 
-    @timefn
     def at_bird1(self, aw_bird):
         # Acute adjusted toxicity value for birds
         adjusted_toxicity = self.ld50_bird * (aw_bird / self.tw_bird_ld50) ** (self.mineau_sca_fact - 1)
         return adjusted_toxicity
 
-
-
-    @timefn
     def at_mamm(self, i, aw_mamm):
         # Acute adjusted toxicity value for mammals
         adjusted_toxicity = self.ld50_mamm[i] * ((self.tw_mamm[i] / aw_mamm) ** 0.25)
         return adjusted_toxicity
 
-    @timefn
     def anoael_mamm(self, aw_mamm):
     # Adjusted chronic toxicity (NOAEL) value for mammals
         adjusted_toxicity = self.noael_mamm * ((self.tw_mamm / aw_mamm) ** 0.25)
         return adjusted_toxicity
 
-    @timefn
     def eec_diet_max(self, food_multiplier):
         """
         method produces a concentration timeseries (daily for 1 yr + a week) and extracts the maximum concentration value
@@ -271,7 +240,6 @@ class TRexFunctions(object):
         max_concs = [temp_ts[i].max() for i in range(temp_ts.__len__())]
         return max_concs
 
-    @timefn
     def eec_diet_timeseries(self, food_multiplier):
         # Dietary based EECs
         # returns maximum daily concentration that occurs during year as result of one or more applications
@@ -307,7 +275,6 @@ class TRexFunctions(object):
             c_temp_1[i] = c_temp #complete set of time series (e.g., for plotting)
         return c_temp_1
 
-    @timefn
     def eec_dose_bird(self, aw_bird, mf_w_bird, food_multiplier):
     # Dose based EECs for birds
         fi_bird_calc = self.fi_bird(aw_bird, mf_w_bird)
@@ -315,7 +282,6 @@ class TRexFunctions(object):
         eec_out = eec_diet_temp * fi_bird_calc / aw_bird
         return eec_out
 
-    @timefn
     def eec_dose_mamm(self, aw_mamm, mf_w_mamm, food_multiplier):
     # Dose based EECs for mammals
         eec_diet_temp = self.eec_diet_max(food_multiplier)
@@ -323,7 +289,6 @@ class TRexFunctions(object):
         dose_eec = eec_diet_temp * fi_mamm_temp / aw_mamm
         return dose_eec
 
-    @timefn
     def arq_dose_bird(self, aw_bird, mf_w_bird, food_multiplier):
     # Acute dose-based risk quotients for birds
         at_bird_temp = pd.Series([], dtype = 'float')
@@ -333,7 +298,6 @@ class TRexFunctions(object):
         risk_quotient = eec_dose_bird_temp / at_bird_temp
         return risk_quotient
 
-    @timefn
     def arq_dose_mamm(self, aw_mamm, mf_w_mamm, food_multiplier):
     # Acute dose-based risk quotients for mammals
         at_mamm_temp = pd.Series([], dtype = 'float')
@@ -343,39 +307,30 @@ class TRexFunctions(object):
         risk_quotient = eec_dose_mamm_temp / at_mamm_temp
         return risk_quotient
 
-    @timefn
     def arq_diet_bird(self, food_multiplier):
     # Acute dietary-based risk quotients for birds
         eec_diet_temp = self.eec_diet_max(food_multiplier)
         risk_quotient = eec_diet_temp / self.lc50_bird
         return risk_quotient
 
-    @timefn
     def arq_diet_mamm(self, food_multiplier):
     # Acute dietary-based risk quotients for mammals
         eec_diet_temp = self.eec_diet_max(food_multiplier)
         risk_quotient = eec_diet_temp / self.lc50_mamm
         return risk_quotient
 
-
-
-    @timefn
     def crq_diet_bird(self, food_multiplier):
     # Chronic dietary-based risk quotients for birds
         eec_diet_temp = self.eec_diet_max(food_multiplier)
         risk_quotient = eec_diet_temp / self.noaec_bird
         return risk_quotient
 
-    @timefn
     def crq_diet_mamm(self, food_multiplier):
     # Chronic dietary-based risk quotients for mammals
         eec_diet_temp = self.eec_diet_max(food_multiplier)
         crq_diet_mamm_temp = eec_diet_temp / self.noaec_mamm
         return crq_diet_mamm_temp
 
-
-
-    @timefn
     def crq_dose_mamm(self, aw_mamm, mf_w_mamm, food_multiplier):
     # Chronic dose-based risk quotients for mammals
         anoael_mamm_temp = self.anoael_mamm(aw_mamm)
@@ -383,7 +338,6 @@ class TRexFunctions(object):
         risk_quotient = eec_dose_mamm_temp / anoael_mamm_temp
         return risk_quotient
 
-    @timefn
     def ld50_rg_bird(self, aw_bird):
         # LD50ft-2 for row/band/in-furrow granular birds
         ld50_rg_bird_temp = pd.Series([], dtype='float')
@@ -401,7 +355,6 @@ class TRexFunctions(object):
                 ld50_rg_bird_temp[i] = 0
         return ld50_rg_bird_temp
 
-    @timefn
     def ld50_rg_bird1(self, aw_bird):
         """
         # LD50ft-2 for row/band/in-furrow granular birds
@@ -424,7 +377,6 @@ class TRexFunctions(object):
                 ld50_rg_bird_temp[i] = 0
         return ld50_rg_bird_temp
 
-    @timefn
     def ld50_rl_bird(self, aw_bird):
         # LD50ft-2 for row/band/in-furrow liquid birds
         ld50_rl_bird_temp = pd.Series([], dtype = 'float')
@@ -438,7 +390,6 @@ class TRexFunctions(object):
                 ld50_rl_bird_temp[i] = 0
         return ld50_rl_bird_temp
 
-    @timefn
     def ld50_bg_bird(self, aw_bird):
         # LD50ft-2 for broadcast granular birds
         ld50_bg_bird_temp = pd.Series([], dtype = 'float')
@@ -451,7 +402,6 @@ class TRexFunctions(object):
                 ld50_bg_bird_temp[i] = 0
         return ld50_bg_bird_temp
 
-    @timefn
     def ld50_bl_bird(self, aw_bird):
         # LD50ft-2 for broadcast liquid birds
         ld50_bl_bird_temp = pd.Series([], dtype = 'float')
@@ -467,7 +417,6 @@ class TRexFunctions(object):
                 ld50_bl_bird_temp[i] = 0
         return ld50_bl_bird_temp
 
-    @timefn
     def ld50_rg_mamm(self, aw_mamm):
         # LD50ft-2 for row/band/in-furrow granular mammals
         ld50_rg_mamm_temp = pd.Series([], dtype = 'float')
@@ -483,7 +432,6 @@ class TRexFunctions(object):
                 ld50_rg_mamm_temp[i] = 0
         return ld50_rg_mamm_temp
 
-    @timefn
     def ld50_rl_mamm(self, aw_mamm):
         # LD50ft-2 for row/band/in-furrow liquid mammals
         ld50_rl_mamm_temp = pd.Series([], dtype = 'float')
@@ -497,7 +445,6 @@ class TRexFunctions(object):
                 ld50_rl_mamm_temp[i] = 0
         return ld50_rl_mamm_temp
 
-    @timefn
     def ld50_bg_mamm(self, aw_mamm):
     # LD50ft-2 for broadcast granular mammals
         ld50_bg_mamm_temp = pd.Series([], dtype="float")
@@ -510,7 +457,6 @@ class TRexFunctions(object):
                 ld50_bg_mamm_temp[i] = 0
         return ld50_bg_mamm_temp
 
-    @timefn
     def ld50_bl_mamm(self, aw_mamm):
     # LD50ft-2 for broadcast liquid mammals
         ld50_bl_mamm_temp = pd.Series([], dtype="float")
