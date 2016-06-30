@@ -1,8 +1,11 @@
-import unittest
-import os.path
-import sys
+import datetime
+import inspect
 import numpy.testing as npt
+import os.path
 import pandas as pd
+import sys
+from tabulate import tabulate
+import unittest
 
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
@@ -17,6 +20,10 @@ trex_empty = TRex(df_empty, df_empty)
 test = {}
 
 class TestTrex(unittest.TestCase):
+    """
+    Unit tests for T-Rex model.
+    """
+    print("trex unittests conducted at " + str(datetime.datetime.today()))
 
     def setUp(self):
         """
@@ -37,7 +44,6 @@ class TestTrex(unittest.TestCase):
         # teardown called after each test
         # e.g. maybe write test results to some text file
 
-
     def test_app_rate_parsing(self):
         """
         unittest for function app_rate_testing:
@@ -54,7 +60,10 @@ class TestTrex(unittest.TestCase):
             result = [trex_empty.first_app_rate, trex_empty.max_app_rate]
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_conc_initial(self):
@@ -75,7 +84,10 @@ class TestTrex(unittest.TestCase):
                 result[i] = trex_empty.conc_initial(i, trex_empty.app_rates[i][0], trex_empty.food_multiplier_init_sg[i])
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_conc_timestep(self):
@@ -91,7 +103,10 @@ class TestTrex(unittest.TestCase):
                 result[i] = trex_empty.conc_timestep(i, conc_0[i])
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_percent_to_frac(self):
@@ -104,7 +119,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.percent_to_frac(trex_empty.percent_incorp)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_inches_to_feet(self):
@@ -117,7 +135,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.inches_to_feet(trex_empty.bandwidth)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_at_bird(self):
@@ -137,7 +158,10 @@ class TestTrex(unittest.TestCase):
                 result[i] = trex_empty.at_bird(i, trex_empty.aw_bird_sm[i])
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_at_bird1(self):
@@ -158,7 +182,10 @@ class TestTrex(unittest.TestCase):
 
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_fi_bird(self):
@@ -175,7 +202,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.fi_bird(trex_empty.aw_bird_sm, trex_empty.mf_w_bird_1)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_sc_bird(self):
@@ -196,7 +226,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.sc_bird()
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_sa_bird_1(self):
@@ -243,7 +276,14 @@ class TestTrex(unittest.TestCase):
             result_lg = trex_empty.sa_bird_1("large")
             npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab_sm = [result_sm, expected_results_sm]
+            tab_md = [result_md, expected_results_md]
+            tab_lg = [result_lg, expected_results_lg]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab_sm, headers='keys', tablefmt='rst'))
+            print(tabulate(tab_md, headers='keys', tablefmt='rst'))
+            print(tabulate(tab_lg, headers='keys', tablefmt='rst'))
         return
 
     def test_sa_bird_2(self):
@@ -290,7 +330,14 @@ class TestTrex(unittest.TestCase):
             result_lg = trex_empty.sa_bird_2("large")
             npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab_sm = [result_sm, expected_results_sm]
+            tab_md = [result_md, expected_results_md]
+            tab_lg = [result_lg, expected_results_lg]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab_sm, headers='keys', tablefmt='rst'))
+            print(tabulate(tab_md, headers='keys', tablefmt='rst'))
+            print(tabulate(tab_lg, headers='keys', tablefmt='rst'))
         return
 
     def test_sa_mamm_1(self):
@@ -336,7 +383,14 @@ class TestTrex(unittest.TestCase):
             result_lg = trex_empty.sa_mamm_1("large")
             npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab_sm = [result_sm, expected_results_sm]
+            tab_md = [result_md, expected_results_md]
+            tab_lg = [result_lg, expected_results_lg]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab_sm, headers='keys', tablefmt='rst'))
+            print(tabulate(tab_md, headers='keys', tablefmt='rst'))
+            print(tabulate(tab_lg, headers='keys', tablefmt='rst'))
         return
 
     def test_sa_mamm_2(self):
@@ -382,7 +436,14 @@ class TestTrex(unittest.TestCase):
             result_lg = trex_empty.sa_mamm_2("large")
             npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab_sm = [result_sm, expected_results_sm]
+            tab_md = [result_md, expected_results_md]
+            tab_lg = [result_lg, expected_results_lg]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab_sm, headers='keys', tablefmt='rst'))
+            print(tabulate(tab_md, headers='keys', tablefmt='rst'))
+            print(tabulate(tab_lg, headers='keys', tablefmt='rst'))
         return
 
     def test_sc_mamm(self):
@@ -428,7 +489,14 @@ class TestTrex(unittest.TestCase):
             result_lg = trex_empty.sc_mamm("large")
             npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab_sm = [result_sm, expected_results_sm]
+            tab_md = [result_md, expected_results_md]
+            tab_lg = [result_lg, expected_results_lg]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab_sm, headers='keys', tablefmt='rst'))
+            print(tabulate(tab_md, headers='keys', tablefmt='rst'))
+            print(tabulate(tab_lg, headers='keys', tablefmt='rst'))
         return
 
     def test_ld50_rg_bird(self):
@@ -460,7 +528,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.ld50_rg_bird(trex_empty.aw_bird_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_ld50_rg_bird1(self):
@@ -499,7 +570,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.ld50_rg_bird1(trex_empty.aw_bird_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_ld50_bl_bird(self):
@@ -525,7 +599,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.ld50_bl_bird(trex_empty.aw_bird_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_ld50_bg_bird(self):
@@ -552,7 +629,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.ld50_bg_bird(trex_empty.aw_bird_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_ld50_rl_bird(self):
@@ -580,7 +660,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.ld50_rl_bird(trex_empty.aw_bird_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_at_mamm(self):
@@ -598,7 +681,10 @@ class TestTrex(unittest.TestCase):
                 result[i] = trex_empty.at_mamm(i, trex_empty.aw_mamm_sm[i])
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_anoael_mamm(self):
@@ -614,7 +700,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.anoael_mamm(trex_empty.aw_mamm_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_fi_mamm(self):
@@ -629,7 +718,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.fi_mamm(trex_empty.aw_mamm_sm, trex_empty.mf_w_mamm_1)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_ld50_bl_mamm(self):
@@ -654,7 +746,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.ld50_bl_mamm(trex_empty.aw_mamm_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_ld50_bg_mamm(self):
@@ -679,7 +774,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.ld50_bg_mamm(trex_empty.aw_mamm_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_ld50_rl_mamm(self):
@@ -707,7 +805,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.ld50_rl_mamm(trex_empty.aw_mamm_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_ld50_rg_mamm(self):
@@ -736,7 +837,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.ld50_rg_mamm(trex_empty.aw_mamm_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_eec_diet_max(self):
@@ -772,7 +876,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.eec_diet_max(trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_eec_dose_bird(self):
@@ -811,7 +918,10 @@ class TestTrex(unittest.TestCase):
                                               trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_arq_dose_bird(self):
@@ -850,7 +960,10 @@ class TestTrex(unittest.TestCase):
                                               trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_arq_diet_bird(self):
@@ -882,7 +995,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.arq_diet_bird(trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_crq_diet_bird(self):
@@ -914,7 +1030,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.crq_diet_bird(trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_eec_dose_mamm(self):
@@ -948,7 +1067,10 @@ class TestTrex(unittest.TestCase):
                                               trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_arq_dose_mamm(self):
@@ -987,7 +1109,10 @@ class TestTrex(unittest.TestCase):
                                               trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_crq_dose_mamm(self):
@@ -1024,7 +1149,10 @@ class TestTrex(unittest.TestCase):
                                               trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_arq_diet_mamm(self):
@@ -1057,7 +1185,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.arq_diet_mamm(trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_crq_diet_mamm(self):
@@ -1089,7 +1220,10 @@ class TestTrex(unittest.TestCase):
             result = trex_empty.crq_diet_mamm(trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
 # unittest will
