@@ -477,6 +477,26 @@ class TestTRex(unittest.TestCase):
             pass
         return
 
+    def test_sa_bird_1_s(self):
+        """
+        Integration test for trex.runsemi
+        """
+        try:
+            self.blackbox_method_int('sa_bird_1_s')
+        finally:
+            pass
+        return
+
+    def test_sa_bird_2_s(self):
+        """
+        Integration test for trex.runsemi
+        """
+        try:
+            self.blackbox_method_int('sa_bird_2_s')
+        finally:
+            pass
+        return
+
     def test_sc_mamm_l(self):
         """
         Integration test for trex.runsemi
