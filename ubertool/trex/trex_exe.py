@@ -383,8 +383,6 @@ class TRex(UberModel, TRexInputs, TRexOutputs, TRexFunctions):
         # self.out_c_mean_fp = self.conc_initial(self.food_multiplier_mean_fp)
         # self.out_c_mean_arthro = self.conc_initial(self.food_multiplier_mean_arthro)
 
-        # ?? need to process these time series
-        # time series estimate based on first test case - needs to be matrices for batch runs
         self.out_c_ts_sg = self.eec_diet_timeseries(self.food_multiplier_init_sg)  # short grass
         self.out_c_ts_tg = self.eec_diet_timeseries(self.food_multiplier_init_tg)  # tall grass
         self.out_c_ts_blp = self.eec_diet_timeseries(self.food_multiplier_init_blp)  # broad-leafed plants
