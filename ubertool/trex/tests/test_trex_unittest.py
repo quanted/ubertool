@@ -1,5 +1,6 @@
 import datetime
 import inspect
+import numpy
 import numpy.testing as npt
 import os.path
 import pandas as pd
@@ -215,14 +216,14 @@ class TestTrex(unittest.TestCase):
         risk_quotient = m_s_a_r / self.noaec_bird
         """
 
-        expected_results = [6.637969, 77.805, 34.96289]
+        expected_results = [6.637969, 77.805, 34.96289, numpy.nan]
         try:
             trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
-                                          [2.34, 1.384, 3.4]], dtype='float')
+                                [2.34, 1.384, 3.4], [3.]], dtype='object')
             trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
-            trex_empty.frac_act_ing = pd.Series([0.15, 0.20, 0.34], dtype='float')
-            trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
-            trex_empty.noaec_bird = pd.Series([5., 1.25, 12.], dtype='float')
+            trex_empty.frac_act_ing = pd.Series([0.15, 0.20, 0.34, numpy.nan], dtype='float')
+            trex_empty.density = pd.Series([8.33, 7.98, 6.75, numpy.nan], dtype='float')
+            trex_empty.noaec_bird = pd.Series([5., 1.25, 12., numpy.nan], dtype='float')
             result = trex_empty.sc_bird()
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
@@ -301,7 +302,7 @@ class TestTrex(unittest.TestCase):
         try:
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
             trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
-                                          [2.34, 1.384, 3.4]], dtype='float')
+                                          [2.34, 1.384, 3.4]], dtype='object')
             trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
             trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
             trex_empty.max_seed_rate = pd.Series([33.19, 20.0, 45.6])
@@ -355,7 +356,7 @@ class TestTrex(unittest.TestCase):
         try:
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
             trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
-                                          [2.34, 1.384, 3.4]], dtype='float')
+                                          [2.34, 1.384, 3.4]], dtype='object')
             trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
             trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
 
@@ -408,7 +409,7 @@ class TestTrex(unittest.TestCase):
         try:
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
             trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
-                                          [2.34, 1.384, 3.4]], dtype='float')
+                                          [2.34, 1.384, 3.4]], dtype='object')
             trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
             trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
 
@@ -461,7 +462,7 @@ class TestTrex(unittest.TestCase):
         try:
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
             trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
-                                          [2.34, 1.384, 3.4]], dtype='float')
+                                          [2.34, 1.384, 3.4]], dtype='object')
             trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
             trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
 
@@ -512,7 +513,7 @@ class TestTrex(unittest.TestCase):
                                                      'Row/Band/In-furrow-Liquid'], dtype='object')
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
             trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
-                                          [2.34, 1.384, 3.4]], dtype='float')
+                                          [2.34, 1.384, 3.4]], dtype='object')
             trex_empty.app_rate_parsing()  #get 'max app rate' per model simulation run
             trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
             trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
@@ -554,7 +555,7 @@ class TestTrex(unittest.TestCase):
                                                      'Row/Band/In-furrow-Liquid'], dtype='object')
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
             trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
-                                          [2.34, 1.384, 3.4]], dtype='float')
+                                          [2.34, 1.384, 3.4]], dtype='object')
             trex_empty.app_rate_parsing()  #get 'max app rate' per model simulation run
             trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
             trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
@@ -587,7 +588,7 @@ class TestTrex(unittest.TestCase):
                                                      'Non-Broadcast'], dtype='object')
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
             trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
-                                          [2.34, 1.384, 3.4]], dtype='float')
+                                          [2.34, 1.384, 3.4]], dtype='object')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
@@ -616,7 +617,7 @@ class TestTrex(unittest.TestCase):
                                                      'Broadcast-Granular'], dtype='object')
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
             trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
-                                          [2.34, 1.384, 3.4]], dtype='float')
+                                          [2.34, 1.384, 3.4]], dtype='object')
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
 
             # following parameter values are needed for internal call to "test_at_bird"
@@ -646,7 +647,7 @@ class TestTrex(unittest.TestCase):
                                                      'Row/Band/In-furrow-Liquid'], dtype='object')
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
             trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
-                                          [2.34, 1.384, 3.4]], dtype='float')
+                                          [2.34, 1.384, 3.4]], dtype='object')
             trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
             trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
 
@@ -735,7 +736,7 @@ class TestTrex(unittest.TestCase):
                                                      'Non-Broadcast'], dtype='object')
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
             trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
-                                          [2.34, 1.384, 3.4]], dtype='float')
+                                          [2.34, 1.384, 3.4]], dtype='object')
 
             # following parameter values are needed for internal call to "test_at_mamm"
             # results from "test_at_mamm"  test using these values are [705.5036, 529.5517, 830.6143]
@@ -763,7 +764,7 @@ class TestTrex(unittest.TestCase):
                                                      'Broadcast-Liquid'], dtype='object')
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
             trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
-                                          [2.34, 1.384, 3.4]], dtype='float')
+                                          [2.34, 1.384, 3.4]], dtype='object')
 
             # following parameter values are needed for internal call to "at_mamm"
             # results from "test_at_mamm"  test using these values are [705.5036, 529.5517, 830.6143]
@@ -791,7 +792,7 @@ class TestTrex(unittest.TestCase):
                                                      'Row/Band/In-furrow-Liquid',
                                                      'Row/Band/In-furrow-Liquid',], dtype='object')
             trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
-                                          [2.34, 1.384, 3.4]], dtype='float')
+                                          [2.34, 1.384, 3.4]], dtype='object')
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
             trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
 
@@ -822,7 +823,7 @@ class TestTrex(unittest.TestCase):
                                                      'Row/Band/In-furrow-Granular',
                                                      'Row/Band/In-furrow-Liquid',], dtype='object')
             trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
-                                          [2.34, 1.384, 3.4]], dtype='float')
+                                          [2.34, 1.384, 3.4]], dtype='object')
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
             trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
             trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')

@@ -419,21 +419,21 @@ class TRex(UberModel, TRexInputs, TRexOutputs, TRexFunctions):
         self.out_eec_diet_ar = self.eec_diet_max(self.food_multiplier_init_arthro)
 
         # Table 7
-        self.out_eec_dose_bird_sg_sm = self.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_3, self.food_multiplier_init_sg)
-        self.out_eec_dose_bird_sg_md = self.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_3, self.food_multiplier_init_sg)
-        self.out_eec_dose_bird_sg_lg = self.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_3, self.food_multiplier_init_sg)
-        self.out_eec_dose_bird_tg_sm = self.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_3, self.food_multiplier_init_tg)
-        self.out_eec_dose_bird_tg_md = self.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_3, self.food_multiplier_init_tg)
-        self.out_eec_dose_bird_tg_lg = self.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_3, self.food_multiplier_init_tg)
-        self.out_eec_dose_bird_bp_sm = self.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_3, self.food_multiplier_init_blp)
-        self.out_eec_dose_bird_bp_md = self.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_3, self.food_multiplier_init_blp)
-        self.out_eec_dose_bird_bp_lg = self.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_3, self.food_multiplier_init_blp)
-        self.out_eec_dose_bird_fp_sm = self.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_3, self.food_multiplier_init_fp)
-        self.out_eec_dose_bird_fp_md = self.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_3, self.food_multiplier_init_fp)
-        self.out_eec_dose_bird_fp_lg = self.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_3, self.food_multiplier_init_fp)
-        self.out_eec_dose_bird_ar_sm = self.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_3, self.food_multiplier_init_arthro)
-        self.out_eec_dose_bird_ar_md = self.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_3, self.food_multiplier_init_arthro)
-        self.out_eec_dose_bird_ar_lg = self.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_3, self.food_multiplier_init_arthro)
+        self.out_eec_dose_bird_sg_sm = self.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_2, self.food_multiplier_init_sg)
+        self.out_eec_dose_bird_sg_md = self.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_2, self.food_multiplier_init_sg)
+        self.out_eec_dose_bird_sg_lg = self.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_2, self.food_multiplier_init_sg)
+        self.out_eec_dose_bird_tg_sm = self.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_2, self.food_multiplier_init_tg)
+        self.out_eec_dose_bird_tg_md = self.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_2, self.food_multiplier_init_tg)
+        self.out_eec_dose_bird_tg_lg = self.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_2, self.food_multiplier_init_tg)
+        self.out_eec_dose_bird_bp_sm = self.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_2, self.food_multiplier_init_blp)
+        self.out_eec_dose_bird_bp_md = self.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_2, self.food_multiplier_init_blp)
+        self.out_eec_dose_bird_bp_lg = self.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_2, self.food_multiplier_init_blp)
+        self.out_eec_dose_bird_fp_sm = self.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_2, self.food_multiplier_init_fp)
+        self.out_eec_dose_bird_fp_md = self.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_2, self.food_multiplier_init_fp)
+        self.out_eec_dose_bird_fp_lg = self.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_2, self.food_multiplier_init_fp)
+        self.out_eec_dose_bird_ar_sm = self.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_2, self.food_multiplier_init_arthro)
+        self.out_eec_dose_bird_ar_md = self.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_2, self.food_multiplier_init_arthro)
+        self.out_eec_dose_bird_ar_lg = self.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_2, self.food_multiplier_init_arthro)
         self.out_eec_dose_bird_se_sm = self.eec_dose_bird(self.aw_bird_sm, self.mf_w_bird_1, self.food_multiplier_init_fp)
         self.out_eec_dose_bird_se_md = self.eec_dose_bird(self.aw_bird_md, self.mf_w_bird_1, self.food_multiplier_init_fp)
         self.out_eec_dose_bird_se_lg = self.eec_dose_bird(self.aw_bird_lg, self.mf_w_bird_1, self.food_multiplier_init_fp)
@@ -596,13 +596,13 @@ class TRex(UberModel, TRexInputs, TRexOutputs, TRexFunctions):
         self.food_multiplier_mean_arthro = 65.  # arthropods
 
         # mass fraction of water in food source (higher values for herbivores and lower for granivores)
-
+        # (EFED value = 0.8 for herbivores and insectivores, 0.1 for granivores)
         self.mf_w_bird_1 = 0.1
         self.mf_w_bird_2 = 0.8
-        self.mf_w_bird_3 = 0.9
+        #self.mf_w_bird_3 = 0.9
         self.mf_w_mamm_1 = 0.1
         self.mf_w_mamm_2 = 0.8
-        self.mf_w_mamm_3 = 0.9
+        #self.mf_w_mamm_3 = 0.9
 
         self.nagy_bird_coef_sm = 0.02
         self.nagy_bird_coef_md = 0.1

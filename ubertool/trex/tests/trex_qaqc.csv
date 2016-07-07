@@ -4,7 +4,7 @@ pc_code,,,,,,,,,,,,,,
 chemical_name,Chemical name,,,,Triticonazole,Simazine,Simazine,Simazine,Atrazine,Atrazine,Profenofos,Maleic Hydrazide,Dicamba,Thiabendazole
 use,Use,,,,Turf,alfalfa,Corn Fallow,alfalfa,sugar beet,"corn, all unspecified","cotton, all or unspecified",onion,soybean,cucumber
 formu_name,Formulated product name,,,,Trinity,,,,,,,,,
-percent_act_ing,percent of application that is active ingredient (col 10 should be 42.3),,,,100,100,100,100,100,100,100,100,100,100
+percent_act_ing,percent of application that is active ingredient,,,,100,100,100,100,100,100,100,100,100,100
 application_type,Application type,,,,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Row/Band/In-furrow-Granular
 seed_treatment_formulation_name,Seed treatment formulation name,,,,,,,,,,,,,
 max_seed_rate,Maximum seeding rate per use (lbs/A),,,,0,,,,,,,,,11.6
@@ -36,62 +36,62 @@ mineau_sca_fact,Mineau scaling factor,,,,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15
 ld50_mamm,Mammalian LD50 (mg/kg-bw),,,,2000,5000,5000,5000,1869,1869,300,5000,2740,4734
 lc50_mamm,Mammalian LC50 (mg/kg-diet),,,,,,,,,,,,,
 noaec_mamm,Mammalian NOAEC (mg/kg-diet),,,,750,10,10,10,50,50,7.3,10000,2720,200
-noael_mamm,Mammalian NOAEL (mg/kg-bw),,,,,0.56,0.56,0.56,3.7,3.7,0.365,500,136,10
+noael_mamm,Mammalian NOAEL (mg/kg-bw),,,,37.5,0.56,0.56,0.56,3.7,3.7,0.365,500,136,10
 aw_mamm_sm,Body weight of assessed mammal small (g),,,,15,15,15,15,15,15,15,15,15,15
 aw_mamm_md,Body weight of assessed mammal medium (g),,,,35,35,35,35,35,35,35,35,35,35
 aw_mamm_lg,Body weight of assessed mammal large (g),,,,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000
 tw_mamm,Body weight of tested mammal (g),,,,350,350,350,350,350,350,350,350,350,350
-out_eec_diet_sg,EEC_diet_SG_out, ,,,,,,,,,,,,
-out_eec_diet_tg,EEC_diet_TG_out, ,,,,,,,,,,,,
-out_eec_diet_bp,EEC_diet_BP_out, ,,,,,,,,,,,,
-out_eec_diet_fr,EEC_diet_FR_out, ,,,,,,,,,,,,
-out_eec_diet_ar,EEC_diet_AR_out, ,,,,,,,,,,,,
-out_eec_dose_bird_sg_sm,EEC_dose_bird_SG_sm_out, ,,,,,,,,,,,,
-out_eec_dose_bird_sg_md,EEC_dose_bird_SG_md_out, ,,,,,,,,,,,,
-out_eec_dose_bird_sg_lg,EEC_dose_bird_SG_lg_out, ,,,,,,,,,,,,
-out_eec_dose_bird_tg_sm,EEC_dose_bird_TG_sm_out, ,,,,,,,,,,,,
-out_eec_dose_bird_tg_md,EEC_dose_bird_TG_md_out, ,,,,,,,,,,,,
-out_eec_dose_bird_tg_lg,EEC_dose_bird_TG_lg_out, ,,,,,,,,,,,,
-out_eec_dose_bird_bp_sm,EEC_dose_bird_BP_sm_out, ,,,,,,,,,,,,
-out_eec_dose_bird_bp_md,EEC_dose_bird_BP_md_out, ,,,,,,,,,,,,
-out_eec_dose_bird_bp_lg,EEC_dose_bird_BP_lg_out, ,,,,,,,,,,,,
-out_eec_dose_bird_fp_sm,EEC_dose_bird_FP_sm_out, ,,,,,,,,,,,,
-out_eec_dose_bird_fp_md,EEC_dose_bird_FP_md_out, ,,,,,,,,,,,,
-out_eec_dose_bird_fp_lg,EEC_dose_bird_FP_lg_out, ,,,,,,,,,,,,
-out_eec_dose_bird_ar_sm,EEC_dose_bird_AR_sm_out, ,,,,,,,,,,,,
-out_eec_dose_bird_ar_md,EEC_dose_bird_AR_md_out, ,,,,,,,,,,,,
-out_eec_dose_bird_ar_lg,EEC_dose_bird_AR_lg_out, ,,,,,,,,,,,,
-out_eec_dose_bird_se_sm,EEC_dose_bird_SE_sm_out, ,,,,,,,,,,,,
-out_eec_dose_bird_se_md,EEC_dose_bird_SE_md_out, ,,,,,,,,,,,,
-out_eec_dose_bird_se_lg,EEC_dose_bird_SE_lg_out,  ,,,,,,,,,,,,
-out_arc_bird_sg_sm,ARQ_bird_SG_sm_out,,,,,,,,,,,,,
-out_arc_bird_sg_md,ARQ_bird_SG_md_out,,,,,,,,,,,,,
-out_arc_bird_sg_lg,ARQ_bird_SG_lg_out,,,,,,,,,,,,,
-out_arc_bird_tg_sm,ARQ_bird_TG_sm_out,,,,,,,,,,,,,
-out_arc_bird_tg_md,ARQ_bird_TG_md_out,,,,,,,,,,,,,
-out_arc_bird_tg_lg,ARQ_bird_TG_lg_out,,,,,,,,,,,,,
-out_arc_bird_bp_sm,ARQ_bird_BP_sm_out,,,,,,,,,,,,,
-out_arc_bird_bp_md,ARQ_bird_BP_md_out,,,,,,,,,,,,,
-out_arc_bird_bp_lg,ARQ_bird_BP_lg_out,,,,,,,,,,,,,
-out_arc_bird_fp_sm,ARQ_bird_FP_sm_out,,,,,,,,,,,,,
-out_arc_bird_fp_md,ARQ_bird_FP_md_out,,,,,,,,,,,,,
-out_arc_bird_fp_lg,ARQ_bird_FP_lg_out,,,,,,,,,,,,,
-out_arc_bird_ar_sm,ARQ_bird_AR_sm_out,,,,,,,,,,,,,
-out_arc_bird_ar_md,ARQ_bird_AR_md_out,,,,,,,,,,,,,
-out_arc_bird_ar_lg,ARQ_bird_AR_lg_out,,,,,,,,,,,,,
-out_arc_bird_se_sm,ARQ_bird_SE_sm_out,,,,,,,,,,,,,
-out_arc_bird_se_md,ARQ_bird_SE_md_out,,,,,,,,,,,,,
-out_arc_bird_se_lg,ARQ_bird_SE_lg_out,,,,,,,,,,,,,
-out_arc_diet_bird_sg_a,ARQ_diet_bird_SG_A_out,,,,,,,,,,,,,
-out_arc_diet_bird_sg_c,ARQ_diet_bird_SG_C_out,,,,,,,,,,,,,
-out_arc_diet_bird_tg_a,ARQ_diet_bird_TG_A_out,,,,,,,,,,,,,
-out_arc_diet_bird_tg_c,ARQ_diet_bird_TG_C_out,,,,,,,,,,,,,
-out_arc_diet_bird_bp_a,ARQ_diet_bird_BP_A_out,,,,,,,,,,,,,
-out_arc_diet_bird_bp_c,ARQ_diet_bird_BP_C_out,,,,,,,,,,,,,
-out_arc_diet_bird_fp_a,ARQ_diet_bird_FP_A_out,,,,,,,,,,,,,
-out_arc_diet_bird_fp_c,ARQ_diet_bird_FP_C_out,,,,,,,,,,,,,
-out_arc_diet_bird_ar_a,ARQ_diet_bird_AR_A_out,,,,,,,,,,,,,
-out_arc_diet_bird_ar_c,ARQ_diet_bird_AR_C_out,,,,,,,,,,,,,
+out_eec_diet_sg,EEC_diet_SG_out,,,,,,,,,,,,,
+out_eec_diet_tg,EEC_diet_TG_out,,,,,,,,,,,,,
+out_eec_diet_bp,EEC_diet_BP_out,,,,,,,,,,,,,
+out_eec_diet_fr,EEC_diet_FR_out,,,,,,,,,,,,,
+out_eec_diet_ar,EEC_diet_AR_out,,,,,,,,,,,,,
+out_eec_dose_bird_sg_sm,EEC_dose_bird_SG_sm_out,,,,,,,,,,,,,
+out_eec_dose_bird_sg_md,EEC_dose_bird_SG_md_out,,,,,,,,,,,,,
+out_eec_dose_bird_sg_lg,EEC_dose_bird_SG_lg_out,,,,,,,,,,,,,
+out_eec_dose_bird_tg_sm,EEC_dose_bird_TG_sm_out,,,,,,,,,,,,,
+out_eec_dose_bird_tg_md,EEC_dose_bird_TG_md_out,,,,,,,,,,,,,
+out_eec_dose_bird_tg_lg,EEC_dose_bird_TG_lg_out,,,,,,,,,,,,,
+out_eec_dose_bird_bp_sm,EEC_dose_bird_BP_sm_out,,,,,,,,,,,,,
+out_eec_dose_bird_bp_md,EEC_dose_bird_BP_md_out,,,,,,,,,,,,,
+out_eec_dose_bird_bp_lg,EEC_dose_bird_BP_lg_out,,,,,,,,,,,,,
+out_eec_dose_bird_fp_sm,EEC_dose_bird_FP_sm_out,,,,,,,,,,,,,
+out_eec_dose_bird_fp_md,EEC_dose_bird_FP_md_out,,,,,,,,,,,,,
+out_eec_dose_bird_fp_lg,EEC_dose_bird_FP_lg_out,,,,,,,,,,,,,
+out_eec_dose_bird_ar_sm,EEC_dose_bird_AR_sm_out,,,,,,,,,,,,,
+out_eec_dose_bird_ar_md,EEC_dose_bird_AR_md_out,,,,,,,,,,,,,
+out_eec_dose_bird_ar_lg,EEC_dose_bird_AR_lg_out,,,,,,,,,,,,,
+out_eec_dose_bird_se_sm,EEC_dose_bird_SE_sm_out,,,,,,,,,,,,,
+out_eec_dose_bird_se_md,EEC_dose_bird_SE_md_out,,,,,,,,,,,,,
+out_eec_dose_bird_se_lg,EEC_dose_bird_SE_lg_out,,,,,,,,,,,,,
+out_arq_bird_sg_sm,ARQ_bird_SG_sm_out,,,,,,,,,,,,,
+out_arq_bird_sg_md,ARQ_bird_SG_md_out,,,,,,,,,,,,,
+out_arq_bird_sg_lg,ARQ_bird_SG_lg_out,,,,,,,,,,,,,
+out_arq_bird_tg_sm,ARQ_bird_TG_sm_out,,,,,,,,,,,,,
+out_arq_bird_tg_md,ARQ_bird_TG_md_out,,,,,,,,,,,,,
+out_arq_bird_tg_lg,ARQ_bird_TG_lg_out,,,,,,,,,,,,,
+out_arq_bird_bp_sm,ARQ_bird_BP_sm_out,,,,,,,,,,,,,
+out_arq_bird_bp_md,ARQ_bird_BP_md_out,,,,,,,,,,,,,
+out_arq_bird_bp_lg,ARQ_bird_BP_lg_out,,,,,,,,,,,,,
+out_arq_bird_fp_sm,ARQ_bird_FP_sm_out,,,,,,,,,,,,,
+out_arq_bird_fp_md,ARQ_bird_FP_md_out,,,,,,,,,,,,,
+out_arq_bird_fp_lg,ARQ_bird_FP_lg_out,,,,,,,,,,,,,
+out_arq_bird_ar_sm,ARQ_bird_AR_sm_out,,,,,,,,,,,,,
+out_arq_bird_ar_md,ARQ_bird_AR_md_out,,,,,,,,,,,,,
+out_arq_bird_ar_lg,ARQ_bird_AR_lg_out,,,,,,,,,,,,,
+out_arq_bird_se_sm,ARQ_bird_SE_sm_out,,,,,,,,,,,,,
+out_arq_bird_se_md,ARQ_bird_SE_md_out,,,,,,,,,,,,,
+out_arq_bird_se_lg,ARQ_bird_SE_lg_out,,,,,,,,,,,,,
+out_arq_diet_bird_sg_a,ARQ_diet_bird_SG_A_out,,,,,,,,,,,,,
+out_arq_diet_bird_sg_c,ARQ_diet_bird_SG_C_out,,,,,,,,,,,,,
+out_arq_diet_bird_tg_a,ARQ_diet_bird_TG_A_out,,,,,,,,,,,,,
+out_arq_diet_bird_tg_c,ARQ_diet_bird_TG_C_out,,,,,,,,,,,,,
+out_arq_diet_bird_bp_a,ARQ_diet_bird_BP_A_out,,,,,,,,,,,,,
+out_arq_diet_bird_bp_c,ARQ_diet_bird_BP_C_out,,,,,,,,,,,,,
+out_arq_diet_bird_fp_a,ARQ_diet_bird_FP_A_out,,,,,,,,,,,,,
+out_arq_diet_bird_fp_c,ARQ_diet_bird_FP_C_out,,,,,,,,,,,,,
+out_arq_diet_bird_ar_a,ARQ_diet_bird_AR_A_out,,,,,,,,,,,,,
+out_arq_diet_bird_ar_c,ARQ_diet_bird_AR_C_out,,,,,,,,,,,,,
 out_eec_dose_mamm_sg_sm,EEC_dose_mamm_SG_sm_out,,,,,,,,,,,,,
 out_eec_dose_mamm_sg_md,EEC_dose_mamm_SG_md_out,,,,,,,,,,,,,
 out_eec_dose_mamm_sg_lg,EEC_dose_mamm_SG_lg_out,,,,,,,,,,,,,
@@ -156,12 +156,30 @@ out_arq_diet_mamm_fp,ARQ_diet_mamm_FP_out,,,,,,,,,,,,,
 out_crq_diet_mamm_fp,CRQ_diet_mamm_FP_out,,,,,,,,,,,,,
 out_arq_diet_mamm_ar,ARQ_diet_mamm_AR_out,,,,,,,,,,,,,
 out_crq_diet_mamm_ar,CRQ_diet_mamm_AR_out,,,,,,,,,,,,,
-out_ld50_bird_sm,LD50_bird_sm_out,,,,,,,,,,,,,
-out_ld50_mamm_sm,LD50_mamm_sm_out,,,,,,,,,,,,,
-out_ld50_bird_md,LD50_bird_md_out,,,,,,,,,,,,,
-out_ld50_mamm_md,LD50_mamm_md_out,,,,,,,,,,,,,
-out_ld50_bird_lg,LD50_bird_lg_out,,,,,,,,,,,,,
-out_ld50_mamm_lg,LD50_mamm_lg_out,,,,,,,,,,,,,
+out_ld50_rg_bird_sm,LD50_rg_bird_sm_out,,,,,,,,,,,,,
+out_ld50_rl_bird_sm,LD50_rl_bird_sm_out,,,,,,,,,,,,,
+out_ld50_bg_bird_sm,LD50_bg_bird_sm_out,,,,,,,,,,,,,
+out_ld50_bl_bird_sm,LD50_bl_bird_sm_out,,,,,,,,,,,,,
+out_ld50_rg_mamm_sm,LD50_rg_mamm_sm_out,,,,,,,,,,,,,
+out_ld50_rl_mamm_sm,LD50_rl_mamm_sm_out,,,,,,,,,,,,,
+out_ld50_bg_mamm_sm,LD50_bg_mamm_sm_out,,,,,,,,,,,,,
+out_ld50_bl_mamm_sm,LD50_bl_mamm_sm_out,,,,,,,,,,,,,
+out_ld50_rg_bird_md,LD50_rg_bird_md_out,,,,,,,,,,,,,
+out_ld50_rl_bird_md,LD50_rl_bird_md_out,,,,,,,,,,,,,
+out_ld50_bg_bird_md,LD50_bg_bird_md_out,,,,,,,,,,,,,
+out_ld50_bl_bird_md,LD50_bl_bird_md_out,,,,,,,,,,,,,
+out_ld50_rg_mamm_md,LD50_rg_mamm_md_out,,,,,,,,,,,,,
+out_ld50_rl_mamm_md,LD50_bg_mamm_md_out,,,,,,,,,,,,,
+out_ld50_bg_mamm_md,LD50_bg_mamm_md_out,,,,,,,,,,,,,
+out_ld50_bl_mamm_md,LD50_bl_mamm_md_out,,,,,,,,,,,,,
+out_ld50_rg_bird_lg,LD50_rg_bird_lg_out,,,,,,,,,,,,,
+out_ld50_rl_bird_lg,LD50_rl_bird_lg_out,,,,,,,,,,,,,
+out_ld50_bg_bird_lg,LD50_bg_bird_lg_out,,,,,,,,,,,,,
+out_ld50_bl_bird_lg,LD50_bl_bird_lg_out,,,,,,,,,,,,,
+out_ld50_rg_mamm_lg,LD50_rg_mamm_lg_out,,,,,,,,,,,,,
+out_ld50_rl_mamm_lg,LD50_rl_mamm_lg_out,,,,,,,,,,,,,
+out_ld50_bg_mamm_lg,LD50_bg_mamm_lg_out,,,,,,,,,,,,,
+out_ld50_bl_mamm_lg,LD50_rl_mamm_lg_out,,,,,,,,,,,,,
 out_sa_bird_1_s,sa_bird_1_s_out,,,,,,,,,,,,,
 out_sa_bird_2_s,sa_bird_2_s_out,,,,,,,,,,,,,
 out_sc_bird_s,sc_bird_s_out,,,,,,,,,,,,,
@@ -203,34 +221,34 @@ exp_eec_dose_bird_ar_lg,EEC_dose_bird_AR_lg_out_exp,,,,78.36871165,43.73134618,2
 exp_eec_dose_bird_se_sm,EEC_dose_bird_SE_sm_out_exp,,,,10.88514279,6.074132617,3.796332886,7.652331089,24.31747122,7.652331089,12.65429241,11.00936537,4.159246268,13.26314693
 exp_eec_dose_bird_se_md,EEC_dose_bird_SE_md_out_exp,,,,6.207169414,3.463727663,2.16482979,4.36368327,13.86685196,4.36368327,7.216013451,6.27800639,2.37177837,7.563208089
 exp_eec_dose_bird_se_lg,EEC_dose_bird_SE_lg_out_exp,,,,2.779032328,1.550756957,0.969223098,1.953679055,6.208374109,1.953679055,3.230705225,2.810746984,1.061876731,3.386148884
-exp_arqbird_sg_sm,ARQ_bird_SG_sm_out_exp,,,,0.572560689,0.130829983,0.08176874,0.164822603,3.103827995,0.976726537,92.10466592,0.408587616,2.211046029,0.285673265
-exp_arqbird_sg_md,ARQ_bird_SG_md_out_exp,,,,0.256469364,0.05860319,0.036626994,0.073829638,1.390309895,0.437508964,41.25680567,0.18302026,0.990402554,0.12796275
-exp_arqbird_sg_lg,ARQ_bird_SG_lg_out_exp,,,,0.081289695,0.018574676,0.011609173,0.023400802,0.440668101,0.138671418,13.07662289,0.058009506,0.313914771,0.040558657
-exp_arqbird_tg_sm,ARQ_bird_TG_sm_out_exp,,,,0.262423649,0.059963742,0.037477339,0.075543693,1.422587831,0.44766633,42.21463855,0.187269324,1.013396097,0.13093358
-exp_arqbird_tg_md,ARQ_bird_TG_md_out_exp,,,,0.117548458,0.026859795,0.016787372,0.033838584,0.637225369,0.200524942,18.90936927,0.083884286,0.453934504,0.058649594
-exp_arqbird_tg_lg,ARQ_bird_TG_lg_out_exp,,,,0.037257777,0.008513393,0.005320871,0.010725367,0.20197288,0.063557733,5.993452157,0.02658769,0.143877603,0.018589384
-exp_arqbird_bp_sm,ARQ_bird_BP_sm_out_exp,,,,0.322065388,0.073591866,0.045994916,0.092712714,1.745903247,0.549408677,51.80887458,0.229830534,1.243713392,0.160691211
-exp_arqbird_bp_md,ARQ_bird_BP_md_out_exp,,,,0.144264017,0.032964294,0.020602684,0.041529171,0.782049316,0.246098792,23.20695319,0.102948896,0.557101437,0.071979047
-exp_arqbird_bp_lg,ARQ_bird_BP_lg_out_exp,,,,0.045725454,0.010448255,0.00653016,0.013162951,0.247875807,0.078002672,7.355600375,0.032630347,0.176577059,0.022814245
-exp_arqbird_fp_sm,ARQ_bird_FP_sm_out_exp,,,,0.035785043,0.008176874,0.005110546,0.010301413,0.19398925,0.061045409,5.75654162,0.025536726,0.138190377,0.017854579
-exp_arqbird_fp_md,ARQ_bird_FP_md_out_exp,,,,0.016029335,0.003662699,0.002289187,0.004614352,0.086894368,0.02734431,2.578550354,0.011438766,0.06190016,0.007997672
-exp_arqbird_fp_lg,ARQ_bird_FP_lg_out_exp,,,,0.005080606,0.001160917,0.000725573,0.00146255,0.027541756,0.008666964,0.817288931,0.003625594,0.019619673,0.002534916
-exp_arqbird_ar_sm,ARQ_bird_AR_sm_out_exp,,,,0.224252937,0.051241744,0.03202609,0.06455552,1.215665965,0.382551227,36.07432749,0.160030149,0.865993028,0.111888695
-exp_arqbird_ar_md,ARQ_bird_AR_md_out_exp,,,,0.100450501,0.022952916,0.014345572,0.028916608,0.544538042,0.171357677,16.15891555,0.071682935,0.387907667,0.050118744
-exp_arqbird_ar_lg,ARQ_bird_AR_lg_out_exp,,,,0.031838464,0.007275082,0.004546926,0.009165314,0.172595006,0.054312972,5.121677298,0.02272039,0.122949952,0.015885474
-exp_arqbird_se_sm,ARQ_bird_SE_sm_out_exp,,,,0.007952232,0.001817083,0.001135677,0.002289203,0.043108722,0.013565646,1.279231471,0.005674828,0.030708973,0.003967684
-exp_arqbird_se_md,ARQ_bird_SE_md_out_exp,,,,0.003562074,0.000813933,0.000508708,0.001025412,0.01930986,0.006076513,0.57301119,0.002541948,0.013755591,0.00177726
-exp_arqbird_se_lg,ARQ_bird_SE_lg_out_exp,,,,0.001129024,0.000257982,0.000161239,0.000325011,0.00612039,0.001925992,0.181619762,0.000805688,0.004359927,0.000563315
-exp_arqdiet_bird_sg_a,ARQ_diet_bird_SG_A_out_exp,,,,0.137629357,0.0768,0.048,0.096754395,0.30746477,0.096754395,14.03492075,0.123843416,0.026294299,0.149196014
-exp_arqdiet_bird_sg_c,ARQ_diet_bird_SG_C_out_exp,,,,4.0008534,3.84,2.4,4.83771976,20.49765135,6.450293013,799.9904826,,0.378335231,2.096203995
-exp_arqdiet_bird_tg_a,ARQ_diet_bird_TG_A_out_exp,,,,0.063080122,0.0352,0.022,0.044345764,0.140921353,0.044345764,6.432672009,0.056761566,0.012051554,0.068381506
-exp_arqdiet_bird_tg_c,ARQ_diet_bird_TG_C_out_exp,,,,1.833724475,1.76,1.1,2.217288223,9.394756871,2.956384298,366.6623045,,0.173403648,0.960760164
-exp_arqdiet_bird_bp_a,ARQ_diet_bird_BP_A_out_exp,,,,0.077416513,0.0432,0.027,0.054424347,0.172948933,0.054424347,7.894642921,0.069661922,0.014790543,0.083922758
-exp_arqdiet_bird_bp_c,ARQ_diet_bird_BP_C_out_exp,,,,2.250480038,2.16,1.35,2.721217365,11.52992889,3.62828982,449.9946465,,0.212813568,1.179114747
-exp_arqdiet_bird_fp_a,ARQ_diet_bird_FP_A_out_exp,,,,0.008601835,0.0048,0.003,0.00604715,0.019216548,0.00604715,0.877182547,0.007740214,0.001643394,0.009324751
-exp_arqdiet_bird_fp_c,ARQ_diet_bird_FP_C_out_exp,,,,0.250053338,0.24,0.15,0.302357485,1.28110321,0.403143313,49.99940516,,0.023645952,0.13101275
-exp_arqdiet_bird_ar_a,ARQ_diet_bird_AR_A_out_exp,,,,0.053904831,0.03008,0.0188,0.037895471,0.120423702,0.037895471,5.497010626,0.048505338,0.0102986,0.058435105
-exp_arqdiet_bird_ar_c,ARQ_diet_bird_AR_C_out_exp,,,,1.567000915,1.504,0.94,1.894773573,8.02824678,2.526364763,313.3296057,,0.148181299,0.821013231
+exp_arq_bird_sg_sm,ARQ_bird_SG_sm_out_exp,,,,0.572560689,0.130829983,0.08176874,0.164822603,3.103827995,0.976726537,92.10466592,0.408587616,2.211046029,0.285673265
+exp_arq_bird_sg_md,ARQ_bird_SG_md_out_exp,,,,0.256469364,0.05860319,0.036626994,0.073829638,1.390309895,0.437508964,41.25680567,0.18302026,0.990402554,0.12796275
+exp_arq_bird_sg_lg,ARQ_bird_SG_lg_out_exp,,,,0.081289695,0.018574676,0.011609173,0.023400802,0.440668101,0.138671418,13.07662289,0.058009506,0.313914771,0.040558657
+exp_arq_bird_tg_sm,ARQ_bird_TG_sm_out_exp,,,,0.262423649,0.059963742,0.037477339,0.075543693,1.422587831,0.44766633,42.21463855,0.187269324,1.013396097,0.13093358
+exp_arq_bird_tg_md,ARQ_bird_TG_md_out_exp,,,,0.117548458,0.026859795,0.016787372,0.033838584,0.637225369,0.200524942,18.90936927,0.083884286,0.453934504,0.058649594
+exp_arq_bird_tg_lg,ARQ_bird_TG_lg_out_exp,,,,0.037257777,0.008513393,0.005320871,0.010725367,0.20197288,0.063557733,5.993452157,0.02658769,0.143877603,0.018589384
+exp_arq_bird_bp_sm,ARQ_bird_BP_sm_out_exp,,,,0.322065388,0.073591866,0.045994916,0.092712714,1.745903247,0.549408677,51.80887458,0.229830534,1.243713392,0.160691211
+exp_arq_bird_bp_md,ARQ_bird_BP_md_out_exp,,,,0.144264017,0.032964294,0.020602684,0.041529171,0.782049316,0.246098792,23.20695319,0.102948896,0.557101437,0.071979047
+exp_arq_bird_bp_lg,ARQ_bird_BP_lg_out_exp,,,,0.045725454,0.010448255,0.00653016,0.013162951,0.247875807,0.078002672,7.355600375,0.032630347,0.176577059,0.022814245
+exp_arq_bird_fp_sm,ARQ_bird_FP_sm_out_exp,,,,0.035785043,0.008176874,0.005110546,0.010301413,0.19398925,0.061045409,5.75654162,0.025536726,0.138190377,0.017854579
+exp_arq_bird_fp_md,ARQ_bird_FP_md_out_exp,,,,0.016029335,0.003662699,0.002289187,0.004614352,0.086894368,0.02734431,2.578550354,0.011438766,0.06190016,0.007997672
+exp_arq_bird_fp_lg,ARQ_bird_FP_lg_out_exp,,,,0.005080606,0.001160917,0.000725573,0.00146255,0.027541756,0.008666964,0.817288931,0.003625594,0.019619673,0.002534916
+exp_arq_bird_ar_sm,ARQ_bird_AR_sm_out_exp,,,,0.224252937,0.051241744,0.03202609,0.06455552,1.215665965,0.382551227,36.07432749,0.160030149,0.865993028,0.111888695
+exp_arq_bird_ar_md,ARQ_bird_AR_md_out_exp,,,,0.100450501,0.022952916,0.014345572,0.028916608,0.544538042,0.171357677,16.15891555,0.071682935,0.387907667,0.050118744
+exp_arq_bird_ar_lg,ARQ_bird_AR_lg_out_exp,,,,0.031838464,0.007275082,0.004546926,0.009165314,0.172595006,0.054312972,5.121677298,0.02272039,0.122949952,0.015885474
+exp_arq_bird_se_sm,ARQ_bird_SE_sm_out_exp,,,,0.007952232,0.001817083,0.001135677,0.002289203,0.043108722,0.013565646,1.279231471,0.005674828,0.030708973,0.003967684
+exp_arq_bird_se_md,ARQ_bird_SE_md_out_exp,,,,0.003562074,0.000813933,0.000508708,0.001025412,0.01930986,0.006076513,0.57301119,0.002541948,0.013755591,0.00177726
+exp_arq_bird_se_lg,ARQ_bird_SE_lg_out_exp,,,,0.001129024,0.000257982,0.000161239,0.000325011,0.00612039,0.001925992,0.181619762,0.000805688,0.004359927,0.000563315
+exp_arq_diet_bird_sg_a,ARQ_diet_bird_SG_A_out_exp,,,,0.137629357,0.0768,0.048,0.096754395,0.30746477,0.096754395,14.03492075,0.123843416,0.026294299,0.149196014
+exp_arq_diet_bird_sg_c,ARQ_diet_bird_SG_C_out_exp,,,,4.0008534,3.84,2.4,4.83771976,20.49765135,6.450293013,799.9904826,,0.378335231,2.096203995
+exp_arq_diet_bird_tg_a,ARQ_diet_bird_TG_A_out_exp,,,,0.063080122,0.0352,0.022,0.044345764,0.140921353,0.044345764,6.432672009,0.056761566,0.012051554,0.068381506
+exp_arq_diet_bird_tg_c,ARQ_diet_bird_TG_C_out_exp,,,,1.833724475,1.76,1.1,2.217288223,9.394756871,2.956384298,366.6623045,,0.173403648,0.960760164
+exp_arq_diet_bird_bp_a,ARQ_diet_bird_BP_A_out_exp,,,,0.077416513,0.0432,0.027,0.054424347,0.172948933,0.054424347,7.894642921,0.069661922,0.014790543,0.083922758
+exp_arq_diet_bird_bp_c,ARQ_diet_bird_BP_C_out_exp,,,,2.250480038,2.16,1.35,2.721217365,11.52992889,3.62828982,449.9946465,,0.212813568,1.179114747
+exp_arq_diet_bird_fp_a,ARQ_diet_bird_FP_A_out_exp,,,,0.008601835,0.0048,0.003,0.00604715,0.019216548,0.00604715,0.877182547,0.007740214,0.001643394,0.009324751
+exp_arq_diet_bird_fp_c,ARQ_diet_bird_FP_C_out_exp,,,,0.250053338,0.24,0.15,0.302357485,1.28110321,0.403143313,49.99940516,,0.023645952,0.13101275
+exp_arq_diet_bird_ar_a,ARQ_diet_bird_AR_A_out_exp,,,,0.053904831,0.03008,0.0188,0.037895471,0.120423702,0.037895471,5.497010626,0.048505338,0.0102986,0.058435105
+exp_arq_diet_bird_ar_c,ARQ_diet_bird_AR_C_out_exp,,,,1.567000915,1.504,0.94,1.894773573,8.02824678,2.526364763,313.3296057,,0.148181299,0.821013231
 exp_eec_dose_mamm_sg_sm,EEC_dose_mamm_SG_sm_out_exp,,,,656.0952607,366.1145931,228.8216207,461.2395316,1465.720563,461.2395316,762.7296615,663.5827,250.6960007,799.4279924
 exp_eec_dose_mamm_sg_md,EEC_dose_mamm_SG_md_out_exp,,,,453.4495991,253.0341635,158.1463522,318.778222,1013.008997,318.778222,527.1482359,458.6244213,173.2644752,552.5116921
 exp_eec_dose_mamm_sg_lg,EEC_dose_mamm_SG_lg_out_exp,,,,105.1338793,58.66685792,36.6667862,73.90984838,234.8696874,73.90984838,122.2211666,106.33368,40.17197603,128.1017729
@@ -295,12 +313,30 @@ exp_arq_diet_mamm_fp,ARQ_diet_mamm_FP_out_exp,,,,,,,,,,,,,
 exp_crq_diet_mamm_fp,CRQ_diet_mamm_FP_out_exp,,,,0.057345565,2.4,1.5,3.02357485,1.921654814,0.60471497,6.849233584,0.00435,0.006041888,0.262025499
 exp_arq_diet_mamm_ar,ARQ_diet_mamm_AR_out_exp,,,,,,,,,,,,,
 exp_crq_diet_mamm_ar,CRQ_diet_mamm_AR_out_exp,,,,0.359365543,15.04,9.4,18.94773573,12.04237017,3.789547145,42.92186379,0.02726,0.037862501,1.642026463
-exp_ld50_bird_sm,LD50_bird_sm_out_exp,,,,0.437419707,0.24920463,0.155752894,0.389382235,0,0,26.31642422,0.778276685,3.844113981,
-exp_ld50_mamm_sm,LD50_mamm_sm_out_exp,,,,0.181617624,0.101074156,0.063171347,0.157928369,0,0,0.526427895,0.183196908,0.115276181,
-exp_ld50_bird_md,LD50_bird_md_out_exp,,,,0.068719951,0.039150797,0.024469248,0.06117312,0,0,4.134389354,0.122269607,0.603921862,
-exp_ld50_mamm_md,LD50_mamm_md_out_exp,,,,0.096200073,0.053537432,0.033460895,0.083652237,0,0,0.278840791,0.097036595,0.061060027,
-exp_ld50_bird_lg,LD50_bird_lg_out_exp,,,,0.004865,0.002771664,0.00173229,0.004330725,0,0,0.292692351,0.008656025,0.042754394,
-exp_ld50_mamm_lg,LD50_mamm_lg_out_exp,,,,0.007784423,0.004332201,0.002707625,0.006769064,0,0,0.022563545,0.007852114,0.004940922,
+exp_ld50_rg_bird_sm,LD50_rg_bird_sm_out_exp,,,,,,,,,,,,,
+exp_ld50_rl_bird_sm,LD50_rl_bird_sm_out_exp,,,,,,,,,,,,,
+exp_ld50_bg_bird_sm,LD50_bg_bird_sm_out_exp,,,,,,,,,,,,,
+exp_ld50_bl_bird_sm,LD50_bl_bird_sm_out_exp,,,,0.437419707,0.24920463,0.155752894,0.389382235,0,0,26.31642422,0.778276685,3.844113981,
+exp_ld50_rg_mamm_sm,LD50_rg_mamm_sm_out_exp,,,,,,,,,,,,,
+exp_ld50_rl_mamm_sm,LD50_rl_mamm_sm_out_exp,,,,,,,,,,,,,
+exp_ld50_bg_mamm_sm,LD50_bg_mamm_sm_out_exp,,,,,,,,,,,,,
+exp_ld50_bl_mamm_sm,LD50_bl_mamm_sm_out_exp,,,,0.181617624,0.101074156,0.063171347,0.157928369,0,0,0.526427895,0.183196908,0.115276181,
+exp_ld50_rg_bird_md,LD50_rg_bird_md_out_exp,,,,,,,,,,,,,
+exp_ld50_rl_bird_md,LD50_rl_bird_md_out_exp,,,,,,,,,,,,,
+exp_ld50_bg_bird_md,LD50_bg_bird_md_out_exp,,,,,,,,,,,,,
+exp_ld50_bl_bird_md,LD50_bl_bird_md_out_exp,,,,0.068719951,0.039150797,0.024469248,0.06117312,0,0,4.134389354,0.122269607,0.603921862,
+exp_ld50_rg_mamm_md,LD50_rg_mamm_md_out_exp,,,,,,,,,,,,,
+exp_ld50_rl_mamm_md,LD50_rl_mamm_md_out_exp,,,,,,,,,,,,,
+exp_ld50_bg_mamm_md,LD50_bg_mamm_md_out_exp,,,,,,,,,,,,,
+exp_ld50_bl_mamm_md,LD50_bl_mamm_md_out_exp,,,,0.096200073,0.053537432,0.033460895,0.083652237,0,0,0.278840791,0.097036595,0.061060027,
+exp_ld50_rg_bird_lg,LD50_rg_bird_lg_out_exp,,,,,,,,,,,,,
+exp_ld50_rl_bird_lg,LD50_rl_bird_lg_out_exp,,,,,,,,,,,,,
+exp_ld50_bg_bird_lg,LD50_bg_bird_lg_out_exp,,,,,,,,,,,,,
+exp_ld50_bl_bird_lg,LD50_rl_bird_lg_out_exp,,,,0.004865,0.002771664,0.00173229,0.004330725,0,0,0.292692351,0.008656025,0.042754394,
+exp_ld50_rg_mamm_lg,LD50_rg_mamm_lg_out_exp,,,,,,,,,,,,,
+exp_ld50_rl_mamm_lg,LD50_rl_mamm_lg_out_exp,,,,,,,,,,,,,
+exp_ld50_bg_mamm_lg,LD50_bg_mamm_lg_out_exp,,,,,,,,,,,,,
+exp_ld50_bl_mamm_lg,LD50_rl_mamm_lg_out_exp,,,,0.007784423,0.004332201,0.002707625,0.006769064,0,0,0.022563545,0.007852114,0.004940922,
 exp_sa_bird_1_s,sa_bird_1_s_out_exp,,,,,,,,,,,,,0.200299247
 exp_sa_bird_2_s,sa_bird_2_s_out_exp,,,,,,,,,,,,,0.004796477
 exp_sc_bird_s,sc_bird_s_out_exp,,,,,,,,,,,,,6.613871876

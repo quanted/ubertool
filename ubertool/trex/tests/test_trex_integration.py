@@ -88,7 +88,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_diet_sg(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_diet_sg
         """
         try:
             self.blackbox_method_int('eec_diet_sg')
@@ -98,7 +98,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_diet_tg(self):
         """
-        Integration test for trex.runsemi
+        Integration test for trex.eec_diet_tg
         """
         try:
             self.blackbox_method_int('eec_diet_tg')
@@ -108,7 +108,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_diet_bp(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_diet_bp
         """
         try:
             self.blackbox_method_int('eec_diet_bp')
@@ -118,7 +118,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_diet_fr(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_diet_fr
         """
         try:
             self.blackbox_method_int('eec_diet_fr')
@@ -128,7 +128,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_diet_ar(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_diet_ar
         """
         try:
             self.blackbox_method_int('eec_diet_ar')
@@ -138,7 +138,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_sg_sm(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_sg_sm
         """
         try:
             self.blackbox_method_int('eec_dose_bird_sg_sm')
@@ -148,7 +148,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_sg_md(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_sg_md
         """
         try:
             self.blackbox_method_int('eec_dose_bird_sg_md')
@@ -158,7 +158,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_sg_lg(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_sg_lg
         """
         try:
             self.blackbox_method_int('eec_dose_bird_sg_lg')
@@ -168,7 +168,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_tg_sm(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_tg_sm
         """
         try:
             self.blackbox_method_int('eec_dose_bird_tg_sm')
@@ -178,7 +178,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_tg_md(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_tg_m
         """
         try:
             self.blackbox_method_int('eec_dose_bird_tg_md')
@@ -188,7 +188,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_tg_lg(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_tg_lg
         """
         try:
             self.blackbox_method_int('eec_dose_bird_tg_lg')
@@ -198,7 +198,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_bp_sm(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_bp_sm
         """
         try:
             self.blackbox_method_int('eec_dose_bird_bp_sm')
@@ -208,7 +208,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_bp_md(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_bp_md
         """
         try:
             self.blackbox_method_int('eec_dose_bird_bp_md')
@@ -218,7 +218,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_bp_lg(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_bp_lg
         """
         try:
             self.blackbox_method_int('eec_dose_bird_bp_lg')
@@ -228,7 +228,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_fp_sm(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_fp_sm
         """
         try:
             self.blackbox_method_int('eec_dose_bird_fp_sm')
@@ -238,7 +238,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_fp_md(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_fp_md
         """
         try:
             self.blackbox_method_int('eec_dose_bird_fp_md')
@@ -248,7 +248,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_fp_lg(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_fp_lg
         """
         try:
             self.blackbox_method_int('eec_dose_bird_fp_lg')
@@ -258,7 +258,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_ar_sm(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_ar_sm
         """
         try:
             self.blackbox_method_int('eec_dose_bird_ar_sm')
@@ -268,7 +268,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_ar_md(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_ar_md
         """
         try:
             self.blackbox_method_int('eec_dose_bird_ar_md')
@@ -278,7 +278,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_ar_lg(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_ar_lg
         """
         try:
             self.blackbox_method_int('eec_dose_bird_ar_lg')
@@ -288,7 +288,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_se_sm(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_se_sm
         """
         try:
             self.blackbox_method_int('eec_dose_bird_se_sm')
@@ -298,7 +298,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_se_md(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_se_md
         """
         try:
             self.blackbox_method_int('eec_dose_bird_se_md')
@@ -308,7 +308,7 @@ class TestTRex(unittest.TestCase):
 
     def test_eec_dose_bird_se_lg(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.eec_dose_bird_se_lg
         """
         try:
             self.blackbox_method_int('eec_dose_bird_se_lg')
@@ -318,7 +318,7 @@ class TestTRex(unittest.TestCase):
 
     def test_arq_bird_sg_sm(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.arq_bird_sg_sm
         """
         try:
             self.blackbox_method_int('arq_bird_sg_sm')
@@ -328,17 +328,17 @@ class TestTRex(unittest.TestCase):
 
     def test_arq_bird_sg_md(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.arq_bird_sg_md
         """
         try:
-            self.blackbox_method_int('arq_bird_sg_mdm')
+            self.blackbox_method_int('arq_bird_sg_md')
         finally:
             pass
         return
 
     def test_arq_bird_sg_lg(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.arq_bird_sg_lg
         """
         try:
             self.blackbox_method_int('arq_bird_sg_lg')
@@ -348,7 +348,7 @@ class TestTRex(unittest.TestCase):
 
     def test_arq_bird_tg_sm(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.arq_bird_tg_sm
         """
         try:
             self.blackbox_method_int('arq_bird_tg_sm')
@@ -358,17 +358,17 @@ class TestTRex(unittest.TestCase):
 
     def test_arq_bird_tg_md(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.arq_bird_tg_md
         """
         try:
-            self.blackbox_method_int('arq_bird_tg_mdm')
+            self.blackbox_method_int('arq_bird_tg_md')
         finally:
             pass
         return
 
     def test_arq_bird_tg_lg(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.arq_bird_tg_lg
         """
         try:
             self.blackbox_method_int('arq_bird_tg_lg')
@@ -376,9 +376,9 @@ class TestTRex(unittest.TestCase):
             pass
         return
 
-    def test_arq_bird_bp_smm(self):
+    def test_arq_bird_bp_sm(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.arq_bird_bp_sm
         """
         try:
             self.blackbox_method_int('arq_bird_bp_sm')
@@ -388,7 +388,7 @@ class TestTRex(unittest.TestCase):
 
     def test_arq_bird_bp_md(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.arq_bird_bp_md
         """
         try:
             self.blackbox_method_int('arq_bird_bp_md')
@@ -396,9 +396,10 @@ class TestTRex(unittest.TestCase):
             pass
         return
 
+
     def test_arq_bird_bp_lg(self):
         """
-        Integration test for trex.rundry
+        Integration test for trex.arq_bird_bp_lg
         """
         try:
             self.blackbox_method_int('arq_bird_bp_lg')
@@ -406,20 +407,191 @@ class TestTRex(unittest.TestCase):
             pass
         return
 
-##############################################################
-    def test_eec_dose_bird_sm(self):
+    def test_arq_bird_fp_sm(self):
         """
-        Integration test for trex.runsemi
+        Integration test for trex.arq_bird_fp_sm
         """
         try:
-            self.blackbox_method_int('eec_dose_bird_sm')
+            self.blackbox_method_int('arq_bird_fp_sm')
+        finally:
+            pass
+
+    def test_arq_bird_fp_mdg(self):
+        """
+        Integration test for trex.arq_bird_fp_md
+        """
+        try:
+            self.blackbox_method_int('arq_bird_fp_md')
+        finally:
+            pass
+
+    def test_arq_bird_fp_lg(self):
+        """
+        Integration test for trex.aarq_bird_fp_lg
+        """
+        try:
+            self.blackbox_method_int('arq_bird_fp_lg')
+        finally:
+            pass
+
+    def test_arq_bird_ar_sm(self):
+        """
+        Integration test for trex.arq_bird_ar_sm
+        """
+        try:
+            self.blackbox_method_int('arq_bird_ar_sm')
+        finally:
+            pass
+
+    def test_arq_bird_ar_md(self):
+        """
+        Integration test for trex.arq_bird_ar_md
+        """
+        try:
+            self.blackbox_method_int('arq_bird_ar_md')
+        finally:
+            pass
+
+    def test_arq_bird_ar_lg(self):
+        """
+        Integration test for trex.arq_bird_ar_lg
+        """
+        try:
+            self.blackbox_method_int('arq_bird_ar_lg')
+        finally:
+            pass
+
+    def test_arq_bird_se_sm(self):
+        """
+        Integration test for trex.arq_bird_se_sm
+        """
+        try:
+            self.blackbox_method_int('arq_bird_se_sm')
+        finally:
+            pass
+
+    def test_arq_bird_se_md(self):
+        """
+        Integration test for trex.arq_bird_se_md
+        """
+        try:
+            self.blackbox_method_int('arq_bird_se_md')
+        finally:
+            pass
+
+    def test_arq_bird_se_lg(self):
+        """
+        Integration test for trex.arq_bird_se_lg
+        """
+        try:
+            self.blackbox_method_int('arq_bird_se_lg')
+        finally:
+            pass
+        return
+
+    def test_arq_diet_bird_sg_a(self):
+        """
+        Integration test for trex.arq_diet_bird_sg_a
+        """
+        try:
+            self.blackbox_method_int('arq_diet_bird_sg_a')
+        finally:
+            pass
+        return
+
+    def test_arq_diet_bird_sg_c(self):
+        """
+        Integration test for trex.arq_diet_bird_sg_c
+        """
+        try:
+            self.blackbox_method_int('arq_diet_bird_sg_c')
+        finally:
+            pass
+        return
+
+    def test_arq_diet_bird_tg_a(self):
+        """
+        Integration test for trex.arq_diet_bird_tg_a
+        """
+        try:
+            self.blackbox_method_int('arq_diet_bird_tg_a')
+        finally:
+            pass
+        return
+
+    def test_arq_diet_bird_tg_c(self):
+        """
+        Integration test for trex.arq_diet_bird_tg_c
+        """
+        try:
+            self.blackbox_method_int('arq_diet_bird_tg_c')
+        finally:
+            pass
+        return
+
+    def test_arq_diet_bird_bp_a(self):
+        """
+        Integration test for trex.arq_diet_bird_bp_a
+        """
+        try:
+            self.blackbox_method_int('arq_diet_bird_bp_a')
+        finally:
+            pass
+        return
+
+    def test_arq_diet_bird_bp_c(self):
+        """
+        Integration test for trex.arq_diet_bird_bp_c
+        """
+        try:
+            self.blackbox_method_int('arq_diet_bird_bp_c')
+        finally:
+            pass
+        return
+
+    def test_arq_diet_bird_fp_a(self):
+        """
+        Integration test for trex.arq_diet_bird_fp_a
+        """
+        try:
+            self.blackbox_method_int('arq_diet_bird_fp_a')
+        finally:
+            pass
+        return
+
+    def test_arq_diet_bird_fp_c(self):
+        """
+        Integration test for trex.arq_diet_bird_fp_c
+        """
+        try:
+            self.blackbox_method_int('arq_diet_bird_fp_c')
+        finally:
+            pass
+        return
+
+    def test_arq_diet_bird_ar_a(self):
+        """
+        Integration test for trex.arq_diet_bird_ar_a
+        """
+        try:
+            self.blackbox_method_int('arq_diet_bird_ar_a')
+        finally:
+            pass
+        return
+
+    def test_arq_diet_bird_ar_c(self):
+        """
+        Integration test for trex.arq_diet_bird_ar_c
+        """
+        try:
+            self.blackbox_method_int('arq_diet_bird_ar_c')
         finally:
             pass
         return
 
     def test_eec_dose_mamm_sg_sm(self):
         """
-        Integration test for trex.runsemi
+        Integration test for trex.eec_dose_mamm_sg_sm
         """
         try:
             self.blackbox_method_int('eec_dose_mamm_sg_sm')
@@ -427,9 +599,439 @@ class TestTRex(unittest.TestCase):
             pass
         return
 
+    def test_eec_dose_mamm_sg_md(self):
+        """
+        Integration test for trex.eec_dose_mamm_sg_md
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_sg_md')
+        finally:
+            pass
+        return
+
+    def test_eec_dose_mamm_sg_lg(self):
+        """
+        Integration test for trex.eec_dose_mamm_sg_lg
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_sg_lg')
+        finally:
+            pass
+        return
+
+    def test_eec_dose_mamm_tg_sm(self):
+        """
+        Integration test for trex.eec_dose_mamm_tg_sm
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_tg_sm')
+        finally:
+            pass
+        return
+
+    def test_eec_dose_mamm_tg_md(self):
+        """
+        Integration test for trex.eec_dose_mamm_tg_md
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_tg_md')
+        finally:
+            pass
+        return
+
+    def test_eec_dose_mamm_tg_lg(self):
+        """
+        Integration test for trex.eec_dose_mamm_tg_lg
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_tg_lg')
+        finally:
+            pass
+        return
+
+    def test_eec_dose_mamm_bp_sm(self):
+        """
+        Integration test for trex.eec_dose_mamm_bp_sm
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_bp_sm')
+        finally:
+            pass
+        return
+
+    def test_eec_dose_mamm_bp_md(self):
+        """
+        Integration test for trex.eec_dose_mamm_bp_md
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_bp_md')
+        finally:
+            pass
+        return
+
+    def test_eec_dose_mamm_bp_lg(self):
+        """
+        Integration test for trex.eec_dose_mamm_bp_lg
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_bp_lg')
+        finally:
+            pass
+        return
+
+    def test_eec_dose_mamm_fp_sm(self):
+        """
+        Integration test for trex.eec_dose_mamm_fp_sm
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_fp_sm')
+        finally:
+            pass
+        return
+
+    def test_eec_dose_mamm_fp_md(self):
+        """
+        Integration test for trex.eec_dose_mamm_fp_md
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_fp_md')
+        finally:
+            pass
+        return
+
+    def test_eec_dose_mamm_fp_lg(self):
+        """
+        Integration test for trex.eec_dose_mamm_fp_lg
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_fp_lg')
+        finally:
+            pass
+        return
+
+    def test_eec_dose_mamm_ar_sm(self):
+        """
+        Integration test for trex.eec_dose_mamm_ar_sm
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_ar_sm')
+        finally:
+            pass
+        return
+
+    def test_eec_dose_mamm_ar_md(self):
+        """
+        Integration test for trex.eec_dose_mamm_ar_md
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_ar_md')
+        finally:
+            pass
+        return
+
+    def test_eec_dose_mamm_ar_lg(self):
+        """
+        Integration test for trex.eec_dose_mamm_ar_lg
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_ar_lg')
+        finally:
+            pass
+        return
+
+    def test_eec_dose_mamm_se_sm(self):
+        """
+        Integration test for trex.eec_dose_mamm_se_sm
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_se_sm')
+        finally:
+            pass
+        return
+
+    def test_eec_dose_mamm_se_md(self):
+        """
+        Integration test for trex.eec_dose_mamm_se_md
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_se_md')
+        finally:
+            pass
+        return
+
+    def test_eec_dose_mamm_se_lg(self):
+        """
+        Integration test for trex.eec_dose_mamm_se_lg
+        """
+        try:
+            self.blackbox_method_int('eec_dose_mamm_se_lg')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_sg_sm(self):
+        """
+        Integration test for trex.arq_dose_mamm_sg_sm
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_sg_sm')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_sg_sm(self):
+        """
+        Integration test for trex.crq_dose_mamm_sg_sm
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_sg_sm')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_sg_md(self):
+        """
+        Integration test for trex.arq_dose_mamm_sg_md
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_sg_md')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_sg_md(self):
+        """
+        Integration test for trex.crq_dose_mamm_sg_md
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_sg_md')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_sg_lg(self):
+        """
+        Integration test for trex.arq_dose_mamm_sg_lg
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_sg_lg')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_sg_lg(self):
+        """
+        Integration test for trex.crq_dose_mamm_sg_lg
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_sg_lg')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_tg_sm(self):
+        """
+        Integration test for trex.arq_dose_mamm_tg_sm
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_tg_sm')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_tg_sm(self):
+        """
+        Integration test for trex.crq_dose_mamm_tg_sm
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_tg_sm')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_tg_md(self):
+        """
+        Integration test for trex.arq_dose_mamm_tg_md
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_tg_md')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_tg_md(self):
+        """
+        Integration test for trex.crq_dose_mamm_tg_md
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_tg_md')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_tg_lg(self):
+        """
+        Integration test for trex.arq_dose_mamm_tg_lg
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_tg_lg')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_tg_lg(self):
+        """
+        Integration test for trex.crq_dose_mamm_tg_lg
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_tg_lg')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_bp_sm(self):
+        """
+        Integration test for trex.arq_dose_mamm_bp_sm
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_bp_sm')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_bp_sm(self):
+        """
+        Integration test for trex.crq_dose_mamm_bp_sm
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_bp_sm')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_bp_md(self):
+        """
+        Integration test for trex.arq_dose_mamm_bp_md
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_bp_md')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_bp_md(self):
+        """
+        Integration test for trex.crq_dose_mamm_bp_md
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_bp_md')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_bp_lg(self):
+        """
+        Integration test for trex.arq_dose_mamm_bp_lg
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_bp_lg')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_bp_lg(self):
+        """
+        Integration test for trex.crq_dose_mamm_bp_lg
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_bp_lg')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_fp_sm(self):
+        """
+        Integration test for trex.arq_dose_mamm_fp_sm
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_fp_sm')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_fp_sm(self):
+        """
+        Integration test for trex.crq_dose_mamm_fp_sm
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_fp_sm')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_fp_md(self):
+        """
+        Integration test for trex.arq_dose_mamm_fp_md
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_fp_md')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_fp_md(self):
+        """
+        Integration test for trex.crq_dose_mamm_fp_md
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_fp_md')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_fp_lg(self):
+        """
+        Integration test for trex.arq_dose_mamm_fp_lg
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_fp_lg')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_fp_lg(self):
+        """
+        Integration test for trex.crq_dose_mamm_fp_lg
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_fp_lg')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_ar_sm(self):
+        """
+        Integration test for trex.arq_dose_mamm_ar_sm
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_ar_sm')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_ar_sm(self):
+        """
+        Integration test for trex.crq_dose_mamm_ar_sm
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_ar_sm')
+        finally:
+            pass
+        return
+
     def test_arq_dose_mamm_ar_md(self):
         """
-        Integration test for trex.runsemi
+        Integration test for trex.arq_dose_mamm_ar_md
         """
         try:
             self.blackbox_method_int('arq_dose_mamm_ar_md')
@@ -437,19 +1039,439 @@ class TestTRex(unittest.TestCase):
             pass
         return
 
-    def test_ld50_bird_sm(self):
+    def test_crq_dose_mamm_ar_md(self):
         """
-        Integration test for trex.runsemi
+        Integration test for trex.crq_dose_mamm_ar_md
         """
         try:
-            self.blackbox_method_int('ld50_bird_sm')
+            self.blackbox_method_int('crq_dose_mamm_ar_md')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_ar_lg(self):
+        """
+        Integration test for trex.arq_dose_mamm_ar_lg
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_ar_lg')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_ar_lg(self):
+        """
+        Integration test for trex.crq_dose_mamm_ar_lg
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_ar_lg')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_se_sm(self):
+        """
+        Integration test for trex.arq_dose_mamm_se_sm
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_se_sm')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_se_sm(self):
+        """
+        Integration test for trex.crq_dose_mamm_se_sm
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_se_sm')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_se_md(self):
+        """
+        Integration test for trex.arq_dose_mamm_se_md
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_se_md')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_se_md(self):
+        """
+        Integration test for trex.crq_dose_mamm_se_md
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_se_md')
+        finally:
+            pass
+        return
+
+    def test_arq_dose_mamm_se_lg(self):
+        """
+        Integration test for trex.arq_dose_mamm_se_lg
+        """
+        try:
+            self.blackbox_method_int('arq_dose_mamm_se_lg')
+        finally:
+            pass
+        return
+
+    def test_crq_dose_mamm_se_lg(self):
+        """
+        Integration test for trex.crq_dose_mamm_se_lg
+        """
+        try:
+            self.blackbox_method_int('crq_dose_mamm_se_lg')
+        finally:
+            pass
+        return
+
+    def test_arq_diet_mamm_sg(self):
+        """
+        Integration test for trex.arq_diet_mamm_sg
+        """
+        try:
+            self.blackbox_method_int('arq_diet_mamm_sg')
+        finally:
+            pass
+        return
+
+    def test_crq_diet_mamm_sg(self):
+        """
+        Integration test for trex.crq_diet_mamm_sg
+        """
+        try:
+            self.blackbox_method_int('crq_diet_mamm_sg')
+        finally:
+            pass
+        return
+
+    def test_arq_diet_mamm_tg(self):
+        """
+        Integration test for trex.arq_diet_mamm_tg
+        """
+        try:
+            self.blackbox_method_int('arq_diet_mamm_tg')
+        finally:
+            pass
+        return
+
+    def test_crq_diet_mamm_tg(self):
+        """
+        Integration test for trex.crq_diet_mamm_tg
+        """
+        try:
+            self.blackbox_method_int('crq_diet_mamm_tg')
+        finally:
+            pass
+        return
+
+    def test_arq_diet_mamm_bp(self):
+        """
+        Integration test for trex.arq_diet_mamm_bp
+        """
+        try:
+            self.blackbox_method_int('arq_diet_mamm_bp')
+        finally:
+            pass
+        return
+
+    def test_crq_diet_mamm_bp(self):
+        """
+        Integration test for trex.crq_diet_mamm_bp
+        """
+        try:
+            self.blackbox_method_int('crq_diet_mamm_bp')
+        finally:
+            pass
+        return
+
+    def test_arq_diet_mamm_fp(self):
+        """
+        Integration test for trex.arq_diet_mamm_fp
+        """
+        try:
+            self.blackbox_method_int('arq_diet_mamm_fp')
+        finally:
+            pass
+        return
+
+    def test_crq_diet_mamm_fp(self):
+        """
+        Integration test for trex.crq_diet_mamm_fp
+        """
+        try:
+            self.blackbox_method_int('crq_diet_mamm_fp')
+        finally:
+            pass
+        return
+
+    def test_arq_diet_mamm_ar(self):
+        """
+        Integration test for trex.arq_diet_mamm_ar
+        """
+        try:
+            self.blackbox_method_int('arq_diet_mamm_ar')
+        finally:
+            pass
+        return
+
+    def test_crq_diet_mamm_ar(self):
+        """
+        Integration test for trex.crq_diet_mamm_ar
+        """
+        try:
+            self.blackbox_method_int('crq_diet_mamm_ar')
+        finally:
+            pass
+        return
+
+    def test_ld50_rg_bird_sm(self):
+        """
+        Integration test for trex.ld50_rg_bird_sm
+        """
+        try:
+            self.blackbox_method_int('ld50_rg_bird_sm')
+        finally:
+            pass
+        return
+
+    def test_ld50_rl_bird_sm(self):
+        """
+        Integration test for trex.ld50_rl_bird_sm
+        """
+        try:
+            self.blackbox_method_int('ld50_rl_bird_sm')
+        finally:
+            pass
+        return
+
+    def test_ld50_bg_bird_sm(self):
+        """
+        Integration test for trex.ld50_bg_bird_sm
+        """
+        try:
+            self.blackbox_method_int('ld50_bg_bird_sm')
+        finally:
+            pass
+        return
+
+    def test_ld50_bl_bird_sm(self):
+        """
+        Integration test for trex.ld50_bl_bird_sm
+        """
+        try:
+            self.blackbox_method_int('ld50_bl_bird_sm')
+        finally:
+            pass
+        return
+
+    def test_ld50_rg_mamm_sm(self):
+        """
+        Integration test for trex.ld50_rg_mamm_sm
+        """
+        try:
+            self.blackbox_method_int('ld50_rg_mamm_sm')
+        finally:
+            pass
+        return
+
+    def test_ld50_rl_mamm_sm(self):
+        """
+        Integration test for trex.ld50_rl_mamm_sm
+        """
+        try:
+            self.blackbox_method_int('ld50_rl_mamm_sm')
+        finally:
+            pass
+        return
+
+    def test_ld50_bg_mamm_sm(self):
+        """
+        Integration test for trex.ld50_bg_mamm_sm
+        """
+        try:
+            self.blackbox_method_int('ld50_bg_mamm_sm')
+        finally:
+            pass
+        return
+
+    def test_ld50_bl_mamm_sm(self):
+        """
+        Integration test for trex.ld50_bl_mamm_sm
+        """
+        try:
+            self.blackbox_method_int('ld50_bl_mamm_sm')
+        finally:
+            pass
+        return
+
+    def test_ld50_rg_bird_md(self):
+        """
+        Integration test for trex.ld50_rg_bird_md
+        """
+        try:
+            self.blackbox_method_int('ld50_rg_bird_md')
+        finally:
+            pass
+        return
+
+    def test_ld50_rl_bird_md(self):
+        """
+        Integration test for trex.ld50_rl_bird_md
+        """
+        try:
+            self.blackbox_method_int('ld50_rl_bird_md')
+        finally:
+            pass
+        return
+
+    def test_ld50_bg_bird_md(self):
+        """
+        Integration test for trex.ld50_bg_bird_md
+        """
+        try:
+            self.blackbox_method_int('ld50_bg_bird_md')
+        finally:
+            pass
+        return
+
+    def test_ld50_bl_bird_md(self):
+        """
+        Integration test for trex.ld50_bl_bird_md
+        """
+        try:
+            self.blackbox_method_int('ld50_bl_bird_md')
+        finally:
+            pass
+        return
+
+    def test_ld50_rg_mamm_md(self):
+        """
+        Integration test for trex.ld50_rg_mamm_md
+        """
+        try:
+            self.blackbox_method_int('ld50_rg_mamm_md')
+        finally:
+            pass
+        return
+
+    def test_ld50_rl_mamm_md(self):
+        """
+        Integration test for trex.ld50_rl_mamm_md
+        """
+        try:
+            self.blackbox_method_int('ld50_rl_mamm_md')
+        finally:
+            pass
+        return
+
+    def test_ld50_bg_mamm_md(self):
+        """
+        Integration test for trex.ld50_bg_mamm_md
+        """
+        try:
+            self.blackbox_method_int('ld50_bg_mamm_md')
+        finally:
+            pass
+        return
+
+    def test_ld50_bl_mamm_md(self):
+        """
+        Integration test for trex.ld50_bl_mamm_md
+        """
+        try:
+            self.blackbox_method_int('ld50_bl_mamm_md')
+        finally:
+            pass
+        return
+
+    def test_ld50_rg_bird_lg(self):
+        """
+        Integration test for trex.ld50_rg_bird_lg
+        """
+        try:
+            self.blackbox_method_int('ld50_rg_bird_lg')
+        finally:
+            pass
+        return
+
+    def test_ld50_rl_bird_lg(self):
+        """
+        Integration test for trex.ld50_rl_bird_lg
+        """
+        try:
+            self.blackbox_method_int('ld50_rl_bird_lg')
+        finally:
+            pass
+        return
+
+    def test_ld50_bg_bird_lg(self):
+        """
+        Integration test for trex.ld50_bg_bird_lg
+        """
+        try:
+            self.blackbox_method_int('ld50_bg_bird_lg')
+        finally:
+            pass
+        return
+
+    def test_ld50_bl_bird_lg(self):
+        """
+        Integration test for trex.ld50_bl_bird_lg
+        """
+        try:
+            self.blackbox_method_int('ld50_bl_bird_lg')
+        finally:
+            pass
+        return
+
+    def test_ld50_rg_mamm_lg(self):
+        """
+        Integration test for trex.ld50_rg_mamm_lg
+        """
+        try:
+            self.blackbox_method_int('ld50_rg_mamm_lg')
+        finally:
+            pass
+        return
+
+    def test_ld50_rl_mamm_lg(self):
+        """
+        Integration test for trex.ld50_rl_mamm_lg
+        """
+        try:
+            self.blackbox_method_int('ld50_rl_mamm_lg')
+        finally:
+            pass
+        return
+
+    def test_ld50_bg_mamm_lg(self):
+        """
+        Integration test for trex.ld50_bg_mamm_lg
+        """
+        try:
+            self.blackbox_method_int('ld50_bg_mamm_lg')
+        finally:
+            pass
+        return
+
+    def test_ld50_bl_mamm_lg(self):
+        """
+        Integration test for trex.ld50_bl_mamm_lg
+        """
+        try:
+            self.blackbox_method_int('ld50_bl_mamm_lg')
         finally:
             pass
         return
 
     def test_sc_bird_s(self):
         """
-        Integration test for trex.runsemi
+        Integration test for trex.sc_bird_s
         """
         try:
             self.blackbox_method_int('sc_bird_s')
@@ -467,19 +1489,9 @@ class TestTRex(unittest.TestCase):
             pass
         return
 
-    def test_sc_bird_l(self):
-        """
-        Integration test for trex.runsemi
-        """
-        try:
-            self.blackbox_method_int('sc_bird_l')
-        finally:
-            pass
-        return
-
     def test_sa_bird_1_s(self):
         """
-        Integration test for trex.runsemi
+        Integration test for trex.sa_bird_1_s
         """
         try:
             self.blackbox_method_int('sa_bird_1_s')
@@ -489,7 +1501,7 @@ class TestTRex(unittest.TestCase):
 
     def test_sa_bird_2_s(self):
         """
-        Integration test for trex.runsemi
+        Integration test for trex.sa_bird_2_s
         """
         try:
             self.blackbox_method_int('sa_bird_2_s')
@@ -497,9 +1509,159 @@ class TestTRex(unittest.TestCase):
             pass
         return
 
+    def test_sc_bird_s(self):
+        """
+        Integration test for trex.sc_bird_s
+        """
+        try:
+            self.blackbox_method_int('sc_bird_s')
+        finally:
+            pass
+        return
+
+    def test_sa_mamm_1_s(self):
+        """
+        Integration test for trex.sa_mamm_1_s
+        """
+        try:
+            self.blackbox_method_int('sa_mamm_1_s')
+        finally:
+            pass
+        return
+
+    def test_sa_mamm_2_s(self):
+        """
+        Integration test for trex.sa_mamm_2_s
+        """
+        try:
+            self.blackbox_method_int('sa_mamm_2_s')
+        finally:
+            pass
+        return
+
+    def test_sc_mamm_s(self):
+        """
+        Integration test for trex.sc_mamm_s
+        """
+        try:
+            self.blackbox_method_int('sc_mamm_s')
+        finally:
+            pass
+        return
+
+    def test_sa_bird_1_m(self):
+        """
+        Integration test for trex.sa_bird_1_m
+        """
+        try:
+            self.blackbox_method_int('sa_bird_1_m')
+        finally:
+            pass
+        return
+
+    def test_sa_bird_2_m(self):
+        """
+        Integration test for trex.sa_bird_2_m
+        """
+        try:
+            self.blackbox_method_int('sa_bird_2_m')
+        finally:
+            pass
+        return
+
+    def test_sc_bird_m(self):
+        """
+        Integration test for trex.sc_bird_m
+        """
+        try:
+            self.blackbox_method_int('sc_bird_m')
+        finally:
+            pass
+        return
+
+    def test_sa_mamm_1_m(self):
+        """
+        Integration test for trex.sa_mamm_1_m
+        """
+        try:
+            self.blackbox_method_int('sa_mamm_1_m')
+        finally:
+            pass
+        return
+
+    def test_sa_mamm_2_m(self):
+        """
+        Integration test for trex.sa_mamm_2_m
+        """
+        try:
+            self.blackbox_method_int('sa_mamm_2_m')
+        finally:
+            pass
+        return
+
+    def test_sc_mamm_m(self):
+        """
+        Integration test for trex.sc_mamm_m
+        """
+        try:
+            self.blackbox_method_int('sc_mamm_m')
+        finally:
+            pass
+        return
+
+    def test_sa_bird_1_l(self):
+        """
+        Integration test for trex.sa_bird_1_l
+        """
+        try:
+            self.blackbox_method_int('sa_bird_1_l')
+        finally:
+            pass
+        return
+
+    def test_sa_bird_2_l(self):
+        """
+        Integration test for trex.sa_bird_2_l
+        """
+        try:
+            self.blackbox_method_int('sa_bird_2_l')
+        finally:
+            pass
+        return
+
+    def test_sc_bird_l(self):
+        """
+        Integration test for trex.sc_bird_l
+        """
+        try:
+            self.blackbox_method_int('sc_bird_l')
+        finally:
+            pass
+        return
+
+    def test_sa_mamm_1_l(self):
+        """
+        Integration test for trex.sa_mamm_1_l
+        """
+        try:
+            self.blackbox_method_int('sa_mamm_1_l')
+        finally:
+            pass
+        return
+
+    def test_sa_mamm_2_l(self):
+        """
+        Integration test for trex.sa_mamm_2_l
+        """
+        try:
+            self.blackbox_method_int('sa_mamm_2_l')
+        finally:
+            pass
+        return
+
     def test_sc_mamm_l(self):
         """
-        Integration test for trex.runsemi
+        Integration test for trex.sc_mamm_l
         """
         try:
             self.blackbox_method_int('sc_mamm_l')
@@ -521,7 +1683,7 @@ class TestTRex(unittest.TestCase):
         print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
         # npt.assert_array_almost_equal(result, expected, 4, '', True)
         rtol = 1e-5
-        npt.assert_allclose(result, expected, rtol, 0, '', True)
+        npt.assert_allclose(result, expected, rtol, 0, True)
 
     def blackbox_method_str(self, output):
         """

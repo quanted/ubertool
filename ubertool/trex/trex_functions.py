@@ -1,3 +1,4 @@
+from __future__ import division
 from functools import wraps
 import logging
 import numpy as np
@@ -100,7 +101,7 @@ class TRexFunctions(object):
         #maximum seed application rate (m_s_r_p)
         m_s_a_r_temp = pd.Series([], dtype='float',name="m_s_a_r_temp")
         nagy_bird_temp = pd.Series([], dtype='float',name="nagy_bird_temp")
-        aw_bird = pd.Series([], dtype = 'float')
+        aw_bird = pd.Series([], dtype = 'float', name="aw_bird")
 
         if size == "small":
                 mf_w_bird = self.mf_w_bird_1
@@ -377,7 +378,7 @@ class TRexFunctions(object):
                                (num_rows_peracre * (43560.0 ** 0.5) * self.bandwidth[i])) * (1 - self.frac_incorp[i])
                 ld50_rg_bird_temp[i] = expo_rg_bird / (at_bird_temp * (aw_bird[i] / 1000.0))
             else:
-                ld50_rg_bird_temp[i] = 0
+                ld50_rg_bird_temp[i] = np.nan
         return ld50_rg_bird_temp
 
     def ld50_rg_bird1(self, aw_bird):
@@ -399,7 +400,7 @@ class TRexFunctions(object):
         #go back and replace all non 'Row/Band/In-furrow-Granular' app types with value of zero
         for i in range(len(aw_bird)):
             if self.application_type[i] != 'Row/Band/In-furrow-Granular':
-                ld50_rg_bird_temp[i] = 0
+                ld50_rg_bird_temp[i] = np.nan
         return ld50_rg_bird_temp
 
     def ld50_rl_bird(self, aw_bird):
@@ -412,7 +413,7 @@ class TRexFunctions(object):
                                 (1000 * self.bandwidth[i])) * (1 - self.frac_incorp[i])
                 ld50_rl_bird_temp[i] = expo_rl_bird / (at_bird_temp * (aw_bird[i] / 1000.0))
             else:
-                ld50_rl_bird_temp[i] = 0
+                ld50_rl_bird_temp[i] = np.nan
         return ld50_rl_bird_temp
 
     def ld50_bg_bird(self, aw_bird):
@@ -424,7 +425,7 @@ class TRexFunctions(object):
                 expo_bg_bird = ((max(self.app_rates[i]) * self.frac_act_ing[i] * 453590) / 43560)
                 ld50_bg_bird_temp[i] = expo_bg_bird / (at_bird_temp * (aw_bird[i] / 1000.0))
             else:
-                ld50_bg_bird_temp[i] = 0
+                ld50_bg_bird_temp[i] = np.nan
         return ld50_bg_bird_temp
 
     def ld50_bl_bird(self, aw_bird):
@@ -439,7 +440,7 @@ class TRexFunctions(object):
                 expo_bl_bird = ((max(self.app_rates[i]) * 453590 * self.frac_act_ing[i]) / 43560)
                 ld50_bl_bird_temp[i] = expo_bl_bird / (at_bird_temp * (aw_bird[i] / 1000.0))
             else:
-                ld50_bl_bird_temp[i] = 0
+                ld50_bl_bird_temp[i] = np.nan
         return ld50_bl_bird_temp
 
     def ld50_rg_mamm(self, aw_mamm):
@@ -454,7 +455,7 @@ class TRexFunctions(object):
                                (num_rows_peracre * (43560 ** 0.5) * self.bandwidth[i]) * (1 - self.frac_incorp[i]))
                 ld50_rg_mamm_temp[i] = expo_rg_mamm / (at_mamm_temp * (aw_mamm[i] / 1000.0))
             else:
-                ld50_rg_mamm_temp[i] = 0
+                ld50_rg_mamm_temp[i] = np.nan
         return ld50_rg_mamm_temp
 
     def ld50_rl_mamm(self, aw_mamm):
@@ -467,7 +468,7 @@ class TRexFunctions(object):
                                 (1000 * self.bandwidth[i])) * (1 - self.frac_incorp[i])
                 ld50_rl_mamm_temp[i] = expo_rl_mamm / (at_mamm_temp * (aw_mamm[i] / 1000.0))
             else:
-                ld50_rl_mamm_temp[i] = 0
+                ld50_rl_mamm_temp[i] = np.nan
         return ld50_rl_mamm_temp
 
     def ld50_bg_mamm(self, aw_mamm):
@@ -479,7 +480,7 @@ class TRexFunctions(object):
                 expo_bg_mamm = ((max(self.app_rates[i]) * self.frac_act_ing[i] * 453590) / 43560)
                 ld50_bg_mamm_temp[i] = expo_bg_mamm / (at_mamm_temp * (aw_mamm[i] / 1000.0))
             else:
-                ld50_bg_mamm_temp[i] = 0
+                ld50_bg_mamm_temp[i] = np.nan
         return ld50_bg_mamm_temp
 
     def ld50_bl_mamm(self, aw_mamm):
@@ -489,8 +490,8 @@ class TRexFunctions(object):
             if self.application_type[i] == 'Broadcast-Liquid':
                 at_mamm_temp = self.at_mamm(i, aw_mamm[i])
                 # expo_bl_mamm=((max(self.app_rates)*28349*self.frac_act_ing)/43560)*(1-frac_incorp)
-                expo_bl_mamm = ((max(self.app_rates[i]) * self.frac_act_ing[i] * 453590) / 43560)  #453590 mg/lb; 43560ft2/acre
+                expo_bl_mamm = ((max(self.app_rates[i]) * self.frac_act_ing[i] * 453590.) / 43560.)  #453590 mg/lb; 43560ft2/acre
                 ld50_bl_mamm_temp[i] = expo_bl_mamm / (at_mamm_temp * (aw_mamm[i] / 1000.0))
             else:
-                ld50_bl_mamm_temp[i] = 0
+                ld50_bl_mamm_temp[i] = np.nan
         return ld50_bl_mamm_temp
