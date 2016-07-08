@@ -7,12 +7,12 @@ formu_name,Formulated product name,,,,Trinity,,,,,,,,,
 percent_act_ing,percent of application that is active ingredient,,,,100,100,100,100,100,100,100,100,100,100
 application_type,Application type,,,,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Row/Band/In-furrow-Granular
 seed_treatment_formulation_name,Seed treatment formulation name,,,,,,,,,,,,,
-max_seed_rate,Maximum seeding rate per use (lbs/A),,,,0,,,,,,,,,11.6
+max_seed_rate,Maximum seeding rate per use (lbs/A),,,,,,,,,,,,,11.616
 seed_crop,Crop Use,,,,,,,,,,,,,
-row_spacing,Row spacing (inch),,,,0,,,,,,,,,0
-bandwidth,Bandwidth (inch),,,,0,,,,,,,,,0
-percent_incorp,% Incorporated (%),,,,0,0,0,0,0,0,0,0,0,
-density,Density of product (lbs/gal),,,,0,0,0,0,0,0,0,0,0,9.692670395
+row_spacing,Row spacing (inch),,,,0,0,0,0,0,0,0,0,0,0
+bandwidth,Bandwidth (inch),,,,0,0,0,0,0,0,0,0,0,0
+percent_incorp,% Incorporated (%),,,,0,0,0,0,0,0,0,0,0,0
+density,Density of product (lbs/gal),,,,,,,,,,,,,9.692670395
 foliar_diss_hlife,Foliar dissipation half-life (days),,,,35,35,35,35,35,35,35,35,8.4,35
 num_apps,Number of Applications,,,,3,1,1,2,4,2,10,1,3,1
 app_rates,Rate,,,,"[1.15,1.15,1.15]",[1.6],[1],"[2,0.5]","[4,2,2,2]","[2,0.5]","[0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5]",[2.9],"[1,0.5,0.5]",[3.493673325]
@@ -350,8 +350,8 @@ exp_sa_mamm_1_m,sa_mamm_1_m_out_exp,,,,,,,,,,,,,0.046017491
 exp_sa_mamm_2_m,sa_mamm_2_m_out_exp,,,,,,,,,,,,,0.001088342
 exp_sc_mamm_m,sc_mamm_m_out_exp,,,,,,,,,,,,,21.78468037
 exp_sa_bird_1_l,sa_bird_1_l_out_exp,,,,,,,,,,,,,0.028437623
-exp_sa_bird_2_l,sa_bird_2_l_out_exp,,,,,,,,,,,,,5.33E-05
+exp_sa_bird_2_l,sa_bird_2_l_out_exp,,,,,,,,,,,, ,5.33466E-05
 exp_sc_bird_l,sc_bird_l_out_exp,,,,,,,,,,,,,6.613871876
 exp_sa_mamm_1_l,sa_mamm_1_l_out_exp,,,,,,,,,,,,,0.024667185
-exp_sa_mamm_2_l,sa_mamm_2_l_out_exp,,,,,,,,,,,,,8.81E-05
+exp_sa_mamm_2_l,sa_mamm_2_l_out_exp,,,,,,,,,,,, ,8.80677E-05
 exp_sc_mamm_l,sc_mamm_l_out_exp,,,,,,,,,,,,,11.67744549

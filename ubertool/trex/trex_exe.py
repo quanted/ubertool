@@ -1,4 +1,4 @@
-from __future__ import division
+from __future__ import division  #brings in Python 3.0 mixed type calculations
 import os.path
 import sys
 import pandas as pd
@@ -93,26 +93,26 @@ class TRexOutputs(object):
 
         # ??do the following 15 variables need to be included in the crosswalk table
         # initial concentrations for different food types
-        self.out_c_0_sg = pd.Series(name="out_c_0_sg")  # short grass
-        self.out_c_0_tg = pd.Series(name="out_c_0_tg")  # tall grass
-        self.out_c_0_blp = pd.Series(name="out_c_0_blp")  # broad-leafed plants
-        self.out_c_0_fp = pd.Series(name="out_c_0_fp")  # fruits/pods
-        self.out_c_0_arthro = pd.Series(name="out_c_0_arthro")  # arthropods
+        self.out_c_0_sg = pd.Series([], dtype = 'float', name="out_c_0_sg")  # short grass
+        self.out_c_0_tg = pd.Series([], dtype = 'float', name="out_c_0_tg")  # tall grass
+        self.out_c_0_blp = pd.Series([], dtype = 'float', name="out_c_0_blp")  # broad-leafed plants
+        self.out_c_0_fp = pd.Series([], dtype = 'float', name="out_c_0_fp")  # fruits/pods
+        self.out_c_0_arthro = pd.Series([], dtype = 'float', name="out_c_0_arthro")  # arthropods
 
         # mean concentration estimate based on first application rate
-        self.out_c_mean_sg = pd.Series(name="out_c_mean_sg")  # short grass
-        self.out_c_mean_tg = pd.Series(name="out_c_mean_tg")  # tall grass
-        self.out_c_mean_blp = pd.Series(name="out_c_mean_blp")  # broad-leafed plants
-        self.out_c_mean_fp = pd.Series(name="out_c_mean_fp")  # fruits/pods
-        self.out_c_mean_arthro = pd.Series(name="out_c_mean_arthro")  # arthropods
+        self.out_c_mean_sg = pd.Series([], dtype = 'float', name="out_c_mean_sg")  # short grass
+        self.out_c_mean_tg = pd.Series([], dtype = 'float', name="out_c_mean_tg")  # tall grass
+        self.out_c_mean_blp = pd.Series([], dtype = 'float', name="out_c_mean_blp")  # broad-leafed plants
+        self.out_c_mean_fp = pd.Series([], dtype = 'float', name="out_c_mean_fp")  # fruits/pods
+        self.out_c_mean_arthro = pd.Series([], dtype = 'float', name="out_c_mean_arthro")  # arthropods
 
         # ?? what to do with time series variables below----------------------------------
         # time series estimate based on first application rate - needs to be matrices for batch runs
-        self.out_c_ts_sg = pd.Series(name="out_c_ts_sg")  # short grass
-        self.out_c_ts_tg = pd.Series(name="out_c_ts_tg")  # tall grass
-        self.out_c_ts_blp = pd.Series(name="out_c_ts_blp")  # broad-leafed plants
-        self.out_c_ts_fp = pd.Series(name="out_c_ts_fp")  # fruits/pods
-        self.out_c_ts_arthro = pd.Series(name="out_c_ts_arthro")  # arthropods
+        self.out_c_ts_sg = pd.Series([], dtype = 'float', name="out_c_ts_sg")  # short grass
+        self.out_c_ts_tg = pd.Series([], dtype = 'float', name="out_c_ts_tg")  # tall grass
+        self.out_c_ts_blp = pd.Series([], dtype = 'float', name="out_c_ts_blp")  # broad-leafed plants
+        self.out_c_ts_fp = pd.Series([], dtype = 'float', name="out_c_ts_fp")  # fruits/pods
+        self.out_c_ts_arthro = pd.Series([], dtype = 'float', name="out_c_ts_arthro")  # arthropods
         # ?? what to do with time series variables above----------------------------------
 
         # Table5
@@ -368,20 +368,21 @@ class TRex(UberModel, TRexInputs, TRexOutputs, TRexFunctions):
         # extract first day and maximum application rates from each model simulation run
         self.app_rate_parsing()
 
-        # # initial concentrations for different food types
-        # # need to pass in app_rates because other functions calculate c_initial per timestep application rate
-        # self.out_c_0_sg = self.conc_initial(self.food_multiplier_init_sg)
-        # self.out_c_0_tg = self.conc_initial(self.food_multiplier_init_tg)
-        # self.out_c_0_blp = self.conc_initial(self.food_multiplier_init_blp)
-        # self.out_c_0_fp = self.conc_initial(self.food_multiplier_init_fp)
-        # self.out_c_0_arthro = self.conc_initial(self.food_multiplier_init_arthro)
-        #
-        # # mean concentration estimate based on first application rate
-        # self.out_c_mean_sg = self.conc_initial(self.food_multiplier_mean_sg)
-        # self.out_c_mean_tg = self.conc_initial(self.food_multiplier_mean_tg)
-        # self.out_c_mean_blp = self.conc_initial(self.food_multiplier_mean_blp)
-        # self.out_c_mean_fp = self.conc_initial(self.food_multiplier_mean_fp)
-        # self.out_c_mean_arthro = self.conc_initial(self.food_multiplier_mean_arthro)
+        # initial concentrations for different food types
+        # need to pass in first_app_rate[] because other functions calculate c_initial per timestep application rate
+        for i in range(len(self.first_app_rate)):
+            self.out_c_0_sg[i] = self.conc_initial(i, self.first_app_rate[i], self.food_multiplier_init_sg)
+            self.out_c_0_tg[i] = self.conc_initial(i, self.first_app_rate[i], self.food_multiplier_init_tg)
+            self.out_c_0_blp[i] = self.conc_initial(i, self.first_app_rate[i], self.food_multiplier_init_blp)
+            self.out_c_0_fp[i] = self.conc_initial(i, self.first_app_rate[i], self.food_multiplier_init_fp)
+            self.out_c_0_arthro[i] = self.conc_initial(i, self.first_app_rate[i], self.food_multiplier_init_arthro)
+
+            # mean concentration estimate based on first application rate
+            self.out_c_mean_sg[i] = self.conc_initial(i, self.first_app_rate[i], self.food_multiplier_mean_sg)
+            self.out_c_mean_tg[i] = self.conc_initial(i, self.first_app_rate[i], self.food_multiplier_mean_tg)
+            self.out_c_mean_blp[i] = self.conc_initial(i, self.first_app_rate[i], self.food_multiplier_mean_blp)
+            self.out_c_mean_fp[i] = self.conc_initial(i, self.first_app_rate[i], self.food_multiplier_mean_fp)
+            self.out_c_mean_arthro[i] = self.conc_initial(i, self.first_app_rate[i], self.food_multiplier_mean_arthro)
 
         self.out_c_ts_sg = self.eec_diet_timeseries(self.food_multiplier_init_sg)  # short grass
         self.out_c_ts_tg = self.eec_diet_timeseries(self.food_multiplier_init_tg)  # tall grass

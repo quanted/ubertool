@@ -1,4 +1,4 @@
-from __future__ import division
+from __future__ import division  #brings in Python 3.0 mixed type calculation rules
 from functools import wraps
 import logging
 import numpy as np
@@ -85,7 +85,7 @@ class TRexFunctions(object):
         return conc
 
     def percent_to_frac(self, percent):
-        fraction = percent / 100
+        fraction = percent / 100.
         return fraction
 
     def inches_to_feet(self, inches):
@@ -125,10 +125,13 @@ class TRexFunctions(object):
         sa_bird_1_return = nagy_bird_temp / at_bird_temp
         return sa_bird_1_return
 
-    def sa_bird_2(self, size):
+    def sa_bird_2(self, size): 
         # Seed treatment acute RQ for birds method 2
 
         at_bird_temp = pd.Series([], dtype='float', name="at_bird_temp")
+        m_a_r = pd.Series([], dtype='float', name="m_a_r")
+        av_ai = pd.Series([], dtype='float', name="av_ai")
+        sa_bird_2_return = pd.Series([], dtype='float', name="sa_bird_2_return")
 
         if size == "small":
             nagy_bird_coef = self.nagy_bird_coef_sm
