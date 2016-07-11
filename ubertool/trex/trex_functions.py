@@ -386,7 +386,7 @@ class TRexFunctions(object):
 
     def ld50_rg_bird1(self, aw_bird):
         """
-        # LD50ft-2 for row/band/in-furrow granular birds
+        # LD50ft-2 for row/band/in-furrow granular birds; alternative iterative approach
         """
 
         ld50_rg_bird_temp = pd.Series([], dtype='float')
