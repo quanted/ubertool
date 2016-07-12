@@ -342,16 +342,16 @@ exp_sa_bird_2_s,sa_bird_2_s_out_exp,,,,,,,,,,,,,0.004796477
 exp_sc_bird_s,sc_bird_s_out_exp,,,,,,,,,,,,,6.613871876
 exp_sa_mamm_1_s,sa_mamm_1_s_out_exp,,,,,,,,,,,,,0.053872437
 exp_sa_mamm_2_s,sa_mamm_2_s_out_exp,,,,,,,,,,,,,0.002054699
-exp_sc_mamm_s,sc_mamm_s_out_exp,,,,,,,,,,,,,25.503211600
+exp_sc_mamm_s,sc_mamm_s_out_exp,,,,,,,,,,,,,25.5032116
 exp_sa_bird_1_m,sa_bird_1_m_out_exp,,,,,,,,,,,,,0.089720831
 exp_sa_bird_2_m,sa_bird_2_m_out_exp,,,,,,,,,,,,,0.000753541
 exp_sc_bird_m,sc_bird_m_out_exp,,,,,,,,,,,,,6.613871876
 exp_sa_mamm_1_m,sa_mamm_1_m_out_exp,,,,,,,,,,,,,0.046017491
 exp_sa_mamm_2_m,sa_mamm_2_m_out_exp,,,,,,,,,,,,,0.001088342
-exp_sc_mamm_m,sc_mamm_m_out_exp,,,,,,,,,,,,,21.784680370
+exp_sc_mamm_m,sc_mamm_m_out_exp,,,,,,,,,,,,,21.78468037
 exp_sa_bird_1_l,sa_bird_1_l_out_exp,,,,,,,,,,,,,0.028437623
-exp_sa_bird_2_l,sa_bird_2_l_out_exp,,,,,,,,,,,, ,0.000053347
+exp_sa_bird_2_l,sa_bird_2_l_out_exp,,,,,,,,,,,,,0.000053347
 exp_sc_bird_l,sc_bird_l_out_exp,,,,,,,,,,,,,6.613871876
 exp_sa_mamm_1_l,sa_mamm_1_l_out_exp,,,,,,,,,,,,,0.024667185
-exp_sa_mamm_2_l,sa_mamm_2_l_out_exp,,,,,,,,,,,, ,0.000088068
-exp_sc_mamm_l,sc_mamm_l_out_exp,,,,,,,,,,,,,11.677445490
+exp_sa_mamm_2_l,sa_mamm_2_l_out_exp,,,,,,,,,,,,,0.000088068
+exp_sc_mamm_l,sc_mamm_l_out_exp,,,,,,,,,,,,,11.67744549
