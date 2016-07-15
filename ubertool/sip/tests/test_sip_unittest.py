@@ -1,10 +1,13 @@
-import logging
+import datetime
+import inspect
 import numpy.testing as npt
 import os.path
 import pandas as pd
 import pandas.util.testing as pdt
 import sys
+from tabulate import tabulate
 import unittest
+
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parentddir)
@@ -42,7 +45,7 @@ class TestSip(unittest.TestCase):
         # teardown called after each test
         # e.g. maybe write test results to some text file
 
-    def test_unit_fw_bird(self):
+    def test_sip_unit_fw_bird(self):
         """
         unittest for function sip.fw_bird:
         :return:
@@ -54,10 +57,13 @@ class TestSip(unittest.TestCase):
                 result[i] = sip_empty.fw_bird()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_unit_fw_mamm(self):
+    def test_sip_unit_fw_mamm(self):
         """
         unittest for function sip.fw_mamm:
         :return:
@@ -69,10 +75,13 @@ class TestSip(unittest.TestCase):
                 result[i] = sip_empty.fw_mamm()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_unit_dose_bird(self):
+    def test_sip_unit_dose_bird(self):
         """
         unittest for function sip.dose_bird:
         :return:
@@ -86,10 +95,13 @@ class TestSip(unittest.TestCase):
             result = sip_empty.dose_bird()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_unit_dose_mamm(self):
+    def test_sip_unit_dose_mamm(self):
         """
         unittest for function sip.dose_mamm:
         :return:
@@ -103,10 +115,13 @@ class TestSip(unittest.TestCase):
             result = sip_empty.dose_mamm()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_unit_at_bird(self):
+    def test_sip_unit_at_bird(self):
         """
         unittest for function sip.at_bird:
         :return:
@@ -121,10 +136,13 @@ class TestSip(unittest.TestCase):
             result = sip_empty.at_bird()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_unit_at_mamm(self):
+    def test_sip_unit_at_mamm(self):
         """
         unittest for function sip.at_mamm:
         :return:
@@ -138,10 +156,13 @@ class TestSip(unittest.TestCase):
             result = sip_empty.at_mamm()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_unit_fi_bird(self):
+    def test_sip_unit_fi_bird(self):
         """
         unittest for function sip.fi_bird:
         :return:
@@ -153,10 +174,13 @@ class TestSip(unittest.TestCase):
             result = sip_empty.fi_bird(sip_empty.bw_grams)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_unit_act(self):
+    def test_sip_unit_act(self):
         """
         unittest for function sip.test_act:
         :return:
@@ -170,10 +194,13 @@ class TestSip(unittest.TestCase):
             result = sip_empty.act()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_unit_det(self):
+    def test_sip_unit_det(self):
         """
         unittest for function sip.det
         return:
@@ -265,10 +292,13 @@ class TestSip(unittest.TestCase):
             result = sip_empty.det()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_unit_acute_bird(self):
+    def test_sip_unit_acute_bird(self):
         """
         unittest for function sip.acute_bird:
         :return:
@@ -281,10 +311,13 @@ class TestSip(unittest.TestCase):
             result = sip_empty.acute_bird()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_unit_acuconb(self):
+    def test_sip_unit_acuconb(self):
         """
         unittest for function sip.acuconb:
         Message stating whether or not a risk is present
@@ -307,10 +340,13 @@ class TestSip(unittest.TestCase):
             result = sip_empty.acuconb()
             pdt.assert_series_equal(result, expected_results,  True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_unit_acute_mamm(self):
+    def test_sip_unit_acute_mamm(self):
         """
         unittest for function sip.acute_mamm:
         :return:
@@ -323,10 +359,13 @@ class TestSip(unittest.TestCase):
             result = sip_empty.acute_mamm()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_unit_acuconm(self):
+    def test_sip_unit_acuconm(self):
         """
         unittest for function sip.acuconm:
         Message stating whether or not a risk is present
@@ -350,10 +389,13 @@ class TestSip(unittest.TestCase):
             result = sip_empty.acuconm()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_unit_chron_bird(self):
+    def test_sip_unit_chron_bird(self):
         """
         unittest for function sip.chron_bird:
         :return:
@@ -366,10 +408,13 @@ class TestSip(unittest.TestCase):
             result = sip_empty.chron_bird()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_unit_chronconb(self):
+    def test_sip_unit_chronconb(self):
         """
         unittest for function sip.chronconb:
         :return:
@@ -384,15 +429,13 @@ class TestSip(unittest.TestCase):
             result = sip_empty.chronconb()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            #commented out the following logging statements (gfl 4/2016)
-            #logging.info("chron bird result")
-            #logging.info(result)
-            #logging.info("chron bird result")
-            #logging.info(exp)
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_unit_chron_mamm(self):
+    def test_sip_unit_chron_mamm(self):
         """
         unittest for function sip.chron_mamm:
         :return:
@@ -405,11 +448,13 @@ class TestSip(unittest.TestCase):
             result = sip_empty.chron_mamm()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-
-    def test_unit_chronconm(self):
+    def test_sip_unit_chronconm(self):
         """
         unittest for function sip.chronconm:
         :return:
@@ -423,12 +468,10 @@ class TestSip(unittest.TestCase):
             result = sip_empty.chronconm()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            #commented out the following logging statements (gfl 4/2016)
-            #logging.info("chron mamm result")
-            #logging.info(result)
-            #logging.info("chron mamm result")
-            #logging.info(exp)
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
 # unittest will
