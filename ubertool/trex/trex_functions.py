@@ -260,31 +260,30 @@ class TRexFunctions(object):
     def eec_diet_max(self, food_multiplier):
         """
         method produces a concentration timeseries (daily for 1 yr + a week) and extracts the maximum concentration value
+        also scans time series and extracts the maximum daily concentration for the year
         """
         max_concs = pd.Series([], dtype = 'float')
         temp_ts = pd.Series([], dtype = 'float')
 
-        #get timeseries
+        #get timeseries of daily concentrations for the year (+ a week)
         temp_ts = self.eec_diet_timeseries(food_multiplier)
+        # get maximum daily concentration that occurs during the year
         max_concs = [temp_ts[i].max() for i in range(temp_ts.__len__())]
         return max_concs
 
     def eec_diet_timeseries(self, food_multiplier):
         # Dietary based EECs
-        # returns maximum daily concentration that occurs during year as result of one or more applications
         # calculations are performed daily from day of first application through the last day of the year
         # note: day numbers are synchronized with 0-based array indexing; thus January 1 is the 0th array index
-        #max_conc = pd.Series([], dtype = 'float')
         c_temp_1 = pd.Series([], dtype='object')
 
-        for i in range(len(self.num_apps)):  #i denotes model simulation (e.g., within monte carlo simulation)
+        for i in range(len(self.num_apps)):  #i denotes model simulation run (e.g., within a monte carlo simulation)
 
             c_temp = np.zeros((371, 1))  # empty array to hold the concentrations over days of year (index 0 = Jan 1)
-            app_counter = 0  #iniitalize application number counter for this iteration
+            app_counter = 0  #iniitalize application number counter for this model simulation run (i)
             temp_num_apps = self.num_apps[i]
             temp_app_indices = np.asarray(self.day_out[i]) - 1
             temp_app_rates = np.asarray(self.app_rates[i])
-            #temp_food_multiplier = np.float(food_multiplier[i])
 
             for day_index in range(temp_app_indices[0], 371):     # day number of first application
                 if day_index == temp_app_indices[0]:  # first day of application (single or multiple application model simulation run)
@@ -300,7 +299,6 @@ class TRexFunctions(object):
                 else:
                     #following line allows for all days after last application to be computed
                     c_temp[day_index] = self.conc_timestep(i, c_temp[day_index - 1])
-            #max_conc[i] = float(max(c_temp))
             c_temp_1[i] = c_temp #complete set of time series (e.g., for plotting)
         return c_temp_1
 
