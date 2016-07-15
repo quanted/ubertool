@@ -311,6 +311,7 @@ class TestSip(unittest.TestCase):
             print("\n")
             print(func_name)
             print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
     def blackbox_method_str(self, output, func_name):
         """
@@ -330,6 +331,7 @@ class TestSip(unittest.TestCase):
             print("\n")
             print(func_name)
             print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
 # unittest will
 # 1) call the setup method,

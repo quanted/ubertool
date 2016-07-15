@@ -25,6 +25,8 @@ class TestSip(unittest.TestCase):
     """
     Unit tests for Sip.
     """
+    print("sip unittests conducted at " + str(datetime.datetime.today()))
+
     def setUp(self):
         """
         Setup routine for sip unittest.
