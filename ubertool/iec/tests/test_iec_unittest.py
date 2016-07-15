@@ -1,8 +1,12 @@
+import datetime
+import inspect
 import numpy.testing as npt
 import os.path
 import pandas as pd
 import sys
+from tabulate import tabulate
 import unittest
+
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parentddir)
@@ -20,6 +24,8 @@ class TestIEC(unittest.TestCase):
     """
     IEC unit tests.
     """
+    print("iec unittests conducted at " + str(datetime.datetime.today()))
+
     def setUp(self):
         """
         setup the test as needed
@@ -37,8 +43,7 @@ class TestIEC(unittest.TestCase):
         """
         pass
 
-
-    def test_z_score_f(self):
+    def test_iec_z_score_f(self):
         """
         unittest for function iec.z_score_f:
         :return:
@@ -52,10 +57,13 @@ class TestIEC(unittest.TestCase):
             #npt.assert_array_almost_equal(result, -0.554622, 4, '', True)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_f8_f(self):
+    def test_iec_f8_f(self):
         """
         unittest for function iec.f8_f:
         """
@@ -66,10 +74,13 @@ class TestIEC(unittest.TestCase):
             #npt.assert_array_almost_equal(result, 0.19215, 4, '', True)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_chance_f(self):
+    def test_iec_chance_f(self):
         """
         unittest for function iec.chance_f:
         """
@@ -80,6 +91,9 @@ class TestIEC(unittest.TestCase):
             #npt.assert_array_almost_equal(result, 2.941176, 4, '', True)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
