@@ -1,3 +1,4 @@
+from __future__ import division  #brings in Python 3.0 mixed type calculation rules
 import numpy.testing as npt
 import os.path
 import pandas as pd
@@ -61,12 +62,12 @@ finally:
 trex_calc = TRex(pd_obj_inputs, pd_obj_exp)
 trex_calc.execute_model()
 inputs_json, outputs_json, exp_out_json = trex_calc.get_dict_rep(trex_calc)
-#print("trex output")
-#print(inputs_json)
-#print("####")
-print(trex_calc)
+    #print("trex output")
+    #print(inputs_json)
+    #print("####")
+    #######print(trex_calc)
 test = {}
-trex_calc.execute_model()
+######trex_calc.execute_model()
 
 class TestTRex(unittest.TestCase):
     """

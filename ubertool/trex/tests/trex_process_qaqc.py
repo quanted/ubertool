@@ -1,3 +1,4 @@
+from __future__ import division  #brings in Python 3.0 mixed type calculation rules
 # needs to be run whenever the qaqc csv is updated
 csv_path = "./trex_qaqc.csv"
 csv_in = "./trex_qaqc_in_transpose.csv"

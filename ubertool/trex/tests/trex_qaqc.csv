@@ -7,12 +7,12 @@ formu_name,Formulated product name,,,,Trinity,,,,,,,,,
 percent_act_ing,percent of application that is active ingredient,,,,100,100,100,100,100,100,100,100,100,100
 application_type,Application type,,,,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Broadcast-Liquid,Row/Band/In-furrow-Granular
 seed_treatment_formulation_name,Seed treatment formulation name,,,,,,,,,,,,,
-max_seed_rate,Maximum seeding rate per use (lbs/A),,,,0,,,,,,,,,11.6
+max_seed_rate,Maximum seeding rate per use (lbs/A),,,,,,,,,,,,,11.616
 seed_crop,Crop Use,,,,,,,,,,,,,
-row_spacing,Row spacing (inch),,,,0,,,,,,,,,0
-bandwidth,Bandwidth (inch),,,,0,,,,,,,,,0
-percent_incorp,% Incorporated (%),,,,0,0,0,0,0,0,0,0,0,
-density,Density of product (lbs/gal),,,,0,0,0,0,0,0,0,0,0,9.692670395
+row_spacing,Row spacing (inch),,,,0,0,0,0,0,0,0,0,0,0
+bandwidth,Bandwidth (inch),,,,0,0,0,0,0,0,0,0,0,0
+percent_incorp,% Incorporated (%),,,,0,0,0,0,0,0,0,0,0,0
+density,Density of product (lbs/gal),,,,,,,,,,,,,9.692670395
 foliar_diss_hlife,Foliar dissipation half-life (days),,,,35,35,35,35,35,35,35,35,8.4,35
 num_apps,Number of Applications,,,,3,1,1,2,4,2,10,1,3,1
 app_rates,Rate,,,,"[1.15,1.15,1.15]",[1.6],[1],"[2,0.5]","[4,2,2,2]","[2,0.5]","[0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5]",[2.9],"[1,0.5,0.5]",[3.493673325]
@@ -316,27 +316,27 @@ exp_crq_diet_mamm_ar,CRQ_diet_mamm_AR_out_exp,,,,0.359365543,15.04,9.4,18.947735
 exp_ld50_rg_bird_sm,LD50_rg_bird_sm_out_exp,,,,,,,,,,,,,
 exp_ld50_rl_bird_sm,LD50_rl_bird_sm_out_exp,,,,,,,,,,,,,
 exp_ld50_bg_bird_sm,LD50_bg_bird_sm_out_exp,,,,,,,,,,,,,
-exp_ld50_bl_bird_sm,LD50_bl_bird_sm_out_exp,,,,0.437419707,0.24920463,0.155752894,0.389382235,0,0,26.31642422,0.778276685,3.844113981,
+exp_ld50_bl_bird_sm,LD50_bl_bird_sm_out_exp,,,,0.437419707,0.24920463,0.155752894,0.311506,3.69192045,1.84596022,26.31642422,0.778276685,3.844113981,
 exp_ld50_rg_mamm_sm,LD50_rg_mamm_sm_out_exp,,,,,,,,,,,,,
 exp_ld50_rl_mamm_sm,LD50_rl_mamm_sm_out_exp,,,,,,,,,,,,,
 exp_ld50_bg_mamm_sm,LD50_bg_mamm_sm_out_exp,,,,,,,,,,,,,
-exp_ld50_bl_mamm_sm,LD50_bl_mamm_sm_out_exp,,,,0.181617624,0.101074156,0.063171347,0.157928369,0,0,0.526427895,0.183196908,0.115276181,
+exp_ld50_bl_mamm_sm,LD50_bl_mamm_sm_out_exp,,,,0.181617624,0.101074156,0.063171347,0.12634269,0.67599087,0.337995439,0.526427895,0.183196908,0.115276181,
 exp_ld50_rg_bird_md,LD50_rg_bird_md_out_exp,,,,,,,,,,,,,
 exp_ld50_rl_bird_md,LD50_rl_bird_md_out_exp,,,,,,,,,,,,,
 exp_ld50_bg_bird_md,LD50_bg_bird_md_out_exp,,,,,,,,,,,,,
-exp_ld50_bl_bird_md,LD50_bl_bird_md_out_exp,,,,0.068719951,0.039150797,0.024469248,0.06117312,0,0,4.134389354,0.122269607,0.603921862,
+exp_ld50_bl_bird_md,LD50_bl_bird_md_out_exp,,,,0.068719951,0.039150797,0.024469248,0.04893849,0.5800118,0.2900059,4.134389354,0.122269607,0.603921862,
 exp_ld50_rg_mamm_md,LD50_rg_mamm_md_out_exp,,,,,,,,,,,,,
 exp_ld50_rl_mamm_md,LD50_rl_mamm_md_out_exp,,,,,,,,,,,,,
 exp_ld50_bg_mamm_md,LD50_bg_mamm_md_out_exp,,,,,,,,,,,,,
-exp_ld50_bl_mamm_md,LD50_bl_mamm_md_out_exp,,,,0.096200073,0.053537432,0.033460895,0.083652237,0,0,0.278840791,0.097036595,0.061060027,
+exp_ld50_bl_mamm_md,LD50_bl_mamm_md_out_exp,,,,0.096200073,0.053537432,0.033460895,0.06692179,0.35806201,0.179031005,0.278840791,0.097036595,0.061060027,
 exp_ld50_rg_bird_lg,LD50_rg_bird_lg_out_exp,,,,,,,,,,,,,
 exp_ld50_rl_bird_lg,LD50_rl_bird_lg_out_exp,,,,,,,,,,,,,
 exp_ld50_bg_bird_lg,LD50_bg_bird_lg_out_exp,,,,,,,,,,,,,
-exp_ld50_bl_bird_lg,LD50_rl_bird_lg_out_exp,,,,0.004865,0.002771664,0.00173229,0.004330725,0,0,0.292692351,0.008656025,0.042754394,
+exp_ld50_bl_bird_lg,LD50_rl_bird_lg_out_exp,,,,0.004865,0.002771664,0.00173229,0.00346458,0.04106169,0.020530845,0.292692351,0.008656025,0.042754394,
 exp_ld50_rg_mamm_lg,LD50_rg_mamm_lg_out_exp,,,,,,,,,,,,,
 exp_ld50_rl_mamm_lg,LD50_rl_mamm_lg_out_exp,,,,,,,,,,,,,
 exp_ld50_bg_mamm_lg,LD50_bg_mamm_lg_out_exp,,,,,,,,,,,,,
-exp_ld50_bl_mamm_lg,LD50_rl_mamm_lg_out_exp,,,,0.007784423,0.004332201,0.002707625,0.006769064,0,0,0.022563545,0.007852114,0.004940922,
+exp_ld50_bl_mamm_lg,LD50_rl_mamm_lg_out_exp,,,,0.007784423,0.004332201,0.002707625,0.005415251,0.028974055,0.014487027,0.022563545,0.007852114,0.004940922,
 exp_sa_bird_1_s,sa_bird_1_s_out_exp,,,,,,,,,,,,,0.200299247
 exp_sa_bird_2_s,sa_bird_2_s_out_exp,,,,,,,,,,,,,0.004796477
 exp_sc_bird_s,sc_bird_s_out_exp,,,,,,,,,,,,,6.613871876
@@ -350,8 +350,8 @@ exp_sa_mamm_1_m,sa_mamm_1_m_out_exp,,,,,,,,,,,,,0.046017491
 exp_sa_mamm_2_m,sa_mamm_2_m_out_exp,,,,,,,,,,,,,0.001088342
 exp_sc_mamm_m,sc_mamm_m_out_exp,,,,,,,,,,,,,21.78468037
 exp_sa_bird_1_l,sa_bird_1_l_out_exp,,,,,,,,,,,,,0.028437623
-exp_sa_bird_2_l,sa_bird_2_l_out_exp,,,,,,,,,,,,,5.33E-05
+exp_sa_bird_2_l,sa_bird_2_l_out_exp,,,,,,,,,,,,,0.000053347
 exp_sc_bird_l,sc_bird_l_out_exp,,,,,,,,,,,,,6.613871876
 exp_sa_mamm_1_l,sa_mamm_1_l_out_exp,,,,,,,,,,,,,0.024667185
-exp_sa_mamm_2_l,sa_mamm_2_l_out_exp,,,,,,,,,,,,,8.81E-05
+exp_sa_mamm_2_l,sa_mamm_2_l_out_exp,,,,,,,,,,,,,0.000088068
 exp_sc_mamm_l,sc_mamm_l_out_exp,,,,,,,,,,,,,11.67744549
