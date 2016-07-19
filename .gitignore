@@ -1,4 +1,5 @@
 # custom
+commit_history.txt
 *ipynb_checkpoints
 .idea/*
 .DS_Store
