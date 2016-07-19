@@ -1,7 +1,7 @@
 from __future__ import division  #brings in Python 3.0 mixed type calculation rules
 import datetime
 import inspect
-import numpy
+import numpy as np
 import numpy.testing as npt
 import os.path
 import pandas as pd
@@ -217,14 +217,14 @@ class TestTrex(unittest.TestCase):
         risk_quotient = m_s_a_r / self.noaec_bird
         """
 
-        expected_results = [6.637969, 77.805, 34.96289, numpy.nan]
+        expected_results = [6.637969, 77.805, 34.96289, np.nan]
         try:
             trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                 [2.34, 1.384, 3.4], [3.]], dtype='object')
             trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
-            trex_empty.frac_act_ing = pd.Series([0.15, 0.20, 0.34, numpy.nan], dtype='float')
-            trex_empty.density = pd.Series([8.33, 7.98, 6.75, numpy.nan], dtype='float')
-            trex_empty.noaec_bird = pd.Series([5., 1.25, 12., numpy.nan], dtype='float')
+            trex_empty.frac_act_ing = pd.Series([0.15, 0.20, 0.34, np.nan], dtype='float')
+            trex_empty.density = pd.Series([8.33, 7.98, 6.75, np.nan], dtype='float')
+            trex_empty.noaec_bird = pd.Series([5., 1.25, 12., np.nan], dtype='float')
             result = trex_empty.sc_bird()
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
@@ -506,7 +506,7 @@ class TestTrex(unittest.TestCase):
         # unit test for function ld50_rg_bird (LD50ft-2 for Row/Band/In-furrow granular birds)
         """
         result = pd.Series([], dtype = 'float')
-        expected_results = [346.4856, 25.94132, 0.0]
+        expected_results = [346.4856, 25.94132, np.nan]
         try:
             # following parameter values are unique for ld50_bg_bird
             trex_empty.application_type = pd.Series(['Row/Band/In-furrow-Granular',
@@ -528,7 +528,8 @@ class TestTrex(unittest.TestCase):
             trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
             result = trex_empty.ld50_rg_bird(trex_empty.aw_bird_sm)
-            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
+                                err_msg='', verbose=True, equal_nan=True)
         finally:
             tab = [result, expected_results]
             print("\n")
@@ -548,7 +549,7 @@ class TestTrex(unittest.TestCase):
         --approach  -- should be revisited when we have a large run to execute
         """
         result = pd.Series([], dtype = 'float')
-        expected_results = [346.4856, 25.94132, 0.0]
+        expected_results = [346.4856, 25.94132, np.nan]
         try:
             # following parameter values are unique for ld50_bg_bird
             trex_empty.application_type = pd.Series(['Row/Band/In-furrow-Granular',
@@ -570,7 +571,8 @@ class TestTrex(unittest.TestCase):
             trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
             result = trex_empty.ld50_rg_bird1(trex_empty.aw_bird_sm)
-            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
+                                err_msg='', verbose=True, equal_nan=True)
         finally:
             tab = [result, expected_results]
             print("\n")
@@ -582,7 +584,7 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function ld50_bl_bird (LD50ft-2 for broadcast liquid birds)
         """
-        expected_results = [46.19808, 33.77777, 0.]
+        expected_results = [46.19808, 33.77777, np.nan]
         try:
             # following parameter values are unique for ld50_bl_bird
             trex_empty.application_type = pd.Series(['Broadcast-Liquid', 'Broadcast-Liquid',
@@ -599,7 +601,8 @@ class TestTrex(unittest.TestCase):
             trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
             result = trex_empty.ld50_bl_bird(trex_empty.aw_bird_sm)
-            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
+                                err_msg='', verbose=True, equal_nan=True)
         finally:
             tab = [result, expected_results]
             print("\n")
@@ -611,7 +614,7 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function ld50_bg_bird (LD50ft-2 for broadcast granular)
         """
-        expected_results = [46.19808, 0., 0.4214033]
+        expected_results = [46.19808, np.nan, 0.4214033]
         try:
             # following parameter values are unique for ld50_bg_bird
             trex_empty.application_type = pd.Series(['Broadcast-Granular', 'Broadcast-Liquid',
@@ -629,7 +632,8 @@ class TestTrex(unittest.TestCase):
             trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
             result = trex_empty.ld50_bg_bird(trex_empty.aw_bird_sm)
-            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
+                                err_msg='', verbose=True, equal_nan=True)
         finally:
             tab = [result, expected_results]
             print("\n")
@@ -641,7 +645,7 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function ld50_rl_bird (LD50ft-2 for Row/Band/In-furrow liquid birds)
         """
-        expected_results = [0., 2.20701, 0.0363297]
+        expected_results = [np.nan, 2.20701, 0.0363297]
         try:
             # following parameter values are unique for ld50_bg_bird
             trex_empty.application_type = pd.Series(['Broadcast-Granular', 'Row/Band/In-furrow-Liquid',
@@ -660,7 +664,8 @@ class TestTrex(unittest.TestCase):
             trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
             result = trex_empty.ld50_rl_bird(trex_empty.aw_bird_sm)
-            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
+                                err_msg='', verbose=True, equal_nan=True)
         finally:
             tab = [result, expected_results]
             print("\n")
@@ -730,7 +735,7 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function ld50_bl_mamm (LD50ft-2 for broadcast liquid)
         """
-        expected_results = [4.52983, 9.36547, 0.]
+        expected_results = [4.52983, 9.36547, np.nan]
         try:
             # following parameter values are unique for ld50_bl_mamm
             trex_empty.application_type = pd.Series(['Broadcast-Liquid', 'Broadcast-Liquid',
@@ -746,7 +751,8 @@ class TestTrex(unittest.TestCase):
             trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
 
             result = trex_empty.ld50_bl_mamm(trex_empty.aw_mamm_sm)
-            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='',
+                                verbose=True, equal_nan=True)
         finally:
             tab = [result, expected_results]
             print("\n")
@@ -758,7 +764,7 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function ld50_bg_mamm (LD50ft-2 for broadcast granular)
         """
-        expected_results = [4.52983, 9.36547, 0.]
+        expected_results = [4.52983, 9.36547, np.nan]
         try:
             # following parameter values are unique for ld50_bl_mamm
             trex_empty.application_type = pd.Series(['Broadcast-Granular', 'Broadcast-Granular',
@@ -774,7 +780,8 @@ class TestTrex(unittest.TestCase):
             trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
 
             result = trex_empty.ld50_bg_mamm(trex_empty.aw_mamm_sm)
-            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
+                                err_msg='', verbose=True, equal_nan=True)
         finally:
             tab = [result, expected_results]
             print("\n")
@@ -786,7 +793,7 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function ld50_rl_mamm (LD50ft-2 for Row/Band/In-furrow liquid mammals)
         """
-        expected_results = [0., 0.6119317, 0.0024497]
+        expected_results = [np.nan, 0.6119317, 0.0024497]
         try:
             # following parameter values are unique for ld50_bl_mamm
             trex_empty.application_type = pd.Series(['Broadcast-Granular',
@@ -805,7 +812,8 @@ class TestTrex(unittest.TestCase):
             trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
 
             result = trex_empty.ld50_rl_mamm(trex_empty.aw_mamm_sm)
-            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
+                                err_msg='', verbose=True, equal_nan=True)
         finally:
             tab = [result, expected_results]
             print("\n")
@@ -817,7 +825,7 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function ld50_rg_mamm
         """
-        expected_results = [33.9737, 7.192681, 0.0]
+        expected_results = [33.9737, 7.192681, np.nan]
         try:
             # following parameter values are unique for ld50_bl_mamm
             trex_empty.application_type = pd.Series(['Row/Band/In-furrow-Granular',
@@ -837,7 +845,8 @@ class TestTrex(unittest.TestCase):
             trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
 
             result = trex_empty.ld50_rg_mamm(trex_empty.aw_mamm_sm)
-            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
+                                err_msg='', verbose=True, equal_nan=True)
         finally:
             tab = [result, expected_results]
             print("\n")
@@ -988,12 +997,10 @@ class TestTrex(unittest.TestCase):
                 trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
                 num_app_days[i] = len(trex_empty.day_out[i])
                 assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
             trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
-            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
-
-            trex_empty.lc50_bird = pd.Series([650., 718., 1102.])
-
+            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype='float')
+            trex_empty.lc50_bird = pd.Series([650., 718., 1102.], dtype='float')
             result = trex_empty.arq_diet_bird(trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
