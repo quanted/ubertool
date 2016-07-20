@@ -1,3 +1,4 @@
+from __future__ import division  #brings in Python 3.0 mixed type calculation rules
 import datetime
 import inspect
 import numpy.testing as npt
@@ -10,11 +11,11 @@ from tabulate import tabulate
 import unittest
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+print(parentddir)
 sys.path.append(parentddir)
 from earthworm_exe import Earthworm
 
-#print(sys.path)
-#print(os.path)
+print(sys.path)
 
 # load transposed qaqc data for inputs and expected outputs
 # this works for both local nosetests and travis deploy

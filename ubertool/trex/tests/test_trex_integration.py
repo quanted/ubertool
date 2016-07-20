@@ -1,4 +1,6 @@
 from __future__ import division  #brings in Python 3.0 mixed type calculation rules
+import datetime
+import inspect
 import numpy.testing as npt
 import os.path
 import pandas as pd
@@ -9,11 +11,13 @@ from tabulate import tabulate
 import unittest
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+print("parentddir")
+print(parentddir)
 sys.path.append(parentddir)
 from trex_exe import TRex
 
-#print(sys.path)
-#print(os.path)
+print("sys.path")
+print(sys.path)
 
 # load transposed qaqc data for inputs and expected outputs
 # this works for both local nosetests and travis deploy
@@ -27,7 +31,7 @@ try:
         csv_transpose_path_in = "./trex_qaqc_in_transpose.csv"
         #print(csv_transpose_path_in)
         pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
-        #with open('./sip_qaqc_in_transpose.csv') as f:
+        #with open('./trex_qaqc_in_transpose.csv') as f:
             #csv_data = csv.reader(f)
 finally:
     pass
@@ -69,7 +73,7 @@ inputs_json, outputs_json, exp_out_json = trex_calc.get_dict_rep(trex_calc)
 test = {}
 ######trex_calc.execute_model()
 
-class TestTRex(unittest.TestCase):
+class TestTrex(unittest.TestCase):
     """
     Integration tests for trex.
     """

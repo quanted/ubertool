@@ -870,7 +870,7 @@ class TestTrex(unittest.TestCase):
         * to make sure the timeseries processing works when an application occurs on 1st day of year
         """
 
-        expected_results = [12.716, 145.3409, 11.232]
+        expected_results = [1.734, 145.3409, 0.702]
         num_app_days = pd.Series([], dtype='int')
         try:
             #specifying 3 different application scenarios of 1, 4, and 2 applications
@@ -881,7 +881,7 @@ class TestTrex(unittest.TestCase):
                 num_app_days[i] = len(trex_empty.day_out[i])
                 assert (trex_empty.num_apps[i] == num_app_days[i]), 'series of app-rates and app_days do not match'
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
+            trex_empty.food_multiplier_init_sg = 15.
             trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
             result = trex_empty.eec_diet_max(trex_empty.food_multiplier_init_sg)
@@ -904,7 +904,7 @@ class TestTrex(unittest.TestCase):
         * methods called inside of 'eec_dose_bird' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         """
-        expected_results = [3.55817, 168.32712, 22.20837]
+        expected_results = [7.763288, 2693.2339, 22.20837]
         num_app_days = pd.Series([], dtype='int')
         try:
             trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
@@ -914,7 +914,7 @@ class TestTrex(unittest.TestCase):
                 num_app_days[i] = len(trex_empty.day_out[i])
                 assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
+            trex_empty.food_multiplier_init_sg = 240.
             trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
             # variables for 'fi_bird'  (values reflect unittest for 'at_bird'
@@ -945,7 +945,7 @@ class TestTrex(unittest.TestCase):
         * methods called inside of 'arq_dose_bird' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         """
-        expected_results = [0.051436, 1.146429, 0.396508]
+        expected_results = [0.007014, 1.146429, 0.02478172]
         num_app_days = pd.Series([], dtype='int')
         try:
             #specifying 3 different application scenarios of 1, 4, and 2 applications
@@ -956,7 +956,7 @@ class TestTrex(unittest.TestCase):
                 num_app_days[i] = len(trex_empty.day_out[i])
                 assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
+            trex_empty.food_multiplier_init_sg = 15.
             trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
             # variables for 'at_bird'  (values reflect unittest for 'fi_bird'
@@ -987,7 +987,8 @@ class TestTrex(unittest.TestCase):
         * methods called inside of 'arq_diet_bird' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         """
-        expected_results = [0.019563, 0.205847, 0.010192]
+        expected_results = pd.Series([0.019563, 1.509543, 0.0046715], dtype='float')
+        result = pd.Series([], dtype = 'float')
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
@@ -998,9 +999,12 @@ class TestTrex(unittest.TestCase):
                 num_app_days[i] = len(trex_empty.day_out[i])
                 assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
+            #trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
+            trex_empty.food_multiplier_init_sg = 110.
             trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype='float')
             trex_empty.lc50_bird = pd.Series([650., 718., 1102.], dtype='float')
+            #for i in range (len(trex_empty.food_multiplier_init_sg)):
+            #    result[i] = trex_empty.arq_diet_bird(trex_empty.food_multiplier_init_sg[i])
             result = trex_empty.arq_diet_bird(trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
@@ -1020,7 +1024,7 @@ class TestTrex(unittest.TestCase):
         * methods called inside of 'crq_diet_bird' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         """
-        expected_results = [2.5432, 8.211, 0.110118]
+        expected_results = [2.5432, 60.214, 0.050471]
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
@@ -1031,7 +1035,7 @@ class TestTrex(unittest.TestCase):
                 num_app_days[i] = len(trex_empty.day_out[i])
                 assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
+            trex_empty.food_multiplier_init_sg = 110.
             trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
             trex_empty.noaec_bird = pd.Series([5., 18., 102.])
@@ -1055,7 +1059,7 @@ class TestTrex(unittest.TestCase):
         * methods called inside of 'eec_dose_mamm' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
        """
-        expected_results = [2.69416, 124.3028, 15.8315]
+        expected_results = [0.36738, 124.3028, 0.989473]
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
@@ -1066,7 +1070,7 @@ class TestTrex(unittest.TestCase):
                 num_app_days[i] = len(trex_empty.day_out[i])
                 assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
+            trex_empty.food_multiplier_init_sg = 15.
             trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
             trex_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
@@ -1092,7 +1096,7 @@ class TestTrex(unittest.TestCase):
         * methods called inside of 'arq_dose_mamm' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         """
-        expected_results = [0.003819, 0.234732, 0.01906]
+        expected_results = [0.0083319, 3.755716, 0.01906]
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
@@ -1103,7 +1107,7 @@ class TestTrex(unittest.TestCase):
                 num_app_days[i] = len(trex_empty.day_out[i])
                 assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
+            trex_empty.food_multiplier_init_sg = 240.
             trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
             trex_empty.noael_mamm = pd.Series([2.5, 5.0, 1.25], dtype='float')
@@ -1134,7 +1138,7 @@ class TestTrex(unittest.TestCase):
         * methods called inside of 'crq_dose_mamm' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         """
-        expected_results = [0.49033, 12.91027, 6.587159]
+        expected_results = [0.49033, 94.67533, 3.019115]
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
@@ -1145,7 +1149,7 @@ class TestTrex(unittest.TestCase):
                 num_app_days[i] = len(trex_empty.day_out[i])
                 assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
+            trex_empty.food_multiplier_init_sg = 110.
             trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
             trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
@@ -1175,7 +1179,7 @@ class TestTrex(unittest.TestCase):
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
 
         """
-        expected_results = [0.195631, 20.81662, 0.110118]
+        expected_results = [0.0266769, 20.81662, 0.0068823]
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
@@ -1186,7 +1190,7 @@ class TestTrex(unittest.TestCase):
                 num_app_days[i] = len(trex_empty.day_out[i])
                 assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
+            trex_empty.food_multiplier_init_sg = 15.
             trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
             trex_empty.lc50_mamm = pd.Series([65., 7.1, 102.])
@@ -1210,7 +1214,7 @@ class TestTrex(unittest.TestCase):
         * methods called inside of 'crq_diet_mamm' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         """
-        expected_results = [0.195631, 2.95596, 0.110118]
+        expected_results = [0.426831, 47.29536, 0.110118]
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
@@ -1221,7 +1225,7 @@ class TestTrex(unittest.TestCase):
                 num_app_days[i] = len(trex_empty.day_out[i])
                 assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
             trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
+            trex_empty.food_multiplier_init_sg = 240.
             trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
             trex_empty.noaec_mamm = pd.Series([65., 50., 102.])
