@@ -1,5 +1,5 @@
 import logging
-import numpy.testing as npt
+import numpy.testing.utils as npt
 import os.path
 import pandas as pd
 import pandas.util.testing as pdt

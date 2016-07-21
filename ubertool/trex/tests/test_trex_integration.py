@@ -9,11 +9,12 @@ from StringIO import StringIO
 import sys
 from tabulate import tabulate
 import unittest
+
 #find parent directory and import model
-parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-print("parentddir")
-print(parentddir)
-sys.path.append(parentddir)
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+print("parent_dir")
+print(parent_dir)
+sys.path.append(parent_dir)
 from trex_exe import TRex
 
 print("sys.path")

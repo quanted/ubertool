@@ -9,9 +9,12 @@ import sys
 from tabulate import tabulate
 import unittest
 
+print("Python version: " + sys.version)
+print("Numpy version: " + np.__version__)
+
 #find parent directory and import model
-parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentddir)
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parent_dir)
 from trex_exe import TRex
 
 # create empty pandas dataframes to create empty object for testing
@@ -529,7 +532,7 @@ class TestTrex(unittest.TestCase):
 
             result = trex_empty.ld50_rg_bird(trex_empty.aw_bird_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
-                                err_msg='', verbose=True, equal_nan=True)
+                                equal_nan=True, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
             print("\n")
@@ -571,8 +574,7 @@ class TestTrex(unittest.TestCase):
             trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
             result = trex_empty.ld50_rg_bird1(trex_empty.aw_bird_sm)
-            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
-                                err_msg='', verbose=True, equal_nan=True)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, equal_nan=True, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
             print("\n")
