@@ -1,3 +1,5 @@
+import datetime
+import inspect
 import logging
 import numpy.testing as npt
 import os.path
@@ -27,10 +29,11 @@ try:
         #with open('./stir_qaqc_in_transpose.csv') as f:
             #csv_data = csv.reader(f)
 finally:
-    logging.info('stir inputs')
-    logging.info('stir input dimensions ' + str(pd_obj_inputs.shape))
-    logging.info('stir input keys ' + str(pd_obj_inputs.columns.values.tolist()))
-    logging.info(pd_obj_inputs)
+    pass
+    #logging.info('stir inputs')
+    #logging.info('stir input dimensions ' + str(pd_obj_inputs.shape))
+    #logging.info('stir input keys ' + str(pd_obj_inputs.columns.values.tolist()))
+    #logging.info(pd_obj_inputs)
 
 # load transposed qaqc data for expected outputs
 # works for local nosetests from parent directory
@@ -44,34 +47,35 @@ try:
     if __package__ is not None:
         data_exp_outputs = StringIO(pkgutil.get_data(__package__, 'stir_qaqc_exp_transpose.csv'))
         pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
-        logging.info("stir expected outputs")
-        logging.info('stir expected output dimensions ' + str(pd_obj_exp.shape))
-        logging.info('stir expected output keys ' + str(pd_obj_exp.columns.values.tolist()))
+        #logging.info("stir expected outputs")
+        #logging.info('stir expected output dimensions ' + str(pd_obj_exp.shape))
+        #logging.info('stir expected output keys ' + str(pd_obj_exp.columns.values.tolist()))
     else:
         csv_transpose_path_exp = "./stir_qaqc_exp_transpose.csv"
-        logging.info(csv_transpose_path_exp)
+        #logging.info(csv_transpose_path_exp)
         pd_obj_exp = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
 finally:
-    logging.info('stir expected')
-    logging.info('stir expected dimensions ' + str(pd_obj_exp.shape))
-    logging.info('stir expected keys ' + str(pd_obj_exp.columns.values.tolist()))
-    logging.info(pd_obj_exp)
+    pass
+    #logging.info('stir expected')
+    #logging.info('stir expected dimensions ' + str(pd_obj_exp.shape))
+    #logging.info('stir expected keys ' + str(pd_obj_exp.columns.values.tolist()))
+    #logging.info(pd_obj_exp)
 
 
 # create an instance of stir object with qaqc data
 stir_calc = Stir(pd_obj_inputs, pd_obj_exp)
 stir_calc.execute_model()
 inputs_json, outputs_json, exp_out_json = stir_calc.get_dict_rep(stir_calc)
-logging.info("stir output")
-logging.info(inputs_json)
+#logging.info("stir output")
+#logging.info(inputs_json)
 
 #logging.info input tables
-logging.info(tabulate(pd_obj_inputs.iloc[:,0:5], headers='keys', tablefmt='fancy_grid'))
-logging.info(tabulate(pd_obj_inputs.iloc[:,6:11], headers='keys', tablefmt='fancy_grid'))
-logging.info(tabulate(pd_obj_inputs.iloc[:,12:17], headers='keys', tablefmt='fancy_grid'))
+#logging.info(tabulate(pd_obj_inputs.iloc[:,0:5], headers='keys', tablefmt='fancy_grid'))
+#logging.info(tabulate(pd_obj_inputs.iloc[:,6:11], headers='keys', tablefmt='fancy_grid'))
+#logging.info(tabulate(pd_obj_inputs.iloc[:,12:17], headers='keys', tablefmt='fancy_grid'))
 
 #logging.info expected output tables
-logging.info(tabulate(pd_obj_exp.iloc[:,0:1], headers='keys', tablefmt='fancy_grid'))
+#logging.info(tabulate(pd_obj_exp.iloc[:,0:1], headers='keys', tablefmt='fancy_grid'))
 
 test = {}
 
@@ -80,6 +84,7 @@ class TestStir(unittest.TestCase):
     """
     Integration tests for Stir.
     """
+    print("stir integration tests conducted at " + str(datetime.datetime.today()))
 
     def setUp(self):
         """
@@ -100,234 +105,268 @@ class TestStir(unittest.TestCase):
         # teardown called after each test
         # e.g. maybe write test results to some text file
 
-    def test_sat_air_conc(self):
+    def test_stir_sat_air_conc(self):
         """
         Integration test for stir.out_sat_air_conc
         """
         try:
-            self.blackbox_method_int('sat_air_conc')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_int('sat_air_conc', func_name)
         finally:
             pass
         return
 
-    def test_inh_rate_avian(self):
+    def test_stir_inh_rate_avian(self):
         """
         integration test for stir.out_inh_rate_avian
         """
         try:
-            self.blackbox_method_int('inh_rate_avian')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_int('inh_rate_avian', func_name)
         finally:
             pass
         return
 
-    def test_vid_avian(self):
+    def test_stir_vid_avian(self):
         """
         integration test for stir.out_vid_avian
         """
         try:
-            self.blackbox_method_int('vid_avian')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_int('vid_avian', func_name)
         finally:
             pass
         return
 
-    def test_inh_rate_mammal(self):
+    def test_stir_inh_rate_mammal(self):
         """
         integration test for stir.out_inh_rate_mammal
         """
         try:
-            self.blackbox_method_int('inh_rate_mammal')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_int('inh_rate_mammal', func_name)
         finally:
             pass
         return
 
-    def test_vid_mammal(self):
+    def test_stir_vid_mammal(self):
         """
         integration test for stir.out_vid_mammal
         """
         try:
-            self.blackbox_method_int('vid_mammal')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_int('vid_mammal', func_name)
         finally:
             pass
         return
 
-    def test_air_conc(self):
+    def test_stir_air_conc(self):
         """
         integration test for stir.out_air_conc
         """
         try:
-            self.blackbox_method_int('air_conc')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_int('air_conc', func_name)
         finally:
             pass
         return
 
-    def test_sid_avian(self):
+    def test_stir_sid_avian(self):
         """
         integration test for stir.out_sid_avian
         """
         try:
-            self.blackbox_method_int('sid_avian')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_int('sid_avian', func_name)
         finally:
             pass
         return
 
-    def test_sid_mammal(self):
+    def test_stir_sid_mammal(self):
         """
         integration test for stir.out_sid_mammal
         """
         try:
-            self.blackbox_method_int('sid_mammal')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_int('sid_mammal', func_name)
         finally:
             pass
         return
 
-    def test_mammal_inhalation_ld50(self):
+    def test_stir_mammal_inhalation_ld50(self):
         """
         integration test for stir.out_mammal_inhalation_ld50
         """
         try:
-            self.blackbox_method_int('mammal_inhalation_ld50')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_int('mammal_inhalation_ld50', func_name)
         finally:
             pass
         return
 
-    def test_adjusted_mammal_inhalation_ld50(self):
+    def test_stir_adjusted_mammal_inhalation_ld50(self):
         """
         integration test for stir.out_adjusted_mammal_inhalation_ld50
         """
         try:
-            self.blackbox_method_int('adjusted_mammal_inhalation_ld50')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_int('adjusted_mammal_inhalation_ld50', func_name)
         finally:
             pass
         return
 
-    def test_estimated_avian_inhalation_ld50(self):
+    def test_stir_estimated_avian_inhalation_ld50(self):
         """
         integration test for stir.out_estimated_avian_inhalation_ld50
         """
         try:
-            self.blackbox_method_int('estimated_avian_inhalation_ld50')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_int('estimated_avian_inhalation_ld50', func_name)
         finally:
             pass
         return
 
-    def test_adjusted_avian_inhalation_ld50(self):
+    def test_stir_adjusted_avian_inhalation_ld50(self):
         """
         integration test for stir.out_adjusted_avian_inhalation_ld50
         """
         try:
-            self.blackbox_method_int('adjusted_avian_inhalation_ld50')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_int('adjusted_avian_inhalation_ld50', func_name)
         finally:
             pass
         return
 
-    def test_ratio_vid_avian(self):
+    def test_stir_ratio_vid_avian(self):
         """
         integration test for stir.out_ratio_vid_avian
         """
         try:
-            self.blackbox_method_int('ratio_vid_avian')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_int('ratio_vid_avian', func_name)
         finally:
             pass
         return
 
-    def test_loc_vid_avian(self):
+    def test_stir_loc_vid_avian(self):
         """
         integration test for stir.out_loc_vid_avian
         """
         try:
-            self.blackbox_method_str('loc_vid_avian')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_str('loc_vid_avian', func_name)
         finally:
             pass
         return
 
-    def test_ratio_sid_avian(self):
+    def test_stir_ratio_sid_avian(self):
         """
         integration test for stir.out_ratio_sid_avian
         """
         try:
-            self.blackbox_method_int('ratio_sid_avian')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_int('ratio_sid_avian', func_name)
         finally:
             pass
         return
 
-    def test_loc_sid_avian(self):
+    def test_stir_loc_sid_avian(self):
         """
         integration test for stir.out_loc_sid_avian
         """
         try:
-            self.blackbox_method_str('loc_sid_avian')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_str('loc_sid_avian', func_name)
         finally:
             pass
         return
 
-    def test_ratio_vid_mammal(self):
+    def test_stir_ratio_vid_mammal(self):
         """
         integration test for stir.out_ratio_vid_mammal
         """
         try:
-            self.blackbox_method_int('ratio_vid_mammal')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_int('ratio_vid_mammal', func_name)
         finally:
             pass
         return
 
-    def test_loc_vid_mammal(self):
+    def test_stir_loc_vid_mammal(self):
         """
         integration test for stir.out_loc_vid_mammal
         """
         try:
-            self.blackbox_method_str('loc_vid_mammal')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_str('loc_vid_mammal', func_name)
         finally:
             pass
         return
 
-    def test_ratio_sid_mammal(self):
+    def test_stir_ratio_sid_mammal(self):
         """
         integration test for stir.out_ratio_sid_mammal
         """
         try:
-            self.blackbox_method_int('ratio_sid_mammal')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_int('ratio_sid_mammal', func_name)
         finally:
             pass
         return
 
-    def test_loc_sid_mammal(self):
+    def test_stir_loc_sid_mammal(self):
         """
         integration test for stir.out_loc_sid_mammal
         """
         try:
-            self.blackbox_method_str('loc_sid_mammal')
+            func_name = inspect.currentframe().f_code.co_name
+            self.blackbox_method_str('loc_sid_mammal', func_name)
         finally:
             pass
         return
 
-    def blackbox_method_int(self, output):
+    def blackbox_method_int(self, output, func_name):
         """
         Helper method to reuse code for testing numpy array outputs from STIR model
         :param output: String; Pandas Series name (e.g. column name) without '_out'
         :return:
         """
-        pd.set_option('display.float_format', '{:.4E}'.format)  # display model output in scientific notation
-        result = stir_calc.pd_obj_out["out_" + output]
-        expected = stir_calc.pd_obj_exp["exp_" + output]
-        tab = pd.concat([result, expected], axis=1)
-        logging.info(" ")
-        print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
-        # npt.assert_array_almost_equal(result, expected, 4, '', True)
-        rtol = 1e-5
-        npt.assert_allclose(result, expected, rtol, 0, '', True)
+        try:
+            pd.set_option('display.float_format', '{:.4E}'.format)  # display model output in scientific notation
+            result = stir_calc.pd_obj_out["out_" + output]
+            expected = stir_calc.pd_obj_exp["exp_" + output]
+            tab = pd.concat([result, expected], axis=1)
+            #logging.info(" ")
+            #print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
+            # npt.assert_array_almost_equal(result, expected, 4, '', True)
+            rtol = 1e-5
+            npt.assert_allclose(result, expected, rtol, 0, '', True)
+        finally:
+            tab = pd.concat([result, expected], axis=1)
+            print("\n")
+            print(func_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
-    def blackbox_method_str(self, output):
+    def blackbox_method_str(self, output, func_name):
         """
         Helper method
         :param output:
         :return:
         """
-        result = stir_calc.pd_obj_out["out_" + output]
-        expected = stir_calc.pd_obj_exp["exp_" + output]
-        tab = pd.concat([result, expected], axis=1)
-        print(" ")
-        print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
-        npt.assert_array_equal(result, expected)
+        try:
+            result = stir_calc.pd_obj_out["out_" + output]
+            expected = stir_calc.pd_obj_exp["exp_" + output]
+            tab = pd.concat([result, expected], axis=1)
+            #print(" ")
+            #print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
+            npt.assert_array_equal(result, expected)
+        finally:
+            tab = pd.concat([result, expected], axis=1)
+            print("\n")
+            print(func_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
 
 # unittest will

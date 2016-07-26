@@ -1,10 +1,13 @@
-import logging
+import datetime
+import inspect
 import numpy.testing as npt
 import os.path
 import pandas as pd
 import pandas.util.testing as pdt
 import sys
+from tabulate import tabulate
 import unittest
+
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parentddir)
@@ -22,6 +25,7 @@ class TestStir(unittest.TestCase):
     """
     Unit tests for Stir.
     """
+    print("stir unittests conducted at " + str(datetime.datetime.today()))
 
     def setup(self):
         """
@@ -42,7 +46,7 @@ class TestStir(unittest.TestCase):
         # teardown called after each test
         # e.g. maybe write test results to some text file
 
-    def test_calc_sat_air_conc(self):
+    def test_stir_calc_sat_air_conc(self):
         """
         unittest for function stir.CalcSatAirConc
         eq. 1 saturated air concentration in mg/m^3
@@ -56,10 +60,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.calc_sat_air_conc()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_calc_inh_rate_avian(self):
+    def test_stir_calc_inh_rate_avian(self):
         """
         unittest for function stir.CalcInhRateAvian
         eq. 2 Avian inhalation rate
@@ -72,10 +79,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.calc_inh_rate_avian()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_calc_vid_avian(self):
+    def test_stir_calc_vid_avian(self):
         """
         unittest for function stir.CalcVidAvian
         eq. 3  Maximum avian vapor inhalation dose
@@ -90,10 +100,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.calc_vid_avian()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_calc_inh_rate_mammal(self):
+    def test_stir_calc_inh_rate_mammal(self):
         """
         unittest for function stir.CalcInhRateMammal
         eq. 4 Mammalian inhalation rate
@@ -105,12 +118,14 @@ class TestStir(unittest.TestCase):
             stir_empty.body_weight_assessed_mammal = pd.Series([0.08, 0.923, 2.193], dtype='float')
             result = stir_empty.calc_inh_rate_mammal()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
-
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_calc_vid_mammal(self):
+    def test_stir_calc_vid_mammal(self):
         """
         unittest for function stir.CalcVidMammal
         eq. 5 Maximum mammalian vapor inhalation dose
@@ -125,10 +140,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.calc_vid_mammal()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_calc_conc_air(self):
+    def test_stir_calc_conc_air(self):
         """
         unittest for function stir.CalcConcAir
         eq. 6 Air column concentration after spray
@@ -146,10 +164,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.calc_conc_air()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_calc_sid_avian(self):
+    def test_stir_calc_sid_avian(self):
         """
         unittest for function stir.CalcSidAvian
         eq. 7 Avian spray droplet inhalation dose
@@ -167,10 +188,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.calc_sid_avian()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_calc_sid_mammal(self):
+    def test_stir_calc_sid_mammal(self):
         """
         unittest for function stir.CalcSidMammal
         eq. 8 Mammalian spray droplet inhalation dose
@@ -188,10 +212,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.calc_sid_mammal()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_calc_convert_mammal_inh_lc50_to_ld50(self):
+    def test_stir_calc_convert_mammal_inh_lc50_to_ld50(self):
         """
         unittest for function stir.CalcConvertMammalInhalationLC50toLD50
         eq. 9 Conversion of mammalian LC50 to LD50
@@ -209,10 +236,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.calc_convert_mammal_inhalation_lc50_to_ld50()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_calc_adjusted_mammal_inhalation_ld50(self):
+    def test_stir_calc_adjusted_mammal_inhalation_ld50(self):
         """
         unittest for function stir.CalcAdjustedMammalInhalationLD50
         eq. 10 Adjusted mammalian inhalation LD50
@@ -227,10 +257,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.calc_adjusted_mammal_inhalation_ld50()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_calc_estimated_avian_inhalation_ld50(self):
+    def test_stir_calc_estimated_avian_inhalation_ld50(self):
         """
         unittest for function stir.CalcEstimatedAvianInhalationLD50
         eq. 11 Estimated avian inhalation LD50
@@ -246,10 +279,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.calc_estimated_avian_inhalation_ld50()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_calc_adjusted_avian_inhalation_ld50(self):
+    def test_stir_calc_adjusted_avian_inhalation_ld50(self):
         """
         unittest for function stir.CalcAdjustedAvianInhalationLD50
         eq. 12 Adjusted avian inhalation LD50
@@ -265,10 +301,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.calc_adjusted_avian_inhalation_ld50()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_return_ratio_vid_avian(self):
+    def test_stir_return_ratio_vid_avian(self):
         """
         unittest for function stir.ReturnRatioVidAvian
         results #1: Ratio of avian vapor dose to adjusted inhalation LD50
@@ -282,10 +321,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.return_ratio_vid_avian()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_return_loc_vid_avian(self):
+    def test_stir_return_loc_vid_avian(self):
         """
         unittest for function stir.ReturnLocVidAvian
         results #2: Level of Concern for avian vapor phase risk
@@ -302,10 +344,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.return_loc_vid_avian()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_return_ratio_sid_avian(self):
+    def test_stir_return_ratio_sid_avian(self):
         """
         unittest for function stir.ReturnRatioSidAvian
         results #3: Ratio of avian droplet inhalation dose to adjusted inhalation LD50
@@ -320,10 +365,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.return_ratio_sid_avian()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_return_loc_sid_avian(self):
+    def test_stir_return_loc_sid_avian(self):
         """
         unittest for function stir.ReturnLocSidAvian
         results #4: Level of Concern for avian droplet inhalation risk
@@ -340,10 +388,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.return_loc_sid_avian()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_return_ratio_vid_mammal(self):
+    def test_stir_return_ratio_vid_mammal(self):
         """
         unittest for function stir.ReturnRatioVidMammal
         results #5: Ratio of mammalian vapor dose to adjusted inhalation LD50
@@ -357,10 +408,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.return_ratio_vid_mammal()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_return_loc_vid_mammal(self):
+    def test_stir_return_loc_vid_mammal(self):
         """
         unittest for function stir.ReturnLocVidMammal
         results #6: Level of Concern for mammalian vapor phase risk
@@ -377,10 +431,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.return_loc_vid_mammal()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_return_ratio_sid_mammal(self):
+    def test_stir_return_ratio_sid_mammal(self):
         """
         unittest for function stir.ReturnRatioSidMammal
         results #7: Ratio of mammalian droplet inhalation dose to adjusted inhalation LD50
@@ -394,10 +451,13 @@ class TestStir(unittest.TestCase):
             result = stir_empty.return_ratio_sid_mammal()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_return_loc_sid_mammal(self):
+    def test_stir_return_loc_sid_mammal(self):
         """
         unittest for function stir.ReturnLocSidMammal
         results #8: Level of Concern for mammaliam droplet inhalation risk
@@ -414,7 +474,10 @@ class TestStir(unittest.TestCase):
             result = stir_empty.return_loc_sid_mammal()
             pdt.assert_series_equal(result, expected_results, test)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
 

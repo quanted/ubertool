@@ -1,10 +1,14 @@
+import datetime
+import inspect
 import logging
 import numpy.testing as npt
 import os.path
 import pandas as pd
 import pandas.util.testing as pdt
 import sys
+from tabulate import tabulate
 import unittest
+
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parentddir)
@@ -22,6 +26,8 @@ class TestTerrplant(unittest.TestCase):
     """
     Unit tests for terrplant.
     """
+    print("terrplant unittests conducted at " + str(datetime.datetime.today()))
+
     def setUp(self):
         """
         Setup routine for terrplant unit tests.
@@ -42,7 +48,7 @@ class TestTerrplant(unittest.TestCase):
         # e.g. maybe write test results to some text file
 
 # each of these functions are queued by "run_methods" and have outputs defined as properties in the terrplant qaqc csv
-    def test_rundry(self):
+    def test_terrplant_rundry(self):
         """
         unittest for function terrplant.rundry
         """
@@ -55,10 +61,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.run_dry()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_runsemi(self):
+    def test_terrplant_runsemi(self):
         """
         unittest for function terrplant.runsemi
         """
@@ -71,10 +80,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.run_semi()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_spray(self):
+    def test_terrplant_spray(self):
         """
         unittest for function terrplant.spray
         """
@@ -86,10 +98,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.spray()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_totaldry(self):
+    def test_terrplant_totaldry(self):
         """
         unittest for function terrplant.totaldry
         """
@@ -101,10 +116,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.total_dry()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_totalsemi(self):
+    def test_terrplant_totalsemi(self):
         """
         unittest for function terrplant.totalsemi
         """
@@ -116,10 +134,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.total_semi()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_nms_rq_dry(self):
+    def test_terrplant_nms_rq_dry(self):
         """
         unittest for function terrplant.nms_rq_dry
         """
@@ -132,10 +153,13 @@ class TestTerrplant(unittest.TestCase):
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
 
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_nms_loc_dry(self):
+    def test_terrplant_nms_loc_dry(self):
         """
         unittest for function terrplant.nms_loc_dry
         """
@@ -157,10 +181,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.loc_nms_dry()
             pdt.assert_series_equal(result,expected_results, True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_nms_rq_semi(self):
+    def test_terrplant_nms_rq_semi(self):
         """
         unittest for function terrplant.nms_rq_semi
         """
@@ -172,10 +199,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.nms_rq_semi()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_out_nms_loc_semi(self):
+    def test_terrplant_out_nms_loc_semi(self):
         """
         unittest for function terrplant.nms_loc_semi
         """
@@ -197,10 +227,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.loc_nms_semi()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_nms_rq_spray(self):
+    def test_terrplant_nms_rq_spray(self):
         """
         unittest for function terrplant.nms_rq_spray
         """
@@ -212,10 +245,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.nms_rq_spray()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_nms_loc_spray(self):
+    def test_terrplant_nms_loc_spray(self):
         """
         unittest for function terrplant.nms_loc_spray
         """
@@ -235,10 +271,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.loc_nms_spray()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_lms_rq_dry(self):
+    def test_terrplant_lms_rq_dry(self):
         """
         unittest for function terrplant.lms_rq_dry
         """
@@ -250,10 +289,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.lms_rq_dry()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_lms_loc_dry(self):
+    def test_terrplant_lms_loc_dry(self):
         """
         unittest for function terrplant.lms_loc_dry
         """
@@ -274,10 +316,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.loc_lms_dry()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_lms_rq_semi(self):
+    def test_terrplant_lms_rq_semi(self):
         """
         unittest for function terrplant.lms_rq_semi
         """
@@ -289,10 +334,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.lms_rq_semi()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_lms_loc_semi(self):
+    def test_terrplant_lms_loc_semi(self):
         """
         unittest for function terrplant.lms_loc_semi
         """
@@ -313,10 +361,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.loc_lms_semi()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_lms_rq_spray(self):
+    def test_terrplant_lms_rq_spray(self):
         """
         unittest for function terrplant.lms_rq_spray
         """
@@ -328,10 +379,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.lms_rq_spray()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_lms_loc_spray(self):
+    def test_terrplant_lms_loc_spray(self):
         """
         unittest for function terrplant.lms_loc_spray
         """
@@ -353,10 +407,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.loc_lms_spray()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_nds_rq_dry(self):
+    def test_terrplant_nds_rq_dry(self):
         """
         unittest for function terrplant.nds_rq_dry
         """
@@ -368,10 +425,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.nds_rq_dry()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_nds_loc_dry(self):
+    def test_terrplant_nds_loc_dry(self):
         """
         unittest for function terrplant.nds_loc_dry
         """
@@ -393,10 +453,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.loc_nds_dry()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_nds_rq_semi(self):
+    def test_terrplant_nds_rq_semi(self):
         """
         unittest for function terrplant.nds_rq_semi
         """
@@ -408,10 +471,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.nds_rq_semi()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_nds_loc_semi(self):
+    def test_terrplant_nds_loc_semi(self):
         """
         unittest for function terrplant.nds_loc_semi
         """
@@ -433,10 +499,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.loc_nds_semi()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_nds_rq_spray(self):
+    def test_terrplant_nds_rq_spray(self):
         """
         unittest for function terrplant.nds_rq_spray
         """
@@ -448,10 +517,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.nds_rq_spray()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_nds_loc_spray(self):
+    def test_terrplant_nds_loc_spray(self):
         """
         unittest for function terrplant.nds_loc_spray
         """
@@ -472,10 +544,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.loc_nds_spray()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_lds_rq_dry(self):
+    def test_terrplant_lds_rq_dry(self):
         """
         unittest for function terrplant.lds_rq_dry
         """
@@ -487,10 +562,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.lds_rq_dry()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_lds_loc_dry(self):
+    def test_terrplant_lds_loc_dry(self):
         """
         unittest for function terrplant.lds_loc_dry
         """
@@ -512,10 +590,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.loc_lds_dry()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_lds_rq_semi(self):
+    def test_terrplant_lds_rq_semi(self):
         """
         unittest for function terrplant.lds_rq_semi
         """
@@ -527,10 +608,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.lds_rq_semi()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_lds_loc_semi(self):
+    def test_terrplant_lds_loc_semi(self):
         """
         unittest for function terrplant.lds_loc_semi
         """
@@ -552,10 +636,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.loc_lds_semi()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_lds_rq_spray(self):
+    def test_terrplant_lds_rq_spray(self):
         """
         unittest for function terrplant.lds_rq_spray
         """
@@ -567,10 +654,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.lds_rq_spray()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_lds_loc_spray(self):
+    def test_terrplant_lds_loc_spray(self):
         """
         unittest for function terrplant.lds_loc_spray
         """
@@ -592,10 +682,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.loc_lds_spray()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_min_nms_spray(self):
+    def test_terrplant_min_nms_spray(self):
         """
         unittest for function terrplant.min_nms_spray
         """
@@ -606,10 +699,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.min_nms_spray()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_min_lms_spray(self):
+    def test_terrplant_min_lms_spray(self):
         """
         unittest for function terrplant.min_lms_spray
         """
@@ -620,10 +716,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.min_lms_spray()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_min_nds_spray(self):
+    def test_terrplant_min_nds_spray(self):
         """
         unittest for function terrplant.min_nds_spray
         """
@@ -634,10 +733,13 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.min_nds_spray()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_min_lds_spray(self):
+    def test_terrplant_min_lds_spray(self):
         """
         unittest for function terrplant.min_lds_spray
         """
@@ -648,7 +750,10 @@ class TestTerrplant(unittest.TestCase):
             result = terrplant_empty.min_lds_spray()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
-            pass
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
 # unittest will

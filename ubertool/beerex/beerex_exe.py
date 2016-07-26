@@ -1,8 +1,15 @@
 from __future__ import division
-# from ..base.ubertool import UberModel
-from ubertool.base.ubertool import UberModel
+import os.path
 import pandas as pd
+import sys
 
+#find parent directory and import base (travis)
+parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parentddir)
+from base.uber_model import UberModel, ModelSharedInputs
+
+#print(sys.path)
+#print(os.path)
 
 class BeerexInputs(object):
     """
@@ -129,13 +136,13 @@ class BeerexOutputs(object):
         # self.out_larvae_chronic_dietary = pd.Series(name="out_larvae_chronic_dietary").astype("float")
 
 
-class Beerex(UberModel, BeerexInputs, BeerexOutputs):
+class BeeRex(UberModel, BeerexInputs, BeerexOutputs):
     """
     Individual-based model estimates exposures of bees to pesticides
     """
     def __init__(self, pd_obj, pd_obj_exp):
         """Class representing the Beerex model and containing all its methods"""
-        super(Beerex, self).__init__()
+        super(BeeRex, self).__init__()
         self.pd_obj = pd_obj
         self.pd_obj_exp = pd_obj_exp
         self.pd_obj_out = None
