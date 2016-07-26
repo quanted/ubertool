@@ -342,7 +342,7 @@ class TherpsOutputs(object):
                                                      n_a, i_a, a_r, a_i, 45, h_l, self.fi_herp, c_herp_a, wp_herp_a_sm)
 
 
-class Therps(UberModel, TrexInputs, TrexOutputs):
+class THerps(UberModel, THerpsInputs, THerpsOutputs, THerpsFunctions):
     """
     Estimate dietary exposure and risk to terrestrial-phase amphibians and reptiles from pesticide use.
     """
@@ -383,18 +383,7 @@ class Therps(UberModel, TrexInputs, TrexOutputs):
         self.fill_output_dataframe(self)
 
     def run_methods(self):
-
-    def __init__(self, chem_name, use, formu_name, a_i, h_l, n_a, i_a, a_r, avian_ld50, avian_lc50, avian_noaec,
-                 avian_noael,
-                 species_of_the_tested_bird_avian_ld50, species_of_the_tested_bird_avian_lc50,
-                 species_of_the_tested_bird_avian_noaec, species_of_the_tested_bird_avian_noael,
-                 bw_avian_ld50, bw_avian_lc50, bw_avian_noaec, bw_avian_noael,
-                 mineau_scaling_factor, bw_herp_a_sm, bw_herp_a_md, bw_herp_a_lg, wp_herp_a_sm, wp_herp_a_md,
-                 wp_herp_a_lg, c_mamm_a, c_herp_a):
-
-
         # Result variables
-
         # Table 5
         self.ld50_ad_sm = self.at_bird(avian_ld50, bw_herp_a_sm, bw_avian_ld50, mineau_scaling_factor)
         self.ld50_ad_md = self.at_bird(avian_ld50, bw_herp_a_md, bw_avian_ld50, mineau_scaling_factor)
