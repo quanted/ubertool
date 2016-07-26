@@ -276,6 +276,10 @@ class TRexFunctions(object):
         # calculations are performed daily from day of first application through the last day of the year
         # note: day numbers are synchronized with 0-based array indexing; thus January 1 is the 0th array index
         c_temp_1 = pd.Series([], dtype='object')
+        c_temp = pd.Series([], dtype='float')
+        temp_app_indices = pd.Series([], dtype='float')
+        temp_app_rates = pd.Series([], dtype='float')
+        temp_num_apps = pd.Series([], dtype='float')
 
         for i in range(len(self.num_apps)):  #i denotes model simulation run (e.g., within a monte carlo simulation)
 

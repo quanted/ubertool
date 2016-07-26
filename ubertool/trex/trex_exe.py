@@ -1,10 +1,10 @@
 from __future__ import division  #brings in Python 3.0 mixed type calculations
+from functools import wraps
 import os.path
 import sys
 import pandas as pd
-from trex_functions import TRexFunctions
 import time
-from functools import wraps
+from trex_functions import TRexFunctions
 #import logging
 
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
