@@ -50,6 +50,25 @@ class TestKabam(unittest.TestCase):
         # e.g. maybe write test results to some text file
 
 
+    def test_phi_x(self):
+        """
+        unittest for function phi_x;
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = [69.17640, 146.8274, 56.00997]
+        try:
+            kabam_empty.x_poc = pd.Series([100., 125., 90.], dtype='float')
+            kabam_empty.k_ow = pd.Series([100., 125., 90.], dtype='float')
+            kabam_empty.x_doc = pd.Series([100., 125., 90.], dtype='float')
+            result = kabam_empty.phi_f()
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
 # unittest will
 # 1) call the setup method,
 # 2) then call every method starting with "test",

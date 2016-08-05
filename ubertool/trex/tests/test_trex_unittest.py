@@ -184,7 +184,6 @@ class TestTrex(unittest.TestCase):
             # for i in range(len(trex_empty.aw_bird_sm)):
             #     result[i] = trex_empty.at_bird(i, trex_empty.aw_bird_sm[i])
             result = trex_empty.at_bird1(trex_empty.aw_bird_sm)
-
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
