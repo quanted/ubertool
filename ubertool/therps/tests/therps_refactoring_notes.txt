@@ -1,0 +1,18 @@
+
+Name Change Notes:
+
+1. Input variable names are changed to be consistent with those used in "trex_exe.py".
+   In making the name changes the description of the variable was used to determine name change.
+   In some cases (below) the meaning is a bit less than definitive
+
+    a) What was labeled "bw_avian_ld50" is changed to "tw_bird_ld50"; the "t" seems to
+       mean "tested" but the description is not explicit on this.  I went with the name
+       used in "trex_exe.py" for the given description.  This is true for other input
+       variables that begin with "bw_avian"
+
+    b) references to "avian" were changed to "bird" for consistency with "trex_exe.py"
+
+    c) application rate, num_apps, and app_interval are used to create function that
+       converts these into object/series like those used in TREX; the output of the converter
+       are objects containing num_apps, application rate per application, and application day
+       of year per application

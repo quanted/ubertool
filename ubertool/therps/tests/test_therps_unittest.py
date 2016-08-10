@@ -5,6 +5,7 @@ import numpy as np
 import numpy.testing as npt
 import os.path
 import pandas as pd
+import pandas.util.testing as pdt
 import sys
 from tabulate import tabulate
 import unittest
@@ -15,39 +16,73 @@ print("Numpy version: " + np.__version__)
 #find parent directory and import model
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parent_dir)
-from trex_exe import TRex
+from therps_exe import THerps
 
 # create empty pandas dataframes to create empty object for testing
 df_empty = pd.DataFrame()
-# create an empty trex object
-trex_empty = TRex(df_empty, df_empty)
+# create an empty therps object
+therps_empty = THerps(df_empty, df_empty)
 
 test = {}
 
-class TestTrex(unittest.TestCase):
+class Testtherps(unittest.TestCase):
     """
     Unit tests for T-Rex model.
     """
-    print("trex unittests conducted at " + str(datetime.datetime.today()))
+    print("THerps unittests conducted at " + str(datetime.datetime.today()))
 
     def setUp(self):
         """
-        Setup routine for trex unit tests.
+        Setup routine for therps unit tests.
         :return:
         """
         pass
         # setup the test as needed
-        # e.g. pandas to open trex qaqc csv
+        # e.g. pandas to open therps qaqc csv
         #  Read qaqc csv and create pandas DataFrames for inputs and expected outputs
 
     def tearDown(self):
         """
-        Teardown routine for trex unit tests.
+        Teardown routine for therps unit tests.
         :return:
         """
         pass
         # teardown called after each test
         # e.g. maybe write test results to some text file
+
+    def test_convert_app_intervals(self):
+        """
+        unit test for function convert_app_intervals
+        the method converts number of applications and application interval into application rates and day of year number
+        this is so that the same concentration timeseries method from trex_functions can be reused here
+        :return:
+        """
+        result_day_out = pd.Series([], dtype="object")
+        result_app_rates = pd.Series([], dtype="object")
+
+        expected_result_day_out = pd.Series([[0,6,13], [0], [0,20,41,62], [0,6,13]], dtype = 'object')
+        expected_result_app_rates = pd.Series([[1.2,1.2,1.2], [2.3], [2.5,2.5,2.5,2.5], [5.1,5.1,5.1]], dtype = 'object')
+        try:
+
+            therps_empty.num_apps = [3,1,4,3]
+            therps_empty.app_interval = [7,1,21,7]
+            therps_empty.application_rate = [1.2, 2.3, 2.5,5.1]
+            result_day_out, result_app_rates = therps_empty.convert_app_intervals()
+                #using pdt.assert_series_equal assertion instead of npt.assert_allclose
+                #because npt.assert_allclose does not handle uneven object/series lists
+                #Note that pdt.assert_series_equal requires object/series to be exactly equal
+                #this is ok in this instance because we are not "calculating" real numbers
+                #but rather simply distributing them from an input value into a new object/series
+            pdt.assert_series_equal(result_app_rates,expected_result_app_rates)
+            pdt.assert_series_equal(result_day_out,expected_result_day_out)
+        finally:
+            tab1 = [result_app_rates, expected_result_app_rates]
+            tab2 = [result_day_out, expected_result_day_out]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab1, headers='keys', tablefmt='rst'))
+            print(tabulate(tab2, headers='keys', tablefmt='rst'))
+        return
 
     def test_app_rate_parsing(self):
         """
@@ -58,11 +93,10 @@ class TestTrex(unittest.TestCase):
         result = pd.Series([], dtype="object")
         expected_results = [[0.34, 0.78, 2.34], [0.34, 3.54, 2.34]]
         try:
-            trex_empty.app_rates = pd.Series([[0.34], [0.78, 3.54], [2.34, 1.384, 2.22]], dtype='object')
-            #trex_empty.app_rates = ([[0.34], [0.78, 3.54], [2.34, 1.384, 2.22]])
+            therps_empty.app_rates = pd.Series([[0.34], [0.78, 3.54], [2.34, 1.384, 2.22]], dtype='object')
             # parse app_rates Series of lists
-            trex_empty.app_rate_parsing()
-            result = [trex_empty.first_app_rate, trex_empty.max_app_rate]
+            therps_empty.app_rate_parsing()
+            result = [therps_empty.first_app_rate, therps_empty.max_app_rate]
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -81,12 +115,12 @@ class TestTrex(unittest.TestCase):
         try:
                 # specify an app_rates Series (that is a series of lists, each list representing
                 # a set of application rates for 'a' model simulation)
-            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                               [2.34, 1.384, 3.4]], dtype='float')
-            trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            for i in range(len(trex_empty.frac_act_ing)):
-                result[i] = trex_empty.conc_initial(i, trex_empty.app_rates[i][0], trex_empty.food_multiplier_init_sg[i])
+            therps_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            for i in range(len(therps_empty.frac_act_ing)):
+                result[i] = therps_empty.conc_initial(i, therps_empty.app_rates[i][0], therps_empty.food_multiplier_init_sg[i])
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -102,10 +136,10 @@ class TestTrex(unittest.TestCase):
         result = pd.Series([], dtype = 'float')
         expected_results = [6.25e-5, 0.039685, 7.8886e-30]
         try:
-            trex_empty.foliar_diss_hlife = pd.Series([.25, 0.75, 0.01], dtype='float')
+            therps_empty.foliar_diss_hlife = pd.Series([.25, 0.75, 0.01], dtype='float')
             conc_0 = pd.Series([0.001, 0.1, 10.0])
             for i in range(len(conc_0)):
-                result[i] = trex_empty.conc_timestep(i, conc_0[i])
+                result[i] = therps_empty.conc_timestep(i, conc_0[i])
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -120,8 +154,8 @@ class TestTrex(unittest.TestCase):
         """
         expected_results = [.04556, .1034, .9389]
         try:
-            trex_empty.percent_incorp = pd.Series([4.556, 10.34, 93.89], dtype='float')
-            result = trex_empty.percent_to_frac(trex_empty.percent_incorp)
+            therps_empty.percent_incorp = pd.Series([4.556, 10.34, 93.89], dtype='float')
+            result = therps_empty.percent_to_frac(therps_empty.percent_incorp)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -136,8 +170,8 @@ class TestTrex(unittest.TestCase):
         """
         expected_results = [0.37966, 0.86166, 7.82416]
         try:
-            trex_empty.bandwidth = pd.Series([4.556, 10.34, 93.89], dtype='float')
-            result = trex_empty.inches_to_feet(trex_empty.bandwidth)
+            therps_empty.bandwidth = pd.Series([4.556, 10.34, 93.89], dtype='float')
+            result = therps_empty.inches_to_feet(therps_empty.bandwidth)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -146,45 +180,44 @@ class TestTrex(unittest.TestCase):
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_at_bird(self):
-        """
-        unittest for function at_bird:
-        adjusted_toxicity = self.ld50_bird * (aw_bird / self.tw_bird_ld50) ** (self.mineau_sca_fact - 1)
-        """
-        result = pd.Series([], dtype = 'float')
-        expected_results = [69.17640, 146.8274, 56.00997]
-        try:
-            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            # following variable is unique to at_bird and is thus sent via arg list
-            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
-            for i in range(len(trex_empty.aw_bird_sm)):
-                result[i] = trex_empty.at_bird(i, trex_empty.aw_bird_sm[i])
-            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
-        finally:
-            tab = [result, expected_results]
-            print("\n")
-            print(inspect.currentframe().f_code.co_name)
-            print(tabulate(tab, headers='keys', tablefmt='rst'))
-        return
+    # def test_at_bird(self):
+    #     """
+    #     unittest for function at_bird:
+    #     adjusted_toxicity = self.ld50_bird * (aw_bird / self.tw_bird_ld50) ** (self.mineau_sca_fact - 1)
+    #     """
+    #     result = pd.Series([], dtype = 'float')
+    #     expected_results = [69.17640, 146.8274, 56.00997]
+    #     try:
+    #         therps_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+    #         therps_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+    #         therps_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+    #         # following variable is unique to at_bird and is thus sent via arg list
+    #         therps_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+    #         for i in range(len(therps_empty.aw_bird_sm)):
+    #             result[i] = therps_empty.at_bird(i, therps_empty.aw_bird_sm[i])
+    #         npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
+    #     finally:
+    #         tab = [result, expected_results]
+    #         print("\n")
+    #         print(inspect.currentframe().f_code.co_name)
+    #         print(tabulate(tab, headers='keys', tablefmt='rst'))
+    #     return
 
-    def test_at_bird1(self):
+    def test_at_bird(aw_herp):
         """
         unittest for function at_bird1; alternative approach using more vectorization:
         adjusted_toxicity = self.ld50_bird * (aw_bird / self.tw_bird_ld50) ** (self.mineau_sca_fact - 1)
         """
         result = pd.Series([], dtype = 'float')
+
         expected_results = [69.17640, 146.8274, 56.00997]
         try:
-            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
-            # for i in range(len(trex_empty.aw_bird_sm)):
-            #     result[i] = trex_empty.at_bird(i, trex_empty.aw_bird_sm[i])
-            result = trex_empty.at_bird1(trex_empty.aw_bird_sm)
+            therps_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            therps_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            therps_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            therps_empty.aw_herp_sm = pd.Series([15., 20., 30.], dtype='float')
 
+            result = therps_empty.at_bird1(therps_empty.aw_herp_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -202,9 +235,9 @@ class TestTrex(unittest.TestCase):
         try:
 #?? 'mf_w_bird_1' is a constant (i.e., not an input whose value changes per model simulation run); thus it should
 #?? be specified here as a constant and not a pd.series -- if this is correct then go ahead and change next line
-            trex_empty.mf_w_bird_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
-            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
-            result = trex_empty.fi_bird(trex_empty.aw_bird_sm, trex_empty.mf_w_bird_1)
+            therps_empty.mf_w_bird_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
+            therps_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            result = therps_empty.fi_bird(therps_empty.aw_bird_sm, therps_empty.mf_w_bird_1)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -222,13 +255,13 @@ class TestTrex(unittest.TestCase):
 
         expected_results = [6.637969, 77.805, 34.96289, np.nan]
         try:
-            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                 [2.34, 1.384, 3.4], [3.]], dtype='object')
-            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
-            trex_empty.frac_act_ing = pd.Series([0.15, 0.20, 0.34, np.nan], dtype='float')
-            trex_empty.density = pd.Series([8.33, 7.98, 6.75, np.nan], dtype='float')
-            trex_empty.noaec_bird = pd.Series([5., 1.25, 12., np.nan], dtype='float')
-            result = trex_empty.sc_bird()
+            therps_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            therps_empty.frac_act_ing = pd.Series([0.15, 0.20, 0.34, np.nan], dtype='float')
+            therps_empty.density = pd.Series([8.33, 7.98, 6.75, np.nan], dtype='float')
+            therps_empty.noaec_bird = pd.Series([5., 1.25, 12., np.nan], dtype='float')
+            result = therps_empty.sc_bird()
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -250,35 +283,35 @@ class TestTrex(unittest.TestCase):
         expected_results_lg = pd.Series([0.037707, 0.269804, 0.01199], dtype = 'float')
 
         try:
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='float')
-            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
-            trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
+            therps_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            therps_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            therps_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            therps_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            therps_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
 
-            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
-            trex_empty.aw_bird_md = pd.Series([115., 120., 130.], dtype='float')
-            trex_empty.aw_bird_lg = pd.Series([1015., 1020., 1030.], dtype='float')
+            therps_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.aw_bird_md = pd.Series([115., 120., 130.], dtype='float')
+            therps_empty.aw_bird_lg = pd.Series([1015., 1020., 1030.], dtype='float')
 
-            #reitierate constants here (they have been set in 'trex_inputs'; repeated here for clarity)
-            trex_empty.mf_w_bird_1 = 0.1
-            trex_empty.nagy_bird_coef_sm = 0.02
-            trex_empty.nagy_bird_coef_md = 0.1
-            trex_empty.nagy_bird_coef_lg = 1.0
+            #reitierate constants here (they have been set in 'therps_inputs'; repeated here for clarity)
+            therps_empty.mf_w_bird_1 = 0.1
+            therps_empty.nagy_bird_coef_sm = 0.02
+            therps_empty.nagy_bird_coef_md = 0.1
+            therps_empty.nagy_bird_coef_lg = 1.0
 
-            result_sm = trex_empty.sa_bird_1("small")
+            result_sm = therps_empty.sa_bird_1("small")
             npt.assert_allclose(result_sm,expected_results_sm,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_md = trex_empty.sa_bird_1("medium")
+            result_md = therps_empty.sa_bird_1("medium")
             npt.assert_allclose(result_md,expected_results_md,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_lg = trex_empty.sa_bird_1("large")
+            result_lg = therps_empty.sa_bird_1("large")
             npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab_sm = [result_sm, expected_results_sm]
@@ -304,35 +337,35 @@ class TestTrex(unittest.TestCase):
         expected_results_lg =pd.Series([2.001591e-4, 8.602729e-4, 8.66163e-5], dtype = 'float')
 
         try:
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
-            trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
-            trex_empty.max_seed_rate = pd.Series([33.19, 20.0, 45.6])
+            therps_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            therps_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
+            therps_empty.max_seed_rate = pd.Series([33.19, 20.0, 45.6])
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            therps_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            therps_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            therps_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
 
-            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
-            trex_empty.aw_bird_md = pd.Series([115., 120., 130.], dtype='float')
-            trex_empty.aw_bird_lg = pd.Series([1015., 1020., 1030.], dtype='float')
+            therps_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.aw_bird_md = pd.Series([115., 120., 130.], dtype='float')
+            therps_empty.aw_bird_lg = pd.Series([1015., 1020., 1030.], dtype='float')
 
-            #reitierate constants here (they have been set in 'trex_inputs'; repeated here for clarity)
-            trex_empty.nagy_bird_coef_sm = 0.02
-            trex_empty.nagy_bird_coef_md = 0.1
-            trex_empty.nagy_bird_coef_lg = 1.0
+            #reitierate constants here (they have been set in 'therps_inputs'; repeated here for clarity)
+            therps_empty.nagy_bird_coef_sm = 0.02
+            therps_empty.nagy_bird_coef_md = 0.1
+            therps_empty.nagy_bird_coef_lg = 1.0
 
-            result_sm = trex_empty.sa_bird_2("small")
+            result_sm = therps_empty.sa_bird_2("small")
             npt.assert_allclose(result_sm,expected_results_sm,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_md = trex_empty.sa_bird_2("medium")
+            result_md = therps_empty.sa_bird_2("medium")
             npt.assert_allclose(result_md,expected_results_md,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_lg = trex_empty.sa_bird_2("large")
+            result_lg = therps_empty.sa_bird_2("large")
             npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab_sm = [result_sm, expected_results_sm]
@@ -358,34 +391,34 @@ class TestTrex(unittest.TestCase):
         expected_results_lg =pd.Series([0.010471, 0.204631, 0.002715], dtype = 'float')
 
         try:
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
-            trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
+            therps_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            therps_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            trex_empty.tw_mamm = pd.Series([350., 225., 390.], dtype='float')
-            trex_empty.ld50_mamm = pd.Series([321., 100., 400.], dtype='float')
+            therps_empty.tw_mamm = pd.Series([350., 225., 390.], dtype='float')
+            therps_empty.ld50_mamm = pd.Series([321., 100., 400.], dtype='float')
 
-            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
-            trex_empty.aw_mamm_md = pd.Series([35., 45., 25.], dtype='float')
-            trex_empty.aw_mamm_lg = pd.Series([1015., 1020., 1030.], dtype='float')
+            therps_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.aw_mamm_md = pd.Series([35., 45., 25.], dtype='float')
+            therps_empty.aw_mamm_lg = pd.Series([1015., 1020., 1030.], dtype='float')
 
-            #reitierate constants here (they have been set in 'trex_inputs'; repeated here for clarity)
-            trex_empty.mf_w_mamm_1 = 0.1
-            trex_empty.nagy_mamm_coef_sm = 0.015
-            trex_empty.nagy_mamm_coef_md = 0.035
-            trex_empty.nagy_mamm_coef_lg = 1.0
+            #reitierate constants here (they have been set in 'therps_inputs'; repeated here for clarity)
+            therps_empty.mf_w_mamm_1 = 0.1
+            therps_empty.nagy_mamm_coef_sm = 0.015
+            therps_empty.nagy_mamm_coef_md = 0.035
+            therps_empty.nagy_mamm_coef_lg = 1.0
 
-            result_sm = trex_empty.sa_mamm_1("small")
+            result_sm = therps_empty.sa_mamm_1("small")
             npt.assert_allclose(result_sm,expected_results_sm,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_md = trex_empty.sa_mamm_1("medium")
+            result_md = therps_empty.sa_mamm_1("medium")
             npt.assert_allclose(result_md,expected_results_md,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_lg = trex_empty.sa_mamm_1("large")
+            result_lg = therps_empty.sa_mamm_1("large")
             npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab_sm = [result_sm, expected_results_sm]
@@ -411,34 +444,34 @@ class TestTrex(unittest.TestCase):
         expected_results_lg =pd.Series([1.0592147e-4, 1.24391489e-3, 3.74263186e-5], dtype = 'float')
 
         try:
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
-            trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
+            therps_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            therps_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            trex_empty.tw_mamm = pd.Series([350., 225., 390.], dtype='float')
-            trex_empty.ld50_mamm = pd.Series([321., 100., 400.], dtype='float')
+            therps_empty.tw_mamm = pd.Series([350., 225., 390.], dtype='float')
+            therps_empty.ld50_mamm = pd.Series([321., 100., 400.], dtype='float')
 
-            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
-            trex_empty.aw_mamm_md = pd.Series([35., 45., 25.], dtype='float')
-            trex_empty.aw_mamm_lg = pd.Series([1015., 1020., 1030.], dtype='float')
+            therps_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.aw_mamm_md = pd.Series([35., 45., 25.], dtype='float')
+            therps_empty.aw_mamm_lg = pd.Series([1015., 1020., 1030.], dtype='float')
 
-            #reitierate constants here (they have been set in 'trex_inputs'; repeated here for clarity)
-            trex_empty.mf_w_mamm_1 = 0.1
-            trex_empty.nagy_mamm_coef_sm = 0.015
-            trex_empty.nagy_mamm_coef_md = 0.035
-            trex_empty.nagy_mamm_coef_lg = 1.0
+            #reitierate constants here (they have been set in 'therps_inputs'; repeated here for clarity)
+            therps_empty.mf_w_mamm_1 = 0.1
+            therps_empty.nagy_mamm_coef_sm = 0.015
+            therps_empty.nagy_mamm_coef_md = 0.035
+            therps_empty.nagy_mamm_coef_lg = 1.0
 
-            result_sm = trex_empty.sa_mamm_2("small")
+            result_sm = therps_empty.sa_mamm_2("small")
             npt.assert_allclose(result_sm,expected_results_sm,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_md = trex_empty.sa_mamm_2("medium")
+            result_md = therps_empty.sa_mamm_2("medium")
             npt.assert_allclose(result_md,expected_results_md,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_lg = trex_empty.sa_mamm_2("large")
+            result_lg = therps_empty.sa_mamm_2("large")
             npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab_sm = [result_sm, expected_results_sm]
@@ -464,34 +497,34 @@ class TestTrex(unittest.TestCase):
         expected_results_lg =pd.Series([1.344461, 5.846592, 2.172211], dtype = 'float')
 
         try:
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
-            trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
+            therps_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            therps_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            trex_empty.tw_mamm = pd.Series([350., 225., 390.], dtype='float')
-            trex_empty.noael_mamm = pd.Series([2.5, 3.5, 0.5], dtype='float')
+            therps_empty.tw_mamm = pd.Series([350., 225., 390.], dtype='float')
+            therps_empty.noael_mamm = pd.Series([2.5, 3.5, 0.5], dtype='float')
 
-            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
-            trex_empty.aw_mamm_md = pd.Series([35., 45., 25.], dtype='float')
-            trex_empty.aw_mamm_lg = pd.Series([1015., 1020., 1030.], dtype='float')
+            therps_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.aw_mamm_md = pd.Series([35., 45., 25.], dtype='float')
+            therps_empty.aw_mamm_lg = pd.Series([1015., 1020., 1030.], dtype='float')
 
-            #reitierate constants here (they have been set in 'trex_inputs'; repeated here for clarity)
-            trex_empty.mf_w_mamm_1 = 0.1
-            trex_empty.nagy_mamm_coef_sm = 0.015
-            trex_empty.nagy_mamm_coef_md = 0.035
-            trex_empty.nagy_mamm_coef_lg = 1.0
+            #reitierate constants here (they have been set in 'therps_inputs'; repeated here for clarity)
+            therps_empty.mf_w_mamm_1 = 0.1
+            therps_empty.nagy_mamm_coef_sm = 0.015
+            therps_empty.nagy_mamm_coef_md = 0.035
+            therps_empty.nagy_mamm_coef_lg = 1.0
 
-            result_sm = trex_empty.sc_mamm("small")
+            result_sm = therps_empty.sc_mamm("small")
             npt.assert_allclose(result_sm,expected_results_sm,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_md = trex_empty.sc_mamm("medium")
+            result_md = therps_empty.sc_mamm("medium")
             npt.assert_allclose(result_md,expected_results_md,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_lg = trex_empty.sc_mamm("large")
+            result_lg = therps_empty.sc_mamm("large")
             npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab_sm = [result_sm, expected_results_sm]
@@ -512,25 +545,25 @@ class TestTrex(unittest.TestCase):
         expected_results = [346.4856, 25.94132, np.nan]
         try:
             # following parameter values are unique for ld50_bg_bird
-            trex_empty.application_type = pd.Series(['Row/Band/In-furrow-Granular',
+            therps_empty.application_type = pd.Series(['Row/Band/In-furrow-Granular',
                                                      'Row/Band/In-furrow-Granular',
                                                      'Row/Band/In-furrow-Liquid'], dtype='object')
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            trex_empty.app_rate_parsing()  #get 'max app rate' per model simulation run
-            trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
-            trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
-            trex_empty.row_spacing = pd.Series([20., 32., 50.], dtype = 'float')
+            therps_empty.app_rate_parsing()  #get 'max app rate' per model simulation run
+            therps_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
+            therps_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
+            therps_empty.row_spacing = pd.Series([20., 32., 50.], dtype = 'float')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            therps_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            therps_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            therps_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = trex_empty.ld50_rg_bird(trex_empty.aw_bird_sm)
+            result = therps_empty.ld50_rg_bird(therps_empty.aw_bird_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
                                 equal_nan=True, err_msg='', verbose=True)
         finally:
@@ -555,25 +588,25 @@ class TestTrex(unittest.TestCase):
         expected_results = [346.4856, 25.94132, np.nan]
         try:
             # following parameter values are unique for ld50_bg_bird
-            trex_empty.application_type = pd.Series(['Row/Band/In-furrow-Granular',
+            therps_empty.application_type = pd.Series(['Row/Band/In-furrow-Granular',
                                                      'Row/Band/In-furrow-Granular',
                                                      'Row/Band/In-furrow-Liquid'], dtype='object')
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            trex_empty.app_rate_parsing()  #get 'max app rate' per model simulation run
-            trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
-            trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
-            trex_empty.row_spacing = pd.Series([20., 32., 50.], dtype = 'float')
+            therps_empty.app_rate_parsing()  #get 'max app rate' per model simulation run
+            therps_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
+            therps_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
+            therps_empty.row_spacing = pd.Series([20., 32., 50.], dtype = 'float')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            therps_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            therps_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            therps_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = trex_empty.ld50_rg_bird1(trex_empty.aw_bird_sm)
+            result = therps_empty.ld50_rg_bird1(therps_empty.aw_bird_sm)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, equal_nan=True, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -589,20 +622,20 @@ class TestTrex(unittest.TestCase):
         expected_results = [46.19808, 33.77777, np.nan]
         try:
             # following parameter values are unique for ld50_bl_bird
-            trex_empty.application_type = pd.Series(['Broadcast-Liquid', 'Broadcast-Liquid',
+            therps_empty.application_type = pd.Series(['Broadcast-Liquid', 'Broadcast-Liquid',
                                                      'Non-Broadcast'], dtype='object')
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            therps_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            therps_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            therps_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = trex_empty.ld50_bl_bird(trex_empty.aw_bird_sm)
+            result = therps_empty.ld50_bl_bird(therps_empty.aw_bird_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
                                 err_msg='', verbose=True, equal_nan=True)
         finally:
@@ -619,21 +652,21 @@ class TestTrex(unittest.TestCase):
         expected_results = [46.19808, np.nan, 0.4214033]
         try:
             # following parameter values are unique for ld50_bg_bird
-            trex_empty.application_type = pd.Series(['Broadcast-Granular', 'Broadcast-Liquid',
+            therps_empty.application_type = pd.Series(['Broadcast-Granular', 'Broadcast-Liquid',
                                                      'Broadcast-Granular'], dtype='object')
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            therps_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            therps_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            therps_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = trex_empty.ld50_bg_bird(trex_empty.aw_bird_sm)
+            result = therps_empty.ld50_bg_bird(therps_empty.aw_bird_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
                                 err_msg='', verbose=True, equal_nan=True)
         finally:
@@ -650,22 +683,22 @@ class TestTrex(unittest.TestCase):
         expected_results = [np.nan, 2.20701, 0.0363297]
         try:
             # following parameter values are unique for ld50_bg_bird
-            trex_empty.application_type = pd.Series(['Broadcast-Granular', 'Row/Band/In-furrow-Liquid',
+            therps_empty.application_type = pd.Series(['Broadcast-Granular', 'Row/Band/In-furrow-Liquid',
                                                      'Row/Band/In-furrow-Liquid'], dtype='object')
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
-            trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
+            therps_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
+            therps_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            therps_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            therps_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            therps_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = trex_empty.ld50_rl_bird(trex_empty.aw_bird_sm)
+            result = therps_empty.ld50_rl_bird(therps_empty.aw_bird_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
                                 err_msg='', verbose=True, equal_nan=True)
         finally:
@@ -683,11 +716,11 @@ class TestTrex(unittest.TestCase):
         result = pd.Series([], dtype = 'float')
         expected_results = [705.5036, 529.5517, 830.6143]
         try:
-            trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
-            trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
-            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
-            for i in range(len(trex_empty.ld50_mamm)):
-                result[i] = trex_empty.at_mamm(i, trex_empty.aw_mamm_sm[i])
+            therps_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
+            therps_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
+            therps_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            for i in range(len(therps_empty.ld50_mamm)):
+                result[i] = therps_empty.at_mamm(i, therps_empty.aw_mamm_sm[i])
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -703,10 +736,10 @@ class TestTrex(unittest.TestCase):
         """
         expected_results = [5.49457, 9.62821, 2.403398]
         try:
-            trex_empty.noael_mamm = pd.Series([2.5, 5.0, 1.25], dtype='float')
-            trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
-            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
-            result = trex_empty.anoael_mamm(trex_empty.aw_mamm_sm)
+            therps_empty.noael_mamm = pd.Series([2.5, 5.0, 1.25], dtype='float')
+            therps_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
+            therps_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            result = therps_empty.anoael_mamm(therps_empty.aw_mamm_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -722,9 +755,9 @@ class TestTrex(unittest.TestCase):
         """
         expected_results = [3.17807, 16.8206, 42.28516]
         try:
-            trex_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
-            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
-            result = trex_empty.fi_mamm(trex_empty.aw_mamm_sm, trex_empty.mf_w_mamm_1)
+            therps_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
+            therps_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            result = therps_empty.fi_mamm(therps_empty.aw_mamm_sm, therps_empty.mf_w_mamm_1)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -740,19 +773,19 @@ class TestTrex(unittest.TestCase):
         expected_results = [4.52983, 9.36547, np.nan]
         try:
             # following parameter values are unique for ld50_bl_mamm
-            trex_empty.application_type = pd.Series(['Broadcast-Liquid', 'Broadcast-Liquid',
+            therps_empty.application_type = pd.Series(['Broadcast-Liquid', 'Broadcast-Liquid',
                                                      'Non-Broadcast'], dtype='object')
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
 
             # following parameter values are needed for internal call to "test_at_mamm"
             # results from "test_at_mamm"  test using these values are [705.5036, 529.5517, 830.6143]
-            trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
-            trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
-            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
+            therps_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
+            therps_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = trex_empty.ld50_bl_mamm(trex_empty.aw_mamm_sm)
+            result = therps_empty.ld50_bl_mamm(therps_empty.aw_mamm_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='',
                                 verbose=True, equal_nan=True)
         finally:
@@ -769,19 +802,19 @@ class TestTrex(unittest.TestCase):
         expected_results = [4.52983, 9.36547, np.nan]
         try:
             # following parameter values are unique for ld50_bl_mamm
-            trex_empty.application_type = pd.Series(['Broadcast-Granular', 'Broadcast-Granular',
+            therps_empty.application_type = pd.Series(['Broadcast-Granular', 'Broadcast-Granular',
                                                      'Broadcast-Liquid'], dtype='object')
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
 
             # following parameter values are needed for internal call to "at_mamm"
             # results from "test_at_mamm"  test using these values are [705.5036, 529.5517, 830.6143]
-            trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
-            trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
-            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
+            therps_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
+            therps_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = trex_empty.ld50_bg_mamm(trex_empty.aw_mamm_sm)
+            result = therps_empty.ld50_bg_mamm(therps_empty.aw_mamm_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
                                 err_msg='', verbose=True, equal_nan=True)
         finally:
@@ -798,22 +831,22 @@ class TestTrex(unittest.TestCase):
         expected_results = [np.nan, 0.6119317, 0.0024497]
         try:
             # following parameter values are unique for ld50_bl_mamm
-            trex_empty.application_type = pd.Series(['Broadcast-Granular',
+            therps_empty.application_type = pd.Series(['Broadcast-Granular',
                                                      'Row/Band/In-furrow-Liquid',
                                                      'Row/Band/In-furrow-Liquid',], dtype='object')
-            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            therps_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
 
             # following parameter values are needed for internal call to "at_mamm"
             # results from "test_at_mamm"  test using these values are [705.5036, 529.5517, 830.6143]
-            trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
-            trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
-            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
-            trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
+            therps_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
+            therps_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
+            therps_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
 
-            result = trex_empty.ld50_rl_mamm(trex_empty.aw_mamm_sm)
+            result = therps_empty.ld50_rl_mamm(therps_empty.aw_mamm_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
                                 err_msg='', verbose=True, equal_nan=True)
         finally:
@@ -830,23 +863,23 @@ class TestTrex(unittest.TestCase):
         expected_results = [33.9737, 7.192681, np.nan]
         try:
             # following parameter values are unique for ld50_bl_mamm
-            trex_empty.application_type = pd.Series(['Row/Band/In-furrow-Granular',
+            therps_empty.application_type = pd.Series(['Row/Band/In-furrow-Granular',
                                                      'Row/Band/In-furrow-Granular',
                                                      'Row/Band/In-furrow-Liquid',], dtype='object')
-            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
-            trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
-            trex_empty.row_spacing = pd.Series([20., 32., 50.], dtype = 'float')
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            therps_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
+            therps_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
+            therps_empty.row_spacing = pd.Series([20., 32., 50.], dtype = 'float')
 
             # following parameter values are needed for internal call to "at_mamm"
             # results from "test_at_mamm"  test using these values are [705.5036, 529.5517, 830.6143]
-            trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
-            trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
-            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
+            therps_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
+            therps_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = trex_empty.ld50_rg_mamm(trex_empty.aw_mamm_sm)
+            result = therps_empty.ld50_rg_mamm(therps_empty.aw_mamm_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
                                 err_msg='', verbose=True, equal_nan=True)
         finally:
@@ -876,17 +909,17 @@ class TestTrex(unittest.TestCase):
         num_app_days = pd.Series([], dtype='int')
         try:
             #specifying 3 different application scenarios of 1, 4, and 2 applications
-            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            trex_empty.day_out = pd.Series([[5], [0, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(trex_empty.app_rates)):
-                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
-                num_app_days[i] = len(trex_empty.day_out[i])
-                assert (trex_empty.num_apps[i] == num_app_days[i]), 'series of app-rates and app_days do not match'
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = 15.
-            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            therps_empty.day_out = pd.Series([[5], [0, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(therps_empty.app_rates)):
+                therps_empty.num_apps[i] = len(therps_empty.app_rates[i])
+                num_app_days[i] = len(therps_empty.day_out[i])
+                assert (therps_empty.num_apps[i] == num_app_days[i]), 'series of app-rates and app_days do not match'
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            therps_empty.food_multiplier_init_sg = 15.
+            therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
-            result = trex_empty.eec_diet_max(trex_empty.food_multiplier_init_sg)
+            result = therps_empty.eec_diet_max(therps_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -909,26 +942,26 @@ class TestTrex(unittest.TestCase):
         expected_results = [7.763288, 2693.2339, 22.20837]
         num_app_days = pd.Series([], dtype='int')
         try:
-            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(trex_empty.app_rates)):
-                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
-                num_app_days[i] = len(trex_empty.day_out[i])
-                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = 240.
-            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            therps_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(therps_empty.app_rates)):
+                therps_empty.num_apps[i] = len(therps_empty.app_rates[i])
+                num_app_days[i] = len(therps_empty.day_out[i])
+                assert (therps_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            therps_empty.food_multiplier_init_sg = 240.
+            therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
             # variables for 'fi_bird'  (values reflect unittest for 'at_bird'
-            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            therps_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            therps_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            therps_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            trex_empty.mf_w_bird_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
+            therps_empty.mf_w_bird_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
 
-            result = trex_empty.eec_dose_bird(trex_empty.aw_bird_sm, trex_empty.mf_w_bird_1,
-                                              trex_empty.food_multiplier_init_sg)
+            result = therps_empty.eec_dose_bird(therps_empty.aw_bird_sm, therps_empty.mf_w_bird_1,
+                                              therps_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -951,26 +984,26 @@ class TestTrex(unittest.TestCase):
         num_app_days = pd.Series([], dtype='int')
         try:
             #specifying 3 different application scenarios of 1, 4, and 2 applications
-            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(trex_empty.app_rates)):
-                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
-                num_app_days[i] = len(trex_empty.day_out[i])
-                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = 15.
-            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            therps_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(therps_empty.app_rates)):
+                therps_empty.num_apps[i] = len(therps_empty.app_rates[i])
+                num_app_days[i] = len(therps_empty.day_out[i])
+                assert (therps_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            therps_empty.food_multiplier_init_sg = 15.
+            therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
             # variables for 'at_bird'  (values reflect unittest for 'fi_bird'
-            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            therps_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            therps_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            therps_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            trex_empty.mf_w_bird_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
+            therps_empty.mf_w_bird_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
 
-            result = trex_empty.arq_dose_bird(trex_empty.aw_bird_sm, trex_empty.mf_w_bird_1,
-                                              trex_empty.food_multiplier_init_sg)
+            result = therps_empty.arq_dose_bird(therps_empty.aw_bird_sm, therps_empty.mf_w_bird_1,
+                                              therps_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -994,20 +1027,20 @@ class TestTrex(unittest.TestCase):
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
-            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(trex_empty.app_rates)):
-                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
-                num_app_days[i] = len(trex_empty.day_out[i])
-                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            #trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
-            trex_empty.food_multiplier_init_sg = 110.
-            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype='float')
-            trex_empty.lc50_bird = pd.Series([650., 718., 1102.], dtype='float')
-            #for i in range (len(trex_empty.food_multiplier_init_sg)):
-            #    result[i] = trex_empty.arq_diet_bird(trex_empty.food_multiplier_init_sg[i])
-            result = trex_empty.arq_diet_bird(trex_empty.food_multiplier_init_sg)
+            therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            therps_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(therps_empty.app_rates)):
+                therps_empty.num_apps[i] = len(therps_empty.app_rates[i])
+                num_app_days[i] = len(therps_empty.day_out[i])
+                assert (therps_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            #therps_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
+            therps_empty.food_multiplier_init_sg = 110.
+            therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype='float')
+            therps_empty.lc50_bird = pd.Series([650., 718., 1102.], dtype='float')
+            #for i in range (len(therps_empty.food_multiplier_init_sg)):
+            #    result[i] = therps_empty.arq_diet_bird(therps_empty.food_multiplier_init_sg[i])
+            result = therps_empty.arq_diet_bird(therps_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1030,19 +1063,19 @@ class TestTrex(unittest.TestCase):
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
-            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(trex_empty.app_rates)):
-                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
-                num_app_days[i] = len(trex_empty.day_out[i])
-                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = 110.
-            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            therps_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(therps_empty.app_rates)):
+                therps_empty.num_apps[i] = len(therps_empty.app_rates[i])
+                num_app_days[i] = len(therps_empty.day_out[i])
+                assert (therps_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            therps_empty.food_multiplier_init_sg = 110.
+            therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
-            trex_empty.noaec_bird = pd.Series([5., 18., 102.])
+            therps_empty.noaec_bird = pd.Series([5., 18., 102.])
 
-            result = trex_empty.crq_diet_bird(trex_empty.food_multiplier_init_sg)
+            result = therps_empty.crq_diet_bird(therps_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1065,21 +1098,21 @@ class TestTrex(unittest.TestCase):
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
-            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(trex_empty.app_rates)):
-                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
-                num_app_days[i] = len(trex_empty.day_out[i])
-                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = 15.
-            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            therps_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(therps_empty.app_rates)):
+                therps_empty.num_apps[i] = len(therps_empty.app_rates[i])
+                num_app_days[i] = len(therps_empty.day_out[i])
+                assert (therps_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            therps_empty.food_multiplier_init_sg = 15.
+            therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
-            trex_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
-            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
+            therps_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = trex_empty.eec_dose_mamm(trex_empty.aw_mamm_sm, trex_empty.mf_w_mamm_1,
-                                              trex_empty.food_multiplier_init_sg)
+            result = therps_empty.eec_dose_mamm(therps_empty.aw_mamm_sm, therps_empty.mf_w_mamm_1,
+                                              therps_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1102,26 +1135,26 @@ class TestTrex(unittest.TestCase):
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
-            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(trex_empty.app_rates)):
-                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
-                num_app_days[i] = len(trex_empty.day_out[i])
-                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = 240.
-            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            therps_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(therps_empty.app_rates)):
+                therps_empty.num_apps[i] = len(therps_empty.app_rates[i])
+                num_app_days[i] = len(therps_empty.day_out[i])
+                assert (therps_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            therps_empty.food_multiplier_init_sg = 240.
+            therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
-            trex_empty.noael_mamm = pd.Series([2.5, 5.0, 1.25], dtype='float')
-            trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
-            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.noael_mamm = pd.Series([2.5, 5.0, 1.25], dtype='float')
+            therps_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
+            therps_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
+            therps_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
 
-            trex_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
+            therps_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
 
-            result = trex_empty.arq_dose_mamm(trex_empty.aw_mamm_sm, trex_empty.mf_w_mamm_1,
-                                              trex_empty.food_multiplier_init_sg)
+            result = therps_empty.arq_dose_mamm(therps_empty.aw_mamm_sm, therps_empty.mf_w_mamm_1,
+                                              therps_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1144,24 +1177,24 @@ class TestTrex(unittest.TestCase):
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
-            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(trex_empty.app_rates)):
-                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
-                num_app_days[i] = len(trex_empty.day_out[i])
-                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = 110.
-            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            therps_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(therps_empty.app_rates)):
+                therps_empty.num_apps[i] = len(therps_empty.app_rates[i])
+                num_app_days[i] = len(therps_empty.day_out[i])
+                assert (therps_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            therps_empty.food_multiplier_init_sg = 110.
+            therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
-            trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
-            trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
-            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            therps_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
+            therps_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
+            therps_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            trex_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
+            therps_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
 
-            result = trex_empty.crq_dose_mamm(trex_empty.aw_mamm_sm, trex_empty.mf_w_mamm_1,
-                                              trex_empty.food_multiplier_init_sg)
+            result = therps_empty.crq_dose_mamm(therps_empty.aw_mamm_sm, therps_empty.mf_w_mamm_1,
+                                              therps_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1185,19 +1218,19 @@ class TestTrex(unittest.TestCase):
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
-            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(trex_empty.app_rates)):
-                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
-                num_app_days[i] = len(trex_empty.day_out[i])
-                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = 15.
-            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            therps_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(therps_empty.app_rates)):
+                therps_empty.num_apps[i] = len(therps_empty.app_rates[i])
+                num_app_days[i] = len(therps_empty.day_out[i])
+                assert (therps_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            therps_empty.food_multiplier_init_sg = 15.
+            therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
-            trex_empty.lc50_mamm = pd.Series([65., 7.1, 102.])
+            therps_empty.lc50_mamm = pd.Series([65., 7.1, 102.])
 
-            result = trex_empty.arq_diet_mamm(trex_empty.food_multiplier_init_sg)
+            result = therps_empty.arq_diet_mamm(therps_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1220,19 +1253,19 @@ class TestTrex(unittest.TestCase):
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
-            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(trex_empty.app_rates)):
-                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
-                num_app_days[i] = len(trex_empty.day_out[i])
-                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            trex_empty.food_multiplier_init_sg = 240.
-            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            therps_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(therps_empty.app_rates)):
+                therps_empty.num_apps[i] = len(therps_empty.app_rates[i])
+                num_app_days[i] = len(therps_empty.day_out[i])
+                assert (therps_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            therps_empty.food_multiplier_init_sg = 240.
+            therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
-            trex_empty.noaec_mamm = pd.Series([65., 50., 102.])
+            therps_empty.noaec_mamm = pd.Series([65., 50., 102.])
 
-            result = trex_empty.crq_diet_mamm(trex_empty.food_multiplier_init_sg)
+            result = therps_empty.crq_diet_mamm(therps_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
