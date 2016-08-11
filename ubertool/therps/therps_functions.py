@@ -15,6 +15,10 @@ class THerpsFunctions(object):
         """Class representing the functions for Trex"""
         super(THerpsFunctions, self).__init__()
 
+    def percent_to_frac(self, percent):
+        fraction = percent / 100.
+        return fraction
+
     def convert_app_intervals(self):
         """
         method converts number of applications and application interval into application rates and day of year number
@@ -61,7 +65,7 @@ class THerpsFunctions(object):
         :return:
         """
 
-        food_intake_mamm = pd.Series([], 'float')
+        food_intake_mamm = pd.Series([], dtype = 'float')
         food_intake_mamm = (0.621 * (aw_mamm ** 0.564)) / (1 - mf_w_mamm)
         return food_intake_mamm
 
@@ -118,8 +122,8 @@ class THerpsFunctions(object):
         # Acute adjusted toxicity value for birds
         # Note: bird toxicity data is used as surrogate for herptiles due to lack of herptile data
         """
-        aw_herp = pd.Series([], dtype='float')
-        adjusted_toxicity = self.ld50_bird * (aw_herp / self.tw_bird_ld50) ** (self.mineau_sca_fact - 1)
+        adjusted_toxicity = pd.Series([], dtype='float')
+        adjusted_toxicity = self.ld50_bird * ((aw_herp / self.tw_bird_ld50) ** (self.mineau_sca_fact - 1))
         return adjusted_toxicity
 
 ##?? following method is not called; contained in and not called in original THERPS.py either
@@ -428,6 +432,7 @@ class THerpsFunctions(object):
 
         :return:
         """
+
         eec_diet_mamm_temp = pd.Series([], dtype = 'float')
         amphibian_dose_eec = pd.Series([], dtype = 'float')
 
@@ -457,7 +462,6 @@ class THerpsFunctions(object):
 
         :return:
         """
-
         at_bird_temp = pd.Series([], dtype = 'float')
         eec_dose_herp_temp = pd.Series([], dtype = 'float')
         amphibian_arq = pd.Series([], dtype = 'float')
@@ -467,15 +471,17 @@ class THerpsFunctions(object):
         amphibian_arq = (eec_dose_herp_temp / at_bird_temp)
         return amphibian_arq
 
-    def arq_dose_mamm(self, aw_herp, bw_frog_prey, mf_w_mamm, food_multiplier):
+    def arq_dose_mamm(self, food_multiplier, aw_herp, bw_frog_prey, mf_w_mamm):
         """
         amphibian acute dose-based risk quotients for mammals
 
+
         :return:
         """
-        eec_dose_mamm_temp = pd.Series([], 'float')
-        at_bird_temp = pd.Series([], 'float')
-        amphibian_acute_rq = pd.Series([], 'float')
+
+        at_bird_temp = pd.Series([], dtype = 'float')
+        eec_dose_mamm_temp = pd.Series([], dtype = 'float')
+        amphibian_acute_rq = pd.Series([], dtype = 'float')
 
         eec_dose_mamm_temp = self.eec_dose_mamm(food_multiplier, aw_herp, bw_frog_prey, mf_w_mamm)
         at_bird_temp = self.at_bird(aw_herp)
@@ -523,7 +529,7 @@ class THerpsFunctions(object):
 
         eec_diet_mamm_temp = self.eec_diet_mamm(food_multiplier, bw_frog_prey, mf_w_mamm)
         amphibian_acute_rq = eec_diet_mamm_temp / self.lc50_bird
-        return
+        return amphibian_acute_rq
 
     def arq_diet_tp(self, food_multiplier, bw_frog_prey, awc_herp):
         """
@@ -564,7 +570,7 @@ class THerpsFunctions(object):
 
         eec_diet_mamm_temp = self.eec_diet_mamm(food_multiplier, bw_frog_prey, mf_w_mamm)
         amphibian_chronic_rq = eec_diet_mamm_temp / self.noaec_bird
-        return
+        return amphibian_chronic_rq
 
     def crq_diet_tp(self, food_multiplier, bw_frog_prey, awc_herp):
         """

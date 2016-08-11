@@ -110,8 +110,19 @@ class THerpsOutputs(object):
         """Class representing the outputs for Therps"""
         super(THerpsOutputs, self).__init__()
 
+        #application rates and days of applications
         self.day_out = pd.Series([], dtype = 'object', name = 'day_out')
         self.app_rates = pd.Series([], dtype = 'object', name = 'app_rates')
+
+        #timeseries of concentrations related to herbiferous food sources
+        self.out_c_ts_sg = pd.Series([], dtype = 'float')  # short grass
+        self.out_c_ts_blp = pd.Series([], dtype = 'float')  # broad-leafed plants
+        self.out_c_ts_fp = pd.Series([], dtype = 'float')  # fruits/pods
+
+        self.out_c_ts_mean_sg = pd.Series([], dtype = 'float')  # short grass
+        self.out_c_ts_mean_blp = pd.Series([], dtype = 'float')  # broad-leafed plants
+        self.out_c_ts_mean_fp = pd.Series([], dtype = 'float')  # fruits/pods
+
 
         # Table 5
         self.out_ld50_ad_sm = pd.Series([], dtype = 'float', name="out_ld50_ad_sm")
@@ -131,9 +142,6 @@ class THerpsOutputs(object):
         self.out_arq_dose_fr_sm = pd.Series([], dtype = 'float', name="out_arq_dose_fr_sm")
         self.out_arq_dose_fr_md = pd.Series([], dtype = 'float', name="out_arq_dose_fr_md")
         self.out_arq_dose_fr_lg = pd.Series([], dtype = 'float', name="out_arq_dose_fr_lg")
-
-##?? curious that the next three sets of variables do not include the 'small' category
-##?? They are also missing from 'therps.py'; need to check OPP spreadsheet model
 
         self.out_eec_dose_hm_md = pd.Series([], dtype = 'float', name="out_eec_dose_hm_md")
         self.out_eec_dose_hm_lg = pd.Series([], dtype = 'float', name="out_eec_dose_hm_lg")
@@ -281,6 +289,15 @@ class THerps(UberModel, THerpsInputs, THerpsOutputs, THerpsFunctions):
         # convert application rate and application interval to actual application rate and day of year object series/lists
         self.day_out, self.app_rates = self.convert_app_intervals(self)
 
+        # time series of daily concentrations (one year + one week) related to each food source
+        self.out_c_ts_sg = self.eec_diet_timeseries(self.food_multiplier_init_sg)  # short grass
+        self.out_c_ts_blp = self.eec_diet_timeseries(self.food_multiplier_init_blp)  # broad-leafed plants
+        self.out_c_ts_fp = self.eec_diet_timeseries(self.food_multiplier_init_fp)  # fruits/pods
+
+        self.out_c_ts_mean_sg = self.eec_diet_timeseries(self.food_multiplier_mean_sg)  # short grass
+        self.out_c_ts_mean_blp = self.eec_diet_timeseries(self.food_multiplier_mean_blp)  # broad-leafed plants
+        self.out_c_ts_mean_fp = self.eec_diet_timeseries(self.food_multiplier_mean_fp)  # fruits/pods
+
         # Table 5
         self.out_ld50_ad_sm = self.at_bird(self.aw_herp_sm)
         self.out_ld50_ad_md = self.at_bird(self.aw_herp_md)
@@ -346,7 +363,6 @@ class THerps(UberModel, THerpsInputs, THerpsOutputs, THerpsFunctions):
                                                     self.bw_frog_prey_herp, self.awc_herp_sm)
 
         # Table 7
-##?? out_eec_diet_herp_** calculations are identical to those in Table 6
         self.out_eec_diet_herp_bl = self.eec_diet_max(self.food_multiplier_init_blp)
         self.out_eec_crq_herp_bl = self.crq_diet_herp(self.food_multiplier_init_blp)
         self.out_eec_diet_herp_fr = self.eec_diet_max(self.food_multiplier_init_fp)
@@ -413,7 +429,7 @@ class THerps(UberModel, THerpsInputs, THerpsOutputs, THerpsFunctions):
                                                         self.bw_frog_prey_herp, self.awc_herp_sm, self.awc_herp_md)
         self.out_eec_dose_tp_lg_mean = self.eec_dose_tp(self.food_multiplier_mean_blp,self.aw_herp_lg,
                                                         self.bw_frog_prey_herp, self.awc_herp_sm, self.awc_herp_md)
-        self.out_arq_dose_tp_md_mean = self.arq_dose_tp(self.food_multiplier_mean_blp, self.aw_herp_md
+        self.out_arq_dose_tp_md_mean = self.arq_dose_tp(self.food_multiplier_mean_blp, self.aw_herp_md,
                                                         self.bw_frog_prey_herp, self.awc_herp_sm, self.awc_herp_md)
         self.out_arq_dose_tp_lg_mean = self.arq_dose_tp(self.food_multiplier_mean_blp, self.aw_herp_lg,
                                                         self.bw_frog_prey_herp, self.awc_herp_sm, self.awc_herp_md)
