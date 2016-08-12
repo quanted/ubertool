@@ -53,7 +53,7 @@ class THerpsFunctions(object):
         :return:
         """
 
-        food_intake_herps = pd.Series([], 'float')
+        food_intake_herps = pd.Series([], dtype = 'float')
         food_intake_herps = (0.013 * (aw_herp ** 0.773)) / (1 - mf_w_herp)
         return food_intake_herps
 
@@ -69,54 +69,6 @@ class THerpsFunctions(object):
         food_intake_mamm = (0.621 * (aw_mamm ** 0.564)) / (1 - mf_w_mamm)
         return food_intake_mamm
 
-    # def at_bird(self, avian_ld50, bw_herp, tw_bird, mineau_scaling_factor):
-    #     """
-    #     acute adjusted toxicity value for birds.
-    #     :param avian_ld50:
-    #     :param bw_herp:
-    #     :param tw_bird:
-    #     :param mineau_scaling_factor:
-    #     :return:
-    #     """
-    #     try:
-    #         avian_ld50 = float(avian_ld50)
-    #         bw_herp = float(bw_herp)
-    #         tw_bird = float(tw_bird)
-    #         mineau_scaling_factor = float(mineau_scaling_factor)
-    #     except IndexError:
-    #         raise IndexError \
-    #             ('The lethal dose, body weight of assessed bird, body weight of tested' \
-    #              ' bird, and/or Mineau scaling factor for birds must be supplied on' \
-    #              ' the command line.')
-    #     except ValueError:
-    #         raise ValueError \
-    #             ('The lethal dose must be a real number, not "%mg/kg"' % avian_ld50)
-    #     except ValueError:
-    #         raise ValueError \
-    #             ('The body weight of assessed bird must be a real number, not "%g"' % bw_herp)
-    #     except ValueError:
-    #         raise ValueError \
-    #             ('The body weight of tested bird must be a real number, not "%g"' % tw_bird)
-    #     except ValueError:
-    #         raise ValueError \
-    #             ('The Mineau scaling factor for birds must be a real number' % mineau_scaling_factor)
-    #     except ZeroDivisionError:
-    #         raise ZeroDivisionError \
-    #             ('The body weight of tested bird must be non-zero.')
-    #     if avian_ld50 < 0:
-    #         raise ValueError \
-    #             ('ld50=%g is a non-physical value.' % avian_ld50)
-    #     if bw_herp < 0:
-    #         raise ValueError \
-    #             ('bw_herp=%g is a non-physical value.' % bw_herp)
-    #     if tw_bird < 0:
-    #         raise ValueError \
-    #             ('tw_bird=%g is a non-physical value.' % tw_bird)
-    #     if mineau_scaling_factor < 0:
-    #         raise ValueError \
-    #             ('mineau_scaling_factor=%g is non-physical value.' % mineau_scaling_factor)
-    #     return (avian_ld50) * ((bw_herp / tw_bird) ** (mineau_scaling_factor - 1))
-
     def at_bird(self, aw_herp):
         """
         # Acute adjusted toxicity value for birds
@@ -125,194 +77,6 @@ class THerpsFunctions(object):
         adjusted_toxicity = pd.Series([], dtype='float')
         adjusted_toxicity = self.ld50_bird * ((aw_herp / self.tw_bird_ld50) ** (self.mineau_sca_fact - 1))
         return adjusted_toxicity
-
-##?? following method is not called; contained in and not called in original THERPS.py either
-    # def at_mamm(ld50_mamm, aw_mamm, tw_mamm):
-    #     """
-    #     acute adjusted toxicity value for mammals.
-    #     :param aw_mamm:
-    #     :param tw_mamm:
-    #     :return:
-    #     """
-    #     try:
-    #         ld50_mamm = float(ld50_mamm)
-    #         aw_mamm = float(aw_mamm)
-    #         tw_mamm = float(tw_mamm)
-    #     except IndexError:
-    #         raise IndexError \
-    #             ('The lethal dose, body weight of assessed mammal, and body weight of tested' \
-    #              ' mammal must be supplied on' \
-    #              ' the command line.')
-    #     except ValueError:
-    #         raise ValueError \
-    #             ('The lethal dose must be a real number, not "%mg/kg"' % ld50_mamm)
-    #     except ValueError:
-    #         raise ValueError \
-    #             ('The body weight of assessed mammals must be a real number, not "%g"' % aw_mamm)
-    #     except ValueError:
-    #         raise ValueError \
-    #             ('The body weight of tested mammals must be a real number, not "%g"' % tw_mamm)
-    #     except ZeroDivisionError:
-    #         raise ZeroDivisionError \
-    #             ('The body weight of tested mammals must be non-zero.')
-    #     if ld50_mamm < 0:
-    #         raise ValueError \
-    #             ('ld50_mamm=%g is a non-physical value.' % ld50_mamm)
-    #     if aw_mamm < 0:
-    #         raise ValueError \
-    #             ('aw_mamm=%g is a non-physical value.' % aw_mamm)
-    #     if tw_mamm < 0:
-    #         raise ValueError \
-    #             ('tw_mamm=%g is a non-physical value.' % tw_mamm)
-    #     return (ld50_mamm) * ((tw_mamm / aw_mamm) ** (0.25))
-
-##?? following method is not called; contained in and not called in original THERPS.py either
-    # def anoael_mamm(noael_mamm, aw_mamm, tw_mamm):
-    #     """
-    #     adjusted chronic toxicity (noael) value for mammals
-    #     :param aw_mamm:
-    #     :param tw_mamm:
-    #     :return:
-    #     """
-    #     try:
-    #         noael_mamm = float(noael_mamm)
-    #         aw_mamm = float(aw_mamm)
-    #         tw_mamm = float(tw_mamm)
-    #     except IndexError:
-    #         raise IndexError \
-    #             ('The noael, body weight of assessed mammal, and body weight of tested' \
-    #              ' mammal must be supplied on' \
-    #              ' the command line.')
-    #     except ValueError:
-    #         raise ValueError \
-    #             ('The noael must be a real number, not "%mg/kg"' % noael_mamm)
-    #     except ValueError:
-    #         raise ValueError \
-    #             ('The body weight of assessed mammals must be a real number, not "%g"' % aw_mamm)
-    #     except ValueError:
-    #         raise ValueError \
-    #             ('The body weight of tested mammals must be a real number, not "%g"' % tw_mamm)
-    #     except ZeroDivisionError:
-    #         raise ZeroDivisionError \
-    #             ('The body weight of tested mammals must be non-zero.')
-    #     if noael_mamm < 0:
-    #         raise ValueError \
-    #             ('noael_mamm=%g is a non-physical value.' % noael_mamm)
-    #     if aw_mamm < 0:
-    #         raise ValueError \
-    #             ('aw_mamm=%g is a non-physical value.' % aw_mamm)
-    #     if tw_mamm < 0:
-    #         raise ValueError \
-    #             ('tw_mamm=%g is a non-physical value.' % tw_mamm)
-    #     return (noael_mamm) * ((tw_mamm / aw_mamm) ** (0.25))
-
-    # def c_0(self, a_r, a_i, para):
-    #     """
-    #     Initial concentration
-    #     :param a_r:
-    #     :param a_i:
-    #     :param para:
-    #     :return:
-    #     """
-    #     try:
-    #         a_r = float(a_r)
-    #         a_i = float(a_i)
-    #     except IndexError:
-    #         raise IndexError \
-    #             ('The application rate, and/or the percentage of active ingredient ' \
-    #              'must be supplied on the command line.')
-    #     except ValueError:
-    #         raise ValueError \
-    #             ('The application rate must be a real number, not "%g"' % a_r)
-    #     except ValueError:
-    #         raise ValueError \
-    #             ('The percentage of active ingredient must be a real number, not "%"' % a_i)
-    #     if a_r < 0:
-    #         raise ValueError \
-    #             ('The application rate=%g is a non-physical value.' % a_r)
-    #     if a_i < 0:
-    #         raise ValueError \
-    #             ('The percentage of active ingredient=%g is a non-physical value.' % a_i)
-    #     return (a_r * a_i * para)
-
-    # def c_t(self, C_ini, h_l):
-    #     """
-    #     Concentration over time
-    #     :param C_ini:
-    #     :param h_l:
-    #     :return:
-    #     """
-    #     try:
-    #         h_l = float(h_l)
-    #     except IndexError:
-    #         raise IndexError \
-    #             ('The initial concentration, and/or the foliar dissipation half life, ' \
-    #              'must be supplied on the command line.')
-    #     except ValueError:
-    #         raise ValueError \
-    #             ('The foliar dissipation half life must be a real number, not "%g"' % h_l)
-    #     if h_l < 0:
-    #         raise ValueError \
-    #             ('The foliar dissipation half life=%g is a non-physical value.' % h_l)
-    #     return (C_ini * np.exp(-(np.log(2) / h_l) * 1))
-
-    # def eec_diet(self, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l):
-    #     """
-    #     Dietary based eecs
-    #     :param c_0:
-    #     :param c_t:
-    #     :param n_a:
-    #     :param i_a:
-    #     :param a_r:
-    #     :param a_i:
-    #     :param para:
-    #     :param h_l:
-    #     :return:
-    #     """
-    #     c_0 = c_0(a_r, a_i, para)
-    #     try:
-    #         n_a = float(n_a)
-    #         i_a = float(i_a)
-    #     except IndexError:
-    #         raise IndexError \
-    #             ('The number of applications, and/or the interval between applications ' \
-    #              'must be supplied on the command line.')
-    #     except ValueError:
-    #         raise ValueError \
-    #             ('The number of applications must be a real number, not "%g"' % n_a)
-    #     except ValueError:
-    #         raise ValueError \
-    #             ('The interval between applications must be a real number, not "%g"' % i_a)
-    #     if n_a < 0:
-    #         raise ValueError \
-    #             ('The number of applications=%g is a non-physical value.' % n_a)
-    #     if i_a < 0:
-    #         raise ValueError \
-    #             ('The interval between applications=%g is a non-physical value.' % i_a)
-    #     if a_i * n_a > 365:
-    #         raise ValueError \
-    #             ('The schduled application=%g is over the modeling period (1 year).' % i_a * n_a)
-    #
-    #         # c_temp=[1.0]*365 #empty array to hold the concentrations over days
-    #     c_temp = np.ones((365, 1))  # empty array to hold the concentrations over days
-    #     a_p_temp = 0  # application period temp
-    #     n_a_temp = 0  # number of existed applications
-    #
-    #     for i in range(0, 365):
-    #         if i == 0:
-    #             a_p_temp = 0
-    #             n_a_temp = n_a_temp + 1
-    #             c_temp[i] = c_0
-    #         elif a_p_temp == (i_a - 1) and n_a_temp < n_a:
-    #             a_p_temp = 0
-    #             n_a_temp = n_a_temp + 1
-    #             c_temp[i] = c_t(c_temp[i - 1], h_l) + c_0
-    #         elif a_p_temp < (i_a - 1) and n_a_temp <= n_a:
-    #             a_p_temp = a_p_temp + 1
-    #             c_temp[i] = c_t(c_temp[i - 1], h_l)
-    #         else:
-    #             c_temp[i] = c_t(c_temp[i - 1], h_l)
-    #     return (max(c_temp))
 
     def conc_initial(self, i, application_rate, food_multiplier):
     # Initial concentration from new application
@@ -494,9 +258,9 @@ class THerpsFunctions(object):
 
         :return:
         """
-        eec_dose_tp_temp = pd.Series([], 'float')
-        at_bird_temp = pd.Series([], 'float')
-        amphibian_acute_rq = pd.Series([], 'float')
+        eec_dose_tp_temp = pd.Series([], dtype = 'float')
+        at_bird_temp = pd.Series([], dtype = 'float')
+        amphibian_acute_rq = pd.Series([], dtype = 'float')
 
         eec_dose_tp_temp = self.eec_dose_tp(food_multiplier, aw_herp, bw_frog_prey, awc_herp_sm, awc_herp_md)
         at_bird_temp = self.at_bird(aw_herp)
@@ -542,7 +306,7 @@ class THerpsFunctions(object):
 
         eec_diet_tp_temp = self.eec_diet_tp(food_multiplier, bw_frog_prey, awc_herp)
         amphibian_acute_rq = eec_diet_tp_temp / self.lc50_bird
-        return (eec_diet_tp_temp / self.lc50_bird)
+        return amphibian_acute_rq
 
     def crq_diet_herp(self, food_multiplier):
         """
@@ -555,9 +319,8 @@ class THerpsFunctions(object):
         amphibain_chronic_rq = pd.Series([], dtype = 'float')
 
         eec_diet_temp = self.eec_diet_max(food_multiplier)
-        ##??assert isinstance(eec_diet, object)
         amphibain_chronic_rq = eec_diet_temp / self.noaec_bird
-        return
+        return amphibain_chronic_rq
 
     def crq_diet_mamm(self, food_multiplier, bw_frog_prey, mf_w_mamm):
         """
