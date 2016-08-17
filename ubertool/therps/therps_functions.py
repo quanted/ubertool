@@ -123,6 +123,8 @@ class THerpsFunctions(object):
             c_temp = np.zeros((371, 1))  # empty array to hold the concentrations over days of year (index 0 = Jan 1)
             app_counter = 0  #iniitalize application number counter for this model simulation run (i)
             temp_num_apps = self.num_apps[i]
+            #day_out is input as the day number, i.e., 1 - 365, the array indeces start at 0, thus the '- 1'
+            #should note that the user input for 'day_out' should be actual day number (i.e., 1 <- day_out <-365)
             temp_app_indices = np.asarray(self.day_out[i]) - 1
             temp_app_rates = np.asarray(self.app_rates[i])
 

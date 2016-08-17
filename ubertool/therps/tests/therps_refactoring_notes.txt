@@ -10,9 +10,20 @@ Name Change Notes:
        used in "trex_exe.py" for the given description.  This is true for other input
        variables that begin with "bw_avian"
 
-    b) references to "avian" were changed to "bird" for consistency with "trex_exe.py"
+    b) original input variable names/references to "avian" were changed to "bird" for
+       consistency with "trex_exe.py"
 
     c) application rate, num_apps, and app_interval are used to create function that
        converts these into object/series like those used in TREX; the output of the converter
        are objects containing num_apps, application rate per application, and application day
        of year per application
+
+    d) the following section of code was moved from the module level into the
+       TestHerps class (within the unittest module) so that the therps_empty object
+       would be cleared after/before each unittest
+
+        self.therps_empty = object
+        # create empty pandas dataframes to create empty object for testing
+        df_empty = pd.DataFrame()
+        # create an empty therps object
+        self.therps_empty = THerps(df_empty, df_empty)
