@@ -286,6 +286,12 @@ class THerps(UberModel, THerpsInputs, THerpsOutputs, THerpsFunctions):
         self.frac_act_ing = pd.Series([], dtype="float")  #not direct input; result of units conversion
         self.frac_act_ing = self.percent_to_frac(self.percent_act_ing)
 
+#?? to be sure -- these values are coming in as percents and need to be converted to mass fractions
+        # convert percent water content for herptivores to fraction water content
+        self.awc_herp_sm = self.percent_to_frac(self.awc_herp_sm)
+        self.awc_herp_md = self.percent_to_frac(self.awc_herp_md)
+        self.awc_herp_lg = self.percent_to_frac(self.awc_herp_lg)
+
         # convert application rate and application interval to actual application rate and day of year object series/lists
         self.day_out, self.app_rates = self.convert_app_intervals(self)
 

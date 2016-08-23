@@ -90,16 +90,15 @@ class Testtherps(unittest.TestCase):
         conc_0 = (app_rate * self.frac_act_ing * food_multiplier)
         """
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([12.7160, 9.8280, 11.2320], dtype = 'float')
+        expected_results = pd.Series([1.734, 9.828, 0.702], dtype = 'float')
         try:
                 # specify an app_rates Series (that is a series of lists, each list representing
                 # a set of application rates for 'a' model simulation)
-            self.therps_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
-                                              [2.34, 1.384, 3.4]], dtype='float')
-            self.therps_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
+            self.therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            self.therps_empty.food_multiplier_init_sg = 15.
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
             for i in range(len(self.therps_empty.frac_act_ing)):
-                result[i] = self.therps_empty.conc_initial(i, self.therps_empty.app_rates[i][0], self.therps_empty.food_multiplier_init_sg[i])
+                result[i] = self.therps_empty.conc_initial(i, self.therps_empty.app_rates[i][0], self.therps_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -113,9 +112,9 @@ class Testtherps(unittest.TestCase):
         unittest for function conc_timestep:
         """
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([6.25e-5, 0.039685, 7.8886e-30], dtype = 'float')
+        expected_results = pd.Series([9.726549e-4, 0.08705506, 9.8471475], dtype = 'float')
         try:
-            self.therps_empty.foliar_diss_hlife = pd.Series([.25, 0.75, 0.01], dtype='float')
+            self.therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype = 'float')
             conc_0 = pd.Series([0.001, 0.1, 10.0])
             for i in range(len(conc_0)):
                 result[i] = self.therps_empty.conc_timestep(i, conc_0[i])
@@ -150,12 +149,12 @@ class Testtherps(unittest.TestCase):
         adjusted_toxicity = self.ld50_bird * (aw_bird / self.tw_bird_ld50) ** (self.mineau_sca_fact - 1)
         """
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([48.97314, 180.76569, 31.49672], dtype = 'float')
+        expected_results = pd.Series([48.97314, 136.99477, 95.16341], dtype = 'float')
         try:
             self.therps_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
             self.therps_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
             self.therps_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            self.therps_empty.aw_herp_sm = pd.Series([1.5, 2.5, 3.0], dtype = 'float')
+            self.therps_empty.aw_herp_sm = pd.Series([1.5, 40., 250.], dtype = 'float') # use values for small, medium, large in this test
 
             result = self.therps_empty.at_bird(self.therps_empty.aw_herp_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
@@ -172,12 +171,13 @@ class Testtherps(unittest.TestCase):
         food_intake = (0.621 * (aw_mamm ** 0.564)) / (1 - mf_w_mamm)
         """
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([3.17807, 16.8206, 42.28516], dtype = 'float')
+        expected_results = pd.Series([3.178078, 23.06301, 53.15002], dtype = 'float')
         try:
             self.therps_empty.mf_w_mamm_2 = pd.Series([0.1, 0.8, 0.9], dtype='float')
-            self.therps_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            self.therps_empty.bw_frog_prey_mamm = pd.Series([15., 35., 45.], dtype='float')
 
-            result = self.therps_empty.fi_mamm(self.therps_empty.aw_mamm_sm, self.therps_empty.mf_w_mamm_2)
+
+            result = self.therps_empty.fi_mamm(self.therps_empty.bw_frog_prey_mamm, self.therps_empty.mf_w_mamm_2)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -192,13 +192,13 @@ class Testtherps(unittest.TestCase):
         """
 
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([0.1171708, 0.6585815, 1.802014], dtype = 'float')
+        expected_results = pd.Series([0.02932976, 0.3854015, 1.054537], dtype = 'float')
 
         try:
             self.therps_empty.mf_w_mamm_2 = pd.Series([0.1, 0.8, 0.9], dtype='float')
-            self.therps_empty.aw_herp_sm = pd.Series([15., 20., 30.], dtype='float')
+            self.therps_empty.bw_frog_prey_herp = pd.Series([2.5, 10., 15.], dtype='float')
 
-            result = self.therps_empty.fi_herp(self.therps_empty.aw_herp_sm, self.therps_empty.mf_w_mamm_2)
+            result = self.therps_empty.fi_herp(self.therps_empty.bw_frog_prey_herp, self.therps_empty.mf_w_mamm_2)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -207,7 +207,7 @@ class Testtherps(unittest.TestCase):
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_eec_diet_timeseries(self):
+    def test_eec_diet_timeseriesA(self):
         """
         combined unit test for methods eec_diet_timeseries;
 
@@ -316,9 +316,9 @@ class Testtherps(unittest.TestCase):
             print(tabulate(tab3, headers='keys', tablefmt='rst'))
         return
 
-    def test_eec_diet_timeseriesA(self):
+    def test_eec_diet_timeseries(self):
         """
-        combined unit test for methods eec_diet_timeseries;
+        combined unit test for  methods eec_diet_timeseries;
 
         * this test calls eec_diet_timeseries, which in turn calls conc_initial and conc_timestep
 
@@ -362,14 +362,14 @@ class Testtherps(unittest.TestCase):
                 num_values_to_check = len(self.therps_empty.app_rates[isim]) + 2 #number of applications plus first and last timeseries elements
                 if (self.therps_empty.day_out[isim][0] == 1):  #if first app day is first day of year
                     num_values_to_check = num_values_to_check - 1
-                result[isim] = [0.] * num_values_to_check
+                result[isim] = [0.] * num_values_to_check  #initialize result list for this simulation
                 result[isim][0] = float(conc_timeseries[isim][0])  #first day of timeseries
                 result[isim][-1] = float(conc_timeseries[isim][370])  #last day of timeseries
-                num_values_to_check = len(self.therps_empty.app_rates[isim])
+                num_values_to_check = len(self.therps_empty.app_rates[isim]) #just the application days for this loop
                 if ((num_values_to_check) >= 1):
                     result_index = 1
                     for i in range(0 ,num_values_to_check):
-                        if(self.therps_empty.day_out[isim][i] != 1):
+                        if(self.therps_empty.day_out[isim][i] != 1):  #application day of 1 has been processed above
                             series_index = self.therps_empty.day_out[isim][i] - 1
                             result[isim][result_index] = float(conc_timeseries[isim][series_index])
                             result_index = result_index + 1
@@ -429,22 +429,27 @@ class Testtherps(unittest.TestCase):
     def test_eec_dose_mamm(self):
         """
         unit test for function eec_dose_mamm;
-        internal calls to 'eec_diet_max'  --> 'eec_diet_timeseries' --> 'conc_initial' and 'conc_timestep' are included
-
+        internal calls to 'eec_diet_mamm' --> 'eec_diet_max'  --> 'eec_diet_timeseries' --> 'conc_initial' and 'conc_timestep'
+                                          --> fi_mamm
         unit tests of this routine include the following approach:
         * this test verifies that the logic & calculations performed within the 'eec_dose_mamm' are correctly implemented
         * methods called inside of 'eec_dose_mamm' are not retested/recalculated
-        * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
+        * for methods inside of 'eec_dose_mamm' the same values were used here that were used in the unit tests for that methoc
+        * thus, only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
+        * only calculations done for this test are for those unique to this method
        """
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([0.36738, 124.3028, 0.989473], dtype = 'float')
+        expected_results = pd.Series([3.673858, 83.80002, 0.1492452], dtype = 'float')
         num_app_days = pd.Series([], dtype='int')
         try:
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')
             self.therps_empty.food_multiplier_init_sg = 15.
             self.therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype = 'float')
 
-            self.therps_empty.aw_herp_sm = pd.Series([1.5, 2.5, 3.0], dtype = 'float')
+            #self.therps_empty.mf_w_mamm_2 = pd.Series([0.1, 0.8, 0.9], dtype='float')
+            #self.therps_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+
+            self.therps_empty.aw_herp_sm = pd.Series([1.5, 40., 250.], dtype = 'float') # use values for small, medium, large in this test
             self.therps_empty.bw_frog_prey_mamm = pd.Series([15., 35., 45.], dtype='float')
             self.therps_empty.mf_w_mamm_2 = pd.Series([0.1, 0.8, 0.9], dtype='float')
 
@@ -489,7 +494,7 @@ class Testtherps(unittest.TestCase):
 
             self.therps_empty.food_multiplier_init_sg = 240.
             self.therps_empty.mf_w_mamm_2 = pd.Series([0.1, 0.8, 0.9], dtype='float')
-            self.therps_empty.aw_herp_sm = pd.Series([1.5, 2.5, 3.0], dtype = 'float')
+            self.therps_empty.aw_herp_sm = pd.Series([1.5, 40., 250.], dtype = 'float') # use values for small, medium, large in this test
             self.therps_empty.bw_frog_prey_mamm = pd.Series([15., 35., 45.], dtype='float')
 
              #specifying 3 different application scenarios of 1, 4, and 2 applications
@@ -523,7 +528,7 @@ class Testtherps(unittest.TestCase):
         """
 
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([0.0266769, 20.81662, 0.0068823], dtype = 'float')
+        expected_results = pd.Series([0.00293908, 0.03830858, 0.00165828], dtype = 'float')
         num_app_days = pd.Series([], dtype='int')
         try:
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')
@@ -609,11 +614,13 @@ class Testtherps(unittest.TestCase):
 
         try:
             self.therps_empty.food_multiplier_init_blp = 135.
-            self.therps_empty.bw_frog_prey_herp = pd.Series([2.5, 15., 25.], dtype = 'float')
-            self.therps_empty.awc_herp_sm = pd.Series([70., 85., 105.], dtype = 'float')
+            self.therps_empty.bw_frog_prey_herp = pd.Series([2.5, 10., 15.], dtype='float')
             self.therps_empty.noaec_bird = pd.Series([25., 100., 55.], dtype = 'float')
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')
             self.therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype = 'float')
+
+            self.therps_empty.awc_herp_sm = pd.Series([10., 80., 90.], dtype = 'float') # initialize as percent to match model input
+            self.therps_empty.awc_herp_sm = self.therps_empty.percent_to_frac(self.therps_empty.awc_herp_sm) # convert to mass fraction water content
 
             #specifying 3 different application scenarios of 1, 4, and 2 applications
             self.therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
@@ -688,16 +695,18 @@ class Testtherps(unittest.TestCase):
         """
 
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([0.426831, 47.29536, 0.110118], dtype = 'float')
+        expected_results = pd.Series([1.62745e-4, 0.002240583, 9.870466e-5], dtype = 'float')
         num_app_days = pd.Series([], dtype='int')
 
         try:
             self.therps_empty.lc50_bird = pd.Series([125., 2500., 500.], dtype = 'float')
-            self.therps_empty.food_multiplier_init_blp = 135.
-            self.therps_empty.bw_frog_prey_herp = pd.Series([2.5, 15., 25.], dtype = 'float')
-            self.therps_empty.awc_herp_sm = pd.Series([70., 85., 105.], dtype = 'float')
+            self.therps_empty.food_multiplier_init_blp = 15.
+            self.therps_empty.bw_frog_prey_herp = pd.Series([2.5, 10., 15.], dtype='float')
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')
             self.therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype = 'float')
+
+            self.therps_empty.awc_herp_sm = pd.Series([10., 80., 90.], dtype = 'float') # initialize as percent to match model input
+            self.therps_empty.awc_herp_sm = self.therps_empty.percent_to_frac(self.therps_empty.awc_herp_sm) # convert to mass fraction water content
 
             #specifying 3 different application scenarios of 1, 4, and 2 applications
             self.therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
@@ -730,7 +739,7 @@ class Testtherps(unittest.TestCase):
         """
 
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([0.426831, 47.29536, 0.110118], dtype = 'float')
+        expected_results = pd.Series([0.013872, 0.0581364, 0.001404], dtype = 'float')
         num_app_days = pd.Series([], dtype='int')
 
         try:
@@ -775,12 +784,14 @@ class Testtherps(unittest.TestCase):
 
         try:
             self.therps_empty.food_multiplier_init_blp = 135.
-            self.therps_empty.aw_herp_lg = pd.Series([200., 250., 300.], dtype = 'float')
-            self.therps_empty.bw_frog_prey_herp = pd.Series([2.5, 15., 25.], dtype = 'float')
-            self.therps_empty.awc_herp_sm = pd.Series([70., 85., 105.], dtype = 'float')
+            self.therps_empty.aw_herp_sm = pd.Series([1.5, 40., 250.], dtype = 'float') # use values for small, medium, large in this test
+            self.therps_empty.bw_frog_prey_herp = pd.Series([2.5, 10., 15.], dtype='float')
             self.therps_empty.awc_herp_md = pd.Series([105., 125., 145.], dtype = 'float')
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')
             self.therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype = 'float')
+
+            self.therps_empty.awc_herp_sm = pd.Series([10., 80., 90.], dtype = 'float') # initialize as percent to match model input
+            self.therps_empty.awc_herp_sm = self.therps_empty.percent_to_frac(self.therps_empty.awc_herp_sm) # convert to mass fraction water content
 
             #specifying 3 different application scenarios of 1, 4, and 2 applications
             self.therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
@@ -791,7 +802,7 @@ class Testtherps(unittest.TestCase):
                 assert (self.therps_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
 
             result = self.therps_empty.arq_dose_tp(self.therps_empty.food_multiplier_init_blp,
-                                              self.therps_empty.aw_herp_lg, self.therps_empty.bw_frog_prey_herp,
+                                              self.therps_empty.aw_herp_sm, self.therps_empty.bw_frog_prey_herp,
                                               self.therps_empty.awc_herp_sm, self.therps_empty.awc_herp_md)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
@@ -819,11 +830,13 @@ class Testtherps(unittest.TestCase):
         num_app_days = pd.Series([], dtype='int')
 
         try:
-            self.therps_empty.aw_herp_sm = pd.Series([1.5, 2.5, 3.0], dtype = 'float')
-            self.therps_empty.awc_herp_sm = pd.Series([70., 85., 105.], dtype = 'float')
+            self.therps_empty.aw_herp_sm = pd.Series([1.5, 40., 250.], dtype = 'float') # use values for small, medium, large in this test
             self.therps_empty.food_multiplier_mean_blp = 45.
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')
             self.therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype = 'float')
+
+            self.therps_empty.awc_herp_sm = pd.Series([10., 80., 90.], dtype = 'float') # initialize as percent to match model input
+            self.therps_empty.awc_herp_sm = self.therps_empty.percent_to_frac(self.therps_empty.awc_herp_sm) # convert to mass fraction water content
 
             #specifying 3 different application scenarios of 1, 4, and 2 applications
             self.therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
@@ -862,12 +875,14 @@ class Testtherps(unittest.TestCase):
 
         try:
             self.therps_empty.food_multiplier_mean_blp = 45.
-            self.therps_empty.aw_herp_md = pd.Series([20., 40., 60.], dtype = 'float')
-            self.therps_empty.bw_frog_prey_herp = pd.Series([2.5, 15., 25.], dtype = 'float')
-            self.therps_empty.awc_herp_sm = pd.Series([70., 85., 105.], dtype = 'float')
+            self.therps_empty.aw_herp_sm = pd.Series([1.5, 40., 250.], dtype = 'float') # use values for small, medium, large in this test
+            self.therps_empty.bw_frog_prey_herp = pd.Series([2.5, 10., 15.], dtype='float')
             self.therps_empty.awc_herp_md = pd.Series([105., 125., 145.], dtype = 'float')
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')
             self.therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype = 'float')
+
+            self.therps_empty.awc_herp_sm = pd.Series([10., 80., 90.], dtype = 'float') # initialize as percent to match model input
+            self.therps_empty.awc_herp_sm = self.therps_empty.percent_to_frac(self.therps_empty.awc_herp_sm) # convert to mass fraction water content
 
             #specifying 3 different application scenarios of 1, 4, and 2 applications
             self.therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
@@ -878,7 +893,7 @@ class Testtherps(unittest.TestCase):
                 assert (self.therps_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
 
             result = self.therps_empty.eec_dose_tp(self.therps_empty.food_multiplier_mean_blp,
-                                              self.therps_empty.aw_herp_md, self.therps_empty.bw_frog_prey_herp,
+                                              self.therps_empty.aw_herp_sm, self.therps_empty.bw_frog_prey_herp,
                                               self.therps_empty.awc_herp_sm, self.therps_empty.awc_herp_md)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
@@ -902,15 +917,17 @@ class Testtherps(unittest.TestCase):
         """
 
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([0.426831, 47.29536, 0.110118], dtype = 'float')
+        expected_results = pd.Series([0.02284427, 4.089158, 0.02605842], dtype = 'float')
         num_app_days = pd.Series([], dtype='int')
 
         try:
-            self.therps_empty.aw_herp_sm = pd.Series([1.5, 2.5, 3.0], dtype = 'float')
-            self.therps_empty.awc_herp_sm = pd.Series([70., 85., 105.], dtype = 'float')
-            self.therps_empty.food_multiplier_init_blp = 135.
+            self.therps_empty.aw_herp_sm = pd.Series([1.5, 40., 250.], dtype = 'float') # use values for small, medium, large in this test
+            self.therps_empty.food_multiplier_init_blp = 15.
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')
             self.therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype = 'float')
+
+            self.therps_empty.awc_herp_sm = pd.Series([10., 80., 90.], dtype = 'float') # initialize as percent to match model input
+            self.therps_empty.awc_herp_sm = self.therps_empty.percent_to_frac(self.therps_empty.awc_herp_sm) # convert to mass fraction water content
 
             #specifying 3 different application scenarios of 1, 4, and 2 applications
             self.therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
@@ -945,15 +962,17 @@ class Testtherps(unittest.TestCase):
         """
 
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([0.426831, 47.29536, 0.110118], dtype = 'float')
+        expected_results = pd.Series([0.02034312, 5.601457, 0.04935233], dtype = 'float')
         num_app_days = pd.Series([], dtype='int')
 
         try:
-            self.therps_empty.food_multiplier_mean_sg = 240.
-            self.therps_empty.bw_frog_prey_herp = pd.Series([2.5, 15., 25.], dtype = 'float')
-            self.therps_empty.awc_herp_sm = pd.Series([70., 85., 105.], dtype = 'float')
+            self.therps_empty.food_multiplier_mean_sg = 15.
+            self.therps_empty.bw_frog_prey_herp = pd.Series([2.5, 10., 15.], dtype='float')
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')
             self.therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype = 'float')
+
+            self.therps_empty.awc_herp_sm = pd.Series([10., 80., 90.], dtype = 'float') # initialize as percent to match model input
+            self.therps_empty.awc_herp_sm = self.therps_empty.percent_to_frac(self.therps_empty.awc_herp_sm) # convert to mass fraction water content
 
             #specifying 3 different application scenarios of 1, 4, and 2 applications
             self.therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
@@ -980,17 +999,17 @@ class Testtherps(unittest.TestCase):
                             'eec_diet_max'  --> 'eec_diet_timeseries' --> 'conc_initial' and 'conc_timestep' are included
 
         unit tests of this routine include the following approach:
-        * this test verifies that the logic & calculations performed within the 'crq_dose_mamm' are correctly implemented
+        * this test verifies that the logic & calculations performed within the 'eec_diet_mamm' are correctly implemented
         * methods called inside of 'eec_diet_mamm' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         :return:
         """
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([0.426831, 47.29536, 0.110118], dtype = 'float')
+        expected_results = pd.Series([0.3673858, 95.771454, 0.829140], dtype = 'float')
         num_app_days = pd.Series([], dtype='int')
 
         try:
-            self.therps_empty.food_multiplier_mean_sg = 240.
+            self.therps_empty.food_multiplier_mean_sg = 15.
             self.therps_empty.bw_frog_prey_mamm = pd.Series([15., 35., 45.], dtype='float')
             self.therps_empty.mf_w_mamm_2 = pd.Series([0.1, 0.8, 0.9], dtype='float')
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')

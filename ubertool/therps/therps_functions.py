@@ -100,7 +100,7 @@ class THerpsFunctions(object):
 
         #get timeseries of daily concentrations for the year (+ a week)
         temp_ts = self.eec_diet_timeseries(food_multiplier)
-        # get maximum daily concentration that occurs during the year
+        # get maximum daily concentration that occurs during the year for each simulation
         max_concs = [temp_ts[i].max() for i in range(temp_ts.__len__())]
         return max_concs
 
