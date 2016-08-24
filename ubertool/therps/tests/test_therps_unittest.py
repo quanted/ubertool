@@ -385,18 +385,14 @@ class Testtherps(unittest.TestCase):
 
     def test_eec_diet_max(self):
         """
-        combined unit test for methods eec_diet_max & eec_diet_timeseries;
+        unit test for method eec_diet_max;
+        internal calls to 'eec_diet_max'  --> 'eec_diet_timeseries' --> 'conc_initial' and 'conc_timestep'
 
         * this test calls eec_diet_max, which in turn calls eec_diet_timeseries (which produces
           concentration timeseries), which in turn calls conc_initial and conc_timestep
         * eec_diet_max processes the timeseries and extracts the maximum values
 
-        * this test tests both eec_diet_max & eec_diet_timeseries together (ok, so this violates the exact definition
-        * of 'unittest', get over it)
-        * the assertion check is that the maximum values from the timeseries match expectations
-        * this assumes that for the maximums to be 'as expected' then the timeseries are as well
-        * note: the 1st application day ('day_out') for the 2nd model simulation run is set to 0 here
-        * to make sure the timeseries processing works when an application occurs on 1st day of year
+        * the assertion check is that the maximum values from each timeseries is correctly identified
         """
 
         result = pd.Series([], dtype = 'float')
@@ -434,7 +430,7 @@ class Testtherps(unittest.TestCase):
         unit tests of this routine include the following approach:
         * this test verifies that the logic & calculations performed within the 'eec_dose_mamm' are correctly implemented
         * methods called inside of 'eec_dose_mamm' are not retested/recalculated
-        * for methods inside of 'eec_dose_mamm' the same values were used here that were used in the unit tests for that methoc
+        * for methods inside of 'eec_dose_mamm' the same values were used here that were used in the unit tests for that method
         * thus, only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         * only calculations done for this test are for those unique to this method
        """
@@ -483,16 +479,16 @@ class Testtherps(unittest.TestCase):
         """
 
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([0.0083319, 3.755716, 0.01906], dtype = 'float')
+        expected_results = pd.Series([0.07501781, 0.6117023, 0.0015683], dtype = 'float')
         num_app_days = pd.Series([], dtype='int')
         try:
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')
             self.therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype = 'float')
-            self.therps_empty.ld50_bird = pd.Series([2000., 5., 45.], dtype = 'float')
-            self.therps_empty.tw_bird_ld50 = pd.Series([180., 5., 45.], dtype = 'float')
-            self.therps_empty.mineau_sca_fact = pd.Series([1.15, 1., 1.5], dtype = 'float')
+            self.therps_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            self.therps_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            self.therps_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
 
-            self.therps_empty.food_multiplier_init_sg = 240.
+            self.therps_empty.food_multiplier_init_sg = 15.
             self.therps_empty.mf_w_mamm_2 = pd.Series([0.1, 0.8, 0.9], dtype='float')
             self.therps_empty.aw_herp_sm = pd.Series([1.5, 40., 250.], dtype = 'float') # use values for small, medium, large in this test
             self.therps_empty.bw_frog_prey_mamm = pd.Series([15., 35., 45.], dtype='float')
@@ -568,11 +564,11 @@ class Testtherps(unittest.TestCase):
         """
 
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([0.426831, 47.29536, 0.110118], dtype = 'float')
+        expected_results = pd.Series([0.01469543, 0.9577145, 0.01507527], dtype = 'float')
         num_app_days = pd.Series([], dtype='int')
         try:
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')
-            self.therps_empty.food_multiplier_init_sg = 240.
+            self.therps_empty.food_multiplier_init_sg = 15.
             self.therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype = 'float')
             self.therps_empty.noaec_bird = pd.Series([25., 100., 55.], dtype = 'float')
             self.therps_empty.bw_frog_prey_mamm = pd.Series([15., 35., 45.], dtype='float')
@@ -602,18 +598,18 @@ class Testtherps(unittest.TestCase):
         internal calls to : 'eec_diet_max'  --> 'eec_diet_timeseries' --> 'conc_initial' and 'conc_timestep' are included
 
         unit tests of this routine include the following approach:
-        * this test verifies that the logic & calculations performed within the 'crq_dose_mamm' are correctly implemented
+        * this test verifies that the logic & calculations performed within the 'crq_diet_tp' are correctly implemented
         * methods called inside of 'crq_diet_tp' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         :return:
         """
 
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([0.426831, 47.29536, 0.110118], dtype = 'float')
+        expected_results = pd.Series([8.1372e-4, 0.05601463, 8.973091e-4], dtype = 'float')
         num_app_days = pd.Series([], dtype='int')
 
         try:
-            self.therps_empty.food_multiplier_init_blp = 135.
+            self.therps_empty.food_multiplier_init_blp = 15.
             self.therps_empty.bw_frog_prey_herp = pd.Series([2.5, 10., 15.], dtype='float')
             self.therps_empty.noaec_bird = pd.Series([25., 100., 55.], dtype = 'float')
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')
@@ -649,18 +645,18 @@ class Testtherps(unittest.TestCase):
         internal calls to : 'eec_diet_max'  --> 'eec_diet_timeseries' --> 'conc_initial' and 'conc_timestep' are included
 
         unit tests of this routine include the following approach:
-        * this test verifies that the logic & calculations performed within the 'crq_dose_mamm' are correctly implemented
+        * this test verifies that the logic & calculations performed within the 'crq_diet_herp' are correctly implemented
         * methods called inside of 'crq_diet_herp' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         :return:
         """
 
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([0.426831, 47.29536, 0.110118], dtype = 'float')
+        expected_results = pd.Series([0.06936, 1.4534, 0.01276364], dtype = 'float')
         num_app_days = pd.Series([], dtype='int')
 
         try:
-            self.therps_empty.food_multiplier_init_blp = 135.
+            self.therps_empty.food_multiplier_init_blp = 15.
             self.therps_empty.noaec_bird = pd.Series([25., 100., 55.], dtype = 'float')
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')
             self.therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype = 'float')
@@ -688,7 +684,7 @@ class Testtherps(unittest.TestCase):
         internal calls to : 'eec_diet_max'  --> 'eec_diet_timeseries' --> 'conc_initial' and 'conc_timestep' are included
                             'fi_herp'
         unit tests of this routine include the following approach:
-        * this test verifies that the logic & calculations performed within the 'crq_dose_mamm' are correctly implemented
+        * this test verifies that the logic & calculations performed within the 'arq_diet_tp' are correctly implemented
         * methods called inside of 'arq_diet_tp' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         :return:
@@ -732,7 +728,7 @@ class Testtherps(unittest.TestCase):
         internal calls to : 'eec_diet_max'  --> 'eec_diet_timeseries' --> 'conc_initial' and 'conc_timestep' are included
 
         unit tests of this routine include the following approach:
-        * this test verifies that the logic & calculations performed within the 'crq_dose_mamm' are correctly implemented
+        * this test verifies that the logic & calculations performed within the 'arq_diet_herp' are correctly implemented
         * methods called inside of 'arq_diet_herp' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         :return:
@@ -772,26 +768,31 @@ class Testtherps(unittest.TestCase):
                             'eec_diet_max'  --> 'eec_diet_timeseries' --> 'conc_initial' and 'conc_timestep' are included
                             'at_bird'
         unit tests of this routine include the following approach:
-        * this test verifies that the logic & calculations performed within the 'crq_dose_mamm' are correctly implemented
+        * this test verifies that the logic & calculations performed within the 'arq_dose_tp' are correctly implemented
         * methods called inside of 'arq_dose_tp' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         :return:
         """
 
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([0.426831, 47.29536, 0.110118], dtype = 'float')
+        expected_results = pd.Series([1.641716e-5, 0.001533847, 1.92511e-5], dtype = 'float')
         num_app_days = pd.Series([], dtype='int')
 
         try:
-            self.therps_empty.food_multiplier_init_blp = 135.
+            self.therps_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            self.therps_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            self.therps_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+
+            self.therps_empty.food_multiplier_init_blp = 15.
             self.therps_empty.aw_herp_sm = pd.Series([1.5, 40., 250.], dtype = 'float') # use values for small, medium, large in this test
             self.therps_empty.bw_frog_prey_herp = pd.Series([2.5, 10., 15.], dtype='float')
-            self.therps_empty.awc_herp_md = pd.Series([105., 125., 145.], dtype = 'float')
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')
             self.therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype = 'float')
 
             self.therps_empty.awc_herp_sm = pd.Series([10., 80., 90.], dtype = 'float') # initialize as percent to match model input
             self.therps_empty.awc_herp_sm = self.therps_empty.percent_to_frac(self.therps_empty.awc_herp_sm) # convert to mass fraction water content
+            self.therps_empty.awc_herp_md = pd.Series([70., 85., 90.], dtype = 'float')
+            self.therps_empty.awc_herp_md = self.therps_empty.percent_to_frac(self.therps_empty.awc_herp_md)
 
             #specifying 3 different application scenarios of 1, 4, and 2 applications
             self.therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
@@ -819,19 +820,23 @@ class Testtherps(unittest.TestCase):
                             'eec_diet_max'  --> 'eec_diet_timeseries' --> 'conc_initial' and 'conc_timestep' are included
                             'at_bird'
         unit tests of this routine include the following approach:
-        * this test verifies that the logic & calculations performed within the 'crq_dose_mamm' are correctly implemented
+        * this test verifies that the logic & calculations performed within the 'arq_dose_herp' are correctly implemented
         * methods called inside of 'arq_dose_herp' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         :return:
         """
 
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([0.426831, 47.29536, 0.110118], dtype = 'float')
+        expected_results = pd.Series([4.664597e-4, 0.02984901, 2.738237e-4], dtype = 'float')
         num_app_days = pd.Series([], dtype='int')
 
         try:
+            self.therps_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            self.therps_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            self.therps_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+
             self.therps_empty.aw_herp_sm = pd.Series([1.5, 40., 250.], dtype = 'float') # use values for small, medium, large in this test
-            self.therps_empty.food_multiplier_mean_blp = 45.
+            self.therps_empty.food_multiplier_mean_blp = 15.
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')
             self.therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype = 'float')
 
@@ -863,26 +868,27 @@ class Testtherps(unittest.TestCase):
                             'eec_diet_max'  --> 'eec_diet_timeseries' --> 'conc_initial' and 'conc_timestep' are included
 
         unit tests of this routine include the following approach:
-        * this test verifies that the logic & calculations performed within the 'crq_dose_mamm' are correctly implemented
+        * this test verifies that the logic & calculations performed within the 'eec_dose_tp' are correctly implemented
         * methods called inside of 'eec_dose_tp' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         :return:
         """
 
         result = pd.Series([], dtype = 'float')
-        expected_results = pd.Series([0.426831, 47.29536, 0.110118], dtype = 'float')
+        expected_results = pd.Series([8.040096e-4, 0.2101289, 0.001831959], dtype = 'float')
         num_app_days = pd.Series([], dtype='int')
 
         try:
-            self.therps_empty.food_multiplier_mean_blp = 45.
+            self.therps_empty.food_multiplier_mean_blp = 15.
             self.therps_empty.aw_herp_sm = pd.Series([1.5, 40., 250.], dtype = 'float') # use values for small, medium, large in this test
             self.therps_empty.bw_frog_prey_herp = pd.Series([2.5, 10., 15.], dtype='float')
-            self.therps_empty.awc_herp_md = pd.Series([105., 125., 145.], dtype = 'float')
             self.therps_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype = 'float')
             self.therps_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype = 'float')
 
             self.therps_empty.awc_herp_sm = pd.Series([10., 80., 90.], dtype = 'float') # initialize as percent to match model input
             self.therps_empty.awc_herp_sm = self.therps_empty.percent_to_frac(self.therps_empty.awc_herp_sm) # convert to mass fraction water content
+            self.therps_empty.awc_herp_md = pd.Series([70., 85., 90.], dtype = 'float')
+            self.therps_empty.awc_herp_md = self.therps_empty.percent_to_frac(self.therps_empty.awc_herp_md)
 
             #specifying 3 different application scenarios of 1, 4, and 2 applications
             self.therps_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
@@ -910,7 +916,7 @@ class Testtherps(unittest.TestCase):
                             'eec_diet_max'  --> 'eec_diet_timeseries' --> 'conc_initial' and 'conc_timestep' are included
 
         unit tests of this routine include the following approach:
-        * this test verifies that the logic & calculations performed within the 'crq_dose_mamm' are correctly implemented
+        * this test verifies that the logic & calculations performed within the 'ceec_dose_herp' are correctly implemented
         * methods called inside of 'eec_dose_herp' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         :return:
@@ -955,7 +961,7 @@ class Testtherps(unittest.TestCase):
                             'eec_diet_max'  --> 'eec_diet_timeseries' --> 'conc_initial' and 'conc_timestep' are included
 
         unit tests of this routine include the following approach:
-        * this test verifies that the logic & calculations performed within the 'crq_dose_mamm' are correctly implemented
+        * this test verifies that the logic & calculations performed within the 'eec_diet_tp' are correctly implemented
         * methods called inside of 'eec_diet_tp' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         :return:
