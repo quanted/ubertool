@@ -27,3 +27,9 @@ Name Change Notes:
         df_empty = pd.DataFrame()
         # create an empty therps object
         self.therps_empty = THerps(df_empty, df_empty)
+
+     e) values for 'awc_herp_**' are input (from OPP spreadsheet) as percent water content in herptiles diet;
+        to be used in the model they must be converted to mass fraction; this conversion was inserted in model
+        (therps_exe.py)
+        (the conversion does not appear to have been done in the therps.py code; i.e., the original translation
+        code from the OPP spreadsheet model)
