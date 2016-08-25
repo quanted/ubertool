@@ -293,7 +293,7 @@ class THerps(UberModel, THerpsInputs, THerpsOutputs, THerpsFunctions):
         self.awc_herp_lg = self.percent_to_frac(self.awc_herp_lg)
 
         # convert application rate and application interval to actual application rate and day of year object series/lists
-        self.day_out, self.app_rates = self.convert_app_intervals(self)
+        self.day_out, self.app_rates = self.convert_app_intervals()
 
         # time series of daily concentrations (one year + one week) related to each food source
         self.out_c_ts_sg = self.eec_diet_timeseries(self.food_multiplier_init_sg)  # short grass
@@ -327,19 +327,19 @@ class THerps(UberModel, THerpsInputs, THerpsOutputs, THerpsFunctions):
                                                      self.bw_frog_prey_mamm, self.mf_w_mamm_2)
         self.out_eec_dose_hm_lg = self.eec_dose_mamm(self.food_multiplier_init_sg, self.aw_herp_lg,
                                                      self.bw_frog_prey_mamm, self.mf_w_mamm_2)
-        self.out_arq_dose_hm_md = self.arq_dose_mamm(self.aw_herp_md, self.bw_frog_prey_mamm,
-                                                     self.mf_w_mamm_2, self.food_multiplier_init_sg)
-        self.out_arq_dose_hm_lg = self.arq_dose_mamm(self.aw_herp_lg, self.bw_frog_prey_mamm,
-                                                     self.mf_w_mamm_2, self.food_multiplier_init_sg)
+        self.out_arq_dose_hm_md = self.arq_dose_mamm(self.food_multiplier_init_sg, self.aw_herp_md,
+                                                     self.bw_frog_prey_mamm,self.mf_w_mamm_2)
+        self.out_arq_dose_hm_lg = self.arq_dose_mamm(self.food_multiplier_init_sg, self.aw_herp_lg,
+                                                     self.bw_frog_prey_mamm, self.mf_w_mamm_2)
 
         self.out_eec_dose_im_md = self.eec_dose_mamm(self.food_multiplier_init_fp, self.aw_herp_md,
                                                      self.bw_frog_prey_mamm, self.mf_w_mamm_2)
         self.out_eec_dose_im_lg = self.eec_dose_mamm(self.food_multiplier_init_fp, self.aw_herp_lg,
                                                      self.bw_frog_prey_mamm, self.mf_w_mamm_2)
-        self.out_arq_dose_im_md = self.arq_dose_mamm(self.aw_herp_md, self.bw_frog_prey_mamm,
-                                                     self.mf_w_mamm_2, self.food_multiplier_init_fp)
-        self.out_arq_dose_im_lg = self.arq_dose_mamm(self.aw_herp_lg, self.bw_frog_prey_mamm,
-                                                     self.mf_w_mamm_2, self.food_multiplier_init_fp)
+        self.out_arq_dose_im_md = self.arq_dose_mamm(self.food_multiplier_init_fp, self.aw_herp_md,
+                                                     self.bw_frog_prey_mamm, self.mf_w_mamm_2)
+        self.out_arq_dose_im_lg = self.arq_dose_mamm(self.food_multiplier_init_fp, self.aw_herp_lg,
+                                                     self.bw_frog_prey_mamm, self.mf_w_mamm_2)
 
         self.out_eec_dose_tp_md = self.eec_dose_tp(self.food_multiplier_init_blp, self.aw_herp_md,
                                                    self.bw_frog_prey_herp, self.awc_herp_sm, self.awc_herp_md)
@@ -417,19 +417,19 @@ class THerps(UberModel, THerpsInputs, THerpsOutputs, THerpsFunctions):
                                                           self.bw_frog_prey_mamm, self.mf_w_mamm_2)
         self.out_eec_dose_hm_lg_mean = self.eec_dose_mamm(self.food_multiplier_mean_sg, self.aw_herp_lg,
                                                           self.bw_frog_prey_mamm, self.mf_w_mamm_2)
-        self.out_arq_dose_hm_md_mean = self.arq_dose_mamm(self.aw_herp_md, self.bw_frog_prey_mamm,
-                                                          self.mf_w_mamm_2, self.food_multiplier_mean_sg)
-        self.out_arq_dose_hm_lg_mean = self.arq_dose_mamm(self.aw_herp_lg, self.bw_frog_prey_mamm,
-                                                          self.mf_w_mamm_2, self.food_multiplier_mean_sg)
+        self.out_arq_dose_hm_md_mean = self.arq_dose_mamm(self.food_multiplier_mean_sg, self.aw_herp_md,
+                                                          self.bw_frog_prey_mamm, self.mf_w_mamm_2)
+        self.out_arq_dose_hm_lg_mean = self.arq_dose_mamm(self.food_multiplier_mean_sg, self.aw_herp_lg,
+                                                          self.bw_frog_prey_mamm, self.mf_w_mamm_2)
 
         self.out_eec_dose_im_md_mean = self.eec_dose_mamm(self.food_multiplier_mean_fp, self.aw_herp_md,
                                                           self.bw_frog_prey_mamm, self.mf_w_mamm_2)
         self.out_eec_dose_im_lg_mean = self.eec_dose_mamm(self.food_multiplier_mean_fp, self.aw_herp_lg,
                                                           self.bw_frog_prey_mamm, self.mf_w_mamm_2)
-        self.out_arq_dose_im_md_mean = self.arq_dose_mamm(self.aw_herp_md, self.bw_frog_prey_mamm,
-                                                          self.mf_w_mamm_2, self.food_multiplier_mean_fp)
-        self.out_arq_dose_im_lg_mean = self.arq_dose_mamm(self.aw_herp_lg, self.bw_frog_prey_mamm,
-                                                          self.mf_w_mamm_2, self.food_multiplier_mean_fp)
+        self.out_arq_dose_im_md_mean = self.arq_dose_mamm(self.food_multiplier_mean_fp, self.aw_herp_md,
+                                                          self.bw_frog_prey_mamm, self.mf_w_mamm_2)
+        self.out_arq_dose_im_lg_mean = self.arq_dose_mamm(self.food_multiplier_mean_fp, self.aw_herp_lg,
+                                                          self.bw_frog_prey_mamm, self.mf_w_mamm_2)
 
         self.out_eec_dose_tp_md_mean = self.eec_dose_tp(self.food_multiplier_mean_blp, self.aw_herp_md,
                                                         self.bw_frog_prey_herp, self.awc_herp_sm, self.awc_herp_md)
