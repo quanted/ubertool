@@ -1,194 +1,194 @@
-trex_process_qaqc.py,therps_property (ORIGINAL NAME),description,units,type,valid_range,run1,run2,run3,run4,run5,run6,run7
-version,,,,,,,,,,,,
-pc_code,,,,,,,,,,,,
-chemical_name,chem_name,Chemical name,,,,Fluxapyroxad,Chlorpyrifos,Chlorpyrifos,Chlorpyrifos,Chlorpyrifos,Chlorpyrifos,Chlorpyrifos
-use,use,Use,,,,Dried shelled beans (except soybeans),Ornamentals,sorghum,strawberry,sugarbeet,sunflower,turf grass
-formu_name,formu_name,Formulated product name,,,,NA,Chemisco Fungicide Concentrate (EC),Chemisco Fungicide Concentrate (EC),Chemisco Fungicide Concentrate (EC),Chemisco Fungicide Concentrate (EC),Chemisco Fungicide Concentrate (EC),Chemisco Fungicide Concentrate (EC)
-percent_act_ing,a_i,%a.i. (%),,,,100,100,100,100,100,100,100
-application_rate,a_r,Application rate (lbs a.i./A),,,,0.18,4,1,2,1,1.5,4
-num_apps,n_a,Number of applications,,,,2,1,3,1,3,3,2
-app_interval,i_a,Interval between applications (days):,,,,7,1,14,1,10,10,7
-foliar_diss_hlife,h_l,Foliar dissipation half-life (days),,,,35,18,5,18,18,5,18
-ld50_bird,avian_ld50,Avian LD50 (mg/kg-bw),,,,2000,10,10,10,10,10,10
-species_of_the_tested_bird_avian_ld50,Species_of_the_tested_bird_avian_ld50,Species of the tested bird (LD50),,,,Bobwhite quail,House Sparrow,House Sparrow,House Sparrow,House Sparrow,House Sparrow,House Sparrow
-tw_bird_ld50,bw_avian_ld50,Weight (LD50_ g),,,,178,28,28,28,28,28,28
-lc50_bird,avian_lc50,Avian LC50 (mg/kg-diet),,,,2457,136,136,136,136,136,136
-species_of_the_tested_bird_avian_lc50,Species_of_the_tested_bird_avian_lc50,Species of the tested bird (LC50),,,,Bobwhite quail,Mallard duck,Mallard duck,Mallard duck,Mallard duck,Mallard duck,Mallard duck
-tw_bird_lc50,bw_avian_lc50,Weight (LC50_ g),,,,178,1580,1580,1580,1580,1580,1580
-noaec_bird,avian_NOAEC,Avian NOAEC (mg/kg-diet),,,,100,25,25,25,25,25,25
-species_of_the_tested_bird_avian_noaec,Species_of_the_tested_bird_avian_NOAEC,Species of the tested bird (NOAEC),,,,Bobwhite quail,Bobwhite quail,Bobwhite quail,Bobwhite quail,Bobwhite quail,Bobwhite quail,Bobwhite quail
-tw_bird_noaec,bw_avian_NOAEC,Weight (NOAEC_ g),,,,178,178,178,178,178,178,178
-noael_bird,avian_NOAEL,Avian NOAEL (mg/kg-bw),,,,7.8,,,,,,
-species_of_the_tested_bird_avian_noael,Species_of_the_tested_bird_avian_NOAEL,Species of the tested bird (NOAEL),,,,Bobwhite quail,,,,,,
-tw_bird_noael,bw_avian_NOAEL,Weight (NOAEL_ g),,,,178,,,,,,
-mineau_sca_fact,mineau_scaling_factor,Mineau scaling factor,,,,1.15,1,1,1,1,1,1
-bw_frog_prey_mamm,body_weight_of_the_consumed_mammal_a (c_mamm_a),Weight of the mammal consumed by assessed frog (g),,,,15,35,35,35,35,35,35
-bw_frog_prey_herp,body_weight_of_the_consumed_herp_a (c_herp_a),Weight of the herptile consumed by assessed frog (g),,,,15,2.3,2.3,2.3,2.3,2.3,2.3
-aw_herp_sm,bw_herp_a_sm,Body weight of assessed small herptile (g),,,,2,1.4,1.4,1.4,1.4,1.4,
-awc_herp_sm,wp_herp_a_sm,Water content of the assessed small herptile's diet (%),,,,85,69,69,69,69,69,69
-aw_herp_md,bw_herp_a_md,Body weight of assessed medium herptile (g),,,,20,37,37,37,37,37,50
-awc_herp_md,wp_herp_a_md,Water content of the assessed medium herptile's diet (%),,,,85,85,85,85,85,85,85
-aw_herp_lg,bw_herp_a_lg,Body weight of assessed large herptile (g),,,,200,238,238,238,238,238,
-awc_herp_lg,wp_herp_a_lg,Water content of the assessed large herptile's diet (%),,,,85,85,85,85,85,85,85
-out_ld50_ad_sm,out_LD50_AD_sm,out_LD50_AD_sm,,,,,,,,,,
-out_ld50_ad_md,out_LD50_AD_md,out_LD50_AD_md,,,,,,,,,,
-out_ld50_ad_lg,out_LD50_AD_lg,out_LD50_AD_lg,,,,,,,,,,
-out_eec_dose_bp_sm,out_EEC_dose_BP_sm,out_EEC_dose_BP_sm,,,,,,,,,,
-out_eec_dose_bp_md,out_EEC_dose_BP_md,out_EEC_dose_BP_md,,,,,,,,,,
-out_eec_dose_bp_lg,out_EEC_dose_BP_lg,out_EEC_dose_BP_lg,,,,,,,,,,
-out_arq_dose_bp_sm,out_ARQ_dose_BP_sm,out_ARQ_dose_BP_sm,,,,,,,,,,
-out_arq_dose_bp_md,out_ARQ_dose_BP_md,out_ARQ_dose_BP_md,,,,,,,,,,
-out_arq_dose_bp_lg,out_ARQ_dose_BP_lg,out_ARQ_dose_BP_lg,,,,,,,,,,
-out_eec_dose_fr_sm,out_EEC_dose_FR_sm,out_EEC_dose_FR_sm,,,,,,,,,,
-out_eec_dose_fr_md,out_EEC_dose_FR_md,out_EEC_dose_FR_md,,,,,,,,,,
-out_eec_dose_fr_lg,out_EEC_dose_FR_lg,out_EEC_dose_FR_lg,,,,,,,,,,
-out_arq_dose_fr_sm,out_ARQ_dose_FR_sm,out_ARQ_dose_FR_sm,,,,,,,,,,
-out_arq_dose_fr_md,out_ARQ_dose_FR_md,out_ARQ_dose_FR_md,,,,,,,,,,
-out_arq_dose_fr_lg,out_ARQ_dose_FR_lg,out_ARQ_dose_FR_lg,,,,,,,,,,
-out_eec_dose_hm_md,out_EEC_dose_HM_md,out_EEC_dose_HM_md,,,,,,,,,,
-out_eec_dose_hm_lg,out_EEC_dose_HM_lg,out_EEC_dose_HM_lg,,,,,,,,,,
-out_arq_dose_hm_md,out_ARQ_dose_HM_md,out_ARQ_dose_HM_md,,,,,,,,,,
-out_arq_dose_hm_lg,out_ARQ_dose_HM_lg,out_ARQ_dose_HM_lg,,,,,,,,,,
-out_eec_dose_im_md,out_EEC_dose_IM_md,out_EEC_dose_IM_md,,,,,,,,,,
-out_eec_dose_im_lg,out_EEC_dose_IM_lg,out_EEC_dose_IM_lg,,,,,,,,,,
-out_arq_dose_im_md,out_ARQ_dose_IM_md,out_ARQ_dose_IM_md,,,,,,,,,,
-out_arq_dose_im_lg,out_ARQ_dose_IM_lg,out_ARQ_dose_IM_lg,,,,,,,,,,
-out_eec_dose_tp_md,out_EEC_dose_TP_md,out_EEC_dose_TP_md,,,,,,,,,,
-out_eec_dose_tp_lg,out_EEC_dose_TP_lg,out_EEC_dose_TP_lg,,,,,,,,,,
-out_arq_dose_tp_md,out_ARQ_dose_TP_md,out_ARQ_dose_TP_md,,,,,,,,,,
-out_arq_dose_tp_lg,out_ARQ_dose_TP_lg,out_ARQ_dose_TP_lg,,,,,,,,,,
-out_eec_diet_herp_bl,out_EEC_diet_herp_BL,out_EEC_diet_herp_BL,,,,,,,,,,
-out_eec_arq_herp_bl,out_EEC_ARQ_herp_BL,out_EEC_ARQ_herp_BL,,,,,,,,,,
-out_eec_diet_herp_fr,out_EEC_diet_herp_FR,out_EEC_diet_herp_FR,,,,,,,,,,
-out_eec_arq_herp_fr,out_EEC_ARQ_herp_FR,out_EEC_ARQ_herp_FR,,,,,,,,,,
-out_eec_diet_herp_hm,out_EEC_diet_herp_HM,out_EEC_diet_herp_HM,,,,,,,,,,
-out_eec_arq_herp_hm,out_EEC_ARQ_herp_HM,out_EEC_ARQ_herp_HM,,,,,,,,,,
-out_eec_diet_herp_im,out_EEC_diet_herp_IM,out_EEC_diet_herp_IM,,,,,,,,,,
-out_eec_arq_herp_im,out_EEC_ARQ_herp_IM,out_EEC_ARQ_herp_IM,,,,,,,,,,
-out_eec_diet_herp_tp,out_EEC_diet_herp_TP,out_EEC_diet_herp_TP,,,,,,,,,,
-out_eec_arq_herp_tp,out_EEC_ARQ_herp_TP,out_EEC_ARQ_herp_TP,,,,,,,,,,
-out_eec_crq_herp_bl,out_EEC_CRQ_herp_BL,out_EEC_CRQ_herp_BL,,,,,,,,,,
-out_eec_crq_herp_fr,out_EEC_CRQ_herp_FR,out_EEC_CRQ_herp_FR,,,,,,,,,,
-out_eec_crq_herp_hm,out_EEC_CRQ_herp_HM,out_EEC_CRQ_herp_HM,,,,,,,,,,
-out_eec_crq_herp_im,out_EEC_CRQ_herp_IM,out_EEC_CRQ_herp_IM,,,,,,,,,,
-out_eec_crq_herp_tp,out_EEC_CRQ_herp_TP,out_EEC_CRQ_herp_TP,,,,,,,,,,
-out_eec_dose_bp_sm_mean,out_EEC_dose_BP_sm_mean,out_EEC_dose_BP_sm_mean,,,,,,,,,,
-out_eec_dose_bp_md_mean,out_EEC_dose_BP_md_mean,out_EEC_dose_BP_md_mean,,,,,,,,,,
-out_eec_dose_bp_lg_mean,out_EEC_dose_BP_lg_mean,out_EEC_dose_BP_lg_mean,,,,,,,,,,
-out_arq_dose_bp_sm_mean,out_ARQ_dose_BP_sm_mean,out_ARQ_dose_BP_sm_mean,,,,,,,,,,
-out_arq_dose_bp_md_mean,out_ARQ_dose_BP_md_mean,out_ARQ_dose_BP_md_mean,,,,,,,,,,
-out_arq_dose_bp_lg_mean,out_ARQ_dose_BP_lg_mean,out_ARQ_dose_BP_lg_mean,,,,,,,,,,
-out_eec_dose_fr_sm_mean,out_EEC_dose_FR_sm_mean,out_EEC_dose_FR_sm_mean,,,,,,,,,,
-out_eec_dose_fr_md_mean,out_EEC_dose_FR_md_mean,out_EEC_dose_FR_md_mean,,,,,,,,,,
-out_eec_dose_fr_lg_mean,out_EEC_dose_FR_lg_mean,out_EEC_dose_FR_lg_mean,,,,,,,,,,
-out_arq_dose_fr_sm_mean,out_ARQ_dose_FR_sm_mean,out_ARQ_dose_FR_sm_mean,,,,,,,,,,
-out_arq_dose_fr_md_mean,out_ARQ_dose_FR_md_mean,out_ARQ_dose_FR_md_mean,,,,,,,,,,
-out_arq_dose_fr_lg_mean,out_ARQ_dose_FR_lg_mean,out_ARQ_dose_FR_lg_mean,,,,,,,,,,
-out_eec_dose_hm_md_mean,out_EEC_dose_HM_md_mean,out_EEC_dose_HM_md_mean,,,,,,,,,,
-out_eec_dose_hm_lg_mean,out_EEC_dose_HM_lg_mean,out_EEC_dose_HM_lg_mean,,,,,,,,,,
-out_arq_dose_hm_md_mean,out_ARQ_dose_HM_md_mean,out_ARQ_dose_HM_md_mean,,,,,,,,,,
-out_arq_dose_hm_lg_mean,out_ARQ_dose_HM_lg_mean,out_ARQ_dose_HM_lg_mean,,,,,,,,,,
-out_eec_dose_im_md_mean,out_EEC_dose_IM_md_mean,out_EEC_dose_IM_md_mean,,,,,,,,,,
-out_eec_dose_im_lg_mean,out_EEC_dose_IM_lg_mean,out_EEC_dose_IM_lg_mean,,,,,,,,,,
-out_arq_dose_im_md_mean,out_ARQ_dose_IM_md_mean,out_ARQ_dose_IM_md_mean,,,,,,,,,,
-out_arq_dose_im_lg_mean,out_ARQ_dose_IM_lg_mean,out_ARQ_dose_IM_lg_mean,,,,,,,,,,
-out_eec_dose_tp_md_mean,out_EEC_dose_TP_md_mean,out_EEC_dose_TP_md_mean,,,,,,,,,,
-out_eec_dose_tp_lg_mean,out_EEC_dose_TP_lg_mean,out_EEC_dose_TP_lg_mean,,,,,,,,,,
-out_arq_dose_tp_md_mean,out_ARQ_dose_TP_md_mean,out_ARQ_dose_TP_md_mean,,,,,,,,,,
-out_arq_dose_tp_lg_mean,out_ARQ_dose_TP_lg_mean,out_ARQ_dose_TP_lg_mean,,,,,,,,,,
-out_eec_diet_herp_bl_mean,out_EEC_diet_herp_BL_mean,out_EEC_diet_herp_BL_mean,,,,,,,,,,
-out_eec_arq_herp_bl_mean,out_EEC_ARQ_herp_BL_mean,out_EEC_ARQ_herp_BL_mean,,,,,,,,,,
-out_eec_diet_herp_fr_mean,out_EEC_diet_herp_FR_mean,out_EEC_diet_herp_FR_mean,,,,,,,,,,
-out_eec_arq_herp_fr_mean,out_EEC_ARQ_herp_FR_mean,out_EEC_ARQ_herp_FR_mean,,,,,,,,,,
-out_eec_diet_herp_hm_mean,out_EEC_diet_herp_HM_mean,out_EEC_diet_herp_HM_mean,,,,,,,,,,
-out_eec_arq_herp_hm_mean,out_EEC_ARQ_herp_HM_mean,out_EEC_ARQ_herp_HM_mean,,,,,,,,,,
-out_eec_diet_herp_im_mean,out_EEC_diet_herp_IM_mean,out_EEC_diet_herp_IM_mean,,,,,,,,,,
-out_eec_arq_herp_im_mean,out_EEC_ARQ_herp_IM_mean,out_EEC_ARQ_herp_IM_mean,,,,,,,,,,
-out_eec_diet_herp_tp_mean,out_EEC_diet_herp_TP_mean,out_EEC_diet_herp_TP_mean,,,,,,,,,,
-out_eec_arq_herp_tp_mean,out_EEC_ARQ_herp_TP_mean,out_EEC_ARQ_herp_TP_mean,,,,,,,,,,
-out_eec_crq_herp_bl_mean,out_EEC_CRQ_herp_BL_mean,out_EEC_CRQ_herp_BL_mean,,,,,,,,,,
-out_eec_crq_herp_fr_mean,out_EEC_CRQ_herp_FR_mean,out_EEC_CRQ_herp_FR_mean,,,,,,,,,,
-out_eec_crq_herp_hm_mean,out_EEC_CRQ_herp_HM_mean,out_EEC_CRQ_herp_HM_mean,,,,,,,,,,
-out_eec_crq_herp_im_mean,out_EEC_CRQ_herp_IM_mean,out_EEC_CRQ_herp_IM_mean,,,,,,,,,,
-out_eec_crq_herp_tp_mean,out_EEC_CRQ_herp_TP_mean,out_EEC_CRQ_herp_TP_mean,,,,,,,,,,
-exp_ld50_ad_sm,exp_LD50_AD_sm,exp_LD50_AD_sm,,,,1020.05,10,10,10,10,10,
-exp_ld50_ad_md,exp_LD50_AD_md,exp_LD50_AD_md,,,,1440.86,10,10,10,10,10,10
-exp_ld50_ad_lg,exp_LD50_AD_lg,exp_LD50_AD_lg,,,,2035.27,10,10,10,10,10,
-exp_eec_dose_bp_sm,exp_EEC_dose_BP_sm,exp_EEC_dose_BP_sm,,,,3.36584,20.97994543,6.106237273,10.48997271,11.24174897,10.32606689,
-exp_eec_dose_bp_md,exp_eec_dose_bp_md,exp_EEC_dose_BP_md,,,,1.99569,20.61883208,6.001134816,10.30941604,11.04825249,10.14833141,33.9632078
-exp_eec_dose_bp_lg,exp_EEC_dose_BP_lg,exp_EEC_dose_BP_lg,,,,1.1833,13.5133456,3.933074795,6.756672799,7.240897716,6.651099787,
-exp_arq_dose_bp_sm,exp_ARQ_dose_BP_sm,exp_ARQ_dose_BP_sm,,,,0.00329969,2.097994543,0.610623727,1.048997271,1.124174897,1.032606689,
-exp_arq_dose_bp_md,exp_ARQ_dose_BP_md,exp_ARQ_dose_BP_md,,,,0.00138507,2.061883208,0.600113482,1.030941604,1.104825249,1.014833141,3.39632078
-exp_arq_dose_bp_lg,exp_ARQ_dose_BP_lg,exp_ARQ_dose_BP_lg,,,,0.000581397,1.35133456,0.39330748,0.67566728,0.724089772,0.665109979,
-exp_eec_dose_fr_sm,exp_EEC_dose_FR_sm,exp_EEC_dose_FR_sm,,,,0.373983,2.331105048,0.678470808,1.165552524,1.249083219,1.147340766,
-exp_eec_dose_fr_md,exp_EEC_dose_FR_md,exp_EEC_dose_FR_md,,,,0.221744,2.290981342,0.666792757,1.145490671,1.227583609,1.127592379,3.773689756
-exp_eec_dose_fr_lg,exp_EEC_dose_FR_lg,exp_EEC_dose_FR_lg,,,,0.131478,1.501482844,0.437008311,0.750741422,0.804544191,0.739011087,
-exp_arq_dose_fr_sm,exp_ARQ_dose_FR_sm,exp_ARQ_dose_FR_sm,,,,0.000366632,0.233110505,0.067847081,0.116555252,0.124908322,0.114734077,
-exp_arq_dose_fr_md,exp_ARQ_dose_FR_md,exp_ARQ_dose_FR_md,,,,0.000153897,0.229098134,0.066679276,0.114549067,0.122758361,0.112759238,0.377368976
-exp_arq_dose_fr_lg,exp_ARQ_dose_FR_lg,exp_ARQ_dose_FR_lg,,,,0.0000645996,0.150148284,0.043700831,0.075074142,0.080454419,0.073901109,
-exp_eec_dose_hm_md,exp_EEC_dose_HM_md,exp_EEC_dose_HM_md,,,,57.783,598.3916028,174.162565,299.1958014,320.638021,294.520867,780.9913979
-exp_eec_dose_hm_lg,exp_EEC_dose_HM_lg,exp_EEC_dose_HM_lg,,,,5.7783,93.02726599,27.07569287,46.51363299,49.8470873,45.78685748,
-exp_arq_dose_hm_md,exp_ARQ_dose_HM_md,exp_ARQ_dose_HM_md,,,,0.0401032,59.83916028,17.4162565,29.91958014,32.0638021,29.4520867,78.09913979
-exp_arq_dose_hm_lg,exp_ARQ_dose_HM_lg,exp_ARQ_dose_HM_lg,,,,0.00283909,9.302726599,2.707569287,4.651363299,4.98470873,4.578685748,
-exp_eec_dose_im_md,exp_EEC_dose_IM_md,exp_EEC_dose_IM_md,,,,3.61144,37.39947518,10.88516031,18.69973759,20.03987631,18.40755419,48.81196237
-exp_eec_dose_im_lg,exp_EEC_dose_IM_lg,exp_EEC_dose_IM_lg,,,,0.361144,5.814204124,1.692230805,2.907102062,3.115442956,2.861678592,
-exp_arq_dose_im_md,exp_ARQ_dose_IM_md,exp_ARQ_dose_IM_md,,,,0.00250645,3.739947518,1.088516031,1.869973759,2.003987631,1.840755419,4.881196237
-exp_arq_dose_im_lg,exp_ARQ_dose_IM_lg,exp_ARQ_dose_IM_lg,,,,0.000177443,0.581420412,0.16922308,0.290710206,0.311544296,0.286167859,
-exp_eec_dose_tp_md,exp_EEC_dose_TP_md,exp_EEC_dose_TP_md,,,,0.0935348,0.715704094,0.208306501,0.357852047,0.383497935,0.352260609,1.178903188
-exp_eec_dose_tp_lg,exp_EEC_dose_TP_lg,exp_EEC_dose_TP_lg,,,,0.0554592,0.469064238,0.136521687,0.234532119,0.25134014,0.230867555,
-exp_arq_dose_tp_md,exp_ARQ_dose_TP_md,exp_ARQ_dose_TP_md,,,,0.000064916,0.071570409,0.02083065,0.035785205,0.038349794,0.035226061,0.117890319
-exp_arq_dose_tp_lg,exp_ARQ_dose_TP_lg,exp_ARQ_dose_TP_lg,,,,0.0000272491,0.046906424,0.013652169,0.023453212,0.025134014,0.023086755,
-exp_eec_diet_herp_bl,exp_EEC_diet_herp_BL,exp_EEC_diet_herp_BL,,,,45.4544,540,157.1676217,270,289.3498681,265.78125,952.4074853
-exp_eec_arq_herp_bl,exp_EEC_ARQ_herp_BL,exp_EEC_ARQ_herp_BL,,,,0.0185,3.970588235,1.155644277,1.985294118,2.127572559,1.954273897,7.002996216
-exp_eec_diet_herp_fr,exp_EEC_diet_herp_FR,exp_EEC_diet_herp_FR,,,,5.05049,60,17.46306908,30,32.14998534,29.53125,105.8230539
-exp_eec_arq_herp_fr,exp_EEC_ARQ_herp_FR,exp_EEC_ARQ_herp_FR,,,,0.00205555,0.441176471,0.12840492,0.220588235,0.236396951,0.217141544,0.778110691
-exp_eec_diet_herp_hm,exp_EEC_diet_herp_HM,exp_EEC_diet_herp_HM,,,,77.044,632.5854087,184.1147115,316.2927044,338.9601936,311.3506309,1115.701997
-exp_eec_arq_herp_hm,exp_EEC_ARQ_herp_HM,exp_EEC_ARQ_herp_HM,,,,0.031357,4.651363299,1.353784644,2.32568165,2.492354365,2.289342874,8.203691155
-exp_eec_diet_herp_im,exp_EEC_diet_herp_IM,exp_EEC_diet_herp_IM,,,,4.81525,39.53658805,11.50716947,19.76829402,21.1850121,19.45941443,69.73137481
-exp_eec_arq_herp_im,exp_EEC_ARQ_herp_IM,exp_EEC_ARQ_herp_IM,,,,0.00195981,0.290710206,0.08461154,0.145355103,0.155772148,0.14308393,0.512730697
-exp_eec_diet_herp_tp,exp_EEC_diet_herp_TP,exp_EEC_diet_herp_TP,,,,2.13037,18.74403988,5.455474387,9.372019938,10.04367679,9.225582127,33.05919238
-exp_eec_arq_herp_tp,exp_EEC_ARQ_herp_TP,exp_EEC_ARQ_herp_TP,,,,0.000867062,0.137823823,0.040113782,0.068911911,0.073850565,0.067835163,0.243082297
-exp_eec_crq_herp_bl,exp_EEC_CRQ_herp_BL,exp_EEC_CRQ_herp_BL,,,,0.454543787,21.6,6.28670487,10.8,11.57399472,10.63125,38.09629941
-exp_eec_crq_herp_fr,exp_EEC_CRQ_herp_FR,exp_EEC_CRQ_herp_FR,,,,0.050504865,2.4,0.698522763,1.2,1.285999414,1.18125,4.232922157
-exp_eec_crq_herp_hm,exp_EEC_CRQ_herp_HM,exp_EEC_CRQ_herp_HM,,,,0.770440341,25.30341635,7.364588462,12.65170817,13.55840775,12.45402523,44.62807988
-exp_eec_crq_herp_im,exp_EEC_CRQ_herp_IM,exp_EEC_CRQ_herp_IM,,,,0.048152521,1.581463522,0.460286779,0.790731761,0.847400484,0.778376577,2.789254993
-exp_eec_crq_herp_tp,exp_EEC_CRQ_herp_TP,exp_EEC_CRQ_herp_TP,,,,0.021303703,0.749761595,0.218218975,0.374880798,0.401747072,0.369023285,1.322367695
-exp_eec_dose_bp_sm_mean,exp_EEC_dose_BP_sm_mean,exp_EEC_dose_BP_sm_mean,,,,1.12195,6.993315143,2.035412424,3.496657571,3.747249656,3.442022297,
-exp_eec_dose_bp_md_mean,exp_EEC_dose_BP_md_mean,exp_EEC_dose_BP_md_mean,,,,0.665231,6.872944026,2.000378272,3.436472013,3.682750828,3.382777138,11.32106927
-exp_eec_dose_bp_lg_mean,exp_EEC_dose_BP_lg_mean,exp_EEC_dose_BP_lg_mean,,,,0.394433,4.504448533,1.311024932,2.252224266,2.413632572,2.217033262,
-exp_arq_dose_bp_sm_mean,exp_ARQ_dose_BP_sm_mean,exp_ARQ_dose_BP_sm_mean,,,,0.0010999,0.699331514,0.203541242,0.349665757,0.374724966,0.34420223,
-exp_arq_dose_bp_md_mean,exp_ARQ_dose_BP_md_mean,exp_ARQ_dose_BP_md_mean,,,,0.000461691,0.687294403,0.200037827,0.343647201,0.368275083,0.338277714,1.132106927
-exp_arq_dose_bp_lg_mean,exp_ARQ_dose_BP_lg_mean,exp_ARQ_dose_BP_lg_mean,,,,0.000193799,0.450444853,0.131102493,0.225222427,0.241363257,0.221703326,
-exp_eec_dose_fr_sm_mean,exp_EEC_dose_FR_sm_mean,exp_EEC_dose_FR_sm_mean,,,,0.174525,1.087849022,0.31661971,0.543924511,0.582905502,0.535425691,
-exp_eec_dose_fr_md_mean,exp_EEC_dose_FR_md_mean,exp_EEC_dose_FR_md_mean,,,,0.10348,1.069124626,0.311169953,0.534562313,0.572872351,0.526209777,1.761055219
-exp_eec_dose_fr_lg_mean,exp_EEC_dose_FR_lg_mean,exp_EEC_dose_FR_lg_mean,,,,0.0613562,0.700691994,0.203937212,0.350345997,0.375453956,0.344871841,
-exp_arq_dose_fr_sm_mean,exp_ARQ_dose_FR_sm_mean,exp_ARQ_dose_FR_sm_mean,,,,0.000171095,0.108784902,0.031661971,0.054392451,0.05829055,0.053542569,
-exp_arq_dose_fr_md_mean,exp_ARQ_dose_FR_md_mean,exp_ARQ_dose_FR_md_mean,,,,0.0000718186,0.106912463,0.031116995,0.053456231,0.057287235,0.052620978,0.176105522
-exp_arq_dose_fr_lg_mean,exp_ARQ_dose_FR_lg_mean,exp_ARQ_dose_FR_lg_mean,,,,0.0000301465,0.070069199,0.020393721,0.0350346,0.037545396,0.034487184,
-exp_eec_dose_hm_md_mean,exp_EEC_dose_HM_md_mean,exp_EEC_dose_HM_md_mean,,,,20.4648,211.9303593,61.6825751,105.9651797,113.5592991,104.3094737,276.6011201
-exp_eec_dose_hm_lg_mean,exp_EEC_dose_HM_lg_mean,exp_EEC_dose_HM_lg_mean,,,,2.04648,32.9471567,9.589307893,16.47357835,17.65417675,16.21617869,
-exp_arq_dose_hm_md_mean,exp_ARQ_dose_HM_md_mean,exp_ARQ_dose_HM_md_mean,,,,0.0142032,21.19303593,6.16825751,10.59651797,11.35592991,10.43094737,27.66011201
-exp_arq_dose_hm_lg_mean,exp_ARQ_dose_HM_lg_mean,exp_ARQ_dose_HM_lg_mean,,,,0.00100551,3.29471567,0.958930789,1.647357835,1.765417675,1.621617869,
-exp_eec_dose_im_md_mean,exp_EEC_dose_IM_md_mean,exp_EEC_dose_IM_md_mean,,,,1.68534,17.45308842,5.079741479,8.726544208,9.35194228,8.590191955,22.77891577
-exp_eec_dose_im_lg_mean,exp_EEC_dose_IM_lg_mean,exp_EEC_dose_IM_lg_mean,,,,0.168534,2.713295258,0.789707709,1.356647629,1.45387338,1.33545001,
-exp_arq_dose_im_md_mean,exp_ARQ_dose_IM_md_mean,exp_ARQ_dose_IM_md_mean,,,,0.00116968,1.745308842,0.507974148,0.872654421,0.935194228,0.859019195,2.277891577
-exp_arq_dose_im_lg_mean,exp_ARQ_dose_IM_lg_mean,exp_ARQ_dose_IM_lg_mean,,,,0.0000828067,0.271329526,0.078970771,0.135664763,0.145387338,0.133545001,
-exp_eec_dose_tp_md_mean,exp_EEC_dose_TP_md_mean,exp_EEC_dose_TP_md_mean,,,,0.0311783,0.238568031,0.0694355,0.119284016,0.127832645,0.117420203,0.392967729
-exp_eec_dose_tp_lg_mean,exp_EEC_dose_TP_lg_mean,exp_EEC_dose_TP_lg_mean,,,,0.0184864,0.156354746,0.045507229,0.078177373,0.083780047,0.076955852,
-exp_arq_dose_tp_md_mean,exp_ARQ_dose_TP_md_mean,exp_ARQ_dose_TP_md_mean,,,,0.0000216387,0.023856803,0.00694355,0.011928402,0.012783265,0.01174202,0.039296773
-exp_arq_dose_tp_lg_mean,exp_ARQ_dose_TP_lg_mean,exp_ARQ_dose_TP_lg_mean,,,,0.00000908303,0.015635475,0.004550723,0.007817737,0.008378005,0.007695585,
-exp_eec_diet_herp_bl_mean,exp_EEC_diet_herp_BL_mean,exp_EEC_diet_herp_BL_mean,,,,15.1515,180,52.38920725,90,96.44995603,88.59375,317.4691618
-exp_eec_arq_herp_bl_mean,exp_EEC_ARQ_herp_BL_mean,exp_EEC_ARQ_herp_BL_mean,,,,0.00616665,1.323529412,0.385214759,0.661764706,0.709190853,0.651424632,2.334332072
-exp_eec_diet_herp_fr_mean,exp_EEC_diet_herp_FR_mean,exp_EEC_diet_herp_FR_mean,,,,2.35689,28,8.149432238,14,15.00332649,13.78125,49.38409183
-exp_eec_arq_herp_fr_mean,exp_EEC_ARQ_herp_FR_mean,exp_EEC_ARQ_herp_FR_mean,,,,0.000959257,0.205882353,0.059922296,0.102941176,0.110318577,0.101332721,0.363118322
-exp_eec_diet_herp_hm_mean,exp_EEC_diet_herp_HM_mean,exp_EEC_diet_herp_HM_mean,,,,27.2864,224.0406656,65.20729367,112.0203328,120.0484019,110.2700151,395.1444573
-exp_eec_arq_herp_hm_mean,exp_EEC_ARQ_herp_HM_mean,exp_EEC_ARQ_herp_HM_mean,,,,0.0111056,1.647357835,0.479465395,0.823678918,0.882708838,0.810808935,2.905473951
-exp_eec_diet_herp_im_mean,exp_EEC_diet_herp_IM_mean,exp_EEC_diet_herp_IM_mean,,,,2.24712,18.45040775,5.37001242,9.225203877,9.886338981,9.081060067,32.54130825
-exp_eec_arq_herp_im_mean,exp_EEC_ARQ_herp_IM_mean,exp_EEC_ARQ_herp_IM_mean,,,,0.000914578,0.135664763,0.039485385,0.067832381,0.072693669,0.0667725,0.239274325
-exp_eec_diet_herp_tp_mean,exp_EEC_diet_herp_TP_mean,exp_EEC_diet_herp_TP_mean,,,,0.710123,6.248013292,1.818491462,3.124006646,3.347892263,3.075194042,11.01973079
-exp_eec_arq_herp_tp_mean,exp_EEC_ARQ_herp_TP_mean,exp_EEC_ARQ_herp_TP_mean,,,,0.000289021,0.045941274,0.013371261,0.022970637,0.024616855,0.022611721,0.081027432
-exp_eec_crq_herp_bl_mean,exp_EEC_CRQ_herp_BL_mean,exp_EEC_CRQ_herp_BL_mean,,,,0.151515,7.2,2.09556829,3.6,3.857998241,3.54375,12.69876647
-exp_eec_crq_herp_fr_mean,exp_EEC_CRQ_herp_FR_mean,exp_EEC_CRQ_herp_FR_mean,,,,0.0235689,1.12,0.32597729,0.56,0.60013306,0.55125,1.975363673
-exp_eec_crq_herp_hm_mean,exp_EEC_CRQ_herp_HM_mean,exp_EEC_CRQ_herp_HM_mean,,,,0.272864,8.961626624,2.608291747,4.480813312,4.801936077,4.410800604,15.80577829
-exp_eec_crq_herp_im_mean,exp_EEC_CRQ_herp_IM_mean,exp_EEC_CRQ_herp_IM_mean,,,,0.0224712,0.73801631,0.214800497,0.369008155,0.395453559,0.363242403,1.30165233
-exp_eec_crq_herp_tp_mean,exp_EEC_CRQ_herp_TP_mean,exp_EEC_CRQ_herp_TP_mean,,,,0.00710123,0.249920532,0.072739658,0.124960266,0.133915691,0.123007762,0.440789232
+trex_process_qaqc.py,therps_property (ORIGINAL NAME),description,units,type,valid_range,run1,run2,run3,run4,run5,run6
+version,,,,,,,,,,,
+pc_code,,,,,,,,,,,
+chemical_name,chem_name,Chemical name,,,,Fluxapyroxad,Chlorpyrifos,Chlorpyrifos,Chlorpyrifos,Chlorpyrifos,Chlorpyrifos
+use,use,Use,,,,Dried shelled beans (except soybeans),Ornamentals,sorghum,strawberry,sugarbeet,sunflower
+formu_name,formu_name,Formulated product name,,,,NA,Chemisco Fungicide Concentrate (EC),Chemisco Fungicide Concentrate (EC),Chemisco Fungicide Concentrate (EC),Chemisco Fungicide Concentrate (EC),Chemisco Fungicide Concentrate (EC)
+percent_act_ing,a_i,%a.i. (%),,,,100,100,100,100,100,100
+application_rate,a_r,Application rate (lbs a.i./A),,,,0.18,4,1,2,1,1.5
+num_apps,n_a,Number of applications,,,,2,1,3,1,3,3
+app_interval,i_a,Interval between applications (days):,,,,7,1,14,1,10,10
+foliar_diss_hlife,h_l,Foliar dissipation half-life (days),,,,35,18,5,18,18,5
+ld50_bird,avian_ld50,Avian LD50 (mg/kg-bw),,,,2000,10,10,10,10,10
+species_of_the_tested_bird_avian_ld50,Species_of_the_tested_bird_avian_ld50,Species of the tested bird (LD50),,,,Bobwhite quail,House Sparrow,House Sparrow,House Sparrow,House Sparrow,House Sparrow
+tw_bird_ld50,bw_avian_ld50,Weight (LD50_ g),,,,178,28,28,28,28,28
+lc50_bird,avian_lc50,Avian LC50 (mg/kg-diet),,,,2457,136,136,136,136,136
+species_of_the_tested_bird_avian_lc50,Species_of_the_tested_bird_avian_lc50,Species of the tested bird (LC50),,,,Bobwhite quail,Mallard duck,Mallard duck,Mallard duck,Mallard duck,Mallard duck
+tw_bird_lc50,bw_avian_lc50,Weight (LC50_ g),,,,178,1580,1580,1580,1580,1580
+noaec_bird,avian_NOAEC,Avian NOAEC (mg/kg-diet),,,,100,25,25,25,25,25
+species_of_the_tested_bird_avian_noaec,Species_of_the_tested_bird_avian_NOAEC,Species of the tested bird (NOAEC),,,,Bobwhite quail,Bobwhite quail,Bobwhite quail,Bobwhite quail,Bobwhite quail,Bobwhite quail
+tw_bird_noaec,bw_avian_NOAEC,Weight (NOAEC_ g),,,,178,178,178,178,178,178
+noael_bird,avian_NOAEL,Avian NOAEL (mg/kg-bw),,,,7.8,,,,,
+species_of_the_tested_bird_avian_noael,Species_of_the_tested_bird_avian_NOAEL,Species of the tested bird (NOAEL),,,,Bobwhite quail,,,,,
+tw_bird_noael,bw_avian_NOAEL,Weight (NOAEL_ g),,,,178,,,,,
+mineau_sca_fact,mineau_scaling_factor,Mineau scaling factor,,,,1.15,1,1,1,1,1
+bw_frog_prey_mamm,body_weight_of_the_consumed_mammal_a (c_mamm_a),Weight of the mammal consumed by assessed frog (g),,,,15,35,35,35,35,35
+bw_frog_prey_herp,body_weight_of_the_consumed_herp_a (c_herp_a),Weight of the herptile consumed by assessed frog (g),,,,15,2.3,2.3,2.3,2.3,2.3
+aw_herp_sm,bw_herp_a_sm,Body weight of assessed small herptile (g),,,,2,1.4,1.4,1.4,1.4,1.4
+awc_herp_sm,wp_herp_a_sm,Water content of the assessed small herptile's diet (%),,,,85,69,69,69,69,69
+aw_herp_md,bw_herp_a_md,Body weight of assessed medium herptile (g),,,,20,37,37,37,37,37
+awc_herp_md,wp_herp_a_md,Water content of the assessed medium herptile's diet (%),,,,85,85,85,85,85,85
+aw_herp_lg,bw_herp_a_lg,Body weight of assessed large herptile (g),,,,200,238,238,238,238,238
+awc_herp_lg,wp_herp_a_lg,Water content of the assessed large herptile's diet (%),,,,85,85,85,85,85,85
+out_ld50_ad_sm,out_LD50_AD_sm,out_LD50_AD_sm,,,,,,,,,
+out_ld50_ad_md,out_LD50_AD_md,out_LD50_AD_md,,,,,,,,,
+out_ld50_ad_lg,out_LD50_AD_lg,out_LD50_AD_lg,,,,,,,,,
+out_eec_dose_bp_sm,out_EEC_dose_BP_sm,out_EEC_dose_BP_sm,,,,,,,,,
+out_eec_dose_bp_md,out_EEC_dose_BP_md,out_EEC_dose_BP_md,,,,,,,,,
+out_eec_dose_bp_lg,out_EEC_dose_BP_lg,out_EEC_dose_BP_lg,,,,,,,,,
+out_arq_dose_bp_sm,out_ARQ_dose_BP_sm,out_ARQ_dose_BP_sm,,,,,,,,,
+out_arq_dose_bp_md,out_ARQ_dose_BP_md,out_ARQ_dose_BP_md,,,,,,,,,
+out_arq_dose_bp_lg,out_ARQ_dose_BP_lg,out_ARQ_dose_BP_lg,,,,,,,,,
+out_eec_dose_fr_sm,out_EEC_dose_FR_sm,out_EEC_dose_FR_sm,,,,,,,,,
+out_eec_dose_fr_md,out_EEC_dose_FR_md,out_EEC_dose_FR_md,,,,,,,,,
+out_eec_dose_fr_lg,out_EEC_dose_FR_lg,out_EEC_dose_FR_lg,,,,,,,,,
+out_arq_dose_fr_sm,out_ARQ_dose_FR_sm,out_ARQ_dose_FR_sm,,,,,,,,,
+out_arq_dose_fr_md,out_ARQ_dose_FR_md,out_ARQ_dose_FR_md,,,,,,,,,
+out_arq_dose_fr_lg,out_ARQ_dose_FR_lg,out_ARQ_dose_FR_lg,,,,,,,,,
+out_eec_dose_hm_md,out_EEC_dose_HM_md,out_EEC_dose_HM_md,,,,,,,,,
+out_eec_dose_hm_lg,out_EEC_dose_HM_lg,out_EEC_dose_HM_lg,,,,,,,,,
+out_arq_dose_hm_md,out_ARQ_dose_HM_md,out_ARQ_dose_HM_md,,,,,,,,,
+out_arq_dose_hm_lg,out_ARQ_dose_HM_lg,out_ARQ_dose_HM_lg,,,,,,,,,
+out_eec_dose_im_md,out_EEC_dose_IM_md,out_EEC_dose_IM_md,,,,,,,,,
+out_eec_dose_im_lg,out_EEC_dose_IM_lg,out_EEC_dose_IM_lg,,,,,,,,,
+out_arq_dose_im_md,out_ARQ_dose_IM_md,out_ARQ_dose_IM_md,,,,,,,,,
+out_arq_dose_im_lg,out_ARQ_dose_IM_lg,out_ARQ_dose_IM_lg,,,,,,,,,
+out_eec_dose_tp_md,out_EEC_dose_TP_md,out_EEC_dose_TP_md,,,,,,,,,
+out_eec_dose_tp_lg,out_EEC_dose_TP_lg,out_EEC_dose_TP_lg,,,,,,,,,
+out_arq_dose_tp_md,out_ARQ_dose_TP_md,out_ARQ_dose_TP_md,,,,,,,,,
+out_arq_dose_tp_lg,out_ARQ_dose_TP_lg,out_ARQ_dose_TP_lg,,,,,,,,,
+out_eec_diet_herp_bl,out_EEC_diet_herp_BL,out_EEC_diet_herp_BL,,,,,,,,,
+out_eec_arq_herp_bl,out_EEC_ARQ_herp_BL,out_EEC_ARQ_herp_BL,,,,,,,,,
+out_eec_diet_herp_fr,out_EEC_diet_herp_FR,out_EEC_diet_herp_FR,,,,,,,,,
+out_eec_arq_herp_fr,out_EEC_ARQ_herp_FR,out_EEC_ARQ_herp_FR,,,,,,,,,
+out_eec_diet_herp_hm,out_EEC_diet_herp_HM,out_EEC_diet_herp_HM,,,,,,,,,
+out_eec_arq_herp_hm,out_EEC_ARQ_herp_HM,out_EEC_ARQ_herp_HM,,,,,,,,,
+out_eec_diet_herp_im,out_EEC_diet_herp_IM,out_EEC_diet_herp_IM,,,,,,,,,
+out_eec_arq_herp_im,out_EEC_ARQ_herp_IM,out_EEC_ARQ_herp_IM,,,,,,,,,
+out_eec_diet_herp_tp,out_EEC_diet_herp_TP,out_EEC_diet_herp_TP,,,,,,,,,
+out_eec_arq_herp_tp,out_EEC_ARQ_herp_TP,out_EEC_ARQ_herp_TP,,,,,,,,,
+out_eec_crq_herp_bl,out_EEC_CRQ_herp_BL,out_EEC_CRQ_herp_BL,,,,,,,,,
+out_eec_crq_herp_fr,out_EEC_CRQ_herp_FR,out_EEC_CRQ_herp_FR,,,,,,,,,
+out_eec_crq_herp_hm,out_EEC_CRQ_herp_HM,out_EEC_CRQ_herp_HM,,,,,,,,,
+out_eec_crq_herp_im,out_EEC_CRQ_herp_IM,out_EEC_CRQ_herp_IM,,,,,,,,,
+out_eec_crq_herp_tp,out_EEC_CRQ_herp_TP,out_EEC_CRQ_herp_TP,,,,,,,,,
+out_eec_dose_bp_sm_mean,out_EEC_dose_BP_sm_mean,out_EEC_dose_BP_sm_mean,,,,,,,,,
+out_eec_dose_bp_md_mean,out_EEC_dose_BP_md_mean,out_EEC_dose_BP_md_mean,,,,,,,,,
+out_eec_dose_bp_lg_mean,out_EEC_dose_BP_lg_mean,out_EEC_dose_BP_lg_mean,,,,,,,,,
+out_arq_dose_bp_sm_mean,out_ARQ_dose_BP_sm_mean,out_ARQ_dose_BP_sm_mean,,,,,,,,,
+out_arq_dose_bp_md_mean,out_ARQ_dose_BP_md_mean,out_ARQ_dose_BP_md_mean,,,,,,,,,
+out_arq_dose_bp_lg_mean,out_ARQ_dose_BP_lg_mean,out_ARQ_dose_BP_lg_mean,,,,,,,,,
+out_eec_dose_fr_sm_mean,out_EEC_dose_FR_sm_mean,out_EEC_dose_FR_sm_mean,,,,,,,,,
+out_eec_dose_fr_md_mean,out_EEC_dose_FR_md_mean,out_EEC_dose_FR_md_mean,,,,,,,,,
+out_eec_dose_fr_lg_mean,out_EEC_dose_FR_lg_mean,out_EEC_dose_FR_lg_mean,,,,,,,,,
+out_arq_dose_fr_sm_mean,out_ARQ_dose_FR_sm_mean,out_ARQ_dose_FR_sm_mean,,,,,,,,,
+out_arq_dose_fr_md_mean,out_ARQ_dose_FR_md_mean,out_ARQ_dose_FR_md_mean,,,,,,,,,
+out_arq_dose_fr_lg_mean,out_ARQ_dose_FR_lg_mean,out_ARQ_dose_FR_lg_mean,,,,,,,,,
+out_eec_dose_hm_md_mean,out_EEC_dose_HM_md_mean,out_EEC_dose_HM_md_mean,,,,,,,,,
+out_eec_dose_hm_lg_mean,out_EEC_dose_HM_lg_mean,out_EEC_dose_HM_lg_mean,,,,,,,,,
+out_arq_dose_hm_md_mean,out_ARQ_dose_HM_md_mean,out_ARQ_dose_HM_md_mean,,,,,,,,,
+out_arq_dose_hm_lg_mean,out_ARQ_dose_HM_lg_mean,out_ARQ_dose_HM_lg_mean,,,,,,,,,
+out_eec_dose_im_md_mean,out_EEC_dose_IM_md_mean,out_EEC_dose_IM_md_mean,,,,,,,,,
+out_eec_dose_im_lg_mean,out_EEC_dose_IM_lg_mean,out_EEC_dose_IM_lg_mean,,,,,,,,,
+out_arq_dose_im_md_mean,out_ARQ_dose_IM_md_mean,out_ARQ_dose_IM_md_mean,,,,,,,,,
+out_arq_dose_im_lg_mean,out_ARQ_dose_IM_lg_mean,out_ARQ_dose_IM_lg_mean,,,,,,,,,
+out_eec_dose_tp_md_mean,out_EEC_dose_TP_md_mean,out_EEC_dose_TP_md_mean,,,,,,,,,
+out_eec_dose_tp_lg_mean,out_EEC_dose_TP_lg_mean,out_EEC_dose_TP_lg_mean,,,,,,,,,
+out_arq_dose_tp_md_mean,out_ARQ_dose_TP_md_mean,out_ARQ_dose_TP_md_mean,,,,,,,,,
+out_arq_dose_tp_lg_mean,out_ARQ_dose_TP_lg_mean,out_ARQ_dose_TP_lg_mean,,,,,,,,,
+out_eec_diet_herp_bl_mean,out_EEC_diet_herp_BL_mean,out_EEC_diet_herp_BL_mean,,,,,,,,,
+out_eec_arq_herp_bl_mean,out_EEC_ARQ_herp_BL_mean,out_EEC_ARQ_herp_BL_mean,,,,,,,,,
+out_eec_diet_herp_fr_mean,out_EEC_diet_herp_FR_mean,out_EEC_diet_herp_FR_mean,,,,,,,,,
+out_eec_arq_herp_fr_mean,out_EEC_ARQ_herp_FR_mean,out_EEC_ARQ_herp_FR_mean,,,,,,,,,
+out_eec_diet_herp_hm_mean,out_EEC_diet_herp_HM_mean,out_EEC_diet_herp_HM_mean,,,,,,,,,
+out_eec_arq_herp_hm_mean,out_EEC_ARQ_herp_HM_mean,out_EEC_ARQ_herp_HM_mean,,,,,,,,,
+out_eec_diet_herp_im_mean,out_EEC_diet_herp_IM_mean,out_EEC_diet_herp_IM_mean,,,,,,,,,
+out_eec_arq_herp_im_mean,out_EEC_ARQ_herp_IM_mean,out_EEC_ARQ_herp_IM_mean,,,,,,,,,
+out_eec_diet_herp_tp_mean,out_EEC_diet_herp_TP_mean,out_EEC_diet_herp_TP_mean,,,,,,,,,
+out_eec_arq_herp_tp_mean,out_EEC_ARQ_herp_TP_mean,out_EEC_ARQ_herp_TP_mean,,,,,,,,,
+out_eec_crq_herp_bl_mean,out_EEC_CRQ_herp_BL_mean,out_EEC_CRQ_herp_BL_mean,,,,,,,,,
+out_eec_crq_herp_fr_mean,out_EEC_CRQ_herp_FR_mean,out_EEC_CRQ_herp_FR_mean,,,,,,,,,
+out_eec_crq_herp_hm_mean,out_EEC_CRQ_herp_HM_mean,out_EEC_CRQ_herp_HM_mean,,,,,,,,,
+out_eec_crq_herp_im_mean,out_EEC_CRQ_herp_IM_mean,out_EEC_CRQ_herp_IM_mean,,,,,,,,,
+out_eec_crq_herp_tp_mean,out_EEC_CRQ_herp_TP_mean,out_EEC_CRQ_herp_TP_mean,,,,,,,,,
+exp_ld50_ad_sm,exp_LD50_AD_sm,exp_LD50_AD_sm,,,,1020.05,10,10,10,10,10
+exp_ld50_ad_md,exp_LD50_AD_md,exp_LD50_AD_md,,,,1440.86,10,10,10,10,10
+exp_ld50_ad_lg,exp_LD50_AD_lg,exp_LD50_AD_lg,,,,2035.27,10,10,10,10,10
+exp_eec_dose_bp_sm,exp_EEC_dose_BP_sm,exp_EEC_dose_BP_sm,,,,3.36584,20.97994543,6.106237273,10.48997271,11.24174897,10.32606689
+exp_eec_dose_bp_md,exp_eec_dose_bp_md,exp_EEC_dose_BP_md,,,,1.99569,20.61883208,6.001134816,10.30941604,11.04825249,10.14833141
+exp_eec_dose_bp_lg,exp_EEC_dose_BP_lg,exp_EEC_dose_BP_lg,,,,1.1833,13.5133456,3.933074795,6.756672799,7.240897716,6.651099787
+exp_arq_dose_bp_sm,exp_ARQ_dose_BP_sm,exp_ARQ_dose_BP_sm,,,,0.00329969,2.097994543,0.610623727,1.048997271,1.124174897,1.032606689
+exp_arq_dose_bp_md,exp_ARQ_dose_BP_md,exp_ARQ_dose_BP_md,,,,0.00138507,2.061883208,0.600113482,1.030941604,1.104825249,1.014833141
+exp_arq_dose_bp_lg,exp_ARQ_dose_BP_lg,exp_ARQ_dose_BP_lg,,,,0.000581397,1.35133456,0.39330748,0.67566728,0.724089772,0.665109979
+exp_eec_dose_fr_sm,exp_EEC_dose_FR_sm,exp_EEC_dose_FR_sm,,,,0.373983,2.331105048,0.678470808,1.165552524,1.249083219,1.147340766
+exp_eec_dose_fr_md,exp_EEC_dose_FR_md,exp_EEC_dose_FR_md,,,,0.221744,2.290981342,0.666792757,1.145490671,1.227583609,1.127592379
+exp_eec_dose_fr_lg,exp_EEC_dose_FR_lg,exp_EEC_dose_FR_lg,,,,0.131478,1.501482844,0.437008311,0.750741422,0.804544191,0.739011087
+exp_arq_dose_fr_sm,exp_ARQ_dose_FR_sm,exp_ARQ_dose_FR_sm,,,,0.000366632,0.233110505,0.067847081,0.116555252,0.124908322,0.114734077
+exp_arq_dose_fr_md,exp_ARQ_dose_FR_md,exp_ARQ_dose_FR_md,,,,0.000153897,0.229098134,0.066679276,0.114549067,0.122758361,0.112759238
+exp_arq_dose_fr_lg,exp_ARQ_dose_FR_lg,exp_ARQ_dose_FR_lg,,,,0.0000645996,0.150148284,0.043700831,0.075074142,0.080454419,0.073901109
+exp_eec_dose_hm_md,exp_EEC_dose_HM_md,exp_EEC_dose_HM_md,,,,57.783,598.3916028,174.162565,299.1958014,320.638021,294.520867
+exp_eec_dose_hm_lg,exp_EEC_dose_HM_lg,exp_EEC_dose_HM_lg,,,,5.7783,93.02726599,27.07569287,46.51363299,49.8470873,45.78685748
+exp_arq_dose_hm_md,exp_ARQ_dose_HM_md,exp_ARQ_dose_HM_md,,,,0.0401032,59.83916028,17.4162565,29.91958014,32.0638021,29.4520867
+exp_arq_dose_hm_lg,exp_ARQ_dose_HM_lg,exp_ARQ_dose_HM_lg,,,,0.00283909,9.302726599,2.707569287,4.651363299,4.98470873,4.578685748
+exp_eec_dose_im_md,exp_EEC_dose_IM_md,exp_EEC_dose_IM_md,,,,3.61144,37.39947518,10.88516031,18.69973759,20.03987631,18.40755419
+exp_eec_dose_im_lg,exp_EEC_dose_IM_lg,exp_EEC_dose_IM_lg,,,,0.361144,5.814204124,1.692230805,2.907102062,3.115442956,2.861678592
+exp_arq_dose_im_md,exp_ARQ_dose_IM_md,exp_ARQ_dose_IM_md,,,,0.00250645,3.739947518,1.088516031,1.869973759,2.003987631,1.840755419
+exp_arq_dose_im_lg,exp_ARQ_dose_IM_lg,exp_ARQ_dose_IM_lg,,,,0.000177443,0.581420412,0.16922308,0.290710206,0.311544296,0.286167859
+exp_eec_dose_tp_md,exp_EEC_dose_TP_md,exp_EEC_dose_TP_md,,,,0.0935348,0.715704094,0.208306501,0.357852047,0.383497935,0.352260609
+exp_eec_dose_tp_lg,exp_EEC_dose_TP_lg,exp_EEC_dose_TP_lg,,,,0.0554592,0.469064238,0.136521687,0.234532119,0.25134014,0.230867555
+exp_arq_dose_tp_md,exp_ARQ_dose_TP_md,exp_ARQ_dose_TP_md,,,,0.000064916,0.071570409,0.02083065,0.035785205,0.038349794,0.035226061
+exp_arq_dose_tp_lg,exp_ARQ_dose_TP_lg,exp_ARQ_dose_TP_lg,,,,0.0000272491,0.046906424,0.013652169,0.023453212,0.025134014,0.023086755
+exp_eec_diet_herp_bl,exp_EEC_diet_herp_BL,exp_EEC_diet_herp_BL,,,,45.4544,540,157.1676217,270,289.3498681,265.78125
+exp_eec_arq_herp_bl,exp_EEC_ARQ_herp_BL,exp_EEC_ARQ_herp_BL,,,,0.0185,3.970588235,1.155644277,1.985294118,2.127572559,1.954273897
+exp_eec_diet_herp_fr,exp_EEC_diet_herp_FR,exp_EEC_diet_herp_FR,,,,5.05049,60,17.46306908,30,32.14998534,29.53125
+exp_eec_arq_herp_fr,exp_EEC_ARQ_herp_FR,exp_EEC_ARQ_herp_FR,,,,0.00205555,0.441176471,0.12840492,0.220588235,0.236396951,0.217141544
+exp_eec_diet_herp_hm,exp_EEC_diet_herp_HM,exp_EEC_diet_herp_HM,,,,77.044,632.5854087,184.1147115,316.2927044,338.9601936,311.3506309
+exp_eec_arq_herp_hm,exp_EEC_ARQ_herp_HM,exp_EEC_ARQ_herp_HM,,,,0.031357,4.651363299,1.353784644,2.32568165,2.492354365,2.289342874
+exp_eec_diet_herp_im,exp_EEC_diet_herp_IM,exp_EEC_diet_herp_IM,,,,4.81525,39.53658805,11.50716947,19.76829402,21.1850121,19.45941443
+exp_eec_arq_herp_im,exp_EEC_ARQ_herp_IM,exp_EEC_ARQ_herp_IM,,,,0.00195981,0.290710206,0.08461154,0.145355103,0.155772148,0.14308393
+exp_eec_diet_herp_tp,exp_EEC_diet_herp_TP,exp_EEC_diet_herp_TP,,,,2.13037,18.74403988,5.455474387,9.372019938,10.04367679,9.225582127
+exp_eec_arq_herp_tp,exp_EEC_ARQ_herp_TP,exp_EEC_ARQ_herp_TP,,,,0.000867062,0.137823823,0.040113782,0.068911911,0.073850565,0.067835163
+exp_eec_crq_herp_bl,exp_EEC_CRQ_herp_BL,exp_EEC_CRQ_herp_BL,,,,0.454543787,21.6,6.28670487,10.8,11.57399472,10.63125
+exp_eec_crq_herp_fr,exp_EEC_CRQ_herp_FR,exp_EEC_CRQ_herp_FR,,,,0.050504865,2.4,0.698522763,1.2,1.285999414,1.18125
+exp_eec_crq_herp_hm,exp_EEC_CRQ_herp_HM,exp_EEC_CRQ_herp_HM,,,,0.770440341,25.30341635,7.364588462,12.65170817,13.55840775,12.45402523
+exp_eec_crq_herp_im,exp_EEC_CRQ_herp_IM,exp_EEC_CRQ_herp_IM,,,,0.048152521,1.581463522,0.460286779,0.790731761,0.847400484,0.778376577
+exp_eec_crq_herp_tp,exp_EEC_CRQ_herp_TP,exp_EEC_CRQ_herp_TP,,,,0.021303703,0.749761595,0.218218975,0.374880798,0.401747072,0.369023285
+exp_eec_dose_bp_sm_mean,exp_EEC_dose_BP_sm_mean,exp_EEC_dose_BP_sm_mean,,,,1.12195,6.993315143,2.035412424,3.496657571,3.747249656,3.442022297
+exp_eec_dose_bp_md_mean,exp_EEC_dose_BP_md_mean,exp_EEC_dose_BP_md_mean,,,,0.665231,6.872944026,2.000378272,3.436472013,3.682750828,3.382777138
+exp_eec_dose_bp_lg_mean,exp_EEC_dose_BP_lg_mean,exp_EEC_dose_BP_lg_mean,,,,0.394433,4.504448533,1.311024932,2.252224266,2.413632572,2.217033262
+exp_arq_dose_bp_sm_mean,exp_ARQ_dose_BP_sm_mean,exp_ARQ_dose_BP_sm_mean,,,,0.0010999,0.699331514,0.203541242,0.349665757,0.374724966,0.34420223
+exp_arq_dose_bp_md_mean,exp_ARQ_dose_BP_md_mean,exp_ARQ_dose_BP_md_mean,,,,0.000461691,0.687294403,0.200037827,0.343647201,0.368275083,0.338277714
+exp_arq_dose_bp_lg_mean,exp_ARQ_dose_BP_lg_mean,exp_ARQ_dose_BP_lg_mean,,,,0.000193799,0.450444853,0.131102493,0.225222427,0.241363257,0.221703326
+exp_eec_dose_fr_sm_mean,exp_EEC_dose_FR_sm_mean,exp_EEC_dose_FR_sm_mean,,,,0.174525,1.087849022,0.31661971,0.543924511,0.582905502,0.535425691
+exp_eec_dose_fr_md_mean,exp_EEC_dose_FR_md_mean,exp_EEC_dose_FR_md_mean,,,,0.10348,1.069124626,0.311169953,0.534562313,0.572872351,0.526209777
+exp_eec_dose_fr_lg_mean,exp_EEC_dose_FR_lg_mean,exp_EEC_dose_FR_lg_mean,,,,0.0613562,0.700691994,0.203937212,0.350345997,0.375453956,0.344871841
+exp_arq_dose_fr_sm_mean,exp_ARQ_dose_FR_sm_mean,exp_ARQ_dose_FR_sm_mean,,,,0.000171095,0.108784902,0.031661971,0.054392451,0.05829055,0.053542569
+exp_arq_dose_fr_md_mean,exp_ARQ_dose_FR_md_mean,exp_ARQ_dose_FR_md_mean,,,,0.0000718186,0.106912463,0.031116995,0.053456231,0.057287235,0.052620978
+exp_arq_dose_fr_lg_mean,exp_ARQ_dose_FR_lg_mean,exp_ARQ_dose_FR_lg_mean,,,,0.0000301465,0.070069199,0.020393721,0.0350346,0.037545396,0.034487184
+exp_eec_dose_hm_md_mean,exp_EEC_dose_HM_md_mean,exp_EEC_dose_HM_md_mean,,,,20.4648,211.9303593,61.6825751,105.9651797,113.5592991,104.3094737
+exp_eec_dose_hm_lg_mean,exp_EEC_dose_HM_lg_mean,exp_EEC_dose_HM_lg_mean,,,,2.04648,32.9471567,9.589307893,16.47357835,17.65417675,16.21617869
+exp_arq_dose_hm_md_mean,exp_ARQ_dose_HM_md_mean,exp_ARQ_dose_HM_md_mean,,,,0.0142032,21.19303593,6.16825751,10.59651797,11.35592991,10.43094737
+exp_arq_dose_hm_lg_mean,exp_ARQ_dose_HM_lg_mean,exp_ARQ_dose_HM_lg_mean,,,,0.00100551,3.29471567,0.958930789,1.647357835,1.765417675,1.621617869
+exp_eec_dose_im_md_mean,exp_EEC_dose_IM_md_mean,exp_EEC_dose_IM_md_mean,,,,1.68534,17.45308842,5.079741479,8.726544208,9.35194228,8.590191955
+exp_eec_dose_im_lg_mean,exp_EEC_dose_IM_lg_mean,exp_EEC_dose_IM_lg_mean,,,,0.168534,2.713295258,0.789707709,1.356647629,1.45387338,1.33545001
+exp_arq_dose_im_md_mean,exp_ARQ_dose_IM_md_mean,exp_ARQ_dose_IM_md_mean,,,,0.00116968,1.745308842,0.507974148,0.872654421,0.935194228,0.859019195
+exp_arq_dose_im_lg_mean,exp_ARQ_dose_IM_lg_mean,exp_ARQ_dose_IM_lg_mean,,,,0.0000828067,0.271329526,0.078970771,0.135664763,0.145387338,0.133545001
+exp_eec_dose_tp_md_mean,exp_EEC_dose_TP_md_mean,exp_EEC_dose_TP_md_mean,,,,0.0311783,0.238568031,0.0694355,0.119284016,0.127832645,0.117420203
+exp_eec_dose_tp_lg_mean,exp_EEC_dose_TP_lg_mean,exp_EEC_dose_TP_lg_mean,,,,0.0184864,0.156354746,0.045507229,0.078177373,0.083780047,0.076955852
+exp_arq_dose_tp_md_mean,exp_ARQ_dose_TP_md_mean,exp_ARQ_dose_TP_md_mean,,,,0.0000216387,0.023856803,0.00694355,0.011928402,0.012783265,0.01174202
+exp_arq_dose_tp_lg_mean,exp_ARQ_dose_TP_lg_mean,exp_ARQ_dose_TP_lg_mean,,,,0.00000908303,0.015635475,0.004550723,0.007817737,0.008378005,0.007695585
+exp_eec_diet_herp_bl_mean,exp_EEC_diet_herp_BL_mean,exp_EEC_diet_herp_BL_mean,,,,15.1515,180,52.38920725,90,96.44995603,88.59375
+exp_eec_arq_herp_bl_mean,exp_EEC_ARQ_herp_BL_mean,exp_EEC_ARQ_herp_BL_mean,,,,0.00616665,1.323529412,0.385214759,0.661764706,0.709190853,0.651424632
+exp_eec_diet_herp_fr_mean,exp_EEC_diet_herp_FR_mean,exp_EEC_diet_herp_FR_mean,,,,2.35689,28,8.149432238,14,15.00332649,13.78125
+exp_eec_arq_herp_fr_mean,exp_EEC_ARQ_herp_FR_mean,exp_EEC_ARQ_herp_FR_mean,,,,0.000959257,0.205882353,0.059922296,0.102941176,0.110318577,0.101332721
+exp_eec_diet_herp_hm_mean,exp_EEC_diet_herp_HM_mean,exp_EEC_diet_herp_HM_mean,,,,27.2864,224.0406656,65.20729367,112.0203328,120.0484019,110.2700151
+exp_eec_arq_herp_hm_mean,exp_EEC_ARQ_herp_HM_mean,exp_EEC_ARQ_herp_HM_mean,,,,0.0111056,1.647357835,0.479465395,0.823678918,0.882708838,0.810808935
+exp_eec_diet_herp_im_mean,exp_EEC_diet_herp_IM_mean,exp_EEC_diet_herp_IM_mean,,,,2.24712,18.45040775,5.37001242,9.225203877,9.886338981,9.081060067
+exp_eec_arq_herp_im_mean,exp_EEC_ARQ_herp_IM_mean,exp_EEC_ARQ_herp_IM_mean,,,,0.000914578,0.135664763,0.039485385,0.067832381,0.072693669,0.0667725
+exp_eec_diet_herp_tp_mean,exp_EEC_diet_herp_TP_mean,exp_EEC_diet_herp_TP_mean,,,,0.710123,6.248013292,1.818491462,3.124006646,3.347892263,3.075194042
+exp_eec_arq_herp_tp_mean,exp_EEC_ARQ_herp_TP_mean,exp_EEC_ARQ_herp_TP_mean,,,,0.000289021,0.045941274,0.013371261,0.022970637,0.024616855,0.022611721
+exp_eec_crq_herp_bl_mean,exp_EEC_CRQ_herp_BL_mean,exp_EEC_CRQ_herp_BL_mean,,,,0.151515,7.2,2.09556829,3.6,3.857998241,3.54375
+exp_eec_crq_herp_fr_mean,exp_EEC_CRQ_herp_FR_mean,exp_EEC_CRQ_herp_FR_mean,,,,0.0235689,1.12,0.32597729,0.56,0.60013306,0.55125
+exp_eec_crq_herp_hm_mean,exp_EEC_CRQ_herp_HM_mean,exp_EEC_CRQ_herp_HM_mean,,,,0.272864,8.961626624,2.608291747,4.480813312,4.801936077,4.410800604
+exp_eec_crq_herp_im_mean,exp_EEC_CRQ_herp_IM_mean,exp_EEC_CRQ_herp_IM_mean,,,,0.0224712,0.73801631,0.214800497,0.369008155,0.395453559,0.363242403
+exp_eec_crq_herp_tp_mean,exp_EEC_CRQ_herp_TP_mean,exp_EEC_CRQ_herp_TP_mean,,,,0.00710123,0.249920532,0.072739658,0.124960266,0.133915691,0.123007762
