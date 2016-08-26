@@ -36,6 +36,31 @@ class THerpsFunctions(object):
             for k in range (0, self.num_apps[i]):  # assign rates and app days per simulation
                 app_rate_temp[k] = self.application_rate[i]
                 if k == 0:
+                    app_days_temp[k] = 1  #changed to 1 to reflect day number rather than list index                       #elif k == 1:
+                        #    app_days_temp[k] = (self.app_interval[i] + app_days_temp[k-1]) - 1
+                else:
+                    app_days_temp[k] = self.app_interval[i] + app_days_temp[k-1]
+            day_out_temp[i] = app_days_temp  #move simulation specific data lists into model objects
+            app_rates_temp[i] = app_rate_temp
+        return day_out_temp, app_rates_temp
+
+    def convert_app_intervals_original(self):
+        """
+        method converts number of applications and application interval into application rates and day of year number
+        this is so that the same concentration timeseries method from trex_functions can be reused here
+        :return:
+        """
+        day_out_temp = pd.Series([], dtype = 'object')
+        app_rates_temp = pd.Series([], dtype = 'object')
+        app_rate_temp = pd.Series([], dtype = 'float')
+        app_days_temp = pd.Series([], dtype = 'int')
+
+        for i in range(len(self.num_apps)):  # iterate over number of simulations to process
+            app_days_temp = range(self.num_apps[i]) #reset list lengths for current iteration/simulation
+            app_rate_temp = range(self.num_apps[i])
+            for k in range (0, self.num_apps[i]):  # assign rates and app days per simulation
+                app_rate_temp[k] = self.application_rate[i]
+                if k == 0:
                     app_days_temp[k] = 0
                 elif k == 1:
                     app_days_temp[k] = (self.app_interval[i] + app_days_temp[k-1]) - 1
@@ -123,7 +148,7 @@ class THerpsFunctions(object):
             c_temp = np.zeros((371, 1))  # empty array to hold the concentrations over days of year (index 0 = Jan 1)
             app_counter = 0  #iniitalize application number counter for this model simulation run (i)
             temp_num_apps = self.num_apps[i]
-            #day_out is input as the day number, i.e., 1 - 365, the array indeces start at 0, thus the '- 1'
+            #day_out is input as the day number, i.e., 1 - 365, the array indices start at 0, thus the '- 1'
             #should note that the user input for 'day_out' should be actual day number (i.e., 1 <- day_out <-365)
             temp_app_indices = np.asarray(self.day_out[i]) - 1
             temp_app_rates = np.asarray(self.app_rates[i])

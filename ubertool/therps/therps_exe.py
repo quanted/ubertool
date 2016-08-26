@@ -74,7 +74,7 @@ class THerpsInputs(ModelSharedInputs):
         self.num_apps = pd.Series([], dtype = "int", name="num_apps")
         self.app_interval = pd.Series([], dtype = "int", name="app_interval")
 
-        self.application_rate = pd.Series([], dtype = "object", name="application_rate")
+        self.application_rate = pd.Series([], dtype = "float", name="application_rate")
 
         self.ld50_bird = pd.Series([], dtype = "float", name="ld50_bird")
         self.lc50_bird = pd.Series([], dtype = "float", name="lc50_bird")

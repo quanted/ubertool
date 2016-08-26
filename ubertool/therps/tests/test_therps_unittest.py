@@ -61,7 +61,7 @@ class Testtherps(unittest.TestCase):
         result_day_out = pd.Series([], dtype="object")
         result_app_rates = pd.Series([], dtype="object")
 
-        expected_result_day_out = pd.Series([[0,6,13], [0], [0,20,41,62], [0,6,13]], dtype = 'object')
+        expected_result_day_out = pd.Series([[1,8,15], [1], [1,22,43,64], [1,8,15]], dtype = 'object')
         expected_result_app_rates = pd.Series([[1.2,1.2,1.2], [2.3], [2.5,2.5,2.5,2.5], [5.1,5.1,5.1]], dtype = 'object')
         try:
             self.therps_empty.num_apps = [3,1,4,3]

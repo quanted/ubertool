@@ -33,3 +33,8 @@ Name Change Notes:
         (therps_exe.py)
         (the conversion does not appear to have been done in the therps.py code; i.e., the original translation
         code from the OPP spreadsheet model)
+
+     f) because our tests require a relative difference between expected and calculated results
+        of <= 1e-5 ALL expected values registered in the OPP spreadsheet of test results must include
+        at least 6 significant digits; if the exact value is less than 5 significant digits obviously
+        this is ok
