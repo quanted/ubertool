@@ -1,0 +1,40 @@
+
+Name Change Notes:
+
+1. Input variable names are changed to be consistent with those used in "trex_exe.py".
+   In making the name changes the description of the variable was used to determine name change.
+   In some cases (below) the meaning is a bit less than definitive
+
+    a) What was labeled "bw_avian_ld50" is changed to "tw_bird_ld50"; the "t" seems to
+       mean "tested" but the description is not explicit on this.  I went with the name
+       used in "trex_exe.py" for the given description.  This is true for other input
+       variables that begin with "bw_avian"
+
+    b) original input variable names/references to "avian" were changed to "bird" for
+       consistency with "trex_exe.py"
+
+    c) application rate, num_apps, and app_interval are used to create function that
+       converts these into object/series like those used in TREX; the output of the converter
+       are objects containing num_apps, application rate per application, and application day
+       of year per application
+
+    d) the following section of code was moved from the module level into the
+       TestHerps class (within the unittest module) so that the therps_empty object
+       would be cleared after/before each unittest
+
+        self.therps_empty = object
+        # create empty pandas dataframes to create empty object for testing
+        df_empty = pd.DataFrame()
+        # create an empty therps object
+        self.therps_empty = THerps(df_empty, df_empty)
+
+     e) values for 'awc_herp_**' are input (from OPP spreadsheet) as percent water content in herptiles diet;
+        to be used in the model they must be converted to mass fraction; this conversion was inserted in model
+        (therps_exe.py)
+        (the conversion does not appear to have been done in the therps.py code; i.e., the original translation
+        code from the OPP spreadsheet model)
+
+     f) because our tests require a relative difference between expected and calculated results
+        of <= 1e-5 ALL expected values registered in the OPP spreadsheet of test results must include
+        at least 6 significant digits; if the exact value is less than 5 significant digits obviously
+        this is ok

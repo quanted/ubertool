@@ -723,7 +723,7 @@ class Therps(object):
         fi_herp = fi_herp(bw_herp, wp_herp_a)
         return (eec_diet_tp * fi_herp / bw_herp)
 
-    def arq_dose_herp(self, eec_dose_herp, eec_diet, bw_herp, at_bird, avian_ld50, tw_bird,
+    def arq_dose_herp(self, eec_dose_herp, eec_diet, bw_herp, at_bird, atw_bird,vian_ld50,
                       mineau_scaling_factor, wp_herp, c_0, c_t, n_a, i_a, a_r, a_i, para, h_l):
         """
         amphibian acute dose-based risk quotients

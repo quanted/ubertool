@@ -27,7 +27,7 @@ class TRexFunctions(object):
 
     def convert_strlist_float(self, pd_series_strings):
         #method converts a panda series of lists whose elements are strings
-        #to a series of lists of either floats
+        #to a series of lists of floats
         #create list of strings
         pd_series_floats = pd.Series([], dtype="object")
         temp1 = pd.Series([], dtype="object")
@@ -44,20 +44,8 @@ class TRexFunctions(object):
         return pd_series_floats
 
     def convert_strlist_int(self, pd_series_strings):
-        # #method converts a panda series of lists whose elements are strings
-        # #to a series of lists of either floats
-        # #create list of strings
-        # pd_series_ints = pd.Series([], dtype="object")
-        # temp = pd_series_strings.tolist()
-        # #create list of vectors of strings
-        # temp2 = [str(i).split(',') for i in temp]
-        # #convert to floats and assign back to series
-        # for j, item in enumerate(temp2):
-        #     temp_item = map(int, item)
-        #     pd_series_ints.loc[j] = temp_item
-        # return pd_series_ints
-            #method converts a panda series of lists whose elements are strings
-        #to a series of lists of either floats
+        #method converts a panda series of lists whose elements are strings
+        #to a series of lists of integers
         #create list of strings
         pd_series_ints = pd.Series([], dtype="object")
         temp1 = pd.Series([], dtype="object")
@@ -67,7 +55,7 @@ class TRexFunctions(object):
             temp1[j] = temp1[j].strip(']')
         #create list of vectors of strings
         temp2 = [str(i).split(',') for i in temp1]
-        #convert to floats and assign back to series
+        #convert to integers and assign back to series
         for j, item in enumerate(temp2):
             temp_item = map(int, item)
             pd_series_ints.loc[j] = temp_item
@@ -308,9 +296,9 @@ class TRexFunctions(object):
 
     def eec_dose_bird(self, aw_bird, mf_w_bird, food_multiplier):
     # Dose based EECs for birds
-        fi_bird_calc = self.fi_bird(aw_bird, mf_w_bird)
+        fi_bird_temp = self.fi_bird(aw_bird, mf_w_bird)
         eec_diet_temp = self.eec_diet_max(food_multiplier)
-        eec_out = eec_diet_temp * fi_bird_calc / aw_bird
+        eec_out = eec_diet_temp * fi_bird_temp / aw_bird
         return eec_out
 
     def eec_dose_mamm(self, aw_mamm, mf_w_mamm, food_multiplier):

@@ -1,0 +1,167 @@
+The following notes apply to the process of conducting the TRex unittests and
+integration tests.
+
+
+1. Tried a couple methods for asserting that expected results matched calculated
+   results.
+
+   ASSERT_ARRAY_ALMOST_EQUAL
+   Checks if absolute difference between two numbers is less than stated tolerance
+   (if abs(A - B) < 1e(tolerance)
+
+   this test doesn't work for large numbers that should be considered a match nor
+   for small numbers that should not be considered a match.
+
+   For example A = 34665.3340; B = 34665.3342; tol = 5 (or 1e-5)
+               abs(34665.3340 - 34665.3342) = .0002  THIS DOES NOT ASSERT AND SHOULD
+
+               A = .00003344; B = .00002344; tol = 5 (or 1e-5)
+               abs(.00003344 - .00002344) = 1e-5  THIS ASSERTS BUT SHOULD NOT (30% difference)
+
+    ASSERT_ALLCLOSE
+    This test calculates relative and absolute differences
+
+    Relative Diff = abs(actual - expected)/expected  <= rtol
+
+    using the same numbers as in example above
+
+    (34665.3340 - 34665.3342)/(34665.3342) = 9.6e-6  ASSERTS AS IT SHOULD with rtol 1e-5
+
+    also
+
+    (.00003344 - .00002344)/(.00003344) = 0.3  DOES NOT ASSERT with rtol 1e-5
+
+    WE USE THIS IN OUR TESTS
+
+2. Integration test; Test Run #10 has % active ingredient = 42.3; this should be 100
+   because the application rate of 3.4936 has already been modified for % active ingredient
+
+3. Run #1 value of 'noell_mamm' is input as a blank cell; this causes all
+   'crq_dose_mamm_*_*' to result in 'nan' (i.e., not a number) while the expected
+   result is indeed a number
+
+   turns out a noell_mamm value of 37.5 resolves the issue for all calculations
+   (conclusion is that the input spreadsheet should include the value 37.5)
+
+4. Issue about the use of 'first_app_rate' vs 'max_app_rate'
+
+    it's not totally clear which app_rate to use in methods such as 'sc_bird'
+
+    note that if max_app_rate is used to calculate max concentraiton for the year it will
+    not be correct  because max_conc for the year will be a function of both the app_rate
+    and the residual concentration remaining from any precious application
+
+    we generate the entire year timeseries and then use the maximum value
+
+5. The automatic formatting in the trex input spreadsheet was causing integers in the
+   spreadsheet to be integers (instead of floats) when read into the code
+
+   solution: add 'from__future__inport division' to imports of trex_functions
+        this taps into Python 3 where numbers input without decimal pts are still
+        considered floats if declared as floats
+6. Some methods calculate variable values depending on the application type.  If the
+   application_type applies then a value is calculated; if it does not apply then a value
+   of 0.0 is assigned
+     the 0.0 value was changed to numpy.nan to match the 'nan' read from the input spreadsheet
+
+     for example: out_ld50_rg_mamm_md is calculated only for application type
+     'Row/Band/In-furrow-Granular'
+
+     when calculating method is invoked for all other app_types this variable
+     was assigned a value of 0.0; it is now being assigned 'numpy.nan'
+
+7. Note for input file from user
+
+        all input variables that are numerical must have a valueplaced in the
+        spreadsheet celll  --  blank cess are interpreted as 'nan' and they contaminate
+        the model code calculations
+
+8. The app_rate for integration test simulation #10('Row/Banc/In-furrow-Granular'
+   was in the input spreadsheet as 11.6 but should be 11.616 as stated in the OPP
+   model spreadsheet in cell C135 (i.e., for cucumber)
+
+   turns out the C135 cell is formatted for 1 decimal place when actually the
+   number 11.616 would require 3
+
+   Note: need to make sure 'entire set of sgnifcant digits' is transferred
+   from original input spreadsheetinto python input set
+
+9. Issue with 'scientific' as format in input spreadsheet;
+        when scientific is selected as format for a spreadsheet cell it
+        limits the number to x.xxe(+/- expponent) (i.e., 2 decimal places)
+
+        need to either use 'automatic' which will simply place the entire value
+        with science exponent in cell or increase the signifciant digits associated
+        with the x.xxe# representation
+
+        for test simulation #10 'sa_bird_2_l' and 'sa_mamm_2_l' each had expected
+        values of 0.0000533466 and 0.0000880677 respectively; they were placed in
+        the cell with scientific notation as 5.33e-5 and 8.80e-5
+
+        there were changed to 'automatic' formatting; which resolved the issue
+
+10. Format of blank OPP input spreadsheet cell (i.e., spreadsheet of expected
+    value & inputs)
+
+        - a truly black cell will be read as 'nan' which is what is expected
+        - however, if any cell for that variable (across test simulations) 'appears'
+        blank but has a blank character (e.g., a space)in it the Python will read
+        it as a string object and not a 'nan'
+            this will cause problems in the assertionis (comparisons between
+            expected and actual/calculated results)
+
+11. Erroneous expected values in OPP input spreadsheet
+
+    Table 15 variables (ld50_bl_bird/mamm_sm/md/lg) are calculated in methods
+    'ld50_bl_bird' and 'ld50_bl_mamm')
+
+    Expected values provided in the OPP spreadsheet for text simulations 4/5/6
+    were determined to be erroneous
+
+        expected values for simululation run #4 wer enon-zero but did not
+        match values calculated by Python code
+
+        expected values for simulations #5/6 were simply 0.0
+
+        all other expected values (i.e., simulations 1/2/3/7/8/9) that involved
+        broadcast liquid matched those calculated by Python code
+
+        To determine the source of this error the OPP spreadsheet model was run using
+        inputs listed for test simulations 4/5/6
+
+        in each instance the OPP spreadsheet computed values that matched those
+        calculated by the Python code
+
+        Conclusion: the expected values for test simulations 4/5/6 for Table 15
+        variables were incorrectly transcribed into the spreadsheet
+
+        The values produced by the OPP spreadsheet model were then replaced in
+        the expected values spreadsheet read by the Python code
+
+12. Recommendation:
+
+        Develop additional test data sets that involve each of the application types;
+        thus far only 'broadcast liquid' (9) and 'Row/Band/In-furrow-Granular' (1)
+        are included
+
+13. Verify:
+
+    that the maximum application rate is used in the OPP spreadsheet; it is not
+    clear to me how the series of application rates (if a series is input by the
+    user) is processed (if at all)
+
+    it appears that the applicaiton rate in cell B11 is used even when a series of
+    app rates are input by the user
+
+14.  there is a need for an input verification (qa/qc) code before the inputs are
+     introduced to the main model code
+
+15. the following section of code was moved from the module level into the
+       TestTRex class (within the unittest module) so that the trex_empty object
+       would be cleared after/before each unittest
+
+        self.trex_empty = object
+        # create empty pandas dataframes to create empty object for testing
+        df_empty = pd.DataFrame()
+        # create an empty trex object
+        self.therps_empty = TRex(df_empty, df_empty)
