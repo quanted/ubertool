@@ -19,7 +19,7 @@ from kabam_exe import Kabam
 
 # create empty pandas dataframes to create empty object for testing
 df_empty = pd.DataFrame()
-# create an empty trex object
+# create an empty kabam object
 kabam_empty = Kabam(df_empty, df_empty)
 
 test = {}
@@ -50,16 +50,16 @@ class TestKabam(unittest.TestCase):
         # e.g. maybe write test results to some text file
 
 
-    def test_phi_x(self):
+    def test_phi_f(self):
         """
         unittest for function phi_x;
         """
         result = pd.Series([], dtype='float')
         expected_results = [69.17640, 146.8274, 56.00997]
         try:
-            kabam_empty.x_poc = pd.Series([100., 125., 90.], dtype='float')
-            kabam_empty.k_ow = pd.Series([100., 125., 90.], dtype='float')
-            kabam_empty.x_doc = pd.Series([100., 125., 90.], dtype='float')
+            kabam_empty.conc_poc = pd.Series([1.e-3, 1.25e-4, 9.e-5], dtype='float')
+            kabam_empty.log_kow = pd.Series([4., 5., 6.5], dtype='float')
+            kabam_empty.conc_doc = pd.Series([1.e-4, 2.5e-3, 4.9e-5], dtype='float')
             result = kabam_empty.phi_f()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
