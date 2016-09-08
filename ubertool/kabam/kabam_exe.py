@@ -25,9 +25,9 @@ class KabamInputs(ModelSharedInputs):
         #Inputs: Assign object attribute variables from the input Pandas DataFrame
         self.log_kow = pd.Series([], dtype='float')
         self.k_oc = pd.Series([], dtype='float')
-        self.c_wdp = pd.Series([], dtype='float')
+        self.pore_water_eec = pd.Series([], dtype='float')
         self.water_column_eec = pd.Series([], dtype='float')
-        self.c_wto = pd.Series([], dtype='float')
+#        self.c_wto = pd.Series([], dtype='float')  #
         self.mineau_scaling_factor = pd.Series([], dtype='float')
         self.conc_poc = pd.Series([], dtype='float')
         self.conc_doc = pd.Series([], dtype='float')
@@ -81,10 +81,10 @@ class KabamInputs(ModelSharedInputs):
         self.sfish_diet_zooplankton = pd.Series([], dtype='float')
         self.sfish_diet_benthic_invertebrates = pd.Series([], dtype='float')
         self.sfish_diet_filter_feeders = pd.Series([], dtype='float')
-        self.filterfish_diet_sediment = pd.Series([], dtype='float')
-        self.filterfish_diet_phytoplankton = pd.Series([], dtype='float')
-        self.filterfish_diet_zooplankton = pd.Series([], dtype='float')
-        self.filterfish_diet_benthic_invertebrates = pd.Series([], dtype='float')
+        self.filterfeeders_diet_sediment = pd.Series([], dtype='float')
+        self.filterfeeders_diet_phytoplankton = pd.Series([], dtype='float')
+        self.filterfeeders_diet_zooplankton = pd.Series([], dtype='float')
+        self.filterfeeders_diet_benthic_invertebrates = pd.Series([], dtype='float')
         self.beninv_diet_sediment = pd.Series([], dtype='float')
         self.beninv_diet_phytoplankton = pd.Series([], dtype='float')
         self.beninv_diet_zooplankton = pd.Series([], dtype='float')
@@ -96,35 +96,35 @@ class KabamInputs(ModelSharedInputs):
         self.phytoplankton_lipid = pd.Series([], dtype='float')
         self.phytoplankton_nlom = pd.Series([], dtype='float')
         self.phytoplankton_water = pd.Series([], dtype='float')
-        self.zoo_kg = pd.Series([], dtype='float')
+        self.zoo_wb = pd.Series([], dtype='float')
         self.zoo_lipid = pd.Series([], dtype='float')
         self.zoo_nlom = pd.Series([], dtype='float')
         self.zoo_water = pd.Series([], dtype='float')
-        self.beninv_kg = pd.Series([], dtype='float')
+        self.beninv_wb = pd.Series([], dtype='float')
         self.beninv_lipid = pd.Series([], dtype='float')
         self.beninv_nlom = pd.Series([], dtype='float')
         self.beninv_water = pd.Series([], dtype='float')
-        self.filterfish_kg = pd.Series([], dtype='float')
-        self.filterfish_lipid = pd.Series([], dtype='float')
-        self.filterfish_nlom = pd.Series([], dtype='float')
-        self.filterfish_water = pd.Series([], dtype='float')
-        self.sfish_kg = pd.Series([], dtype='float')
+        self.filterfeeders_wb = pd.Series([], dtype='float')
+        self.filterfeeders_lipid = pd.Series([], dtype='float')
+        self.filterfeeders_nlom = pd.Series([], dtype='float')
+        self.filterfeeders_water = pd.Series([], dtype='float')
+        self.sfish_wb = pd.Series([], dtype='float')
         self.sfish_lipid = pd.Series([], dtype='float')
         self.sfish_nlom = pd.Series([], dtype='float')
         self.sfish_water = pd.Series([], dtype='float')
-        self.mfish_kg = pd.Series([], dtype='float')
+        self.mfish_wb = pd.Series([], dtype='float')
         self.mfish_lipid = pd.Series([], dtype='float')
         self.mfish_nlom = pd.Series([], dtype='float')
         self.mfish_water = pd.Series([], dtype='float')
-        self.lfish_kg = pd.Series([], dtype='float')
+        self.lfish_wb = pd.Series([], dtype='float')
         self.lfish_lipid = pd.Series([], dtype='float')
         self.lfish_nlom = pd.Series([], dtype='float')
         self.lfish_water = pd.Series([], dtype='float')
         self.phytoplankton_kg = pd.Series([], dtype='float')
         self.phytoplankton_kd = pd.Series([], dtype='float')
         self.phytoplankton_ke = pd.Series([], dtype='float')
-        self.mo_phytoplankton = pd.Series([], dtype='float')
-        self.mp_phytoplankton = pd.Series([], dtype='float')
+        self.phytoplankton_mo = pd.Series([], dtype='float')
+        self.phytoplankton_mp = pd.Series([], dtype='float')
         self.phytoplankton_km = pd.Series([], dtype='float')
         self.zoo_km = pd.Series([], dtype='float')
         self.phytoplankton_k1 = pd.Series([], dtype='float')
@@ -138,11 +138,11 @@ class KabamInputs(ModelSharedInputs):
         self.beninv_kd = pd.Series([], dtype='float')
         self.beninv_ke = pd.Series([], dtype='float')
         self.beninv_km = pd.Series([], dtype='float')
-        self.filterfish_k1 = pd.Series([], dtype='float')
-        self.filterfish_k2 = pd.Series([], dtype='float')
-        self.filterfish_kd = pd.Series([], dtype='float')
-        self.filterfish_ke = pd.Series([], dtype='float')
-        self.filterfish_km = pd.Series([], dtype='float')
+        self.filterfeeders_k1 = pd.Series([], dtype='float')
+        self.filterfeeders_k2 = pd.Series([], dtype='float')
+        self.filterfeeders_kd = pd.Series([], dtype='float')
+        self.filterfeeders_ke = pd.Series([], dtype='float')
+        self.filterfeeders_km = pd.Series([], dtype='float')
         self.sfish_k1 = pd.Series([], dtype='float')
         self.sfish_k2 = pd.Series([], dtype='float')
         self.sfish_kd = pd.Series([], dtype='float')
@@ -170,7 +170,7 @@ class KabamInputs(ModelSharedInputs):
         self.phyto_respire = pd.Series([], dtype='float')
         self.zoo_respire = pd.Series([], dtype='float')
         self.beninv_respire = pd.Series([], dtype='float')
-        self.filterfish_respire = pd.Series([], dtype='float')
+        self.filterfeeders_respire = pd.Series([], dtype='float')
         self.sfish_respire = pd.Series([], dtype='float')
         self.mfish_respire = pd.Series([], dtype='float')
         self.lfish_respire = pd.Series([], dtype='float')
@@ -242,10 +242,10 @@ class KabamOutputs(object):
         self.vng_ff_f()
         self.vwg_ff_f()
         self.kgb_ff_f()
-        self.filterfish_k1_f()
-        self.filterfish_k2_f()
-        self.filterfish_kd_f()
-        self.filterfish_ke_f()
+        self.filterfeeders_k1_f()
+        self.filterfeeders_k2_f()
+        self.filterfeeders_kd_f()
+        self.filterfeeders_ke_f()
 
         self.gv_sf_f()
         self.ew_sf_f()
@@ -304,41 +304,41 @@ class KabamOutputs(object):
         self.lfish_kd_f()
         self.lfish_ke_f()
 #??    else:
-        self.phytoplankton_k1 = phytoplankton_k1
-        self.phytoplankton_k2 = phytoplankton_k2
-        self.phytoplankton_kd = phytoplankton_kd
-        self.phytoplankton_ke = phytoplankton_ke
-        self.phytoplankton_km = phytoplankton_km
-        self.zoo_k1 = zoo_k1
-        self.zoo_k2 = zoo_k2
-        self.zoo_kd = zoo_kd
-        self.zoo_ke = zoo_ke
-        self.zoo_km = zoo_km
-        self.beninv_k1 = beninv_k1
-        self.beninv_k2 = beninv_k2
-        self.beninv_kd = beninv_kd
-        self.beninv_ke = beninv_ke
-        self.beninv_km = beninv_km
-        self.filterfish_k1 = filterfish_k1
-        self.filterfish_k2 = filterfish_k2
-        self.filterfish_kd = filterfish_kd
-        self.filterfish_ke = filterfish_ke
-        self.filterfish_km = filterfish_km
-        self.sfish_k1 = sfish_k1
-        self.sfish_k2 = sfish_k2
-        self.sfish_kd = sfish_kd
-        self.sfish_ke = sfish_ke
-        self.sfish_km = sfish_km
-        self.mfish_k1 = mfish_k1
-        self.mfish_k2 = mfish_k2
-        self.mfish_kd = mfish_kd
-        self.mfish_ke = mfish_ke
-        self.mfish_km = mfish_km
-        self.lfish_k1 = lfish_k1
-        self.lfish_k2 = lfish_k2
-        self.lfish_kd = lfish_kd
-        self.lfish_ke = lfish_ke
-        self.lfish_km = lfish_km
+        # self.phytoplankton_k1 = phytoplankton_k1
+        # self.phytoplankton_k2 = phytoplankton_k2
+        # self.phytoplankton_kd = phytoplankton_kd
+        # self.phytoplankton_ke = phytoplankton_ke
+        # self.phytoplankton_km = phytoplankton_km
+        # self.zoo_k1 = zoo_k1
+        # self.zoo_k2 = zoo_k2
+        # self.zoo_kd = zoo_kd
+        # self.zoo_ke = zoo_ke
+        # self.zoo_km = zoo_km
+        # self.beninv_k1 = beninv_k1
+        # self.beninv_k2 = beninv_k2
+        # self.beninv_kd = beninv_kd
+        # self.beninv_ke = beninv_ke
+        # self.beninv_km = beninv_km
+        # self.filterfeeders_k1 = filterfeeders_k1
+        # self.filterfeeders_k2 = filterfeeders_k2
+        # self.filterfeeders_kd = filterfeeders_kd
+        # self.filterfeeders_ke = filterfeeders_ke
+        # self.filterfeeders_km = filterfeeders_km
+        # self.sfish_k1 = sfish_k1
+        # self.sfish_k2 = sfish_k2
+        # self.sfish_kd = sfish_kd
+        # self.sfish_ke = sfish_ke
+        # self.sfish_km = sfish_km
+        # self.mfish_k1 = mfish_k1
+        # self.mfish_k2 = mfish_k2
+        # self.mfish_kd = mfish_kd
+        # self.mfish_ke = mfish_ke
+        # self.mfish_km = mfish_km
+        # self.lfish_k1 = lfish_k1
+        # self.lfish_k2 = lfish_k2
+        # self.lfish_kd = lfish_kd
+        # self.lfish_ke = lfish_ke
+        # self.lfish_km = lfish_km
 
 
 class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
@@ -463,12 +463,12 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.bmf_beninv_f()
         # self.gv_ff_f()
         # self.ew_ff_f()
-        # # self.filterfish_k1_f()
+        # # self.filterfeeders_k1_f()
         # self.k_bw_ff_f()
-        # # self.filterfish_k2_f()
+        # # self.filterfeeders_k2_f()
         # self.ed_ff_f()
         # self.gd_ff_f()
-        # # self.filterfish_kd_f()
+        # # self.filterfeeders_kd_f()
         self.kg_ff_f()
         # self.v_ld_ff_f()
         # self.v_nd_ff_f()
@@ -478,7 +478,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         # self.vng_ff_f()
         # self.vwg_ff_f()
         # self.kgb_ff_f()
-        # self.filterfish_ke_f()
+        # self.filterfeeders_ke_f()
         self.diet_ff_f()
         self.cb_ff_f()
         self.cbl_ff_f()

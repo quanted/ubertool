@@ -1,0 +1,22 @@
+The following notes apply to the process of conducting the kabam unittests and
+integration tests.
+
+1. Original spreadsheet for kabam input variables listed 'kg_phytoplankton'; it appears that
+   this variable is defined as 'organism growth rate constant' (based on Expression for
+   'pesticide tissue residue for sinlge trophic level'); it is noted here because the value
+   of this variable for all other trophic levels is calculated in the model based on the
+   wet weight of the species at the trophic level  --  because there is no input for the
+   wet weight of phytoplanton I'm assuming the value for the growth rate is appropriately
+   included as an input value (Just noticed in documentation that wet weight of phytoplankton
+   is not applicable - Table 5 of Kabam User's Guide)
+
+2. The mammal and bird diets are inputs in the OPP model spreadsheet, however they have been
+   hardcoded in this version of the python model (methods 'wet_food_ingestion_m_f' and
+   'wet_food_ingestion_a_f'). These have been moved out of the methods and assigned in the
+   main routine.  Eventually they should be accessible to the user as inputs as they are in
+   the OPP model spreadsheet.  The methods mentioned above also calculate the total wet weight
+   of the diet per mammal/bird by multiplying the percentages of the diets by the percentage of
+   water in the each diet item.  This will be left in the method.  Finally, the names of the
+   individual mammals/birds used in the model should be added to the input; these are assigned
+   now in the main routine along with the diets.
+
