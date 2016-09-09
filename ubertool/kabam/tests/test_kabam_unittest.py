@@ -15,12 +15,8 @@ print("Numpy version: " + np.__version__)
 #find parent directory and import model
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parent_dir)
-from kabam_exe import Kabam
 
-# create empty pandas dataframes to create empty object for testing
-df_empty = pd.DataFrame()
-# create an empty kabam object
-kabam_empty = Kabam(df_empty, df_empty)
+from kabam_exe import Kabam
 
 test = {}
 
@@ -35,6 +31,13 @@ class TestKabam(unittest.TestCase):
         Setup routine for trex unit tests.
         :return:
         """
+
+        self.kabam_empty = object
+        # create empty pandas dataframes to create empty object for testing
+        df_empty = pd.DataFrame()
+        # create an empty kabam object
+        self.kabam_empty = Kabam(df_empty, df_empty)
+
         pass
         # setup the test as needed
         # e.g. pandas to open trex qaqc csv
@@ -50,17 +53,19 @@ class TestKabam(unittest.TestCase):
         # e.g. maybe write test results to some text file
 
 
-    def test_phi_f(self):
+    def test_ventilation_rate(self):
         """
-        unittest for function phi_x;
+        unittest for method ventilation_rate;
         """
+
         result = pd.Series([], dtype='float')
         expected_results = [69.17640, 146.8274, 56.00997]
+
         try:
-            kabam_empty.conc_poc = pd.Series([1.e-3, 1.25e-4, 9.e-5], dtype='float')
-            kabam_empty.log_kow = pd.Series([4., 5., 6.5], dtype='float')
-            kabam_empty.conc_doc = pd.Series([1.e-4, 2.5e-3, 4.9e-5], dtype='float')
-            result = kabam_empty.phi_f()
+            self.kabam_empty.zoo_wb = pd.Series(['nan', 1.e-07, 1.e-4], dtype = 'float')
+            self.kabam_empty.conc_do = pd.Series([5.0, 10.0, 7.5], dtype='float')
+
+            result = self.kabam_empty.ventilation_rate(self.kabam_empty.zoo_wb, self.kabam_empty.conc_do)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]

@@ -181,29 +181,151 @@ class KabamFunctions(object):
         Eq. F5
         :return:
         """
-        self.cbsafl_phytoplankton = self.cbl_phytoplankton / self.sed_om
+#?? why no 1e6 factor here as in 'cbaf_phytoplankton_f' or vice versa
+        self.cbsafl_phytoplankton = self.cb_phytoplankton / self.sed_om
         return self.cbsafl_phytoplankton
 
-    ##################zooplankton
-    def gv_zoo_f(self):
-        """
-        Ventilation rate
-        :return:
-        """
-        self.gv_zoo = (1400 * (self.zoo_wb ** 0.65)) / self.conc_do
-        return self.gv_zoo
+    #######################################################
+    # def gv_zoo_f(self):
+    #     """
+    #     Ventilation rate of zooplankton
+    #     unit: L/d
+    #     Eq. A5.2b
+    #     :return:
+    #     """
+    #     self.gv_zoo = (1400 * (self.zoo_wb ** 0.65)) / self.conc_do
+    #     return self.gv_zoo
+    #
+    # def gv_beninv_f(self):
+    #     """
+    #     Ventilation rate
+    #     :return:
+    #     """
+    #     self.gv_beninv = (1400 * ((self.beninv_wb ** 0.65) / self.conc_do))
+    #     return self.gv_beninv
+    #
+    # def gv_ff_f(self):
+    #     """
+    #     Ventilation rate
+    #     :return:
+    #     """
+    #     self.gv_ff = (1400.0 * ((self.filterfeeders_wb ** 0.65) / self.conc_do))
+    #     return self.gv_ff
+    #
+    # def gv_sf_f(self):
+    #     """
+    #     Ventilation rate
+    #     :return:
+    #     """
+    #     self.gv_sf = (1400.0 * ((self.sfish_wb ** 0.65) / self.conc_do))
+    #     return self.gv_sf
+    #
+    # def gv_mf_f(self):
+    #     """
+    #     Ventilation rate
+    #     :return:
+    #     """
+    #     self.gv_mf = (1400.0 * ((self.mfish_wb ** 0.65) / self.conc_do))
+    #     return self.gv_mf
+    #
+    # def gv_lf_f(self):
+    #     """
+    #     Ventilation rate
+    #     :return:
+    #     """
+    #     self.gv_lf = (1400.0 * ((self.lfish_wb ** 0.65) / self.conc_do))
+    #     return self.gv_lf
+    #######################################################
 
-    def ew_zoo_f(self):
+    def ventilation_rate(self, wet_wgt, do_conc):
         """
-        Rate constant for elimination through the gills for zooplankton
+        Ventilation rate of aquatic animal
+        unit: L/d
+        Eq. A5.2b
+        :param wet_wgt: wet weight of animal (kg)
+        :param do_conc: concentration of dissolved oxygen (mg O2/L)
         :return:
         """
-        self.ew_zoo = (1 / (1.85 + (155 / self.log_kow)))
+        wet_wgt = pd.Series([], dtype = 'float')
+        do_conc = pd.Series([], dtype = 'float')
+        vent_rate = pd.Series([], dtype = 'float')
+
+        vent_rate = (1400.0 * ((wet_wgt ** 0.65) / do_conc))
+        return vent_rate
+
+###############################################
+    # def ew_zoo_f(self):
+    #     """
+    #     Pesticide uptake efficiency by gills
+    #     unit: fraction
+    #     Eq. A5.2a
+    #     :return:
+    #     """
+    #     self.ew_zoo = (1 / (1.85 + (155 / self.log_kow)))
+    #     return self.ew_zoo
+    #
+    # def ew_beninv_f(self):
+    #     """
+    #     Rate constant for elimination through the gills for benthic invertebrates
+    #     :return:
+    #     """
+    #     self.ew_beninv = (1 / (1.85 + (155 / self.log_kow)))
+    #     return self.ew_beninv
+    #
+    # def ew_ff_f(self):
+    #     """
+    #     Rate constant for elimination through the gills for filter feeders
+    #     :return:
+    #     """
+    #     self.ew_ff = (1.0 / (1.85 + (155.0 / self.log_kow)))
+    #     return self.ew_ff
+    #
+    # def ew_sf_f(self):
+    #     """
+    #     Rate constant for elimination through the gills for small fish
+    #     :return:
+    #     """
+    #     self.ew_sf = (1.0 / (1.85 + (155.0 / self.log_kow)))
+    #     return self.ew_sf
+    #
+    # def ew_mf_f(self):
+    #     """
+    #     Rate constant for elimination through the gills for medium fish
+    #     :return:
+    #     """
+    #     self.ew_mf = (1.0 / (1.85 + (155.0 / self.log_kow)))
+    #     return self.ew_mf
+    #
+    # def ew_lf_f(self):
+    #     """
+    #     Rate constant for elimination through the gills for large fish
+    #     :return:
+    #     """
+    #     self.ew_lf = (1.0 / (1.85 + (155.0 / self.log_kow)))
+    #     return self.ew_lf
+
+######################################################
+
+    def pest_uptake_eff_gills(self, kow):
+        """
+        Pesticide uptake efficiency by gills
+        unit: fraction
+        Eq. A5.2a
+        :param log kow: octanol-water partition coefficient ()
+        :return:
+        """
+
+        pest_uptake_eff = pd.Series([], dtype = 'float')
+
+        pest_uptake_eff = (1 / (1.85 + (155 / kow)))
         return self.ew_zoo
 
+################################################################
     def zoo_k1_f(self):
         """
-        Uptake rate constant through respiratory area for phytoplankton
+        Uptake rate constant through respiratory area for zooplankton
+        unit: L/kg*d
+        Eq.A5.2
         :return:
         """
         self.zoo_k1 = self.ew_zoo * self.gv_zoo / self.zoo_wb
@@ -211,7 +333,9 @@ class KabamFunctions(object):
 
     def k_bw_zoo_f(self):
         """
-        Zooplankton water partition coefficient
+        Zooplankton-water partition coefficient (based on wet weight)
+        unit: -
+        Eq. A6a
         :return:
         """
         self.k_bw_zoo = (self.zoo_lipid * self.log_kow) + (self.zoo_nlom * 0.035 * self.log_kow) + self.zoo_water
@@ -447,21 +571,8 @@ class KabamFunctions(object):
 
     ################################ benthic invertebrates
     ############################################################
-    def gv_beninv_f(self):
-        """
-        Ventilation rate
-        :return:
-        """
-        self.gv_beninv = (1400 * ((self.beninv_wb ** 0.65) / self.conc_do))
-        return self.gv_beninv
 
-    def ew_beninv_f(self):
-        """
-        Rate constant for elimination through the gills for benthic invertebrates
-        :return:
-        """
-        self.ew_beninv = (1 / (1.85 + (155 / self.log_kow)))
-        return self.ew_beninv
+
 
     def beninv_k1_f(self):
         """
@@ -708,21 +819,6 @@ class KabamFunctions(object):
     #####################################################
     ###### filter feeders
     ################################################
-    def gv_ff_f(self):
-        """
-        Ventilation rate
-        :return:
-        """
-        self.gv_ff = (1400.0 * ((self.filterfeeders_wb ** 0.65) / self.conc_do))
-        return self.gv_ff
-
-    def ew_ff_f(self):
-        """
-        Rate constant for elimination through the gills for filter feeders
-        :return:
-        """
-        self.ew_ff = (1.0 / (1.85 + (155.0 / self.log_kow)))
-        return self.ew_ff
 
     def filterfeeders_k1_f(self):
         """
@@ -964,21 +1060,6 @@ class KabamFunctions(object):
 
     #########################################################################
     ############# small fish
-    def gv_sf_f(self):
-        """
-        Ventilation rate
-        :return:
-        """
-        self.gv_sf = (1400.0 * ((self.sfish_wb ** 0.65) / self.conc_do))
-        return self.gv_sf
-
-    def ew_sf_f(self):
-        """
-        Rate constant for elimination through the gills for small fish
-        :return:
-        """
-        self.ew_sf = (1.0 / (1.85 + (155.0 / self.log_kow)))
-        return self.ew_sf
 
     def sfish_k1_f(self):
         """
@@ -1220,21 +1301,6 @@ class KabamFunctions(object):
         return self.bmf_sf
 
     ############ medium fish
-    def gv_mf_f(self):
-        """
-        Ventilation rate
-        :return:
-        """
-        self.gv_mf = (1400.0 * ((self.mfish_wb ** 0.65) / self.conc_do))
-        return self.gv_mf
-
-    def ew_mf_f(self):
-        """
-        Rate constant for elimination through the gills for medium fish
-        :return:
-        """
-        self.ew_mf = (1.0 / (1.85 + (155.0 / self.log_kow)))
-        return self.ew_mf
 
     def mfish_k1_f(self):
         """
@@ -1476,21 +1542,6 @@ class KabamFunctions(object):
         return self.cbmf_mf
 
     ############ large fish
-    def gv_lf_f(self):
-        """
-        Ventilation rate
-        :return:
-        """
-        self.gv_lf = (1400.0 * ((self.lfish_wb ** 0.65) / self.conc_do))
-        return self.gv_lf
-
-    def ew_lf_f(self):
-        """
-        Rate constant for elimination through the gills for large fish
-        :return:
-        """
-        self.ew_lf = (1.0 / (1.85 + (155.0 / self.log_kow)))
-        return self.ew_lf
 
     def lfish_k1_f(self):
         """
