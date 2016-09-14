@@ -389,16 +389,129 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         :return:
         """
 
-
+        # Define constants and perform units conversions on necessary raw inputs
         self.set_global_constants()
+        self.kow = 10.**(self.log_kow)
+        self.phytoplankton_lipid_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.phytoplankton_nlom_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.phytoplankton_water_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.phytoplankton_lipid_frac = self.percent_to_frac(self.phytoplankton_lipid)
+        self.phytoplankton_nlom_frac = self.percent_to_frac(self.phytoplankton_nlom)
+        self.phytoplankton_water_frac = self.percent_to_frac(self.phytoplankton_water)
 
-        # aquatic animal ventilation rates
-        self.gv_zoo = self.ventilation_rate(self.zoo_wb, self.conc_co)
-        self.gv_beninv = self.ventilation_rate(self.beninv_wb, self.conc_co)
-        self.gv_ff = self.ventilation_rate(self.filterfedders_wb, self.conc_co)
-        self.gv_sfish = self.ventilation_rate(self.sfish_wb, self.conc_co)
-        self.gv_mfish = self.ventilation_rate(self.mfish_wb, self.conc_co)
-        self.gv_lfish = self.ventilation_rate(self.lfish_wb, self.conc_co)
+        self.zoo_lipid_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.zoo_nlom_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.zoo_water_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.zoo_lipid_frac = self.percent_to_frac(self.zoo_lipid)
+        self.zoo_nlom_frac = self.percent_to_frac(self.zoo_nlom)
+        self.zoo_water_frac = self.percent_to_frac(self.zoo_water)
+
+        self.beninv_lipid_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.beninv_nlom_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.beninv_water_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.beninv_lipid_frac = self.percent_to_frac(self.beninv_lipid)
+        self.beninv_nlom_frac = self.percent_to_frac(self.beninv_nlom)
+        self.beninv_water_frac = self.percent_to_frac(self.water_lipid)
+
+        self.filterfeeders_lipid_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.filterfeeders_nlom_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.filterfeeders_water_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.filterfeeders_lipid_frac = self.percent_to_frac(self.filterfeeders_lipid)
+        self.filterfeeders_nlom_frac = self.percent_to_frac(self.filterfeeders_nlom)
+        self.filterfeeders_water_frac = self.percent_to_frac(self.water_lipid)
+
+        self.sfish_lipid_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.sfish_nlom_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.sfish_water_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.sfish_lipid_frac = self.percent_to_frac(self.sfish_lipid)
+        self.sfish_nlom_frac = self.percent_to_frac(self.sfish_nlom)
+        self.sfish_water_frac = self.percent_to_frac(self.sfish_water)
+
+        self.mfish_lipid_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.mfish_nlom_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.mfish_water_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.mfish_lipid_frac = self.percent_to_frac(self.mfish_lipid)
+        self.mfish_nlom_frac = self.percent_to_frac(self.mfish_nlom)
+        self.mfish_water_frac = self.percent_to_frac(self.mfish_water)
+
+        self.lfish_lipid_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.lfish_nlom_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.lfish_water_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
+        self.lfish_lipid_frac = self.percent_to_frac(self.lfish_lipid)
+        self.lfish_nlom_frac = self.percent_to_frac(self.lfish_nlom)
+        self.lfish_water_frac = self.percent_to_frac(self.lfish_water)
+
+        # aquatic animal ventilation rates (Kabam Eq. A5.2b)
+        self.gv_zoo = self.ventilation_rate(self.zoo_wb)
+        self.gv_beninv = self.ventilation_rate(self.beninv_wb)
+        self.gv_filterfeeders = self.ventilation_rate(self.filterfedders_wb)
+        self.gv_sfish = self.ventilation_rate(self.sfish_wb)
+        self.gv_mfish = self.ventilation_rate(self.mfish_wb)
+        self.gv_lfish = self.ventilation_rate(self.lfish_wb)
+
+        # Pesticide uptake efficiency by gills of aquatic animals (Kabam Eq. A5.2a)
+        self.ew_aq_animals = self.pest_uptake_eff_gills()
+        self.ew_zoo = self.ew_beninv = self.ew_filterfeeders = self.ew_sfish = \
+                      self.ew_mfish = self.ew_lfish = self.ew_zoo = self.ew_aq_animals
+
+        # aquatic animal respitory area uptake rate constant (Kabam Ea. A5.1 & A5.2
+        self.phytoplankton_k1 = self.phytoplankton_k1_calc()
+        self.zoo_k1 = self.aq_animal_k1_calc(self.ew_zoo, self.gv_zoo, self.zoo_wb)
+        self.beninv_k1 = self.aq_animal_k1_calc(self.ew_beninv, self.gv_beninv, self.beninv_wb)
+        self.filterfedders_k1 = self.aq_animal_k1_calc(self.ew_filterfedders, self.gv_filterfedders, self.filterfedders_wb)
+        self.sfish_k1 = self.aq_animal_k1_calc(self.ew_sfish, self.gv_sfish, self.sfish_wb)
+        self.mfish_k1 = self.aq_animal_k1_calc(self.ew_mfish, self.gv_mfish, self.mfish_wb)
+        self.lfish_k1 = self.aq_animal_k1_calc(self.ew_lfish, self.gv_lfish, self.lfish_wb)
+
+        #Aquatic animal-Water partition coeficient (Kabam Eq. A6a)
+        self.k_bw_phytoplankton = self.animal_water_part_coef(self.phytoplankton_lipid_frac,
+                                                              self.phytoplankton_nlom_frac,
+                                                              self.phytoplankton_water_frac, 0.35)
+        self.k_bw_zoo = self.animal_water_part_coef(self.zoo_lipid_frac, self.zoo_nlom_frac,
+                                                    self.zoo_water_frac, 0.035)
+        self.k_bw_beninv = self.animal_water_part_coef(self.beninv_lipid_frac, self.beninv_nlom_frac,
+                                                       self.beninv_water_frac, 0.035)
+        self.k_bw_filterfeeders = self.animal_water_part_coef(self.filterfeeders_lipid_frac, self.filterfeeders_nlom_frac,
+                                                              self.filterfeeders_water_frac, 0.035)
+        self.k_bw_sfish = self.animal_water_part_coef(self.sfish_lipid_frac, self.sfish_nlom_frac,
+                                                      self.sfish_water_frac, 0.035)
+        self.k_bw_mfish = self.animal_water_part_coef(self.mfish_lipid_frac, self.mfish_nlom_frac,
+                                                      self.mfish_water_frac, 0.035)
+        self.k_bw_lfish = self.animal_water_part_coef(self.lfish_lipid_frac, self.lfish_nlom_frac,
+                                                      self.lfish_water_frac, 0.035)
+
+        # Pesticide uptake rate constant for chemical uptake through respiratory area
+        self.phytoplankton_k2 = self.aq_animal_k2_calc(self.phytoplankton_k1, self.k_bw_phytoplankton)
+        self.zoo_k2 = self.aq_animal_k2_calc(self.zoo_k1, self.k_bw_zoo)
+        self.beninv_k2 = self.aq_animal_k2_calc(self.beninv_k1, self.k_bw_beninv)
+        self.filterfeeders_k2 = self.aq_animal_k2_calc(self.filterfeeders_k1, self.k_bw_filterfeeders)
+        self.sfish_k2 = self.aq_animal_k2_calc(self.sfish_k1, self.k_bw_sfish)
+        self.mfish_k2 = self.aq_animal_k2_calc(self.mfish_k1, self.k_bw_mfish)
+        self.lfish_k2 = self.aq_animal_k2_calc(self.lfish_k1, self.k_bw_lfish)
+
+        # aquatic animal/organism growth rate constants
+        self.kg_phytoplankton = 0.1 # check this; 0.1 is assigned in OPP model spreadsheet
+#??                                    # in worksheet 'Parameters & Calculations' cell C48
+        self.kg_zoo = self.animal_grow_rate_const(self.zoo_wb)
+        self.kg_beninv = self.animal_grow_rate_const(self.beninv_wb)
+        self.kg_filterfeeders = self.animal_grow_rate_const(self.filterfeeders_wb)
+        self.kg_sfish = self.animal_grow_rate_const(self.sfish_wb)
+        self.kg_mfish = self.animal_grow_rate_const(self.mfish_wb)
+        self.kg_lfish = self.animal_grow_rate_const(self.lfish_wb)
+
+        # aquatic animal/organism dietary pesticide transfer efficiency
+        # i think the following declarations should be moved to output class
+        self.zoo_ed = pd.Series([], dtype = 'float')
+        self.beninv_ed = pd.Series([], dtype = 'float')
+        self.filterfeeders_ed = pd.Series([], dtype = 'float')
+        self.sfish_ed = pd.Series([], dtype = 'float')
+        self.mfish_ed = pd.Series([], dtype = 'float')
+        self.lfish_ed = pd.Series([], dtype = 'float')
+
+        self.zoo_ed = self.beninv_ed = self.filterfeeders_ed = self.sfish_ed = \
+                      self.mfish_ed = self.lfish_ed = self.dietary_trans_eff()
+
+
 
         # self.phi_f()
         # self.c_soc_f()
@@ -424,7 +537,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         # # self.ed_zoo_f()
         # # self.gd_zoo_f()
         # # self.zoo_kd_f()
-        # self.kg_zoo_f()
+        # # self.kg_zoo_f()
         # # self.v_ld_zoo_f()
         # # self.v_nd_zoo_f()
         # # self.v_wd_zoo_f()

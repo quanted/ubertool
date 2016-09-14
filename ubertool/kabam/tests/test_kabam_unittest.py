@@ -59,13 +59,13 @@ class TestKabam(unittest.TestCase):
         """
 
         result = pd.Series([], dtype='float')
-        expected_results = [69.17640, 146.8274, 56.00997]
+        expected_results = pd.Series(['nan', 0.00394574, 0.468885], dtype = 'float')
 
         try:
             self.kabam_empty.zoo_wb = pd.Series(['nan', 1.e-07, 1.e-4], dtype = 'float')
             self.kabam_empty.conc_do = pd.Series([5.0, 10.0, 7.5], dtype='float')
 
-            result = self.kabam_empty.ventilation_rate(self.kabam_empty.zoo_wb, self.kabam_empty.conc_do)
+            result = self.kabam_empty.ventilation_rate(self.kabam_empty.zoo_wb)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -73,6 +73,202 @@ class TestKabam(unittest.TestCase):
             print(inspect.currentframe().f_code.co_name)
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
+
+    def test_pest_uptake_eff_gills(self):
+        """
+        Pesticide uptake efficiency by gills
+        unit: fraction
+        Kabam Eq. A5.2a (Ew)
+        :param log kow: octanol-water partition coefficient ()
+        :return:
+        """
+
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series(['nan', 0.540088, 0.540495], dtype = 'float')
+
+        try:
+            self.kabam_empty.log_kow = pd.Series(['nan', 5., 6.], dtype = 'float')
+            self.kabam_empty.kow = 10.**(self.kabam_empty.log_kow)
+
+            result = self.kabam_empty.pest_uptake_eff_bygills()
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_phytoplankton_k1_calc(self):
+        """
+        Uptake rate constant through respiratory area for phytoplankton
+        unit: L/kg*d
+        Kabam Eq. A5.1  (K1:unique to phytoplankton)
+        :param log kow: octanol-water partition coefficient ()
+
+        :return:
+        """
+
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([1639.34426, 8695.6521, 15267.1755], dtype = 'float')
+
+        try:
+
+            self.kabam_empty.log_kow = pd.Series([4., 5., 6.], dtype = 'float')
+            self.kabam_empty.kow = 10.**(self.kabam_empty.log_kow)
+            result = self.kabam_empty.phytoplankton_k1_calc()
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_aq_animal_k1_calc(self):
+        """
+        Uptake rate constant through respiratory area for aquatic animals
+        unit: L/kg*d
+        Kabam Eq. A5.2 (K1)
+        :param pest_uptake_eff_bygills: Pesticide uptake efficiency by gills of aquatic animals (fraction)
+        :param vent_rate: Ventilation rate of aquatic animal (L/d)
+        :param wet_wgt: wet weight of animal (kg)
+
+        :return:
+        """
+
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series(['nan', 1201.13849, 169.37439], dtype = 'float')
+
+        try:
+            pest_uptake_eff_bygills = pd.Series(['nan', 0.0304414, 0.0361228], dtype = 'float')
+            vent_rate = pd.Series(['nan', 0.00394574, 0.468885], dtype = 'float')
+            wet_wgt = pd.Series(['nan', 1.e-07, 1.e-4], dtype = 'float')
+
+            result = self.kabam_empty.aq_animal_k1_calc(pest_uptake_eff_bygills, vent_rate, wet_wgt)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_animal_water_part_coef(self):
+        """
+        Organism-Water partition coefficient (based on organism wet weight)
+        :unit ()
+        :expression Kabam Eq. A6a (Kbw)
+        :param zoo_lipid: lipid fraction of organism (kg lipid/kg organism wet weight)
+        :param zoo_nlom: non-lipid organic matter (NLOM) fraction of organism (kg NLOM/kg organism wet weight)
+        :param zoo_water: water content of organism (kg water/kg organism wet weight)
+        :param kow: octanol-water partition coefficient ()
+        :param beta: proportionality constant expressing the sorption capacity of NLOM or NLOC to
+                     that of octanol
+        :return:
+        """
+
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([650.87, 11000.76, 165000.64], dtype = 'float')
+
+        try:
+            #For test purpose we'll use the zooplankton variable names
+            self.kabam_empty.zoo_lipid_frac = pd.Series([0.03, 0.04, 0.06], dtype = 'float')
+            self.kabam_empty.zoo_nlom_frac = pd.Series([0.10, 0.20, 0.30,], dtype = 'float')
+            self.kabam_empty.zoo_water_frac = pd.Series([0.87, 0.76, 0.64], dtype = 'float')
+            self.kabam_empty.kow = pd.Series([1.e4, 1.e5, 1.e6], dtype = 'float')
+            beta = 0.35
+
+            result = self.kabam_empty.animal_water_part_coef(self.kabam_empty.zoo_lipid_frac,
+                                            self.kabam_empty.zoo_nlom_frac,
+                                            self.kabam_empty.zoo_water_frac, beta)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+
+    def test_aq_animal_k2_calc(self):
+        """
+        Elimination rate constant through the respiratory area
+        :unit (per day)
+        :expression Kabam Eq. A6 (K2)
+        :param zoo_k1: Uptake rate constant through respiratory area for aquatic animals
+        :param k_bw_zoo (Kbw): Organism-Water partition coefficient (based on organism wet weight ()
+        :return:
+        """
+
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([2.5186969, 0.79045921, 0.09252798], dtype = 'float')
+
+        try:
+            #For test purpose we'll use the zooplankton variable names
+            self.kabam_empty.zoo_k1 = pd.Series([1639.34426, 8695.6521, 15267.1755], dtype = 'float')
+            self.kabam_empty.k_bw_zoo = pd.Series([650.87, 11000.76, 165000.64], dtype = 'float')
+
+            result = self.kabam_empty.aq_animal_k2_calc(self.kabam_empty.zoo_k1, self.kabam_empty.k_bw_zoo)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_animal_grow_rate_const(self):
+        """
+        Aquatic animal/organism growth rate constant
+        :unit (per day)
+        :expression Kabam Eq. A7.1 & A7.2
+        :param zoo_wb: wet weight of animal/organism (kg)
+        :param water_temp: water temperature (degrees C)
+        :return:
+        """
+
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([0.01255943, 0.00125594, 0.00251], dtype = 'float')
+
+        try:
+            #For test purpose we'll use the zooplankton variable names
+            self.kabam_empty.zoo_wb = pd.Series([1.e-7, 1.e-2, 1.0], dtype = 'float')
+            self.kabam_empty.water_temp = pd.Series([10., 15., 20.], dtype = 'float')
+
+            result = self.kabam_empty.animal_grow_rate_const(self.kabam_empty.zoo_wb)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_dietary_trans_eff(self):
+        """
+        Aquatic animal/organizm dietary pesticide transfer efficiency
+        :unit fraction
+        :expression Kabam Eq. A8a (Ed)
+        :param kow: octanol-water partition coefficient ()
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([0.499251, 0.492611, 0.434783], dtype = 'float')
+
+        try:
+            self.kabam_empty.kow = pd.Series([1.e4, 1.e5, 1.e6], dtype = 'float')
+
+            result = self.kabam_empty.dietary_trans_eff()
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+
 
 # unittest will
 # 1) call the setup method,

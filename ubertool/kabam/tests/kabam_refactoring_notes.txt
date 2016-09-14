@@ -20,3 +20,10 @@ integration tests.
    individual mammals/birds used in the model should be added to the input; these are assigned
    now in the main routine along with the diets.
 
+3. The variable "kG: aquatic animal/organism growth rate constant" is not included in the
+   input variable list of the spreadsheet along with other constants such as k1, k2, kE,kM.
+   The question is simply should it be included in the "ModelInputs" class, or maybe the
+   "ModelOutputs" class.  Should the user be allowed to specify it as an input?
+
+
+

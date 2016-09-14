@@ -184,30 +184,133 @@ class KabamFunctions(object):
 #         self.cbsafl_phytoplankton = self.cb_phytoplankton / self.sed_om
 #         return self.cbsafl_phytoplankton
 
-    def ventilation_rate(self, wet_wgt, do_conc):
+    def ventilation_rate(self, wet_wgt):
         """
         Ventilation rate of aquatic animal
         unit: L/d
-        Eq. A5.2b
+        Kabam Eq. A5.2b (Gv)
         :param wet_wgt: wet weight of animal (kg)
-        :param do_conc: concentration of dissolved oxygen (mg O2/L)
+        :param conc_do: concentration of dissolved oxygen (mg O2/L)
         :return:
         """
 
         vent_rate = pd.Series([], dtype = 'float')
-        vent_rate = (1400.0 * ((wet_wgt ** 0.65) / do_conc))
+        vent_rate = (1400.0 * ((wet_wgt ** 0.65) / self.conc_do))
         return vent_rate
 
-    def pest_uptake_eff_gills(self, kow):
+    def pest_uptake_eff_bygills(self):
         """
         Pesticide uptake efficiency by gills
         unit: fraction
-        Eq. A5.2a
+        Kabam Eq. A5.2a (Ew)
         :param log kow: octanol-water partition coefficient ()
         :return:
         """
 
-        pest_uptake_eff = pd.Series([], dtype = 'float')
+        pest_uptake_eff_bygills = pd.Series([], dtype = 'float')
 
-        pest_uptake_eff = (1 / (1.85 + (155 / kow)))
-        return self.ew_zoo
+        pest_uptake_eff_bygills = (1 / (1.85 + (155 / self.kow)))
+        return pest_uptake_eff_bygills
+
+    def phytoplankton_k1_calc(self):
+        """
+        Uptake rate constant through respiratory area for phytoplankton
+        unit: L/kg*d
+        Kabam Eq. A5.1  (K1:unique to phytoplankton)
+        :param 6.05e-5: Parameter 'A' in Eq. A5.1; constant related to resistance to pesticide
+                        uptake through the aquaeous phase of plant (days)
+        :param 5.5: Parameter 'B' in Eq. A5.1; contant related to the resistance to pesticide
+                    uptake through the organice phase of plant (days)
+        :param log kow: octanol-water partition coefficient ()
+
+        :return:
+        """
+
+        phyto_k1 = pd.Series([], dtype = 'float')
+
+        phyto_k1 = 1 / (6.0e-5 + (5.5 / self.kow))
+        return phyto_k1
+
+    def aq_animal_k1_calc(self, pest_uptake_eff_bygills, vent_rate, wet_wgt):
+        """
+        Uptake rate constant through respiratory area for aquatic animals
+        unit: L/kg*d
+        Kabam Eq. A5.2 (K1)
+        :param pest_uptake_eff_bygills: Pesticide uptake efficiency by gills of aquatic animals (fraction)
+        :param vent_rate: Ventilation rate of aquatic animal (L/d)
+        :param wet_wgt: wet weight of animal (kg)
+
+        :return:
+        """
+
+        aqueous_animal_k1 = pd.Series([], dtype = 'float')
+
+        aqueous_animal_k1 = ((pest_uptake_eff_bygills * vent_rate) / wet_wgt)
+        return aqueous_animal_k1
+
+    def animal_water_part_coef(self, frac_lipid_cont, frac_nlom_cont, frac_water_cont, beta):
+        """
+        Organism-Water partition coefficient (based on organism wet weight)
+        :unit ()
+        :expression Kabam Eq. A6a (Kbw)
+        :param frac_lipid_cont: lipid fraction of organism (kg lipid/kg organism wet weight)
+        :param frac_nlom_cont: non-lipid organic matter (NLOM) fraction of organism (kg NLOM/kg organism wet weight)
+        :param frac_water_cont water content of organism (kg water/kg organism wet weight)
+        :param kow: octanol-water partition coefficient ()
+        :param beta: proportionality constant expressing the sorption capacity of NLOM or NLOC to
+                     that of octanol (0.35 for phytoplankton; 0.035 for all other aquatic animals)
+        :return:
+        """
+
+        part_coef = pd.Series([], dtype = 'float')
+
+        part_coef = (frac_lipid_cont * self.kow) + (frac_nlom_cont * beta * self.kow) + frac_water_cont
+        return part_coef
+
+    def aq_animal_k2_calc(self, aq_animal_k1, animal_water_part_coef):
+        """
+        Elimination rate constant through the respiratory area
+        :unit (per day)
+        :expression Kabam Eq. A6 (K2)
+        :param aq_animal_k1: Uptake rate constant through respiratory area for aquatic animals, including phytoplankton (L/kg*d)
+        :param animal_water_part_coef (Kbw): Organism-Water partition coefficient (based on organism wet weight ()
+
+        :return:
+        """
+        aq_animal_k2 = pd.Series([], dtype = 'float')
+
+        aq_animal_k2 = aq_animal_k1 / animal_water_part_coef
+        return aq_animal_k2
+
+    def animal_grow_rate_const(self, wet_wgt):
+        """
+        Aquatic animal/organism growth rate constant
+        :unit (per day)
+        :expression Kabam Eq. A7.1 & A7.2
+        :param wet_wgt: wet weight of animal/organism (kg)
+        :param water_temp: water temperature (degrees C)
+        :return:
+        """
+
+        growth_rate = pd.Series([], dtype = 'float')
+
+        for i in range(len(self.water_temp)):
+            if self.water_temp[i] < 17.5:
+                growth_rate[i] = 0.0005 * (wet_wgt[i] ** -0.2)
+            else:
+                growth_rate[i] = 0.00251 * (wet_wgt[i] ** -0.2)
+        return growth_rate
+
+    def dietary_trans_eff(self):
+        """
+        Aquatic animal/organizm dietary pesticide transfer efficiency
+        :unit fraction
+        :expression Kabam Eq. A8a (Ed)
+        :param kow: octanol-water partition coefficient ()
+        :return:
+        """
+
+        trans_eff = pd.Series([], dtype = 'float')
+
+        trans_eff = 1 / (.0000003 * self.kow + 2.0)
+        return trans_eff
