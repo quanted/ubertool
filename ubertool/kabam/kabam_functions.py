@@ -5,6 +5,8 @@ import numpy as np
 import pandas as pd
 import time
 
+from math import exp
+
 class KabamFunctions(object):
     """
     Function class for Kabam.
@@ -314,3 +316,75 @@ class KabamFunctions(object):
 
         trans_eff = 1 / (.0000003 * self.kow + 2.0)
         return trans_eff
+
+    def aq_animal_feeding_rate(self, wet_wgt):
+        """
+        Aquatic animal feeding rate (except filterfeeders)
+        :unit kg/d
+        :expression Kabam Eq. A8b1 (Gd)
+        :param wet_wgt: wet weight of animal/organism (kg)
+        :return:
+        """
+
+        feeding_rate = pd.Series([], dtype = 'float')
+
+        for i in range(len(self.water_temp)):
+            feeding_rate[i] = 0.022 * wet_wgt[i] ** 0.85 * exp(0.06 * self.water_temp[i])
+
+        return feeding_rate
+
+    def filterfeeders_feeding_rate(self):
+        """
+        Filter feeder feeding rate
+        :unit kg/d
+        :expression Kabam Eq. A8b2 (Gd)
+        :param self.gv_filterfeeders: filterfeeder ventilation rate (L/d)
+        :param self.conc_ss: Concentration of Suspended Solids (Css - kg/L)
+        :param particle_scav_eff: efficiency of scavenging of particles absorbed from water (fraction)
+        :return:
+        """
+
+        feeding_rate = pd.Series([], dtype = 'float')
+
+        feeding_rate = self.gv_filterfeeders * self.conc_ss * self.particle_scav_eff
+        return feeding_rate
+
+    def diet_uptake_rate_const(self, dietary_trans_eff, feeding_rate, wet_wgt):
+        """
+        pesticide uptake rate constant for uptake through ingestion of food rate
+        :unit kg food/kg organism - day
+        :expression Kabam Eq. A8 (kD)
+        :param wet weight of aquatic animal/organism (kg)
+        :param dietary_trans_eff: dietary pesticide transfer efficiency (fraction)
+        :param feeding rate: animal/organism feeding rate (kg/d)
+        :return:
+        """
+        dietary_uptake_constantt = pd.Series([], dtype = 'float')
+
+        dietary_uptake_constant = dietary_trans_eff * feeding_rate / wet_wgt
+        return dietary_uptake_constant
+
+    def overall_diet_content(self, diet_fraction, content_fraction):
+        """
+        Overall fraction of aquatic animal/organism diet attibuted to diet food component (i.e., lipids or NLOM or water)
+        :unit kg/kg
+        :expression not shown in Kabam documentation: it is associated with Kabam Eq. A9
+                    overall_diet_content is equal to the sum over dietary elements
+        :           of (fraction of diet) * (content in diet element); for example zooplankton ingest seidment and
+        :           phytoplankton, thus the overall lipid content of the zooplankton diet equals
+        :           (fraction of sediment in zooplankton diet) * (fraction of lipids in sediment) +
+        :           (fraction of phytoplankton in zooplankton diet) * (fraction of lipids in phytoplankton)
+        :param diet_fraction: list of values representing fractions of aquatic animal/organism diet attibuted
+                              to each element of diet
+        :param content_fraction: list of values representing fraction of diet element attributed to a specific
+                                 component of that diet element (e.g., lipid, NLOM, or water)
+        :return:
+        """
+
+        overall_diet_fraction = pd.Series([], dtype = 'float')
+        overall_diet_fraction = 0.0
+
+        for i in range(len(diet_fraction)):
+            overall_diet_fraction = overall_diet_fraction + diet_fraction[i] * content_fraction[i]
+
+        return overall_diet_fraction

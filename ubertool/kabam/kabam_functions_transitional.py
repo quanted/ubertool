@@ -701,55 +701,55 @@ class KabamFunctions(object):
         return trans_eff
 
 ##############################################################
-    def gd_zoo_f(self):
-        """
-        Zooplankton feeding rate
-        :return:
-        """
-        self.gd_zoo = 0.022 * self.zoo_wb ** 0.85 * math.exp(0.06 * self.water_temp)
-        return self.gd_zoo
-
-    def gd_beninv_f(self):
-        """
-        Zooplankton feeding rate
-        :return:
-        """
-        self.gd_beninv = 0.022 * self.beninv_wb ** 0.85 * math.exp(0.06 * self.water_temp)
-        return self.gd_beninv
-
-    def gd_sf_f(self):
-        """
-        Small fish feeding rate
-        :return:
-        """
-        self.gd_sf = 0.022 * self.sfish_wb ** 0.85 * math.exp(0.06 * self.water_temp)
-        return self.gd_sf
-
-    def gd_mf_f(self):
-        """
-        Medium fish feeding rate
-        :return:
-        """
-        self.gd_mf = 0.022 * self.mfish_wb ** 0.85 * math.exp(0.06 * self.water_temp)
-        return self.gd_mf
-
-    def gd_lf_f(self):
-        """
-        Large fish feeding rate
-        :return:
-        """
-        self.gd_lf = 0.022 * self.lfish_wb ** 0.85 * math.exp(0.06 * self.water_temp)
-        return self.gd_lf
-
-
-    ##filterfeeder calcs
-    def gd_ff_f(self):
-        """
-        Filter feeder feeding rate
-        :return:
-        """
-        self.gd_ff = self.gv_filterfeeders * self.conc_ss * 1
-        return self.gd_ff
+    # def gd_zoo_f(self):
+    #     """
+    #     Zooplankton feeding rate
+    #     :return:
+    #     """
+    #     self.gd_zoo = 0.022 * self.zoo_wb ** 0.85 * math.exp(0.06 * self.water_temp)
+    #     return self.gd_zoo
+    #
+    # def gd_beninv_f(self):
+    #     """
+    #     Zooplankton feeding rate
+    #     :return:
+    #     """
+    #     self.gd_beninv = 0.022 * self.beninv_wb ** 0.85 * math.exp(0.06 * self.water_temp)
+    #     return self.gd_beninv
+    #
+    # def gd_sf_f(self):
+    #     """
+    #     Small fish feeding rate
+    #     :return:
+    #     """
+    #     self.gd_sf = 0.022 * self.sfish_wb ** 0.85 * math.exp(0.06 * self.water_temp)
+    #     return self.gd_sf
+    #
+    # def gd_mf_f(self):
+    #     """
+    #     Medium fish feeding rate
+    #     :return:
+    #     """
+    #     self.gd_mf = 0.022 * self.mfish_wb ** 0.85 * math.exp(0.06 * self.water_temp)
+    #     return self.gd_mf
+    #
+    # def gd_lf_f(self):
+    #     """
+    #     Large fish feeding rate
+    #     :return:
+    #     """
+    #     self.gd_lf = 0.022 * self.lfish_wb ** 0.85 * math.exp(0.06 * self.water_temp)
+    #     return self.gd_lf
+    #
+    #
+    # ##filterfeeder calcs
+    # def gd_ff_f(self):
+    #     """
+    #     Filter feeder feeding rate
+    #     :return:
+    #     """
+    #     self.gd_ff = self.gv_filterfeeders * self.conc_ss * 1
+    #     return self.gd_ff
 
 ################################################################
 ################################################################
@@ -767,43 +767,260 @@ class KabamFunctions(object):
         feeding_rate = 0.022 * wet_wgt ** 0.85 * math.exp(0.06 * self.water_temp)
         return feeding_rate
 
-    def filterfeeder_feeding_rate(self):
+    def filterfeeders_feeding_rate(self):
+        """
+        Filter feeder feeding rate
+        :unit kg/d
+        :expression Kabam Eq. A8b2 (Gd)
+        :param self.gv_filterfeeders: filterfeeder ventilation rate (L/d)
+        :param self.conc_ss: Concentration of Suspended Solids (Css - kg/L)
+        :param particle_scav_eff: efficiency of scavenging of particles absorbed from water (fraction)
+        :return:
+        """
 
+        feeding_rate = pd.Series([], dtype = 'float')
+
+        feeding_rate = self.gv_filterfeeders * self.conc_ss * self.particle_scav_eff
+        return feeding_rate
 
 
 #################################################################
-    def zoo_kd_f(self):
+    # def zoo_kd_f(self):
+    #     """
+    #     Zooplankton rate constant pesticide uptake by food ingestion
+    #     :return:
+    #     """
+    #     self.zoo_kd = self.ed_zoo * (self.gd_zoo / self.zoo_wb)
+    #     return self.zoo_kd
+    #
+    # def beninv_kd_f(self):
+    #     """
+    #     Zooplankton rate constant pesticide uptake by food ingestion
+    #     :return:
+    #     """
+    #     self.beninv_kd = self.ed_beninv * (self.gd_beninv / self.beninv_wb)
+    #     return self.beninv_kd
+    #
+    # def filterfeeders_kd_f(self):
+    #     """
+    #     Filter feeder rate constant pesticide uptake by food ingestion
+    #     :return:
+    #     """
+    #     self.filterfeeders_kd = self.ed_ff * (self.gd_ff / self.filterfeeders_wb)
+    #     return self.filterfeeders_kd
+    #
+    # def sfish_kd_f(self):
+    #     """
+    #     Small fish rate constant pesticide uptake by food ingestion
+    #     :return:
+    #     """
+    #     self.sfish_kd = self.ed_sf * self.gd_sf / self.sfish_wb
+    #     return self.sfish_kd
+    #
+    # def mfish_kd_f(self):
+    #     """
+    #     Medium fish rate constant pesticide uptake by food ingestion
+    #     :return:
+    #     """
+    #     self.mfish_kd = self.ed_mf * self.gd_mf / self.mfish_wb
+    #     return self.mfish_kd
+    #
+    # def lfish_kd_f(self):
+    #     """
+    #     Large fish rate constant pesticide uptake by food ingestion
+    #     :return:
+    #     """
+    #     self.lfish_kd = self.ed_lf * self.gd_lf / self.lfish_wb
+    #     return self.lfish_kd
+
+##################################################################
+##################################################################
+    def diet_uptake_rate_const(self, dietary_trans_eff, feeding_rate, wet_wgt):
         """
-        Zooplankton rate constant pesticide uptake by food ingestion
+         pesticide uptake rate constant for uptake through ingestion of food rate
+        :unit (kg food)/(kg organism - day)
+        :expression Kabam Eq. A8 (kD)
+        :param wet weight of aquatic animal/organism (kg)
+        :param dietary_trans_eff: dietary pesticide transfer efficiency (fraction)
+        :param feeding rate: animal/organism feeding rate (kg/d)
         :return:
         """
-        self.zoo_kd = self.ed_zoo * (self.gd_zoo / self.zoo_wb)
-        return self.zoo_kd
+        dietary_uptake_constantt = pd.Series([], dtype = 'float')
 
-    def v_ld_zoo_f(self):
+        dietary_uptake_constant = dietary_trans_eff * feeding_rate / wet_wgt
+        return dietary_uptake_constant
+
+###################################################################
+    # #methods for calculating overall content of lipids/NLOM/Water in aquatic animal/organism diet
+    #
+    # #zooplankton
+    # def v_ld_zoo_f(self):
+    #     """
+    #     Overall lipid content of diet
+    #     :return:
+    #     """
+    #     self.v_ld_zoo = self.zoo_diet_sediment * self.sediment_lipid + self.zoo_diet_phyto * self.phytoplankton_lipid
+    #     return self.v_ld_zoo
+    #
+    # def v_nd_zoo_f(self):
+    #     """
+    #     Overall nonlipid content of diet
+    #     :return:
+    #     """
+    #     self.v_nd_zoo = self.zoo_diet_sediment * self.sediment_nlom + self.zoo_diet_phyto * self.phytoplankton_nlom
+    #     return self.v_nd_zoo
+    #
+    # def v_wd_zoo_f(self):
+    #     """
+    #     Overall water content of diet
+    #     :return:
+    #     """
+    #     self.v_wd_zoo = self.zoo_diet_sediment * self.sediment_water + self.zoo_diet_phyto * self.phytoplankton_water
+    #     return self.v_wd_zoo
+    #
+    # #####invertebrates
+    # def v_ld_beninv_f(self):
+    #     """
+    #     Overall lipid content of diet
+    #     :return:
+    #     """
+    #     self.v_ld_beninv = self.beninv_diet_sediment * self.sediment_lipid + self.beninv_diet_phytoplankton * self.phytoplankton_lipid + self.beninv_diet_zooplankton * self.zoo_lipid
+    #     return self.v_ld_beninv
+    #
+    # def v_nd_beninv_f(self):
+    #     """
+    #     Overall nonlipid content of diet
+    #     :return:
+    #     """
+    #     self.v_nd_beninv = self.beninv_diet_sediment * self.sediment_nlom + self.beninv_diet_phytoplankton * self.phytoplankton_nlom + self.beninv_diet_zooplankton * self.zoo_nlom
+    #     return self.v_nd_beninv
+    #
+    # def v_wd_beninv_f(self):
+    #     """
+    #     Overall water content of diet
+    #     :return:
+    #     """
+    #     self.v_wd_beninv = self.beninv_diet_sediment * self.sediment_water + self.beninv_diet_phytoplankton * self.phytoplankton_water + self.beninv_diet_zooplankton * self.zoo_water
+    #     return self.v_wd_beninv
+    #
+    # #filterfeeders
+    # def v_ld_ff_f(self):
+    #     """
+    #     Overall lipid content of diet
+    #     :return:
+    #     """
+    #     self.v_ld_ff = self.filterfeeders_diet_sediment * self.sediment_lipid + self.filterfeeders_diet_phytoplankton * self.phytoplankton_lipid + self.filterfeeders_diet_zooplankton * self.zoo_lipid
+    #     return self.v_ld_ff
+    #
+    # def v_nd_ff_f(self):
+    #     """
+    #     Overall nonlipid content of diet
+    #     :return:
+    #     """
+    #     self.v_nd_ff = self.filterfeeders_diet_sediment * self.sediment_nlom + self.filterfeeders_diet_phytoplankton * self.phytoplankton_nlom + self.filterfeeders_diet_zooplankton * self.zoo_nlom
+    #     return self.v_nd_ff
+    #
+    # def v_wd_ff_f(self):
+    #     """
+    #     Overall water content of diet
+    #     :return:
+    #     """
+    #     self.v_wd_ff = self.filterfeeders_diet_sediment * self.sediment_water + self.filterfeeders_diet_phytoplankton * self.phytoplankton_water + self.filterfeeders_diet_zooplankton * self.zoo_water
+    #     return self.v_wd_ff
+    #
+    # #small fish
+    # def v_ld_sf_f(self):
+    #     """
+    #     Small fish lipid
+    #     :return:
+    #     """
+    #     self.v_ld_sf = self.sfish_diet_sediment * self.sediment_lipid + self.sfish_diet_phytoplankton * self.phytoplankton_lipid + self.sfish_diet_benthic_invertebrates * self.beninv_lipid + self.sfish_diet_zooplankton * self.zoo_lipid + self.sfish_diet_filter_feeders * self.filterfeeders_lipid
+    #     return self.v_ld_sf
+    #
+    # def v_nd_sf_f(self):
+    #     """
+    #     Overall nonlipid content of diet
+    #     :return:
+    #     """
+    #     self.v_nd_sf = self.sfish_diet_sediment * self.sediment_nlom + self.sfish_diet_phytoplankton * self.phytoplankton_nlom + self.sfish_diet_benthic_invertebrates * self.beninv_nlom + self.sfish_diet_zooplankton * self.zoo_nlom + self.sfish_diet_filter_feeders * self.filterfeeders_nlom
+    #     return self.v_nd_sf
+    #
+    # #medium fish
+    # def v_ld_mf_f(self):
+    #     """
+    #     Overall lipid content of diet
+    #     :return:
+    #     """
+    #     self.v_ld_mf = self.mfish_diet_sediment * self.sediment_lipid + self.mfish_diet_phytoplankton * self.phytoplankton_lipid + self.mfish_diet_benthic_invertebrates * self.beninv_lipid + self.mfish_diet_zooplankton * self.zoo_lipid + self.mfish_diet_filter_feeders * self.filterfeeders_lipid + self.mfish_diet_small_fish * self.sfish_lipid
+    #     return self.v_ld_mf
+    #
+    # def v_nd_mf_f(self):
+    #     """
+    #     Overall nonlipid content of diet
+    #     :return:
+    #     """
+    #     self.v_nd_mf = self.mfish_diet_sediment * self.sediment_nlom + self.mfish_diet_phytoplankton * self.phytoplankton_nlom + self.mfish_diet_benthic_invertebrates * self.beninv_nlom + self.mfish_diet_zooplankton * self.zoo_nlom + self.mfish_diet_filter_feeders * self.filterfeeders_nlom + self.mfish_diet_small_fish * self.sfish_nlom
+    #     return self.v_nd_mf
+    #
+    # def v_wd_mf_f(self):
+    #     """
+    #     Overall water content of diet
+    #     :return:
+    #     """
+    #     self.v_wd_mf = self.mfish_diet_sediment * self.sediment_water + self.mfish_diet_phytoplankton * self.phytoplankton_water + self.mfish_diet_benthic_invertebrates * self.beninv_water + self.mfish_diet_zooplankton * self.zoo_water + self.mfish_diet_filter_feeders * self.filterfeeders_water + self.mfish_diet_small_fish * self.sfish_water
+    #     return self.v_wd_mf
+    #
+    # #large fish
+    # def v_ld_lf_f(self):
+    #     """
+    #     Overall lipid content of diet
+    #     :return:
+    #     """
+    #     self.v_ld_lf = self.lfish_diet_sediment * self.sediment_lipid + self.lfish_diet_phytoplankton * self.phytoplankton_lipid + self.lfish_diet_benthic_invertebrates * self.beninv_lipid + self.lfish_diet_zooplankton * self.zoo_lipid + self.lfish_diet_filter_feeders * self.filterfeeders_lipid + self.lfish_diet_small_fish * self.sfish_lipid + self.lfish_diet_medium_fish * self.mfish_lipid
+    #     return self.v_ld_lf
+    #
+    # def v_nd_lf_f(self):
+    #     """
+    #     Overall nonlipid content of diet
+    #     :return:
+    #     """
+    #     self.v_nd_lf = self.lfish_diet_sediment * self.sediment_nlom + self.lfish_diet_phytoplankton * self.phytoplankton_nlom + self.lfish_diet_benthic_invertebrates * self.beninv_nlom + self.lfish_diet_zooplankton * self.zoo_nlom + self.lfish_diet_filter_feeders * self.filterfeeders_nlom + self.lfish_diet_small_fish * self.sfish_nlom + self.lfish_diet_medium_fish * self.mfish_nlom
+    #     return self.v_nd_lf
+    #
+    # def v_wd_lf_f(self):
+    #     """
+    #     Overall water content of diet
+    #     :return:
+    #     """
+    #     self.v_wd_lf = self.lfish_diet_sediment * self.sediment_water + self.lfish_diet_phytoplankton * self.phytoplankton_water + self.lfish_diet_benthic_invertebrates * self.beninv_water + self.lfish_diet_zooplankton * self.zoo_water + self.lfish_diet_filter_feeders * self.filterfeeders_water + self.lfish_diet_small_fish * self.sfish_water + self.lfish_diet_medium_fish * self.mfish_water
+    #     return self.v_wd_lf
+###################################################################
+###################################################################
+    def overall_diet_content(self, diet_fraction, content_fraction):
         """
-        Overall lipid content of diet
+        Overall fraction of aquatic animal/organism diet attibuted to diet food component (i.e., lipids or NLOM or water)
+        :unit kg/kg
+        :expression not shown in Kabam documentation: it is associated with Kabam Eq. A9
+                    overall_diet_content is equal to the sum over dietary elements
+        :           of (fraction of diet) * (content in diet element); for example zooplankton ingest seidment and
+        :           phytoplankton, thus the overall lipid content of the zooplankton diet equals
+        :           (fraction of sediment in zooplankton diet) * (fraction of lipids in sediment) +
+        :           (fraction of phytoplankton in zooplankton diet) * (fraction of lipids in phytoplankton)
+        :param diet_fraction: list of values representing fractions of aquatic animal/organism diet attibuted
+                              to each element of diet
+        :param content_fraction: list of values representing fraction of diet element attributed to a specific
+                                 component of that diet element (e.g., lipid, NLOM, or water)
         :return:
         """
-        self.v_ld_zoo = self.zoo_diet_sediment * self.sediment_lipid + self.zoo_diet_phyto * self.phytoplankton_lipid
-        return self.v_ld_zoo
 
-    def v_nd_zoo_f(self):
-        """
-        Overall nonlipid content of diet
-        :return:
-        """
-        self.v_nd_zoo = self.zoo_diet_sediment * self.sediment_nlom + self.zoo_diet_phyto * self.phytoplankton_nlom
-        return self.v_nd_zoo
+        overall_diet_fraction = pd.Series([], dtype = 'float')
+        overall_diet_fraction = 0.0
 
-    def v_wd_zoo_f(self):
-        """
-        Overall water content of diet
-        :return:
-        """
-        self.v_wd_zoo = self.zoo_diet_sediment * self.sediment_water + self.zoo_diet_phyto * self.phytoplankton_water
-        return self.v_wd_zoo
+        for i in range(len(diet_fraction)):
+            overall_diet_fraction = overall_diet_fraction + diet_fraction[i] * content_fraction[i]
 
+        return overall_diet_fraction
+###################################################################
     def gf_zoo_f(self):
         """
         Egestion rate of fecal matter
@@ -967,38 +1184,6 @@ class KabamFunctions(object):
 
     ################################ benthic invertebrates
     ############################################################
-
-    def beninv_kd_f(self):
-        """
-        Zooplankton rate constant pesticide uptake by food ingestion
-        :return:
-        """
-        self.beninv_kd = self.ed_beninv * (self.gd_beninv / self.beninv_wb)
-        return self.beninv_kd
-
-    def v_ld_beninv_f(self):
-        """
-        Overall lipid content of diet
-        :return:
-        """
-        self.v_ld_beninv = self.beninv_diet_sediment * self.sediment_lipid + self.beninv_diet_phytoplankton * self.phytoplankton_lipid + self.beninv_diet_zooplankton * self.zoo_lipid
-        return self.v_ld_beninv
-
-    def v_nd_beninv_f(self):
-        """
-        Overall nonlipid content of diet
-        :return:
-        """
-        self.v_nd_beninv = self.beninv_diet_sediment * self.sediment_nlom + self.beninv_diet_phytoplankton * self.phytoplankton_nlom + self.beninv_diet_zooplankton * self.zoo_nlom
-        return self.v_nd_beninv
-
-    def v_wd_beninv_f(self):
-        """
-        Overall water content of diet
-        :return:
-        """
-        self.v_wd_beninv = self.beninv_diet_sediment * self.sediment_water + self.beninv_diet_phytoplankton * self.phytoplankton_water + self.beninv_diet_zooplankton * self.zoo_water
-        return self.v_wd_beninv
 
     def gf_beninv_f(self):
         """
@@ -1172,38 +1357,6 @@ class KabamFunctions(object):
         self.filterfeeders_k2 = self.filterfeeders_k1 / self.k_bw_ff
         return self.filterfeeders_k2
 
-    def filterfeeders_kd_f(self):
-        """
-        Filter feeder rate constant pesticide uptake by food ingestion
-        :return:
-        """
-        self.filterfeeders_kd = self.ed_ff * (self.gd_ff / self.filterfeeders_wb)
-        return self.filterfeeders_kd
-
-    def v_ld_ff_f(self):
-        """
-        Overall lipid content of diet
-        :return:
-        """
-        self.v_ld_ff = self.filterfeeders_diet_sediment * self.sediment_lipid + self.filterfeeders_diet_phytoplankton * self.phytoplankton_lipid + self.filterfeeders_diet_zooplankton * self.zoo_lipid
-        return self.v_ld_ff
-
-    def v_nd_ff_f(self):
-        """
-        Overall nonlipid content of diet
-        :return:
-        """
-        self.v_nd_ff = self.filterfeeders_diet_sediment * self.sediment_nlom + self.filterfeeders_diet_phytoplankton * self.phytoplankton_nlom + self.filterfeeders_diet_zooplankton * self.zoo_nlom
-        return self.v_nd_ff
-
-    def v_wd_ff_f(self):
-        """
-        Overall water content of diet
-        :return:
-        """
-        self.v_wd_ff = self.filterfeeders_diet_sediment * self.sediment_water + self.filterfeeders_diet_phytoplankton * self.phytoplankton_water + self.filterfeeders_diet_zooplankton * self.zoo_water
-        return self.v_wd_ff
-
     def gf_ff_f(self):
         """
         Gf ff
@@ -1362,31 +1515,7 @@ class KabamFunctions(object):
     #########################################################################
     ############# small fish
 
-    def sfish_kd_f(self):
-        """
-        Small fish rate constant pesticide uptake by food ingestion
-        :return:
-        """
-        self.sfish_kd = self.ed_sf * self.gd_sf / self.sfish_wb
-        return self.sfish_kd
-
         # overall lipid content of diet
-
-    def v_ld_sf_f(self):
-        """
-        Small fish lipid
-        :return:
-        """
-        self.v_ld_sf = self.sfish_diet_sediment * self.sediment_lipid + self.sfish_diet_phytoplankton * self.phytoplankton_lipid + self.sfish_diet_benthic_invertebrates * self.beninv_lipid + self.sfish_diet_zooplankton * self.zoo_lipid + self.sfish_diet_filter_feeders * self.filterfeeders_lipid
-        return self.v_ld_sf
-
-    def v_nd_sf_f(self):
-        """
-        Overall nonlipid content of diet
-        :return:
-        """
-        self.v_nd_sf = self.sfish_diet_sediment * self.sediment_nlom + self.sfish_diet_phytoplankton * self.phytoplankton_nlom + self.sfish_diet_benthic_invertebrates * self.beninv_nlom + self.sfish_diet_zooplankton * self.zoo_nlom + self.sfish_diet_filter_feeders * self.filterfeeders_nlom
-        return self.v_nd_sf
 
     def v_wd_sf_f(self):
         """
@@ -1553,38 +1682,6 @@ class KabamFunctions(object):
     ############ medium fish
 
 
-    def mfish_kd_f(self):
-        """
-        Medium fish rate constant pesticide uptake by food ingestion
-        :return:
-        """
-        self.mfish_kd = self.ed_mf * self.gd_mf / self.mfish_wb
-        return self.mfish_kd
-
-    def v_ld_mf_f(self):
-        """
-        Overall lipid content of diet
-        :return:
-        """
-        self.v_ld_mf = self.mfish_diet_sediment * self.sediment_lipid + self.mfish_diet_phytoplankton * self.phytoplankton_lipid + self.mfish_diet_benthic_invertebrates * self.beninv_lipid + self.mfish_diet_zooplankton * self.zoo_lipid + self.mfish_diet_filter_feeders * self.filterfeeders_lipid + self.mfish_diet_small_fish * self.sfish_lipid
-        return self.v_ld_mf
-
-    def v_nd_mf_f(self):
-        """
-        Overall nonlipid content of diet
-        :return:
-        """
-        self.v_nd_mf = self.mfish_diet_sediment * self.sediment_nlom + self.mfish_diet_phytoplankton * self.phytoplankton_nlom + self.mfish_diet_benthic_invertebrates * self.beninv_nlom + self.mfish_diet_zooplankton * self.zoo_nlom + self.mfish_diet_filter_feeders * self.filterfeeders_nlom + self.mfish_diet_small_fish * self.sfish_nlom
-        return self.v_nd_mf
-
-    def v_wd_mf_f(self):
-        """
-        Overall water content of diet
-        :return:
-        """
-        self.v_wd_mf = self.mfish_diet_sediment * self.sediment_water + self.mfish_diet_phytoplankton * self.phytoplankton_water + self.mfish_diet_benthic_invertebrates * self.beninv_water + self.mfish_diet_zooplankton * self.zoo_water + self.mfish_diet_filter_feeders * self.filterfeeders_water + self.mfish_diet_small_fish * self.sfish_water
-        return self.v_wd_mf
-
     def gf_mf_f(self):
         """
         Medium fish
@@ -1742,39 +1839,6 @@ class KabamFunctions(object):
         return self.cbmf_mf
 
     ############ large fish
-
-
-       def lfish_kd_f(self):
-        """
-        Large fish rate constant pesticide uptake by food ingestion
-        :return:
-        """
-        self.lfish_kd = self.ed_lf * self.gd_lf / self.lfish_wb
-        return self.lfish_kd
-
-    def v_ld_lf_f(self):
-        """
-        Overall lipid content of diet
-        :return:
-        """
-        self.v_ld_lf = self.lfish_diet_sediment * self.sediment_lipid + self.lfish_diet_phytoplankton * self.phytoplankton_lipid + self.lfish_diet_benthic_invertebrates * self.beninv_lipid + self.lfish_diet_zooplankton * self.zoo_lipid + self.lfish_diet_filter_feeders * self.filterfeeders_lipid + self.lfish_diet_small_fish * self.sfish_lipid + self.lfish_diet_medium_fish * self.mfish_lipid
-        return self.v_ld_lf
-
-    def v_nd_lf_f(self):
-        """
-        Overall nonlipid content of diet
-        :return:
-        """
-        self.v_nd_lf = self.lfish_diet_sediment * self.sediment_nlom + self.lfish_diet_phytoplankton * self.phytoplankton_nlom + self.lfish_diet_benthic_invertebrates * self.beninv_nlom + self.lfish_diet_zooplankton * self.zoo_nlom + self.lfish_diet_filter_feeders * self.filterfeeders_nlom + self.lfish_diet_small_fish * self.sfish_nlom + self.lfish_diet_medium_fish * self.mfish_nlom
-        return self.v_nd_lf
-
-    def v_wd_lf_f(self):
-        """
-        Overall water content of diet
-        :return:
-        """
-        self.v_wd_lf = self.lfish_diet_sediment * self.sediment_water + self.lfish_diet_phytoplankton * self.phytoplankton_water + self.lfish_diet_benthic_invertebrates * self.beninv_water + self.lfish_diet_zooplankton * self.zoo_water + self.lfish_diet_filter_feeders * self.filterfeeders_water + self.lfish_diet_small_fish * self.sfish_water + self.lfish_diet_medium_fish * self.mfish_water
-        return self.v_wd_lf
 
     def gf_lf_f(self):
         """

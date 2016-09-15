@@ -268,6 +268,151 @@ class TestKabam(unittest.TestCase):
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
+    def test_aq_animal_feeding_rate(self):
+        """
+        Aquatic animal feeding rate (except filterfeeders)
+        :unit kg/d
+        :expression Kabam Eq. A8b1 (Gd)
+        :param wet_wgt: wet weight of animal/organism (kg)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([4.497792e-08, 1.0796617e-3, 0.073042572], dtype = 'float')
+
+        try:
+            #For test purpose we'll use the zooplankton variable names
+            self.kabam_empty.zoo_wb = pd.Series([1.e-7, 1.e-2, 1.], dtype = 'float')
+            self.kabam_empty.water_temp = pd.Series([10., 15., 20.])
+
+            result = self.kabam_empty.aq_animal_feeding_rate(self.kabam_empty.zoo_wb)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_filterfeeder_feeding_rate(self):
+        """
+        Filter feeder feeding rate
+        :unit kg/d
+        :expression Kabam Eq. A8b2 (Gd)
+        :param self.gv_filterfeeders: filterfeeder ventilation rate (L/d)
+        :param self.conc_ss: Concentration of Suspended Solids (Css - kg/L)
+        :param particle_scav_eff: efficiency of scavenging of particles absorbed from water (fraction)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series(['nan', 1.97287e-7, 0.03282195], dtype = 'float')
+
+        try:
+            self.kabam_empty.gv_filterfeeders = pd.Series(['nan', 0.00394574, 0.468885], dtype = 'float')
+            self.kabam_empty.conc_ss = pd.Series([0.00005, 0.00005, 0.07], dtype = 'float')
+            self.kabam_empty.particle_scav_eff = 1.0
+
+            result = self.kabam_empty.filterfeeders_feeding_rate()
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_diet_uptake_rate_const(self):
+        """
+        pesticide uptake rate constant for uptake through ingestion of food rate
+        :unit kg food/kg organism - day
+        :expression Kabam Eq. A8 (kD)
+        :param dietary_trans_eff: dietary pesticide transfer efficiency (fraction)
+        :param feeding rate: animal/organism feeding rate (kg/d)
+        :param wet weight of aquatic animal/organism (kg)
+        :return:
+        """
+
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([0.22455272, 0.05318532, 0.031755767 ], dtype = 'float')
+
+        try:
+            #For test purpose we'll use the zooplankton variable names
+            self.kabam_empty.ed_zoo = pd.Series([0.499251, 0.492611, 0.434783], dtype = 'float')
+            self.kabam_empty.gd_zoo = pd.Series([4.497792e-08, 1.0796617e-3, 0.073042572], dtype = 'float')
+            self.kabam_empty.zoo_wb = pd.Series([1.e-7, 1.e-2, 1.0])
+
+            result = self.kabam_empty.diet_uptake_rate_const(self.kabam_empty.ed_zoo,    \
+                     self.kabam_empty.gd_zoo, self.kabam_empty.zoo_wb)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+        dietary_uptake_constantt = pd.Series([], dtype = 'float')
+
+        dietary_uptake_constant = dietary_trans_eff * feeding_rate / wet_wgt
+        return dietary_uptake_constant
+
+    def test_overall_diet_content(self):
+        """
+        Overall fraction of aquatic animal/organism diet attibuted to diet food component (i.e., lipids or NLOM or water)
+        :unit kg/kg
+        :expression not shown in Kabam documentation: it is associated with Kabam Eq. A9
+                    overall_diet_content is equal to the sum over dietary elements
+        :           of (fraction of diet) * (content in diet element); for example zooplankton ingest seidment and
+        :           phytoplankton, thus the overall lipid content of the zooplankton diet equals
+        :           (fraction of sediment in zooplankton diet) * (fraction of lipids in sediment) +
+        :           (fraction of phytoplankton in zooplankton diet) * (fraction of lipids in phytoplankton)
+        :param diet_fraction: list of values representing fractions of aquatic animal/organism diet attibuted
+                              to each element of diet
+        :param content_fraction: list of values representing fraction of diet element attributed to a specific
+                                 component of that diet element (e.g., lipid, NLOM, or water)
+        :return:
+        """
+
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([0.025, 0.03355, 0.0465], dtype = 'float')
+
+        try:
+            #For test purpose we'll use the small fish diet variables
+            self.kabam_empty.sfish_diet_sediment = pd.Series([0.0, 0.01, 0.05], dtype = 'float')
+            self.kabam_empty.sfish_diet_phytoplankton = pd.Series([0.0, 0.01, 0.05], dtype = 'float')
+            self.kabam_empty.sfish_diet_zooplankton = pd.Series([0.5, 0.4, 0.5], dtype = 'float')
+            self.kabam_empty.sfish_diet_benthic_invertebrates = pd.Series([0.5, 0.57, 0.35], dtype = 'float')
+            self.kabam_empty.sfish_diet_filterfeeders = pd.Series([0.0, 0.01, 0.05], dtype = 'float')
+
+            self.kabam_empty.sediment_lipid = pd.Series([0.0, 0.01, 0.0], dtype = 'float')
+            self.kabam_empty.phytoplankton_lipid = pd.Series([0.02, 0.015, 0.03], dtype = 'float')
+            self.kabam_empty.zoo_lipid = pd.Series([0.03, 0.04, 0.05], dtype = 'float')
+            self.kabam_empty.beninv_lipid = pd.Series([0.02, 0.03, 0.05], dtype = 'float')
+            self.kabam_empty.filterfeeders_lipid = pd.Series([0.01, 0.02, 0.05], dtype = 'float')
+
+            diet_elements = pd.Series([], dtype = 'float')
+            content_fracs = pd.Series([], dtype = 'float')
+
+            for i in range(len(self.kabam_empty.sfish_diet_sediment)):
+                diet_elements = [self.kabam_empty.sfish_diet_sediment[i],
+                                 self.kabam_empty.sfish_diet_phytoplankton[i],
+                                 self.kabam_empty.sfish_diet_zooplankton[i],
+                                 self.kabam_empty.sfish_diet_benthic_invertebrates[i],
+                                 self.kabam_empty.sfish_diet_filterfeeders[i]]
+
+                content_fracs = [self.kabam_empty.sediment_lipid[i],
+                                 self.kabam_empty.phytoplankton_lipid[i],
+                                 self.kabam_empty.zoo_lipid[i],
+                                 self.kabam_empty.beninv_lipid[i],
+                                 self.kabam_empty.filterfeeders_lipid[i]]
+
+                result[i] = self.kabam_empty.overall_diet_content(diet_elements, content_fracs)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
 
 
 # unittest will

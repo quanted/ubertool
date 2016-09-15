@@ -391,6 +391,8 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
 
         # Define constants and perform units conversions on necessary raw inputs
         self.set_global_constants()
+
+
         self.kow = 10.**(self.log_kow)
         self.phytoplankton_lipid_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
         self.phytoplankton_nlom_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
@@ -464,6 +466,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.lfish_k1 = self.aq_animal_k1_calc(self.ew_lfish, self.gv_lfish, self.lfish_wb)
 
         #Aquatic animal-Water partition coeficient (Kabam Eq. A6a)
+        # 0.35 & 0.035 represent the proportionality constant expressing the sorption capacity of NLOM to that of octanol
         self.k_bw_phytoplankton = self.animal_water_part_coef(self.phytoplankton_lipid_frac,
                                                               self.phytoplankton_nlom_frac,
                                                               self.phytoplankton_water_frac, 0.35)
@@ -501,17 +504,84 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
 
         # aquatic animal/organism dietary pesticide transfer efficiency
         # i think the following declarations should be moved to output class
-        self.zoo_ed = pd.Series([], dtype = 'float')
-        self.beninv_ed = pd.Series([], dtype = 'float')
-        self.filterfeeders_ed = pd.Series([], dtype = 'float')
-        self.sfish_ed = pd.Series([], dtype = 'float')
-        self.mfish_ed = pd.Series([], dtype = 'float')
-        self.lfish_ed = pd.Series([], dtype = 'float')
+        self.ed_zoo = pd.Series([], dtype = 'float')
+        self.ed_beninv = pd.Series([], dtype = 'float')
+        self.ed_filterfeeders = pd.Series([], dtype = 'float')
+        self.ed_sfish = pd.Series([], dtype = 'float')
+        self.ed_mfish = pd.Series([], dtype = 'float')
+        self.ed_lfish = pd.Series([], dtype = 'float')
 
-        self.zoo_ed = self.beninv_ed = self.filterfeeders_ed = self.sfish_ed = \
-                      self.mfish_ed = self.lfish_ed = self.dietary_trans_eff()
+        self.ed_zoo = self.ed_beninv = self.ed_filterfeeders = self.ed_sfish = \
+                      self.ed_mfish = self.ed_lfish = self.dietary_trans_eff()
+
+        # aquatic animal/organism feeding rate
+        self.gd_zoo = self.aq_animal_feeding_rate(self, self.zoo_wb)
+        self.gd_beninv = self.aq_animal_feeding_rate(self, self.beninv_wb)
+        self.gd_filterfeeders = self.filterfeeder_feeding_rate()
+        self.gd_sfish = self.aq_animal_feeding_rate(self, self.sfish_wb)
+        self.gd_mfish = self.aq_animal_feeding_rate(self, self.mfish_wb)
+        self.gd_lfish = self.aq_animal_feeding_rate(self, self.lfish_wb)
+
+        # dietary uptake rate constant
+        self.zoo_kd = self.diet_uptake_rate_const(self.ed_zoo, self.gd_zoo, self.zoo_wb)
+        self.beninv_kd = self.diet_uptake_rate_const(self.ed_beninv, self.gd_beninv, self.beninv_wb)
+        self.filterfeeders_kd = self.diet_uptake_rate_const(self.ed_filterfeeders,
+                                                            self.gd_filterfeeders, self.filterfeeders_wb)
+        self.sfish_kd = self.diet_uptake_rate_const(self.ed_sfish, self.gd_sfish, self.sfish_wb)
+        self.mfish_kd = self.diet_uptake_rate_const(self.ed_mfish, self.gd_mfish, self.mfish_wb)
+        self.lfish_kd = self.diet_uptake_rate_const(self.ed_lfish, self.gd_lfish, self.lfish_wb)
+
+        #overall content of aquatic animal/organism diet for lipid, NLOM, and Water
+            #zooplankton lipid
+
+        self.diet_frac_zoo = pd.Series([], dtype = 'float')
+        self.diet_content_zoo_lipid = pd.Series([], dtype = 'float')
+        for i in range(len(self.kabam_empty.zoo_diet_sediment)):
+            self.diet_frac_zoo = [self.kabam_empty.zoo_diet_sediment[i],
+                             self.kabam_empty.zoo_diet_phytoplankton[i]]
+            self.diet_content_zoo_lipid = [self.kabam_empty.sediment_lipid[i],
+                             self.kabam_empty.phytoplankton_lipid[i]]
+        self.v_ld_zoo = self.overall_diet_content(self.diet_frac_zoo, self.diet_content_zoo_lipid)
+
+            #zooplankton NLOM
+        self.diet_content_zoo_nlom = pd.Series([], dtype = 'float')
+        for i in range(len(self.kabam_empty.zoo_diet_sediment)):
+            self.diet_content_zoo_nlom = [self.kabam_empty.sediment_nlom[i],
+                             self.kabam_empty.phytoplankton_nlom[i]]
+        self.v_nd_zoo = self.overall_diet_content(self.diet_frac_zoo, self.diet_content_zoo_nlom)
+
+            #zooplankton water
+        self.diet_content_zoo_water = pd.Series([], dtype = 'float')
+        for i in range(len(self.kabam_empty.zoo_diet_sediment)):
+            self.diet_content_zoo_water = [self.kabam_empty.sediment_water[i],
+                             self.kabam_empty.phytoplankton_water[i]]
+        self.v_wd_zoo = self.overall_diet_content(self.diet_frac_zoo, self.diet_content_zoo_water)
+
+            #benthic invertebrates
+
+            #small fish
+        self.diet_frac_zoo = pd.Series([], dtype = 'float')
+        self.diet_content_zoo_lipid = pd.Series([], dtype = 'float')
+
+        for i in range(len(self.kabam_empty.sfish_diet_sediment)):
+            diet_frac_zoo = [self.kabam_empty.sfish_diet_sediment[i],
+                             self.kabam_empty.sfish_diet_phytoplankton[i],
+                             self.kabam_empty.sfish_diet_zooplankton[i],
+                             self.kabam_empty.sfish_diet_benthic_invertebrates[i],
+                             self.kabam_empty.sfish_diet_filterfeeders[i]]
+
+            self.diet_content_zoo_lipid = [self.kabam_empty.sediment_lipid[i],
+                             self.kabam_empty.phytoplankton_lipid[i],
+                             self.kabam_empty.zoo_lipid[i],
+                             self.kabam_empty.beninv_lipid[i],
+                             self.kabam_empty.filterfeeders_lipid[i]]
+
+        self.v_wd_zoo = self.overall_diet_content(self.diet_frac_zoo, self.diet_content_zoo_lipid)
+
+        #overall NLOM content of aquatic animal/organism diet
 
 
+        #overall Water content of aquatic animal/organism diet
 
         # self.phi_f()
         # self.c_soc_f()
@@ -727,8 +797,22 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         # self.chronic_rq_diet_a_f()
 
     def set_global_constants(self):
-        # Assigned constants
 
         # list of aquatic animals in the food chain from lowest to highest trophic level
-        self.aquatic_animals = pd.Series(['pytoplankton', 'zooplankton', 'benthic_invertebrates', 'filter_feeders',
-                                          'small_fish', 'medium fish', 'large fish'], dtype = 'str')
+        self.aquatic_animals = pd.Series(['pytoplankton', 'zooplankton', 'benthic_invertebrates', 'filterfeeders',
+                                          'small_fish', 'medium_fish', 'large_fish'], dtype = 'str')
+
+        # Assigned constants
+        self.particle_scav_eff = 1.0  # filterfeeder efficiency of scavenging of particles absorbed from water (Kabam Eq. A8b2)
+
+        self.epsilon_lipid_fish = 0.92  # fish dietary assimilation rate of lipids (Kabam Eq. A9)
+        self.epsilon_lipid_inv = 0.75  # aquatic invertabrates dietary assimilation rate of lipids (Kabam Eq. A9)
+        self.epsilon_lipid_zoo = 0.72  # zooplankton dietary assimilation rate of lipids (Kabam Eq. A9)
+
+        self.epsilon_nlom_fish  = 0.60 # fish dietary assimilation rate of NLOM (Kabam Eq. A9)
+        self.epsilon_nlom_inv  = 0.60 # aquatic invertebrates dietary assimilation rate of NLOM (Kabam Eq. A9)
+        self.epsilon_nlom_zoo  = 0.60 # zooplankton dietary assimilation rate of NLOM (Kabam Eq. A9)
+
+        self.epsilon_water = 0.25  # freshwater organisms dietary assimilation rate of water
+
+
