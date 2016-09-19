@@ -349,14 +349,10 @@ class TestKabam(unittest.TestCase):
             print(inspect.currentframe().f_code.co_name)
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
-        dietary_uptake_constantt = pd.Series([], dtype = 'float')
-
-        dietary_uptake_constant = dietary_trans_eff * feeding_rate / wet_wgt
-        return dietary_uptake_constant
 
     def test_overall_diet_content(self):
         """
-        Overall fraction of aquatic animal/organism diet attibuted to diet food component (i.e., lipids or NLOM or water)
+        Overall fraction of aquatic animal/organism diet attributed to diet food component (i.e., lipids or NLOM or water)
         :unit kg/kg
         :expression not shown in Kabam documentation: it is associated with Kabam Eq. A9
                     overall_diet_content is equal to the sum over dietary elements
@@ -375,7 +371,7 @@ class TestKabam(unittest.TestCase):
         expected_results = pd.Series([0.025, 0.03355, 0.0465], dtype = 'float')
 
         try:
-            #For test purpose we'll use the small fish diet variables
+            #For test purposes we'll use the small fish diet variables
             self.kabam_empty.sfish_diet_sediment = pd.Series([0.0, 0.01, 0.05], dtype = 'float')
             self.kabam_empty.sfish_diet_phytoplankton = pd.Series([0.0, 0.01, 0.05], dtype = 'float')
             self.kabam_empty.sfish_diet_zooplankton = pd.Series([0.5, 0.4, 0.5], dtype = 'float')
@@ -413,6 +409,130 @@ class TestKabam(unittest.TestCase):
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
+    def test_egestion_rate_factor(self):
+        """
+        Aquatic animal/organism egestion rate of fecal matter factor (to be multiplied by the
+        feeding rate to calculate egestion rate of fecal matter)
+        :unit (kg feces)/[(kg organism) - day]
+        :expression Kabam Eq. A9 (GF)
+        :param epsilonL: dietary assimilation rate of lipids (fraction)
+        :param epsilonN: dietary assimilation rate of NLOM (fraction)
+        :param epsilonW: dietary assimilation rate of water (fraction)
+        :param diet_lipid; lipid content of aquatic animal/organism diet (fraction)
+        :param diet_nlom NLOM content of aquatic animal/organism diet (fraction)
+        :param diet_water water content of aquatic animal/organism diet (fraction)
+        :param feeding_rate: aquatic animal/organism feeding rate (kg/d)
+        :return:
+        """
+
+        #this test includes two results; 'result1' represents the overall assimilation rate of the
+        #aquatic animal/organism diet; and 'result' represents the product of this assimilation rate
+        #and the feeding rate (this multiplication will be done in the main model routine
+        #as opposed to within a method  -- the method here is limited to the assimilation factor
+        #because this factor is used elsewhere as well
+
+        result = pd.Series([], dtype='float')
+        result1 = pd.Series([], dtype='float')
+        expected_results = pd.Series([1.43e-9, 5.005e-5, 4.82625e-3], dtype = 'float')
+
+        try:
+            #For test purposes we'll use the zooplankton variable names and relevant constant values
+            self.kabam_empty.epsilon_lipid_zoo = 0.72
+            self.kabam_empty.epsilon_nlom_zoo = 0.60
+            self.kabam_empty.epsilon_water = 0.25
+
+            self.kabam_empty.v_ld_zoo = pd.Series([0.025, 0.035, 0.045], dtype = 'float')
+            self.kabam_empty.v_nd_zoo = pd.Series([0.025, 0.035, 0.045], dtype = 'float')
+            self.kabam_empty.v_wd_zoo = pd.Series([0.025, 0.035, 0.045], dtype = 'float')
+            self.kabam_empty.gd_zoo = pd.Series([4.e-08, 1.e-3, 0.075], dtype = 'float')
+
+            result1 = self.kabam_empty.egestion_rate_factor(self.kabam_empty.epsilon_lipid_zoo,
+                                                                self.kabam_empty.epsilon_nlom_zoo,
+                                                                self.kabam_empty.epsilon_water,
+                                                                self.kabam_empty.v_ld_zoo,
+                                                                self.kabam_empty.v_nd_zoo,
+                                                                self.kabam_empty.v_wd_zoo)
+            result = result1  * self.kabam_empty.gd_zoo
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_diet_elements_gut(self):
+        """
+        Fraction of diet elements (i.e., lipid, NLOM, water) in the gut
+        :unit (kg lipid) / (kg digested wet weight)
+        :expression Kabam Eq. A9 (VLG, VNG, VWG)
+        :param (epison_lipid_*) relevant dietary assimilation rate (fraction)
+        :param (v_ld_*) relevant overall diet content of diet element (kg/kg)
+        :param (diet_assim_factor_*) relevant: Aquatic animal/organism egestion rate of fecal matter factor
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([0.2, 0.196, 0.1575], dtype = 'float')
+
+        try:
+            #for this test we'll use the lipid content for zooplankton
+            self.kabam_empty.epsilon_lipid_zoo = 0.72
+            self.kabam_empty.v_ld_zoo = pd.Series([0.025, 0.035, 0.045], dtype = 'float')
+            self.kabam_empty.diet_assim_factor_zoo = pd.Series([0.035, 0.05, 0.08], dtype = 'float')
+
+            result = self.kabam_empty.diet_elements_gut(self.kabam_empty.epsilon_lipid_zoo,
+                    self.kabam_empty.v_ld_zoo, self.kabam_empty.diet_assim_factor_zoo)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_gut_organism_partition_coef(self):
+        """
+        Partition coefficient of the pesticide between the gastrointenstinal track and the organism
+        :unit none
+        :expression Kabam Eq. A9 (KGB)
+        :param vlg_zoo: lipid content in the gut
+        :param vng_zoo: nlom content in the gut
+        :param vwg_zoo: water content in the gut
+        :param kow: pesticide Kow
+        :param beta_aq_animals: proportionality constant expressing the sorption capacity of NLOM to that of octanol
+        :param zoo_lipid_frac: lipid content in the whole organism
+        :param zoo_nlom_frac: nlom content in the whole organism
+        :param zoo_water_frac: water content in the whole organism
+        :return:
+        """
+
+
+
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([0.2, 0.196, 0.1575], dtype = 'float')
+
+        try:
+            #for this test we'll use the lipid content for zooplankton
+            self.kabam_empty.beta_aq_animals = 0.035
+            self.kabam_empty.kow = pd.Series([], dtype = 'float')
+            self.kabam_empty.vlg_zoo = pd.Series([], dtype = 'float')
+            self.kabam_empty.vng_zoo = pd.Series([], dtype = 'float')
+            self.kabam_empty.vwg_zoo = pd.Series([], dtype = 'float')
+            self.kabam_empty.zoo_lipid_frac = pd.Series([], dtype = 'float')
+            self.kabam_empty.zoo_nlom_frac = pd.Series([], dtype = 'float')
+            self.kabam_empty.zoo_water_frac = pd.Series([], dtype = 'float')
+
+            result = self.kabam_empty.gut_organism_partition_coef(self.kabam_empty.vlg_zoo, self.kabam_empty.vng_zoo,
+                                    self.kabam_empty.vwg_zoo, self.kabam_empty.kow, self.kabam_empty.beta_aq_animals,
+                                    self.kabam_empty.zoo_lipid_frac, self.kabam_empty.zoo_nlom_frac,
+                                    self.kabam_empty.zoo_water_frac)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
 
 # unittest will

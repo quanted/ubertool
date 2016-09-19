@@ -480,54 +480,62 @@ class KabamFunctions(object):
 
 
  #########################################################
-     def phytoplankton_k2_f(self):
-        """
-        Rate constant for elimination through the gills for phytoplankton
-        Eq. A6
-        :return:
-        """
-        self.phytoplankton_k2 = self.phytoplankton_k1 / self.k_bw_phytoplankton
-        return self.phytoplankton_k2
-
-    def zoo_k2_f(self):
-        """
-        Elimination rate constant through the gills for zooplankton
-        :return:
-        """
-        self.zoo_k2 = self.zoo_k1 / self.k_bw_zoo
-        return self.zoo_k2
-
-    def beninv_k2_f(self):
-        """
-        Elimination rate constant through the gills for zooplankton
-        :return:
-        """
-        self.beninv_k2 = self.beninv_k1 / self.k_bw_beninv
-        return self.beninv_k2
-
-    def sfish_k2_f(self):
-        """
-        Elimination rate constant through the gills for small fish
-        :return:
-        """
-        self.sfish_k2 = self.sfish_k1 / self.k_bw_sf
-        return self.sfish_k2
-
-    def mfish_k2_f(self):
-        """
-        Elimination rate constant through the gills for medium fish
-        :return:
-        """
-        self.mfish_k2 = self.mfish_k1 / self.k_bw_mf
-        return self.mfish_k2
-
-    def lfish_k2_f(self):
-        """
-        Elimination rate constant through the gills for large fish
-        :return:
-        """
-        self.lfish_k2 = self.lfish_k1 / self.k_bw_lf
-        return self.lfish_k2
+    #  def phytoplankton_k2_f(self):
+    #     """
+    #     Rate constant for elimination through the gills for phytoplankton
+    #     Eq. A6
+    #     :return:
+    #     """
+    #     self.phytoplankton_k2 = self.phytoplankton_k1 / self.k_bw_phytoplankton
+    #     return self.phytoplankton_k2
+    #
+    # def zoo_k2_f(self):
+    #     """
+    #     Elimination rate constant through the gills for zooplankton
+    #     :return:
+    #     """
+    #     self.zoo_k2 = self.zoo_k1 / self.k_bw_zoo
+    #     return self.zoo_k2
+    #
+    # def beninv_k2_f(self):
+    #     """
+    #     Elimination rate constant through the gills for zooplankton
+    #     :return:
+    #     """
+    #     self.beninv_k2 = self.beninv_k1 / self.k_bw_beninv
+    #     return self.beninv_k2
+    #
+    # def filterfeeders_k2_f(self):
+    #     """
+    #     Elimination rate constant through the gills for filter feeders
+    #     :return:
+    #     """
+    #     self.filterfeeders_k2 = self.filterfeeders_k1 / self.k_bw_ff
+    #     return self.filterfeeders_k2
+    #
+    # def sfish_k2_f(self):
+    #     """
+    #     Elimination rate constant through the gills for small fish
+    #     :return:
+    #     """
+    #     self.sfish_k2 = self.sfish_k1 / self.k_bw_sf
+    #     return self.sfish_k2
+    #
+    # def mfish_k2_f(self):
+    #     """
+    #     Elimination rate constant through the gills for medium fish
+    #     :return:
+    #     """
+    #     self.mfish_k2 = self.mfish_k1 / self.k_bw_mf
+    #     return self.mfish_k2
+    #
+    # def lfish_k2_f(self):
+    #     """
+    #     Elimination rate constant through the gills for large fish
+    #     :return:
+    #     """
+    #     self.lfish_k2 = self.lfish_k1 / self.k_bw_lf
+    #     return self.lfish_k2
 
 ##########################################################
 ##########################################################
@@ -945,6 +953,14 @@ class KabamFunctions(object):
     #     self.v_nd_sf = self.sfish_diet_sediment * self.sediment_nlom + self.sfish_diet_phytoplankton * self.phytoplankton_nlom + self.sfish_diet_benthic_invertebrates * self.beninv_nlom + self.sfish_diet_zooplankton * self.zoo_nlom + self.sfish_diet_filter_feeders * self.filterfeeders_nlom
     #     return self.v_nd_sf
     #
+    # def v_wd_sf_f(self):
+    #     """
+    #     Overall water content of diet
+    #     :return:
+    #     """
+    #     self.v_wd_sf = self.sfish_diet_sediment * self.sediment_water + self.sfish_diet_phytoplankton * self.phytoplankton_water + self.sfish_diet_benthic_invertebrates * self.beninv_water + self.sfish_diet_zooplankton * self.zoo_water + self.sfish_diet_filter_feeders * self.filterfeeders_water
+    #     return self.v_wd_sf
+    #
     # #medium fish
     # def v_ld_mf_f(self):
     #     """
@@ -1021,42 +1037,249 @@ class KabamFunctions(object):
 
         return overall_diet_fraction
 ###################################################################
-    def gf_zoo_f(self):
-        """
-        Egestion rate of fecal matter
-        :return:
-        """
-        self.gf_zoo = (((1 - .72) * self.v_ld_zoo) + ((1 - .72) * self.v_nd_zoo) + (
-            (1 - .25) * self.v_wd_zoo)) * self.gd_zoo
-        # rr=self.zoo_diet_phyto
-        # if rr==0:
-        #   rr==0.00000001
-        # return rr
-        return self.gf_zoo
+    # def gf_zoo_f(self):
+    #     """
+    #     Egestion rate of fecal matter
+    #     :return:
+    #     """
+    #     self.gf_zoo = (((1 - .72) * self.v_ld_zoo) + ((1 - .72) * self.v_nd_zoo) + (
+    #         (1 - .25) * self.v_wd_zoo)) * self.gd_zoo
+    #     # rr=self.zoo_diet_phyto
+    #     # if rr==0:
+    #     #   rr==0.00000001
+    #     # return rr
+    #     return self.gf_zoo
+    #
+    # def gf_beninv_f(self):
+    #     """
+    #     Egestion rate of fecal matter
+    #     :return:
+    #     """
+    #     self.gf_beninv = ((1 - 0.75) * self.v_ld_beninv + (1 - 0.75) * self.v_nd_beninv + (
+    #         1 - 0.25) * self.v_wd_beninv) * self.gd_beninv
+    #     return self.gf_beninv
+    #
+    # def gf_ff_f(self):
+    #     """
+    #     Gf ff
+    #     :return:
+    #     """
+    #     self.gf_ff = ((1 - 0.75) * self.v_ld_ff + (1 - 0.75) * self.v_nd_ff + (1 - 0.25) * self.v_wd_ff) * self.gd_ff
+    #     return self.gf_ff
+    #
+    # def gf_sf_f(self):
+    #     """
+    #     Small fish
+    #     :return:
+    #     """
+    #     self.gf_sf = ((1 - 0.92) * self.v_ld_sf + (1 - 0.6) * self.v_nd_sf + (1 - 0.25) * self.v_wd_sf) * self.gd_sf
+    #     return self.gf_sf
+    #
+    # def gf_mf_f(self):
+    #     """
+    #     Medium fish
+    #     :return:
+    #     """
+    #     self.gf_mf = ((1 - 0.92) * self.v_ld_mf + (1 - 0.6) * self.v_nd_mf + (1 - 0.25) * self.v_wd_mf) * self.gd_mf
+    #     return self.gf_mf
+    #
+    # def gf_lf_f(self):
+    #     """
+    #     Large fiah
+    #     :return:
+    #     """
+    #     self.gf_lf = ((1 - 0.92) * self.v_ld_lf + (1 - 0.6) * self.v_nd_lf + (1 - 0.25) * self.v_wd_lf) * self.gd_lf
+    #     return self.gf_lf
 
-    def vlg_zoo_f(self):
+#####################################################################
+#####################################################################
+    def egestion_rate_factor(self, epsilonL, epsilonN, epsilonW, diet_lipid, diet_nlom, diet_water):
         """
-        Lipid content in gut
+        Aquatic animal/organism egestion rate of fecal matter factor (to be multiplied by the
+        feeding rate to calculate egestion rate of fecal matter)
+        :unit (kg lipid)/[(kg diet)
+        :expression Kabam Eq. A9 (GF)
+        :param epsilonL: dietary assimilation rate of lipids (fraction)
+        :param epsilonN: dietary assimilation rate of NLOM (fraction)
+        :param epsilonW: dietary assimilation rate of water (fraction)
+        :param diet_lipid; lipid content of aquatic animal/organism diet (fraction)
+        :param diet_nlom NLOM content of aquatic animal/organism diet (fraction)
+        :param diet_water water content of aquatic animal/organism diet (fraction)
         :return:
         """
-        self.vlg_zoo = (1 - 0.72) * self.v_ld_zoo * self.gd_zoo / self.gf_zoo
-        return self.vlg_zoo
 
-    def vng_zoo_f(self):
-        """
-        Non lipid content in gut
-        :return:
-        """
-        self.vng_zoo = (1 - 0.72) * self.v_nd_zoo * self.gd_zoo / self.gf_zoo
-        return self.vng_zoo
+        rate_factor = pd.Series([], dtype = 'float')
 
-    def vwg_zoo_f(self):
+        rate_factor = (((1 - epsilonL) * diet_lipid) + ((1 - epsilonN) * diet_nlom) + (
+            (1 - epsilonW) * diet_water))
+        return rate_factor
+
+###################################################################
+
+    # def vlg_zoo_f(self):
+    #     """
+    #     Lipid content in gut
+    #     :return:
+    #     """
+    #     self.vlg_zoo = (1 - 0.72) * self.v_ld_zoo * self.gd_zoo / self.gf_zoo
+    #     return self.vlg_zoo
+    #
+    # def vng_zoo_f(self):
+    #     """
+    #     Non lipid content in gut
+    #     :return:
+    #     """
+    #     self.vng_zoo = (1 - 0.72) * self.v_nd_zoo * self.gd_zoo / self.gf_zoo
+    #     return self.vng_zoo
+    #
+    # def vwg_zoo_f(self):
+    #     """
+    #     Water content in the gut
+    #     :return:
+    #     """
+    #     self.vwg_zoo = (1 - 0.25) * self.v_wd_zoo * self.gd_zoo / self.gf_zoo
+    #     return self.vwg_zoo
+    #
+    # def vlg_beninv_f(self):
+    #     """
+    #     Lipid content in gut
+    #     :return:
+    #     """
+    #     self.vlg_beninv = (1 - 0.75) * self.v_ld_beninv * self.gd_beninv / self.gf_beninv
+    #     return self.vlg_beninv
+    #
+    # def vng_beninv_f(self):
+    #     """
+    #     Non lipid content in gut
+    #     :return:
+    #     """
+    #     self.vng_beninv = (1 - 0.75) * self.v_nd_beninv * self.gd_beninv / self.gf_beninv
+    #     return self.vng_beninv
+    #
+    # def vwg_beninv_f(self):
+    #     """
+    #     Water content in the gut
+    #     :return:
+    #     """
+    #     self.vwg_beninv = (1 - 0.25) * self.v_wd_beninv * self.gd_beninv / self.gf_beninv
+    #     return self.vwg_beninv
+    #
+    # def vlg_ff_f(self):
+    #     """
+    #     Lipid content in gut
+    #     :return:
+    #     """
+    #     self.vlg_ff = (1 - 0.75) * self.v_ld_ff * self.gd_ff / self.gf_ff
+    #     return self.vlg_ff
+    #
+    # def vng_ff_f(self):
+    #     """
+    #     Non lipid content in gut
+    #     :return:
+    #     """
+    #     self.vng_ff = (1 - 0.75) * self.v_nd_ff * self.gd_ff / self.gf_ff
+    #     return self.vng_ff
+    #
+    # def vwg_ff_f(self):
+    #     """
+    #     Water content in the gut
+    #     :return:
+    #     """
+    #     self.vwg_ff = (1 - 0.25) * self.v_wd_ff * self.gd_ff / self.gf_ff
+    #     return self.vwg_ff
+    #
+    # def vlg_sf_f(self):
+    #     """
+    #     Lipid content in gut
+    #     :return:
+    #     """
+    #     self.vlg_sf = (1 - 0.92) * self.v_ld_sf * self.gd_sf / self.gf_sf
+    #     return self.vlg_sf
+    #
+    # def vng_sf_f(self):
+    #     """
+    #     Non lipid content in gut
+    #     :return:
+    #     """
+    #     self.vng_sf = (1 - 0.6) * self.v_nd_sf * self.gd_sf / self.gf_sf
+    #     return self.vng_sf
+    #
+    # def vwg_sf_f(self):
+    #     """
+    #     Water content in the gut
+    #     :return:
+    #     """
+    #     self.vwg_sf = (1 - 0.25) * self.v_wd_sf * self.gd_sf / self.gf_sf
+    #     return self.vwg_sf
+    #
+    # def vlg_mf_f(self):
+    #     """
+    # # lipid content in gut
+    #     :return:
+    #     """
+    #     self.vlg_mf = (1 - 0.92) * self.v_ld_mf * self.gd_mf / self.gf_mf
+    #     return self.vlg_mf
+    #
+    # def vng_mf_f(self):
+    #     """
+    #     Non lipid content in gut
+    #     :return:
+    #     """
+    #     self.vng_mf = (1 - 0.6) * self.v_nd_mf * self.gd_mf / self.gf_mf
+    #     return self.vng_mf
+    #
+    # def vwg_mf_f(self):
+    #     """
+    #     Water content in the gut
+    #     :return:
+    #     """
+    #     self.vwg_mf = (1 - 0.25) * self.v_wd_mf * self.gd_mf / self.gf_mf
+    #     return self.vwg_mf
+    #
+    # def vlg_lf_f(self):
+    #     """
+    #     Lipid content in gut
+    #     :return:
+    #     """
+    #     self.vlg_lf = (1 - 0.92) * self.v_ld_lf * self.gd_lf / self.gf_lf
+    #     return self.vlg_lf
+    #
+    # def vng_lf_f(self):
+    #     """
+    #     Non lipid content in gut
+    #     :return:
+    #     """
+    #     self.vng_lf = (1 - 0.6) * self.v_nd_lf * self.gd_lf / self.gf_lf
+    #     return self.vng_lf
+    #
+    # def vwg_lf_f(self):
+    #     """
+    #     Water content in the gut
+    #     :return:
+    #     """
+    #     self.vwg_lf = (1 - 0.25) * self.v_wd_lf * self.gd_lf / self.gf_lf
+    #     return self.vwg_lf
+
+#####################################################################
+#####################################################################
+    def diet_elements_gut(self, epsilon, overall_diet_content, egestion_rate_factor):
         """
-        Water content in the gut
+        Fraction of diet elements (i.e., lipid, NLOM, water) in the gut
+        :unit (kg lipid) / (kg digested wet weight)
+        :expression Kabam Eq. A9 (VLG, VNG, VWG)
+        :param epsilon relevant dietary assimilation rate (fraction)
+        :param overall_diet_content relevant overall diet content of diet element (kg/kg)
+        :param egestion_rate_factor relevant: Aquatic animal/organism egestion rate of fecal matter factor
         :return:
         """
-        self.vwg_zoo = (1 - 0.25) * self.v_wd_zoo * self.gd_zoo / self.gf_zoo
-        return self.vwg_zoo
+
+        gut_content = pd.Series([], dtype = 'float')
+
+        gut_content = ((1. - epsilon) * overall_diet_content) / egestion_rate_factor
+        return gut_content
+
+
+####################################################################
 
     def kgb_zoo_f(self):
         """
@@ -1066,6 +1289,77 @@ class KabamFunctions(object):
         self.kgb_zoo = (self.vlg_zoo * self.log_kow + self.vng_zoo * 0.035 * self.log_kow + self.vwg_zoo) / (
             self.zoo_lipid * self.log_kow + self.zoo_nlom * 0.035 * self.log_kow + self.zoo_water)
         return self.kgb_zoo
+
+    def kgb_beninv_f(self):
+        """
+        Kgb ben inverts
+        :return:
+        """
+        self.kgb_beninv = (self.vlg_beninv * self.log_kow + self.vng_beninv * 0.035 * self.log_kow + self.vwg_beninv) / (
+            self.beninv_lipid * self.log_kow + self.beninv_nlom * 0.035 * self.log_kow + self.beninv_water)
+        return self.kgb_beninv
+
+    def kgb_ff_f(self):
+        """
+        Kgb ff
+        :return:
+        """
+        self.kgb_ff = (self.vlg_ff * self.log_kow + self.vng_ff * 0.035 * self.log_kow + self.vwg_ff) / (
+            self.filterfeeders_lipid * self.log_kow + self.filterfeeders_nlom * 0.035 * self.log_kow + self.filterfeeders_water)
+        return self.kgb_ff
+
+    def kgb_sf_f(self):
+        """
+        Small fish
+        :return:
+        """
+        self.kgb_sf = (self.vlg_sf * self.log_kow + self.vng_sf * 0.035 * self.log_kow + self.vwg_sf) / (
+            self.sfish_lipid * self.log_kow + self.sfish_nlom * 0.035 * self.log_kow + self.sfish_water)
+        return self.kgb_sf
+
+    def kgb_mf_f(self):
+        """
+        Medium fish
+        :return:
+        """
+        self.kgb_mf = (self.vlg_mf * self.log_kow + self.vng_mf * 0.035 * self.log_kow + self.vwg_mf) / (
+            self.mfish_lipid * self.log_kow + self.mfish_nlom * 0.035 * self.log_kow + self.mfish_water)
+        return self.kgb_mf
+
+    def kgb_lf_f(self):
+        """
+        Large fish
+        :return:
+        """
+        self.kgb_lf = (self.vlg_lf * self.log_kow + self.vng_lf * 0.035 * self.log_kow + self.vwg_mf) / (
+            self.lfish_lipid * self.log_kow + self.lfish_nlom * 0.035 * self.log_kow + self.mfish_water)
+        return self.kgb_lf
+#####################################################################
+#####################################################################
+    def gut_organism_partition_coef(self, gut_lipid, gut_nlom, gut_water, pest_kow, beta,
+                                    organism_lipid, organism_nlom, organism_water):
+        """
+        Partition coefficient of the pesticide between the gastrointenstinal track and the organism
+        :unit none
+        :expression Kabam Eq. A9 (KGB)
+        :param gut_lipid: lipid content in the gut
+        :param gut_nlom: nlom content in the gut
+        :param gut_water: water content in the gut
+        :param pest_kow: pesticide Kow
+        :param beta: proportionality constant expressing the sorption capacity of NLOM to that of octanol
+        :param organism_lipid: lipid content in the whole organism
+        :param organism_nlom: nlom content in the whole organism
+        :param organism_water: water content in the whole organism
+        :return:
+        """
+
+        partition_coef = pd.Series([], dtype = 'float')
+
+        partition_coef = (pest_kow * (gut_lipid + beta * gut_nlom) + gut_water) /  \
+                         (pest_kow * (organism_lipid + beta * organism_nlom) + organism_water)
+        return partition_coef
+
+#####################################################################
 
     def zoo_ke_f(self):
         """
@@ -1185,48 +1479,7 @@ class KabamFunctions(object):
     ################################ benthic invertebrates
     ############################################################
 
-    def gf_beninv_f(self):
-        """
-        Egestion rate of fecal matter
-        :return:
-        """
-        self.gf_beninv = ((1 - 0.75) * self.v_ld_beninv + (1 - 0.75) * self.v_nd_beninv + (
-            1 - 0.25) * self.v_wd_beninv) * self.gd_beninv
-        return self.gf_beninv
-
-    def vlg_beninv_f(self):
-        """
-        Lipid content in gut
-        :return:
-        """
-        self.vlg_beninv = (1 - 0.75) * self.v_ld_beninv * self.gd_beninv / self.gf_beninv
-        return self.vlg_beninv
-
-    def vng_beninv_f(self):
-        """
-        Non lipid content in gut
-        :return:
-        """
-        self.vng_beninv = (1 - 0.75) * self.v_nd_beninv * self.gd_beninv / self.gf_beninv
-        return self.vng_beninv
-
-    def vwg_beninv_f(self):
-        """
-        Water content in the gut
-        :return:
-        """
-        self.vwg_beninv = (1 - 0.25) * self.v_wd_beninv * self.gd_beninv / self.gf_beninv
-        return self.vwg_beninv
         # partition coefficient of the pesticide between the gastrointenstinal track and the organism
-
-    def kgb_beninv_f(self):
-        """
-        Kgb ben inverts
-        :return:
-        """
-        self.kgb_beninv = (self.vlg_beninv * self.log_kow + self.vng_beninv * 0.035 * self.log_kow + self.vwg_beninv) / (
-            self.beninv_lipid * self.log_kow + self.beninv_nlom * 0.035 * self.log_kow + self.beninv_water)
-        return self.kgb_beninv
 
     def beninv_ke_f(self):
         """
@@ -1349,55 +1602,6 @@ class KabamFunctions(object):
     ################################################
 
 
-    def filterfeeders_k2_f(self):
-        """
-        Elimination rate constant through the gills for filter feeders
-        :return:
-        """
-        self.filterfeeders_k2 = self.filterfeeders_k1 / self.k_bw_ff
-        return self.filterfeeders_k2
-
-    def gf_ff_f(self):
-        """
-        Gf ff
-        :return:
-        """
-        self.gf_ff = ((1 - 0.75) * self.v_ld_ff + (1 - 0.75) * self.v_nd_ff + (1 - 0.25) * self.v_wd_ff) * self.gd_ff
-        return self.gf_ff
-
-    def vlg_ff_f(self):
-        """
-        Lipid content in gut
-        :return:
-        """
-        self.vlg_ff = (1 - 0.75) * self.v_ld_ff * self.gd_ff / self.gf_ff
-        return self.vlg_ff
-
-    def vng_ff_f(self):
-        """
-        Non lipid content in gut
-        :return:
-        """
-        self.vng_ff = (1 - 0.75) * self.v_nd_ff * self.gd_ff / self.gf_ff
-        return self.vng_ff
-
-    def vwg_ff_f(self):
-        """
-        Water content in the gut
-        :return:
-        """
-        self.vwg_ff = (1 - 0.25) * self.v_wd_ff * self.gd_ff / self.gf_ff
-        return self.vwg_ff
-
-    def kgb_ff_f(self):
-        """
-        Kgb ff
-        :return:
-        """
-        self.kgb_ff = (self.vlg_ff * self.log_kow + self.vng_ff * 0.035 * self.log_kow + self.vwg_ff) / (
-            self.filterfeeders_lipid * self.log_kow + self.filterfeeders_nlom * 0.035 * self.log_kow + self.filterfeeders_water)
-        return self.kgb_ff
-
     def filterfeeders_ke_f(self):
         """
         Ke ff
@@ -1517,55 +1721,6 @@ class KabamFunctions(object):
 
         # overall lipid content of diet
 
-    def v_wd_sf_f(self):
-        """
-        Overall water content of diet
-        :return:
-        """
-        self.v_wd_sf = self.sfish_diet_sediment * self.sediment_water + self.sfish_diet_phytoplankton * self.phytoplankton_water + self.sfish_diet_benthic_invertebrates * self.beninv_water + self.sfish_diet_zooplankton * self.zoo_water + self.sfish_diet_filter_feeders * self.filterfeeders_water
-        return self.v_wd_sf
-
-    def gf_sf_f(self):
-        """
-        Small fish
-        :return:
-        """
-        self.gf_sf = ((1 - 0.92) * self.v_ld_sf + (1 - 0.6) * self.v_nd_sf + (1 - 0.25) * self.v_wd_sf) * self.gd_sf
-        return self.gf_sf
-
-    def vlg_sf_f(self):
-        """
-        Lipid content in gut
-        :return:
-        """
-        self.vlg_sf = (1 - 0.92) * self.v_ld_sf * self.gd_sf / self.gf_sf
-        return self.vlg_sf
-
-    def vng_sf_f(self):
-        """
-        Non lipid content in gut
-        :return:
-        """
-        self.vng_sf = (1 - 0.6) * self.v_nd_sf * self.gd_sf / self.gf_sf
-        return self.vng_sf
-
-    def vwg_sf_f(self):
-        """
-        Water content in the gut
-        :return:
-        """
-        self.vwg_sf = (1 - 0.25) * self.v_wd_sf * self.gd_sf / self.gf_sf
-        return self.vwg_sf
-
-    def kgb_sf_f(self):
-        """
-        Small fish
-        :return:
-        """
-        self.kgb_sf = (self.vlg_sf * self.log_kow + self.vng_sf * 0.035 * self.log_kow + self.vwg_sf) / (
-            self.sfish_lipid * self.log_kow + self.sfish_nlom * 0.035 * self.log_kow + self.sfish_water)
-        return self.kgb_sf
-
     def sfish_ke_f(self):
         """
         Small fish
@@ -1681,47 +1836,6 @@ class KabamFunctions(object):
 
     ############ medium fish
 
-
-    def gf_mf_f(self):
-        """
-        Medium fish
-        :return:
-        """
-        self.gf_mf = ((1 - 0.92) * self.v_ld_mf + (1 - 0.6) * self.v_nd_mf + (1 - 0.25) * self.v_wd_mf) * self.gd_mf
-        return self.gf_mf
-
-    def vlg_mf_f(self):
-        """
-    # lipid content in gut
-        :return:
-        """
-        self.vlg_mf = (1 - 0.92) * self.v_ld_mf * self.gd_mf / self.gf_mf
-        return self.vlg_mf
-
-    def vng_mf_f(self):
-        """
-        Non lipid content in gut
-        :return:
-        """
-        self.vng_mf = (1 - 0.6) * self.v_nd_mf * self.gd_mf / self.gf_mf
-        return self.vng_mf
-
-    def vwg_mf_f(self):
-        """
-        Water content in the gut
-        :return:
-        """
-        self.vwg_mf = (1 - 0.25) * self.v_wd_mf * self.gd_mf / self.gf_mf
-        return self.vwg_mf
-
-    def kgb_mf_f(self):
-        """
-        Medium fish
-        :return:
-        """
-        self.kgb_mf = (self.vlg_mf * self.log_kow + self.vng_mf * 0.035 * self.log_kow + self.vwg_mf) / (
-            self.mfish_lipid * self.log_kow + self.mfish_nlom * 0.035 * self.log_kow + self.mfish_water)
-        return self.kgb_mf
 
     def mfish_ke_f(self):
         """
@@ -1839,47 +1953,6 @@ class KabamFunctions(object):
         return self.cbmf_mf
 
     ############ large fish
-
-    def gf_lf_f(self):
-        """
-        Large fiah
-        :return:
-        """
-        self.gf_lf = ((1 - 0.92) * self.v_ld_lf + (1 - 0.6) * self.v_nd_lf + (1 - 0.25) * self.v_wd_lf) * self.gd_lf
-        return self.gf_lf
-
-    def vlg_lf_f(self):
-        """
-        Lipid content in gut
-        :return:
-        """
-        self.vlg_lf = (1 - 0.92) * self.v_ld_lf * self.gd_lf / self.gf_lf
-        return self.vlg_lf
-
-    def vng_lf_f(self):
-        """
-        Non lipid content in gut
-        :return:
-        """
-        self.vng_lf = (1 - 0.6) * self.v_nd_lf * self.gd_lf / self.gf_lf
-        return self.vng_lf
-
-    def vwg_lf_f(self):
-        """
-        Water content in the gut
-        :return:
-        """
-        self.vwg_lf = (1 - 0.25) * self.v_wd_lf * self.gd_lf / self.gf_lf
-        return self.vwg_lf
-
-    def kgb_lf_f(self):
-        """
-        Large fish
-        :return:
-        """
-        self.kgb_lf = (self.vlg_lf * self.log_kow + self.vng_lf * 0.035 * self.log_kow + self.vwg_lf) / (
-            self.lfish_lipid * self.log_kow + self.lfish_nlom * 0.035 * self.log_kow + self.lfish_water)
-        return self.kgb_lf
 
     def lfish_ke_f(self):
         """

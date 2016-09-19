@@ -388,3 +388,63 @@ class KabamFunctions(object):
             overall_diet_fraction = overall_diet_fraction + diet_fraction[i] * content_fraction[i]
 
         return overall_diet_fraction
+
+    def egestion_rate_factor(self, epsilonL, epsilonN, epsilonW, diet_lipid, diet_nlom, diet_water):
+        """
+        Aquatic animal/organism egestion rate of fecal matter factor (to be multiplied by the
+        feeding rate to calculate egestion rate of fecal matter)
+        :unit (kg lipid)/[(kg diet)
+        :expression Kabam Eq. A9 (GF)
+        :param epsilonL: dietary assimilation rate of lipids (fraction)
+        :param epsilonN: dietary assimilation rate of NLOM (fraction)
+        :param epsilonW: dietary assimilation rate of water (fraction)
+        :param diet_lipid; lipid content of aquatic animal/organism diet (fraction)
+        :param diet_nlom NLOM content of aquatic animal/organism diet (fraction)
+        :param diet_water water content of aquatic animal/organism diet (fraction)
+        :return:
+        """
+
+        rate_factor = pd.Series([], dtype = 'float')
+
+        rate_factor = (((1 - epsilonL) * diet_lipid) + ((1 - epsilonN) * diet_nlom) + (
+                    (1 - epsilonW) * diet_water))
+        return rate_factor
+
+    def diet_elements_gut(self, epsilon, overall_diet_content, egestion_rate_factor):
+        """
+        Fraction of diet elements (i.e., lipid, NLOM, water) in the gut
+        :unit (kg lipid) / (kg digested wet weight)
+        :expression Kabam Eq. A9 (VLG, VNG, VWG)
+        :param epsilon relevant dietary assimilation rate (fraction)
+        :param overall_diet_content relevant overall diet content of diet element (kg/kg)
+        :param egestion_rate_factor relevant: Aquatic animal/organism egestion rate of fecal matter factor
+        :return:
+        """
+
+        gut_content = pd.Series([], dtype = 'float')
+
+        gut_content = ((1. - epsilon) * overall_diet_content) / egestion_rate_factor
+        return gut_content
+
+    def gut_organism_partition_coef(self, gut_lipid, gut_nlom, gut_water, pest_kow, beta,
+                                    organism_lipid, organism_nlom, organism_water):
+        """
+        Partition coefficient of the pesticide between the gastrointenstinal track and the organism
+        :unit none
+        :expression Kabam Eq. A9 (KGB)
+        :param gut_lipid: lipid content in the gut
+        :param gut_nlom: nlom content in the gut
+        :param gut_water: water content in the gut
+        :param pest_kow: pesticide Kow
+        :param beta: proportionality constant expressing the sorption capacity of NLOM to that of octanol
+        :param organism_lipid: lipid content in the whole organism
+        :param organism_nlom: nlom content in the whole organism
+        :param organism_water: water content in the whole organism
+        :return:
+        """
+
+        partition_coef = pd.Series([], dtype = 'float')
+
+        partition_coef = (pest_kow * (gut_lipid + beta * gut_nlom) + gut_water) /  \
+                         (pest_kow * (organism_lipid + beta * organism_nlom) + organism_water)
+        return partition_coef
