@@ -18,145 +18,6 @@ class KabamFunctions(object):
 
 ###Parameters & Calculations
 
-## Chemical specific; dependent on concentrations of pesticide/organic carbon/particulate oc etc
-## in water column/sediment pore-water
-
-    def phi_f(self):
-        """
-        Calculate Fraction of pesticide freely dissolved in water column (can be
-        absorbed via membrane diffusion)
-        Eq. A2
-        :return:
-        """
-        frac_diss = pd.Series([], dtype = 'float')
-
-        frac_diss = 1 / (1 + (self.conc_poc * 0.35 * self.log_kow) + (self.conc_doc * 0.08 * self.log_kow))
-        return frac_diss
-
-    def water_d(self):
-        """
-        concentration of freely dissolved pesticide in overlying water column
-        :return:
-        """
-        self.water_d = self.phi * self.water_column_eec * 1000000
-        return self.water_d
-
-    def c_soc_f(self):
-        """
-        Normalized pesticide concentration in sediment
-        Eq. A4a
-        :return:
-        """
-        self.c_soc = self.k_oc * self.pore_water_eec
-        return self.c_soc
-
-    def c_s_f(self):
-        """
-        Calculate concentration of chemical in solid portion of sediment
-        Eq. A4
-        :return:
-        """
-        self.c_s = self.c_soc * self.sediment_oc
-        return self.c_s
-
-    def sed_om_f(self):
-        """
-        Calculate organic matter fraction in sediment
-#?? don't see this calculation in model documentation; looks like it is same as c_soc_f
-        :return:
-        """
-        self.sed_om = self.c_s / self.sediment_oc
-        return self.sed_om
-
-## Phytoplankton bioaccumulation/concentration calculations
-
-    def cb_phytoplankton_f(self):
-        """
-        Phytoplankton pesticide tissue residue
-        Eq. A1
-        #because phytoplankton have no diet the (Kd * SUM(Pi * Cdi)) portion of Eq. A1 is not included here
-        :return:
-        """
-        self.cb_phytoplankton = (self.phytoplankton_k1 * (self.phytoplankton_mo * self.water_column_eec *
-                                 self.phi + self.phytoplankton_mp * self.pore_water_eec)) / (self.phytoplankton_k2 +
-                                 self.phytoplankton_ke + self.phytoplankton_kg + self.phytoplankton_km)
-        return self.cb_phytoplankton
-
-    def cbl_phytoplankton_f(self):
-        """
-        Lipid normalized pesticide residue in phytoplankton
-        used in Eqs. F4 (cbafl_phytoplankton_f) & F5 (cbsafl_phytoplankton_f)
-        :return:
-        """
-        self.cbl_phytoplankton = (1e6 * self.cb_phytoplankton) / self.phytoplankton_lipid
-        return self.cbl_phytoplankton
-
-    def cbr_phytoplankton_f(self):
-        """
-        Phytoplankton pesticide residue concentration originating from uptake through respiration
-        Cbr in Table A1  (this simply equals 'cb_phytoplankton_f' for phytoplankton because
-        phytoplankton_kd = 0)
-        """
-
-        self.cbr_phytoplankton = ((self.phytoplankton_k1 * (self.phytoplankton_mo * self.water_column_eec *
-                                   self.phi + self.phytoplankton_mp * self.pore_water_eec)) / (
-                                   self.phytoplankton_k2 + self.phytoplankton_ke + self.phytoplankton_kg +
-                                   self.phytoplankton_km))
-        return self.cbr_phytoplankton
-
-    def cbf_phytoplankton_f(self):
-        """
-        Phytoplankton total bioconcentration factor;
-        Eq. F1 with phytoplankton_ke, phytoplankton_kg, phytoplankton_kd, and phytoplankton_km = 0
-        :return:
-        """
-        # phytoplankton_kd = 0 #phytoplankton_kd is uptake rate constant for uptake
-        # through ingestion of food; phytoplanton has no diet thus _kd is always = 0
-
-        self.cbf_phytoplankton = ((self.phytoplankton_k1 * (self.phytoplankton_mo * self.water_column_eec *
-                                   self.phi + self.phytoplankton_mp * self.pore_water_eec)) / (
-                                   self.phytoplankton_k2 )) / self.water_column_eec
-        return self.cbf_phytoplankton
-
-    def cbfl_phytoplankton_f(self):
-        """
-        Phytoplankton lipid normalized total bioconcentration factor
-        Eq. F2
-        :return:
-        """
-
-        self.cbfl_phytoplankton = (self.cbf_phytoplankton / self.phytoplankton_lipid) / self.water_d
-
-        return self.cbfl_phytoplankton
-
-    def cbaf_phytoplankton_f(self):
-        """
-        Phytoplankton bioaccumulation factor
-        Eq. F3
-        :return:
-        """
-        self.cbaf_phytoplankton = (1e6 * self.cb_phytoplankton) / self.water_column_eec
-        return self.cbaf_phytoplankton
-
-    def cbafl_phytoplankton_f(self):
-        """
-        Phytoplankton lipid normalized bioaccumulation factor
-        Eq. F4
-        :return:
-        """
-        self.cbafl_phytoplankton = self.cbl_phytoplankton / self.water_d
-        return self.cbafl_phytoplankton
-
-    def cbsafl_phytoplankton_f(self):
-        """
-        Phytoplankton biota-sediment accumulation factor
-        Eq. F5
-        :return:
-        """
-#?? why no 1e6 factor here as in 'cbaf_phytoplankton_f' or vice versa
-        self.cbsafl_phytoplankton = self.cb_phytoplankton / self.sed_om
-        return self.cbsafl_phytoplankton
-
     #######################################################
     # def gv_zoo_f(self):
     #     """
@@ -305,7 +166,7 @@ class KabamFunctions(object):
     #     """
     #     self.phytoplankton_k1 = 1 / (6.0e-5 + (5.5 / self.log_kow))
     #     return self.phytoplankton_k1
-
+    #
     # def zoo_k1_f(self):
     #     """
     #     Uptake rate constant through respiratory area for zooplankton
@@ -406,7 +267,7 @@ class KabamFunctions(object):
     #     self.k_bw_phytoplankton = (self.phytoplankton_lipid * self.log_kow) + (
     #                                self.phytoplankton_nlom * 0.35 * self.log_kow) + self.phytoplankton_water
     #     return self.k_bw_phytoplankton
-
+    #
     # def k_bw_zoo_f(self):
     #     """
     #     Zooplankton-water partition coefficient (based on wet weight)
@@ -556,71 +417,71 @@ class KabamFunctions(object):
 
 ##########################################################
 
-    def kg_zoo_f(self):
-        """
-        Zooplankton growth rate constant
-        :return:
-        """
-        if self.water_temp < 17.5:
-            self.kg_zoo = 0.0005 * self.zoo_wb ** -0.2
-        else:
-            self.kg_zoo = 0.00251 * self.zoo_wb ** -0.2
-        return self.kg_zoo
-
-    def kg_beninv_f(self):
-        """
-        Benthic invertebrate growth rate constant
-        :return:
-        """
-        if self.water_temp < 17.5:
-            self.kg_beninv = 0.0005 * self.beninv_wb ** -0.2
-        else:
-            self.kg_beninv = 0.00251 * self.beninv_wb ** -0.2
-        return self.kg_beninv
-
-    def kg_ff_f(self):
-        """
-        Filter feeder growth rate constant
-        :return:
-        """
-        if self.water_temp < 17.5:
-            self.kg_ff = 0.0005 * self.filterfeeders_wb ** -0.2
-        else:
-            self.kg_ff = 0.00251 * self.filterfeeders_wb ** -0.2
-        return self.kg_ff
-
-    def sfish_kg_f(self):
-        """
-        Small fish growth rate constant
-        :return:
-        """
-        if self.water_temp < 17.5:
-            self.sfish_kg = 0.0005 * self.sfish_wb ** -0.2
-        else:
-            self.sfish_kg = 0.00251 * self.sfish_wb ** -0.2
-        return self.sfish_kg
-
-    def mfish_kg_f(self):
-        """
-        Medium fish growth rate constant
-        :return:
-        """
-        if self.water_temp < 17.5:
-            self.mfish_kg = 0.0005 * self.mfish_wb ** -0.2
-        else:
-            self.mfish_kg = 0.00251 * self.mfish_wb ** -0.2
-        return self.mfish_kg
-
-    def lfish_kg_f(self):
-        """
-        Medium fish growth rate constant
-        :return:
-        """
-        if self.water_temp < 17.5:
-            self.lfish_kg = 0.0005 * self.lfish_wb ** -0.2
-        else:
-            self.lfish_kg = 0.00251 * self.lfish_wb ** -0.2
-        return self.lfish_kg
+    # def kg_zoo_f(self):
+    #     """
+    #     Zooplankton growth rate constant
+    #     :return:
+    #     """
+    #     if self.water_temp < 17.5:
+    #         self.kg_zoo = 0.0005 * self.zoo_wb ** -0.2
+    #     else:
+    #         self.kg_zoo = 0.00251 * self.zoo_wb ** -0.2
+    #     return self.kg_zoo
+    #
+    # def kg_beninv_f(self):
+    #     """
+    #     Benthic invertebrate growth rate constant
+    #     :return:
+    #     """
+    #     if self.water_temp < 17.5:
+    #         self.kg_beninv = 0.0005 * self.beninv_wb ** -0.2
+    #     else:
+    #         self.kg_beninv = 0.00251 * self.beninv_wb ** -0.2
+    #     return self.kg_beninv
+    #
+    # def kg_ff_f(self):
+    #     """
+    #     Filter feeder growth rate constant
+    #     :return:
+    #     """
+    #     if self.water_temp < 17.5:
+    #         self.kg_ff = 0.0005 * self.filterfeeders_wb ** -0.2
+    #     else:
+    #         self.kg_ff = 0.00251 * self.filterfeeders_wb ** -0.2
+    #     return self.kg_ff
+    #
+    # def sfish_kg_f(self):
+    #     """
+    #     Small fish growth rate constant
+    #     :return:
+    #     """
+    #     if self.water_temp < 17.5:
+    #         self.sfish_kg = 0.0005 * self.sfish_wb ** -0.2
+    #     else:
+    #         self.sfish_kg = 0.00251 * self.sfish_wb ** -0.2
+    #     return self.sfish_kg
+    #
+    # def mfish_kg_f(self):
+    #     """
+    #     Medium fish growth rate constant
+    #     :return:
+    #     """
+    #     if self.water_temp < 17.5:
+    #         self.mfish_kg = 0.0005 * self.mfish_wb ** -0.2
+    #     else:
+    #         self.mfish_kg = 0.00251 * self.mfish_wb ** -0.2
+    #     return self.mfish_kg
+    #
+    # def lfish_kg_f(self):
+    #     """
+    #     Medium fish growth rate constant
+    #     :return:
+    #     """
+    #     if self.water_temp < 17.5:
+    #         self.lfish_kg = 0.0005 * self.lfish_wb ** -0.2
+    #     else:
+    #         self.lfish_kg = 0.00251 * self.lfish_wb ** -0.2
+    #     return self.lfish_kg
 
 #############################################################
 #############################################################
@@ -644,53 +505,53 @@ class KabamFunctions(object):
         return growth_rate
 
 ##############################################################
-    def ed_zoo_f(self):
-        """
-        Zooplankton dietary pesticide transfer efficiency
-        :return:
-        """
-        self.ed_zoo = 1 / ((.0000003) * self.log_kow + 2.0)
-        return self.ed_zoo
-
-    def ed_beninv_f(self):
-        """
-        Zoo plankton dietary pesticide transfer efficiency
-        :return:
-        """
-        self.ed_beninv = 1 / (.0000003 * self.log_kow + 2.0)
-        return self.ed_beninv
-
-    def ed_ff_f(self):
-        """
-        Filter feeder dietary pesticide transfer efficiency
-        :return:
-        """
-        self.ed_ff = 1 / (.0000003 * self.log_kow + 2.0)
-        return self.ed_ff
-
-    def ed_sf_f(self):
-        """
-        Small fish dietary pesticide transfer efficiency
-        :return:
-        """
-        self.ed_sf = 1 / (.0000003 * self.log_kow + 2.0)
-        return self.ed_sf
-
-    def ed_mf_f(self):
-        """
-        Medium fish dietary pesticide transfer efficiency
-        :return:
-        """
-        self.ed_mf = 1 / (.0000003 * self.log_kow + 2.0)
-        return self.ed_mf
-
-    def ed_lf_f(self):
-        """
-        Large fish dietary pesticide transfer efficiency
-        :return:
-        """
-        self.ed_lf = 1 / (.0000003 * self.log_kow + 2.0)
-        return self.ed_lf
+    # def ed_zoo_f(self):
+    #     """
+    #     Zooplankton dietary pesticide transfer efficiency
+    #     :return:
+    #     """
+    #     self.ed_zoo = 1 / ((.0000003) * self.log_kow + 2.0)
+    #     return self.ed_zoo
+    #
+    # def ed_beninv_f(self):
+    #     """
+    #     Zoo plankton dietary pesticide transfer efficiency
+    #     :return:
+    #     """
+    #     self.ed_beninv = 1 / (.0000003 * self.log_kow + 2.0)
+    #     return self.ed_beninv
+    #
+    # def ed_ff_f(self):
+    #     """
+    #     Filter feeder dietary pesticide transfer efficiency
+    #     :return:
+    #     """
+    #     self.ed_ff = 1 / (.0000003 * self.log_kow + 2.0)
+    #     return self.ed_ff
+    #
+    # def ed_sf_f(self):
+    #     """
+    #     Small fish dietary pesticide transfer efficiency
+    #     :return:
+    #     """
+    #     self.ed_sf = 1 / (.0000003 * self.log_kow + 2.0)
+    #     return self.ed_sf
+    #
+    # def ed_mf_f(self):
+    #     """
+    #     Medium fish dietary pesticide transfer efficiency
+    #     :return:
+    #     """
+    #     self.ed_mf = 1 / (.0000003 * self.log_kow + 2.0)
+    #     return self.ed_mf
+    #
+    # def ed_lf_f(self):
+    #     """
+    #     Large fish dietary pesticide transfer efficiency
+    #     :return:
+    #     """
+    #     self.ed_lf = 1 / (.0000003 * self.log_kow + 2.0)
+    #     return self.ed_lf
 
 ###############################################################
 ###############################################################
@@ -1093,7 +954,7 @@ class KabamFunctions(object):
 
 #####################################################################
 #####################################################################
-    def egestion_rate_factor(self, epsilonL, epsilonN, epsilonW, diet_lipid, diet_nlom, diet_water):
+    def fecal_egestion_rate_factor(self, epsilonL, epsilonN, epsilonW, diet_lipid, diet_nlom, diet_water):
         """
         Aquatic animal/organism egestion rate of fecal matter factor (to be multiplied by the
         feeding rate to calculate egestion rate of fecal matter)
@@ -1281,59 +1142,59 @@ class KabamFunctions(object):
 
 ####################################################################
 
-    def kgb_zoo_f(self):
-        """
-        Partition coefficient of the pesticide between the gastrointenstinal track and the organism
-        :return:
-        """
-        self.kgb_zoo = (self.vlg_zoo * self.log_kow + self.vng_zoo * 0.035 * self.log_kow + self.vwg_zoo) / (
-            self.zoo_lipid * self.log_kow + self.zoo_nlom * 0.035 * self.log_kow + self.zoo_water)
-        return self.kgb_zoo
-
-    def kgb_beninv_f(self):
-        """
-        Kgb ben inverts
-        :return:
-        """
-        self.kgb_beninv = (self.vlg_beninv * self.log_kow + self.vng_beninv * 0.035 * self.log_kow + self.vwg_beninv) / (
-            self.beninv_lipid * self.log_kow + self.beninv_nlom * 0.035 * self.log_kow + self.beninv_water)
-        return self.kgb_beninv
-
-    def kgb_ff_f(self):
-        """
-        Kgb ff
-        :return:
-        """
-        self.kgb_ff = (self.vlg_ff * self.log_kow + self.vng_ff * 0.035 * self.log_kow + self.vwg_ff) / (
-            self.filterfeeders_lipid * self.log_kow + self.filterfeeders_nlom * 0.035 * self.log_kow + self.filterfeeders_water)
-        return self.kgb_ff
-
-    def kgb_sf_f(self):
-        """
-        Small fish
-        :return:
-        """
-        self.kgb_sf = (self.vlg_sf * self.log_kow + self.vng_sf * 0.035 * self.log_kow + self.vwg_sf) / (
-            self.sfish_lipid * self.log_kow + self.sfish_nlom * 0.035 * self.log_kow + self.sfish_water)
-        return self.kgb_sf
-
-    def kgb_mf_f(self):
-        """
-        Medium fish
-        :return:
-        """
-        self.kgb_mf = (self.vlg_mf * self.log_kow + self.vng_mf * 0.035 * self.log_kow + self.vwg_mf) / (
-            self.mfish_lipid * self.log_kow + self.mfish_nlom * 0.035 * self.log_kow + self.mfish_water)
-        return self.kgb_mf
-
-    def kgb_lf_f(self):
-        """
-        Large fish
-        :return:
-        """
-        self.kgb_lf = (self.vlg_lf * self.log_kow + self.vng_lf * 0.035 * self.log_kow + self.vwg_mf) / (
-            self.lfish_lipid * self.log_kow + self.lfish_nlom * 0.035 * self.log_kow + self.mfish_water)
-        return self.kgb_lf
+    # def kgb_zoo_f(self):
+    #     """
+    #     Partition coefficient of the pesticide between the gastrointenstinal track and the organism
+    #     :return:
+    #     """
+    #     self.kgb_zoo = (self.vlg_zoo * self.log_kow + self.vng_zoo * 0.035 * self.log_kow + self.vwg_zoo) / (
+    #         self.zoo_lipid * self.log_kow + self.zoo_nlom * 0.035 * self.log_kow + self.zoo_water)
+    #     return self.kgb_zoo
+    #
+    # def kgb_beninv_f(self):
+    #     """
+    #     Kgb ben inverts
+    #     :return:
+    #     """
+    #     self.kgb_beninv = (self.vlg_beninv * self.log_kow + self.vng_beninv * 0.035 * self.log_kow + self.vwg_beninv) / (
+    #         self.beninv_lipid * self.log_kow + self.beninv_nlom * 0.035 * self.log_kow + self.beninv_water)
+    #     return self.kgb_beninv
+    #
+    # def kgb_ff_f(self):
+    #     """
+    #     Kgb ff
+    #     :return:
+    #     """
+    #     self.kgb_ff = (self.vlg_ff * self.log_kow + self.vng_ff * 0.035 * self.log_kow + self.vwg_ff) / (
+    #         self.filterfeeders_lipid * self.log_kow + self.filterfeeders_nlom * 0.035 * self.log_kow + self.filterfeeders_water)
+    #     return self.kgb_ff
+    #
+    # def kgb_sf_f(self):
+    #     """
+    #     Small fish
+    #     :return:
+    #     """
+    #     self.kgb_sf = (self.vlg_sf * self.log_kow + self.vng_sf * 0.035 * self.log_kow + self.vwg_sf) / (
+    #         self.sfish_lipid * self.log_kow + self.sfish_nlom * 0.035 * self.log_kow + self.sfish_water)
+    #     return self.kgb_sf
+    #
+    # def kgb_mf_f(self):
+    #     """
+    #     Medium fish
+    #     :return:
+    #     """
+    #     self.kgb_mf = (self.vlg_mf * self.log_kow + self.vng_mf * 0.035 * self.log_kow + self.vwg_mf) / (
+    #         self.mfish_lipid * self.log_kow + self.mfish_nlom * 0.035 * self.log_kow + self.mfish_water)
+    #     return self.kgb_mf
+    #
+    # def kgb_lf_f(self):
+    #     """
+    #     Large fish
+    #     :return:
+    #     """
+    #     self.kgb_lf = (self.vlg_lf * self.log_kow + self.vng_lf * 0.035 * self.log_kow + self.vwg_mf) / (
+    #         self.lfish_lipid * self.log_kow + self.lfish_nlom * 0.035 * self.log_kow + self.mfish_water)
+    #     return self.kgb_lf
 #####################################################################
 #####################################################################
     def gut_organism_partition_coef(self, gut_lipid, gut_nlom, gut_water, pest_kow, beta,
@@ -1361,14 +1222,291 @@ class KabamFunctions(object):
 
 #####################################################################
 
-    def zoo_ke_f(self):
+    # def zoo_ke_f(self):
+    #     """
+    #     Dietary elimination rate constant
+    #     :return:
+    #     """
+    #     self.zoo_ke = self.gf_zoo * self.ed_zoo * self.kgb_zoo / self.zoo_wb
+    #     #   self.zoo_ke = self.zoo_diet_phyto
+    #     return self.zoo_ke
+    #
+    # def beninv_ke_f(self):
+    #     """
+    #     Dietary elimination rate constant
+    #     :return:
+    #     """
+    #     self.beninv_ke = self.gf_beninv * self.ed_beninv * (self.kgb_beninv / self.beninv_wb)
+    #     return self.beninv_ke
+    #
+    # def filterfeeders_ke_f(self):
+    #     """
+    #     Ke ff
+    #     :return:
+    #     """
+    #     self.filterfeeders_ke = (self.gf_ff * self.ed_ff * self.kgb_ff) / self.filterfeeders_wb
+    #     return self.filterfeeders_ke
+    #
+    # def sfish_ke_f(self):
+    #     """
+    #     Small fish
+    #     :return:
+    #     """
+    #     self.sfish_ke = self.gf_sf * self.ed_sf * (self.kgb_sf / self.sfish_wb)
+    #     return self.sfish_ke
+    #
+    # def mfish_ke_f(self):
+    #     """
+    #
+    #     :return:
+    #     """
+    #     self.mfish_ke = self.gf_mf * self.ed_mf * (self.kgb_mf / self.mfish_wb)
+    #     return self.mfish_ke
+    #
+    #
+    # def lfish_ke_f(self):
+    #     """
+    #     Large fish
+    #     :return:
+    #     """
+    #     self.lfish_ke = self.gf_lf * self.ed_lf * (self.kgb_lf / self.lfish_wb)
+    #     return self.lfish_ke
+
+######################################################################
+######################################################################
+    def fecal_elim_rate_const(self, fecal_egestion_rate, diet_trans_eff, part_coef, wet_wgt):
         """
-        Dietary elimination rate constant
+        rate constant for elimination of the pesticide through excretion of contaminated feces
+        :unit per day
+        :param fecal_egestion_rate: egestion rate of fecal matter (kg feces)/(kg organism-day)
+        :param diet_trans_eff: dietary pesticide transfer efficiency (fraction)
+        :param part_coef: gut - partition coefficient of the pesticide between the gastrointestinal tract
+                          and the organism (-)
+        :param wet_wgt: wet weight of organism (kg)
         :return:
         """
-        self.zoo_ke = self.gf_zoo * self.ed_zoo * self.kgb_zoo / self.zoo_wb
-        #   self.zoo_ke = self.zoo_diet_phyto
-        return self.zoo_ke
+
+        elim_rate_const = pd.Series([], dtype = 'float')
+
+        elim_rate_const = fecal_egestion_rate * diet_trans_eff * (part_coef / wet_wgt)
+        return elim_rate_const
+
+######################################################################
+## Chemical specific; dependent on concentrations of pesticide/organic carbon/particulate oc etc
+## in water column/sediment pore-water
+
+    def phi_f(self):
+        """
+        Calculate Fraction of pesticide freely dissolved in water column (can be
+        absorbed via membrane diffusion)
+        Eq. A2
+        :return:
+        """
+        frac_diss = pd.Series([], dtype = 'float')
+
+        frac_diss = 1 / (1 + (self.conc_poc * 0.35 * self.log_kow) + (self.conc_doc * 0.08 * self.log_kow))
+        return frac_diss
+
+#############################################################
+#############################################################
+    def frac_pest_freely_diss(self):
+        """
+        Calculate Fraction of pesticide freely dissolved in water column (that can be
+        absorbed via membrane diffusion)
+        :unit fraction
+        :expression Kabam Eq. A2
+        :param conc_poc: Concentration of Particulate Organic Carbon in water column (kg OC/L)
+        :param kow: octonal-water partition coefficient (-)
+        :param conc_doc: Concentration of Dissolved Organic Carbon in water column (kg OC/L)
+        :return:
+        """
+        frac_pest_diss_ = pd.Series([], dtype = 'float')
+
+        frac_pest_diss = 1 / (1 + (self.conc_poc * self.alpha_poc * self.kow) + (self.conc_doc * self.alpha_doc * self.kow))
+        return frac_pest_diss
+
+#######################################################################
+    def water_d(self):
+        """
+        concentration of freely dissolved pesticide in overlying water column
+        :return:
+        """
+        self.water_d = self.phi * self.water_column_eec * 1000000 ## THIS SHOULD BE / 1000000. (see cell C9 of 'Parameters & Calculations of OPP Model spreacsheet)
+        return self.water_d
+
+##########################################################
+###########################################################
+    def conc_freely_diss_watercol(self):
+        """
+        concentration of freely dissolved pesticide in overlying water column
+        :unit g/L
+        :expression Kabam A1 (product of terms - [phi * Cwto])
+        :param phi: Fraction of pesticide freely dissolved in water column (that can be
+                    absorbed via membrane diffusion) (fraction)
+        :param water_column_eec: Water Column 1-in-10 year EECs (ug/L)
+        :param 1000000: conversion factor from ug/L to g/L
+        :return:
+        """
+        conc_diss_watercol = pd.Series([], dtype = 'float')
+
+        conc_diss_watercol = self.phi * self.water_column_eec / 1000000.
+        return conc_diss_watercol
+
+#####################################################################
+    def c_soc_f(self):
+        """
+        Normalized pesticide concentration in sediment
+        Eq. A4a
+        :return:
+        """
+        self.c_soc = self.k_oc * self.pore_water_eec #SHOULD BE /1000000.
+        return self.c_soc
+
+######################################################################
+######################################################################
+    def  conc_sed_norm_4oc(self):
+        """
+        pesticide concentration in sediment normalized for organic carbon
+        :unit g/(kg OC)
+        :expression Kabam Eq. A4a
+        :param pore_water_eec: freely dissolved pesticide concentration in sediment pore water
+        :param k_oc: organic carbon partition coefficient (L/kg OC)
+        :param 1000000: conversion factor from ug/L to g/L
+
+        :return:
+        """
+        conc_diss_sed = pd.Series([], dtype = 'float')
+
+        conc_diss_sed = self.k_oc * self.pore_water_eec / 1000000.
+        return conc_diss_sed
+################################################################
+
+    def c_s_f(self):
+        """
+        Calculate concentration of chemical in solid portion of sediment
+        Eq. A4
+        :return:
+        """
+        self.c_s = self.c_soc * self.sediment_oc
+        return self.c_s
+
+#####################################################################
+#####################################################################
+    def conc_sed_dry_wgt(self):
+        """
+        Calculate concentration of chemical in solid portion of sediment
+        :unit g/(kg dry)
+        :expression Kabam Eq. A4
+        :param c_soc: pesticide concentration in sediment normalized for organic carbon g/(kg OC)
+        :param sediment_oc: fraction organic carbon in sediment (fraction)
+        :return:
+        """
+
+        conc_sed = pd.Series([], dtype = 'float')
+
+        conc_sed = self.c_soc * self.sediment_oc_frac
+        return conc_sed
+
+#######################################################################
+
+                #THIS METHOD IS NOT NEEDED BECAUSE sed_om IS EQUAL TO c_soc
+                #     def sed_om_f(self):
+                #         """
+                #         Calculate organic matter fraction in sediment
+                # #?? don't see this calculation in model documentation; looks like it is same as c_soc_f
+                #         :return:
+                #         """
+                #         self.sed_om = self.c_s / self.sediment_oc
+                #         return self.sed_om
+
+## Phytoplankton bioaccumulation/concentration calculations
+
+    def cb_phytoplankton_f(self):
+        """
+        Phytoplankton pesticide tissue residue
+        Eq. A1
+        #because phytoplankton have no diet the (Kd * SUM(Pi * Cdi)) portion of Eq. A1 is not included here
+        :return:
+        """
+        self.cb_phytoplankton = (self.phytoplankton_k1 * (self.phytoplankton_mo * self.water_column_eec *
+                                 self.phi + self.phytoplankton_mp * self.pore_water_eec)) / (self.phytoplankton_k2 +
+                                 self.phytoplankton_ke + self.phytoplankton_kg + self.phytoplankton_km)
+        return self.cb_phytoplankton
+
+    def cbl_phytoplankton_f(self):
+        """
+        Lipid normalized pesticide residue in phytoplankton
+        used in Eqs. F4 (cbafl_phytoplankton_f) & F5 (cbsafl_phytoplankton_f)
+        :return:
+        """
+        self.cbl_phytoplankton = (1e6 * self.cb_phytoplankton) / self.phytoplankton_lipid
+        return self.cbl_phytoplankton
+
+    def cbr_phytoplankton_f(self):
+        """
+        Phytoplankton pesticide residue concentration originating from uptake through respiration
+        Cbr in Table A1  (this simply equals 'cb_phytoplankton_f' for phytoplankton because
+        phytoplankton_kd = 0)
+        """
+
+        self.cbr_phytoplankton = ((self.phytoplankton_k1 * (self.phytoplankton_mo * self.water_column_eec *
+                                   self.phi + self.phytoplankton_mp * self.pore_water_eec)) / (
+                                   self.phytoplankton_k2 + self.phytoplankton_ke + self.phytoplankton_kg +
+                                   self.phytoplankton_km))
+        return self.cbr_phytoplankton
+
+    def cbf_phytoplankton_f(self):
+        """
+        Phytoplankton total bioconcentration factor;
+        Eq. F1 with phytoplankton_ke, phytoplankton_kg, phytoplankton_kd, and phytoplankton_km = 0
+        :return:
+        """
+        # phytoplankton_kd = 0 #phytoplankton_kd is uptake rate constant for uptake
+        # through ingestion of food; phytoplanton has no diet thus _kd is always = 0
+
+        self.cbf_phytoplankton = ((self.phytoplankton_k1 * (self.phytoplankton_mo * self.water_column_eec *
+                                   self.phi + self.phytoplankton_mp * self.pore_water_eec)) / (
+                                   self.phytoplankton_k2 )) / self.water_column_eec
+        return self.cbf_phytoplankton
+
+    def cbfl_phytoplankton_f(self):
+        """
+        Phytoplankton lipid normalized total bioconcentration factor
+        Eq. F2
+        :return:
+        """
+
+        self.cbfl_phytoplankton = (self.cbf_phytoplankton / self.phytoplankton_lipid) / self.water_d
+
+        return self.cbfl_phytoplankton
+
+    def cbaf_phytoplankton_f(self):
+        """
+        Phytoplankton bioaccumulation factor
+        Eq. F3
+        :return:
+        """
+        self.cbaf_phytoplankton = (1e6 * self.cb_phytoplankton) / self.water_column_eec
+        return self.cbaf_phytoplankton
+
+    def cbafl_phytoplankton_f(self):
+        """
+        Phytoplankton lipid normalized bioaccumulation factor
+        Eq. F4
+        :return:
+        """
+        self.cbafl_phytoplankton = self.cbl_phytoplankton / self.water_d
+        return self.cbafl_phytoplankton
+
+    def cbsafl_phytoplankton_f(self):
+        """
+        Phytoplankton biota-sediment accumulation factor
+        Eq. F5
+        :return:
+        """
+#?? why no 1e6 factor here as in 'cbaf_phytoplankton_f' or vice versa
+        self.cbsafl_phytoplankton = self.cb_phytoplankton / self.sed_om
+        return self.cbsafl_phytoplankton
 
     def diet_zoo_f(self):
         """
@@ -1480,14 +1618,6 @@ class KabamFunctions(object):
     ############################################################
 
         # partition coefficient of the pesticide between the gastrointenstinal track and the organism
-
-    def beninv_ke_f(self):
-        """
-        Dietary elimination rate constant
-        :return:
-        """
-        self.beninv_ke = self.gf_beninv * self.ed_beninv * (self.kgb_beninv / self.beninv_wb)
-        return self.beninv_ke
 
     def diet_beninv_f(self):
         """
@@ -1602,14 +1732,6 @@ class KabamFunctions(object):
     ################################################
 
 
-    def filterfeeders_ke_f(self):
-        """
-        Ke ff
-        :return:
-        """
-        self.filterfeeders_ke = (self.gf_ff * self.ed_ff * self.kgb_ff) / self.filterfeeders_wb
-        return self.filterfeeders_ke
-
     def diet_ff_f(self):
         """
         Diet filter feeders
@@ -1721,14 +1843,6 @@ class KabamFunctions(object):
 
         # overall lipid content of diet
 
-    def sfish_ke_f(self):
-        """
-        Small fish
-        :return:
-        """
-        self.sfish_ke = self.gf_sf * self.ed_sf * (self.kgb_sf / self.sfish_wb)
-        return self.sfish_ke
-
     def diet_sf_f(self):
         """
         Diet small fish
@@ -1836,14 +1950,6 @@ class KabamFunctions(object):
 
     ############ medium fish
 
-
-    def mfish_ke_f(self):
-        """
-
-        :return:
-        """
-        self.mfish_ke = self.gf_mf * self.ed_mf * (self.kgb_mf / self.mfish_wb)
-        return self.mfish_ke
 
     def diet_mf_f(self):
         """
@@ -1953,14 +2059,6 @@ class KabamFunctions(object):
         return self.cbmf_mf
 
     ############ large fish
-
-    def lfish_ke_f(self):
-        """
-        Large fish
-        :return:
-        """
-        self.lfish_ke = self.gf_lf * self.ed_lf * (self.kgb_lf / self.lfish_wb)
-        return self.lfish_ke
 
     def diet_lf_f(self):
         """
@@ -2083,10 +2181,15 @@ class KabamFunctions(object):
         #[fog/water shrew,rice rat/star-nosed mole,small mink,large mink,small river otter	,large river otter]
         self.mweight = np.array([[0.018, 0.085, 0.45, 1.8, 5, 15]])
         return self.mweight
+#####################################################
+#####################################################
+    def array_pest_conc_aq_animal():
+
+
 
     def dfir_f(self):
         """
-        Mammals
+        dry food ingestion rate: Mammals
         :return:
         """
         self.dfir = (0.0687 * self.mweight ** 0.822) / self.mweight
@@ -2158,7 +2261,7 @@ class KabamFunctions(object):
 
     def dfir_a_f(self):
         """
-        Avian
+        dry food ingestion rate: Avian
         :return:
         """
         self.dfir_a = (0.0582 * self.aweight ** 0.651) / self.aweight

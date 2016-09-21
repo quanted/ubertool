@@ -409,7 +409,7 @@ class TestKabam(unittest.TestCase):
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_egestion_rate_factor(self):
+    def test_fecal_egestion_rate_factor(self):
         """
         Aquatic animal/organism egestion rate of fecal matter factor (to be multiplied by the
         feeding rate to calculate egestion rate of fecal matter)
@@ -446,7 +446,7 @@ class TestKabam(unittest.TestCase):
             self.kabam_empty.v_wd_zoo = pd.Series([0.025, 0.035, 0.045], dtype = 'float')
             self.kabam_empty.gd_zoo = pd.Series([4.e-08, 1.e-3, 0.075], dtype = 'float')
 
-            result1 = self.kabam_empty.egestion_rate_factor(self.kabam_empty.epsilon_lipid_zoo,
+            result1 = self.kabam_empty.fecal_egestion_rate_factor(self.kabam_empty.epsilon_lipid_zoo,
                                                                 self.kabam_empty.epsilon_nlom_zoo,
                                                                 self.kabam_empty.epsilon_water,
                                                                 self.kabam_empty.v_ld_zoo,
@@ -506,26 +506,170 @@ class TestKabam(unittest.TestCase):
         :return:
         """
 
-
-
         result = pd.Series([], dtype='float')
-        expected_results = pd.Series([0.2, 0.196, 0.1575], dtype = 'float')
+        expected_results = pd.Series([0.991233, 1.662808, 1.560184], dtype = 'float')
 
         try:
-            #for this test we'll use the lipid content for zooplankton
+            #for this test we'll use the zooplankton varialbles
             self.kabam_empty.beta_aq_animals = 0.035
-            self.kabam_empty.kow = pd.Series([], dtype = 'float')
-            self.kabam_empty.vlg_zoo = pd.Series([], dtype = 'float')
-            self.kabam_empty.vng_zoo = pd.Series([], dtype = 'float')
-            self.kabam_empty.vwg_zoo = pd.Series([], dtype = 'float')
-            self.kabam_empty.zoo_lipid_frac = pd.Series([], dtype = 'float')
-            self.kabam_empty.zoo_nlom_frac = pd.Series([], dtype = 'float')
-            self.kabam_empty.zoo_water_frac = pd.Series([], dtype = 'float')
+            self.kabam_empty.kow = pd.Series([1.e4, 1.e5, 1.e6], dtype = 'float')
+            self.kabam_empty.vlg_zoo = pd.Series([0.2, 0.25, 0.15], dtype = 'float')
+            self.kabam_empty.vng_zoo = pd.Series([0.1, 0.15, 0.25], dtype = 'float')
+            self.kabam_empty.vwg_zoo = pd.Series([0.15, 0.35, 0.05], dtype = 'float')
+            self.kabam_empty.zoo_lipid_frac = pd.Series([0.20, 0.15, 0.10], dtype = 'float')
+            self.kabam_empty.zoo_nlom_frac = pd.Series([0.15, 0.10, 0.05], dtype = 'float')
+            self.kabam_empty.zoo_water_frac = pd.Series([0.65, 0.75, 0.85], dtype = 'float')
 
             result = self.kabam_empty.gut_organism_partition_coef(self.kabam_empty.vlg_zoo, self.kabam_empty.vng_zoo,
                                     self.kabam_empty.vwg_zoo, self.kabam_empty.kow, self.kabam_empty.beta_aq_animals,
                                     self.kabam_empty.zoo_lipid_frac, self.kabam_empty.zoo_nlom_frac,
                                     self.kabam_empty.zoo_water_frac)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_fecal_elim_rate_const(self):
+        """
+        rate constant for elimination of the pesticide through excretion of contaminated feces
+        :unit per day
+        :param gf_zoo: egestion rate of fecal matter (kg feces)/(kg organism-day)
+        :param ed_zoo: dietary pesticide transfer efficiency (fraction)
+        :param kgb_zoo: gut - partition coefficient of the pesticide between the gastrointestinal tract
+                          and the organism (-)
+        :param zoo_wb: wet weight of organism (kg)
+        :return:
+        """
+
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([7.5e-4, 0.0525, 5.625e-4], dtype = 'float')
+
+        try:
+            #for this test we'll use the zooplankton variables
+            self.kabam_empty.gf_zoo = pd.Series([1.5e-9, 5.0e-5, 4.5e-3], dtype = 'float')
+            self.kabam_empty.ed_zoo = pd.Series([0.5, 0.7, 0.25], dtype = 'float')
+            self.kabam_empty.kgb_zoo = pd.Series([1.0, 1.5, 0.5], dtype = 'float')
+            self.kabam_empty.zoo_wb = pd.Series([1.e-6, 1.e-3, 1.0], dtype = 'float')
+
+            result = self.kabam_empty.fecal_elim_rate_const(self.kabam_empty.gf_zoo, self.kabam_empty.ed_zoo,
+                                                            self.kabam_empty.kgb_zoo, self.kabam_empty.zoo_wb)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_frac_pest_freely_diss(self):
+        """
+        Calculate Fraction of pesticide freely dissolved in water column (that can be
+        absorbed via membrane diffusion)
+        :unit fraction
+        :expression Kabam Eq. A2
+        :param conc_poc: Concentration of Particulate Organic Carbon in water column (kg OC/L)
+        :param kow: octonal-water partition coefficient (-)
+        :param conc_doc: Concentration of Dissolved Organic Carbon in water column (kg OC/L)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([0.13422819, 0.00462963, 0.00514139], dtype = 'float')
+
+        try:
+            #for this test we'll use the zooplankton variables
+            self.kabam_empty.conc_poc = pd.Series([1.5e-3, 5.0e-3, 4.5e-4], dtype = 'float')
+            self.kabam_empty.alpha_poc = 0.35
+            self.kabam_empty.kow = pd.Series([1.e4, 1.e5, 1.e6], dtype = 'float')
+            self.kabam_empty.conc_doc = pd.Series([1.5e-3, 5.0e-3, 4.5e-4], dtype = 'float')
+            self.kabam_empty.alpha_doc = 0.08
+
+            result = self.kabam_empty.frac_pest_freely_diss()
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_conc_freely_diss_watercol(self):
+        """
+        concentration of freely dissolved pesticide in overlying water column
+        :unit g/L
+        :param phi: Fraction of pesticide freely dissolved in water column (that can be
+                    absorbed via membrane diffusion) (fraction)
+        :param water_column_eec: Water Column 1-in-10 year EECs (ug/L)
+        :return:
+        """
+
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([1.e-7, 2.4e-8, 1.e-6], dtype = 'float')
+
+        try:
+            #for this test we'll use the zooplankton variables
+            self.kabam_empty.phi = pd.Series([0.1, 0.004, 0.05], dtype = 'float')
+            self.kabam_empty.water_column_eec = pd.Series([1., 6., 20.], dtype = 'float')
+
+            result = self.kabam_empty.conc_freely_diss_watercol()
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+
+    def  test_conc_sed_norm_4oc(self):
+        """
+        pesticide concentration in sediment normalized for organic carbon
+        :unit g/(kg OC)
+        :expression Kabam Eq. A4a
+        :param pore_water_eec: freely dissolved pesticide concentration in sediment pore water
+        :param k_oc: organic carbon partition coefficient (L/kg OC)
+
+        :return:
+        """
+
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([0.025, 0.06, 2.00], dtype = 'float')
+
+        try:
+            #for this test we'll use the zooplankton variables
+            self.kabam_empty.k_oc = pd.Series([2.5e4, 1.e4, 1.e5], dtype = 'float')
+            self.kabam_empty.pore_water_eec = pd.Series([1., 6., 20.], dtype = 'float')
+
+            result = self.kabam_empty.conc_sed_norm_4oc()
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_conc_sed_dry_wgt(self):
+        """
+        Calculate concentration of chemical in solid portion of sediment
+        :unit g/(kg dry)
+        :expression Kabam Eq. A4
+        :param c_soc: pesticide concentration in sediment normalized for organic carbon g/(kg OC)
+        :param sediment_oc: fraction organic carbon in sediment (fraction)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([0.001, 0.0036, 0.4], dtype = 'float')
+
+        try:
+            #for this test we'll use the zooplankton variables
+            self.kabam_empty.c_soc = pd.Series([0.025, 0.06, 2.00], dtype = 'float')
+            self.kabam_empty.sediment_oc = pd.Series([4., 6., 20.], dtype = 'float')
+            self.kabam_empty.sediment_oc_frac = self.kabam_empty.percent_to_frac(self.kabam_empty.sediment_oc)
+
+            result = self.kabam_empty.conc_sed_dry_wgt()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]

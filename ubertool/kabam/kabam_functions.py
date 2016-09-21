@@ -17,6 +17,10 @@ class KabamFunctions(object):
         super(KabamFunctions, self).__init__()
 
 
+    def percent_to_frac(self, percent):
+        fraction = percent / 100.
+        return fraction
+
 # # ###Parameters & Calculations
 #
 # ## Chemical specific; dependent on concentrations of pesticide/organic carbon/particulate oc etc
@@ -389,7 +393,7 @@ class KabamFunctions(object):
 
         return overall_diet_fraction
 
-    def egestion_rate_factor(self, epsilonL, epsilonN, epsilonW, diet_lipid, diet_nlom, diet_water):
+    def fecal_egestion_rate_factor(self, epsilonL, epsilonN, epsilonW, diet_lipid, diet_nlom, diet_water):
         """
         Aquatic animal/organism egestion rate of fecal matter factor (to be multiplied by the
         feeding rate to calculate egestion rate of fecal matter)
@@ -443,8 +447,87 @@ class KabamFunctions(object):
         :return:
         """
 
-        partition_coef = pd.Series([], dtype = 'float')
+        part_coef = pd.Series([], dtype = 'float')
 
-        partition_coef = (pest_kow * (gut_lipid + beta * gut_nlom) + gut_water) /  \
+        part_coef = (pest_kow * (gut_lipid + beta * gut_nlom) + gut_water) /  \
                          (pest_kow * (organism_lipid + beta * organism_nlom) + organism_water)
-        return partition_coef
+        return part_coef
+
+    def fecal_elim_rate_const(self, fecal_egestion_rate, diet_trans_eff, part_coef, wet_wgt):
+        """
+        rate constant for elimination of the pesticide through excretion of contaminated feces
+        :unit per day
+        :param fecal_egestion_rate: egestion rate of fecal matter (kg feces)/(kg organism-day)
+        :param diet_trans_eff: dietary pesticide transfer efficiency (fraction)
+        :param part_coef: gut - partition coefficient of the pesticide between the gastrointestinal tract
+                          and the organism (-)
+        :param wet_wgt: wet weight of organism (kg)
+        :return:
+        """
+
+        elim_rate_const = pd.Series([], dtype = 'float')
+
+        elim_rate_const = fecal_egestion_rate * diet_trans_eff * (part_coef / wet_wgt)
+        return elim_rate_const
+
+    def frac_pest_freely_diss(self):
+        """
+        Calculate Fraction of pesticide freely dissolved in water column (that can be
+        absorbed via membrane diffusion)
+        :unit fraction
+        :expression Kabam Eq. A2
+        :param conc_poc: Concentration of Particulate Organic Carbon in water column (kg OC/L)
+        :param kow: octonal-water partition coefficient (-)
+        :param conc_doc: Concentration of Dissolved Organic Carbon in water column (kg OC/L)
+        :return:
+        """
+        frac_diss = pd.Series([], dtype = 'float')
+
+        frac_diss = 1 / (1 + (self.conc_poc * self.alpha_poc * self.kow) + (self.conc_doc * self.alpha_doc * self.kow))
+        return frac_diss
+
+    def conc_freely_diss_watercol(self):
+        """
+        concentration of freely dissolved pesticide in overlying water column
+        :unit g/L
+        :param phi: Fraction of pesticide freely dissolved in water column (that can be
+                    absorbed via membrane diffusion) (fraction)
+        :param water_column_eec: Water Column 1-in-10 year EECs (ug/L)
+        :param 1000000: conversion factor from ug/L to g/L
+        :return:
+        """
+        conc_pest_diss = pd.Series([], dtype = 'float')
+
+        conc_pest_diss = self.phi * self.water_column_eec / 1000000.
+        return conc_pest_diss
+
+    def  conc_sed_norm_4oc(self):
+        """
+        pesticide concentration in sediment normalized for organic carbon
+        :unit g/(kg OC)
+        :expression Kabam Eq. A4a
+        :param pore_water_eec: freely dissolved pesticide concentration in sediment pore water
+        :param k_oc: organic carbon partition coefficient (L/kg OC)
+        :param 1000000: conversion factor from ug/L to g/L
+
+        :return:
+        """
+        conc_diss_sed = pd.Series([], dtype = 'float')
+
+        conc_diss_sed = self.k_oc * self.pore_water_eec / 1000000.
+        return conc_diss_sed
+
+    def conc_sed_dry_wgt(self):
+        """
+        Calculate concentration of chemical in solid portion of sediment
+        :unit g/(kg dry)
+        :expression Kabam Eq. A4
+        :param c_soc: pesticide concentration in sediment normalized for organic carbon g/(kg OC)
+        :param sediment_oc: fraction organic carbon in sediment (fraction)
+        :return:
+        """
+
+        conc_sed = pd.Series([], dtype = 'float')
+
+        conc_sed = self.c_soc * self.sediment_oc_frac
+        return conc_sed

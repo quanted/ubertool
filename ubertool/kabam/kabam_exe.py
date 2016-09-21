@@ -763,23 +763,23 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.diet_assim_factor_mfish = pd.Series([], dtype = 'float')
         self.diet_assim_factor_lfish = pd.Series([], dtype = 'float')
 
-        self.diet_assim_factor_zoo = self.egestion_rate_factor(self.epsilon_lipid_zoo, self.epsilon_nlom_zoo,
+        self.diet_assim_factor_zoo = self.fecal_egestion_rate_factor(self.epsilon_lipid_zoo, self.epsilon_nlom_zoo,
                                                     self.epsilon_water, self.v_ld_zoo, self.v_nd_zoo, self.v_wd_zoo)
         self.gf_zoo = self.diet_assim_factor_zoo * self.gd_zoo
-        self.diet_assim_factor_beninv = self.egestion_rate_factor(self.epsilon_lipid_inv, self.epsilon_nlom_inv,
+        self.diet_assim_factor_beninv = self.fecal_egestion_rate_factor(self.epsilon_lipid_inv, self.epsilon_nlom_inv,
                                                 self.epsilon_water, self.v_ld_beninv, self.v_nd_beninv, self.v_wd_beninv)
         self.gf_beninv = self.diet_assim_factor_beninv * self.gd_beninv
-        self.diet_assim_factor_filterfeeders = self.egestion_rate_factor(self.epsilon_lipid_inv, self.epsilon_nlom_inv,
-                                                self.epsilon_water, self.v_ld_filterfeeders, self.v_nd_filterfeeders,
-                                                self.v_wd_filterfeeders)
+        self.diet_assim_factor_filterfeeders = self.fecal_egestion_rate_factor(self.epsilon_lipid_inv,
+                                                self.epsilon_nlom_inv, self.epsilon_water, self.v_ld_filterfeeders,
+                                                self.v_nd_filterfeeders, self.v_wd_filterfeeders)
         self.gf_filterfeeders = self.diet_assim_factor_filterfeeders * self.gd_filterfeeders
-        self.diet_assim_factor_sfish = self.egestion_rate_factor(self.epsilon_lipid_fish, self.epsilon_nlom_fish,
+        self.diet_assim_factor_sfish = self.fecal_egestion_rate_factor(self.epsilon_lipid_fish, self.epsilon_nlom_fish,
                                                 self.epsilon_water, self.v_ld_sfish, self.v_nd_sfish, self.v_wd_sfish)
         self.gf_sfish = self.diet_assim_factor_sfish * self.gd_sfish
-        self.diet_assim_factor_mfish = self.egestion_rate_factor(self.epsilon_lipid_fish, self.epsilon_nlom_fish,
+        self.diet_assim_factor_mfish = self.fecal_egestion_rate_factor(self.epsilon_lipid_fish, self.epsilon_nlom_fish,
                                                 self.epsilon_water, self.v_ld_mfish, self.v_nd_mfish, self.v_wd_mfish)
         self.gf_mfish = self.diet_assim_factor_mfish * self.gd_mfish
-        self.diet_assim_factor_lfish = self.egestion_rate_factor(self.epsilon_lipid_fish, self.epsilon_nlom_fish,
+        self.diet_assim_factor_lfish = self.fecal_egestion_rate_factor(self.epsilon_lipid_fish, self.epsilon_nlom_fish,
                                                 self.epsilon_water, self.v_ld_lfish, self.v_nd_lfish, self.v_wd_lfish)
         self.gf_lfish = self.diet_assim_factor_lfish * self.gd_lfish
 
@@ -833,6 +833,27 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.kgb_lfish = self.gut_organism_partition_coef(self.vlg_lfish, self.vng_lfish, self.vwg_lfish, self.kow,
                                     self.beta_aq_animals, self.lfish_lipid_frac, self.lfish_nlom_frac,
                                     self.lfish_water_frac)
+
+        #rate constant for elimination of pesticide through excretion of contaminated feces
+        self.zoo_ke = self.fecal_elim_rate_const(self.gf_zoo, self.ed_zoo, self.kgb_zoo, self.zoo_wb)
+        self.beninv_ke = self.fecal_elim_rate_const(self.gf_beninv, self.ed_beninv, self.kgb_beninv, self.beninv_wb)
+        self.filterfeeders_ke = self.fecal_elim_rate_const(self.gf_filterfeeders, self.ed_filterfeeders,
+                                                           self.kgb_filterfeeders, self.filterfeeders_wb)
+        self.sfish_ke = self.fecal_elim_rate_const(self.gf_sfish, self.ed_sfish, self.kgb_sfish, self.sfish_wb)
+        self.mfish_ke = self.fecal_elim_rate_const(self.gf_mfish, self.ed_mfish, self.kgb_mfish, self.mfish_wb)
+        self.lfish_ke = self.fecal_elim_rate_const(self.gf_lfish, self.ed_lfish, self.kgb_lfish, self.lfish_wb)
+
+        # calculate fraction of overlying water concentration of pesticide that is freely dissolved and can be absorbed via membrane diffusion
+        self.phi = self.frac_pest_freely_diss()
+
+        #calculate concentration of freely dissolved pesticide in overlying water column
+        self.water_d = self.conc_freely_diss_watercol()
+
+        #calculate pesticide concentration in sediment normalized for organic carbon content
+        self.c_soc = self.conc_sed_norm_4oc()
+
+        #calculate pesticide concentrationin sediment (sediment dry weight basis)
+        self.c_s = self.conc_sed_dry_wgt()
 
 
         # self.phi_f()
@@ -1051,10 +1072,31 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
     def set_global_constants(self):
 
         # list of aquatic animals in the food chain from lowest to highest trophic level
-        self.aquatic_animals = pd.Series(['pytoplankton', 'zooplankton', 'benthic_invertebrates', 'filterfeeders',
+        #(data in related arrays will reflect this order)
+        self.aquatic_animals = np.array(['pytoplankton', 'zooplankton', 'benthic_invertebrates', 'filterfeeders',
                                           'small_fish', 'medium_fish', 'large_fish'], dtype = 'str')
 
+        #list of mammals (data in related arrays will reflect this order)
+        self.mammals = np.array(['fog/water shrew', 'rice rat/nosed mole', 'small mink', 'large mink',
+                                 'small river otter', 'large river otter'])
+        self.mammal_weights = np.array([0.018, 0.085, 0.45, 1.8, 5., 15.])
+        self.diet_mammals = np.array([[0, 0, 1, 0, 0, 0, 0], [0, 0, .34, .33, .33, 0, 0], [0, 0, 0, 0, 0, 1, 0],
+                                      [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1]])
+
+        #list of birds (data in related arrays will reflect this order)
+        self.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons', 'small osprey', 'white pelican'])
+        self.bird_weights = np.array([0.02, 6.7, 0.07, 2.9, 1.25, 7.5])
+        self.diet_birds = np.array([[0, 0, .33, 0.33, 0.34, 0, 0], [0, 0, .33, .33, 0, 0.34, 0],
+                                    [0, 0, 0.5, 0, 0.5, 0, 0], [0, 0, 0.5, 0, 0, 0.5, 0],
+                                    [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1]])
+
+        # conversions
+
+        self.kow = pd.Series([], dtype = 'float')
+        self.sediment_oc_frac = pd.Series([], dtype = 'float')
+
         self.kow = 10.**(self.log_kow) # convert log kow to kow
+        self.sediment_oc_frac = percent_to_frac(self.sediment_oc)
 
         # Assigned constants
         self.particle_scav_eff = 1.0  # filterfeeder efficiency of scavenging of particles absorbed from water (Kabam Eq. A8b2)
@@ -1073,4 +1115,6 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
 
         self.epsilon_water = 0.25  # freshwater organisms dietary assimilation rate of water
 
+        self.alpha_poc = 0.35  #proportionality constant to describe the similarity of phase partitioning of POC in relation to octanol
+        self.alpha_doc = 0.08  #proportionality constant to describe the similarity of phase partitioning of DOC in relation to octanol
 
