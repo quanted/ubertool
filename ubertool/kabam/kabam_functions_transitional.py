@@ -1419,8 +1419,7 @@ class KabamFunctions(object):
                 #         self.sed_om = self.c_s / self.sediment_oc
                 #         return self.sed_om
 
-## Phytoplankton bioaccumulation/concentration calculations
-
+#########################################################################
     def cb_phytoplankton_f(self):
         """
         Phytoplankton pesticide tissue residue
@@ -1507,7 +1506,50 @@ class KabamFunctions(object):
 #?? why no 1e6 factor here as in 'cbaf_phytoplankton_f' or vice versa
         self.cbsafl_phytoplankton = self.cb_phytoplankton / self.sed_om
         return self.cbsafl_phytoplankton
+########################################################################
+########################################################################
+    def pest_conc_organism(self, k1, k2, kD, kE, kG, kM, mP, mO, diet_conc):
+        """
+        concentration of pesticide in aquatic animal/organism; this method
+        :unit g/(kg wet weight)
+        :expression Kabam Eq. A1 (CB)
+        :param k1: pesticide uptake rate constant through respiratory area (gills, skin) (L/kg-d)
+        :param k2: rate constant for elimination of the peisticide through the respiratory area (gills, skin) (/d)
+        :param kD: pesticide uptake rate constant for uptake through ingestion of food (kg food/(kg organism - day)
+        :param kE: rate constant for elimination of the pesticide through excretion of feces (/d)
+        :param kG: animal/organism growth rate constant (/d)
+        :param kM: rate constant for pesticide metabolic transformation (/d)
+        :param mP: fraction of respiratory ventilation that involves por-water of sediment (fraction)
+        :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
+        :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
+                    via membrane diffusion (fraction)
+        :param cwto: total pesticide concentraiton in water column above sediment (g/L)
+        :param cwdp: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :param diet_conc: concentration of pesticide in overall diet of aquatic animal/organism (g/kg wet weight)
+        #because phytoplankton have no diet the (Kd * SUM(Pi * Cdi)) portion of Eq. A1 is not included here
+        :return:
+        """
+        pest_conc_organism = pd.Series([], dtype = 'float')
 
+        pest_conc_organism = (k1 * (mO * self.phi * self.cwto * mP * self.cwdp) + kD * diet_conc) / (k2 + kE + kG + kM)
+        return pest_conc_organism
+
+    def lipid_norm_residue_conc(self):  #cbl
+
+
+    def tot_bioconc_fact(self, k1, k2, kD, kE, kG, kM, mP, mO, diet_conc)
+        self.water_column_eec  #cbf
+
+    def lipid_norm_bioconc_fact():  #cbfl
+
+    def bioacc_fact(): #cbaf
+
+    def lipid_norm_bioacc_fact(self):  #cbafl
+
+    def biota_sed_acc_fact(self):  #cdsafl
+
+
+#########################################################################
     def diet_zoo_f(self):
         """
         Diet fraction
@@ -1515,6 +1557,58 @@ class KabamFunctions(object):
         """
         self.diet_zoo = self.c_s * self.zoo_diet_sediment + self.cb_phytoplankton * self.zoo_diet_phyto
         return self.diet_zoo
+
+    def diet_beninv_f(self):
+        """
+        Diet fraction benthic inverts
+        :return:
+        """
+        self.diet_beninv = self.c_s * self.beninv_diet_sediment + self.cb_phytoplankton * self.beninv_diet_phytoplankton + self.cb_zoo * self.beninv_diet_zooplankton
+        return self.diet_beninv
+
+    def diet_ff_f(self):
+        """
+        Diet filter feeders
+        :return:
+        """
+        self.diet_ff = self.c_s * self.filterfeeders_diet_sediment + self.cb_phytoplankton * self.filterfeeders_diet_phytoplankton + self.cb_zoo * self.filterfeeders_diet_zooplankton + self.cb_beninv * self.filterfeeders_diet_benthic_invertebrates
+        return self.diet_ff
+
+    def diet_sf_f(self):
+        """
+        Diet small fish
+        :return:
+        """
+        self.diet_sf = self.c_s * self.sfish_diet_sediment + self.cb_phytoplankton * self.sfish_diet_phytoplankton + self.cb_zoo * self.sfish_diet_zooplankton + self.cb_beninv * self.sfish_diet_benthic_invertebrates + self.cb_ff * self.sfish_diet_filter_feeders
+        return self.diet_sf
+
+    def diet_mf_f(self):
+        """
+        Diet medium fish
+        :return:
+        """
+        self.diet_mf = self.c_s * self.mfish_diet_sediment + self.cb_phytoplankton * self.mfish_diet_phytoplankton + self.cb_zoo * self.mfish_diet_zooplankton + self.cb_beninv * self.mfish_diet_benthic_invertebrates + self.cb_ff * self.mfish_diet_filter_feeders + self.cb_sf * self.mfish_diet_small_fish
+        return self.diet_mf
+
+    def diet_lf_f(self):
+        """
+        Large fish
+        :return:
+        """
+        self.diet_lf = self.c_s * self.lfish_diet_sediment + self.cb_phytoplankton * self.lfish_diet_phytoplankton + self.cb_zoo * self.lfish_diet_zooplankton + self.cb_beninv * self.lfish_diet_benthic_invertebrates + self.cb_ff * self.lfish_diet_filter_feeders + self.cb_sf * self.lfish_diet_small_fish + self.cb_mf * self.lfish_diet_medium_fish
+        return self.diet_lf
+#################################################################################
+################################################################################
+    def diet_aq_animals(self):
+        """
+        Large fish
+        :return:
+        """
+
+###############################################################################
+
+
+## Phytoplankton bioaccumulation/concentration calculations
 
     def cb_zoo_f(self):
         """
@@ -1618,14 +1712,6 @@ class KabamFunctions(object):
     ############################################################
 
         # partition coefficient of the pesticide between the gastrointenstinal track and the organism
-
-    def diet_beninv_f(self):
-        """
-        Diet fraction benthic inverts
-        :return:
-        """
-        self.diet_beninv = self.c_s * self.beninv_diet_sediment + self.cb_phytoplankton * self.beninv_diet_phytoplankton + self.cb_zoo * self.beninv_diet_zooplankton
-        return self.diet_beninv
 
     def cb_beninv_f(self):
         """
@@ -1732,14 +1818,6 @@ class KabamFunctions(object):
     ################################################
 
 
-    def diet_ff_f(self):
-        """
-        Diet filter feeders
-        :return:
-        """
-        self.diet_ff = self.c_s * self.filterfeeders_diet_sediment + self.cb_phytoplankton * self.filterfeeders_diet_phytoplankton + self.cb_zoo * self.filterfeeders_diet_zooplankton + self.cb_beninv * self.filterfeeders_diet_benthic_invertebrates
-        return self.diet_ff
-
     def cb_ff_f(self):
         """
         Benthic invertebrates pesticide tissue residue
@@ -1843,14 +1921,6 @@ class KabamFunctions(object):
 
         # overall lipid content of diet
 
-    def diet_sf_f(self):
-        """
-        Diet small fish
-        :return:
-        """
-        self.diet_sf = self.c_s * self.sfish_diet_sediment + self.cb_phytoplankton * self.sfish_diet_phytoplankton + self.cb_zoo * self.sfish_diet_zooplankton + self.cb_beninv * self.sfish_diet_benthic_invertebrates + self.cb_ff * self.sfish_diet_filter_feeders
-        return self.diet_sf
-
     def cb_sf_f(self):
         """
         Small fish pesticide tissue residue
@@ -1950,14 +2020,6 @@ class KabamFunctions(object):
 
     ############ medium fish
 
-
-    def diet_mf_f(self):
-        """
-        Diet medium fish
-        :return:
-        """
-        self.diet_mf = self.c_s * self.mfish_diet_sediment + self.cb_phytoplankton * self.mfish_diet_phytoplankton + self.cb_zoo * self.mfish_diet_zooplankton + self.cb_beninv * self.mfish_diet_benthic_invertebrates + self.cb_ff * self.mfish_diet_filter_feeders + self.cb_sf * self.mfish_diet_small_fish
-        return self.diet_mf
 
     def cb_mf_f(self):
         """
@@ -2059,14 +2121,6 @@ class KabamFunctions(object):
         return self.cbmf_mf
 
     ############ large fish
-
-    def diet_lf_f(self):
-        """
-        Large fish
-        :return:
-        """
-        self.diet_lf = self.c_s * self.lfish_diet_sediment + self.cb_phytoplankton * self.lfish_diet_phytoplankton + self.cb_zoo * self.lfish_diet_zooplankton + self.cb_beninv * self.lfish_diet_benthic_invertebrates + self.cb_ff * self.lfish_diet_filter_feeders + self.cb_sf * self.lfish_diet_small_fish + self.cb_mf * self.lfish_diet_medium_fish
-        return self.diet_lf
 
     def cb_lf_f(self):
         """

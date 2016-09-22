@@ -378,9 +378,9 @@ class KabamFunctions(object):
         :           phytoplankton, thus the overall lipid content of the zooplankton diet equals
         :           (fraction of sediment in zooplankton diet) * (fraction of lipids in sediment) +
         :           (fraction of phytoplankton in zooplankton diet) * (fraction of lipids in phytoplankton)
-        :param diet_fraction: list of values representing fractions of aquatic animal/organism diet attibuted
-                              to each element of diet
-        :param content_fraction: list of values representing fraction of diet element attributed to a specific
+        :param diet_fraction: list of values representing fractions of aquatic animal/organism diet attributed
+                              to each element (prey) of diet
+        :param content_fraction: list of values representing fraction of diet element (prey) attributed to a specific
                                  component of that diet element (e.g., lipid, NLOM, or water)
         :return:
         """
@@ -531,3 +531,47 @@ class KabamFunctions(object):
 
         conc_sed = self.c_soc * self.sediment_oc_frac
         return conc_sed
+
+    def diet_pest_conc(self, prey_frac, prey_pest_conc):
+        """
+        overall concentration of pesticide in aquatic animal/organism diet
+        :unit g/(kg wet weight)
+        :expression Kabam Eq. A1 (SUM(Pi * CDi);
+        :param: prey_frac: fraction of diet containing prey i (Pi in Eq. A1))
+        :param: concentraiton of pesticide in prey i (CDi in Eq. A1)
+        :return:
+        """
+
+        overall_diet_conc = pd.Series([], dtype = 'float')
+        overall_diet_conc = 0.0
+
+        for i in range(prey_frac):
+            overall_diet_conc = overall_diet_conc + prey_frac[i] * prey_pest_conc[i]
+
+        return overall_diet_conc
+
+    def pest_conc_organism(self, k1, k2, kD, kE, kG, kM, mP, mO, pest_diet_conc):
+        """
+        concentration of pesticide in aquatic animal/organism; this method
+        :unit g/(kg wet weight)
+        :expression Kabam Eq. A1 (CB)
+        :param k1: pesticide uptake rate constant through respiratory area (gills, skin) (L/kg-d)
+        :param k2: rate constant for elimination of the peisticide through the respiratory area (gills, skin) (/d)
+        :param kD: pesticide uptake rate constant for uptake through ingestion of food (kg food/(kg organism - day)
+        :param kE: rate constant for elimination of the pesticide through excretion of feces (/d)
+        :param kG: animal/organism growth rate constant (/d)
+        :param kM: rate constant for pesticide metabolic transformation (/d)
+        :param mP: fraction of respiratory ventilation that involves por-water of sediment (fraction)
+        :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
+        :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
+                    via membrane diffusion (fraction)
+        :param cwto: total pesticide concentraiton in water column above sediment (g/L)
+        :param cwdp: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :param pest_diet_conc: concentration of pesticide in overall diet of aquatic animal/organism (g/kg wet weight)
+        #because phytoplankton have no diet the (Kd * SUM(Pi * Cdi)) portion of Eq. A1 is not included here
+        :return:
+        """
+        pest_conc_organism = pd.Series([], dtype = 'float')
+
+        pest_conc_organism = (k1 * (mO * self.phi * self.cwto * mP * self.cwdp) + kD * pest_diet_conc) / (k2 + kE + kG + kM)
+        return pest_conc_organism
