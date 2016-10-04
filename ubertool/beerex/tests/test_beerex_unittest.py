@@ -476,16 +476,17 @@ class TestBeerex(unittest.TestCase):
         unittest for function beerex.ad_total_dose
         """
         # self.out_ad_total_dose = (self.out_eec_method * self.ad_nectar) + (self.out_eec_method * self.ad_pollen)
+
+        expected_results = [24.6708]
+        beerex_empty.ad_pollen = pd.Series([2.4])
+        beerex_empty.ad_nectar = pd.Series([22.8])
+        beerex_empty.application_rate = pd.Series([8.9])
         try:
-            expected_results = [24.6708]
-            beerex_empty.ad_pollen = pd.Series([2.4])
-            beerex_empty.ad_nectar = pd.Series([22.8])
-            beerex_empty.application_rate = pd.Series([8.9])
             beerex_empty.out_eec_method = beerex_empty.eec_spray()
             result = beerex_empty.ad_total_dose()
             npt.assert_array_almost_equal(result, expected_results, 4, '', True)
-        finally:
             tab = [result, expected_results]
+        except ValueError:
             print("\n")
             print(inspect.currentframe().f_code.co_name)
             print(tabulate(tab, headers='keys', tablefmt='rst'))
