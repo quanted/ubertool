@@ -477,13 +477,16 @@ class TestBeerex(unittest.TestCase):
         """
         # self.out_ad_total_dose = (self.out_eec_method * self.ad_nectar) + (self.out_eec_method * self.ad_pollen)
 
-        expected_results = [24.6708]
         beerex_empty.ad_pollen = pd.Series([2.4])
         beerex_empty.ad_nectar = pd.Series([22.8])
         beerex_empty.application_rate = pd.Series([8.9])
+        beerex_empty.empirical_residue = pd.Series([0.6])
+        beerex_empty.empirical_nectar = pd.Series([1.2])
+        beerex_empty.empirical_pollen = pd.Series([0.7])
         try:
             beerex_empty.out_eec_method = beerex_empty.eec_spray()
             result = beerex_empty.ad_total_dose()
+            expected_results = [24.6708]
             npt.assert_array_almost_equal(result, expected_results, 4, '', True)
             tab = [result, expected_results]
         except ValueError:
