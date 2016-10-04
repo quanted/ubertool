@@ -622,7 +622,6 @@ class TestKabam(unittest.TestCase):
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-
     def  test_conc_sed_norm_4oc(self):
         """
         pesticide concentration in sediment normalized for organic carbon
@@ -633,7 +632,6 @@ class TestKabam(unittest.TestCase):
 
         :return:
         """
-
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([0.025, 0.06, 2.00], dtype = 'float')
 
@@ -677,6 +675,166 @@ class TestKabam(unittest.TestCase):
             print(inspect.currentframe().f_code.co_name)
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
+
+    def test_diet_pest_conc(self):
+        """
+        overall concentration of pesticide in aquatic animal/organism diet
+        :unit g/(kg wet weight)
+        :expression Kabam Eq. A1 (SUM(Pi * CDi);
+        :param diet_frac_lfish: fraction of large fish diet containing prey i (Pi in Eq. A1))
+        :param diet_conc_lfish: concentraiton of pesticide in prey i (CDi in Eq. A1)
+        :notes for this test we populate all prey items for large fish even though large fish
+               typically only consume medium fish
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([0.2025, 0.2025, 0.205], dtype = 'float')
+
+        try:
+            #for this test we'll use the large fish variables (there are 7 prey items listed
+            #for large fish (sediment, phytoplankton, zooplankton, benthic invertebrates,
+            # filterfeeders, small fish, and medium fish  ---  this is the order related
+            #to the values in the two series below)
+            self.kabam_empty.diet_frac_lfish = pd.Series([[0.02, 0.03, 0.10, 0.05, 0.10, 0.7],
+                                                [0.0, 0.05, 0.05, 0.05, 0.10, 0.75],
+                                                [0.01, 0.02, 0.03, 0.04, 0.10, 0.8]], dtype = 'float')
+            self.kabam_empty.diet_conc_lfish = pd.Series([[0.10, 0.10, 0.20, 0.15, 0.30, 0.20],
+                                                [0.10, 0.10, 0.20, 0.15, 0.30, 0.20],
+                                                [0.10, 0.10, 0.20, 0.15, 0.30, 0.20]], dtype = 'float')
+
+            result = self.kabam_empty.diet_pest_conc(self.kabam_empty.diet_frac_lfish,
+                                                     self.kabam_empty.diet_conc_lfish)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_pest_conc_organism(self):
+        """
+        concentration of pesticide in aquatic animal/organism
+        :unit g/(kg wet weight)
+        :expression Kabam Eq. A1 (CB)
+        :param lfish_k1: pesticide uptake rate constant through respiratory area (gills, skin) (L/kg-d)
+        :param lfish_k2: rate constant for elimination of the peisticide through the respiratory area (gills, skin) (/d)
+        :param lfish_kd: pesticide uptake rate constant for uptake through ingestion of food (kg food/(kg organism - day)
+        :param lfish_ke: rate constant for elimination of the pesticide through excretion of feces (/d)
+        :param lfish_kg: animal/organism growth rate constant (/d)
+        :param lfish_km: rate constant for pesticide metabolic transformation (/d)
+        :param lfish_mp: fraction of respiratory ventilation that involves por-water of sediment (fraction)
+        :param lfish_mo: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
+        :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
+                    via membrane diffusion (fraction)
+        :param cwto: total pesticide concentraiton in water column above sediment (g/L)
+        :param cwdp: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :param total_diet_conc_lfish: concentration of pesticide in overall diet of aquatic animal/organism (g/kg wet weight)
+        :return:
+        """
+
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([9.852216e-4, 1.754385e-3, 2.8385977e-3], dtype = 'float')
+
+        try:
+            self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
+            self.kabam_empty.cwto =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            self.kabam_empty.cwdp =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
+            #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
+            self.kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
+            self.kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
+            self.kabam_empty.lfish_kd =  pd.Series([0.05, 0.03, 0.02], dtype = 'float')
+            self.kabam_empty.lfish_ke =  pd.Series([0.05, 0.02, 0.02], dtype = 'float')
+            self.kabam_empty.lfish_kg =  pd.Series([0.1, 0.01, 0.003], dtype = 'float')
+            self.kabam_empty.lfish_km =  pd.Series([0.0, 0.1, 0.5], dtype = 'float')
+            self.kabam_empty.lfish_mp =  pd.Series([0.0, 0.0, 0.05], dtype = 'float')
+            self.kabam_empty.lfish_mo =  pd.Series([1.0, 1.0, 0.95], dtype = 'float')
+            self.kabam_empty.total_diet_conc_lfish = pd.Series( [.20, .30, .50], dtype = 'float')
+
+            result = self.kabam_empty.pest_conc_organism(self.kabam_empty.lfish_k1, self.kabam_empty.lfish_k2,
+                                                     self.kabam_empty.lfish_kd, self.kabam_empty.lfish_ke,
+                                                     self.kabam_empty.lfish_kg, self.kabam_empty.lfish_km,
+                                                     self.kabam_empty.lfish_mp, self.kabam_empty.lfish_mo,
+                                                     self.kabam_empty.total_diet_conc_lfish)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_lipid_norm_residue_conc(self):
+        """
+        Lipid normalized pesticide residue in aquatic animal/organism
+        :unit ug/kg-lipid
+        :expresssion represents a factor (CB/VLB) used in Kabam Eqs. F4, F5, & F6
+        :param out_cb_lfish: total pesticide concentration in animal/organism (g/kg-ww)
+        :param lfish_lipid: fraction of animal/organism that is lipid (fraction)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([2.5e4, 8333.333, 500.], dtype = 'float')
+
+        try:
+            #for this test we'll use the large fish variables
+            self.kabam_empty.out_cb_lfish = pd.Series([1.e-3, 5.e-4, 1.e-5], dtype = 'float')
+            self.kabam_empty.lfish_lipid_frac = pd.Series([0.04, 0.06, 0.02], dtype = 'float')
+            self.kabam_empty.gms_to_microgms = 1.e6
+
+            result = self.kabam_empty.lipid_norm_residue_conc(self.kabam_empty.out_cb_lfish,
+                                                              self.kabam_empty.lfish_lipid_frac)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+        lipid_norm_conc = pd.Series([], dtype = 'float')
+
+        lipid_norm_conc = (total_conc / lipid_content) * self.gms_to_microgms
+        return lipid_norm_conc
+
+    def test_tot_bioconc_fact(self):
+        """
+        :description Total bioconcentration factor
+        :unit (ug pesticide/kg ww) / (ug pesticide/L water)
+        :expression Kabam Eq. F1
+        :param k1: pesticide uptake rate constant through respiratory area (gills, skin) (L/kg-d)
+        :param k2: rate constant for elimination of the peisticide through the respiratory area (gills, skin) (/d)
+        :param mP: fraction of respiratory ventilation that involves por-water of sediment (fraction)
+        :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
+        :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
+                    via membrane diffusion (fraction)
+        :param cwto: total pesticide concentraiton in water column above sediment (g/L)
+        :param cwdp: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([4.75e-6, 0.0, 6.33333e-5], dtype = 'float')
+
+        try:
+            self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
+            self.kabam_empty.cwto =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            self.kabam_empty.cwdp =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
+            #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
+            self.kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
+            self.kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
+            self.kabam_empty.lfish_mp =  pd.Series([0.05, 0.0, 0.05], dtype = 'float')
+            self.kabam_empty.lfish_mo =  pd.Series([0.95, 1.0, 0.95], dtype = 'float')
+
+            result = self.kabam_empty.tot_bioconc_fact(self.kabam_empty.lfish_k1, self.kabam_empty.lfish_k2,
+                                                       self.kabam_empty.lfish_mp, self.kabam_empty.lfish_mo)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
 
 
 # unittest will

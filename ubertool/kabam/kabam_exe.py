@@ -852,7 +852,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         #calculate pesticide concentration in sediment normalized for organic carbon content
         self.c_soc = self.conc_sed_norm_4oc()
 
-        #calculate pesticide concentrationin sediment (sediment dry weight basis)
+        #calculate pesticide concentration in sediment (sediment dry weight basis)
         self.c_s = self.conc_sed_dry_wgt()
 
         #calculate diet-based concentrations of aquatic animals/organisms and resulting concentrations in the animal/organism
@@ -861,7 +861,6 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         #calculations are performed with various arguments set to 0.0
 
             #  pest_conc_organism(self, k1, k2, kD, kE, kG, kM, mP, mO, diet_conc):
-            # """
             # concentration of pesticide in aquatic animal/organism; this method
             # :unit g/(kg wet weight)
             # :expression Kabam Eq. A1 (CB)
@@ -930,9 +929,9 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.total_diet_conc_sfish = pd.Series([], dtype = 'float')
         for i in range(len(self.sfish_diet_sediment)):
             self.diet_frac_sfish[i] = [self.sfish_diet_sediment[i],
-                                               self.sfish_diet_phytoplankton[i],
-                                               self.sfish_diet_zoo[i], self.sfish_diet_beninv[i],
-                                               self.sfish_diet_filterfeeders[i]]
+                                       self.sfish_diet_phytoplankton[i],
+                                       self.sfish_diet_zoo[i], self.sfish_diet_beninv[i],
+                                       self.sfish_diet_filterfeeders[i]]
             self.diet_conc_sfish_[i] = [self.c_s[i], self.cb_phytoplankton[i], self.cb_zoo[i], self.cb_beninv[i],
                                         self.cb_filterfeeders[i]]
         self.total_diet_conc_sfish = self.diet_pest_conc(self.diet_frac_sfish, self.diet_conc_sfish)
@@ -946,9 +945,9 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.total_diet_conc_mfish = pd.Series([], dtype = 'float')
         for i in range(len(self.mfish_diet_sediment)):
             self.diet_frac_mfish[i] = [self.mfish_diet_sediment[i],
-                                               self.mfish_diet_phytoplankton[i],
-                                               self.mfish_diet_zoo[i], self.mfish_diet_beninv[i],
-                                               self.mfish_diet_filterfeeders[i], self.mfish_diet_sfish[i]]
+                                       self.mfish_diet_phytoplankton[i],
+                                       self.mfish_diet_zoo[i], self.mfish_diet_beninv[i],
+                                       self.mfish_diet_filterfeeders[i], self.mfish_diet_sfish[i]]
             self.diet_conc_mfish_[i] = [self.c_s[i], self.cb_phytoplankton[i], self.cb_zoo[i], self.cb_beninv[i],
                                         self.cb_filterfeeders[i], self.cb_sfish[i]]
         self.total_diet_conc_mfish = self.diet_pest_conc(self.diet_frac_sfish, self.diet_conc_sfish)
@@ -962,46 +961,64 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.total_diet_conc_lfish = pd.Series([], dtype = 'float')
         for i in range(len(self.lfish_diet_sediment)):
             self.diet_frac_lfish[i] = [self.lfish_diet_sediment[i],
-                                               self.lfish_diet_phytoplankton[i],
-                                               self.lfish_diet_zoo[i], self.lfish_diet_beninv[i],
-                                               self.lfish_diet_filterfeeders[i], self.lfish_diet_sfish[i],
-                                               self.lfish_diet_mfish[i]]
-            self.diet_conc_lfish_[i] = [self.c_s[i], self.cb_phytoplankton[i], self.cb_zoo[i], self.cb_beninv[i],
-                                        self.cb_filterfeeders[i], self.cb_sfish[i], self.cb_mfish[i]]
-        self.total_diet_conc_lfish = self.diet_pest_conc(self.diet_frac_sfish, self.diet_conc_sfish)
+                                       self.lfish_diet_phytoplankton[i],
+                                       self.lfish_diet_zoo[i], self.lfish_diet_beninv[i],
+                                       self.lfish_diet_filterfeeders[i], self.lfish_diet_sfish[i],
+                                       self.lfish_diet_mfish[i]]
+            self.diet_conc_lfish[i] = [self.c_s[i], self.cb_phytoplankton[i], self.cb_zoo[i], self.cb_beninv[i],
+                                       self.cb_filterfeeders[i], self.cb_sfish[i], self.cb_mfish[i]]
+        self.total_diet_conc_lfish = self.diet_pest_conc(self.diet_frac_lfish, self.diet_conc_lfish)
         self.out_cb_lfish = self.pest_conc_organism(self.lfish_k1, self.lfish_k2, self.lfish_kd, self.lfish_ke,
                                                     self.lfish_kg, self.lfish_km, self.lfish_mp, self.lfish_mo,
                                                     self.total_diet_conc_lfish)
 
-        self.out_cbl_phytoplankton = self.lipid_norm_residue_conc
 
+        #LIPID NORMALIZED PESTICIDE TISSUE RESIDUE
 
+        #phytoplanton
+        self.out_cbl_phytoplankton = self.lipid_norm_residue_conc(self.out_cb_phytoplankton,self.phytoplankton_lipid)
+        self.out_cbl_zoo = self.lipid_norm_residue_conc(self.out_cb_zoo,self.zoo_lipid)
+        self.out_cbl_beninv = self.lipid_norm_residue_conc(self.out_cb_beninv,self.beninv_lipid)
+        self.out_cbl_filterfeeders = self.lipid_norm_residue_conc(self.out_cb_filterfeeders,self.filterfeeders_lipid)
+        self.out_cbl_sfish = self.lipid_norm_residue_conc(self.out_cb_sfish,self.sfish_lipid)
+        self.out_cbl_mfish = self.lipid_norm_residue_conc(self.out_cb_mfish,self.mfish_lipid)
+        self.out_cbl_lfish = self.lipid_norm_residue_conc(self.out_cb_lfish,self.lfish_lipid)
+
+        #PESTICIDE CONCENTRAITON ORGINATING FROM UPTAKE THROUGH DIET (K1 = 0)
         self.out_cbd_zoo =   self.pest_conc_organism(0.0, self.zoo_k2,
                                                 self.zoo_kd, self.zoo_ke, self.zoo_kg,
-                                                self.zoo_km, self.zoo_mp, self.zoo_mo, diet_conc)
+                                                self.zoo_km, self.zoo_mp, self.zoo_mo, self.diet_conc)
 
-        #  cbr  --  CB with kD = 0
+        #PESTICIDE CONCETRATION ORIGINATING FROM UPTAKE THROUGH RESPIRATION (kD = 0)
         self.out_cbr_phytoplankton = self.pest_conc_organism(self.phytoplankton_k1, self.phytoplankton_k2,
                                                 0.0, self.phytoplankton_ke, self.phytoplankton_kg,
                                                 self.phytoplankton_km, self.phytoplankton_mp, self.phytoplankton_mo, 0.0)
-        #cbf
+
+        #TOTAL BIOCONCENTRATION FACTOR
         self.out_cbf_phytoplankton = self.tot_bioconc_fact(self.phytoplankton_k1, self.phytoplankton_k2,
-                                                0.0, self.phytoplankton_ke, self.phytoplankton_kg,
-                                                self.phytoplankton_km, self.phytoplankton_mp, self.phytoplankton_mo,
-                                                0.0, water_column_eec)
-        #cbfl
+                                                           self.phytoplankton_mp, self.phytoplankton_mo)
+        self.out_cbf_zoo = self.tot_bioconc_fact(self.zoo_k1, self.zoo_k2, self.zoo_mp, self.zoo_mo)
+        self.out_cbf_beninv = self.tot_bioconc_fact(self.beninv_k1, self.beninv_k2, self.beninv_mp, self.beninv_mo)
+        self.out_cbf_filterfeeders = self.tot_bioconc_fact(self.filterfeeders_k1, self.filterfeeders_k2,
+                                                           self.filterfeeders_mp, self.filterfeeders_mo)
+        self.out_cbf_sfish = self.tot_bioconc_fact(self.sfish_k1, self.sfish_k2, self.sfish_mp, self.sfish_mo)
+        self.out_cbf_mfish = self.tot_bioconc_fact(self.mfish_k1, self.mfish_k2, self.mfish_mp, self.mfish_mo)
+        self.out_cbf_lfish = self.tot_bioconc_fact(self.lfish_k1, self.lfish_k2, self.lfish_mp, self.lfish_mo)
+
+
+        #LIPID NORMALIZED TOTAL BIOCONCENTRATION FACTOR
         self.out_cbfl_phytopfankton = self.lipid_norm_bioconc_fact()
 
-        #cbaf
+        #TOTAL BIOACUMULATION FACTOR
         self.out_cbaf_phytopfankton = self.bioacc_fact()
 
-        #cbafl
+        #LIPID NORMALIZED BIOACCUMULATION FACTOR
         self.out_cbafl_phytoplankton = self.lipid_norm_bioacc_fact()
 
-        #cbsafl
+        #BIOTA-SEDIMENT ACCUMULATION FACTOR
         self.out_cbsafl_phytoplankton = self.biota_sed_acc_fact()
 
-        #cbmf
+        #BIOMAGNIFICATION FACTOR
         self.out_bmf_zoo = self.biomag_fact()
 
         # self.phi_f()
@@ -1244,7 +1261,9 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.sediment_oc_frac = pd.Series([], dtype = 'float')
 
         self.kow = 10.**(self.log_kow) # convert log kow to kow
-        self.sediment_oc_frac = percent_to_frac(self.sediment_oc)
+        self.sediment_oc_frac = self.percent_to_frac(self.sediment_oc)
+
+        self.gms_to_microgms = 1.e6
 
         # Assigned constants
         self.particle_scav_eff = 1.0  # filterfeeder efficiency of scavenging of particles absorbed from water (Kabam Eq. A8b2)
