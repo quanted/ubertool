@@ -324,7 +324,7 @@ class BeeRex(UberModel, BeerexInputs, BeerexOutputs):
         Pesticide dose in ug a.i./bee for larval drone aged 6+ days
         """
         if self.empirical_residue[0] == True:
-            self.out_lw6_total_dose = ((self.empirical_pollen/1000.) * self.lw6_pollen) + ((self.empirical_nectar/1000.) * self.lw6_nectar)
+            self.out_ld6_total_dose = ((self.empirical_pollen/1000.) * self.ld6_pollen) + ((self.empirical_nectar/1000.) * self.ld6_nectar)
         else:
             self.out_ld6_total_dose = (self.out_eec_method * self.ld6_pollen) + (self.out_eec_method * self.ld6_nectar)
         return self.out_ld6_total_dose

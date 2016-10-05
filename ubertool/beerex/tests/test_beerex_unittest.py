@@ -106,7 +106,7 @@ class TestBeerex(unittest.TestCase):
             tab = [result, expected_results]
             print("\n")
             print(inspect.currentframe().f_code.co_name)
-            print(tabulate(tab, headers='keys', tablefmt='rst'))
+            print(tabulate(str(tab), headers='keys', tablefmt='rst'))
         return
 
     def test_beerex_eec_tree(self):
@@ -149,7 +149,7 @@ class TestBeerex(unittest.TestCase):
             tab = [result, expected_results]
             print("\n")
             print(inspect.currentframe().f_code.co_name)
-            print(tabulate(tab, headers='keys', tablefmt='rst'))
+            print(tabulate(str(tab), headers='keys', tablefmt='rst'))
         return
 
     def test_beerex_lw1_total_dose(self):
@@ -159,6 +159,7 @@ class TestBeerex(unittest.TestCase):
         # self.out_lw1_total_dose = (self.out_eec_method/100.) * self.lw1_jelly
         try:
             expected_results = [0.0550]
+            beerex_empty.empirical_residue = pd.Series([False])
             beerex_empty.lw1_jelly = pd.Series([12.5])
             beerex_empty.application_rate = pd.Series([4.])
             beerex_empty.out_eec_method = beerex_empty.eec_spray()
@@ -178,6 +179,7 @@ class TestBeerex(unittest.TestCase):
         # self.out_lw2_total_dose = (self.out_eec_method/100.) * self.lw2_jelly
         try:
             expected_results = [0.000001784]
+            beerex_empty.empirical_residue = pd.Series([False])
             beerex_empty.lw2_jelly = pd.Series([0.223])
             beerex_empty.application_rate = pd.Series([10.])
             beerex_empty.mass_tree_vegetation = pd.Series([12.5])
@@ -196,17 +198,18 @@ class TestBeerex(unittest.TestCase):
         unittest for function beerex.lw3_total_dose
         """
         # self.out_lw3_total_dose = (self.out_eec_method/100.) * self.lw3_jelly
+        expected_results = [0.00058199]
+        beerex_empty.empirical_residue = pd.Series([False])
+        beerex_empty.lw3_jelly = pd.Series([15.2])
+        beerex_empty.application_rate = pd.Series([1.6])
+        beerex_empty.log_kow = pd.Series([2.])
+        beerex_empty.koc = pd.Series([12.5])
+        beerex_empty.out_eec_method = beerex_empty.eec_soil()
         try:
-            expected_results = [0.00058199]
-            beerex_empty.lw3_jelly = pd.Series([15.2])
-            beerex_empty.application_rate = pd.Series([1.6])
-            beerex_empty.log_kow = pd.Series([2.])
-            beerex_empty.koc = pd.Series([12.5])
-            beerex_empty.out_eec_method = beerex_empty.eec_soil()
             result = beerex_empty.lw3_total_dose()
             npt.assert_array_almost_equal(result, expected_results, 4, '', True)
-        finally:
             tab = [result, expected_results]
+        except ValueError:
             print("\n")
             print(inspect.currentframe().f_code.co_name)
             print(tabulate(tab, headers='keys', tablefmt='rst'))
@@ -216,9 +219,15 @@ class TestBeerex(unittest.TestCase):
         """
         unittest for function beerex.lw4_total_dose
         """
-        # self.out_lw4_total_dose = (self.out_eec_method * self.lw4_pollen) + (self.out_eec_method * self.lw4_nectar)
+        #if self.empirical_residue[0] == True:
+        #   self.out_lw4_total_dose = ((self.empirical_pollen/1000.) * self.lw4_pollen) + ((self.empirical_nectar/1000.) * self.lw4_nectar)
+        #else:
+        #    self.out_lw4_total_dose = (self.out_eec_method * self.lw4_pollen) + (self.out_eec_method * self.lw4_nectar)
         try:
-            expected_results = [0.8910]
+            expected_results = [0.04387]
+            beerex_empty.empirical_residue = pd.Series([True])
+            beerex_empty.empirical_pollen = pd.Series([3.7])
+            beerex_empty.empirical_nectar = pd.Series([5.4])
             beerex_empty.lw4_pollen = pd.Series([8.5])
             beerex_empty.lw4_nectar = pd.Series([2.3])
             beerex_empty.application_rate = pd.Series([0.75])
@@ -236,9 +245,15 @@ class TestBeerex(unittest.TestCase):
         """
         unittest for function beerex.lw5_total_dose
         """
-        # self.out_lw5_total_dose = (self.out_eec_method * self.lw5_pollen) + (self.out_eec_method * self.lw5_nectar)
+        #if self.empirical_residue[0] == True:
+        #    self.out_lw5_total_dose = ((self.empirical_pollen/1000.) * self.lw5_pollen) + ((self.empirical_nectar/1000.) * self.lw5_nectar)
+        #else:
+        #    self.out_lw5_total_dose = (self.out_eec_method * self.lw5_pollen) + (self.out_eec_method * self.lw5_nectar)
         try:
-            expected_results = [0.00864]
+            expected_results = [0.032169]
+            beerex_empty.empirical_residue = pd.Series([True])
+            beerex_empty.empirical_pollen = pd.Series([7.2])
+            beerex_empty.empirical_nectar = pd.Series([2.1])
             beerex_empty.lw5_pollen = pd.Series([2.75])
             beerex_empty.lw5_nectar = pd.Series([5.89])
             beerex_empty.out_eec_method = beerex_empty.eec_seed()
@@ -255,14 +270,20 @@ class TestBeerex(unittest.TestCase):
         """
         unittest for function beerex.ld6_total_dose
         """
-        # self.out_ld6_total_dose = (self.out_eec_method * self.ld6_pollen) + (self.out_eec_method * self.ld6_nectar)
+        #if self.empirical_residue[0] == True:
+        #    self.out_ld6_total_dose = ((self.empirical_pollen/1000.) * self.ld6_pollen) + ((self.empirical_nectar/1000.) * self.ld6_nectar)
+        #else:
+        #    self.out_ld6_total_dose = (self.out_eec_method * self.ld6_pollen) + (self.out_eec_method * self.ld6_nectar)
         try:
-            expected_results = [7.26726]
+            expected_results = [0.03708036]
+            beerex_empty.empirical_residue = pd.Series([True])
+            beerex_empty.empirical_pollen = pd.Series([7.3])
+            beerex_empty.empirical_nectar = pd.Series([2.5])
             beerex_empty.ld6_pollen = pd.Series([0.8432])
             beerex_empty.ld6_nectar = pd.Series([12.37])
             beerex_empty.application_rate = pd.Series([5.])
-            beerex_empty.out_eec_method = beerex_empty.eec_spray()
             result = beerex_empty.ld6_total_dose()
+            beerex_empty.out_eec_method = beerex_empty.eec_spray()
             npt.assert_array_almost_equal(result, expected_results, 4, '', True)
         finally:
             tab = [result, expected_results]
@@ -278,6 +299,7 @@ class TestBeerex(unittest.TestCase):
         # self.out_lq1_total_dose = (self.out_eec_method/100.) * self.lq1_jelly
         try:
             expected_results = [0.00000550588235]
+            beerex_empty.empirical_residue = pd.Series([False])
             beerex_empty.lq1_jelly = pd.Series([1.35])
             beerex_empty.application_rate = pd.Series([5.2])
             beerex_empty.mass_tree_vegetation = pd.Series([12.75])
@@ -298,6 +320,7 @@ class TestBeerex(unittest.TestCase):
         # self.out_lq2_total_dose = (self.out_eec_method/100.) * self.lq2_jelly
         try:
             expected_results = [0.000065]
+            beerex_empty.empirical_residue = pd.Series([False])
             beerex_empty.lq2_jelly = pd.Series([6.5])
             beerex_empty.out_eec_method = beerex_empty.eec_seed()
             result = beerex_empty.lq2_total_dose()
@@ -316,6 +339,7 @@ class TestBeerex(unittest.TestCase):
         # self.out_lq3_total_dose = (self.out_eec_method/100.) * self.lq3_jelly
         try:
             expected_results = [0.055055]
+            beerex_empty.empirical_residue = pd.Series([False])
             beerex_empty.lq3_jelly = pd.Series([14.3])
             beerex_empty.application_rate = pd.Series([3.5])
             beerex_empty.out_eec_method = beerex_empty.eec_spray()
@@ -332,9 +356,14 @@ class TestBeerex(unittest.TestCase):
         """
         unittest for function beerex.lq4_total_dose
         """
-        # self.out_lq4_total_dose = (self.out_eec_method/100.) * self.lq4_jelly
+        #if self.empirical_residue[0] == True:
+        #    self.out_lq4_total_dose = (self.empirical_jelly/1000.) * self.lq4_jelly
+        #else:
+        #    self.out_lq4_total_dose = (self.out_eec_method/100.) * self.lq4_jelly
         try:
-            expected_results = [0.040860912]
+            expected_results = [0.15136]
+            beerex_empty.empirical_residue = pd.Series([True])
+            beerex_empty.empirical_jelly = pd.Series([6.4])
             beerex_empty.lq4_jelly = pd.Series([23.65])
             beerex_empty.application_rate = pd.Series([1.45])
             beerex_empty.log_kow = pd.Series([5.])
@@ -475,18 +504,21 @@ class TestBeerex(unittest.TestCase):
         """
         unittest for function beerex.ad_total_dose
         """
-        # self.out_ad_total_dose = (self.out_eec_method * self.ad_nectar) + (self.out_eec_method * self.ad_pollen)
+        #if self.empirical_residue[0] == True:
+        #    self.out_ad_total_dose = ((self.empirical_nectar/1000.) * self.ad_nectar) + ((self.empirical_pollen/1000.) * self.ad_pollen)
+        #else:
+        #    self.out_ad_total_dose = (self.out_eec_method * self.ad_nectar) + (self.out_eec_method * self.ad_pollen)
 
         beerex_empty.ad_pollen = pd.Series([2.4])
         beerex_empty.ad_nectar = pd.Series([22.8])
         beerex_empty.application_rate = pd.Series([8.9])
-        beerex_empty.empirical_residue = pd.Series([0.6])
+        beerex_empty.empirical_residue = pd.Series([True])
         beerex_empty.empirical_nectar = pd.Series([1.2])
         beerex_empty.empirical_pollen = pd.Series([0.7])
         try:
             beerex_empty.out_eec_method = beerex_empty.eec_spray()
             result = beerex_empty.ad_total_dose()
-            expected_results = [24.6708]
+            expected_results = [0.02904]
             npt.assert_array_almost_equal(result, expected_results, 4, '', True)
             tab = [result, expected_results]
         except ValueError:
@@ -501,7 +533,8 @@ class TestBeerex(unittest.TestCase):
         """
         # self.out_aq_total_dose = (self.out_eec_method/100.) * self.aq_jelly
         try:
-            expected_results = [-85.7931737] #????
+            expected_results = [-85.7931737]
+            beerex_empty.empirical_residue = pd.Series([False])
             beerex_empty.aq_jelly = pd.Series([223.])
             beerex_empty.log_kow = pd.Series([6.3])
             beerex_empty.koc = pd.Series([4.1])
