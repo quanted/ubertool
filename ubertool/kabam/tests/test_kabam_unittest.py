@@ -683,12 +683,16 @@ class TestKabam(unittest.TestCase):
         :expression Kabam Eq. A1 (SUM(Pi * CDi);
         :param diet_frac_lfish: fraction of large fish diet containing prey i (Pi in Eq. A1))
         :param diet_conc_lfish: concentraiton of pesticide in prey i (CDi in Eq. A1)
+        :param lipid_content_lfish: fraction of prey i that is lipid
         :notes for this test we populate all prey items for large fish even though large fish
                typically only consume medium fish
         :return:
         """
         result = pd.Series([], dtype='float')
-        expected_results = pd.Series([0.2025, 0.2025, 0.205], dtype = 'float')
+        result1 = pd.Series([], dtype='float')
+        result2 = pd.Series([], dtype='float')
+        expected_results1 = pd.Series([0.2025, 0.2025, 0.205], dtype = 'float')
+        expected_results2 = pd.Series([5.316667, 4.819048, 4.3], dtype = 'float')
 
         try:
             #for this test we'll use the large fish variables (there are 7 prey items listed
@@ -701,12 +705,18 @@ class TestKabam(unittest.TestCase):
             self.kabam_empty.diet_conc_lfish = pd.Series([[0.10, 0.10, 0.20, 0.15, 0.30, 0.20],
                                                 [0.10, 0.10, 0.20, 0.15, 0.30, 0.20],
                                                 [0.10, 0.10, 0.20, 0.15, 0.30, 0.20]], dtype = 'float')
+            self.kabam_empty.diet_lipid_content_lfish = pd.Series([[0.0, 0.02, 0.03, 0.03, 0.04, 0.04],
+                                                [0.01, 0.025, 0.035, 0.03, 0.04, 0.045],
+                                                [0.0, 0.02, 0.03, 0.03, 0.05, 0.05]], dtype = 'float')
 
-            result = self.kabam_empty.diet_pest_conc(self.kabam_empty.diet_frac_lfish,
-                                                     self.kabam_empty.diet_conc_lfish)
-            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+
+            result1,result2 = self.kabam_empty.diet_pest_conc(self.kabam_empty.diet_frac_lfish,
+                                                     self.kabam_empty.diet_conc_lfish,
+                                                     self.kabam_empty.diet_lipid_content_lfish)
+            npt.assert_allclose(result1, expected_results1, rtol=1e-4, atol=0, err_msg='', verbose=True)
+
         finally:
-            tab = [result, expected_results]
+            tab = [result1, expected_results1, result2, expected_results2]
             print("\n")
             print(inspect.currentframe().f_code.co_name)
             print(tabulate(tab, headers='keys', tablefmt='rst'))
@@ -734,7 +744,7 @@ class TestKabam(unittest.TestCase):
         """
 
         result = pd.Series([], dtype='float')
-        expected_results = pd.Series([9.852216e-4, 1.754385e-3, 2.8385977e-3], dtype = 'float')
+        expected_results = pd.Series([1.97044e-3, 1.85185e-3, 3.97389e-3], dtype = 'float')
 
         try:
             self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
@@ -792,10 +802,90 @@ class TestKabam(unittest.TestCase):
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-        lipid_norm_conc = pd.Series([], dtype = 'float')
+    def test_pest_conc_diet_uptake(self):
+        """
+        :description Pesticide concentration in animal/organism originating from uptake through diet
+        :unit g/kg ww
+        :expression Kabam A1 (with k1 = 0)
+        :param kD: pesticide uptake rate constant for uptake through ingestion of food (kg food/kg organizm - day)
+        :param total_diet_conc: overall concentration of pesticide in diet of animal/organism (g/kg-ww)
+        :param k2: rate constant for elimination of the peisticide through the respiratory area (gills, skin) (/d)
+        :param kE: rate constant for elimination of the pesticide through excretion of feces (/d)
+        :param kG: animal/organism growth rate constant (/d)
+        :param kM: rate constant for pesticide metabolic transformation (/d)
+        :return:
+        """
 
-        lipid_norm_conc = (total_conc / lipid_content) * self.gms_to_microgms
-        return lipid_norm_conc
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([9.8522e-4, 1.75439e-3, 2.83849e-3], dtype = 'float')
+
+        try:
+
+            #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
+            self.kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
+            self.kabam_empty.lfish_kd =  pd.Series([0.05, 0.03, 0.02], dtype = 'float')
+            self.kabam_empty.lfish_ke =  pd.Series([0.05, 0.02, 0.02], dtype = 'float')
+            self.kabam_empty.lfish_kg =  pd.Series([0.1, 0.01, 0.003], dtype = 'float')
+            self.kabam_empty.lfish_km =  pd.Series([0.0, 0.1, 0.5], dtype = 'float')
+            self.kabam_empty.total_diet_conc_lfish = pd.Series( [.20, .30, .50], dtype = 'float')
+
+            result = self.kabam_empty.pest_conc_diet_uptake(self.kabam_empty.lfish_kd, self.kabam_empty.lfish_k2,
+                                                            self.kabam_empty.lfish_ke, self.kabam_empty.lfish_kg,
+                                                            self.kabam_empty.lfish_km,
+                                                            self.kabam_empty.total_diet_conc_lfish)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_pest_conc_respir_uptake(self):
+        """
+        :description Pesticide concentration in animal/organism originating from uptake through respiration
+        :unit g/kg ww
+        :expression Kabam A1 (with kD = 0)
+        :param k1: pesticide uptake rate constant through respiratory area (gills, skin) (L/kg-d)
+        :param k2: rate constant for elimination of the peisticide through the respiratory area (gills, skin) (/d)
+        :param kE: rate constant for elimination of the pesticide through excretion of feces (/d)
+        :param kG: animal/organism growth rate constant (/d)
+        :param kM: rate constant for pesticide metabolic transformation (/d)
+        :param mP: fraction of respiratory ventilation that involves por-water of sediment (fraction)
+        :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
+        :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
+                    via membrane diffusion (fraction)
+        :param cwto: total pesticide concentraiton in water column above sediment (g/L)
+        :param cwdp: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([9.8522167e-4, 9.746588e-5, 1.1353959e-3], dtype = 'float')
+
+        try:
+            self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
+            self.kabam_empty.cwto =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            self.kabam_empty.cwdp =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
+            #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
+            self.kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
+            self.kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
+            self.kabam_empty.lfish_ke =  pd.Series([0.05, 0.02, 0.02], dtype = 'float')
+            self.kabam_empty.lfish_kg =  pd.Series([0.1, 0.01, 0.003], dtype = 'float')
+            self.kabam_empty.lfish_km =  pd.Series([0.0, 0.1, 0.5], dtype = 'float')
+            self.kabam_empty.lfish_mp =  pd.Series([0.0, 0.0, 0.05], dtype = 'float')
+            self.kabam_empty.lfish_mo =  pd.Series([1.0, 1.0, 0.95], dtype = 'float')
+
+            result = self.kabam_empty.pest_conc_respir_uptake(self.kabam_empty.lfish_k1, self.kabam_empty.lfish_k2,
+                                                     self.kabam_empty.lfish_ke, self.kabam_empty.lfish_kg,
+                                                     self.kabam_empty.lfish_km, self.kabam_empty.lfish_mp,
+                                                     self.kabam_empty.lfish_mo)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
     def test_tot_bioconc_fact(self):
         """
@@ -813,7 +903,7 @@ class TestKabam(unittest.TestCase):
         :return:
         """
         result = pd.Series([], dtype='float')
-        expected_results = pd.Series([4.75e-6, 0.0, 6.33333e-5], dtype = 'float')
+        expected_results = pd.Series([0.955, 1.00, 0.6666667], dtype = 'float')
 
         try:
             self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
@@ -835,7 +925,160 @@ class TestKabam(unittest.TestCase):
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
+    def test_lipid_norm_bioconc_fact(self):
+        """
+        :description Lipid normalized bioconcentration factor
+        :unit (ug pesticide/kg lipid) / (ug pesticide/L water)
+        :expression Kabam Eq. F2
+        :param k1: pesticide uptake rate constant through respiratory area (gills, skin) (L/kg-d)
+        :param k2: rate constant for elimination of the peisticide through the respiratory area (gills, skin) (/d)
+        :param mP: fraction of respiratory ventilation that involves por-water of sediment (fraction)
+        :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
+        :param lipid_content: fraction of animal/organism that is lipid (fraction)
+        :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
+                    via membrane diffusion (fraction)
+        :param cwto: total pesticide concentraiton in water column above sediment (g/L)
+        :param cwdp: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([47.75, 25.0, 11.1111], dtype = 'float')
 
+        try:
+            self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
+            self.kabam_empty.cwto =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            self.kabam_empty.cwdp =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
+            #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
+            self.kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
+            self.kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
+            self.kabam_empty.lfish_mp =  pd.Series([0.05, 0.0, 0.05], dtype = 'float')
+            self.kabam_empty.lfish_mo =  pd.Series([0.95, 1.0, 0.95], dtype = 'float')
+            self.kabam_empty.lfish_lipid = pd.Series([0.02, 0.04, 0.06], dtype = 'float')
+
+            result = self.kabam_empty.lipid_norm_bioconc_fact(self.kabam_empty.lfish_k1, self.kabam_empty.lfish_k2,
+                                                       self.kabam_empty.lfish_mp, self.kabam_empty.lfish_mo,
+                                                       self.kabam_empty.lfish_lipid)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_tot_bioacc_fact(self):
+        """
+        :description Total bioaccumulation factor
+        :unit (ug pesticide/kg ww) / (ug pesticide/L water)
+        :expression Kabam Eq. F3
+        :param out_cb_lfish: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
+        :param cwto:  total pesticide concentraiton in water column above sediment (g/L)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([0.02, 25.0, 0.10], dtype = 'float')
+
+        try:
+            #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
+            self.kabam_empty.out_cb_lfish = pd.Series([2.e-5, 2.5e-3, 2.e-4], dtype = 'float')
+            self.kabam_empty.cwto =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+
+            result = self.kabam_empty.tot_bioacc_fact(self.kabam_empty.out_cb_lfish)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_lipid_norm_bioacc_fact(self):
+        """
+        :description Lipid normalized bioaccumulation factor
+        :unit (ug pesticide/kg lipid) / (ug pesticide/L water)
+        :expression Kabam Eq. F4
+        :param pest_conc: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
+        :param lipid_content: fraction of animal/organism that is lipid (fraction)
+        :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
+                    via membrane diffusion (fraction)
+        :param cwto: total pesticide concentraiton in water column above sediment (g/L)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([1.0, 625.0, 1.66666], dtype = 'float')
+
+        try:
+            self.kabam_empty.cwto =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
+            #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
+            self.kabam_empty.out_cb_lfish = pd.Series([2.e-5, 2.5e-3, 2.e-4], dtype = 'float')
+            self.kabam_empty.lfish_lipid = pd.Series([0.02, 0.04, 0.06], dtype = 'float')
+
+            result = self.kabam_empty.lipid_norm_bioacc_fact(self.kabam_empty.out_cb_lfish, self.kabam_empty.lfish_lipid)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_biota_sed_acc_fact(self):
+        """
+        :description Biota-sediment accumulation factor
+        :unit (ug pesticide/kg lipid) / (ug pesticide/L water)
+        :expression Kabam Eq. F5
+        :param pest_conc: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
+        :param lipid_content: fraction of animal/organism that is lipid (fraction)
+        :param c_soc Pesticide concentration in sediment normalized for organic carbon content (g/kg OC)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([0.04, 1.0416666, 1.66666e-3], dtype = 'float')
+
+        try:
+            self.kabam_empty.c_soc = pd.Series([0.025, 0.06, 2.00], dtype = 'float')
+            #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
+            self.kabam_empty.out_cb_lfish = pd.Series([2.e-5, 2.5e-3, 2.e-4], dtype = 'float')
+            self.kabam_empty.lfish_lipid = pd.Series([0.02, 0.04, 0.06], dtype = 'float')
+
+            result = self.kabam_empty.biota_sed_acc_fact(self.kabam_empty.out_cb_lfish, self.kabam_empty.lfish_lipid)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_biomag_fact(self):
+        """
+        :description Biomagnification factor
+        :unit (ug pesticide/kg lipid) / (ug pesticide/kg lipid)
+        :expression Kabam Eq. F6
+        :param out_cb_lfish: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
+        :param lipid_content: fraction of animal/organism that is lipid (fraction)
+        :param lipid_diet_conc: lipid normalized concentration of pesticide in aquatic animal/organism (g/(kg wet weight))
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([0.02, 0.625, 0.133333], dtype = 'float')
+
+        try:
+            #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
+            self.kabam_empty.out_cb_lfish = pd.Series([2.e-5, 2.5e-3, 2.e-4], dtype = 'float')
+            self.kabam_empty.lfish_lipid = pd.Series([0.02, 0.04, 0.06], dtype = 'float')
+            self.lipid_norm_diet_conc_lfish = pd.Series([0.05, 0.10, 0.025], dtype = 'float')
+
+            result = self.kabam_empty.biomag_fact(self.kabam_empty.out_cb_lfish, self.kabam_empty.lfish_lipid,
+                                                  self.lipid_norm_diet_conc_lfish)
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
 # unittest will
 # 1) call the setup method,
