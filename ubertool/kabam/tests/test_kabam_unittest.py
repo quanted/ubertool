@@ -779,8 +779,8 @@ class TestKabam(unittest.TestCase):
         Lipid normalized pesticide residue in aquatic animal/organism
         :unit ug/kg-lipid
         :expresssion represents a factor (CB/VLB) used in Kabam Eqs. F4, F5, & F6
-        :param out_cb_lfish: total pesticide concentration in animal/organism (g/kg-ww)
-        :param lfish_lipid: fraction of animal/organism that is lipid (fraction)
+        :param cb_lfish: total pesticide concentration in animal/organism (g/kg-ww)
+        :param lfish_lipid_frac: fraction of animal/organism that is lipid (fraction)
         :return:
         """
         result = pd.Series([], dtype='float')
@@ -807,12 +807,12 @@ class TestKabam(unittest.TestCase):
         :description Pesticide concentration in animal/organism originating from uptake through diet
         :unit g/kg ww
         :expression Kabam A1 (with k1 = 0)
-        :param kD: pesticide uptake rate constant for uptake through ingestion of food (kg food/kg organizm - day)
+        :param lfish_kD: pesticide uptake rate constant for uptake through ingestion of food (kg food/kg organizm - day)
         :param total_diet_conc: overall concentration of pesticide in diet of animal/organism (g/kg-ww)
-        :param k2: rate constant for elimination of the peisticide through the respiratory area (gills, skin) (/d)
-        :param kE: rate constant for elimination of the pesticide through excretion of feces (/d)
-        :param kG: animal/organism growth rate constant (/d)
-        :param kM: rate constant for pesticide metabolic transformation (/d)
+        :param lfish_k2: rate constant for elimination of the peisticide through the respiratory area (gills, skin) (/d)
+        :param lfish_kE: rate constant for elimination of the pesticide through excretion of feces (/d)
+        :param lfish_kG: animal/organism growth rate constant (/d)
+        :param lfish_kM: rate constant for pesticide metabolic transformation (/d)
         :return:
         """
 
@@ -846,13 +846,13 @@ class TestKabam(unittest.TestCase):
         :description Pesticide concentration in animal/organism originating from uptake through respiration
         :unit g/kg ww
         :expression Kabam A1 (with kD = 0)
-        :param k1: pesticide uptake rate constant through respiratory area (gills, skin) (L/kg-d)
-        :param k2: rate constant for elimination of the peisticide through the respiratory area (gills, skin) (/d)
-        :param kE: rate constant for elimination of the pesticide through excretion of feces (/d)
-        :param kG: animal/organism growth rate constant (/d)
-        :param kM: rate constant for pesticide metabolic transformation (/d)
-        :param mP: fraction of respiratory ventilation that involves por-water of sediment (fraction)
-        :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
+        :param lfish_k1: pesticide uptake rate constant through respiratory area (gills, skin) (L/kg-d)
+        :param lfish_k2: rate constant for elimination of the peisticide through the respiratory area (gills, skin) (/d)
+        :param lfish_kE: rate constant for elimination of the pesticide through excretion of feces (/d)
+        :param lfish_kG: animal/organism growth rate constant (/d)
+        :param lfish_kM: rate constant for pesticide metabolic transformation (/d)
+        :param lfish_mP: fraction of respiratory ventilation that involves por-water of sediment (fraction)
+        :param lfish_mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
         :param cwto: total pesticide concentraiton in water column above sediment (g/L)
@@ -934,7 +934,7 @@ class TestKabam(unittest.TestCase):
         :param k2: rate constant for elimination of the peisticide through the respiratory area (gills, skin) (/d)
         :param mP: fraction of respiratory ventilation that involves por-water of sediment (fraction)
         :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
-        :param lipid_content: fraction of animal/organism that is lipid (fraction)
+        :param lfish_lipid: fraction of animal/organism that is lipid (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
         :param cwto: total pesticide concentraiton in water column above sediment (g/L)
@@ -971,7 +971,7 @@ class TestKabam(unittest.TestCase):
         :description Total bioaccumulation factor
         :unit (ug pesticide/kg ww) / (ug pesticide/L water)
         :expression Kabam Eq. F3
-        :param out_cb_lfish: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
+        :param cb_lfish: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
         :param cwto:  total pesticide concentraiton in water column above sediment (g/L)
         :return:
         """
@@ -997,8 +997,8 @@ class TestKabam(unittest.TestCase):
         :description Lipid normalized bioaccumulation factor
         :unit (ug pesticide/kg lipid) / (ug pesticide/L water)
         :expression Kabam Eq. F4
-        :param pest_conc: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
-        :param lipid_content: fraction of animal/organism that is lipid (fraction)
+        :param cb_lfish: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
+        :param lfish_lipid: fraction of animal/organism that is lipid (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
         :param cwto: total pesticide concentraiton in water column above sediment (g/L)
@@ -1028,8 +1028,8 @@ class TestKabam(unittest.TestCase):
         :description Biota-sediment accumulation factor
         :unit (ug pesticide/kg lipid) / (ug pesticide/L water)
         :expression Kabam Eq. F5
-        :param pest_conc: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
-        :param lipid_content: fraction of animal/organism that is lipid (fraction)
+        :param cb_lfish: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
+        :param lfish_lipid: fraction of animal/organism that is lipid (fraction)
         :param c_soc Pesticide concentration in sediment normalized for organic carbon content (g/kg OC)
         :return:
         """
@@ -1057,8 +1057,8 @@ class TestKabam(unittest.TestCase):
         :unit (ug pesticide/kg lipid) / (ug pesticide/kg lipid)
         :expression Kabam Eq. F6
         :param out_cb_lfish: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
-        :param lipid_content: fraction of animal/organism that is lipid (fraction)
-        :param lipid_diet_conc: lipid normalized concentration of pesticide in aquatic animal/organism (g/(kg wet weight))
+        :param lfish_lipid: fraction of animal/organism that is lipid (fraction)
+        :param lipid_norm_diet_conc: lipid normalized concentration of pesticide in aquatic animal/organism (g/(kg wet weight))
         :return:
         """
         result = pd.Series([], dtype='float')
@@ -1073,6 +1073,207 @@ class TestKabam(unittest.TestCase):
             result = self.kabam_empty.biomag_fact(self.kabam_empty.out_cb_lfish, self.kabam_empty.lfish_lipid,
                                                   self.lipid_norm_diet_conc_lfish)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_dry_food_ingest_rate_mammals(self):
+        """
+        :description dry food ingestion rate: Mammals (kg dry food/kg-bw day)
+        :unit (kg dry food / kg-bw day)
+        :expresssion  Kabam Eq. G1
+        :param mammal_weights: body weight of mammal (kg)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([0.14044886, 0.10654183, 0.07919266, 0.06187543,
+                                      0.05158698, 0.04242409], dtype = 'float')
+
+        try:
+            #list of mammals (data in related arrays will reflect this order)
+            self.kabam_empty.mammals = np.array(['fog/water shrew', 'rice rat/nosed mole', 'small mink', 'large mink',
+                                     'small river otter', 'large river otter'], dtype = 'str')
+            self.kabam_empty.mammal_weights = np.array([0.018, 0.085, 0.45, 1.8, 5., 15.], dtype = 'float')
+
+            result = self.kabam_empty.dry_food_ingest_rate_mammals()
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_dry_food_ingest_rate_birds(self):
+        """
+        :description dry food ingestion rate: Birds (kg dry food/kg-bw day)
+        :unit (kg dry food / kg-bw day)
+        :expresssion  Kabam Eq. G2
+        :param bird_weights: body weight of bird (kg)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([0.22796256, 0.02996559, 0.14722575,
+                                      0.04013711, 0.05383955, 0.0288089], dtype = 'float')
+
+        try:
+            #list of mammals (data in related arrays will reflect this order)
+            self.kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons',
+                                               'small osprey', 'white pelican'], dtype = 'str')
+            self.kabam_empty.bird_weights = np.array([0.02, 6.7, 0.07, 2.9, 1.25, 7.5], dtype = 'float')
+
+            result = self.kabam_empty.dry_food_ingest_rate_birds()
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_wet_food_ingestion_rates(self):
+        """
+        :description wet food ingestion rate for mammals and birds
+        :unit (kg food ww / kg-bw day)
+        :expresssion Kabam Eq. G3
+        :param aq_animal_water_content: fraction of prey body weights that are water
+        :param diet_birds: fraction of predator diet (mammal or bird) attributed to individual prey
+        :param dry_food_ingestion_rate_birds: predator (mammal or bird) dry food ingestion rate (kg food dw / kg-bw day)
+        :return:
+        """
+
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([[0.90702948, 0.09070295, 0.58823529, 0.19607843, 0.18518519, 0.1111111],
+                                      [1.35869565, 0.12437811, 0.88888888, 0.4, 0.5, 0.2],
+                                      [1.2, 0.18726592, 0.36363636, 0.5, 0.8333333, 0.6]], dtype = 'float')
+
+        try:
+            #the order of the food sources (aquatic animals/organisms) is: ['pytoplankton', 'zooplankton',
+            # 'benthic_invertebrates', 'filterfeeders', 'small_fish', 'medium_fish', 'large_fish']
+            self.kabam_empty.aq_animal_water_content = np.array([[0.90, 0.85,  0.76, 0.85, 0.73, 0.73, 0.73],
+                                                                [0.95, 0.90,  0.80, 0.90, 0.75, 0.70, 0.75],
+                                                                [0.95, 0.80,  0.70, 0.80, 0.75, 0.70, 0.75]], dtype = 'float')
+            #for this test we will use variable names and data related to birds; each array element ([]) represents
+
+            #an avian species and the fractions associated with its diet of 7 possible food sources
+                #the order of avian species is: ['sandpipers', 'cranes', 'rails', 'herons', 'small osprey', 'white pelican']
+                #the order of food sources is shown above
+            self.kabam_empty.diet_birds = np.array([[0, 0, .33, 0.33, 0.34, 0, 0], [0, 0, .33, .33, 0, 0.34, 0],
+                                        [0, 0, 0.5, 0, 0.5, 0, 0], [0, 0, 0.5, 0, 0, 0.5, 0], [0, 0, 0, 0, 0, 1., 0],
+                                        [0, 0, 0, 0, 0, 0, 1.]], dtype = 'float')
+            self.kabam_empty.dry_food_ingestion_rate_birds = np.array([[0.2, 0.02, 0.15, 0.05, 0.05, 0.03],
+                                                                       [0.25, 0.025, 0.20, 0.10, 0.15, 0.05],
+                                                                       [0.3, 0.05, 0.10, 0.15, 0.25, 0.15]])
+            for i in range(len(self.kabam_empty.aq_animal_water_content)):     #loop through model simulation runs
+
+                result[i] = self.kabam_empty.wet_food_ingestion_rates(self.kabam_empty.aq_animal_water_content[i],
+                                                               self.kabam_empty.diet_birds,
+                                                               self.kabam_empty.dry_food_ingestion_rate_birds[i])
+                npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_drinking_water_intake_mammals(self):
+        """
+        :description drinking water ingestion rate: Mammals
+        :unit (L / day)
+        :expresssion  Kabam Eq. G4
+        :param mammal_weights: body weight of mammal (kg)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([2.66306e-3, 0.01076743, 0.04825324, 0.16802753, 0.42141326, 1.13270633], dtype = 'float')
+
+        try:
+            #list of mammals (data in related arrays will reflect this order)
+            self.kabam_empty.mammals = np.array(['fog/water shrew', 'rice rat/nosed mole', 'small mink', 'large mink',
+                                     'small river otter', 'large river otter'], dtype = 'str')
+            self.kabam_empty.mammal_weights = np.array([0.018, 0.085, 0.45, 1.8, 5., 15.], dtype = 'float')
+
+            result = self.kabam_empty.drinking_water_intake_mammals()
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_drinking_water_intake_birds(self):
+        """
+        :description drinking water ingestion rate: Birds
+        :unit (L / day)
+        :expresssion  Kabam Eq. G5
+        :param bird_weights: body weight of bird (kg)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([4.29084e-3, 0.21101928, 9.93271e-3, 0.12040892, 0.06851438, 0.2275847], dtype = 'float')
+
+        try:
+            #list of birds (data in related arrays will reflect this order)
+            self.kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons',
+                                               'small osprey', 'white pelican'], dtype = 'str')
+            self.kabam_empty.bird_weights = np.array([0.02, 6.7, 0.07, 2.9, 1.25, 7.5], dtype = 'float')
+
+            result = self.kabam_empty.drinking_water_intake_birds()
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_dose_based_eec(self):
+        """
+        :description dose-based EECs
+        :unit (mg pesticide / kg-bw day)
+        :expression Kabam Eq. G6
+        :param cb_a2: overall concentration of pesticide in predator (mammal or bird) diet items (ug pesticide/kg-bw)
+        :param diet_mammals: fraction of aquatic animal/organism in diet of predator
+        :param wet_food_ingestion_rate_mammals: overall food ingestion rate (wet based) of predator (food ww/day)
+        :param water_ingestion_rate_mammals: drinking water ingestion rate (L/day)
+        :param mammal_weights: body weight of predator (kg)
+        :param birds: included internally to provide context
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([[4.29084e-3, 0.21101928, 9.93271e-3, 0.12040892, 0.06851438, 0.2275847],
+                             [4.29084e-3, 0.21101928, 9.93271e-3, 0.12040892, 0.06851438, 0.2275847],
+                             [4.29084e-3, 0.21101928, 9.93271e-3, 0.12040892, 0.06851438, 0.2275847]], dtype = 'float')
+
+        try:
+            #use bird data and variables for this test
+            #list of birds (data in related arrays will reflect this order)
+            self.kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons', 'small osprey', 'white pelican'], dtype = 'str')
+            self.kabam_empty.cb_a2 = np.array([[0.90, 0.09, 0.50, 0.20, 0.40, 0.10, 0.15],
+                                               [1.2, 0.10, 0.80, 0.4, 0.5, 0.2, 0.9],
+                                               [1.2, 0.20, 0.30, 0.5, 0.80, 0.6, 0.5]], dtype = 'float')
+            self.kabam_empty.diet_birds = np.array([[0, 0, .33, 0.33, 0.34, 0, 0], [0, 0, .33, .33, 0, 0.34, 0],
+                                    [0, 0, 0.5, 0, 0.5, 0, 0], [0, 0, 0.5, 0, 0, 0.5, 0],
+                                    [0, 0, 0, 0, 0, 1., 0], [0, 0, 0, 0, 0, 0, 1.]], dtype = 'float')
+            self.kabam_empty.wet_food_ingestion_rate_birds = np.array(
+                                        [[0.90702948, 0.09070295, 0.58823529, 0.19607843, 0.18518519, 0.1111111],
+                                         [1.35869565, 0.12437811, 0.88888888, 0.4, 0.5, 0.2],
+                                         [1.2, 0.18726592, 0.36363636, 0.5, 0.8333333, 0.6]], dtype = 'float')
+            self.kabam_empty.water_ingestion_rate_birds = np.array([4.29084e-3, 0.21101928, 9.93271e-3,
+                                                                    0.12040892, 0.06851438, 0.2275847], dtype = 'float')
+            self.kabam_empty.bird_weights = np.array([0.02, 6.7, 0.07, 2.9, 1.25, 7.5], dtype = 'float')
+
+            for i in range(len(self.kabam_empty.cb_a2)):
+                result[i] = self.kabam_empty.dose_based_eec(self.kabam_empty.cb_a2, self.kabam_empty.diet_birds,
+                                                            self.kabam_empty.wet_food_ingestion_rate_birds,
+                                                            self.kabam_empty.water_ingestion_rate_birds,
+                                                            self.kabam_empty.bird_weights)
+                npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
             print("\n")

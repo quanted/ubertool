@@ -369,7 +369,7 @@ class KabamFunctions(object):
     def overall_diet_content(self, diet_fraction, content_fraction):
         """
         :description Overall fraction of aquatic animal/organism diet attibuted to diet food component (i.e., lipids or NLOM or water)
-        :unit kg/kg
+        :unit kg diet / kg organism
         :expression not shown in Kabam documentation: it is associated with Kabam Eq. A9
                     overall_diet_content is equal to the sum over dietary elements
         :           of (fraction of diet) * (content in diet element); for example zooplankton ingest seidment and
@@ -388,7 +388,6 @@ class KabamFunctions(object):
 
         for i in range(len(diet_fraction)):
             overall_diet_fraction = overall_diet_fraction + diet_fraction[i] * content_fraction[i]
-
         return overall_diet_fraction
 
     def fecal_egestion_rate_factor(self, epsilonL, epsilonN, epsilonW, diet_lipid, diet_nlom, diet_water):
@@ -714,7 +713,6 @@ class KabamFunctions(object):
         :param cwto: total pesticide concentraiton in water column above sediment (g/L)
         :return:
         """
-
         lipid_norm_baf = pd.Series([], dtype = 'float')
 
         lipid_norm_baf = (pest_conc / lipid_content) / (self.cwto * self.phi)
@@ -735,7 +733,7 @@ class KabamFunctions(object):
 
         sediment_acc_fact = (pest_conc / lipid_content) / self.c_soc
         return sediment_acc_fact
-
+#??
     def biomag_fact(self, pest_conc, lipid_content, lipid_norm_diet_conc):
         """
         :description Biomagnification factor
@@ -747,7 +745,147 @@ class KabamFunctions(object):
         :return:
         """
 
-        biomag_fact = pd.Series([], dtype = 'float')
+        #biomag_fact = pd.Series([], dtype = 'float')
 
-        biomag_fact = (pest_conc / lipid_content) / lipid_norm_diet_conc
+        biomag_fact = pd.Series((pest_conc / lipid_content) / lipid_norm_diet_conc, dtype = 'float')
+
         return biomag_fact
+
+#############################################################################
+#############################################################################
+#this method is not created in final Kabam model; the mweight array is created in 'set_global_constants' method
+#and the conversion of concentrations (self.cb_*) is performed in the main routine
+    #     # Mammals EECs
+    # def mweight_f(self):
+    #     """
+    #     Mammals
+    #     :return:
+    #     """
+    #     self.cb_a = np.array(
+    #         [[self.cb_phytoplankton, self.cb_zoo, self.cb_beninv, self.cb_ff, self.cb_sf, self.cb_mf, self.cb_lf]])
+    #     self.cb_a2 = self.cb_a * 1000000
+    #     # array of mammal weights
+    #     #[fog/water shrew,rice rat/star-nosed mole,small mink,large mink,small river otter	,large river otter]
+    #     self.mweight = np.array([[0.018, 0.085, 0.45, 1.8, 5, 15]])
+    #     return self.mweight
+##############################################################################
+
+    def dry_food_ingest_rate_mammals(self):
+        """
+        :description dry food ingestion rate: Mammals (kg dry food/kg-bw day)
+        :unit (kg dry food / kg-bw day)
+        :expresssion  Kabam Eq. G1
+        :param mammal_weights: body weight of mammal (kg)
+        :notes because mammal.weights are represented as constants (hardwired in the code) this
+               method is not designed for matrix/parallel processing; if the weights are
+               changed to inputs this method would be modified by removing the array structure and
+               inserting a simulation-based loop in the main model routine
+        :return:
+        """
+
+        ingestion_rate = np.array([], dtype = 'float')
+
+        ingestion_rate = (0.0687 * self.mammal_weights ** 0.822) / self.mammal_weights
+        return ingestion_rate
+
+    def dry_food_ingest_rate_birds(self):
+        """
+        :description dry food ingestion rate: Birds (kg dry food/kg-bw day)
+        :unit (kg dry food / kg-bw day)
+        :expresssion  Kabam Eq. G2
+        :param bird_weights: body weight of bird (kg)
+        :notes because bird.weights are represented as constants (hardwired in the code) this
+               method is not designed for matrix/parallel processing; if the weights are
+               changed to inputs this method would be modified by removing the array structure and
+               inserting a simulation-based loop in the main model routine
+        :return:
+        """
+
+        ingestion_rate_birds = np.array([], dtype = 'float')
+
+        ingestion_rate_birds = (0.0582 * self.bird_weights ** 0.651) / self.bird_weights
+        return ingestion_rate_birds
+
+    def wet_food_ingestion_rates(self, prey_water_contents, diet_fractions, dry_food_ingestion_rates):
+        """
+        :description wet food ingestion rate for mammals and birds
+        :unit (kg food ww / kg-bw day)
+        :expresssion Kabam Eq. G3
+        :param prey_water_contents: fraction of prey body weights that are water
+        :param diet_fractions: fraction of predator (mammal or bird) diet attributed to individual prey
+        :param dry_food_ingestion_rates: predator (mammal or bird) dry food ingestion rate (kg food dw / kg-bw day)
+        :return:
+        """
+
+        wet_food_ingest_rates = np.array([], dtype = 'float')
+
+        factor_1 = np.array([], dtype = 'float')
+        factor_2 = np.array([], dtype = 'float')
+        factor_3 = np.array([], dtype = 'float')
+        factor_4 = np.array([], dtype = 'float')
+
+        # calculate elemental factors of Kabam Eq. G3
+
+        factor_1 = diet_fractions * prey_water_contents
+        factor_2 = np.cumsum(factor_1, axis=1)
+        factor_3 = factor_2[:, 6]  # selects out seventh row of array which is the cumulative sums of the products
+        factor_4 = 1. - factor_3
+
+        # wet food ingestion rate
+        wet_food_ingest_rates = dry_food_ingestion_rates / factor_4
+        return wet_food_ingest_rates
+
+    def drinking_water_intake_mammals(self):
+        """
+        :description drinking water ingestion rate: Mammals
+        :unit (L / day)
+        :expresssion  Kabam Eq. G4
+        :param mammal_weights: body weight of mammal (kg)
+        :return:
+        """
+
+        water_ingestion_rate_mammals = np.array([], dtype = 'float')
+
+        water_ingestion_rate_mammals = (0.099 * self.mammal_weights ** 0.90)
+        return water_ingestion_rate_mammals
+
+    def drinking_water_intake_birds(self):
+        """
+        :description drinking water ingestion rate: Birds
+        :unit (L / day)
+        :expresssion  Kabam Eq. G5
+        :param bird_weights: body weight of bird (kg)
+        :return:
+        """
+
+        water_ingestion_rate_birds = np.array([], dtype = 'float')
+
+        water_ingestion_rate_birds = (0.059 * self.bird_weights ** 0.67)
+        return water_ingestion_rate_birds
+
+    def dose_based_eec(self, pest_conc_diet, diet_fraction, wet_food_ingest_rate, water_ingest_rate, body_weight):
+        """
+        :description dose-based EECs
+        :unit (mg pesticide / kg-bw day)
+        :expression Kabam Eq. G6
+        :param pest_conc_diet: overall concentration of pesticide in predator (mammal or bird) diet (ug pesticide/kg-bw)
+        :param diet_fraction: fraction of aquatic animal/organism in diet of predator
+        :param wet_food_ingest_rate: overall food ingestion rate (wet based) of predator (food ww/day)
+        :param water_ingest_rate: drinking water ingestion rate (L/day)
+        :param body_weight: body weight of predator (kg)
+        :return:
+        """
+        frac_diet_conc = np.array([], dtype = 'float')
+        sum_diet_fracs = np.array([], dtype = 'float')
+        overall_diet_conc = np.array([], dtype = 'float')
+        dose_based_eec = np.array([], dtype = 'float')
+
+        #calculate relevant factors
+        frac_diet_conc = pest_conc_diet * diet_fraction
+        sum_diet_fracs = np.cumsum(frac_diet_conc, axis=1)
+        overall_diet_conc = sum_diet_fracs[:, 6]
+
+        # dose based  EEC  (the /1000 converts ug to mg)
+        dose_based_eec = (overall_diet_conc / 1000) * wet_food_ingest_rate + \
+                         (((self.water_column_eec / 1000) * water_ingest_rate) / body_weight)
+        return dose_based_eec
