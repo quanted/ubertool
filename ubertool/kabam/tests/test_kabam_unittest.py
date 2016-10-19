@@ -23,12 +23,16 @@ test = {}
 class TestKabam(unittest.TestCase):
     """
     Unit tests for Kabam model.
+    : unittest will
+    : 1) call the setup method,
+    : 2) then call every method starting with "test",
+    : 3) then the teardown method
     """
     print("kabam unittests conducted at " + str(datetime.datetime.today()))
 
     def setUp(self):
         """
-        Setup routine for trex unit tests.
+        Setup routine for Kabam unit tests.
         :return:
         """
 
@@ -40,12 +44,12 @@ class TestKabam(unittest.TestCase):
 
         pass
         # setup the test as needed
-        # e.g. pandas to open trex qaqc csv
+        # e.g. pandas to open Kabam qaqc csv
         #  Read qaqc csv and create pandas DataFrames for inputs and expected outputs
 
     def tearDown(self):
         """
-        Teardown routine for trex unit tests.
+        Teardown routine for Kabam unit tests.
         :return:
         """
         pass
@@ -55,13 +59,19 @@ class TestKabam(unittest.TestCase):
 
     def test_ventilation_rate(self):
         """
-        unittest for method ventilation_rate;
+        :description Ventilation rate of aquatic animal
+        :unit L/d
+        :expression Kabam Eq. A5.2b (Gv)
+        :param zoo_wb: wet weight of animal (kg)
+        :param conc_do: concentration of dissolved oxygen (mg O2/L)
+        :return:
         """
 
         result = pd.Series([], dtype='float')
         expected_results = pd.Series(['nan', 0.00394574, 0.468885], dtype = 'float')
 
         try:
+            #use the zooplankton variables/values for the test
             self.kabam_empty.zoo_wb = pd.Series(['nan', 1.e-07, 1.e-4], dtype = 'float')
             self.kabam_empty.conc_do = pd.Series([5.0, 10.0, 7.5], dtype='float')
 
@@ -76,9 +86,9 @@ class TestKabam(unittest.TestCase):
 
     def test_pest_uptake_eff_gills(self):
         """
-        Pesticide uptake efficiency by gills
-        unit: fraction
-        Kabam Eq. A5.2a (Ew)
+        :description Pesticide uptake efficiency by gills
+        :unit fraction
+        "expresssion Kabam Eq. A5.2a (Ew)
         :param log kow: octanol-water partition coefficient ()
         :return:
         """
@@ -101,11 +111,10 @@ class TestKabam(unittest.TestCase):
 
     def test_phytoplankton_k1_calc(self):
         """
-        Uptake rate constant through respiratory area for phytoplankton
-        unit: L/kg*d
-        Kabam Eq. A5.1  (K1:unique to phytoplankton)
+        :description Uptake rate constant through respiratory area for phytoplankton
+        :unit: L/kg*d
+        :expression Kabam Eq. A5.1  (K1:unique to phytoplankton)
         :param log kow: octanol-water partition coefficient ()
-
         :return:
         """
 
@@ -127,9 +136,9 @@ class TestKabam(unittest.TestCase):
 
     def test_aq_animal_k1_calc(self):
         """
-        Uptake rate constant through respiratory area for aquatic animals
-        unit: L/kg*d
-        Kabam Eq. A5.2 (K1)
+        U:description ptake rate constant through respiratory area for aquatic animals
+        :unit: L/kg*d
+        :expression Kabam Eq. A5.2 (K1)
         :param pest_uptake_eff_bygills: Pesticide uptake efficiency by gills of aquatic animals (fraction)
         :param vent_rate: Ventilation rate of aquatic animal (L/d)
         :param wet_wgt: wet weight of animal (kg)
@@ -156,7 +165,7 @@ class TestKabam(unittest.TestCase):
 
     def test_animal_water_part_coef(self):
         """
-        Organism-Water partition coefficient (based on organism wet weight)
+        :description Organism-Water partition coefficient (based on organism wet weight)
         :unit ()
         :expression Kabam Eq. A6a (Kbw)
         :param zoo_lipid: lipid fraction of organism (kg lipid/kg organism wet weight)
@@ -193,7 +202,7 @@ class TestKabam(unittest.TestCase):
 
     def test_aq_animal_k2_calc(self):
         """
-        Elimination rate constant through the respiratory area
+        :description Elimination rate constant through the respiratory area
         :unit (per day)
         :expression Kabam Eq. A6 (K2)
         :param zoo_k1: Uptake rate constant through respiratory area for aquatic animals
@@ -220,7 +229,7 @@ class TestKabam(unittest.TestCase):
 
     def test_animal_grow_rate_const(self):
         """
-        Aquatic animal/organism growth rate constant
+        :description Aquatic animal/organism growth rate constant
         :unit (per day)
         :expression Kabam Eq. A7.1 & A7.2
         :param zoo_wb: wet weight of animal/organism (kg)
@@ -247,7 +256,7 @@ class TestKabam(unittest.TestCase):
 
     def test_dietary_trans_eff(self):
         """
-        Aquatic animal/organizm dietary pesticide transfer efficiency
+        :description Aquatic animal/organizm dietary pesticide transfer efficiency
         :unit fraction
         :expression Kabam Eq. A8a (Ed)
         :param kow: octanol-water partition coefficient ()
@@ -270,7 +279,7 @@ class TestKabam(unittest.TestCase):
 
     def test_aq_animal_feeding_rate(self):
         """
-        Aquatic animal feeding rate (except filterfeeders)
+        :description Aquatic animal feeding rate (except filterfeeders)
         :unit kg/d
         :expression Kabam Eq. A8b1 (Gd)
         :param wet_wgt: wet weight of animal/organism (kg)
@@ -295,7 +304,7 @@ class TestKabam(unittest.TestCase):
 
     def test_filterfeeder_feeding_rate(self):
         """
-        Filter feeder feeding rate
+        :description Filter feeder feeding rate
         :unit kg/d
         :expression Kabam Eq. A8b2 (Gd)
         :param self.gv_filterfeeders: filterfeeder ventilation rate (L/d)
@@ -322,7 +331,7 @@ class TestKabam(unittest.TestCase):
 
     def test_diet_uptake_rate_const(self):
         """
-        pesticide uptake rate constant for uptake through ingestion of food rate
+        :description pesticide uptake rate constant for uptake through ingestion of food rate
         :unit kg food/kg organism - day
         :expression Kabam Eq. A8 (kD)
         :param dietary_trans_eff: dietary pesticide transfer efficiency (fraction)
@@ -352,7 +361,8 @@ class TestKabam(unittest.TestCase):
 
     def test_overall_diet_content(self):
         """
-        Overall fraction of aquatic animal/organism diet attributed to diet food component (i.e., lipids or NLOM or water)
+        :description Overall fraction of aquatic animal/organism diet attributed to diet food component
+                    (i.e., lipids or NLOM or water)
         :unit kg/kg
         :expression not shown in Kabam documentation: it is associated with Kabam Eq. A9
                     overall_diet_content is equal to the sum over dietary elements
@@ -371,7 +381,7 @@ class TestKabam(unittest.TestCase):
         expected_results = pd.Series([0.025, 0.03355, 0.0465], dtype = 'float')
 
         try:
-            #For test purposes we'll use the small fish diet variables
+            #For test purposes we'll use the small fish diet variables/values
             self.kabam_empty.sfish_diet_sediment = pd.Series([0.0, 0.01, 0.05], dtype = 'float')
             self.kabam_empty.sfish_diet_phytoplankton = pd.Series([0.0, 0.01, 0.05], dtype = 'float')
             self.kabam_empty.sfish_diet_zooplankton = pd.Series([0.5, 0.4, 0.5], dtype = 'float')
@@ -738,7 +748,7 @@ class TestKabam(unittest.TestCase):
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
         :param cwto: total pesticide concentraiton in water column above sediment (g/L)
-        :param cwdp: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
         :param total_diet_conc_lfish: concentration of pesticide in overall diet of aquatic animal/organism (g/kg wet weight)
         :return:
         """
@@ -748,8 +758,8 @@ class TestKabam(unittest.TestCase):
 
         try:
             self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
-            self.kabam_empty.cwto =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
-            self.kabam_empty.cwdp =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
+            self.kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            self.kabam_empty.pore_water_eec =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
             self.kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
             self.kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
@@ -855,8 +865,8 @@ class TestKabam(unittest.TestCase):
         :param lfish_mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
-        :param cwto: total pesticide concentraiton in water column above sediment (g/L)
-        :param cwdp: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
+        :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
         :return:
         """
         result = pd.Series([], dtype='float')
@@ -864,8 +874,8 @@ class TestKabam(unittest.TestCase):
 
         try:
             self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
-            self.kabam_empty.cwto =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
-            self.kabam_empty.cwdp =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
+            self.kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            self.kabam_empty.pore_water_eec =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
             self.kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
             self.kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
@@ -898,8 +908,8 @@ class TestKabam(unittest.TestCase):
         :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
-        :param cwto: total pesticide concentraiton in water column above sediment (g/L)
-        :param cwdp: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
+        :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
         :return:
         """
         result = pd.Series([], dtype='float')
@@ -907,8 +917,8 @@ class TestKabam(unittest.TestCase):
 
         try:
             self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
-            self.kabam_empty.cwto =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
-            self.kabam_empty.cwdp =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
+            self.kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            self.kabam_empty.pore_water_eec =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
             self.kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
             self.kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
@@ -937,8 +947,8 @@ class TestKabam(unittest.TestCase):
         :param lfish_lipid: fraction of animal/organism that is lipid (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
-        :param cwto: total pesticide concentraiton in water column above sediment (g/L)
-        :param cwdp: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
+        :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
         :return:
         """
         result = pd.Series([], dtype='float')
@@ -946,8 +956,8 @@ class TestKabam(unittest.TestCase):
 
         try:
             self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
-            self.kabam_empty.cwto =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
-            self.kabam_empty.cwdp =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
+            self.kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            self.kabam_empty.pore_water_eec =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
             self.kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
             self.kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
@@ -972,7 +982,7 @@ class TestKabam(unittest.TestCase):
         :unit (ug pesticide/kg ww) / (ug pesticide/L water)
         :expression Kabam Eq. F3
         :param cb_lfish: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
-        :param cwto:  total pesticide concentraiton in water column above sediment (g/L)
+        :param water_column_eec:  total pesticide concentraiton in water column above sediment (g/L)
         :return:
         """
         result = pd.Series([], dtype='float')
@@ -981,7 +991,7 @@ class TestKabam(unittest.TestCase):
         try:
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
             self.kabam_empty.out_cb_lfish = pd.Series([2.e-5, 2.5e-3, 2.e-4], dtype = 'float')
-            self.kabam_empty.cwto =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            self.kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
 
             result = self.kabam_empty.tot_bioacc_fact(self.kabam_empty.out_cb_lfish)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
@@ -1001,14 +1011,14 @@ class TestKabam(unittest.TestCase):
         :param lfish_lipid: fraction of animal/organism that is lipid (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
-        :param cwto: total pesticide concentraiton in water column above sediment (g/L)
+        :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
         :return:
         """
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([1.0, 625.0, 1.66666], dtype = 'float')
 
         try:
-            self.kabam_empty.cwto =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            self.kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
             self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
             self.kabam_empty.out_cb_lfish = pd.Series([2.e-5, 2.5e-3, 2.e-4], dtype = 'float')
@@ -1058,7 +1068,8 @@ class TestKabam(unittest.TestCase):
         :expression Kabam Eq. F6
         :param out_cb_lfish: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
         :param lfish_lipid: fraction of animal/organism that is lipid (fraction)
-        :param lipid_norm_diet_conc: lipid normalized concentration of pesticide in aquatic animal/organism (g/(kg wet weight))
+        :param lipid_norm_diet_conc: lipid normalized concentration of pesticide in aquatic
+                                     animal/organism (g/(kg wet weight))
         :return:
         """
         result = pd.Series([], dtype='float')
@@ -1146,16 +1157,16 @@ class TestKabam(unittest.TestCase):
         """
 
         result = pd.Series([], dtype='float')
-        expected_results = pd.Series([[0.90702948, 0.09070295, 0.58823529, 0.19607843, 0.18518519, 0.1111111],
-                                      [1.35869565, 0.12437811, 0.88888888, 0.4, 0.5, 0.2],
+        expected_results = pd.Series([[0.90702948, 0.09070295, 0.58823529, 0.19607843, 0.18518519, 0.11111111],
+                                      [1.35869565, 0.12437811, 0.88888889, 0.4, 0.5, 0.2],
                                       [1.2, 0.18726592, 0.36363636, 0.5, 0.8333333, 0.6]], dtype = 'float')
 
         try:
             #the order of the food sources (aquatic animals/organisms) is: ['pytoplankton', 'zooplankton',
             # 'benthic_invertebrates', 'filterfeeders', 'small_fish', 'medium_fish', 'large_fish']
             self.kabam_empty.aq_animal_water_content = np.array([[0.90, 0.85,  0.76, 0.85, 0.73, 0.73, 0.73],
-                                                                [0.95, 0.90,  0.80, 0.90, 0.75, 0.70, 0.75],
-                                                                [0.95, 0.80,  0.70, 0.80, 0.75, 0.70, 0.75]], dtype = 'float')
+                                                        [0.95, 0.90,  0.80, 0.90, 0.75, 0.70, 0.75],
+                                                        [0.95, 0.80,  0.70, 0.80, 0.75, 0.70, 0.75]], dtype = 'float')
             #for this test we will use variable names and data related to birds; each array element ([]) represents
 
             #an avian species and the fractions associated with its diet of 7 possible food sources
@@ -1189,7 +1200,8 @@ class TestKabam(unittest.TestCase):
         :return:
         """
         result = pd.Series([], dtype='float')
-        expected_results = pd.Series([2.66306e-3, 0.01076743, 0.04825324, 0.16802753, 0.42141326, 1.13270633], dtype = 'float')
+        expected_results = pd.Series([2.66306e-3, 0.01076743, 0.04825324, 0.16802753, 0.42141326, 1.13270633], \
+                                      dtype = 'float')
 
         try:
             #list of mammals (data in related arrays will reflect this order)
@@ -1215,7 +1227,8 @@ class TestKabam(unittest.TestCase):
         :return:
         """
         result = pd.Series([], dtype='float')
-        expected_results = pd.Series([4.29084e-3, 0.21101928, 9.93271e-3, 0.12040892, 0.06851438, 0.2275847], dtype = 'float')
+        expected_results = pd.Series([4.29084e-3, 0.21101928, 9.93271e-3, 0.12040892, 0.06851438, 0.2275847], \
+                                     dtype = 'float')
 
         try:
             #list of birds (data in related arrays will reflect this order)
@@ -1234,7 +1247,7 @@ class TestKabam(unittest.TestCase):
 
     def test_dose_based_eec(self):
         """
-        :description dose-based EECs
+        :description dose-based EECs (for mammals or birds)
         :unit (mg pesticide / kg-bw day)
         :expression Kabam Eq. G6
         :param cb_a2: overall concentration of pesticide in predator (mammal or bird) diet items (ug pesticide/kg-bw)
@@ -1246,20 +1259,23 @@ class TestKabam(unittest.TestCase):
         :return:
         """
         result = pd.Series([], dtype='float')
-        expected_results = pd.Series([[4.29084e-3, 0.21101928, 9.93271e-3, 0.12040892, 0.06851438, 0.2275847],
-                             [4.29084e-3, 0.21101928, 9.93271e-3, 0.12040892, 0.06851438, 0.2275847],
-                             [4.29084e-3, 0.21101928, 9.93271e-3, 0.12040892, 0.06851438, 0.2275847]], dtype = 'float')
+        expected_results = pd.Series([
+            [3.3309436e-4, 2.40677772e-5, 2.64847776e-4, 5.88650493e-5, 1.85733305e-5, 1.66970096e-5],
+            [7.69043192e-4, 5.7714592e-5, 5.77791962e-4, 2.00004152e-4, 1.00005481e-4, 1.8000303e-4],
+            [6.43629084e-4, 8.77034414e-5, 2.0028379e-4, 2.25083041e-4, 5.00109603e-4, 3.00060689e-4]], dtype = 'float')
 
         try:
             #use bird data and variables for this test
             #list of birds (data in related arrays will reflect this order)
-            self.kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons', 'small osprey', 'white pelican'], dtype = 'str')
+            self.kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons', 'small osprey', \
+                                               'white pelican'], dtype = 'str')
             self.kabam_empty.cb_a2 = np.array([[0.90, 0.09, 0.50, 0.20, 0.40, 0.10, 0.15],
                                                [1.2, 0.10, 0.80, 0.4, 0.5, 0.2, 0.9],
                                                [1.2, 0.20, 0.30, 0.5, 0.80, 0.6, 0.5]], dtype = 'float')
+            self.kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
             self.kabam_empty.diet_birds = np.array([[0, 0, .33, 0.33, 0.34, 0, 0], [0, 0, .33, .33, 0, 0.34, 0],
-                                    [0, 0, 0.5, 0, 0.5, 0, 0], [0, 0, 0.5, 0, 0, 0.5, 0],
-                                    [0, 0, 0, 0, 0, 1., 0], [0, 0, 0, 0, 0, 0, 1.]], dtype = 'float')
+                                        [0, 0, 0.5, 0, 0.5, 0, 0], [0, 0, 0.5, 0, 0, 0.5, 0],
+                                        [0, 0, 0, 0, 0, 1., 0], [0, 0, 0, 0, 0, 0, 1.]], dtype = 'float')
             self.kabam_empty.wet_food_ingestion_rate_birds = np.array(
                                         [[0.90702948, 0.09070295, 0.58823529, 0.19607843, 0.18518519, 0.1111111],
                                          [1.35869565, 0.12437811, 0.88888888, 0.4, 0.5, 0.2],
@@ -1269,8 +1285,10 @@ class TestKabam(unittest.TestCase):
             self.kabam_empty.bird_weights = np.array([0.02, 6.7, 0.07, 2.9, 1.25, 7.5], dtype = 'float')
 
             for i in range(len(self.kabam_empty.cb_a2)):
-                result[i] = self.kabam_empty.dose_based_eec(self.kabam_empty.cb_a2, self.kabam_empty.diet_birds,
-                                                            self.kabam_empty.wet_food_ingestion_rate_birds,
+                result[i] = self.kabam_empty.dose_based_eec(self.kabam_empty.water_column_eec[i],
+                                                            self.kabam_empty.cb_a2[i],
+                                                            self.kabam_empty.diet_birds,
+                                                            self.kabam_empty.wet_food_ingestion_rate_birds[i],
                                                             self.kabam_empty.water_ingestion_rate_birds,
                                                             self.kabam_empty.bird_weights)
                 npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
@@ -1281,10 +1299,391 @@ class TestKabam(unittest.TestCase):
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-# unittest will
-# 1) call the setup method,
-# 2) then call every method starting with "test",
-# 3) then the teardown method
+    def test_dietary_based_eec(self):
+        """
+        :description dietary-based EECs
+        :unit (mg pesticide / kg-bw day)
+        :expression Kabam Eq. G7
+        :param pest_conc_diet: overall concentration of pesticide in predator (mammal or bird) diet (ug pesticide/kg-bw)
+        :param diet_fraction: fraction of aquatic animal/organism in diet of predator
+        :return:
+        """
+
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([[3.67e-4, 2.65e-4, 4.5e-4, 3.e-4, 1.e-4, 1.5e-4],
+                                     [5.66e-4, 4.64e-4, 6.5e-4, 5.e-4, 2.e-4, 9.e-4],
+                                     [5.36e-4, 4.68e-4, 5.5e-4, 4.5e-4, 6.e-4, 5.e-4]], dtype = 'float')
+
+        try:
+            #use bird data and variables for this test
+            #list of birds (data in related arrays will reflect this order)
+            self.kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons', \
+                                               'small osprey', 'white pelican'], dtype = 'str')
+            self.kabam_empty.cb_a2 = np.array([[0.90, 0.09, 0.50, 0.20, 0.40, 0.10, 0.15],
+                                               [1.2, 0.10, 0.80, 0.4, 0.5, 0.2, 0.9],
+                                               [1.2, 0.20, 0.30, 0.5, 0.80, 0.6, 0.5]], dtype = 'float')
+            self.kabam_empty.diet_birds = np.array([[0, 0, .33, 0.33, 0.34, 0, 0], [0, 0, .33, .33, 0, 0.34, 0],
+                                        [0, 0, 0.5, 0, 0.5, 0, 0], [0, 0, 0.5, 0, 0, 0.5, 0],
+                                        [0, 0, 0, 0, 0, 1., 0], [0, 0, 0, 0, 0, 0, 1.]], dtype = 'float')
+
+            for i in range(len(self.kabam_empty.cb_a2)):
+                result[i] = self.kabam_empty.dietary_based_eec(self.kabam_empty.cb_a2[i], self.kabam_empty.diet_birds)
+                npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_acute_dose_based_tox_mammals(self):
+        """
+        :description Dose-based acute toxicity for mammals
+        :unit (mg/kg-bw)
+        :expression Kabam Eq. G8
+        :param mammals: list of mammals (included here for context)
+        :param mammalian_ld50: Mammalian acute oral LD50 (mg/kg-bw)
+        :param species_of_the_tested_mammal: 'rat' or 'other'
+        :param bw_rat: body weight of tested rat
+        :param bw_other_mammal: body weight of 'other' tested mammal
+        :param tested_bw: body weight of tested animal - to be sent to method (gms)
+        :param mammal_weights: body weight of assessed animal (kg)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([[104.995065, 71.224971, 46.9552207, 33.2023550, 25.7184336, 19.5417836],
+                             [136.9306393, 92.8889451, 61.23724357, 43.30127019, 33.5410196, 25.4856636],
+                             [54.2796302, 36.82139815, 24.27458859, 17.1647262, 13.2957397, 10.10257752]], dtype = 'float')
+
+        try:
+            self.kabam_empty.mammals = np.array(['fog/water shrew', 'rice rat/nosed mole', 'small mink', 'large mink',
+                                     'small river otter', 'large river otter'], dtype = 'str')
+            self.kabam_empty.mammal_weights = np.array([0.018, 0.085, 0.45, 1.8, 5., 15.], dtype = 'float')
+            self.kabam_empty.mammalian_ld50 = pd.Series([50., 75., 25.])
+            self.kabam_empty.bw_rat = pd.Series([350., 200., 400.])
+            self.kabam_empty.bw_other_mammal = pd.Series([450., 200., 400.])
+            self.kabam_empty.species_of_the_tested_mammal = pd.Series(['rat', 'other', 'rat'], dtype = 'str')
+
+            for i in range(len(self.kabam_empty.species_of_the_tested_mammal)):
+                if (self.kabam_empty.species_of_the_tested_mammal[i] == 'rat'):
+                    tested_bw = self.kabam_empty.bw_rat[i]
+                else:
+                    tested_bw = self.kabam_empty.bw_other_mammal[i]
+                result[i] = self.kabam_empty.acute_dose_based_tox_mammals(self.kabam_empty.mammalian_ld50[i],tested_bw)
+                npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_acute_dose_based_tox_birds(self):
+        """
+        :description Dose-based acute toxicity for birds
+        :unit (mg/kg-bw)
+        :expression Kabam Eq. G9
+        :param ld50_bird: avian acute oral LD50 (mg/kg-bw)
+        :param tested_bird_bw: body weight of tested bird (gms)
+        :param bird_weights: body weight of assessed bird (kg)
+        :param scaling_factor: Chemical Specific Mineau scaling factor ()
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([[36.9582003, 88.40320842, 44.598579, 77.96793198, 68.7215296, 89.91155422],
+                             [49.80192597, 89.07393102, 56.44856978, 81.91867866, 75.30679072, 90.08433255],
+                             [11.82177011, 50.57591068, 16.1696091, 41.02272544, 33.23934936, 52.02239313]], dtype = 'float')
+
+        try:
+            #use rat body weight for this test
+
+            self.kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons', \
+                                               'small osprey', 'white pelican'], dtype = 'str')
+            self.kabam_empty.bird_weights = np.array([0.02, 6.7, 0.07, 2.9, 1.25, 7.5], dtype = 'float')
+            self.kabam_empty.avian_ld50 = pd.Series([50., 75., 25.])
+            self.kabam_empty.bw_quail = pd.Series([150., 200., 100.])
+            self.kabam_empty.bw_duck = pd.Series([1350., 1200., 1400.])
+            self.kabam_empty.bw_other_bird = pd.Series([450., 200., 400.])
+            self.kabam_empty.species_of_the_tested_bird = pd.Series(['quail', 'duck', 'other'], dtype = 'str')
+            self.kabam_empty.mineau_scaling_factor = pd.Series([1.15, 1.10, 1.25], dtype = 'float')
+
+            for i in range(len(self.kabam_empty.species_of_the_tested_bird)):
+                if (self.kabam_empty.species_of_the_tested_bird[i] == 'quail'):
+                    tested_bw = self.kabam_empty.bw_quail[i]
+                elif  (self.kabam_empty.species_of_the_tested_bird[i] == 'duck'):
+                    tested_bw = self.kabam_empty.bw_duck[i]
+                else:
+                    tested_bw = self.kabam_empty.bw_other_bird[i]
+                result[i] = self.kabam_empty.acute_dose_based_tox_birds(self.kabam_empty.avian_ld50[i], tested_bw,
+                                                                        self.kabam_empty.mineau_scaling_factor[i])
+                npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def tested_chronic_dose_based_tox_mammals(self):
+        """
+        :description Dose=based chronic toxicity for mammals
+        :unit (mg/kg-bw)
+        :param mammalian_chronic_endpt: ppm
+        :param tested_mammal_bw: body weight of tested mammal (gms)
+        :param mammal_weights: body weight of assessed mammal(kg)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = pd.Series([[1.04995066, 0.71224971, 0.469552207, 0.33202355, 0.25718434, 0.19541784],
+                             [45.64354646, 30.9629817, 20.41241452, 14.43375673, 11.18033989, 8.49522122],
+                             [5.42796302, 3.68213981, 2.42745886, 1.71647262, 1.32957397, 1.01025775]], dtype = 'float')
+
+        try:
+            self.kabam_empty.mammals = np.array(['fog/water shrew', 'rice rat/nosed mole', 'small mink', 'large mink',
+                                     'small river otter', 'large river otter'], dtype = 'str')
+            self.kabam_empty.mammal_weights = np.array([0.018, 0.085, 0.45, 1.8, 5., 15.], dtype = 'float')
+            self.kabam_empty.bw_rat = pd.Series([350., 200., 400.])
+            self.kabam_empty.bw_other_mammal = pd.Series([450., 200., 400.])
+            self.kabam_empty.species_of_the_tested_mammal = pd.Series(['rat', 'other', 'rat'], dtype = 'str')
+            self.kabam_empty.mammalian_chronic_endpoint = pd.Series([10., 25., 50.])
+            self.kabam_empty.mammalian_chronic_endpoint_unit = pd.Series(['ppm', 'mg/kg-bw', 'ppm'], dtype = 'str')
+
+            for i in range(len(self.kabam_empty.species_of_the_tested_mammal)):
+                if (self.kabam_empty.species_of_the_tested_mammal[i] == 'rat'):
+                    tested_bw = self.kabam_empty.bw_rat[i]
+                else:
+                    tested_bw = self.kabam_empty.bw_other_mammal[i]
+                result[i] = self.kabam_empty.chronic_dose_based_tox_mammals(
+                    self.kabam_empty.mammalian_chronic_endpoint[i],
+                    self.kabam_empty.mammalian_chronic_endpoint_unit[i], tested_bw)
+                npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_acute_rq_dose_mammals(self):
+        """
+        :description Dose-based risk quotient for mammals
+        :unit none
+        :expression no known documentation; see EPA OPP Kabam spreadsheet)
+         :param dose_based_eec_mammals
+         :param acute_dose_based_tox_mammals
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = np.array([[0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+                                    [0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+                                    [0.5, 0.5, 0.5, 0.5, 0.5, 0.5]], dtype = 'float')
+
+        try:
+            self.kabam_empty.dose_based_eec_mammals = np.array([
+                [1., 2., 3., 4., 5., 6.],
+                [7., 8., 9., 10., 11., 12.],
+                [13., 14., 15., 16., 17., 18.]], dtype = 'float')
+            self.kabam_empty.acute_dose_based_tox_mammals = np.array([
+                             [2., 4., 6., 8., 10., 12.],
+                             [14., 16., 18., 20., 22., 24.],
+                             [26., 28., 30., 32., 34., 36.]], dtype = 'float')
+
+            result = self.kabam_empty.acute_rq_dose_mammals()
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_chronic_rq_dose_mammals(self):
+        """
+        :description Chronic dose-based risk quotient for mammals
+        :unit none
+        :expression no known documentation; see EPA OPP Kabam spreadsheet)
+        :param dose_based_eec_mammals: self defined
+        :param chronic_dose_based_tox_mammals: self defined
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = np.array([[0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+                                    [0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+                                    [0.5, 0.5, 0.5, 0.5, 0.5, 0.5]], dtype = 'float')
+
+        try:
+            self.kabam_empty.dose_based_eec_mammals = np.array([
+                [1., 2., 3., 4., 5., 6.],
+                [7., 8., 9., 10., 11., 12.],
+                [13., 14., 15., 16., 17., 18.]], dtype = 'float')
+            self.kabam_empty.chronic_dose_based_tox_mammals = np.array([
+                             [2., 4., 6., 8., 10., 12.],
+                             [14., 16., 18., 20., 22., 24.],
+                             [26., 28., 30., 32., 34., 36.]], dtype = 'float')
+
+            result = self.kabam_empty.chronic_rq_dose_mammals()
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_acute_rq_diet_mammals(self):
+        """
+        :description Acute diet-based for risk quotient mammals
+        :unit none
+        :expression no known documentation; see EPA OPP Kabam spreadsheet
+        :param mammalian_lc50; (mg/kg-diet)
+        :param diet_based_eec_mammals: (mg pesticide / kg-bw day)
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = np.array([[0.1, 0.2, 0.3, 0.4, 0.5, 0.6],
+                                    ['nan', 'nan', 'nan', 'nan', 'nan', 'nan'],
+                                    [1.3, 1.4, 1.5, 1.6, 1.7, 1.8]], dtype = 'float')
+
+        try:
+            self.kabam_empty.diet_based_eec_mammals = np.array([ [1., 2., 3., 4., 5., 6.],
+                        [7., 8., 9., 10., 11., 12.], [13., 14., 15., 16., 17., 18.]], dtype = 'float')
+            self.kabam_empty.mammalian_lc50 = np.array([10., 'nan', 10.], dtype = 'float')
+
+            for i in range(len(self.kabam_empty.mammalian_lc50)):
+                result[i] = self.kabam_empty.acute_rq_diet_mammals(self.kabam_empty.diet_based_eec_mammals[i],
+                                                                   self.kabam_empty.mammalian_lc50[i])
+                npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_chronic_rq_diet_mammals(self):
+        """
+        :description chronic diet-based  rist quotient for mammals
+        :unit none
+        :expression no known documentation; see EPA OPP Kabam spreadsheet
+        :param mammalian_chronic_endpt:  (ppm)
+        :param diet_based_eec: diet-based eec for mammal (mg pesticide / kg
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = np.array([[0.1, 0.2, 0.3, 0.4, 0.5, 0.6],
+                                    ['nan', 'nan', 'nan', 'nan', 'nan', 'nan'],
+                                    [0.065, 0.07, 0.075, 0.08, 0.085, 0.09]], dtype = 'float')
+
+        try:
+            self.kabam_empty.diet_based_eec_mammals = np.array([ [1., 2., 3., 4., 5., 6.],
+                        [7., 8., 9., 10., 11., 12.], [13., 14., 15., 16., 17., 18.]], dtype = 'float')
+            self.kabam_empty.mammalian_chronic_endpoint = np.array([10., 'nan', 10.], dtype = 'float')
+            self.kabam_empty.mammalian_chronic_endpoint_unit = np.array(['ppm', 'mg/kg-bw', 'mg/kg-bw'], dtype = 'str')
+
+            for i in range(len(self.kabam_empty.mammalian_chronic_endpoint)):
+                result[i] = self.kabam_empty.chronic_rq_diet_mammals(self.kabam_empty.diet_based_eec_mammals[i],
+                                                                   self.kabam_empty.mammalian_chronic_endpoint[i],
+                                                                   self.kabam_empty.mammalian_chronic_endpoint_unit[i])
+                npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_acute_rq_dose_birds(self):
+        """
+        :description Dose-based risk quotient for birds
+        :unit none
+        :expression no known documentation; see EPA OPP Kabam spreadsheet
+         :param dose_based_eec_birds: self defined
+         :param acute_dose_based_tox_birds: self defined
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = np.array([[0.5, 0.5, 0.5, 0.5, 0.5, 0.5], [0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+                                     [0.5, 0.5, 0.5, 0.5, 0.5, 0.5]], dtype = 'float')
+
+        try:
+            self.kabam_empty.dose_based_eec_birds = np.array([[1., 2., 3., 4., 5., 6.],
+                                 [7., 8., 9., 10., 11., 12.], [13., 14., 15., 16., 17., 18.]], dtype = 'float')
+            self.kabam_empty.acute_dose_based_tox_birds = np.array([  [2., 4., 6., 8., 10., 12.],
+                                 [14., 16., 18., 20., 22., 24.], [26., 28., 30., 32., 34., 36.]], dtype = 'float')
+
+            result = self.kabam_empty.acute_rq_dose_birds()
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+    
+    def test_acute_rq_diet_birds(self):
+        """
+        :description Acute diet-based for risk quotient birds
+        :unit none
+        :expression no known documentation; see EPA OPP Kabam spreadsheet
+        :param bird_lc50; avian lc50 (mg/kg-diet)
+        :param diet_based_eec: diet-based eec for birds (mg pesticide / kg-bw day)
+        :note in the OPP spreadsheet 'bird_lc50' may be input as 'N/A' or have
+              a value; in the case it is assigned 'N/A' this method should assign
+              'acute_rq_diet_bird' a value of 'N/A'  -- as implemented below it will
+              either assign a 'nan' or issue a divide by zero error.
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = np.array([[0.1, 0.2, 0.3, 0.4, 0.5, 0.6],
+                                    ['nan', 'nan', 'nan', 'nan', 'nan', 'nan'],
+                                    [1.3, 1.4, 1.5, 1.6, 1.7, 1.8]], dtype = 'float')
+
+        try:
+            self.kabam_empty.diet_based_eec_birds = np.array([ [1., 2., 3., 4., 5., 6.],
+                        [7., 8., 9., 10., 11., 12.], [13., 14., 15., 16., 17., 18.]], dtype = 'float')
+            self.kabam_empty.avian_lc50 = np.array([10., 'nan', 10.], dtype = 'float')
+
+            for i in range(len(self.kabam_empty.avian_lc50)):
+                result[i] = self.kabam_empty.acute_rq_diet_birds(self.kabam_empty.diet_based_eec_birds[i],
+                                                                   self.kabam_empty.avian_lc50[i])
+                npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_chronic_rq_diet_birds(self):
+        """
+        :description chronic diet-based  rist quotient for birds
+        :unit none
+        :expression no known documentation; see EPA OPP Kabam spreadsheet
+        :param avian_chronic_endpt:  avian noaec (mg/kg-diet)
+        :param diet_based_eec: diet-based eec for mammal (mg pesticide / kg
+        :return:
+        """
+        result = pd.Series([], dtype='float')
+        expected_results = np.array([[0.1, 0.2, 0.3, 0.4, 0.5, 0.6],
+                                    ['nan', 'nan', 'nan', 'nan', 'nan', 'nan'],
+                                    [1.3, 1.4, 1.5, 1.6, 1.7, 1.8]], dtype = 'float')
+
+        try:
+            self.kabam_empty.diet_based_eec_birds = np.array([ [1., 2., 3., 4., 5., 6.],
+                        [7., 8., 9., 10., 11., 12.], [13., 14., 15., 16., 17., 18.]], dtype = 'float')
+            self.kabam_empty.avian_noaec = np.array([10., 'nan', 10.], dtype = 'float')
+
+            for i in range(len(self.kabam_empty.avian_noaec)):
+                result[i] = self.kabam_empty.chronic_rq_diet_birds(self.kabam_empty.diet_based_eec_birds[i],
+                                                                   self.kabam_empty.avian_noaec[i])
+                npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
 if __name__ == '__main__':
     unittest.main()
     #pass

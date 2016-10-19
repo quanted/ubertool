@@ -25,5 +25,23 @@ integration tests.
    The question is simply should it be included in the "ModelInputs" class, or maybe the
    "ModelOutputs" class.  Should the user be allowed to specify it as an input?
 
+4. The mammalian chronic endpoint risk measure may be input with units of ppm or mg/kg-bw.
+   A new variable 'mammalian_chronic_endpt_unit' has been added to the Kabam input list to
+   contain the units string.  Appropriate if-then construct is placed in code to ensure
+   correct processing of variable value.
 
+5. Alert: There are output variables listed in Table 15 of the OPP spreadsheet model that are
+          not accounted for in any of the pre-existing python codes (i.e., kabam.py,
+          kabam_functions_original.py).  They include  chronic_dietary_based_toxicity_mammals
+          (equals input value associated with mammalian chronic endpoint  -- needs conversion
+          for assignment to output depending on input units of ppm or mg/kg-bw),
+          acute_dietary_based_toxicity_avian (equals input value associated with avian_lc50  --
+          may need assignment to output variable), and chronic_dietary_based_toxicity_avian
+          (equals input value associated with avian_noaec  --  may need assignment to output
+          variable).
+
+6. Alert: Method 'acute_rq_diet_mammals' requires chemical specific input 'mammalian_lc50'.
+          This input variable may be input as 'N/A' in which case 'acute_rq_diet_mammals' is
+          assigned 'N/A' in the OPP spreadsheet.  The question is: should this 'N/A' be
+          processed in the code  --  if it's not then we may get a divide by zero issue).
 

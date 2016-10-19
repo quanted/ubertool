@@ -63,6 +63,7 @@ class KabamInputs(ModelSharedInputs):
         self.mammalian_ld50 = pd.Series([], dtype='float')
         self.mammalian_lc50 = pd.Series([], dtype='float')
         self.mammalian_chronic_endpoint = pd.Series([], dtype='float')
+        self.mammalian_chronic_endpoint_unit = pd.Series([], dtype='float') #added variable
         self.lfish_diet_sediment = pd.Series([], dtype='float')
         self.lfish_diet_phytoplankton = pd.Series([], dtype='float')
         self.lfish_diet_zooplankton = pd.Series([], dtype='float')
@@ -355,18 +356,25 @@ class KabamOutputs(object):
         self.out_dfira4 = pd.Series([], dtype = 'float')
         self.out_dfira5 = pd.Series([], dtype = 'float')
 
-        out_wet_food_ingestion_m0 = pd.Series([], dtype = 'float')
-        out_wet_food_ingestion_m1 = pd.Series([], dtype = 'float')
-        out_wet_food_ingestion_m2 = pd.Series([], dtype = 'float')
-        out_wet_food_ingestion_m3 = pd.Series([], dtype = 'float')
-        out_wet_food_ingestion_m4 = pd.Series([], dtype = 'float')
-        out_wet_food_ingestion_m5 = pd.Series([], dtype = 'float')
-        out_wet_food_ingestion_a0 = pd.Series([], dtype = 'float')
-        out_wet_food_ingestion_a1 = pd.Series([], dtype = 'float')
-        out_wet_food_ingestion_a2 = pd.Series([], dtype = 'float')
-        out_wet_food_ingestion_a3 = pd.Series([], dtype = 'float')
-        out_wet_food_ingestion_a4 = pd.Series([], dtype = 'float')
-        out_wet_food_ingestion_a5 = pd.Series([], dtype = 'float')
+        self.out_wet_food_ingestion_m0 = pd.Series([], dtype = 'float')
+        self.out_wet_food_ingestion_m1 = pd.Series([], dtype = 'float')
+        self.out_wet_food_ingestion_m2 = pd.Series([], dtype = 'float')
+        self.out_wet_food_ingestion_m3 = pd.Series([], dtype = 'float')
+        self.out_wet_food_ingestion_m4 = pd.Series([], dtype = 'float')
+        self.out_wet_food_ingestion_m5 = pd.Series([], dtype = 'float')
+        self.out_wet_food_ingestion_a0 = pd.Series([], dtype = 'float')
+        self.out_wet_food_ingestion_a1 = pd.Series([], dtype = 'float')
+        self.out_wet_food_ingestion_a2 = pd.Series([], dtype = 'float')
+        self.out_wet_food_ingestion_a3 = pd.Series([], dtype = 'float')
+        self.out_wet_food_ingestion_a4 = pd.Series([], dtype = 'float')
+        self.out_wet_food_ingestion_a5 = pd.Series([], dtype = 'float')
+
+        self.out_acute_dose_based_m0 = pd.Series([], dtype = 'float')
+        self.out_acute_dose_based_m1 = pd.Series([], dtype = 'float')
+        self.out_acute_dose_based_m2 = pd.Series([], dtype = 'float')
+        self.out_acute_dose_based_m3 = pd.Series([], dtype = 'float')
+        self.out_acute_dose_based_m4 = pd.Series([], dtype = 'float')
+        self.out_acute_dose_based_m5 = pd.Series([], dtype = 'float')
 
 
 class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
@@ -496,11 +504,11 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.gv_lfish = self.ventilation_rate(self.lfish_wb)
 
         # Pesticide uptake efficiency by gills of aquatic animals (Kabam Eq. A5.2a)
-        self.ew_aq_animals = self.pest_uptake_eff_gills()
+        self.ew_aq_animals = self.pest_uptake_eff_bygills()
         self.ew_zoo = self.ew_beninv = self.ew_filterfeeders = self.ew_sfish = \
                       self.ew_mfish = self.ew_lfish = self.ew_zoo = self.ew_aq_animals
 
-        # aquatic animal respitory area uptake rate constant (Kabam Ea. A5.1 & A5.2
+        # aquatic animal respitory area uptake rate constant (Kabam Eqs. A5.1 & A5.2
         self.phytoplankton_k1 = self.phytoplankton_k1_calc()
         self.zoo_k1 = self.aq_animal_k1_calc(self.ew_zoo, self.gv_zoo, self.zoo_wb)
         self.beninv_k1 = self.aq_animal_k1_calc(self.ew_beninv, self.gv_beninv, self.beninv_wb)
@@ -912,8 +920,8 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
             # :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
             # :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
             #             via membrane diffusion (fraction)
-            # :param cwto: total pesticide concentraiton in water column above sediment (g/L)
-            # :param cwdp: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+            # :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
+            # :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
             # :param diet_conc: concentration of pesticide in overall diet of aquatic animal/organism (g/kg wet weight)
 
         #PESTICIDE CONCENTRATION IN ORGANISM AND LIPID NORMALIZED PESTICIDE CONCENTRATION IN ORGANISM
@@ -1203,11 +1211,11 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
             self.out_drinking_water_intake_a5 = self.water_ingestion_rate_birds
 
         #dose_based EECs: Mammals
-        dose_based_eec_mammals = np.array([], dtype = 'float')
-        dose_based_eec_mammals = self.dose_based_eec(self.cb_a2, self.diet_mammals, self.wet_food_ingestion_rate_mammals,
+        self.dose_based_eec_mammals = np.array([], dtype = 'float')
+        self.dose_based_eec_mammals = self.dose_based_eec(self.cb_a2, self.diet_mammals, self.wet_food_ingestion_rate_mammals,
                                 self.water_ingestion_rate_mammals, self.mammal_weights)
         #transfer to individual output variables
-        self.out_db40,self.out_db41,self.out_db42,self.out_db43,self.out_db44,self.out_db45 = dose_based_eec_mammals
+        self.out_db40,self.out_db41,self.out_db42,self.out_db43,self.out_db44,self.out_db45 = self.dose_based_eec_mammals
 
         #dose-based EECs: Birds
         dose_based_eec_birds = np.array([], dtype = 'float')
@@ -1216,6 +1224,97 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         #transfer to individual output variables
         self.out_db4a0,self.out_db4a1,self.out_db4a2,self.out_db4a3,self.out_db4a4,self.out_db4a5 = dose_based_eec_birds
 
+        #dietary-based EECs: Mammals
+        self.diet_based_eec_mammals = np.array([], dtype = 'float')
+        self.diet_based_eec_mammals = self.dietary_based_eec(self.cb_a2, self.diet_mammals)
+        #transfer to individual output variables
+        self.out_db50,self.out_db51,self.out_db52,self.out_db53,self.out_db54,self.out_db55 = self.diet_based_eec_mammals
+
+        #dietary-based EECs: Birds
+        self.diet_based_eec_birds = np.array([], dtype = 'float')
+        self.diet_based_eec_birds = self.dietary_based_eec(self.cb_a2, self.diet_birds)
+        #transfer to individual output variables
+        self.out_db5a0,self.out_db5a1,self.out_db5a2,self.out_db5a3,self.out_db5a4,self.out_db5a5 = self.diet_based_eec_birds
+        
+        #adjusted/acute dose-based toxicity values
+        self.acute_dose_based_tox_mammals = np.array([], dtype = 'float')
+        for i in range(len(self.species_of_the_tested_mammal)):   #loop through model simulation runs
+            if (self.species_of_the_tested_mammal == 'rat'):
+                tested_bw = self.bw_rat
+            else:
+                tested_bw = self.bw_other_mammal
+            self.dose_based_tox_mammals[i] = self.dose_based_tox_mammals(self, tested_bw)
+        self.out_acute_dose_based_m0,self.out_acute_dose_based_m1,self.out_acute_dose_based_m2,\
+            self.out_acute_dose_based_m3, self.out_acute_dose_based_m4,\
+            self.out_acute_dose_based_m5 = self.acute_dose_based_tox_mammals
+
+        #chronic dose-based toxicity
+        self.chronic_dose_based_tox_mamm = np.array([], dtype = 'float')
+        for i in range(len(self.species_of_the_tested_mammal)):   #loop through model simulation runs
+            if (self.species_of_the_tested_mammal[i] == 'rat'):
+                tested_bw = self.bw_rat[i]
+            else:
+                tested_bw = self.bw_other_mammal[i]
+            self.chronic_dose_based_tox_mamm[i] = self.chronic_dose_based_tox_mammals(self,
+                                                                    self.mammalian_chronic_endpoint[i], 
+                                                                    self.mammalian_chronic_endpoint_unit[i], tested_bw)
+        self.out_chronic_dose_based_m0,self.out_chronic_dose_based_m1,self.out_chronic_dose_based_m2,\
+            self.out_chronic_dose_based_m3, self.out_chronic_dose_based_m4,\
+            self.out_chronic_dose_based_m5 = self.chronic_dose_based_tox_mammals
+
+        #Acute dose-based risk quotient for mammals
+        self.acute_dose_based_rq_mammals = np.array([], dtype = 'float')
+        self.acute_dose_based_rq_mammals = self.acute_rq_dose_mammals()
+        self.out_acute_rq_dose_m0, self.out_acute_rq_dose_m1, self.out_acute_rq_dose_m2, self.out_acute_rq_dose_m3, \
+            self.out_acute_rq_dose_m4, self.out_acute_rq_dose_m5 = self.acute_dose_based_rq_mammals
+
+        #Chronic dose-based risk quotient for mammals
+        self.chronic_dose_based_rq_mammals = np.array([], dtype = 'float')
+        self.chronic_dose_based_rq_mammals = self.chronic_rq_dose_mammals()
+        self.out_chronic_rq_dose_m0, self.out_chronic_rq_dose_m1, self.out_chronic_rq_dose_m2, self.out_chronic_rq_dose_m3, \
+            self.out_chronic_rq_dose_m4, self.out_chronic_rq_dose_m5 = self.chronic_dose_based_rq_mammals
+
+        #Acute diet-based risk quotient for mammals
+        self.acute_diet_based_rq_mammals = np.array([], dtype = 'float')
+        for i in range(len(self.mammalian_lc50)):
+            self.acute_diet_based_rq_mammals[i] = self.acute_rq_diet_mammals(self.diet_based_eec_mammals[i],
+                                                                             self.mammalian_lc50[i])
+        self.out_acute_rq_diet_m0, self.out_acute_rq_diet_m1, self.out_acute_rq_diet_m2, self.out_acute_rq_diet_m3, \
+            self.out_acute_rq_diet_m4, self.out_acute_rq_diet_m5 = self.acute_diet_based_rq_mammals
+
+        #Chronic diet-based risk quotient for mammals
+        self.chronic_diet_based_rq_mammals = np.array([], dtype = 'float')
+        for i in range(len(self.mammalian_chronic_endpoint)):
+            self.chronic_diet_based_rq_mammals = self.chronic_rq_diet_mammals(self.diet_based_eec_mammals[i],
+                                                 self.mammalian_chronic_endpoint[i],
+                                                 self.mammalian_chronic_endpoint_unit[i])
+        self.out_chronic_rq_diet_m0, self.out_chronic_rq_diet_m1, self.out_chronic_rq_diet_m2, \
+            self.out_chronic_rq_diet_m3, self.out_chronic_rq_diet_m4, \
+            self.out_chronic_rq_diet_m5 = self.chronic_diet_based_rq_mammals
+
+        #Acute dose-based risk quotient for birds
+        self.acute_dose_based_rq_birds = np.array([], dtype = 'float')
+        self.acute_dose_based_rq_birds = self.acute_rq_dose_birds()
+        self.out_acute_rq_dose_a0, self.out_acute_rq_dose_a1, self.out_acute_rq_dose_a2, self.out_acute_rq_dose_a3, \
+            self.out_acute_rq_dose_a4, self.out_acute_rq_dose_a5 = self.acute_dose_based_rq_birds
+
+        #Acute diet-based for risk quotient birds
+        self.acute_diet_based_rq_birds = np.array([], dtype = 'float')
+        for i in range(len(self.avian_lc50)):  #loop through model simulation runs
+            self.chronic_diet_based_rq_birds = self.acute_rq_diet_birds(self.diet_based_eec_birds[i],
+                                                 self.avian_lc50[i])
+        self.out_acute_rq_diet_m0, self.out_acute_rq_diet_a1, self.out_acute_rq_diet_a2, \
+            self.out_acute_rq_diet_a3, self.out_acute_rq_diet_a4, \
+            self.out_acute_rq_diet_a5 = self.acute_diet_based_rq_birds
+
+        #Acute diet-based for risk quotient birds
+        self.chronic_diet_based_rq_birds = np.array([], dtype = 'float')
+        for i in range(len(self.avian_noaec)):  #loop through model simulation runs
+            self.chronic_diet_based_rq_birds = self.chronic_rq_diet_birds(self.diet_based_eec_birds[i],
+                                                 self.avian_noaec[i])
+        self.out_chronic_rq_diet_m0, self.out_chronic_rq_diet_a1, self.out_chronic_rq_diet_a2, \
+            self.out_chronic_rq_diet_a3, self.out_chronic_rq_diet_a4, \
+            self.out_chronic_rq_diet_a5 = self.chronic_diet_based_rq_birds
 
         # self.phi_f()
         # self.c_soc_f()

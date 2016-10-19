@@ -1340,7 +1340,7 @@ class KabamFunctions(object):
         """
         :description Concentration of freely dissolved pesticide in overlying water column
         :unit g/L
-        :expression Kabam A1 (product of terms - [phi * Cwto], used in Eqs F2 & F4)
+        :expression Kabam A1 (product of terms - [phi * water_column_eec], used in Eqs F2 & F4)
         :param phi: Fraction of pesticide freely dissolved in water column (that can be
                     absorbed via membrane diffusion) (fraction)
         :param water_column_eec: Water Column 1-in-10 year EECs (ug/L)
@@ -1680,7 +1680,7 @@ class KabamFunctions(object):
             self.zoo_diet_phyto * self.cb_phytoplankton / self.phytoplankton_lipid)
         return self.bmf_zoo
 
-    ################################ benthic invertebrates
+################################ benthic invertebrates
 
         # partition coefficient of the pesticide between the gastrointenstinal track and the organism
 
@@ -1987,7 +1987,6 @@ class KabamFunctions(object):
 
     ############ medium fish
 
-
     def cb_mf_f(self):
         """
         Medium fish pesticide tissue residue
@@ -2206,15 +2205,15 @@ class KabamFunctions(object):
         :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
-        :param cwto: total pesticide concentraiton in water column above sediment (g/L)
-        :param cwdp: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
+        :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
         :param diet_conc: concentration of pesticide in overall diet of aquatic animal/organism (g/kg wet weight)
         #because phytoplankton have no diet the (Kd * SUM(Pi * Cdi)) portion of Eq. A1 is not included here
         :return:
         """
         pest_conc_organism = pd.Series([], dtype = 'float')
 
-        pest_conc_organism = (k1 * (mO * self.phi * self.cwto + (mP * self.cwdp)) + kD * diet_conc) / (k2 + kE + kG + kM)
+        pest_conc_organism = (k1 * (mO * self.phi * self.water_column_eec + (mP * self.pore_water_eec)) + kD * diet_conc) / (k2 + kE + kG + kM)
         return pest_conc_organism
 
     def pest_conc_diet_uptake(self, kD,  k2, kE, kG, kM, diet_conc):
@@ -2249,13 +2248,13 @@ class KabamFunctions(object):
         :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
-        :param cwto: total pesticide concentraiton in water column above sediment (g/L)
-        :param cwdp: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
+        :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
         :return:
         """
         pest_conc_from_respir = pd.Series([], dtype = 'float')
 
-        pest_conc_from_respir = (k1 * (mO * self.phi * self.cwto + (mP * self.cwdp)) / k2 ) / (k2 + kE + kM + kG)
+        pest_conc_from_respir = (k1 * (mO * self.phi * self.water_column_eec + (mP * self.pore_water_eec)) / k2 ) / (k2 + kE + kM + kG)
         return pest_conc_from_respir
 
     def lipid_norm_residue_conc(self, total_conc, lipid_content):
@@ -2283,13 +2282,13 @@ class KabamFunctions(object):
         :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
-        :param cwto: total pesticide concentraiton in water column above sediment (g/L)
-        :param cwdp: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
+        :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
         :return:
         """
         tot_bioconc_fact = pd.Series([], dtype = 'float')
 
-        tot_bioconc_fact = (k1 * (mO * self.phi * self.cwto + mP * self.cwdp) / k2 ) / self.cwto
+        tot_bioconc_fact = (k1 * (mO * self.phi * self.water_column_eec + mP * self.pore_water_eec) / k2 ) / self.water_column_eec
         return tot_bioconc_fact
 
     def lipid_norm_bioconc_fact(self, k1, k2, mP, mO, lipid_content):
@@ -2304,15 +2303,15 @@ class KabamFunctions(object):
         :param lipid_content: fraction of animal/organism that is lipid (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
-        :param cwto: total pesticide concentraiton in water column above sediment (g/L)
-        :param cwdp: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
+        :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
         :return:
         """
 
         lipid_norm_bcf = pd.Series([], dtype = 'float')
 
-        lipid_norm_bcf = ((k1 * (mO * self.phi * self.cwto + mP * self.cwdp) / k2 ) / lipid_content) / \
-                          (self.cwto * self.phi)
+        lipid_norm_bcf = ((k1 * (mO * self.phi * self.water_column_eec + mP * self.pore_water_eec) / k2 ) / lipid_content) / \
+                          (self.water_column_eec * self.phi)
         return lipid_norm_bcf
 
     def tot_bioacc_fact(self, pest_conc):
@@ -2321,13 +2320,13 @@ class KabamFunctions(object):
         :unit (ug pesticide/kg ww) / (ug pesticide/L water)
         :expression Kabam Eq. F3
         :param pest_conc: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
-        :param cwto:  total pesticide concentraiton in water column above sediment (g/L)
+        :param water_column_eec:  total pesticide concentraiton in water column above sediment (g/L)
         :return:
         """
 
         total_bioacc_fact = pd.Series([], dtype = 'float')
 
-        total_bioacc_fact = pest_conc / self.cwto
+        total_bioacc_fact = pest_conc / self.water_column_eec
         return total_bioacc_fact
 
     def lipid_norm_bioacc_fact(self, pest_conc, lipid_content):
@@ -2339,13 +2338,13 @@ class KabamFunctions(object):
         :param lipid_content: fraction of animal/organism that is lipid (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
-        :param cwto: total pesticide concentraiton in water column above sediment (g/L)
+        :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
         :return:
         """
 
         lipid_norm_baf = pd.Series([], dtype = 'float')
 
-        lipid_norm_baf = (pest_conc / lipid_content) / (self.cwto * self.phi)
+        lipid_norm_baf = (pest_conc / lipid_content) / (self.water_column_eec * self.phi)
         return lipid_norm_baf
 
     def biota_sed_acc_fact(self, pest_conc, lipid_content):  #cdsafl
@@ -2380,7 +2379,7 @@ class KabamFunctions(object):
         biomag_fact = (pest_conc / lipid_content) / lipid_norm_diet_conc
         return biomag_fact
 #############################################################################
-#this method is not created in final Kabam model; the mweight array is created in 'set_global_constants'
+#these methods are not created in final Kabam model; the mweight and awight arrays are created in 'set_global_constants'
 #and the conversion of concentrations (self.cb_*) is performed in the main routine
         # Mammals EECs
     def mweight_f(self):
@@ -2395,6 +2394,15 @@ class KabamFunctions(object):
         #[fog/water shrew,rice rat/star-nosed mole,small mink,large mink,small river otter	,large river otter]
         self.mweight = np.array([[0.018, 0.085, 0.45, 1.8, 5, 15]])
         return self.mweight
+
+    def aweight_f(self):
+        """
+        Avian
+        :return:
+        """
+        self.aweight = np.array([[0.02, 6.7, 0.07, 2.9, 1.25, 7.5]])
+        return self.aweight
+
 ##############################################################################
 
     def dfir_f(self):
@@ -2443,7 +2451,6 @@ class KabamFunctions(object):
         ingestion_rate_birds = (0.0582 * self.bird_weights ** 0.651) / self.bird_weights
         return ingestion_rate_birds
 ######################################################################################
-
     def wet_food_ingestion_m_f(self):
         """
         Mammals
@@ -2467,6 +2474,28 @@ class KabamFunctions(object):
         # wet food ingestion rate for mammals
         self.wet_food_ingestion_m = self.dfir / self.denom4
         return self.wet_food_ingestion_m
+
+    def wet_food_ingestion_a_f(self):
+        """
+        Avian
+        :return:
+        """
+        self.v_wb_a = np.array([[self.phytoplankton_water, self.zoo_water, self.beninv_water, self.filterfeeders_water, self.sfish_water,
+                                 self.mfish_water, self.lfish_water]])
+        # the following avian diet data reflects the diet of sandpipers, cranes, rails, herons, small osprey
+        # and white pelicans; each avian species diet is provided as a percent of the diet elements
+        # listed above (in that order)
+        self.diet_avian = np.array(
+            [[0, 0, .33, 0.33, 0.34, 0, 0], [0, 0, .33, .33, 0, 0.34, 0], [0, 0, 0.5, 0, 0.5, 0, 0],
+             [0, 0, 0.5, 0, 0, 0.5, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1]])
+        self.denom1a = self.diet_avian * self.v_wb_a
+        self.denom2a = np.cumsum(self.denom1a, axis=1)
+        self.denom3a = self.denom2a[:,
+                       6]  # selects out seventh row of array which is the cumulative sums of the products
+        self.denom4a = 1 - self.denom3a
+        self.wet_food_ingestion_a = self.dfir_a / self.denom4a
+        return self.wet_food_ingestion_a
+
 #################################################################################
 ################################################################################
     def wet_food_ingestion_rates(self, prey_water_contents, diet_fractions, dry_food_ingestion_rates):
@@ -2522,7 +2551,7 @@ class KabamFunctions(object):
         water_ingestion_rate_mammals = (0.099 * self.mammal_weights ** 0.90)
         return water_ingestion_rate_mammals
 ####################################################################################
-     def drinking_water_intake_a_f(self):
+    def drinking_water_intake_a_f(self):
         """
         Avian drinking water intake
         :return:
@@ -2573,11 +2602,12 @@ class KabamFunctions(object):
         return self.db4a
 #######################################################################
 ###########################################################################
-    def dose_based_eec(self, pest_conc_diet, diet_fraction, wet_food_ingest_rate, water_ingest_rate, body_weight):
+    def dose_based_eec(self, wc_eec, pest_conc_diet, diet_fraction, wet_food_ingest_rate, water_ingest_rate, body_weight):
         """
         :description dose-based EECs
         :unit (mg pesticide / kg-bw day)
         :expression Kabam Eq. G6
+        :param wc_eec: water column eec (ug/L)
         :param pest_conc_diet: overall concentration of pesticide in predator (mammal or bird) diet (ug pesticide/kg-bw)
         :param diet_fraction: fraction of aquatic animal/organism in diet of predator
         :param wet_food_ingest_rate: overall food ingestion rate (wet based) of predator (food ww/day)
@@ -2597,7 +2627,7 @@ class KabamFunctions(object):
 
         # dose based  EEC  (the /1000 converts ug to mg)
         dose_based_eec = (overall_diet_conc / 1000) * wet_food_ingest_rate + \
-                         (((self.water_column_eec / 1000) * water_ingest_rate) / body_weight)
+                         (((wc_eec / 1000) * water_ingest_rate) / body_weight)
         return dose_based_eec
 
 ############################################################################
@@ -2610,65 +2640,65 @@ class KabamFunctions(object):
         self.db5 = self.db3 / 1000
         return self.db5
 
-    ################################## Avian EECs
-    def aweight_f(self):
-        """
-        Avian
-        :return:
-        """
-        self.aweight = np.array([[0.02, 6.7, 0.07, 2.9, 1.25, 7.5]])
-        return self.aweight
-
-    def wet_food_ingestion_a_f(self):
-        """
-        Avian
-        :return:
-        """
-        self.v_wb_a = np.array([[self.phytoplankton_water, self.zoo_water, self.beninv_water, self.filterfeeders_water, self.sfish_water,
-                                 self.mfish_water, self.lfish_water]])
-        # the following avian diet data reflects the diet of sandpipers, cranes, rails, herons, small osprey
-        # and white pelicans; each avian species diet is provided as a percent of the diet elements
-        # listed above (in that order)
-        self.diet_avian = np.array(
-            [[0, 0, .33, 0.33, 0.34, 0, 0], [0, 0, .33, .33, 0, 0.34, 0], [0, 0, 0.5, 0, 0.5, 0, 0],
-             [0, 0, 0.5, 0, 0, 0.5, 0], [0, 0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 1]])
-        self.denom1a = self.diet_avian * self.v_wb_a
-        self.denom2a = np.cumsum(self.denom1a, axis=1)
-        self.denom3a = self.denom2a[:,
-                       6]  # selects out seventh row of array which is the cumulative sums of the products
-        self.denom4a = 1 - self.denom3a
-        self.wet_food_ingestion_a = self.dfir_a / self.denom4a
-        return self.wet_food_ingestion_a
-
     def db5a_f(self):
         """
         Avian
         :return:
         """
         # dietary based EEC
-        self.db5a = (overall_diet_conc / 1000)
+        self.db5a = (self.db3 / 1000)
         return self.db5a
+############################################################################
+############################################################################
+    def dietary_based_eec(self, pest_conc_diet, diet_fraction):
+        """
+        :description dietary-based EECs
+        :unit (mg pesticide / kg-bw day)
+        :expression Kabam Eq. G7
+        :param pest_conc_diet: overall concentration of pesticide in predator (mammal or bird) diet (ug pesticide/kg-bw)
+        :param diet_fraction: fraction of aquatic animal/organism in diet of predator
+        :return:
+        """
+        frac_diet_conc = np.array([], dtype = 'float')
+        sum_diet_fracs = np.array([], dtype = 'float')
+        overall_diet_conc = np.array([], dtype = 'float')
+        dietary_based_eec = np.array([], dtype = 'float')
 
-        ##################################### toxicity values
-        #################################### mammal
+        #calculate relevant factors
+        frac_diet_conc = pest_conc_diet * diet_fraction
+        sum_diet_fracs = np.cumsum(frac_diet_conc, axis=1)
+        overall_diet_conc = sum_diet_fracs[:, 6]
 
+        # dietary-based  EEC  (the /1000 converts ug to mg)
+        dietary_based_eec = (overall_diet_conc / 1000)
+        return dietary_based_eec
+
+##############################################################
     def acute_dose_based_m_f(self):
         """
-        Dose based acute toxicity for mammals
+        Dose-based acute toxicity for mammals
         :return:
         """
         self.acute_dose_based_m = self.mammalian_ld50 * ((float(self.bw_mamm) / 1000) / self.mweight) ** 0.25
         return self.acute_dose_based_m
-
-    def chronic_dose_based_m_f(self):
+###############################################################################
+###############################################################################
+    def acute_dose_based_tox_mammals(self, ld50_mammal, tested_mammal_bw):
         """
-        Dose based chronic toxicity for mammals
+        :description Dose-based acute toxicity for mammals
+        :unit (mg/kg-bw)
+        :expression Kabam Eq. G8
+        :param ld50_mammal: Mammalian acute oral LD50 (mg/kg-bw)
+        :param tested_mammal_bw: body weight of tested mammal (gms)
+        :param mammal_weights: body weight of assessed mammal (kg)
         :return:
         """
-        self.chronic_dose_based_m = (self.mammalian_chronic_endpoint / 20) * (
-            ((float(self.bw_mamm) / 1000) / self.mweight) ** 0.25)
-        return self.chronic_dose_based_m
+        acute_toxicity_mammal = pd.Series([], dtype = 'float')
 
+        acute_toxicity_mammal = ld50_mammal * ((tested_mammal_bw / 1000) / self.mammal_weights) ** 0.25
+        return acute_toxicity_mammal
+
+###########################################################################
     def acute_dose_based_a_f(self):
         """
         Dose based acute toxicity for birds
@@ -2677,8 +2707,58 @@ class KabamFunctions(object):
         self.acute_dose_based_a = self.avian_ld50 * (self.aweight / (float(self.bw_bird) / 1000)) ** (
             self.mineau_scaling_factor - 1)
         return self.acute_dose_based_a
+#############################################################################
+################################################################################
+    def acute_dose_based_tox_birds(self, ld50_bird, tested_bird_bw, scaling_factor):
+        """
+        :description Dose-based acute toxicity for birds
+        :unit (mg/kg-bw)
+        :expression Kabam Eq. G9
+        :param ld50_bird: avian acute oral LD50 (mg/kg-bw)
+        :param tested_bird_bw: body weight of tested bird (gms)
+        :param bird_weights: body weight of assessed bird (kg)
+        :param scaling_factor: Chemical Specific Mineau scaling factor ()
+        :return:
+        """
+        acute_toxicity_bird = pd.Series([], dtype = 'float')
 
-    ##################################### RQ Values
+        acute_toxicity_bird = ld50_bird * (self.bird_weights / (tested_bird_bw / 1000)) ** (scaling_factor - 1.)
+        return acute_toxicity_bird
+
+############################################################################
+    def chronic_dose_based_m_f(self):
+        """
+        Dose based chronic toxicity for mammals
+        :return:
+        """
+        self.chronic_dose_based_m = (self.mammalian_chronic_endpoint / 20) * (
+            ((float(self.bw_mamm) / 1000) / self.mweight) ** 0.25)
+        return self.chronic_dose_based_m
+###################################################################################
+##############################################################################
+    def chronic_dose_based_tox_mammals(self, mammalian_chronic_endpt, mammalian_chronic_endpt_unit, tested_mammal_bw):
+        """
+        :description Dose=based chronic toxicity for mammals
+        :unit (mg/kg-bw)
+        :expression (non known documentation; see EPA OPP Kabam spreadsheet
+        :param mammalian_chronic_endpt:
+        :param mammalian_chronic_endpt_unit: ppm or mg/kg-bw
+        :param tested_mammal_bw: body weight of tested mammal (gms)
+        :param mammal_weights: body weight of assessed mammal(kg)
+        :return:
+        """
+        chronic_toxicity = pd.Series([], dtype = 'float')
+        # the /1000 converts gms to kg; the /20 converts ppm to mg/kg-diet
+        if (mammalian_chronic_endpt_unit == 'ppm'):
+            chronic_toxicity = (mammalian_chronic_endpt / 20) * (((
+                (tested_mammal_bw / 1000) / self.mammal_weights)) ** 0.25)
+        else:
+            chronic_toxicity = (mammalian_chronic_endpt) * (((
+                (tested_mammal_bw / 1000) / self.mammal_weights)) ** 0.25)
+        return chronic_toxicity
+
+
+##################################### RQ Values
     def acute_rq_dose_m_f(self):
         """
         RQ dose based for mammals
@@ -2686,7 +2766,24 @@ class KabamFunctions(object):
         """
         self.acute_rq_dose_m = self.db4 / self.acute_dose_based_m
         return self.acute_rq_dose_m
+#######################################################################
+#######################################################################
+    def acute_rq_dose_mammals(self):
+        """
+        :description Dose-based risk quotient for mammals
+        :unit none
+        :expression no known documentation; see EPA OPP Kabam spreadsheet
+         :param dose_based_eec_mammals: self defined
+         :param acute_dose_based_tox_mammals: self defined
+        :return:
+        """
+        acute_rq_dose_mamm = np.array([], dtype = 'float')
 
+        acute_rq_dose_mamm = self.dose_based_eec_mammals / self.acute_dose_based_tox_mammals
+        return acute_rq_dose_mamm
+
+
+#######################################################################
     def chronic_rq_dose_m_f(self):
         """
         Chronic RQ
@@ -2694,7 +2791,23 @@ class KabamFunctions(object):
         """
         self.chronic_rq_dose_m = self.db4 / self.chronic_dose_based_m
         return self.chronic_rq_dose_m
+########################################################################
+#########################################################################
+    def chronic_rq_dose_mammals(self):
+        """
+        :description Chronic dose-based risk quotient for mammals
+        :unit none
+        :expression no known documentation; see EPA OPP Kabam spreadsheet
+        :param dose_based_eec_mammals: self defined
+        :param chronic_dose_based_tox_mammals: self defined
+        :return:
+        """
+        chronic_rq_dose_mamm = np.array([], dtype = 'float')
 
+        chronic_rq_dose_mamm = self.dose_based_eec_mammals / self.chronic_dose_based_tox_mammals
+        return chronic_rq_dose_mamm
+
+##########################################################################
     def acute_rq_diet_m_f(self):
         """
         Acute RQ diet based for mammals
@@ -2702,7 +2815,27 @@ class KabamFunctions(object):
         """
         self.acute_rq_diet_m = self.db5 / self.mammalian_lc50
         return self.acute_rq_diet_m
+############################################################################
+############################################################################
+    def acute_rq_diet_mammals(self, diet_based_eec, mammal_lc50):
+        """
+        :description Acute diet-based for risk quotient mammals
+        :unit none
+        :expression no known documentation; see EPA OPP Kabam spreadsheet
+        :param mammal_lc50; mammalian lc50 (mg/kg-diet)
+        :param diet_based_eec: diet-based eec for mammal (mg pesticide / kg-bw day)
+        :note in the OPP spreadsheet 'mammal_lc50' may be input as 'N/A' or have
+              a value; in the case it is assigned 'N/A' this method should assign
+              'acute_rq_diet_mamm' a value of 'N/A'  -- as implemented below it will
+              either assign a 'nan' or issue a divide by zero error.
+        :return:
+        """
+        acute_rq_diet_mamm = np.array([], dtype = 'float')
 
+        acute_rq_diet_mamm = diet_based_eec/ mammal_lc50
+        return acute_rq_diet_mamm
+
+##########################################################################
     def chronic_rq_diet_m_f(self):
         """
         Chronic RQ diet based for mammals
@@ -2710,7 +2843,25 @@ class KabamFunctions(object):
         """
         self.chronic_rq_diet_m = self.db5 / self.mammalian_chronic_endpoint
         return self.chronic_rq_diet_m
+############################################################################
+#############################################################################
+    def chronic_rq_diet_mammals(self, diet_based_eec, mammalian_chronic_endpt, mammalian_chronic_endpt_unit):
+        """
+        :description chronic diet-based  rist quotient for mammals
+        :unit none
+        :expression no known documentation; see EPA OPP Kabam spreadsheet
+        :param mammalian_chronic_endpt:  (ppm)
+        :param diet_based_eec: diet-based eec for mammal (mg pesticide / kg
+        :return:
+        """
+        chronic_rq_diet_mamm = np.array([], dtype = 'float')
+        if (mammalian_chronic_endpt_unit == 'ppm'):
+            chronic_rq_diet_mamm = diet_based_eec / mammalian_chronic_endpt
+        else:
+            chronic_rq_diet_mamm = diet_based_eec / (mammalian_chronic_endpt * 20.)
+        return chronic_rq_diet_mamm
 
+################################################################################
     def acute_rq_dose_a_f(self):
         """
         RQ dose based for birds
@@ -2718,7 +2869,23 @@ class KabamFunctions(object):
         """
         self.acute_rq_dose_a = self.db4a / self.acute_dose_based_a
         return self.acute_rq_dose_a
+##################################################################################
+##############################################################################
+    def acute_rq_dose_birds(self):
+        """
+        :description Dose-based risk quotient for birds
+        :unit none
+        :expression no known documentation; see EPA OPP Kabam spreadsheet
+         :param dose_based_eec_birds: self defined
+         :param acute_dose_based_tox_birds: self defined
+        :return:
+        """
+        acute_rq_dose_bird = np.array([], dtype = 'float')
 
+        acute_rq_dose_bird = self.dose_based_eec_birds / self.acute_dose_based_tox_birds
+        return acute_rq_dose_bird
+
+############################################################################
     def acute_rq_diet_a_f(self):
         """
         RQ diet based for birds
@@ -2726,7 +2893,27 @@ class KabamFunctions(object):
         """
         self.acute_rq_diet_a = self.db5a / self.avian_lc50
         return self.acute_rq_diet_a
+#################################################################################
+##############################################################################
+    def acute_rq_diet_birds(self, diet_based_eec, bird_lc50):
+        """
+        :description Acute diet-based for risk quotient birds
+        :unit none
+        :expression no known documentation; see EPA OPP Kabam spreadsheet
+        :param bird_lc50; avian lc50 (mg/kg-diet)
+        :param diet_based_eec: diet-based eec for birds (mg pesticide / kg-bw day)
+        :note in the OPP spreadsheet 'bird_lc50' may be input as 'N/A' or have
+              a value; in the case it is assigned 'N/A' this method should assign
+              'acute_rq_diet_bird' a value of 'N/A'  -- as implemented below it will
+              either assign a 'nan' or issue a divide by zero error.
+        :return:
+        """
+        acute_rq_diet_bird = np.array([], dtype = 'float')
 
+        acute_rq_diet_bird = diet_based_eec/ bird_lc50
+        return acute_rq_diet_bird
+
+#############################################################################
     def chronic_rq_diet_a_f(self):
         """
         Chronic RQ diet for birds
@@ -2734,3 +2921,18 @@ class KabamFunctions(object):
         """
         self.chronic_rq_diet_a = self.db5a / self.avian_noaec
         return self.chronic_rq_diet_a
+#############################################################################
+#############################################################################
+    def chronic_rq_diet_birds(self, diet_based_eec, avian_chronic_endpt):
+        """
+        :description chronic diet-based  rist quotient for birds
+        :unit none
+        :expression no known documentation; see EPA OPP Kabam spreadsheet
+        :param avian_chronic_endpt:  avian noaec (mg/kg-diet)
+        :param diet_based_eec: diet-based eec for mammal (mg pesticide / kg
+        :return:
+        """
+        chronic_rq_diet_bird = np.array([], dtype = 'float')
+
+        chronic_rq_diet_bird = diet_based_eec / avian_chronic_endpt
+        return chronic_rq_diet_bird
