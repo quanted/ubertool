@@ -21,175 +21,6 @@ class KabamFunctions(object):
         fraction = percent / 100.
         return fraction
 
-# # ###Parameters & Calculations
-#
-# ## Chemical specific; dependent on concentrations of pesticide/organic carbon/particulate oc etc
-# ## in water column/sediment pore-water
-#
-#     def phi_f(self):
-#         """
-#         Calculate Fraction of pesticide freely dissolved in water column (can be
-#         absorbed via membrane diffusion)
-#         Eq. A2
-#         :return:
-#         """
-#         frac_diss = pd.Series([], dtype = 'float')
-#
-#         frac_diss = 1 / (1 + (self.conc_poc * 0.35 * self.log_kow) + (self.conc_doc * 0.08 * self.log_kow))
-#         return frac_diss
-#
-#     def water_d(self):
-#         """
-#         concentration of freely dissolved pesticide in overlying water column
-#         :return:
-#         """
-#         self.water_d = self.phi * self.water_column_eec * 1000000
-#         return self.water_d
-#
-#     def c_soc_f(self):
-#         """
-#         Normalized pesticide concentration in sediment
-#         Eq. A4a
-#         :return:
-#         """
-#         self.c_soc = self.k_oc * self.pore_water_eec
-#         return self.c_soc
-#
-#     def c_s_f(self):
-#         """
-#         Calculate concentration of chemical in solid portion of sediment
-#         Eq. A4
-#         :return:
-#         """
-#         self.c_s = self.c_soc * self.sediment_oc
-#         return self.c_s
-#
-#     def sed_om_f(self):
-#         """
-#         Calculate organic matter fraction in sediment
-# #?? don't see this calculation in model documentation; looks like it is same as c_soc_f
-#         :return:
-#         """
-#         self.sed_om = self.c_s / self.sediment_oc
-#         return self.sed_om
-#
-# ## Phytoplankton bioaccumulation/concentration calculations
-#
-#     def phytoplankton_k1_f(self):
-#         """
-#         Rate constant for uptake through respiratory area
-#         Eq. A5.1  (unique to phytoplankton)
-#         :return:
-#         """
-#         self.phytoplankton_k1 = 1 / (6.0e-5 + (5.5 / self.log_kow))
-#         return self.phytoplankton_k1
-#
-#     def phytoplankton_k2_f(self):
-#         """
-#         Rate constant for elimination through the gills for phytoplankton
-#         Eq. A6
-#         :return:
-#         """
-#         self.phytoplankton_k2 = self.phytoplankton_k1 / self.k_bw_phytoplankton
-#         return self.phytoplankton_k2
-#
-#     def k_bw_phytoplankton_f(self):
-#         """
-#         Phytoplankton water partition coefficient
-#         Eq. A6a
-#         :return:
-#         """
-#         self.k_bw_phytoplankton = (self.phytoplankton_lipid * self.log_kow) + (
-#                                    self.phytoplankton_nlom * 0.35 * self.log_kow) + self.phytoplankton_water
-#         return self.k_bw_phytoplankton
-#
-#     def cb_phytoplankton_f(self):
-#         """
-#         Phytoplankton pesticide tissue residue
-#         Eq. A1
-#         #because phytoplankton have no diet the (Kd * SUM(Pi * Cdi)) portion of Eq. A1 is not included here
-#         :return:
-#         """
-#         self.cb_phytoplankton = (self.phytoplankton_k1 * (self.phytoplankton_mo * self.water_column_eec *
-#                                  self.phi + self.phytoplankton_mp * self.pore_water_eec)) / (self.phytoplankton_k2 +
-#                                  self.phytoplankton_ke + self.phytoplankton_kg + self.phytoplankton_km)
-#         return self.cb_phytoplankton
-#
-#     def cbl_phytoplankton_f(self):
-#         """
-#         Lipid normalized pesticide residue in phytoplankton
-#         used in Eqs. F4 (cbafl_phytoplankton_f) & F5 (cbsafl_phytoplankton_f)
-#         :return:
-#         """
-#         self.cbl_phytoplankton = (1e6 * self.cb_phytoplankton) / self.phytoplankton_lipid
-#         return self.cbl_phytoplankton
-#
-#     def cbr_phytoplankton_f(self):
-#         """
-#         Phytoplankton pesticide residue concentration originating from uptake through respiration
-#         Cbr in Table A1  (this simply equals 'cb_phytoplankton_f' for phytoplankton because
-#         phytoplankton_kd = 0)
-#         """
-#
-#         self.cbr_phytoplankton = ((self.phytoplankton_k1 * (self.phytoplankton_mo * self.water_column_eec *
-#                                    self.phi + self.phytoplankton_mp * self.pore_water_eec)) / (
-#                                    self.phytoplankton_k2 + self.phytoplankton_ke + self.phytoplankton_kg +
-#                                    self.phytoplankton_km))
-#         return self.cbr_phytoplankton
-#
-#     def cbf_phytoplankton_f(self):
-#         """
-#         Phytoplankton total bioconcentration factor;
-#         Eq. F1 with phytoplankton_ke, phytoplankton_kg, phytoplankton_kd, and phytoplankton_km = 0
-#         :return:
-#         """
-#         # phytoplankton_kd = 0 #phytoplankton_kd is uptake rate constant for uptake
-#         # through ingestion of food; phytoplanton has no diet thus _kd is always = 0
-#
-#         self.cbf_phytoplankton = ((self.phytoplankton_k1 * (self.phytoplankton_mo * self.water_column_eec *
-#                                    self.phi + self.phytoplankton_mp * self.pore_water_eec)) / (
-#                                    self.phytoplankton_k2 )) / self.water_column_eec
-#         return self.cbf_phytoplankton
-#
-#     def cbfl_phytoplankton_f(self):
-#         """
-#         Phytoplankton lipid normalized total bioconcentration factor
-#         Eq. F2
-#         :return:
-#         """
-#
-#         self.cbfl_phytoplankton = (self.cbf_phytoplankton / self.phytoplankton_lipid) / self.water_d
-#
-#         return self.cbfl_phytoplankton
-#
-#     def cbaf_phytoplankton_f(self):
-#         """
-#         Phytoplankton bioaccumulation factor
-#         Eq. F3
-#         :return:
-#         """
-#         self.cbaf_phytoplankton = (1e6 * self.cb_phytoplankton) / self.water_column_eec
-#         return self.cbaf_phytoplankton
-#
-#     def cbafl_phytoplankton_f(self):
-#         """
-#         Phytoplankton lipid normalized bioaccumulation factor
-#         Eq. F4
-#         :return:
-#         """
-#         self.cbafl_phytoplankton = self.cbl_phytoplankton / self.water_d
-#         return self.cbafl_phytoplankton
-#
-#     def cbsafl_phytoplankton_f(self):
-#         """
-#         Phytoplankton biota-sediment accumulation factor
-#         Eq. F5
-#         :return:
-#         """
-# #?? why no 1e6 factor here as in 'cbaf_phytoplankton_f' or vice versa
-#         self.cbsafl_phytoplankton = self.cb_phytoplankton / self.sed_om
-#         return self.cbsafl_phytoplankton
-
     def ventilation_rate(self, wet_wgt):
         """
         :description Ventilation rate of aquatic animal
@@ -293,12 +124,13 @@ class KabamFunctions(object):
         :expression Kabam Eq. A7.1 & A7.2
         :param wet_wgt: wet weight of animal/organism (kg)
         :param water_temp: water temperature (degrees C)
+        :note the loop here could be moved to the main routine with the
+        coefficient *i.e., 0.0005, 0.00251) provided through a calling argument
         :return:
         """
-
         growth_rate = pd.Series([], dtype = 'float')
 
-        for i in range(len(self.water_temp)):
+        for i in range(len(self.water_temp)):  #loop through model simulation runs
             if self.water_temp[i] < 17.5:
                 growth_rate[i] = 0.0005 * (wet_wgt[i] ** -0.2)
             else:
@@ -454,6 +286,7 @@ class KabamFunctions(object):
         """
         :description Rate constant for elimination of the pesticide through excretion of contaminated feces
         :unit per day
+        :expression Kabam Eq. A9
         :param fecal_egestion_rate: egestion rate of fecal matter (kg feces)/(kg organism-day)
         :param diet_trans_eff: dietary pesticide transfer efficiency (fraction)
         :param part_coef: gut - partition coefficient of the pesticide between the gastrointestinal tract
@@ -964,6 +797,21 @@ class KabamFunctions(object):
         else:
             chronic_toxicity = (mammalian_chronic_endpt) * (((
                 (tested_mammal_bw / 1000) / self.mammal_weights)) ** 0.25)
+        return chronic_toxicity
+
+    def chronic_diet_based_tox_mammals(self, mammalian_chronic_endpt, mammalian_chronic_endpt_unit):
+        """
+        :description chronic diet-based toxicity for mammals
+        :unit (mg/kg-diet)
+        :expression no known documentation; see EPA OPP Kabam spreadsheet
+        :param mammalian_chronic_endpt:  (ppm or mg/kg-diet)
+        :return:
+        """
+        chronic_toxicity = np.array([], dtype = 'float')
+        if (mammalian_chronic_endpt_unit == 'ppm'):
+            chronic_toxicity = mammalian_chronic_endpt
+        else:
+            chronic_toxicity = mammalian_chronic_endpt * 20.
         return chronic_toxicity
 
     def acute_rq_dose_mammals(self):

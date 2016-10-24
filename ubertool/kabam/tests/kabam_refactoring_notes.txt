@@ -41,7 +41,10 @@ integration tests.
           variable).
 
 6. Alert: Method 'acute_rq_diet_mammals' requires chemical specific input 'mammalian_lc50'.
-          This input variable may be input as 'N/A' in which case 'acute_rq_diet_mammals' is
-          assigned 'N/A' in the OPP spreadsheet.  The question is: should this 'N/A' be
-          processed in the code  --  if it's not then we may get a divide by zero issue).
+          This input variable may be input as 'N/A' (Table 3: meaning not available rather than not applicable).
+          In the case of a 'N/A' the output variable 'acute_rq_diet_mammals' is assigned 'N/A' in the OPP
+          spreadsheet (Table 16). This doesn't work well in the python code because numpy arrays need to be homogeneous
+          in datatype so, for now anyway I recommend that the appropriate cell in the ubertool input spreadsheet
+          be blank rather than inserting a 'N/A'; the blank will be processed in the code as 'nan' rather than 'N/A'
+          and thus the resulting value of 'acute_rq_diet_mammals' will be 'nan'.
 
