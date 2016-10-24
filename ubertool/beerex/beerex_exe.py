@@ -239,6 +239,7 @@ class BeeRex(UberModel, BeerexInputs, BeerexOutputs):
         self.out_eec_soil = ((10.**(0.95*self.log_kow-2.05)+0.82) *
                              (-0.0648*(self.log_kow**2)+0.2431*self.log_kow+0.5822) *
                              (1.5/(0.2+1.5*self.koc*0.01)) * (0.5 * self.application_rate)) / 1000.
+        print self.out_eec_soil
         return self.out_eec_soil
 
     def eec_seed(self):
@@ -259,195 +260,214 @@ class BeeRex(UberModel, BeerexInputs, BeerexOutputs):
         """
         determine which application method is used for subsequent EEC and RQ calculations
         """
-        if self.application_method[0] == 'foliar spray':
-            self.out_eec_method = self.eec_spray()
-        elif self.application_method[0] == 'soil application':
-            self.out_eec_method = self.eec_soil()
-        elif self.application_method[0] == 'seed treatment':
-            self.out_eec_method = self.eec_seed()
-        elif self.application_method[0] == 'tree trunk':
-            self.out_eec_method = self.eec_tree()
+        for i in range(len(self.application_method)):
+            if self.application_method[i] == 'foliar spray':
+                self.out_eec_method[i] = self.eec_spray()
+            elif self.application_method[i] == 'soil application':
+                self.out_eec_method[i] = self.eec_soil()
+            elif self.application_method[i] == 'seed treatment':
+                self.out_eec_method[i] = self.eec_seed()
+            elif self.application_method[i] == 'tree trunk':
+                self.out_eec_method[i] = self.eec_tree()
         return self.out_eec_method
 
     def lw1_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for larval worker day 1
         """
-        if self.empirical_residue[0] == True:
-            self.out_lw1_total_dose = (self.empirical_jelly/1000.) * self.lw1_jelly
-        else:
-            self.out_lw1_total_dose = (self.out_eec_method/100.) * self.lw1_jelly
-        return self.out_lw1_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[i] == True:
+                self.out_lw1_total_dose = (self.empirical_jelly/1000.) * self.lw1_jelly
+            else:
+                self.out_lw1_total_dose = (self.out_eec_method/100.) * self.lw1_jelly
+            return self.out_lw1_total_dose
 
     def lw2_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for larval worker day 2
         """
-        if self.empirical_residue[0] == True:
-            self.out_lw2_total_dose = (self.empirical_jelly/1000.) * self.lw2_jelly
-        else:
-            self.out_lw2_total_dose = (self.out_eec_method/100.) * self.lw2_jelly
-        return self.out_lw2_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_lw2_total_dose = (self.empirical_jelly/1000.) * self.lw2_jelly
+            else:
+                self.out_lw2_total_dose = (self.out_eec_method/100.) * self.lw2_jelly
+            return self.out_lw2_total_dose
 
     def lw3_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for larval worker day 3
         """
-        if self.empirical_residue[0] == True:
-            self.out_lw3_total_dose = (self.empirical_jelly/1000.) * self.lw3_jelly
-        else:
-            self.out_lw3_total_dose = (self.out_eec_method/100.) * self.lw3_jelly
-        return self.out_lw3_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_lw3_total_dose = (self.empirical_jelly/1000.) * self.lw3_jelly
+            else:
+                self.out_lw3_total_dose = (self.out_eec_method/100.) * self.lw3_jelly
+            return self.out_lw3_total_dose
 
     def lw4_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for larval worker day 4
         """
-        if self.empirical_residue[0] == True:
-            self.out_lw4_total_dose = ((self.empirical_pollen/1000.) * self.lw4_pollen) + ((self.empirical_nectar/1000.) * self.lw4_nectar)
-        else:
-            self.out_lw4_total_dose = (self.out_eec_method * self.lw4_pollen) + (self.out_eec_method * self.lw4_nectar)
-        return self.out_lw4_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_lw4_total_dose = ((self.empirical_pollen/1000.) * self.lw4_pollen) + ((self.empirical_nectar/1000.) * self.lw4_nectar)
+            else:
+                self.out_lw4_total_dose = (self.out_eec_method * self.lw4_pollen) + (self.out_eec_method * self.lw4_nectar)
+            return self.out_lw4_total_dose
 
     def lw5_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for larval worker day 5
         """
-        if self.empirical_residue[0] == True:
-            self.out_lw5_total_dose = ((self.empirical_pollen/1000.) * self.lw5_pollen) + ((self.empirical_nectar/1000.) * self.lw5_nectar)
-        else:
-            self.out_lw5_total_dose = (self.out_eec_method * self.lw5_pollen) + (self.out_eec_method * self.lw5_nectar)
-        return self.out_lw5_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_lw5_total_dose = ((self.empirical_pollen/1000.) * self.lw5_pollen) + ((self.empirical_nectar/1000.) * self.lw5_nectar)
+            else:
+                self.out_lw5_total_dose = (self.out_eec_method * self.lw5_pollen) + (self.out_eec_method * self.lw5_nectar)
+            return self.out_lw5_total_dose
 
     def ld6_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for larval drone aged 6+ days
         """
-        if self.empirical_residue[0] == True:
-            self.out_ld6_total_dose = ((self.empirical_pollen/1000.) * self.ld6_pollen) + ((self.empirical_nectar/1000.) * self.ld6_nectar)
-        else:
-            self.out_ld6_total_dose = (self.out_eec_method * self.ld6_pollen) + (self.out_eec_method * self.ld6_nectar)
-        return self.out_ld6_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_ld6_total_dose = ((self.empirical_pollen/1000.) * self.ld6_pollen) + ((self.empirical_nectar/1000.) * self.ld6_nectar)
+            else:
+                self.out_ld6_total_dose = (self.out_eec_method * self.ld6_pollen) + (self.out_eec_method * self.ld6_nectar)
+            return self.out_ld6_total_dose
 
     def lq1_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for larval queen day 1
         """
-        if self.empirical_residue[0] == True:
-            self.out_lq1_total_dose = (self.empirical_jelly/1000.) * self.lq1_jelly
-        else:
-            self.out_lq1_total_dose = (self.out_eec_method/100.) * self.lq1_jelly
-        return self.out_lq1_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_lq1_total_dose = (self.empirical_jelly/1000.) * self.lq1_jelly
+            else:
+                self.out_lq1_total_dose = (self.out_eec_method/100.) * self.lq1_jelly
+            return self.out_lq1_total_dose
 
     def lq2_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for larval queen day 2
         """
-        if self.empirical_residue[0] == True:
-            self.out_lq2_total_dose = (self.empirical_jelly/1000.) * self.lq2_jelly
-        else:
-            self.out_lq2_total_dose = (self.out_eec_method/100.) * self.lq2_jelly
-        return self.out_lq2_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_lq2_total_dose = (self.empirical_jelly/1000.) * self.lq2_jelly
+            else:
+                self.out_lq2_total_dose = (self.out_eec_method/100.) * self.lq2_jelly
+            return self.out_lq2_total_dose
 
     def lq3_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for larval queen day 3
         """
-        if self.empirical_residue[0] == True:
-            self.out_lq3_total_dose = (self.empirical_jelly/1000.) * self.lq3_jelly
-        else:
-            self.out_lq3_total_dose = (self.out_eec_method/100.) * self.lq3_jelly
-        return self.out_lq3_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_lq3_total_dose = (self.empirical_jelly/1000.) * self.lq3_jelly
+            else:
+                self.out_lq3_total_dose = (self.out_eec_method/100.) * self.lq3_jelly
+            return self.out_lq3_total_dose
 
     def lq4_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for larval queen aged 4+ days
         """
-        if self.empirical_residue[0] == True:
-            self.out_lq4_total_dose = (self.empirical_jelly/1000.) * self.lq4_jelly
-        else:
-            self.out_lq4_total_dose = (self.out_eec_method/100.) * self.lq4_jelly
-        return self.out_lq4_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_lq4_total_dose = (self.empirical_jelly/1000.) * self.lq4_jelly
+            else:
+                self.out_lq4_total_dose = (self.out_eec_method/100.) * self.lq4_jelly
+            return self.out_lq4_total_dose
 
     def aw_cell_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for adult worker (cell cleaning and capping)
         """
-        if self.empirical_residue[0] == True:
-            self.out_awcell_total_dose = ((self.empirical_nectar/1000.) * self.aw_cell_nectar) + ((self.empirical_pollen/1000.) * self.aw_cell_pollen)
-        else:
-            self.out_awcell_total_dose = (self.out_eec_method * self.aw_cell_nectar) + (self.out_eec_method * self.aw_cell_pollen)
-        return self.out_awcell_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_awcell_total_dose = ((self.empirical_nectar/1000.) * self.aw_cell_nectar) + ((self.empirical_pollen/1000.) * self.aw_cell_pollen)
+            else:
+                self.out_awcell_total_dose = (self.out_eec_method * self.aw_cell_nectar) + (self.out_eec_method * self.aw_cell_pollen)
+            return self.out_awcell_total_dose
 
     def aw_brood_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for adult worker (brood and queen tending, nurse bees)
         """
-        if self.empirical_residue[0] == True:
-            self.out_awbrood_total_dose = ((self.empirical_nectar/1000.) * self.aw_brood_nectar) + ((self.empirical_pollen/1000.) * self.aw_brood_pollen)
-        else:
-            self.out_awbrood_total_dose = (self.out_eec_method * self.aw_brood_nectar) + (self.out_eec_method * self.aw_brood_pollen)
-        return self.out_awbrood_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_awbrood_total_dose = ((self.empirical_nectar/1000.) * self.aw_brood_nectar) + ((self.empirical_pollen/1000.) * self.aw_brood_pollen)
+            else:
+                self.out_awbrood_total_dose = (self.out_eec_method * self.aw_brood_nectar) + (self.out_eec_method * self.aw_brood_pollen)
+            return self.out_awbrood_total_dose
 
     def aw_comb_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for adult worker (comb building, cleaning, and food handling)
         """
-        if self.empirical_residue[0] == True:
-            self.out_awcomb_total_dose = ((self.empirical_nectar/1000.) * self.aw_comb_nectar) + ((self.empirical_pollen/1000.) * self.aw_comb_pollen)
-        else:
-            self.out_awcomb_total_dose = (self.out_eec_method * self.aw_comb_nectar) + (self.out_eec_method * self.aw_comb_pollen)
-        return self.out_awcomb_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_awcomb_total_dose = ((self.empirical_nectar/1000.) * self.aw_comb_nectar) + ((self.empirical_pollen/1000.) * self.aw_comb_pollen)
+            else:
+                self.out_awcomb_total_dose = (self.out_eec_method * self.aw_comb_nectar) + (self.out_eec_method * self.aw_comb_pollen)
+            return self.out_awcomb_total_dose
 
     def aw_pollen_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for adult worker (foraging for pollen)
         """
-        if self.empirical_residue[0] == True:
-            self.out_awpollen_total_dose = ((self.empirical_nectar/1000.) * self.aw_fpollen_nectar) + ((self.empirical_pollen/1000.) * self.aw_fpollen_pollen)
-        else:
-            self.out_awpollen_total_dose = (self.out_eec_method * self.aw_fpollen_nectar) + (self.out_eec_method * self.aw_fpollen_pollen)
-        return self.out_awpollen_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_awpollen_total_dose = ((self.empirical_nectar/1000.) * self.aw_fpollen_nectar) + ((self.empirical_pollen/1000.) * self.aw_fpollen_pollen)
+            else:
+                self.out_awpollen_total_dose = (self.out_eec_method * self.aw_fpollen_nectar) + (self.out_eec_method * self.aw_fpollen_pollen)
+            return self.out_awpollen_total_dose
 
     def aw_nectar_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for adult worker (foraging for nectar)
         """
-        if self.empirical_residue[0] == True:
-            self.out_awbrood_total_dose = ((self.empirical_nectar/1000.) * self.aw_fnectar_nectar) + ((self.empirical_pollen/1000.) * self.aw_fnectar_pollen)
-        else:
-            self.out_awnectar_total_dose = (self.out_eec_method * self.aw_fnectar_nectar) + (self.out_eec_method * self.aw_fnectar_pollen)
-        return self.out_awnectar_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_awbrood_total_dose = ((self.empirical_nectar/1000.) * self.aw_fnectar_nectar) + ((self.empirical_pollen/1000.) * self.aw_fnectar_pollen)
+            else:
+                self.out_awnectar_total_dose = (self.out_eec_method * self.aw_fnectar_nectar) + (self.out_eec_method * self.aw_fnectar_pollen)
+            return self.out_awnectar_total_dose
 
     def aw_winter_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for adult worker (maintenance of hive in winter)
         """
-        if self.empirical_residue[0] == True:
-            self.out_awbrood_total_dose = ((self.empirical_nectar/1000.) * self.aw_winter_nectar) + ((self.empirical_pollen/1000.) * self.aw_winter_pollen)
-        else:
-            self.out_awwinter_total_dose = (self.out_eec_method * self.aw_winter_nectar) + (self.out_eec_method * self.aw_winter_pollen)
-        return self.out_awwinter_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_awbrood_total_dose = ((self.empirical_nectar/1000.) * self.aw_winter_nectar) + ((self.empirical_pollen/1000.) * self.aw_winter_pollen)
+            else:
+                self.out_awwinter_total_dose = (self.out_eec_method * self.aw_winter_nectar) + (self.out_eec_method * self.aw_winter_pollen)
+            return self.out_awwinter_total_dose
 
     def ad_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for adult drone
         """
-        if self.empirical_residue[0] == True:
-            self.out_ad_total_dose = ((self.empirical_nectar/1000.) * self.ad_nectar) + ((self.empirical_pollen/1000.) * self.ad_pollen)
-        else:
-            self.out_ad_total_dose = (self.out_eec_method * self.ad_nectar) + (self.out_eec_method * self.ad_pollen)
-        return self.out_ad_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_ad_total_dose = ((self.empirical_nectar/1000.) * self.ad_nectar) + ((self.empirical_pollen/1000.) * self.ad_pollen)
+            else:
+                self.out_ad_total_dose = (self.out_eec_method * self.ad_nectar) + (self.out_eec_method * self.ad_pollen)
+            return self.out_ad_total_dose
 
     def aq_total_dose(self):
         """
         Pesticide dose in ug a.i./bee for adult queen (laying 1500 eggs/day)
         """
-        if self.empirical_residue[0] == True:
-            self.out_aq_total_dose = ((self.empirical_jelly/1000.) * self.aq_jelly)
-        else:
-            self.out_aq_total_dose = (self.out_eec_method/100.) * self.aq_jelly
-        return self.out_aq_total_dose
+        for i in range(len(self.empirical_residue)):
+            if self.empirical_residue[0] == True:
+                self.out_aq_total_dose = ((self.empirical_jelly/1000.) * self.aq_jelly)
+            else:
+                self.out_aq_total_dose = (self.out_eec_method/100.) * self.aq_jelly
+            return self.out_aq_total_dose
 
     def lw1_acute_rq(self):
         """
