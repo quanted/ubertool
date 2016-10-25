@@ -1,6 +1,5 @@
 import datetime
 import inspect
-import logging
 import numpy.testing as npt
 import os.path
 import pandas as pd
