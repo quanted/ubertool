@@ -38,25 +38,16 @@ class UberModel(object):
             df[input_param] = getattr(self, input_param)
 
         # Compare column names of temporary DataFrame (created above) to user-supply DataFrame from JSON
-        # logging.info("Expected: " + str(df.columns.sort_values()))
-        # logging.info("User Ins: " + str(pd_obj.columns.sort_values()))
         if df.columns.sort_values().equals(pd_obj.columns.sort_values()):
             # If the user-supplied DataFrame has the same column names as required by TRexInputs...
             # set each Series in the DataFrame to the corresponding TRexInputs attribute (member variable)
             for column in pd_obj.columns:
                 setattr(model_obj, column, pd_obj[column])
         else:
-            df['model'] = pd.Series(name=self.name)
-            if df.columns.sort_values().equals(pd_obj.columns.sort_values()):
-                # If the user-supplied DataFrame has the same column names as required by TerrplantInputs...
-                # set each Series in the DataFrame to the corresponding TerrplantInputs attribute (member variable)
-                for column in pd_obj.columns:
-                    setattr(model_obj, column, pd_obj[column])
-            else:
-                msg_err1 = "Inputs parameters do not have all required inputs. Please see API documentation.\n"
-                msg_err2 = "Expected: " + str(df.columns.sort_values()) + "\n"
-                msg_err3 = "Received: " + str(pd_obj.columns.sort_values()) + "\n"
-                raise ValueError(msg_err1 + msg_err2 + msg_err3)
+            msg_err1 = "Inputs parameters do not have all required inputs. Please see API documentation.\n"
+            msg_err2 = "Expected: " + str(df.columns.sort_values()) + "\n"
+            msg_err3 = "Received: " + str(pd_obj.columns.sort_values()) + "\n"
+            raise ValueError(msg_err1 + msg_err2 + msg_err3)
 
     def populate_outputs(self, model_obj):
         # Create temporary DataFrame where each column name is the same as TRexOutputs attributes
