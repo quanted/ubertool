@@ -1,5 +1,6 @@
 import importlib
 import pandas as pd
+from pandas import compat
 import logging
 
 
@@ -76,17 +77,39 @@ class UberModel(object):
             except:
                 print("output dataframe error on " + column)
 
-    @staticmethod
-    def get_dict_rep(model_obj):
+    def get_dict_rep(self, model_obj):
         """
         Convert DataFrames to dictionary, returning a tuple (inputs, outputs, exp_out)
         :param model_obj: model instance
         :return: (dict(input DataFrame), dict(outputs DataFrame), dict(expected outputs DataFrame))
         """
         try:
-            return model_obj.pd_obj.to_dict(), model_obj.pd_obj_out.to_dict(), model_obj.pd_obj_exp.to_dict()
+            return self.to_dict(model_obj.pd_obj), \
+                   self.to_dict(model_obj.pd_obj_out), \
+                   self.to_dict(model_obj.pd_obj_exp)
         except AttributeError:
-            return model_obj.pd_obj.to_dict(), model_obj.pd_obj_out.to_dict(), {}
+            return self.to_dict(model_obj.pd_obj), \
+                   self.to_dict(model_obj.pd_obj_out), \
+                   {}
+
+    @staticmethod
+    def to_dict(df):
+        """
+        This is an override of the the pd.DataFrame.to_dict() method where the keys in
+        return dictionary are cast to strings. This fixes an error where duck typing would
+        sometimes allow non-String keys, which fails when Flask serializes the dictionary to
+        JSON string to return the HTTP response.
+
+        Original method returns: dict((str(k), v.to_dict()) for k, v in compat.iteritems(df))
+        :param df:
+        :return:
+        """
+        out = {}
+        for k, v in compat.iteritems(df):
+            col = k
+            for row, value in compat.iteritems(v):
+                out[col] = {str(row): value}
+        return out
 
 
 class ModelSharedInputs(object):
