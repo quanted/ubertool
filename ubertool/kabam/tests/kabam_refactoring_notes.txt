@@ -48,3 +48,7 @@ integration tests.
           be blank rather than inserting a 'N/A'; the blank will be processed in the code as 'nan' rather than 'N/A'
           and thus the resulting value of 'acute_rq_diet_mammals' will be 'nan'.
 
+7. Input variables phytoplankton_kd_temp and phytoplankton_ke_temp (dietary uptake and fecal elimination
+   rate constants)have default values of 0.0 due to the fact that phytoplankton do not consume other organisms
+   (see Kabam documentation section A.5). At this point these variables are included in the input for the model but
+   should only have values of 0.0.  An option would be to eliminate them from the input altogether.

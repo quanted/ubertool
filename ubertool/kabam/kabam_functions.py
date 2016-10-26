@@ -49,7 +49,7 @@ class KabamFunctions(object):
         pest_uptake_eff_bygills = (1 / (1.85 + (155 / self.kow)))
         return pest_uptake_eff_bygills
 
-    def phytoplankton_k1_calc(self):
+    def phytoplankton_k1_calc(self, k_ow):
         """
         :description Uptake rate constant through respiratory area for phytoplankton
         :unit L/kg*d
@@ -58,14 +58,14 @@ class KabamFunctions(object):
                         uptake through the aquaeous phase of plant (days)
         :param 5.5: Parameter 'B' in Eq. A5.1; contant related to the resistance to pesticide
                     uptake through the organice phase of plant (days)
-        :param log kow: octanol-water partition coefficient ()
+        :param k_ow: octanol-water partition coefficient ()
 
         :return:
         """
 
         phyto_k1 = pd.Series([], dtype = 'float')
 
-        phyto_k1 = 1 / (6.0e-5 + (5.5 / self.kow))
+        phyto_k1 = 1 / (6.0e-5 + (5.5 / k_ow))
         return phyto_k1
 
     def aq_animal_k1_calc(self, pest_uptake_eff_bygills, vent_rate, wet_wgt):
@@ -215,7 +215,9 @@ class KabamFunctions(object):
         :return:
         """
 
-        overall_diet_fraction = pd.Series([], dtype = 'float')
+        diet_fraction = pd.Series([], dtype = 'float')
+        content_fraction = pd.Series([], dtype = 'float')
+
         overall_diet_fraction = 0.0
 
         for i in range(len(diet_fraction)):
@@ -256,7 +258,10 @@ class KabamFunctions(object):
 
         gut_content = pd.Series([], dtype = 'float')
 
-        gut_content = ((1. - epsilon) * overall_diet_content) / egestion_rate_factor
+        try:
+            gut_content = ((1. - epsilon) * overall_diet_content) / egestion_rate_factor
+        except:
+            print('Likely divide by zero in routine diet_elements_gut')
         return gut_content
 
     def gut_organism_partition_coef(self, gut_lipid, gut_nlom, gut_water, pest_kow, beta,

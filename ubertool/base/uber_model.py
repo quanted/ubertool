@@ -49,6 +49,17 @@ class UberModel(object):
         # Compare column names of temporary DataFrame (created above) to user-supply DataFrame from JSON
         #logging.info("Expected: ", str(df.columns.order()))
         #logging.info("User Ins: ", str(pd_obj.columns.order()))
+        keys_a = set(df.keys())
+        keys_b = set(pd_obj.keys())
+        if(keys_a != keys_b):
+            missing = [item for item in keys_a if item not in keys_b]
+            if(len(missing)>0):
+                print("missing the following field(s):")
+                print(missing)
+            extra = [item for item in keys_b if item not in keys_a]
+            if(len(extra)>0):
+                print("the following extra field(s) were found:")
+                print(extra)
         if df.columns.order().equals(pd_obj.columns.order()):
             # If the user-supplied DataFrame has the same column names as required by TRexInputs...
             # set each Series in the DataFrame to the corresponding TRexInputs attribute (member variable)
