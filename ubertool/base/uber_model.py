@@ -17,40 +17,50 @@ class UberModel(object):
         self.pd_obj_exp = None
         self.pd_obj_out = None
 
-    def populate_inputs(self, pd_obj, model_obj):
+    def _validate(self, model_inputs, user_inputs):
+        """
+        Compare the user supplied inputs with the ModelInputs() class attributes, ensuring they match by name
+
+        :param model_inputs: ModelInputs() class instance
+        :return: Boolean
+        """
+        # Create temporary DataFrame where each column name is the same as ModelInputs attributes
+        df = pd.DataFrame()
+        for input_param in model_inputs.__dict__:
+            df[input_param] = getattr(self, input_param)
+
+        # Compare column names of temporary DataFrame (created above) to user-supply DataFrame from JSON
+        if df.columns.sort_values().equals(user_inputs.columns.sort_values()):
+            return True
+        else:
+            msg_err1 = "Inputs parameters do not have all required inputs. Please see API documentation.\n"
+            msg_err2 = "Expected: " + str(df.columns.sort_values()) + "\n"
+            msg_err3 = "Received: " + str(user_inputs.columns.sort_values()) + "\n"
+            raise ValueError(msg_err1 + msg_err2 + msg_err3)
+
+    def populate_inputs(self, df_in):
         """
         Validate and assign user-provided model inputs to their respective class attributes
-        :param pd_obj: Pandas DataFrame object of model input parameters
-        :param model_obj:
+        :param df_in: Pandas DataFrame object of model input parameters
         """
         try:
             # Import the model's input class (e.g. TerrplantInputs) to compare user supplied inputs to
-            mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+            mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
             module = importlib.import_module(mod_name)
-            model_inputs = getattr(module, model_obj.name + "Inputs")
-            model_inputs_obj = model_inputs()
+            model_inputs_class = getattr(module, self.name + "Inputs")
+            model_inputs = model_inputs_class()
         except ValueError as err:
             logging.info(mod_name)
             logging.info(err.args)
 
-        # Create temporary DataFrame where each column name is the same as ModelInputs attributes
-        df = pd.DataFrame()
-        for input_param in model_inputs_obj.__dict__:
-            df[input_param] = getattr(self, input_param)
-
-        # Compare column names of temporary DataFrame (created above) to user-supply DataFrame from JSON
-        if df.columns.sort_values().equals(pd_obj.columns.sort_values()):
+        if self._validate(model_inputs, df_in):
             # If the user-supplied DataFrame has the same column names as required by TRexInputs...
             # set each Series in the DataFrame to the corresponding TRexInputs attribute (member variable)
-            for column in pd_obj.columns:
-                setattr(model_obj, column, pd_obj[column])
-        else:
-            msg_err1 = "Inputs parameters do not have all required inputs. Please see API documentation.\n"
-            msg_err2 = "Expected: " + str(df.columns.sort_values()) + "\n"
-            msg_err3 = "Received: " + str(pd_obj.columns.sort_values()) + "\n"
-            raise ValueError(msg_err1 + msg_err2 + msg_err3)
+            # user_inputs_df = self._sanitize(df_in)
+            for column in df_in.columns:
+                setattr(self, column, df_in[column])
 
-    def populate_outputs(self, model_obj):
+    def populate_outputs(self):
         # Create temporary DataFrame where each column name is the same as TRexOutputs attributes
         """
         Create and return Model Output DataFrame where each column name is a model output parameter
@@ -59,37 +69,44 @@ class UberModel(object):
         :return:
         """
         # Import the model's output class (e.g. TerrplantOutputs) to create a DF to store the model outputs in
-        mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+        mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
         module = importlib.import_module(mod_name)
-        model_outputs = getattr(module, model_obj.name + "Outputs")
+        model_outputs = getattr(module, self.name + "Outputs")
         model_outputs_obj = model_outputs()
         df = pd.DataFrame()
         for input_param in model_outputs_obj.__dict__:
             df[input_param] = getattr(self, input_param)
-            setattr(model_obj, input_param, df[input_param])
+            setattr(self, input_param, df[input_param])
         return df
 
-    def fill_output_dataframe(self, model_obj):
-        """ Combine all output properties into numpy pandas dataframe """
-        for column in model_obj.pd_obj_out:
+    def fill_output_dataframe(self):
+        """ Combine all output properties into Pandas Dataframe """
+        for column in self.pd_obj_out.columns:
             try:
-                model_obj.pd_obj_out[column] = getattr(model_obj, column)
+                output = getattr(self, column)
+                if isinstance(output, pd.Series):
+                    # Ensure model output is a Pandas Series. Only Series can be
+                    # reliably put into a Pandas DataFrame.
+                    self.pd_obj_out[column] = output
+                else:
+                    print('"{}" is not a Pandas Series. Returned outputs must be a Pandas Series'.format(column))
+
             except:
                 print("output dataframe error on " + column)
 
-    def get_dict_rep(self, model_obj):
+    def get_dict_rep(self):
         """
         Convert DataFrames to dictionary, returning a tuple (inputs, outputs, exp_out)
         :param model_obj: model instance
         :return: (dict(input DataFrame), dict(outputs DataFrame), dict(expected outputs DataFrame))
         """
         try:
-            return self.to_dict(model_obj.pd_obj), \
-                   self.to_dict(model_obj.pd_obj_out), \
-                   self.to_dict(model_obj.pd_obj_exp)
+            return self.to_dict(self.pd_obj), \
+                   self.to_dict(self.pd_obj_out), \
+                   self.to_dict(self.pd_obj_exp)
         except AttributeError:
-            return self.to_dict(model_obj.pd_obj), \
-                   self.to_dict(model_obj.pd_obj_out), \
+            return self.to_dict(self.pd_obj), \
+                   self.to_dict(self.pd_obj_out), \
                    {}
 
     @staticmethod

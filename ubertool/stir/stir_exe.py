@@ -89,10 +89,10 @@ class Stir(UberModel, StirInputs, StirOutputs):
             3) Run the model's methods to generate outputs
             4) Fill the output DataFrame with the generated model outputs
         """
-        self.populate_inputs(self.pd_obj, self)
-        self.pd_obj_out = self.populate_outputs(self)
+        self.populate_inputs(self.pd_obj)
+        self.pd_obj_out = self.populate_outputs()
         self.run_methods()
-        self.fill_output_dataframe(self)
+        self.fill_output_dataframe()
 
     def run_methods(self):
         """ Execute all algorithm methods for model logic """

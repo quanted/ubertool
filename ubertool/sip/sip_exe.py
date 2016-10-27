@@ -1,15 +1,6 @@
 from __future__ import division
-import logging
-import os.path
 import pandas as pd
-import sys
-#find parent directory and import base (travis)
-parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentddir)
 from base.uber_model import UberModel, ModelSharedInputs
-
-#print(sys.path)
-#print(os.path)
 
 
 class SipInputs(ModelSharedInputs):
@@ -26,14 +17,14 @@ class SipInputs(ModelSharedInputs):
         self.bodyweight_bird_other_2 = pd.Series([], dtype="float")
         self.bodyweight_tested_mammal = pd.Series([], dtype="float")
         self.ld50_avian_water = pd.Series([], dtype="float")
-        #self.ld50_species_tested_mammal = pd.Series([], dtype="object")
+        self.ld50_species_tested_mammal = pd.Series([], dtype="object")
         self.noaec_quail = pd.Series([], dtype="float")
         self.noaec_duck = pd.Series([], dtype="float")
         self.noaec_bird_other_1 = pd.Series([], dtype="float")
         self.noaec_bird_other_2 = pd.Series([], dtype="float")
         self.noael_bodyweight_tested_mammal = pd.Series([], dtype="float")
-        #self.noael_species_tested_mammal = pd.Series([], dtype="object")
-        #self.species_tested_bird = pd.Series([], dtype="object")
+        self.noael_species_tested_mammal = pd.Series([], dtype="object")
+        self.species_tested_bird = pd.Series([], dtype="object")
         self.ld50_mammal_water = pd.Series([], dtype="float")
         self.noael_mammal_water = pd.Series([], dtype="float")
         self.mineau_scaling_factor = pd.Series([], dtype="float")
@@ -53,7 +44,7 @@ class SipOutputs(object):
         self.out_dose_mamm = pd.Series(name="out_dose_mamm")
         self.out_at_bird = pd.Series(name="out_at_bird")
         self.out_at_mamm = pd.Series(name="out_at_mamm")
-        self.out_fi_bird = pd.Series(name="out_fi_bird")
+        # self.out_fi_bird = pd.Series(name="out_fi_bird")  # Removed bc this is used multiple times, therefore only the last calculated value would be reported...
         self.out_det = pd.Series(name="out_det")
         self.out_act = pd.Series(name="out_act")
         self.out_acute_bird = pd.Series(name="out_acute_bird")
@@ -82,10 +73,21 @@ class Sip(UberModel, SipInputs, SipOutputs):
         self.pd_obj_exp = pd_obj_exp
         self.pd_obj_out = None
 
-        #need to vectorize
         # Class member variables that are not user inputs
+        self.no_of_runs = len(self.pd_obj)  # Number of model runs (e.g. rows in input/output DF)
+
         self.bodyweight_assessed_bird = 20.
         self.bodyweight_assessed_mammal = 1000.
+        # bodyweight_assessed_bird = 20.
+        # self.bodyweight_assessed_bird = pd.Series(
+        #     data=[bodyweight_assessed_bird for x in range(self.no_of_runs)],
+        #     index=[x for x in range(self.no_of_runs)]
+        # )
+        # bodyweight_assessed_mammal = 1000.
+        # self.bodyweight_assessed_mammal = pd.Series(
+        #     data=[bodyweight_assessed_mammal for x in range(self.no_of_runs)],
+        #     index=[x for x in range(self.no_of_runs)]
+        # )
 
     def execute_model(self):
         """
@@ -95,10 +97,10 @@ class Sip(UberModel, SipInputs, SipOutputs):
             3) Run the model's methods to generate outputs
             4) Fill the output DataFrame with the generated model outputs
         """
-        self.populate_inputs(self.pd_obj, self)
-        self.pd_obj_out = self.populate_outputs(self)
+        self.populate_inputs(self.pd_obj)
+        self.pd_obj_out = self.populate_outputs()
         self.run_methods()
-        self.fill_output_dataframe(self)
+        self.fill_output_dataframe()
 
     def run_methods(self):
         """ Execute all algorithm methods for model logic """
@@ -139,8 +141,8 @@ class Sip(UberModel, SipInputs, SipOutputs):
         """
         Using fixed value to correctly handle floating point decimals as compared to spreadsheet implementation
         """
-        self.out_fw_bird = 0.0162
-        return self.out_fw_bird
+        fw_bird = 0.0162
+        self.out_fw_bird = pd.Series([fw_bird for x in range(self.no_of_runs)])
 
     # Daily water intake rate for mammals
     def fw_mamm(self):
@@ -160,8 +162,8 @@ class Sip(UberModel, SipInputs, SipOutputs):
         """
         Using fixed value to correctly handle floating point decimals as compared to spreadsheet implementation
         """
-        self.out_fw_mamm = 0.172
-        return self.out_fw_mamm
+        fw_mamm = 0.172
+        self.out_fw_mamm = pd.Series([fw_mamm for x in range(self.no_of_runs)])
 
     # Upper bound estimate of exposure for birds
     def dose_bird(self):
@@ -177,7 +179,8 @@ class Sip(UberModel, SipInputs, SipOutputs):
 
             where: BW = body weight (kg) of the assessed bird (e.g. mallard duck, bobtail quail, other)
         """
-        self.out_dose_bird = (self.out_fw_bird * self.solubility) / (self.bodyweight_assessed_bird / 1000.)
+        conv = 1000.0
+        self.out_dose_bird = (self.out_fw_bird * self.solubility) / (self.bodyweight_assessed_bird / conv)
         return self.out_dose_bird
 
     # Upper bound estimate of exposure for mammals
@@ -194,7 +197,8 @@ class Sip(UberModel, SipInputs, SipOutputs):
 
             where: BW = body weight (kg) of the assessed animal (e.g. laboratory rat, other)
         """
-        self.out_dose_mamm = (self.out_fw_mamm * self.solubility) / (self.bodyweight_assessed_mammal / 1000.)
+        conv = 1000.0
+        self.out_dose_mamm = (self.out_fw_mamm * self.solubility) / (self.bodyweight_assessed_mammal / conv)
         return self.out_dose_mamm
 
     # Acute adjusted toxicity value for birds
@@ -259,8 +263,8 @@ class Sip(UberModel, SipInputs, SipOutputs):
             rate for all birds, which generates a lower food intake rate compared to passerines.
             The equation is more conservative because it results in a lower dose-equivalent toxicity value.
         """
-        self.out_fi_bird = 0.0582 * ((bw_grams / 1000.) ** 0.651)
-        return self.out_fi_bird
+        bw_grams_series = pd.Series([bw_grams for x in range(self.no_of_runs)])
+        return 0.0582 * ((bw_grams_series / 1000.) ** 0.651)
 
     # Dose-equivalent chronic toxicity value for birds
     def det(self):
@@ -280,34 +284,27 @@ class Sip(UberModel, SipInputs, SipOutputs):
         try:
             # Body weight of bobtail quail is 178 g
             self.out_det_quail = (self.noaec_quail * self.fi_bird(178.)) / (178. / 1000.)
-        except Exception as e:
-            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
-            # TODO: vectorize
-            self.out_det_quail = None
-
+        except Exception:
+            pass
         try:
             # Body weight of mallard duck is 1580 g
             self.out_det_duck = (self.noaec_duck * self.fi_bird(1580.)) / (1580. / 1000.)
-        except Exception as e:
-            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
-            # TODO: vectorize
-            self.out_det_duck = None
+        except Exception:
+            pass
 
         try:
             self.out_det_other_1 = (self.noaec_bird_other_1 * self.fi_bird(self.bodyweight_bird_other_1)) / (
                 self.bodyweight_bird_other_1 / 1000.)
-        except Exception as e:
-            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
-            # TODO: Vectorize
-            self.out_det_other_1 = None
+        except Exception:
+            pass
+            # self.out_det_other_1 = pd.Series(None, list(range(self.chemical_name.size)))
 
         try:
             self.out_det_other_2 = (self.noaec_bird_other_2 * self.fi_bird(self.bodyweight_bird_other_2)) / (
                 self.bodyweight_bird_other_2 / 1000.)
-        except Exception as e:
-            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
-            # TODO: vectorize
-            self.out_det_other_2 = None
+        except Exception:
+            pass
+            # self.out_det_other_2 = pd.Series(None, list(range(self.chemical_name.size)))
 
         # Create DataFrame containing method Series created above
         df_noaec = pd.DataFrame({
