@@ -46,9 +46,7 @@ class Iec(UberModel, IecInputs, IecOutputs):
         """Class representing the IEC model and containing all its methods"""
         super(Iec, self).__init__()
         self.pd_obj = pd_obj
-        logging.info(self.pd_obj)
         self.pd_obj_exp = pd_obj_exp
-        logging.info(self.pd_obj_exp)
         self.pd_obj_out = None
 
     def execute_model(self):
@@ -59,10 +57,10 @@ class Iec(UberModel, IecInputs, IecOutputs):
             3) Run the model's methods to generate outputs
             4) Fill the output DataFrame with the generated model outputs
         """
-        self.populate_inputs(self.pd_obj, self)
-        self.pd_obj_out = self.populate_outputs(self)
+        self.populate_inputs(self.pd_obj)
+        self.pd_obj_out = self.populate_outputs()
         self.run_methods()
-        self.fill_output_dataframe(self)
+        self.fill_output_dataframe()
 
     def run_methods(self):
         """
