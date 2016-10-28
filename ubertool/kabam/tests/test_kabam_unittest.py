@@ -125,7 +125,7 @@ class TestKabam(unittest.TestCase):
 
             self.kabam_empty.log_kow = pd.Series([4., 5., 6.], dtype = 'float')
             self.kabam_empty.kow = 10.**(self.kabam_empty.log_kow)
-            result = self.kabam_empty.phytoplankton_k1_calc()
+            result = self.kabam_empty.phytoplankton_k1_calc(self.kabam_empty.kow)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]

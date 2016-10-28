@@ -215,9 +215,6 @@ class KabamFunctions(object):
         :return:
         """
 
-        diet_fraction = pd.Series([], dtype = 'float')
-        content_fraction = pd.Series([], dtype = 'float')
-
         overall_diet_fraction = 0.0
 
         for i in range(len(diet_fraction)):
@@ -422,8 +419,8 @@ class KabamFunctions(object):
 
         pest_conc_organism = pd.Series([], dtype = 'float')
 
-        pest_conc_organism = (k1 * (mO * self.phi * self.water_column_eec + (mP * self.pore_water_eec)) + (kD * pest_diet_conc)) / \
-                             (k2 + kE + kG + kM)
+        pest_conc_organism = (k1 * (mO * self.phi * self.water_column_eec + (mP * self.pore_water_eec)) +
+                              (kD * pest_diet_conc)) / (k2 + kE + kG + kM)
         return pest_conc_organism
 
     def lipid_norm_residue_conc(self, total_conc, lipid_content):
@@ -725,8 +722,8 @@ class KabamFunctions(object):
         overall_diet_conc = sum_diet_fracs[:, 6]
 
         # dose based  EEC  (the /1000 converts ug to mg)
-        dose_based_eec = (overall_diet_conc / 1000) * wet_food_ingest_rate + \
-                         (((wc_eec / 1000) * water_ingest_rate) / body_weight)
+        dose_based_eec = (overall_diet_conc / 1000.) * wet_food_ingest_rate + \
+                         (((wc_eec / 1000.) * water_ingest_rate) / body_weight)
         return dose_based_eec
 
     def dietary_based_eec(self, pest_conc_diet, diet_fraction):
@@ -741,7 +738,7 @@ class KabamFunctions(object):
         frac_diet_conc = np.array([], dtype = 'float')
         sum_diet_fracs = np.array([], dtype = 'float')
         overall_diet_conc = np.array([], dtype = 'float')
-        dietary_based_eec = np.array([], dtype = 'float')
+        dietary_eec = np.array([], dtype = 'float')
 
         #calculate relevant factors
         frac_diet_conc = pest_conc_diet * diet_fraction
@@ -749,8 +746,8 @@ class KabamFunctions(object):
         overall_diet_conc = sum_diet_fracs[:, 6]
 
         # dietary-based  EEC  (the /1000 converts ug to mg)
-        dietary_based_eec = (overall_diet_conc / 1000)
-        return dietary_based_eec
+        dietary_eec = (overall_diet_conc / 1000)
+        return dietary_eec
 
     def acute_dose_based_tox_mammals(self, ld50_mammal, tested_animal_bw):
         """
