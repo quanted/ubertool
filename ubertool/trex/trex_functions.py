@@ -1,19 +1,16 @@
-from __future__ import division  #brings in Python 3.0 mixed type calculation rules
-from functools import wraps
-import logging
+from __future__ import division
 import numpy as np
 import pandas as pd
-import time
 
 
-class TRexFunctions(object):
+class TrexFunctions(object):
     """
     Function class for Trex.
     """
 
     def __init__(self):
         """Class representing the functions for Trex"""
-        super(TRexFunctions, self).__init__()
+        super(TrexFunctions, self).__init__()
 
     def app_rate_parsing(self):
         # extract first day and maximum application rates from each model simulation run

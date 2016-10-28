@@ -35,9 +35,15 @@ class UberModel(object):
             return True
         else:
             msg_err1 = "Inputs parameters do not have all required inputs. Please see API documentation.\n"
-            msg_err2 = "Expected: " + str(df.columns.sort_values()) + "\n"
-            msg_err3 = "Received: " + str(user_inputs.columns.sort_values()) + "\n"
-            raise ValueError(msg_err1 + msg_err2 + msg_err3)
+            keys_a = set(df.keys())
+            keys_b = set(self.pd_obj.keys())
+            msg_err2 = "Expected: \n{}\n".format(df.columns.sort_values())
+            msg_err3 = "Received: \n{}\n".format(self.pd_obj.columns.sort_values())
+            missing = [item for item in keys_a if item not in keys_b]
+            msg_missing = "missing the following field(s): \n{}\n".format(missing)
+            extras = [item for item in keys_b if item not in keys_a]
+            msg_extras = "the following extra field(s) were found: \n{}\n".format(extras)
+            raise ValueError(msg_err1 + msg_err2 + msg_err3 + msg_missing + msg_extras)
 
     @staticmethod
     def _convert_index(df_in):
