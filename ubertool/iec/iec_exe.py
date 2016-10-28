@@ -1,13 +1,7 @@
 from __future__ import division
-import logging
-import os.path
 import numpy as np
 import pandas as pd
 from scipy.special import erfc
-import sys
-#find parent directory and import base (travis)
-parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentddir)
 from base.uber_model import UberModel, ModelSharedInputs
 
 
