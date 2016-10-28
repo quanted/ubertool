@@ -1,6 +1,7 @@
 import importlib
 import pandas as pd
 from pandas import compat
+from parser import Parser
 import logging
 
 
@@ -38,11 +39,19 @@ class UberModel(object):
             msg_err3 = "Received: " + str(user_inputs.columns.sort_values()) + "\n"
             raise ValueError(msg_err1 + msg_err2 + msg_err3)
 
+    @staticmethod
+    def _convert_index(df_in):
+        """ Attempt to covert indices of input DataFrame to duck typed dtype """
+        parser = Parser(df_in)
+        df = parser.convert_axes()
+        return df
+
     def populate_inputs(self, df_in):
         """
         Validate and assign user-provided model inputs to their respective class attributes
         :param df_in: Pandas DataFrame object of model input parameters
         """
+        df = self._convert_index(df_in)
         try:
             # Import the model's input class (e.g. TerrplantInputs) to compare user supplied inputs to
             mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
@@ -53,12 +62,12 @@ class UberModel(object):
             logging.info(mod_name)
             logging.info(err.args)
 
-        if self._validate(model_inputs, df_in):
+        if self._validate(model_inputs, df):
             # If the user-supplied DataFrame has the same column names as required by TRexInputs...
             # set each Series in the DataFrame to the corresponding TRexInputs attribute (member variable)
-            # user_inputs_df = self._sanitize(df_in)
-            for column in df_in.columns:
-                setattr(self, column, df_in[column])
+            # user_inputs_df = self._sanitize(df)
+            for column in df.columns:
+                setattr(self, column, df[column])
 
     def populate_outputs(self):
         # Create temporary DataFrame where each column name is the same as TRexOutputs attributes
