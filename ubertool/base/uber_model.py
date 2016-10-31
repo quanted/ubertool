@@ -24,7 +24,8 @@ class UberModel(object):
         """
         try:
             # Import the model's input class (e.g. TerrplantInputs) to compare user supplied inputs to
-            mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+            #mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+            mod_name = model_obj.name.lower() + '_exe'
             module = importlib.import_module(mod_name)
             model_inputs = getattr(module, model_obj.name + "Inputs")
             model_inputs_obj = model_inputs()
@@ -64,7 +65,8 @@ class UberModel(object):
         :return:
         """
         # Import the model's output class (e.g. TerrplantOutputs) to create a DF to store the model outputs in
-        mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+        #mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+        mod_name = model_obj.name.lower() + '_exe'
         module = importlib.import_module(mod_name)
         model_outputs = getattr(module, model_obj.name + "Outputs")
         model_outputs_obj = model_outputs()
