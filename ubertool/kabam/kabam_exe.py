@@ -1441,20 +1441,21 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
             self.out_db4a0[i],self.out_db4a1[i],self.out_db4a2[i],self.out_db4a3[i],self.out_db4a4[i],\
                 self.out_db4a5[i] = dose_based_eec_birds[i]
 
-##NEED TO ESTABLISH LOOPS FOR MANY OF THE FOLLOWING: FOLLOW EXAMPLE FROM ABOVE
-
-
         #dietary-based EECs: Mammals (TABLE 14)
-        self.diet_based_eec_mammals = np.array([], dtype = 'float')
-        self.diet_based_eec_mammals = self.dietary_based_eec(self.cb_a2, self.diet_mammals)
-        #transfer to individual output variables
-        self.out_db50,self.out_db51,self.out_db52,self.out_db53,self.out_db54,self.out_db55 = self.diet_based_eec_mammals
+        self.diet_based_eec_mammals = np.zeros((len(self.phytoplankton_water),len(self.mammals)))
+        for i in range (len(self.phytoplankton_water)):
+            self.diet_based_eec_mammals[i] = self.dietary_based_eec(self.cb_a2[i], self.diet_mammals[i])
+            #transfer to individual output variables
+            self.out_db50[i],self.out_db51[i],self.out_db52[i],self.out_db53[i],self.out_db54[i],\
+                self.out_db55[i] = self.diet_based_eec_mammals[i]
 
         #dietary-based EECs: Birds (TABLE 14)
-        self.diet_based_eec_birds = np.array([], dtype = 'float')
-        self.diet_based_eec_birds = self.dietary_based_eec(self.cb_a2, self.diet_birds)
-        #transfer to individual output variables
-        self.out_db5a0,self.out_db5a1,self.out_db5a2,self.out_db5a3,self.out_db5a4,self.out_db5a5 = self.diet_based_eec_birds
+        self.diet_based_eec_birds = np.zeros((len(self.phytoplankton_water),len(self.birds)))
+        for i in range (len(self.phytoplankton_water)):
+            self.diet_based_eec_birds[i] = self.dietary_based_eec(self.cb_a2[i], self.diet_birds[i])
+            #transfer to individual output variables
+            self.out_db5a0[i],self.out_db5a1[i],self.out_db5a2[i],self.out_db5a3[i],self.out_db5a4[i],\
+                self.out_db5a5[i] = self.diet_based_eec_birds[i]
         
         #TOXICITY VALUES FOR MAMMALS AND BIRDS (TABLE 15)
 
@@ -1466,9 +1467,9 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
             else:
                 tested_bw = self.bw_other_mammal
             self.dose_based_tox_mammals[i] = self.acute_dose_based_tox_mammals(self.mammalian_ld50[i], tested_bw)
-        self.out_acute_dose_based_m0,self.out_acute_dose_based_m1,self.out_acute_dose_based_m2,\
-            self.out_acute_dose_based_m3, self.out_acute_dose_based_m4,\
-            self.out_acute_dose_based_m5 = self.acute_dose_based_tox_mammals
+            self.out_acute_dose_based_m0[i],self.out_acute_dose_based_m1[i],self.out_acute_dose_based_m2[i],\
+            self.out_acute_dose_based_m3[i], self.out_acute_dose_based_m4[i],\
+            self.out_acute_dose_based_m5[i] = self.dose_based_tox_mammals[i]
 
         #adjusted/acute diet-based toxicity for mammals - all are equal to the mammalian_lc50 value IF PROVIDED(Table 15)
         self.out_acute_diet_based_m0 = self.out_acute_diet_based_m1 = self.out_acute_diet_based_m2 =  \
