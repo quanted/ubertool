@@ -57,7 +57,7 @@ finally:
 #generate output
 sip_calc = Sip(pd_obj_inputs, pd_obj_exp)
 sip_calc.execute_model()
-inputs_json, outputs_json, exp_out_json = sip_calc.get_dict_rep(sip_calc)
+inputs_json, outputs_json, exp_out_json = sip_calc.get_dict_rep()
 #print("sip output")
 #print(inputs_json)
 

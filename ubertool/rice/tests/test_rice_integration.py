@@ -63,7 +63,7 @@ finally:
 #generate output
 rice_calc = Rice(pd_obj_inputs, pd_obj_exp)
 rice_calc.execute_model()
-inputs_json, outputs_json, exp_out_json = rice_calc.get_dict_rep(rice_calc)
+inputs_json, outputs_json, exp_out_json = rice_calc.get_dict_rep()
 #print("rice output")
 #print(inputs_json)
 

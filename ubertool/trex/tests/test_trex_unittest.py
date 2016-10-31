@@ -15,7 +15,7 @@ print("Numpy version: " + np.__version__)
 #find parent directory and import model
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parent_dir)
-from trex_exe import TRex
+from trex_exe import Trex
 
 test = {}
 
@@ -35,7 +35,7 @@ class TestTrex(unittest.TestCase):
         # create empty pandas dataframes to create empty object for testing
         df_empty = pd.DataFrame()
         # create an empty trex object
-        self.trex_empty = TRex(df_empty, df_empty)
+        self.trex_empty = Trex(df_empty, df_empty)
 
         pass
         # setup the test as needed
