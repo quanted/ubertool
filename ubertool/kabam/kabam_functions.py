@@ -238,8 +238,8 @@ class KabamFunctions(object):
 
         rate_factor = pd.Series([], dtype = 'float')
 
-        rate_factor = (((1 - epsilonL) * diet_lipid) + ((1 - epsilonN) * diet_nlom) + (
-                    (1 - epsilonW) * diet_water))
+        rate_factor = (((1. - epsilonL) * diet_lipid) + ((1. - epsilonN) * diet_nlom) + (
+                    (1. - epsilonW) * diet_water))
         return rate_factor
 
     def diet_elements_gut(self, epsilon, overall_diet_content, egestion_rate_factor):
@@ -248,7 +248,7 @@ class KabamFunctions(object):
         :unit (kg lipid) / (kg digested wet weight)
         :expression Kabam Eq. A9 (VLG, VNG, VWG)
         :param epsilon relevant dietary assimilation rate (fraction)
-        :param overall_diet_content relevant overall diet content of diet element (kg/kg)
+        :param overall_diet_content relevant overall diet content of diet element, e.g., lipid/nlom/water (kg/kg)
         :param egestion_rate_factor relevant: Aquatic animal/organism egestion rate of fecal matter factor
         :return:
         """
@@ -337,26 +337,28 @@ class KabamFunctions(object):
     def conc_sed_norm_4oc(self):
         """
         :description Pesticide concentration in sediment normalized for organic carbon
-        :unit g/(kg OC)
+        :unit ug/(kg OC)
         :expression Kabam Eq. A4a
         :param pore_water_eec: freely dissolved pesticide concentration in sediment pore water (ug/L)
         :param k_oc: organic carbon partition coefficient (L/kg OC)
-        :param 1000000: conversion factor from ug/L to g/L
-
+        :Note units here are in ug/kg as opposed to g/kg as in OPP spreadsheet; this is just to be consistent with
+              other units used throughout
         :return:
         """
         conc_diss_sed = pd.Series([], dtype = 'float')
 
-        conc_diss_sed = self.k_oc * self.pore_water_eec / 1000000.
+        conc_diss_sed = self.k_oc * self.pore_water_eec
         return conc_diss_sed
 
     def conc_sed_dry_wgt(self):
         """
-        :description Calculate concentration of chemical in solid portion of sediment
-        :unit g/(kg dry)
+        :description Calculate concentration of pesticide in solid portion of sediment
+        :unit ug/(kg dry sediment)
         :expression Kabam Eq. A4
-        :param c_soc: pesticide concentration in sediment normalized for organic carbon g/(kg OC)
+        :param c_soc: pesticide concentration in sediment normalized for organic carbon ug/(kg OC)
         :param sediment_oc: fraction organic carbon in sediment (fraction)
+        :Note units here are in ug/kg as opposed to g/kg as in OPP spreadsheet; this is just to be consistent with
+              other units used throughout
         :return:
         """
 
@@ -382,8 +384,8 @@ class KabamFunctions(object):
         overall_diet_conc = len(prey_frac) * [0.0]
         overall_lipid_norm_conc = len(prey_frac) * [0.0]
 
-        for j in range(len(prey_frac)):
-            for i in range(len(prey_frac[j])):
+        for j in range(len(prey_frac)):  # process model simulation runs
+            for i in range(len(prey_frac[j])):  # process individual prey items
                 prey_conc = prey_frac[j][i] * prey_pest_conc[j][i]
                 if (diet_lipid_frac[j][i] > 0.0):
                     lipid_norm_prey_conc = prey_conc / diet_lipid_frac[j][i]
@@ -398,7 +400,7 @@ class KabamFunctions(object):
     def pest_conc_organism(self, k1, k2, kD, kE, kG, kM, mP, mO, pest_diet_conc):
         """
         :description Concentration of pesticide in aquatic animal/organism
-        :unit g/(kg wet weight)
+        :unit ug/(kg wet weight)
         :expression Kabam Eq. A1 (CB)
         :param k1: pesticide uptake rate constant through respiratory area (gills, skin) (L/kg-d)
         :param k2: rate constant for elimination of the peisticide through the respiratory area (gills, skin) (/d)
@@ -410,17 +412,17 @@ class KabamFunctions(object):
         :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
-        :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
-        :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
-        :param pest_diet_conc: concentration of pesticide in overall diet of aquatic animal/organism (g/kg wet weight)
+        :param water_column_eec: total pesticide concentraiton in water column above sediment (ug/L)
+        :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (ug/L)
+        :param pest_diet_conc: concentration of pesticide in overall diet of aquatic animal/organism (ug/kg wet weight)
         #because phytoplankton have no diet the (Kd * SUM(Pi * Cdi)) portion of Eq. A1 is not included here
         :return:
         """
 
         pest_conc_organism = pd.Series([], dtype = 'float')
 
-        pest_conc_organism = (k1 * (mO * self.phi * self.water_column_eec + (mP * self.pore_water_eec)) +
-                              (kD * pest_diet_conc)) / (k2 + kE + kG + kM)
+        pest_conc_organism = (k1 * ((mO * self.phi * self.water_column_eec) +
+                             (mP * self.pore_water_eec)) + (kD * pest_diet_conc)) / (k2 + kE + kG + kM)
         return pest_conc_organism
 
     def lipid_norm_residue_conc(self, total_conc, lipid_content):
@@ -428,22 +430,22 @@ class KabamFunctions(object):
         :description Lipid normalized pesticide residue in aquatic animal/organism
         :unit ug/kg-lipid
         :expresssion represents a factor (CB/VLB) used in Kabam Eqs. F4, F5, & F6
-        :param total_conc: total pesticide concentration in animal/organism (g/kg-ww)
+        :param total_conc: total pesticide concentration in animal/organism (ug/kg-ww)
         :param lipid_content: fraction of animal/organism that is lipid (fraction)
         :return:
         """
         lipid_norm_conc = pd.Series([], dtype = 'float')
 
-        lipid_norm_conc = (total_conc / lipid_content) * self.gms_to_microgms
+        lipid_norm_conc = total_conc / lipid_content
         return lipid_norm_conc
 
     def pest_conc_diet_uptake(self, kD,  k2, kE, kG, kM, diet_conc):
         """
-        :description Pesticide concentration in animal/organism originating from uptake through diet
-        :unit g/kg ww
+        :description Pesticide concentration in aquatic animal/organism originating from uptake through diet
+        :unit ug/kg ww
         :expression Kabam A1 (with k1 = 0)
         :param kD: pesticide uptake rate constant for uptake through ingestion of food (kg food/kg organizm - day)
-        :param diet_conc: overall concentration of pesticide in diet of animal/organism (g/kg-ww)
+        :param diet_conc: overall concentration of pesticide in diet of animal/organism (ug/kg-ww)
         :param k2: rate constant for elimination of the peisticide through the respiratory area (gills, skin) (/d)
         :param kE: rate constant for elimination of the pesticide through excretion of feces (/d)
         :param kG: animal/organism growth rate constant (/d)
@@ -458,7 +460,7 @@ class KabamFunctions(object):
     def pest_conc_respir_uptake(self, k1, k2, kE, kG, kM, mP, mO):
         """
         :description Pesticide concentration in animal/organism originating from uptake through respiration
-        :unit g/kg ww
+        :unit ug/kg ww
         :expression Kabam A1 (with kD = 0)
         :param k1: pesticide uptake rate constant through respiratory area (gills, skin) (L/kg-d)
         :param k2: rate constant for elimination of the peisticide through the respiratory area (gills, skin) (/d)
@@ -469,13 +471,14 @@ class KabamFunctions(object):
         :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
-        :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
-        :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :param water_column_eec: total pesticide concentraiton in water column above sediment (ug/L)
+        :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (ug/L)
         :return:
         """
         pest_conc_from_respir = pd.Series([], dtype = 'float')
 
-        pest_conc_from_respir = (k1 * (mO * self.phi * self.water_column_eec + (mP * self.pore_water_eec)) / (k2 + kE + kM + kG))
+        pest_conc_from_respir = (k1 * (mO * self.phi * self.water_column_eec + (mP * self.pore_water_eec))
+                                 / (k2 + kE + kM + kG))
         return pest_conc_from_respir
 
     def tot_bioconc_fact(self, k1, k2, mP, mO):
@@ -489,13 +492,14 @@ class KabamFunctions(object):
         :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
-        :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
-        :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :param water_column_eec: total pesticide concentraiton in water column above sediment (ug/L)
+        :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (ug/L)
         :return:
         """
         bioconc_fact = pd.Series([], dtype = 'float')
 
-        bioconc_fact = (k1 * (mO * self.phi * self.water_column_eec + (mP * self.pore_water_eec)) / k2 ) / self.water_column_eec
+        bioconc_fact = (k1 * (mO * self.phi * self.water_column_eec + (mP * self.pore_water_eec)) / k2 )\
+                       / self.water_column_eec
         return bioconc_fact
 
     def lipid_norm_bioconc_fact(self, k1, k2, mP, mO, lipid_content):
@@ -510,15 +514,15 @@ class KabamFunctions(object):
         :param lipid_content: fraction of animal/organism that is lipid (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
-        :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
-        :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
+        :param water_column_eec: total pesticide concentraiton in water column above sediment (ug/L)
+        :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (ug/L)
         :return:
         """
 
         lipid_norm_bcf = pd.Series([], dtype = 'float')
 
-        lipid_norm_bcf = ((k1 * (mO * self.phi * self.water_column_eec + mP * self.pore_water_eec) / k2 ) / lipid_content) / \
-                          (self.water_column_eec * self.phi)
+        lipid_norm_bcf = ((k1 * (mO * self.phi * self.water_column_eec + mP * self.pore_water_eec) / k2 )
+                          / lipid_content) /  (self.water_column_eec * self.phi)
         return lipid_norm_bcf
 
     def tot_bioacc_fact(self, pest_conc):
@@ -526,8 +530,8 @@ class KabamFunctions(object):
         :description Total bioaccumulation factor
         :unit (ug pesticide/kg ww) / (ug pesticide/L water)
         :expression Kabam Eq. F3
-        :param pest_conc: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
-        :param water_column_eec:  total pesticide concentraiton in water column above sediment (g/L)
+        :param pest_conc: Concentration of pesticide in aquatic animal/organism (ug/(kg wet weight)
+        :param water_column_eec:  total pesticide concentraiton in water column above sediment (ug/L)
         :return:
         """
 
@@ -541,16 +545,16 @@ class KabamFunctions(object):
         :description Lipid normalized bioaccumulation factor
         :unit (ug pesticide/kg lipid) / (ug pesticide/L water)
         :expression Kabam Eq. F4
-        :param pest_conc: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
+        :param pest_conc: Concentration of pesticide in aquatic animal/organism (ug/(kg wet weight)
         :param lipid_content: fraction of animal/organism that is lipid (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
-        :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
+        :param water_column_eec: total pesticide concentraiton in water column above sediment (ug/L)
         :return:
         """
         lipid_norm_baf = pd.Series([], dtype = 'float')
 
-        lipid_norm_baf = (pest_conc / lipid_content) / (self.water_column_eec * self.phi)
+        lipid_norm_baf = (pest_conc/ lipid_content) / (self.water_column_eec * self.phi)
         return lipid_norm_baf
 
     def biota_sed_acc_fact(self, pest_conc, lipid_content):  #cdsafl
@@ -558,17 +562,17 @@ class KabamFunctions(object):
         :description Biota-sediment accumulation factor
         :unit (ug pesticide/kg lipid) / (ug pesticide/L water)
         :expression Kabam Eq. F5
-        :param pest_conc: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
+        :param pest_conc: Concentration of pesticide in aquatic animal/organism (ug/(kg wet weight)
         :param lipid_content: fraction of animal/organism that is lipid (fraction)
-        :param c_soc Pesticide concentration in sediment normalized for organic carbon content (g/kg OC)
+        :param c_soc Pesticide concentration in sediment normalized for organic carbon content (ug/kg OC)
         :return:
         """
 
         sediment_acc_fact = pd.Series([], dtype = 'float')
-
+        #conversions not necessary, included for consistency of units use
         sediment_acc_fact = (pest_conc / lipid_content) / self.c_soc
         return sediment_acc_fact
-#??
+
     def biomag_fact(self, pest_conc, lipid_content, lipid_norm_diet_conc):
         """
         :description Biomagnification factor
@@ -759,9 +763,8 @@ class KabamFunctions(object):
         :param mammal_weights: body weight of assessed animal (kg)
         :return:
         """
-        acute_toxicity_mammal = pd.Series([], dtype = 'float')
 
-        acute_toxicity_mammal = ld50_mammal * ((tested_animal_bw / 1000) / self.mammal_weights) ** 0.25
+        acute_toxicity_mammal = ld50_mammal * ((tested_animal_bw / 1000.) / self.mammal_weights) ** 0.25
         return acute_toxicity_mammal
 
     def acute_dose_based_tox_birds(self, ld50_bird, tested_bird_bw, scaling_factor):
@@ -777,7 +780,7 @@ class KabamFunctions(object):
         """
         acute_toxicity_bird = pd.Series([], dtype = 'float')
 
-        acute_toxicity_bird = ld50_bird * ((self.bird_weights / (tested_bird_bw / 1000)) ** (scaling_factor - 1.))
+        acute_toxicity_bird = ld50_bird * ((self.bird_weights / (tested_bird_bw / 1000.)) ** (scaling_factor - 1.))
         return acute_toxicity_bird
 
     def chronic_dose_based_tox_mammals(self, mammalian_chronic_endpt, mammalian_chronic_endpt_unit, tested_mammal_bw):
@@ -825,9 +828,8 @@ class KabamFunctions(object):
          :param acute_dose_based_tox_mammals
         :return:
         """
-        acute_rq_dose_mamm = np.array([], dtype = 'float')
 
-        acute_rq_dose_mamm = self.dose_based_eec_mammals / self.acute_dose_based_tox_mammals
+        acute_rq_dose_mamm = self.dose_based_eec_mammals / self.dose_based_tox_mammals
         return acute_rq_dose_mamm
 
     def chronic_rq_dose_mammals(self):
@@ -839,9 +841,8 @@ class KabamFunctions(object):
         :param chronic_dose_based_tox_mammals: self defined
         :return:
         """
-        chronic_rq_dose_mamm = np.array([], dtype = 'float')
 
-        chronic_rq_dose_mamm = self.dose_based_eec_mammals / self.chronic_dose_based_tox_mammals
+        chronic_rq_dose_mamm = self.dose_based_eec_mammals / self.chronic_dose_based_tox_mamm
         return chronic_rq_dose_mamm
 
     def acute_rq_diet_mammals(self, diet_based_eec, mammal_lc50):
@@ -883,9 +884,8 @@ class KabamFunctions(object):
          :param acute_dose_based_tox_birds: self defined
         :return:
         """
-        acute_rq_dose_bird = np.array([], dtype = 'float')
 
-        acute_rq_dose_bird = self.dose_based_eec_birds / self.acute_dose_based_tox_birds
+        acute_rq_dose_bird = self.dose_based_eec_birds / self.dose_based_tox_birds
         return acute_rq_dose_bird
 
     def acute_rq_diet_birds(self, diet_based_eec, bird_lc50):
@@ -901,7 +901,6 @@ class KabamFunctions(object):
               either assign a 'nan' or issue a divide by zero error.
         :return:
         """
-        acute_rq_diet_bird = np.array([], dtype = 'float')
 
         acute_rq_diet_bird = diet_based_eec/ bird_lc50
         return acute_rq_diet_bird

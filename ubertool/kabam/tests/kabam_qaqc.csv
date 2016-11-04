@@ -3,7 +3,7 @@ version,,,,,,,
 chemical_name,,,,,Chemical X,Chemical X,Chemical X
 pc_code,,,,,,,
 log_kow,log Kow,,,,5,5,5
-k_oc,,,,,25000,25000,25000
+k_oc,,L/kg OC,,,25000,25000,25000
 pore_water_eec,freely dissolved pesticide concentration in sediment pore water ,(μg/L),,,5,5,5
 water_column_eec,Water Column 1-in-10 year EECs,(μg/L),,,6,6,6
 mineau_scaling_factor,Chemical Specific Mineau scaling factor,,,,1.15,1.15,1.15
@@ -13,18 +13,18 @@ conc_do,Concentration of Dissolved Oxygen (Cox),mg O2/L,,,5,5,5
 water_temp,Water Temperature (T),degrees C,,,15,15,15
 conc_ss,Concentration of Suspended Solids (Css),kg/L,,,0.00003,0.00003,0.00003
 sediment_oc,Sediment Organic Carbon (OC),%,,,4,4,4
-species_of_the_tested_bird,Species of the tested bird,,,,quail,quail,quail
+species_of_the_tested_bird,Species of the tested bird (used for adjusting LD50 toxicity values only),,,,quail,quail,quail
 bw_quail,Weight of the tested bird,gms,,,178,178,178
 bw_duck,Weight of the tested bird,gms,,,1580,1580,1580
 bw_other_bird,Weight of the tested bird,gms,,,200,200,200
 avian_ld50,Avian acute oral LD50,mg/kg-bw,,,50,50,50
 avian_lc50,Avian subacute dietary LC50,mg/kg-diet,,,500,500,500
 avian_noaec,Avian reporoduction NOAEC,mg/kg-diet,,,10,10,10
-species_of_the_tested_mammal,Species of the tested mammal,,,,rat,rat,rat
+species_of_the_tested_mammal,Species of the tested mammal (used for adjusting LD50 toxicity values only),,,,rat,rat,rat
 bw_rat,Body weight of the tested mammalian,gms,,,350,350,350
 bw_other_mammal,Body weight of other tested mammalian,gms,,,500,500,500
 mammalian_ld50,Mammalian acute oral LD50,mg/kg-bw,,,50,50,50
-mammalian_lc50,Mammalian subacute dietary LC50,mg/kg-diet,,, , , 
+mammalian_lc50,Mammalian subacute dietary LC50,mg/kg-diet,,,45,45,45
 mammalian_chronic_endpoint,Mammalian chronic endpoint, ppm or mg/kg-bw,,,10,10,10
 mammalian_chronic_endpoint_unit,units associated with the mammalia chronic endpoint (ppm or mg/kg-bw,ppm or mg/kg-bw,,,ppm,ppm,ppm
 lfish_diet_sediment,percent sediment of Large Fish Diet ,%,,,0,0,0
@@ -98,27 +98,27 @@ zoo_km,pesticide elimination via metabolism constant,per day,,,0,0,0
 beninv_k1_temp,pesticide uptake via respiration constant,L/kg*d,,,calculated,calculated,calculated
 beninv_k2_temp,pesticide elimination via respiration constant,per day,,,calculated,calculated,calculated
 beninv_kd_temp,pesticide uptake via diet constant,kg-food/kg-org/d,,,calculated,calculated,calculated
-beninv_ke_temp,pesticide elimination via diet constant,per day,,,0,0,0
-beninv_km,pesticide elimination via metabolism constant,per day,,,1,1,1
+beninv_ke_temp,pesticide elimination via diet constant,per day,,,calculated,calculated,calculated
+beninv_km,pesticide elimination via metabolism constant,per day,,,0,0,0
 filterfeeders_k1_temp,pesticide uptake via respiration constant,L/kg*d,,,calculated,calculated,calculated
 filterfeeders_k2_temp,pesticide elimination via respiration constant,per day,,,calculated,calculated,calculated
 filterfeeders_kd_temp,pesticide uptake via diet constant,kg-food/kg-org/d,,,calculated,calculated,calculated
-filterfeeders_ke_temp,pesticide elimination via diet constant,per day,,,0,0,0
-filterfeeders_km,pesticide elimination via metabolism constant,per day,,,1,1,1
+filterfeeders_ke_temp,pesticide elimination via diet constant,per day,,,calculated,calculated,calculated
+filterfeeders_km,pesticide elimination via metabolism constant,per day,,,0,0,0
 sfish_k1_temp,pesticide uptake via respiration constant,L/kg*d,,,calculated,calculated,calculated
 sfish_k2_temp,pesticide elimination via respiration constant,per day,,,calculated,calculated,calculated
 sfish_kd_temp,pesticide uptake via diet constant,kg-food/kg-org/d,,,calculated,calculated,calculated
-sfish_ke_temp,pesticide elimination via diet constant,per day,,,0,0,0
+sfish_ke_temp,pesticide elimination via diet constant,per day,,,calculated,calculated,calculated
 sfish_km,pesticide elimination via metabolism constant,per day,,,0,0,0
 mfish_k1_temp,pesticide uptake via respiration constant,L/kg*d,,,calculated,calculated,calculated
 mfish_k2_temp,pesticide elimination via respiration constant,per day,,,calculated,calculated,calculated
 mfish_kd_temp,pesticide uptake via diet constant,kg-food/kg-org/d,,,calculated,calculated,calculated
-mfish_ke_temp,pesticide elimination via diet constant,per day,,,0,0,0
+mfish_ke_temp,pesticide elimination via diet constant,per day,,,calculated,calculated,calculated
 mfish_km,pesticide elimination via metabolism constant,per day,,,0,0,0
 lfish_k1_temp,pesticide uptake via respiration constant,L/kg*d,,,calculated,calculated,calculated
 lfish_k2_temp,pesticide elimination via respiration constant,per day,,,calculated,calculated,calculated
 lfish_kd_temp,pesticide uptake via diet constant,kg-food/kg-org/d, ,,calculated,calculated,calculated
-lfish_ke_temp,pesticide elimination via diet constant,per day,,,0,0,0
+lfish_ke_temp,pesticide elimination via diet constant,per day,,,calculated,calculated,calculated
 lfish_km,pesticide elimination via metabolism constant,per day,,,0,0,0
 rate_constants,Rate constants for uptake and elimination(make selection; use defaults; input values),,,,a,a,a
 sediment_respire,Do organisms in trophic level respire some pore water?,,,,no,no,no
@@ -353,13 +353,13 @@ out_chronic_rq_diet_a2,chronic diet-based risk quotient (bird: rails),dose-based
 out_chronic_rq_diet_a3,chronic diet-based risk quotient (bird: herons),dose-based EEC/dose-based toxicity),,,,,
 out_chronic_rq_diet_a4,chronic diet-based risk quotient (bird: small osprey),dose-based EEC/dose-based toxicity),,,,,
 out_chronic_rq_diet_a5,chronic diet-based risk quotient (bird: white pelican),dose-based EEC/dose-based toxicity),,,,,
-exp_cb_phytoplankton,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,,27298,27298,27298
-exp_cb_zoo,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,,21065,21065,21065
-exp_cb_beninv,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,,23678,23678,23678
-exp_cb_ff,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,,15549,15549,15549
-exp_cb_sf,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,,34713,34713,34713
-exp_cb_mf,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,,41050,41050,41050
-exp_cb_lf,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,,56332,56332,56332
+exp_cb_phytoplankton,Concentration of pesticide in aquatic animal/organism,ug/(kg wet weight),,,27298,27298,27298
+exp_cb_zoo,Concentration of pesticide in aquatic animal/organism,ug/(kg wet weight),,,21065,21065,21065
+exp_cb_beninv,Concentration of pesticide in aquatic animal/organism,ug/(kg wet weight),,,23678,23678,23678
+exp_cb_ff,Concentration of pesticide in aquatic animal/organism,ug/(kg wet weight),,,15549,15549,15549
+exp_cb_sf,Concentration of pesticide in aquatic animal/organism,ug/(kg wet weight),,,34713,34713,34713
+exp_cb_mf,Concentration of pesticide in aquatic animal/organism,ug/(kg wet weight),,,41050,41050,41050
+exp_cb_lf,Concentration of pesticide in aquatic animal/organism,ug/(kg wet weight),,,56332,56332,56332
 exp_cbl_phytoplankton,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,1364913,1364913,1364913
 exp_cbl_zoo,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,702157,702157,702157
 exp_cbl_beninv,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,789265,789265,789265
@@ -367,19 +367,19 @@ exp_cbl_ff,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-l
 exp_cbl_sf,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,867830,867830,867830
 exp_cbl_mf,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,1026242,1026242,1026242
 exp_cbl_lf,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,1408297,1408297,1408297
-exp_cbd_zoo,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,651.72,651.72,651.72
-exp_cbd_beninv,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,1812.95,1812.95,1812.95
-exp_cbd_ff,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,1167.92,1167.92,1167.92
-exp_cbd_sf,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,7246.79,7246.79,7246.79
-exp_cbd_mf,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,14492.66,14492.66,14492.66
-exp_cbd_lf,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,30795.48,30795.48,30795.48
-exp_cbr_phytoplankton,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,28805.4,28805.4,28805.4
-exp_cbr_zoo,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,20412.98,20412.98,20412.98
-exp_cbr_beninv,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,21865.01,21865.01,21865.01
-exp_cbr_ff,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,14380.88,14380.88,14380.88
-exp_cbr_sf,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,27466.4,27466.4,27466.4
-exp_cbr_mf,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,26557.01,26557.01,26557.01
-exp_cbr_lf,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,25536.39,25536.39,25536.39
+exp_cbd_zoo,Pesticide concentration in animal/organism originating from uptake through diet,ug/(kg wet weight),,,651.72,651.72,651.72
+exp_cbd_beninv,Pesticide concentration in animal/organism originating from uptake through diet,ug/(kg wet weight),,,1812.95,1812.95,1812.95
+exp_cbd_ff,Pesticide concentration in animal/organism originating from uptake through diet,ug/(kg wet weight),,,1167.92,1167.92,1167.92
+exp_cbd_sf,Pesticide concentration in animal/organism originating from uptake through diet,ug/(kg wet weight),,,7246.79,7246.79,7246.79
+exp_cbd_mf,Pesticide concentration in animal/organism originating from uptake through diet,ug/(kg wet weight),,,14492.66,14492.66,14492.66
+exp_cbd_lf,Pesticide concentration in animal/organism originating from uptake through diet,ug/(kg wet weight),,,30795.48,30795.48,30795.48
+exp_cbr_phytoplankton,Pesticide concentration in animal/organism originating from uptake through respiration,ug/(kg wet weight),,,28805.4,28805.4,28805.4
+exp_cbr_zoo,Pesticide concentration in animal/organism originating from uptake through respiration,ug/(kg wet weight),,,20412.98,20412.98,20412.98
+exp_cbr_beninv,Pesticide concentration in animal/organism originating from uptake through respiration,ug/(kg wet weight),,,21865.01,21865.01,21865.01
+exp_cbr_ff,Pesticide concentration in animal/organism originating from uptake through respiration,ug/(kg wet weight),,,14380.88,14380.88,14380.88
+exp_cbr_sf,Pesticide concentration in animal/organism originating from uptake through respiration,ug/(kg wet weight),,,27466.4,27466.4,27466.4
+exp_cbr_mf,Pesticide concentration in animal/organism originating from uptake through respiration,ug/(kg wet weight),,,26557.01,26557.01,26557.01
+exp_cbr_lf,Pesticide concentration in animal/organism originating from uptake through respiration,ug/(kg wet weight),,,25536.39,25536.39,25536.39
 exp_cbf_phytoplankton,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,4801,4801,4801
 exp_cbf_zoo,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,3421,3421,3421
 exp_cbf_beninv,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,3705,3705,3705
@@ -505,12 +505,12 @@ exp_acute_dose_based_a2,acute/adjusted dose-based toxicity (bird: rails),(mg/kg-
 exp_acute_dose_based_a3,acute/adjusted dose-based toxicity (bird: herons),(mg/kg-bw),,,75.99,75.99,75.99
 exp_acute_dose_based_a4,acute/adjusted dose-based toxicity (bird: small osprey),(mg/kg-bw),,,66.98,66.98,66.98
 exp_acute_dose_based_a5,acute/adjusted dose-based toxicity (bird: white pelican),(mg/kg-bw),,,87.63,87.63,87.63
-out_acute_diet_based_m0,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
-out_acute_diet_based_m1,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
-out_acute_diet_based_m2,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
-out_acute_diet_based_m3,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
-out_acute_diet_based_m4,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
-out_acute_diet_based_m5,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
+out_acute_diet_based_m0,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,45,45,45
+out_acute_diet_based_m1,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,45,45,45
+out_acute_diet_based_m2,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,45,45,45
+out_acute_diet_based_m3,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,45,45,45
+out_acute_diet_based_m4,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,45,45,45
+out_acute_diet_based_m5,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,45,45,45
 out_acute_diet_based_a0,adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value,mg/kg-diet,,,500,500,500
 out_acute_diet_based_a1,adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value,mg/kg-diet,,,500,500,500
 out_acute_diet_based_a2,adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value,mg/kg-diet,,,500,500,500
@@ -547,12 +547,12 @@ exp_acute_rq_dose_a2,acute dose-based risk quotient (bird: rails),dose-based EEC
 exp_acute_rq_dose_a3,acute dose-based risk quotient (bird: herons),dose-based EEC/dose-based toxicity),,,0.067,0.067,0.067
 exp_acute_rq_dose_a4,acute dose-based risk quotient (bird: small osprey),dose-based EEC/dose-based toxicity),,,0.122,0.122,0.122
 exp_acute_rq_dose_a5,acute dose-based risk quotient (bird: white pelican),dose-based EEC/dose-based toxicity),,,0.069,0.069,0.069
-out_acute_rq_diet_m0,acute diet-based risk quotient (mammal: fog/water shrew),dose-based EEC/dose-based toxicity),,,,,
-out_acute_rq_diet_m1,acute diet-based risk quotient (mammal: rice rat/nosed mole),dose-based EEC/dose-based toxicity),,,,,
-out_acute_rq_diet_m2,acute diet-based risk quotient (mammal: small mink),dose-based EEC/dose-based toxicity),,,,,
-out_acute_rq_diet_m3,acute diet-based risk quotient (mammal: large mink),dose-based EEC/dose-based toxicity),,,,,
-out_acute_rq_diet_m4,acute diet-based risk quotient (mammal: small river otter),dose-based EEC/dose-based toxicity),,,,,
-out_acute_rq_diet_m5,acute diet-based risk quotient (mammal: large river otter),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_m0,acute diet-based risk quotient (mammal: fog/water shrew),dose-based EEC/dose-based toxicity),,,0.526177,0.526177,0.526177
+out_acute_rq_diet_m1,acute diet-based risk quotient (mammal: rice rat/nosed mole),dose-based EEC/dose-based toxicity),,,0.547488,0.547488,0.547488
+out_acute_rq_diet_m2,acute diet-based risk quotient (mammal: small mink),dose-based EEC/dose-based toxicity),,,0.912215,0.912215,0.912215
+out_acute_rq_diet_m3,acute diet-based risk quotient (mammal: large mink),dose-based EEC/dose-based toxicity),,,0.912215,0.912215,0.912215
+out_acute_rq_diet_m4,acute diet-based risk quotient (mammal: small river otter),dose-based EEC/dose-based toxicity),,,0.912215,0.912215,0.912215
+out_acute_rq_diet_m5,acute diet-based risk quotient (mammal: large river otter),dose-based EEC/dose-based toxicity),,,1.251819,1.251819,1.251819
 exp_acute_rq_diet_a0,acute diet-based risk quotient (bird: sandpipers),dose-based EEC/dose-based toxicity),,,0.049,0.049,0.049
 exp_acute_rq_diet_a1,acute diet-based risk quotient (bird: cranes),dose-based EEC/dose-based toxicity),,,0.054,0.054,0.054
 exp_acute_rq_diet_a2,acute diet-based risk quotient (bird: rails),dose-based EEC/dose-based toxicity),,,0.058,0.058,0.058

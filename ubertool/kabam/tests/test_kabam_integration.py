@@ -92,6 +92,36 @@ class TestKabam(unittest.TestCase):
         """
         pass
 
+    def test_cb_phytoplankton(self):
+        """
+        Integration test for kabam.cb_phytoplankton
+        """
+        try:
+            self.blackbox_method_int('cb_phytoplankton')
+        finally:
+            pass
+        return
+
+    def test_cb_zoo(self):
+        """
+        Integration test for kabam.cb_zoo
+        """
+        try:
+            self.blackbox_method_int('cb_zoo')
+        finally:
+            pass
+        return
+
+    def test_cb_beninv(self):
+        """
+        Integration test for kabam.cb_beninv
+        """
+        try:
+            self.blackbox_method_int('cb_beninv')
+        finally:
+            pass
+        return
+
     def blackbox_method_int(self, output):
         """
         Helper method to reuse code for testing numpy array outputs from TerrPlant model

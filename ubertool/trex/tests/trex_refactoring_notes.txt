@@ -56,7 +56,7 @@ integration tests.
 5. The automatic formatting in the trex input spreadsheet was causing integers in the
    spreadsheet to be integers (instead of floats) when read into the code
 
-   solution: add 'from__future__inport division' to imports of trex_functions
+   solution: add 'from__future__import division' to imports of trex_functions
         this taps into Python 3 where numbers input without decimal pts are still
         considered floats if declared as floats
 6. Some methods calculate variable values depending on the application type.  If the
@@ -73,7 +73,7 @@ integration tests.
 7. Note for input file from user
 
         all input variables that are numerical must have a valueplaced in the
-        spreadsheet celll  --  blank cess are interpreted as 'nan' and they contaminate
+        spreadsheet cell  --  blank cells are interpreted as 'nan' and they contaminate
         the model code calculations
 
 8. The app_rate for integration test simulation #10('Row/Banc/In-furrow-Granular'
@@ -103,11 +103,11 @@ integration tests.
 10. Format of blank OPP input spreadsheet cell (i.e., spreadsheet of expected
     value & inputs)
 
-        - a truly black cell will be read as 'nan' which is what is expected
+        - a truly blank cell will be read as 'nan' which is what is expected
         - however, if any cell for that variable (across test simulations) 'appears'
         blank but has a blank character (e.g., a space)in it the Python will read
         it as a string object and not a 'nan'
-            this will cause problems in the assertionis (comparisons between
+            this will cause problems in the assertions (comparisons between
             expected and actual/calculated results)
 
 11. Erroneous expected values in OPP input spreadsheet
