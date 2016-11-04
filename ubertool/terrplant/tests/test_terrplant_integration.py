@@ -29,7 +29,7 @@ try:
         csv_transpose_path_in = "./terrplant_qaqc_in_transpose.csv"
         #print(csv_transpose_path_in)
         pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
-        #with open('./sip_qaqc_in_transpose.csv') as f:
+        #with open('./terrplant_qaqc_in_transpose.csv') as f:
             #csv_data = csv.reader(f)
 finally:
     pass
@@ -46,7 +46,7 @@ try:
         data_exp_outputs = StringIO(pkgutil.get_data(__package__, 'terrplant_qaqc_exp_transpose.csv'))
         pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
     else:
-        csv_transpose_path_exp = "./sip_qaqc_exp_transpose.csv"
+        csv_transpose_path_exp = "./terrplant_qaqc_exp_transpose.csv"
         #print(csv_transpose_path_exp)
         pd_obj_exp = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
 finally:
