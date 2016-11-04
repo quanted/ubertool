@@ -15,7 +15,7 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.par
 print("parent_dir")
 print(parent_dir)
 sys.path.append(parent_dir)
-from beerex_exe import BeeRex
+from beerex_exe import Beerex
 
 print("sys.path")
 print(sys.path)
@@ -64,7 +64,7 @@ finally:
     #print(tabulate(pd_obj_exp.iloc[:,15:16], headers='keys', tablefmt='plain'))
 
 # create an instance of trex object with qaqc data
-beerex_calc = BeeRex(pd_obj_inputs, pd_obj_exp)
+beerex_calc = Beerex(pd_obj_inputs, pd_obj_exp)
 beerex_calc.execute_model()
 inputs_json, outputs_json, exp_out_json = beerex_calc.get_dict_rep(beerex_calc)
     #print("beerex output")

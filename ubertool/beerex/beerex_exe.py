@@ -136,13 +136,13 @@ class BeerexOutputs(object):
         # self.out_larvae_chronic_dietary = pd.Series(name="out_larvae_chronic_dietary").astype("float")
 
 
-class BeeRex(UberModel, BeerexInputs, BeerexOutputs):
+class Beerex(UberModel, BeerexInputs, BeerexOutputs):
     """
     Individual-based model estimates exposures of bees to pesticides
     """
     def __init__(self, pd_obj, pd_obj_exp):
         """Class representing the Beerex model and containing all its methods"""
-        super(BeeRex, self).__init__()
+        super(Beerex, self).__init__()
         self.pd_obj = pd_obj
         self.pd_obj_exp = pd_obj_exp
         self.pd_obj_out = None
