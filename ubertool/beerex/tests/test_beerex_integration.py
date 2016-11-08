@@ -47,7 +47,7 @@ finally:
 # load transposed qaqc data for expected outputs
 try:
     if __package__ is not None:
-        data_exp_outputs = StringIO(pkgutil.get_data(__package__, 'beerex_qaqc_exp_transpose.csv'))
+        data_exp_outputs = StringIO(pkgutil.get_data(__package__, './beerex_qaqc_exp_transpose.csv'))
         pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
     else:
         csv_transpose_path_exp = "./beerex_qaqc_exp_transpose.csv"
