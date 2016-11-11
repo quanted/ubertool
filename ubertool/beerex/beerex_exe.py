@@ -1,7 +1,7 @@
-from __future__ import division
+from __future__ import division  #brings in Python 3.0 mixed type calculations
 import os.path
-import pandas as pd
 import sys
+import pandas as pd
 
 #find parent directory and import base (travis)
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
@@ -223,7 +223,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
             self.ad_chronic_rq()
             self.aq_chronic_rq()
         except TypeError:
-            print "Type Error: Your variables are not set correctly."
+            print ("Type Error: Your variables are not set correctly.")
 
     def eec_spray(self):
         """
@@ -239,7 +239,6 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
         self.out_eec_soil = ((10.**(0.95*self.log_kow-2.05)+0.82) *
                              (-0.0648*(self.log_kow**2)+0.2431*self.log_kow+0.5822) *
                              (1.5/(0.2+1.5*self.koc*0.01)) * (0.5 * self.application_rate)) / 1000.
-        print self.out_eec_soil
         return self.out_eec_soil
 
     def eec_seed(self):
@@ -269,6 +268,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_eec_method[i] = self.eec_seed()
             elif self.application_method[i] == 'tree trunk':
                 self.out_eec_method[i] = self.eec_tree()
+        print(self.out_eec_method)
         return self.out_eec_method
 
     def lw1_total_dose(self):
@@ -726,7 +726,7 @@ if __name__ == '__main__':
     pd_in = pd.DataFrame({
         "application_rate": [1.2],
         "application_method": ['foliar spray'],
-        "empirical residue": ['FALSE'],
+        "empirical_residue": ['FALSE'],
         "empirical_pollen": [1.],
         "empirical_nectar": [0.4],
         "empirical_jelly": [0.5],
@@ -769,4 +769,4 @@ if __name__ == '__main__':
     })
     output = Beerex(pd_in, None)
     output.execute_model()
-    print "Model has been run"
+    print("Model has been run")

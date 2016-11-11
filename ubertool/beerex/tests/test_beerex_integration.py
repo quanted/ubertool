@@ -676,7 +676,7 @@ class TestBeerex(unittest.TestCase):
         pd.set_option('display.float_format','{:.4E}'.format) # display model output in scientific notation
         result = beerex_calc.pd_obj_out["out_" + output]
         expected = beerex_calc.pd_obj_exp["exp_" + output]
-        tab = pd.concat([result,expected], axis=1)
+        tab = pd.concat([result, expected], axis=1)
         print(" ")
         print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
         # npt.assert_array_almost_equal(result, expected, 4, '', True)
