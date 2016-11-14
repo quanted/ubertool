@@ -51,9 +51,9 @@ class UberModel(object):
             msg_err2 = "Expected: " + str(df.columns.sort_values()) + "\n"
             msg_err3 = "Received: " + str(pd_obj.columns.sort_values()) + "\n"
             missing = [item for item in keys_a if item not in keys_b]
-            msg_missing = "missing the following field(s):" + missing + "\n"
+            msg_missing = "missing the following field(s):" + str(missing) + "\n"
             extras = [item for item in keys_b if item not in keys_a]
-            msg_extras = "the following extra field(s) were found:" + extras + "\n"
+            msg_extras = "the following extra field(s) were found:" + str(extras) + "\n"
             raise ValueError(msg_err1 + msg_err2 + msg_err3 + msg_missing + msg_extras)
 
     def populate_outputs(self, model_obj):
