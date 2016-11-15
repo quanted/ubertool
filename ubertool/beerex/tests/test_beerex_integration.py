@@ -48,7 +48,7 @@ finally:
 try:
     if __package__ is not None:
         data_exp_outputs = StringIO(pkgutil.get_data(__package__, './beerex_qaqc_exp_transpose.csv'))
-        pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
+        pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine='python')
     else:
         csv_transpose_path_exp = "./beerex_qaqc_exp_transpose.csv"
         #print(csv_transpose_path_exp)
@@ -63,7 +63,7 @@ finally:
     #print(tabulate(pd_obj_exp.iloc[:,11:14], headers='keys', tablefmt='plain'))
     #print(tabulate(pd_obj_exp.iloc[:,15:16], headers='keys', tablefmt='plain'))
 
-# create an instance of trex object with qaqc data
+# create an instance of beerex object with qaqc data
 beerex_calc = Beerex(pd_obj_inputs, pd_obj_exp)
 beerex_calc.execute_model()
 inputs_json, outputs_json, exp_out_json = beerex_calc.get_dict_rep(beerex_calc)
@@ -137,7 +137,7 @@ class TestBeerex(unittest.TestCase):
         Integration test for beerex.eec_method
         """
         try:
-            self.blackbox_method_int('eec_method')
+            self.blackbox_method_int('eec')
         finally:
             pass
         return
@@ -691,7 +691,7 @@ class TestBeerex(unittest.TestCase):
         """
         result = beerex_calc.pd_obj_out["out_" + output]
         expected = beerex_calc.pd_obj_exp["exp_" + output]
-        tab = pd.concat([result,expected], axis=1)
+        tab = pd.concat([result, expected], axis=1)
         print(" ")
         print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
         npt.assert_array_equal(result, expected)
