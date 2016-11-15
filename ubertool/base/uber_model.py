@@ -24,7 +24,8 @@ class UberModel(object):
         """
         try:
             # Import the model's input class (e.g. TerrplantInputs) to compare user supplied inputs to
-            mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+            #mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+            mod_name = model_obj.name.lower() + '_exe'
             module = importlib.import_module(mod_name)
             model_inputs = getattr(module, model_obj.name + "Inputs")
             model_inputs_obj = model_inputs()
@@ -45,9 +46,15 @@ class UberModel(object):
                 setattr(model_obj, column, pd_obj[column])
         else:
             msg_err1 = "Inputs parameters do not have all required inputs. Please see API documentation.\n"
+            keys_a = set(df.keys())
+            keys_b = set(pd_obj.keys())
             msg_err2 = "Expected: " + str(df.columns.sort_values()) + "\n"
             msg_err3 = "Received: " + str(pd_obj.columns.sort_values()) + "\n"
-            raise ValueError(msg_err1 + msg_err2 + msg_err3)
+            missing = [item for item in keys_a if item not in keys_b]
+            msg_missing = "missing the following field(s):" + missing + "\n"
+            extras = [item for item in keys_b if item not in keys_a]
+            msg_extras = "the following extra field(s) were found:" + extras + "\n"
+            raise ValueError(msg_err1 + msg_err2 + msg_err3 + msg_missing + msg_extras)
 
     def populate_outputs(self, model_obj):
         # Create temporary DataFrame where each column name is the same as TRexOutputs attributes
@@ -58,7 +65,8 @@ class UberModel(object):
         :return:
         """
         # Import the model's output class (e.g. TerrplantOutputs) to create a DF to store the model outputs in
-        mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+        #mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
+        mod_name = model_obj.name.lower() + '_exe'
         module = importlib.import_module(mod_name)
         model_outputs = getattr(module, model_obj.name + "Outputs")
         model_outputs_obj = model_outputs()

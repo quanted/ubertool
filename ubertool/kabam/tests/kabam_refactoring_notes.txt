@@ -1,0 +1,54 @@
+The following notes apply to the process of conducting the kabam unittests and
+integration tests.
+
+1. Original spreadsheet for kabam input variables listed 'kg_phytoplankton'; it appears that
+   this variable is defined as 'organism growth rate constant' (based on Expression for
+   'pesticide tissue residue for sinlge trophic level'); it is noted here because the value
+   of this variable for all other trophic levels is calculated in the model based on the
+   wet weight of the species at the trophic level  --  because there is no input for the
+   wet weight of phytoplanton I'm assuming the value for the growth rate is appropriately
+   included as an input value (Just noticed in documentation that wet weight of phytoplankton
+   is not applicable - Table 5 of Kabam User's Guide)
+
+2. The mammal and bird diets are inputs in the OPP model spreadsheet, however they have been
+   hardcoded in this version of the python model (methods 'wet_food_ingestion_m_f' and
+   'wet_food_ingestion_a_f'). These have been moved out of the methods and assigned in the
+   main routine.  Eventually they should be accessible to the user as inputs as they are in
+   the OPP model spreadsheet.  The methods mentioned above also calculate the total wet weight
+   of the diet per mammal/bird by multiplying the percentages of the diets by the percentage of
+   water in the each diet item.  This will be left in the method.  Finally, the names of the
+   individual mammals/birds used in the model should be added to the input; these are assigned
+   now in the main routine along with the diets.
+
+3. The variable "kG: aquatic animal/organism growth rate constant" is not included in the
+   input variable list of the spreadsheet along with other constants such as k1, k2, kE,kM.
+   The question is simply should it be included in the "ModelInputs" class, or maybe the
+   "ModelOutputs" class.  Should the user be allowed to specify it as an input?
+
+4. The mammalian chronic endpoint risk measure may be input with units of ppm or mg/kg-bw.
+   A new variable 'mammalian_chronic_endpt_unit' has been added to the Kabam input list to
+   contain the units string.  Appropriate if-then construct is placed in code to ensure
+   correct processing of variable value.
+
+5. Alert: There are output variables listed in Table 15 of the OPP spreadsheet model that are
+          not accounted for in any of the pre-existing python codes (i.e., kabam.py,
+          kabam_functions_original.py).  They include  chronic_dietary_based_toxicity_mammals
+          (equals input value associated with mammalian chronic endpoint  -- needs conversion
+          for assignment to output depending on input units of ppm or mg/kg-bw),
+          acute_dietary_based_toxicity_avian (equals input value associated with avian_lc50  --
+          may need assignment to output variable), and chronic_dietary_based_toxicity_avian
+          (equals input value associated with avian_noaec  --  may need assignment to output
+          variable).
+
+6. Alert: Method 'acute_rq_diet_mammals' requires chemical specific input 'mammalian_lc50'.
+          This input variable may be input as 'N/A' (Table 3: meaning not available rather than not applicable).
+          In the case of a 'N/A' the output variable 'acute_rq_diet_mammals' is assigned 'N/A' in the OPP
+          spreadsheet (Table 16). This doesn't work well in the python code because numpy arrays need to be homogeneous
+          in datatype so, for now anyway I recommend that the appropriate cell in the ubertool input spreadsheet
+          be blank rather than inserting a 'N/A'; the blank will be processed in the code as 'nan' rather than 'N/A'
+          and thus the resulting value of 'acute_rq_diet_mammals' will be 'nan'.
+
+7. Input variables phytoplankton_kd_temp and phytoplankton_ke_temp (dietary uptake and fecal elimination
+   rate constants)have default values of 0.0 due to the fact that phytoplankton do not consume other organisms
+   (see Kabam documentation section A.5). At this point these variables are included in the input for the model but
+   should only have values of 0.0.  An option would be to eliminate them from the input altogether.
