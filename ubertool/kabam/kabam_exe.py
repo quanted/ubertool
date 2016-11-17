@@ -1,17 +1,8 @@
-from __future__ import division  #brings in Python 3.0 mixed type calculations
-from functools import wraps
-import math
+from __future__ import division
 import numpy as np
-import os.path
-import sys
 import pandas as pd
-import time
-from kabam_functions import KabamFunctions
-#import logging
-
-parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentddir)
 from base.uber_model import UberModel, ModelSharedInputs
+from kabam_functions import KabamFunctions
 
 
 class KabamInputs(ModelSharedInputs):
@@ -427,21 +418,6 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.pd_obj_exp = pd_obj_exp
         self.pd_obj_out = None
 
-    def json(self, pd_obj, pd_obj_out, pd_obj_exp):
-        """
-            Convert DataFrames to JSON, returning a tuple
-            of JSON strings (inputs, outputs, exp_out)
-        """
-
-        pd_obj_json = pd_obj.to_json()
-        pd_obj_out_json = pd_obj_out.to_json()
-        try:
-            pd_obj_exp_json = pd_obj_exp.to_json()
-        except:
-            pd_obj_exp_json = "{}"
-
-        return pd_obj_json, pd_obj_out_json, pd_obj_exp_json
-
     def execute_model(self):
         """
         Callable to execute the running of the model:
@@ -450,10 +426,10 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
             3) Run the model's methods to generate outputs
             4) Fill the output DataFrame with the generated model outputs
         """
-        self.populate_inputs(self.pd_obj, self)
-        self.pd_obj_out = self.populate_outputs(self)
+        self.populate_inputs(self.pd_obj)
+        self.pd_obj_out = self.populate_outputs()
         self.run_methods()
-        self.fill_output_dataframe(self)
+        self.fill_output_dataframe()
 
     def run_methods(self):
         """
