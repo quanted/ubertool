@@ -68,7 +68,7 @@ finally:
 #print("dead here")
 iec_calc = Iec(pd_obj_inputs, pd_obj_exp)
 iec_calc.execute_model()
-inputs_json, outputs_json, exp_out_json = iec_calc.get_dict_rep(iec_calc)
+inputs_json, outputs_json, exp_out_json = iec_calc.get_dict_rep()
 #print("iec output")
 #print(inputs_json)
 

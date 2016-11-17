@@ -15,7 +15,7 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.par
 print("parent_dir")
 print(parent_dir)
 sys.path.append(parent_dir)
-from trex_exe import TRex
+from trex_exe import Trex
 
 print("sys.path")
 print(sys.path)
@@ -64,9 +64,9 @@ finally:
     #print(tabulate(pd_obj_exp.iloc[:,15:16], headers='keys', tablefmt='plain'))
 
 # create an instance of trex object with qaqc data
-trex_calc = TRex(pd_obj_inputs, pd_obj_exp)
+trex_calc = Trex(pd_obj_inputs, pd_obj_exp)
 trex_calc.execute_model()
-inputs_json, outputs_json, exp_out_json = trex_calc.get_dict_rep(trex_calc)
+inputs_json, outputs_json, exp_out_json = trex_calc.get_dict_rep()
     #print("trex output")
     #print(inputs_json)
     #print("####")
