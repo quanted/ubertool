@@ -114,7 +114,7 @@ class TestIec(unittest.TestCase):
         e.g. maybe write test results to some text file
         :return:
         """
-        pass
+
 
     def test_iec_integration_z_score_f(self):
         """
@@ -167,7 +167,7 @@ class TestIec(unittest.TestCase):
             #print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
             #npt.assert_array_almost_equal(result, expected, 4, '', True)
             rtol = 1e-5
-            npt.assert_allclose(result,expected,rtol,0,'',True)
+            npt.assert_allclose(result,expected,rtol,0,True,'err',True)
         finally:
             tab = pd.concat([result, expected], axis=1)
             print("\n")

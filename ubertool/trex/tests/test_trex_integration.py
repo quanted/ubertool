@@ -1681,15 +1681,16 @@ class TestTrex(unittest.TestCase):
         :param output: String; Pandas Series name (e.g. column name) without '_out'
         :return:
         """
-        pd.set_option('display.float_format','{:.4E}'.format) # display model output in scientific notation
+        pd.set_option('display.float_format', lambda x: '%.10e' % x)
         result = trex_calc.pd_obj_out["out_" + output]
         expected = trex_calc.pd_obj_exp["exp_" + output]
         tab = pd.concat([result,expected], axis=1)
         print(" ")
         print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
+        err_msg = str(result) + '\n' + str(expected)
         # npt.assert_array_almost_equal(result, expected, 4, '', True)
         rtol = 1e-5
-        npt.assert_allclose(result, expected, rtol, 0, True)
+        npt.assert_allclose(result, expected, rtol, 0, True, err_msg)
 
     def blackbox_method_str(self, output):
         """
