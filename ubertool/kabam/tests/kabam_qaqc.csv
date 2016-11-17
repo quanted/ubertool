@@ -1,0 +1,579 @@
+property_name,description,units,type,valid_range,run1,run2,run3
+version,,,,,,,
+chemical_name,,,,,Chemical X,Chemical X,Chemical X
+pc_code,,,,,,,
+log_kow,log Kow,,,,5,5,5
+k_oc,,,,,25000,25000,25000
+pore_water_eec,freely dissolved pesticide concentration in sediment pore water ,(μg/L),,,5,5,5
+water_column_eec,Water Column 1-in-10 year EECs,(μg/L),,,6,6,6
+mineau_scaling_factor,Chemical Specific Mineau scaling factor,,,,1.15,1.15,1.15
+conc_poc,Concentration of Particulate Organic Carbon in water column (Xpoc),kg OC/L,,,0,0,0
+conc_doc,Concentration of Dissolved Organic Carbon in water column(Xdoc),kg OC/L,,,0,0,0
+conc_do,Concentration of Dissolved Oxygen (Cox),mg O2/L,,,5,5,5
+water_temp,Water Temperature (T),degrees C,,,15,15,15
+conc_ss,Concentration of Suspended Solids (Css),kg/L,,,0.00003,0.00003,0.00003
+sediment_oc,Sediment Organic Carbon (OC),%,,,4,4,4
+species_of_the_tested_bird,Species of the tested bird,,,,quail,quail,quail
+bw_quail,Weight of the tested bird,gms,,,178,178,178
+bw_duck,Weight of the tested bird,gms,,,1580,1580,1580
+bw_other_bird,Weight of the tested bird,gms,,,200,200,200
+avian_ld50,Avian acute oral LD50,mg/kg-bw,,,50,50,50
+avian_lc50,Avian subacute dietary LC50,mg/kg-diet,,,500,500,500
+avian_noaec,Avian reporoduction NOAEC,mg/kg-diet,,,10,10,10
+species_of_the_tested_mammal,Species of the tested mammal,,,,rat,rat,rat
+bw_rat,Body weight of the tested mammalian,gms,,,350,350,350
+bw_other_mammal,Body weight of other tested mammalian,gms,,,500,500,500
+mammalian_ld50,Mammalian acute oral LD50,mg/kg-bw,,,50,50,50
+mammalian_lc50,Mammalian subacute dietary LC50,mg/kg-diet,,, , , 
+mammalian_chronic_endpoint,Mammalian chronic endpoint, ppm or mg/kg-bw,,,10,10,10
+mammalian_chronic_endpoint_unit,units associated with the mammalia chronic endpoint (ppm or mg/kg-bw,ppm or mg/kg-bw,,,ppm,ppm,ppm
+lfish_diet_sediment,percent sediment of Large Fish Diet ,%,,,0,0,0
+lfish_diet_phytoplankton,percent phytoplankton of Large Fish Diet,%,,,0,0,0
+lfish_diet_zooplankton,percent zooplankton in Large Fish Diet,%,,,0,0,0
+lfish_diet_beninv,percent benthic invertebrates in Large Fish Diet,%,,,0,0,0
+lfish_diet_filterfeeders,percent filter feeders in Large Fish Diet,%,,,0,0,0
+lfish_diet_sfish,percent small fish in Large Fish Diet,%,,,0,0,0
+lfish_diet_mfish,percent medium fish in Large Fish,%,,,100,100,100
+mfish_diet_sediment,percent sediment in Medium Fish Diet,%,,,0,0,0
+mfish_diet_phytoplankton,percent phytoplankton in Medium Fish Diet,%,,,0,0,0
+mfish_diet_zooplankton,percent zooplankton in  Medium Fish Diet,%,,,0,0,0
+mfish_diet_beninv,percent benthic invertebrates in Medium Fish Diet,%,,,50,50,50
+mfish_diet_filterfeeders,percent filter feeders in Medium Fish Diet,%,,,0,0,0
+mfish_diet_sfish,percent small fish in Medium Fish Diet,%,,,50,50,50
+sfish_diet_sediment,percent sediment in Small Fish Diet Sediment,%,,,0,0,0
+sfish_diet_phytoplankton,percent phytoplankton in Small Fish Diet,%,,,0,0,0
+sfish_diet_zooplankton,percent zooplankton in  Small Fish Diet,%,,,50,50,50
+sfish_diet_beninv,percent benthic invertebrates in Small Fish Diet,%,,,50,50,50
+sfish_diet_filterfeeders,percent filter feeders in Small Fish Diet,%,,,0,0,0
+filterfeeders_diet_sediment,percent sediment in Filter Feeder Diet,%,,,34,34,34
+filterfeeders_diet_phytoplankton,percent phytoplankton in Filter Feeder Diet,%,,,33,33,33
+filterfeeders_diet_zooplankton,percent zooplankton in  Filter Feeder Diet,%,,,33,33,33
+filterfeeders_diet_beninv,percent benthic invertebrates in Filter Feeder Diet,%,,,0,0,0
+beninv_diet_sediment,percent sediment in Benthic Invertebrates Diet,%,,,34,34,34
+beninv_diet_phytoplankton,percent phytoplankton in Benthic Invertebrates Diet,%,,,33,33,33
+beninv_diet_zooplankton,percent zooplankton in Benthic Invertebrates Diet,%,,,33,33,33
+zoo_diet_sediment,percent sediment in Zooplankton Diet,%,,,0,0,0
+zoo_diet_phytoplankton,percent phytoplankton in Zooplankton Diet,%,,,100,100,100
+sediment_lipid,Sediment % lipids,%,,,0,0,0
+sediment_nlom,Sediment % NLOM,%,,,4,4,4
+sediment_water,Sediment % Water,%,,,96,96,96
+phytoplankton_lipid,Phytoplankton % lipids,%,,,2,2,2
+phytoplankton_nlom,Phytoplankton % NLOM,%,,,8,8,8
+phytoplankton_water,Phytoplankton % Water,%,,,90,90,90
+zoo_wb,wet weight of Zooplankton(kg),kg,,,0.0000001,0.0000001,0.0000001
+zoo_lipid,Zooplankton % lipids,%,,,3,3,3
+zoo_nlom,Zooplankton % NLOM,%,,,12,12,12
+zoo_water,Zooplankton % Water,%,,,85,85,85
+beninv_wb,wet weight of Benthic Invertebrates (kg):,kg,,,0.0001,0.0001,0.0001
+beninv_lipid,Benthic Invertebrates % lipids,%,,,3,3,3
+beninv_nlom,Benthic Invertebrates % NLOM,% ,,,21,21,21
+beninv_water,Benthic Invertebrates % Water,% ,,,76,76,76
+filterfeeders_wb,wet weight of Filter Feeders (kg),kg,,,0.001,0.001,0.001
+filterfeeders_lipid,Filter Feeders % lipids,%,,,2,2,2
+filterfeeders_nlom,Filter Feeders % NLOM,%,,,13,13,13
+filterfeeders_water,Filter Feeders % Water,%,,,85,85,85
+sfish_wb,wet weight of Small Fish (kg),kg,,,0.01,0.01,0.01
+sfish_lipid,Small Fish % lipids,%,,,4,4,4
+sfish_nlom,Small Fish % NLOM,%,,,23,23,23
+sfish_water,Small Fish % Water,%,,,73,73,73
+mfish_wb,wet weight of Medium Fish (kg),kg,,,0.1,0.1,0.1
+mfish_lipid,Medium Fish % lipids,%,,,4,4,4
+mfish_nlom,Medium Fish % NLOM,%,,,23,23,23
+mfish_water,Medium Fish % Water,%,,,73,73,73
+lfish_wb,wet weight of Large Fish (kg),kg,,,1,1,1
+lfish_lipid,Large Fish % lipids,%,,,4,4,4
+lfish_nlom,Large Fish % NLOM,%,,,23,23,23
+lfish_water,Large Fish % Water,%,,,73,73,73
+phytoplankton_k1_temp,pesticide uptake via respiration constant,L/kg*d,,,calculated,calculated,calculated
+phytoplankton_k2_temp,pesticide elimination via respiration constant,per day,,,calculated,calculated,calculated
+phytoplankton_kd_temp,pesticide uptake via diet constant(Set tp 0.0 as per Kabam Doc A.5),kg-food/kg-org/d,,,0,0,0
+phytoplankton_ke_temp,pesticide elimination via diet constant(Set tp 0.0 as per Kabam Doc A.5),per day,,,0,0,0
+phytoplankton_km,pesticide elimination via metabolism constant,per day,,,0,0,0
+phytoplankton_kg,growth rate constant of phytoplankton,kg,,,0.1,0.1,0.1
+zoo_k1_temp,pesticide uptake via respiration constant,L/kg*d,,,calculated,calculated,calculated
+zoo_k2_temp,pesticide elimination via respiration constant,per day,,,calculated,calculated,calculated
+zoo_kd_temp,pesticide uptake via diet constant,kg-food/kg-org/d,,,calculated,calculated,calculated
+zoo_ke_temp,pesticide elimination via diet constant,per day,,,calculated,calculated,calculated
+zoo_km,pesticide elimination via metabolism constant,per day,,,0,0,0
+beninv_k1_temp,pesticide uptake via respiration constant,L/kg*d,,,calculated,calculated,calculated
+beninv_k2_temp,pesticide elimination via respiration constant,per day,,,calculated,calculated,calculated
+beninv_kd_temp,pesticide uptake via diet constant,kg-food/kg-org/d,,,calculated,calculated,calculated
+beninv_ke_temp,pesticide elimination via diet constant,per day,,,0,0,0
+beninv_km,pesticide elimination via metabolism constant,per day,,,1,1,1
+filterfeeders_k1_temp,pesticide uptake via respiration constant,L/kg*d,,,calculated,calculated,calculated
+filterfeeders_k2_temp,pesticide elimination via respiration constant,per day,,,calculated,calculated,calculated
+filterfeeders_kd_temp,pesticide uptake via diet constant,kg-food/kg-org/d,,,calculated,calculated,calculated
+filterfeeders_ke_temp,pesticide elimination via diet constant,per day,,,0,0,0
+filterfeeders_km,pesticide elimination via metabolism constant,per day,,,1,1,1
+sfish_k1_temp,pesticide uptake via respiration constant,L/kg*d,,,calculated,calculated,calculated
+sfish_k2_temp,pesticide elimination via respiration constant,per day,,,calculated,calculated,calculated
+sfish_kd_temp,pesticide uptake via diet constant,kg-food/kg-org/d,,,calculated,calculated,calculated
+sfish_ke_temp,pesticide elimination via diet constant,per day,,,0,0,0
+sfish_km,pesticide elimination via metabolism constant,per day,,,0,0,0
+mfish_k1_temp,pesticide uptake via respiration constant,L/kg*d,,,calculated,calculated,calculated
+mfish_k2_temp,pesticide elimination via respiration constant,per day,,,calculated,calculated,calculated
+mfish_kd_temp,pesticide uptake via diet constant,kg-food/kg-org/d,,,calculated,calculated,calculated
+mfish_ke_temp,pesticide elimination via diet constant,per day,,,0,0,0
+mfish_km,pesticide elimination via metabolism constant,per day,,,0,0,0
+lfish_k1_temp,pesticide uptake via respiration constant,L/kg*d,,,calculated,calculated,calculated
+lfish_k2_temp,pesticide elimination via respiration constant,per day,,,calculated,calculated,calculated
+lfish_kd_temp,pesticide uptake via diet constant,kg-food/kg-org/d, ,,calculated,calculated,calculated
+lfish_ke_temp,pesticide elimination via diet constant,per day,,,0,0,0
+lfish_km,pesticide elimination via metabolism constant,per day,,,0,0,0
+rate_constants,Rate constants for uptake and elimination(make selection; use defaults; input values),,,,a,a,a
+sediment_respire,Do organisms in trophic level respire some pore water?,,,,no,no,no
+phyto_respire,Do organisms in trophic level respire some pore water?,,,,no,no,no
+zoo_respire,Do organisms in trophic level respire some pore water?,,,,no,no,no
+beninv_respire,Do organisms in trophic level respire some pore water?,,,,yes,yes,yes
+filterfeeders_respire,Do organisms in trophic level respire some pore water?,,,,yes,yes,yes
+sfish_respire,Do organisms in trophic level respire some pore water?,,,,yes,yes,yes
+mfish_respire,Do organisms in trophic level respire some pore water?,,,,yes,yes,yes
+lfish_respire,Do organisms in trophic level respire some pore water?,,,,no,no,no
+out_cb_phytoplankton,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight), ,,,,
+out_cb_zoo,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,, , , 
+out_cb_beninv,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,, , , 
+out_cb_ff,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,,  ,  ,  
+out_cb_sf,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,, , , 
+out_cb_mf,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,, , , 
+out_cb_lf,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,, , , 
+out_cbl_phytoplankton,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,,,
+out_cbl_zoo,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,,,
+out_cbl_beninv,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,,,
+out_cbl_ff,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,,,
+out_cbl_sf,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,,,
+out_cbl_mf,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,,,
+out_cbl_lf,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,,,
+out_cbd_zoo,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,,,
+out_cbd_beninv,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,,,
+out_cbd_ff,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,,,
+out_cbd_sf,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,,,
+out_cbd_mf,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,,,
+out_cbd_lf,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,,,
+out_cbr_phytoprankton,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,,,
+out_cbr_zoo,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,,,
+out_cbr_beninv,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,,,
+out_cbr_ff,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,,,
+out_cbr_sf,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,,,
+out_cbr_mf,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,,,
+out_cbr_lf,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,,,
+out_cbf_phytoplankton,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,,,
+out_cbf_zoo,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,,,
+out_cbf_beninv,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,,,
+out_cbf_ff,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,,,
+out_cbf_sf,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,,,
+out_cbf_mf,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,,,
+out_cbf_lf,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,,,
+out_cbaf_phytoplankton,Total bioaccumulation factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,,,
+out_cbaf_zoo,Total bioaccumulation factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,,,
+out_cbaf_beninv,Total bioaccumulation factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,,,
+out_cbaf_ff,Total bioaccumulation factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,,,
+out_cbaf_sf,Total bioaccumulation factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,,,
+out_cbaf_mf,Total bioaccumulation factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,,,
+out_cbaf_lf,Total bioaccumulation factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,,,
+out_cbfl_phytoplankton,Lipid normalized bioconcentration factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbfl_zoo,Lipid normalized bioconcentration factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbfl_beninv,Lipid normalized bioconcentration factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbfl_ff,Lipid normalized bioconcentration factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbfl_sf,Lipid normalized bioconcentration factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbfl_mf,Lipid normalized bioconcentration factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbfl_lf,Lipid normalized bioconcentration factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbafl_phytoplankton,Lipid normalized bioaccumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbafl_zoo,Lipid normalized bioaccumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbafl_beninv,Lipid normalized bioaccumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbafl_ff,Lipid normalized bioaccumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbafl_sf,Lipid normalized bioaccumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbafl_mf,Lipid normalized bioaccumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbafl_lf,Lipid normalized bioaccumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_bmf_zoo,Biomagnification factor,(ug pesticide/kg lipid) / (ug pesticide/kg lipid),,,,,
+out_bmf_beninv,Biomagnification factor,(ug pesticide/kg lipid) / (ug pesticide/kg lipid),,,,,
+out_bmf_ff,Biomagnification factor,(ug pesticide/kg lipid) / (ug pesticide/kg lipid),,,,,
+out_bmf_sf,Biomagnification factor,(ug pesticide/kg lipid) / (ug pesticide/kg lipid),,,,,
+out_bmf_mf,Biomagnification factor,(ug pesticide/kg lipid) / (ug pesticide/kg lipid),,,,,
+out_bmf_lf,Biomagnification factor,(ug pesticide/kg lipid) / (ug pesticide/kg lipid),,,,,
+out_cbsafl_phytoplankton,Biota-sediment accumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbsafl_zoo,Biota-sediment accumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbsafl_beninv,Biota-sediment accumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbsafl_ff,Biota-sediment accumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbsafl_sf,Biota-sediment accumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbsafl_mf,Biota-sediment accumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_cbsafl_lf,Biota-sediment accumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,,,
+out_mweight0,body weight (mammal: fog/water shrew),kg,,,,,
+out_mweight1,body weight (mammal: rice rat/nosed mole),kg,,,,,
+out_mweight2,body weight (mammal: small mink),kg,,,,,
+out_mweight3,body weight (mammal: large mink),kg,,,,,
+out_mweight4,body weight (mammal: small river otter),kg,,,,,
+out_mweight5,body weight (mammal: large river otter),kg,,,,,
+out_aweight0,body weight (bird: sandpipers),kg,,,,,
+out_aweight1,body weight (bird: cranes),kg,,,,,
+out_aweight2,body weight (bird: rails),kg,,,,,
+out_aweight3,body weight (bird: herons),kg,,,,,
+out_aweight4,body weight (bird: small osprey),kg,,,,,
+out_aweight5,body weight (bird: white pelican),kg,,,,,
+out_dfir0,dry food ingestion rate (mammal: fog/water shrew),(kg food dw / kg-bw day),,,,,
+out_dfir1,dry food ingestion rate (mammal: rice rat/nosed mole),(kg food dw / kg-bw day),,,,,
+out_dfir2,dry food ingestion rate (mammal: small mink),(kg food dw / kg-bw day),,,,,
+out_dfir3,dry food ingestion rate (mammal: large mink),(kg food dw / kg-bw day),,,,,
+out_dfir4,dry food ingestion rate (mammal: small river otter),(kg food dw / kg-bw day),,,,,
+out_dfir5,dry food ingestion rate (mammal: large river otter),(kg food dw / kg-bw day),,,,,
+out_dfira0,dry food ingestion rate (bird: sandpipers),(kg food dw / kg-bw day),,,,,
+out_dfira1,dry food ingestion rate (bird: cranes),(kg food dw / kg-bw day),,,,,
+out_dfira2,dry food ingestion rate (bird: rails),(kg food dw / kg-bw day),,,,,
+out_dfira3,dry food ingestion rate (bird: herons),(kg food dw / kg-bw day),,,,,
+out_dfira4,dry food ingestion rate (bird: small osprey),(kg food dw / kg-bw day),,,,,
+out_dfira5,dry food ingestion rate (bird: white pelican),(kg food dw / kg-bw day),,,,,
+out_wet_food_ingestion_m0,wet food ingestion rate (mammal: fog/water shrew),(kg food ww / kg-bw day),,,,,
+out_wet_food_ingestion_m1,wet food ingestion rate (mammal: rice rat/nosed mole),(kg food ww / kg-bw day),,,,,
+out_wet_food_ingestion_m2,wet food ingestion rate (mammal: small mink),(kg food ww / kg-bw day),,,,,
+out_wet_food_ingestion_m3,wet food ingestion rate (mammal: large mink),(kg food ww / kg-bw day),,,,,
+out_wet_food_ingestion_m4,wet food ingestion rate (mammal: small river otter),(kg food ww / kg-bw day),,,,,
+out_wet_food_ingestion_m5,wet food ingestion rate (mammal: large river otter),(kg food ww / kg-bw day),,,,,
+out_wet_food_ingestion_a0,wet food ingestion rate (bird: sandpipers),(kg food ww / kg-bw day),,,,,
+out_wet_food_ingestion_a1,wet food ingestion rate (bird: cranes),(kg food ww / kg-bw day),,,,,
+out_wet_food_ingestion_a2,wet food ingestion rate (bird: rails),(kg food ww / kg-bw day),,,,,
+out_wet_food_ingestion_a3,wet food ingestion rate (bird: herons),(kg food ww / kg-bw day),,,,,
+out_wet_food_ingestion_a4,wet food ingestion rate (bird: small osprey),(kg food ww / kg-bw day),,,,,
+out_wet_food_ingestion_a5,wet food ingestion rate (bird: white pelican),(kg food ww / kg-bw day),,,,,
+out_drinking_water_intake_m0,drinking water ingestion rate (mammal: fog/water shrew),(L / day),,,,,
+out_drinking_water_intake_m1,drinking water ingestion rate (mammal: rice rat/nosed mole),(L / day),,,,,
+out_drinking_water_intake_m2,drinking water ingestion rate (mammal: small mink),(L / day),,,,,
+out_drinking_water_intake_m3,drinking water ingestion rate (mammal: large mink),(L / day),,,,,
+out_drinking_water_intake_m4,drinking water ingestion rate (mammal: small river otter),(L / day),,,,,
+out_drinking_water_intake_m5,drinking water ingestion rate (mammal: large river otter),(L / day),,,,,
+out_drinking_water_intake_a0,drinking water ingestion rate (bird: sandpipers),(L / day),,,,,
+out_drinking_water_intake_a1,drinking water ingestion rate (bird: cranes),(L / day),,,,,
+out_drinking_water_intake_a2,drinking water ingestion rate (bird: rails),(L / day),,,,,
+out_drinking_water_intake_a3,drinking water ingestion rate (bird: herons),(L / day),,,,,
+out_drinking_water_intake_a4,drinking water ingestion rate (bird: small osprey),(L / day),,,,,
+out_drinking_water_intake_a5,drinking water ingestion rate (bird: white pelican),(L / day),,,,,
+out_db40,dose-based EEC (mammal: fog/water shrew),(mg pesticide / kg-bw day),,,,,
+out_db41,dose-based EEC (mammal: rice rat/nosed mole),(mg pesticide / kg-bw day),,,,,
+out_db42,dose-based EEC (mammal: small mink),(mg pesticide / kg-bw day),,,,,
+out_db43,dose-based EEC (mammal: large mink),(mg pesticide / kg-bw day),,,,,
+out_db44,dose-based EEC (mammal: small river otter),(mg pesticide / kg-bw day),,,,,
+out_db45,dose-based EEC (mammal: large river otter),(mg pesticide / kg-bw day),,,,,
+out_db4a0,dose-based EEC (bird: sandpipers),(mg pesticide / kg-bw day),,,,,
+out_db4a1,dose-based EEC (bird: cranes),(mg pesticide / kg-bw day),,,,,
+out_db4a2,dose-based EEC (bird: rails),(mg pesticide / kg-bw day),,,,,
+out_db4a3,dose-based EEC (bird: herons),(mg pesticide / kg-bw day),,,,,
+out_db4a4,dose-based EEC (bird: small osprey),(mg pesticide / kg-bw day),,,,,
+out_db4a5,dose-based EEC (bird: white pelican),(mg pesticide / kg-bw day),,,,,
+out_db50,dietary-based EEC (mammal: fog/water shrew),(mg pesticide / kg-bw day),,,,,
+out_db51,dietary-based EEC (mammal: rice rat/nosed mole),(mg pesticide / kg-bw day),,,,,
+out_db52,dietary-based EEC (mammal: small mink),(mg pesticide / kg-bw day),,,,,
+out_db53,dietary-based EEC (mammal: large mink),(mg pesticide / kg-bw day),,,,,
+out_db54,dietary-based EEC (mammal: small river otter),(mg pesticide / kg-bw day),,,,,
+out_db55,dietary-based EEC (mammal: large river otter),(mg pesticide / kg-bw day),,,,,
+out_db5a0,dietary-based EEC (bird: sandpipers),(mg pesticide / kg-bw day),,,,,
+out_db5a1,dietary-based EEC (bird: cranes),(mg pesticide / kg-bw day),,,,,
+out_db5a2,dietary-based EEC (bird: rails),(mg pesticide / kg-bw day),,,,,
+out_db5a3,dietary-based EEC (bird: herons),(mg pesticide / kg-bw day),,,,,
+out_db5a4,dietary-based EEC (bird: small osprey),(mg pesticide / kg-bw day),,,,,
+out_db5a5,dietary-based EEC (bird: white pelican),(mg pesticide / kg-bw day),,,,,
+out_acute_dose_based_m0,acute/adjusted dose-based toxicity (mammal: fog/water shrew),(mg/kg-bw),,,,,
+out_acute_dose_based_m1,acute/adjusted dose-based toxicity (mammal: rice rat/nosed mole),(mg/kg-bw),,,,,
+out_acute_dose_based_m2,acute/adjusted dose-based toxicity (mammal: small mink),(mg/kg-bw),,,,,
+out_acute_dose_based_m3,acute/adjusted dose-based toxicity (mammal: large mink),(mg/kg-bw),,,,,
+out_acute_dose_based_m4,acute/adjusted dose-based toxicity (mammal: small river otter),(mg/kg-bw),,,,,
+out_acute_dose_based_m5,acute/adjusted dose-based toxicity (mammal: large river otter),(mg/kg-bw),,,,,
+out_acute_dose_based_a0,acute/adjusted dose-based toxicity (bird: sandpipers),(mg/kg-bw),,,,,
+out_acute_dose_based_a1,acute/adjusted dose-based toxicity (bird: cranes),(mg/kg-bw),,,,,
+out_acute_dose_based_a2,acute/adjusted dose-based toxicity (bird: rails),(mg/kg-bw),,,,,
+out_acute_dose_based_a3,acute/adjusted dose-based toxicity (bird: herons),(mg/kg-bw),,,,,
+out_acute_dose_based_a4,acute/adjusted dose-based toxicity (bird: small osprey),(mg/kg-bw),,,,,
+out_acute_dose_based_a5,acute/adjusted dose-based toxicity (bird: white pelican),(mg/kg-bw),,,,,
+out_acute_diet_based_m0,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
+out_acute_diet_based_m1,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
+out_acute_diet_based_m2,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
+out_acute_diet_based_m3,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
+out_acute_diet_based_m4,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
+out_acute_diet_based_m5,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
+out_acute_diet_based_a0,adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value,mg/kg-diet,,,,,
+out_acute_diet_based_a1,adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value,mg/kg-diet,,,,,
+out_acute_diet_based_a2,adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value,mg/kg-diet,,,,,
+out_acute_diet_based_a3,adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value,mg/kg-diet,,,,,
+out_acute_diet_based_a4,adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value,mg/kg-diet,,,,,
+out_acute_diet_based_a5,adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value,mg/kg-diet,,,,,
+out_chronic_dose_based_m0,chronic dose-based toxicity (mammal: fog/water shrew),(mg/kg-bw),,,,,
+out_chronic_dose_based_m1,chronic dose-based toxicity (mammal: rice rat/nosed mole),(mg/kg-bw),,,,,
+out_chronic_dose_based_m2,chronic dose-based toxicity (mammal: small mink),(mg/kg-bw),,,,,
+out_chronic_dose_based_m3,chronic dose-based toxicity (mammal: large mink),(mg/kg-bw),,,,,
+out_chronic_dose_based_m4,chronic dose-based toxicity (mammal: small river otter),(mg/kg-bw),,,,,
+out_chronic_dose_based_m5,chronic dose-based toxicity (mammal: large river otter),(mg/kg-bw),,,,,
+out_chronic_diet_based_m0,chronic diet-based toxicity - all are equal to the mammalian chronic endpoint,(mg/kg-bw),,,,,
+out_chronic_diet_based_m1,chronic diet-based toxicity - all are equal to the mammalian chronic endpoint,(mg/kg-bw),,,,,
+out_chronic_diet_based_m2,chronic diet-based toxicity - all are equal to the mammalian chronic endpoint,(mg/kg-bw),,,,,
+out_chronic_diet_based_m3,chronic diet-based toxicity - all are equal to the mammalian chronic endpoint,(mg/kg-bw),,,,,
+out_chronic_diet_based_m4,chronic diet-based toxicity - all are equal to the mammalian chronic endpoint,(mg/kg-bw),,,,,
+out_chronic_diet_based_m5,chronic diet-based toxicity - all are equal to the mammalian chronic endpoint,(mg/kg-bw),,,,,
+out_chronic_diet_based_a0,chronic diet-based toxicity for birds - all are equal to the avian_noaec,(mg/kg-bw),,,,,
+out_chronic_diet_based_a1,chronic diet-based toxicity for birds - all are equal to the avian_noaec,(mg/kg-bw),,,,,
+out_chronic_diet_based_a2,chronic diet-based toxicity for birds - all are equal to the avian_noaec,(mg/kg-bw),,,,,
+out_chronic_diet_based_a3,chronic diet-based toxicity for birds - all are equal to the avian_noaec,(mg/kg-bw),,,,,
+out_chronic_diet_based_a4,chronic diet-based toxicity for birds - all are equal to the avian_noaec,(mg/kg-bw),,,,,
+out_chronic_diet_based_a5,chronic diet-based toxicity for birds - all are equal to the avian_noaec,(mg/kg-bw),,,,,
+out_acute_rq_dose_m0,acute dose-based risk quotient (mammal: fog/water shrew),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_dose_m1,acute dose-based risk quotient (mammal: rice rat/nosed mole),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_dose_m2,acute dose-based risk quotient (mammal: small mink),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_dose_m3,acute dose-based risk quotient (mammal: large mink),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_dose_m4,acute dose-based risk quotient (mammal: small river otter),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_dose_m5,acute dose-based risk quotient (mammal: large river otter),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_dose_a0,acute dose-based risk quotient (bird: sandpipers),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_dose_a1,acute dose-based risk quotient (bird: cranes),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_dose_a2,acute dose-based risk quotient (bird: rails),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_dose_a3,acute dose-based risk quotient (bird: herons),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_dose_a4,acute dose-based risk quotient (bird: small osprey),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_dose_a5,acute dose-based risk quotient (bird: white pelican),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_m0,acute diet-based risk quotient (mammal: fog/water shrew),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_m1,acute diet-based risk quotient (mammal: rice rat/nosed mole),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_m2,acute diet-based risk quotient (mammal: small mink),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_m3,acute diet-based risk quotient (mammal: large mink),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_m4,acute diet-based risk quotient (mammal: small river otter),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_m5,acute diet-based risk quotient (mammal: large river otter),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_a0,acute diet-based risk quotient (bird: sandpipers),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_a1,acute diet-based risk quotient (bird: cranes),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_a2,acute diet-based risk quotient (bird: rails),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_a3,acute diet-based risk quotient (bird: herons),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_a4,acute diet-based risk quotient (bird: small osprey),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_a5,acute diet-based risk quotient (bird: white pelican),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_dose_m0,chronic dose-based risk quotient (mammal: fog/water shrew),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_dose_m1,chronic dose-based risk quotient (mammal: rice rat/nosed mole),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_dose_m2,chronic dose-based risk quotient (mammal: small mink),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_dose_m3,chronic dose-based risk quotient (mammal: large mink),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_dose_m4,chronic dose-based risk quotient (mammal: small river otter),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_dose_m5,chronic dose-based risk quotient (mammal: large river otter),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_diet_m0,chronic diet-based risk quotient (mammal: fog/water shrew),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_diet_m1,chronic diet-based risk quotient (mammal: rice rat/nosed mole),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_diet_m2,chronic diet-based risk quotient (mammal: small mink),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_diet_m3,chronic diet-based risk quotient (mammal: large mink),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_diet_m4,chronic diet-based risk quotient (mammal: small river otter),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_diet_m5,chronic diet-based risk quotient (mammal: large river otter),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_diet_a0,chronic diet-based risk quotient (bird: sandpipers),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_diet_a1,chronic diet-based risk quotient (bird: cranes),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_diet_a2,chronic diet-based risk quotient (bird: rails),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_diet_a3,chronic diet-based risk quotient (bird: herons),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_diet_a4,chronic diet-based risk quotient (bird: small osprey),dose-based EEC/dose-based toxicity),,,,,
+out_chronic_rq_diet_a5,chronic diet-based risk quotient (bird: white pelican),dose-based EEC/dose-based toxicity),,,,,
+exp_cb_phytoplankton,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,,27298,27298,27298
+exp_cb_zoo,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,,21065,21065,21065
+exp_cb_beninv,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,,23678,23678,23678
+exp_cb_ff,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,,15549,15549,15549
+exp_cb_sf,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,,34713,34713,34713
+exp_cb_mf,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,,41050,41050,41050
+exp_cb_lf,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,,56332,56332,56332
+exp_cbl_phytoplankton,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,1364913,1364913,1364913
+exp_cbl_zoo,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,702157,702157,702157
+exp_cbl_beninv,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,789265,789265,789265
+exp_cbl_ff,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,777440,777440,777440
+exp_cbl_sf,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,867830,867830,867830
+exp_cbl_mf,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,1026242,1026242,1026242
+exp_cbl_lf,Lipid normalized pesticide residue in aquatic animal/organism,ug/kg-lipid,,,1408297,1408297,1408297
+exp_cbd_zoo,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,651.72,651.72,651.72
+exp_cbd_beninv,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,1812.95,1812.95,1812.95
+exp_cbd_ff,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,1167.92,1167.92,1167.92
+exp_cbd_sf,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,7246.79,7246.79,7246.79
+exp_cbd_mf,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,14492.66,14492.66,14492.66
+exp_cbd_lf,Pesticide concentration in animal/organism originating from uptake through diet,g/kg ww,,,30795.48,30795.48,30795.48
+exp_cbr_phytoplankton,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,28805.4,28805.4,28805.4
+exp_cbr_zoo,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,20412.98,20412.98,20412.98
+exp_cbr_beninv,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,21865.01,21865.01,21865.01
+exp_cbr_ff,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,14380.88,14380.88,14380.88
+exp_cbr_sf,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,27466.4,27466.4,27466.4
+exp_cbr_mf,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,26557.01,26557.01,26557.01
+exp_cbr_lf,Pesticide concentration in animal/organism originating from uptake through respiration,g/kg ww,,,25536.39,25536.39,25536.39
+exp_cbf_phytoplankton,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,4801,4801,4801
+exp_cbf_zoo,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,3421,3421,3421
+exp_cbf_beninv,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,3705,3705,3705
+exp_cbf_ff,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,2435,2435,2435
+exp_cbf_sf,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,4766,4766,4766
+exp_cbf_mf,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,4766,4766,4766
+exp_cbf_lf,Total bioconcentration factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,4806,4806,4806
+exp_cbaf_phytoplankton,Total bioaccumulation factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,4550,4550,4550
+exp_cbaf_zoo,Total bioaccumulation factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,3511,3511,3511
+exp_cbaf_beninv,Total bioaccumulation factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,3946,3946,3946
+exp_cbaf_ff,Total bioaccumulation factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,2591,2591,2591
+exp_cbaf_sf,Total bioaccumulation factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,5786,5786,5786
+exp_cbaf_mf,Total bioaccumulation factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,6842,6842,6842
+exp_cbaf_lf,Total bioaccumulation factor,(ug pesticide/kg ww) / (ug pesticide/L water),,,9389,9389,9389
+exp_cbfl_phytoplankton,Lipid normalized bioconcentration factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,240045,240045,240045
+exp_cbfl_zoo,Lipid normalized bioconcentration factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,114028,114028,114028
+exp_cbfl_beninv,Lipid normalized bioconcentration factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,123488,123488,123488
+exp_cbfl_ff,Lipid normalized bioconcentration factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,121769,121769,121769
+exp_cbfl_sf,Lipid normalized bioconcentration factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,119142,119142,119142
+exp_cbfl_mf,Lipid normalized bioconcentration factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,119142,119142,119142
+exp_cbfl_lf,Lipid normalized bioconcentration factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,120143,120143,120143
+exp_cbafl_phytoplankton,Lipid normalized bioaccumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,227485,227485,227485
+exp_cbafl_zoo,Lipid normalized bioaccumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,117026,117026,117026
+exp_cbafl_beninv,Lipid normalized bioaccumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,131544,131544,131544
+exp_cbafl_ff,Lipid normalized bioaccumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,129573,129573,129573
+exp_cbafl_sf,Lipid normalized bioaccumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,144638,144638,144638
+exp_cbafl_mf,Lipid normalized bioaccumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,171040,171040,171040
+exp_cbafl_lf,Lipid normalized bioaccumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,234716,234716,234716
+exp_bmf_zoo,Biomagnification factor,(ug pesticide/kg lipid) / (ug pesticide/kg lipid),,,0.51,0.51,0.51
+exp_bmf_beninv,Biomagnification factor,(ug pesticide/kg lipid) / (ug pesticide/kg lipid),,,1.16,1.16,1.16
+exp_bmf_ff,Biomagnification factor,(ug pesticide/kg lipid) / (ug pesticide/kg lipid),,,1.14,1.14,1.14
+exp_bmf_sf,Biomagnification factor,(ug pesticide/kg lipid) / (ug pesticide/kg lipid),,,1.16,1.16,1.16
+exp_bmf_mf,Biomagnification factor,(ug pesticide/kg lipid) / (ug pesticide/kg lipid),,,1.24,1.24,1.24
+exp_bmf_lf,Biomagnification factor,(ug pesticide/kg lipid) / (ug pesticide/kg lipid),,,1.37,1.37,1.37
+exp_cbsafl_phytoplankton,Biota-sediment accumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,11,11,11
+exp_cbsafl_zoo,Biota-sediment accumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,6,6,6
+exp_cbsafl_beninv,Biota-sediment accumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,6,6,6
+exp_cbsafl_ff,Biota-sediment accumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,6,6,6
+exp_cbsafl_sf,Biota-sediment accumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,7,7,7
+exp_cbsafl_mf,Biota-sediment accumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,8,8,8
+exp_cbsafl_lf,Biota-sediment accumulation factor,(ug pesticide/kg lipid) / (ug pesticide/L water),,,11,11,11
+exp_mweight0,body weight (mammal: fog/water shrew),kg,,,0.02,0.02,0.02
+exp_mweight1,body weight (mammal: rice rat/nosed mole),kg,,,0.09,0.09,0.09
+exp_mweight2,body weight (mammal: small mink),kg,,,0.45,0.45,0.45
+exp_mweight3,body weight (mammal: large mink),kg,,,1.8,1.8,1.8
+exp_mweight4,body weight (mammal: small river otter),kg,,,5,5,5
+exp_mweight5,body weight (mammal: large river otter),kg,,,15,15,15
+exp_aweight0,body weight (bird: sandpipers),kg,,,0.02,0.02,0.02
+exp_aweight1,body weight (bird: cranes),kg,,,6.7,6.7,6.7
+exp_aweight2,body weight (bird: rails),kg,,,0.07,0.07,0.07
+exp_aweight3,body weight (bird: herons),kg,,,2.9,2.9,2.9
+exp_aweight4,body weight (bird: small osprey),kg,,,1.25,1.25,1.25
+exp_aweight5,body weight (bird: white pelican),kg,,,7.5,7.5,7.5
+exp_dfir0,dry food ingestion rate (mammal: fog/water shrew),(kg food dw / kg-bw day),,,0.14,0.14,0.14
+exp_dfir1,dry food ingestion rate (mammal: rice rat/nosed mole),(kg food dw / kg-bw day),,,0.107,0.107,0.107
+exp_dfir2,dry food ingestion rate (mammal: small mink),(kg food dw / kg-bw day),,,0.079,0.079,0.079
+exp_dfir3,dry food ingestion rate (mammal: large mink),(kg food dw / kg-bw day),,,0.062,0.062,0.062
+exp_dfir4,dry food ingestion rate (mammal: small river otter),(kg food dw / kg-bw day),,,0.052,0.052,0.052
+exp_dfir5,dry food ingestion rate (mammal: large river otter),(kg food dw / kg-bw day),,,0.042,0.042,0.042
+exp_dfira0,dry food ingestion rate (bird: sandpipers),(kg food dw / kg-bw day),,,0.228,0.228,0.228
+exp_dfira1,dry food ingestion rate (bird: cranes),(kg food dw / kg-bw day),,,0.03,0.03,0.03
+exp_dfira2,dry food ingestion rate (bird: rails),(kg food dw / kg-bw day),,,0.147,0.147,0.147
+exp_dfira3,dry food ingestion rate (bird: herons),(kg food dw / kg-bw day),,,0.04,0.04,0.04
+exp_dfira4,dry food ingestion rate (bird: small osprey),(kg food dw / kg-bw day),,,0.054,0.054,0.054
+exp_dfira5,dry food ingestion rate (bird: white pelican),(kg food dw / kg-bw day),,,0.029,0.029,0.029
+exp_wet_food_ingestion_m0,wet food ingestion rate (mammal: fog/water shrew),(kg food ww / kg-bw day),,,0.585,0.585,0.585
+exp_wet_food_ingestion_m1,wet food ingestion rate (mammal: rice rat/nosed mole),(kg food ww / kg-bw day),,,0.484,0.484,0.484
+exp_wet_food_ingestion_m2,wet food ingestion rate (mammal: small mink),(kg food ww / kg-bw day),,,0.293,0.293,0.293
+exp_wet_food_ingestion_m3,wet food ingestion rate (mammal: large mink),(kg food ww / kg-bw day),,,0.229,0.229,0.229
+exp_wet_food_ingestion_m4,wet food ingestion rate (mammal: small river otter),(kg food ww / kg-bw day),,,0.191,0.191,0.191
+exp_wet_food_ingestion_m5,wet food ingestion rate (mammal: large river otter),(kg food ww / kg-bw day),,,0.157,0.157,0.157
+exp_wet_food_ingestion_a0,wet food ingestion rate (bird: sandpipers),(kg food ww / kg-bw day),,,1.034,1.034,1.034
+exp_wet_food_ingestion_a1,wet food ingestion rate (bird: cranes),(kg food ww / kg-bw day),,,0.136,0.136,0.136
+exp_wet_food_ingestion_a2,wet food ingestion rate (bird: rails),(kg food ww / kg-bw day),,,0.577,0.577,0.577
+exp_wet_food_ingestion_a3,wet food ingestion rate (bird: herons),(kg food ww / kg-bw day),,,0.157,0.157,0.157
+exp_wet_food_ingestion_a4,wet food ingestion rate (bird: small osprey),(kg food ww / kg-bw day),,,0.199,0.199,0.199
+exp_wet_food_ingestion_a5,wet food ingestion rate (bird: white pelican),(kg food ww / kg-bw day),,,0.107,0.107,0.107
+exp_drinking_water_intake_m0,drinking water ingestion rate (mammal: fog/water shrew),(L / day),,,0.003,0.003,0.003
+exp_drinking_water_intake_m1,drinking water ingestion rate (mammal: rice rat/nosed mole),(L / day),,,0.011,0.011,0.011
+exp_drinking_water_intake_m2,drinking water ingestion rate (mammal: small mink),(L / day),,,0.048,0.048,0.048
+exp_drinking_water_intake_m3,drinking water ingestion rate (mammal: large mink),(L / day),,,0.168,0.168,0.168
+exp_drinking_water_intake_m4,drinking water ingestion rate (mammal: small river otter),(L / day),,,0.421,0.421,0.421
+exp_drinking_water_intake_m5,drinking water ingestion rate (mammal: large river otter),(L / day),,,1.133,1.133,1.133
+exp_drinking_water_intake_a0,drinking water ingestion rate (bird: sandpipers),(L / day),,,0.004,0.004,0.004
+exp_drinking_water_intake_a1,drinking water ingestion rate (bird: cranes),(L / day),,,0.211,0.211,0.211
+exp_drinking_water_intake_a2,drinking water ingestion rate (bird: rails),(L / day),,,0.01,0.01,0.01
+exp_drinking_water_intake_a3,drinking water ingestion rate (bird: herons),(L / day),,,0.12,0.12,0.12
+exp_drinking_water_intake_a4,drinking water ingestion rate (bird: small osprey),(L / day),,,0.069,0.069,0.069
+exp_drinking_water_intake_a5,drinking water ingestion rate (bird: white pelican),(L / day),,,0.228,0.228,0.228
+exp_db40,dose-based EEC (mammal: fog/water shrew),(mg pesticide / kg-bw day),,,13.857,13.857,13.857
+exp_db41,dose-based EEC (mammal: rice rat/nosed mole),(mg pesticide / kg-bw day),,,11.921,11.921,11.921
+exp_db42,dose-based EEC (mammal: small mink),(mg pesticide / kg-bw day),,,12.041,12.041,12.041
+exp_db43,dose-based EEC (mammal: large mink),(mg pesticide / kg-bw day),,,9.408,9.408,9.408
+exp_db44,dose-based EEC (mammal: small river otter),(mg pesticide / kg-bw day),,,7.844,7.844,7.844
+exp_db45,dose-based EEC (mammal: large river otter),(mg pesticide / kg-bw day),,,8.852,8.852,8.852
+exp_db4a0,dose-based EEC (bird: sandpipers),(mg pesticide / kg-bw day),,,25.5861,25.5861,25.5861
+exp_db4a1,dose-based EEC (bird: cranes),(mg pesticide / kg-bw day),,,3.6561,3.6561,3.6561
+exp_db4a2,dose-based EEC (bird: rails),(mg pesticide / kg-bw day),,,16.8571,16.8571,16.8571
+exp_db4a3,dose-based EEC (bird: herons),(mg pesticide / kg-bw day),,,5.0943,5.0943,5.0943
+exp_db4a4,dose-based EEC (bird: small osprey),(mg pesticide / kg-bw day),,,8.1859,8.1859,8.1859
+exp_db4a5,dose-based EEC (bird: white pelican),(mg pesticide / kg-bw day),,,6.0108,6.0108,6.0108
+exp_db50,dietary-based EEC (mammal: fog/water shrew),(mg pesticide / kg-bw day),,,23.68,23.68,23.68
+exp_db51,dietary-based EEC (mammal: rice rat/nosed mole),(mg pesticide / kg-bw day),,,24.64,24.64,24.64
+exp_db52,dietary-based EEC (mammal: small mink),(mg pesticide / kg-bw day),,,41.05,41.05,41.05
+exp_db53,dietary-based EEC (mammal: large mink),(mg pesticide / kg-bw day),,,41.05,41.05,41.05
+exp_db54,dietary-based EEC (mammal: small river otter),(mg pesticide / kg-bw day),,,41.05,41.05,41.05
+exp_db55,dietary-based EEC (mammal: large river otter),(mg pesticide / kg-bw day),,,56.33,56.33,56.33
+exp_db5a0,dietary-based EEC (bird: sandpipers),(mg pesticide / kg-bw day),,,24.75,24.75,24.75
+exp_db5a1,dietary-based EEC (bird: cranes),(mg pesticide / kg-bw day),,,26.9,26.9,26.9
+exp_db5a2,dietary-based EEC (bird: rails),(mg pesticide / kg-bw day),,,29.2,29.2,29.2
+exp_db5a3,dietary-based EEC (bird: herons),(mg pesticide / kg-bw day),,,32.36,32.36,32.36
+exp_db5a4,dietary-based EEC (bird: small osprey),(mg pesticide / kg-bw day),,,41.05,41.05,41.05
+exp_db5a5,dietary-based EEC (bird: white pelican),(mg pesticide / kg-bw day),,,56.33,56.33,56.33
+exp_acute_dose_based_m0,acute/adjusted dose-based toxicity (mammal: fog/water shrew),(mg/kg-bw),,,105,105,105
+exp_acute_dose_based_m1,acute/adjusted dose-based toxicity (mammal: rice rat/nosed mole),(mg/kg-bw),,,71.22,71.22,71.22
+exp_acute_dose_based_m2,acute/adjusted dose-based toxicity (mammal: small mink),(mg/kg-bw),,,46.96,46.96,46.96
+exp_acute_dose_based_m3,acute/adjusted dose-based toxicity (mammal: large mink),(mg/kg-bw),,,33.2,33.2,33.2
+exp_acute_dose_based_m4,acute/adjusted dose-based toxicity (mammal: small river otter),(mg/kg-bw),,,25.72,25.72,25.72
+exp_acute_dose_based_m5,acute/adjusted dose-based toxicity (mammal: large river otter),(mg/kg-bw),,,19.54,19.54,19.54
+exp_acute_dose_based_a0,acute/adjusted dose-based toxicity (bird: sandpipers),(mg/kg-bw),,,36.02,36.02,36.02
+exp_acute_dose_based_a1,acute/adjusted dose-based toxicity (bird: cranes),(mg/kg-bw),,,86.16,86.16,86.16
+exp_acute_dose_based_a2,acute/adjusted dose-based toxicity (bird: rails),(mg/kg-bw),,,43.47,43.47,43.47
+exp_acute_dose_based_a3,acute/adjusted dose-based toxicity (bird: herons),(mg/kg-bw),,,75.99,75.99,75.99
+exp_acute_dose_based_a4,acute/adjusted dose-based toxicity (bird: small osprey),(mg/kg-bw),,,66.98,66.98,66.98
+exp_acute_dose_based_a5,acute/adjusted dose-based toxicity (bird: white pelican),(mg/kg-bw),,,87.63,87.63,87.63
+out_acute_diet_based_m0,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
+out_acute_diet_based_m1,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
+out_acute_diet_based_m2,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
+out_acute_diet_based_m3,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
+out_acute_diet_based_m4,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
+out_acute_diet_based_m5,adjusted/acute diet-based toxicity for mammals - equal to the mammalian_lc50,mg/kg-diet,,,,,
+out_acute_diet_based_a0,adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value,mg/kg-diet,,,500,500,500
+out_acute_diet_based_a1,adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value,mg/kg-diet,,,500,500,500
+out_acute_diet_based_a2,adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value,mg/kg-diet,,,500,500,500
+out_acute_diet_based_a3,adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value,mg/kg-diet,,,500,500,500
+out_acute_diet_based_a4,adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value,mg/kg-diet,,,500,500,500
+out_acute_diet_based_a5,adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value,mg/kg-diet,,,500,500,500
+exp_chronic_dose_based_m0,chronic dose-based toxicity (mammal: fog/water shrew),(mg/kg-bw),,,1.05,1.05,1.05
+exp_chronic_dose_based_m1,chronic dose-based toxicity (mammal: rice rat/nosed mole),(mg/kg-bw),,,0.71,0.71,0.71
+exp_chronic_dose_based_m2,chronic dose-based toxicity (mammal: small mink),(mg/kg-bw),,,0.47,0.47,0.47
+exp_chronic_dose_based_m3,chronic dose-based toxicity (mammal: large mink),(mg/kg-bw),,,0.33,0.33,0.33
+exp_chronic_dose_based_m4,chronic dose-based toxicity (mammal: small river otter),(mg/kg-bw),,,0.26,0.26,0.26
+exp_chronic_dose_based_m5,chronic dose-based toxicity (mammal: large river otter),(mg/kg-bw),,,0.2,0.2,0.2
+out_chronic_diet_based_m0,chronic diet-based toxicity - all are equal to the mammalian chronic endpoint,(mg/kg-bw),,,10,10,10
+out_chronic_diet_based_m1,chronic diet-based toxicity - all are equal to the mammalian chronic endpoint,(mg/kg-bw),,,10,10,10
+out_chronic_diet_based_m2,chronic diet-based toxicity - all are equal to the mammalian chronic endpoint,(mg/kg-bw),,,10,10,10
+out_chronic_diet_based_m3,chronic diet-based toxicity - all are equal to the mammalian chronic endpoint,(mg/kg-bw),,,10,10,10
+out_chronic_diet_based_m4,chronic diet-based toxicity - all are equal to the mammalian chronic endpoint,(mg/kg-bw),,,10,10,10
+out_chronic_diet_based_m5,chronic diet-based toxicity - all are equal to the mammalian chronic endpoint,(mg/kg-bw),,,10,10,10
+out_chronic_diet_based_a0,chronic diet-based toxicity for birds - all are equal to the avian_noaec,(mg/kg-bw),,,10,10,10
+out_chronic_diet_based_a1,chronic diet-based toxicity for birds - all are equal to the avian_noaec,(mg/kg-bw),,,10,10,10
+out_chronic_diet_based_a2,chronic diet-based toxicity for birds - all are equal to the avian_noaec,(mg/kg-bw),,,10,10,10
+out_chronic_diet_based_a3,chronic diet-based toxicity for birds - all are equal to the avian_noaec,(mg/kg-bw),,,10,10,10
+out_chronic_diet_based_a4,chronic diet-based toxicity for birds - all are equal to the avian_noaec,(mg/kg-bw),,,10,10,10
+out_chronic_diet_based_a5,chronic diet-based toxicity for birds - all are equal to the avian_noaec,(mg/kg-bw),,,10,10,10
+exp_acute_rq_dose_m0,acute dose-based risk quotient (mammal: fog/water shrew),dose-based EEC/dose-based toxicity),,,0.132,0.132,0.132
+exp_acute_rq_dose_m1,acute dose-based risk quotient (mammal: rice rat/nosed mole),dose-based EEC/dose-based toxicity),,,0.167,0.167,0.167
+exp_acute_rq_dose_m2,acute dose-based risk quotient (mammal: small mink),dose-based EEC/dose-based toxicity),,,0.256,0.256,0.256
+exp_acute_rq_dose_m3,acute dose-based risk quotient (mammal: large mink),dose-based EEC/dose-based toxicity),,,0.283,0.283,0.283
+exp_acute_rq_dose_m4,acute dose-based risk quotient (mammal: small river otter),dose-based EEC/dose-based toxicity),,,0.305,0.305,0.305
+exp_acute_rq_dose_m5,acute dose-based risk quotient (mammal: large river otter),dose-based EEC/dose-based toxicity),,,0.453,0.453,0.453
+exp_acute_rq_dose_a0,acute dose-based risk quotient (bird: sandpipers),dose-based EEC/dose-based toxicity),,,0.71,0.71,0.71
+exp_acute_rq_dose_a1,acute dose-based risk quotient (bird: cranes),dose-based EEC/dose-based toxicity),,,0.042,0.042,0.042
+exp_acute_rq_dose_a2,acute dose-based risk quotient (bird: rails),dose-based EEC/dose-based toxicity),,,0.388,0.388,0.388
+exp_acute_rq_dose_a3,acute dose-based risk quotient (bird: herons),dose-based EEC/dose-based toxicity),,,0.067,0.067,0.067
+exp_acute_rq_dose_a4,acute dose-based risk quotient (bird: small osprey),dose-based EEC/dose-based toxicity),,,0.122,0.122,0.122
+exp_acute_rq_dose_a5,acute dose-based risk quotient (bird: white pelican),dose-based EEC/dose-based toxicity),,,0.069,0.069,0.069
+out_acute_rq_diet_m0,acute diet-based risk quotient (mammal: fog/water shrew),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_m1,acute diet-based risk quotient (mammal: rice rat/nosed mole),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_m2,acute diet-based risk quotient (mammal: small mink),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_m3,acute diet-based risk quotient (mammal: large mink),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_m4,acute diet-based risk quotient (mammal: small river otter),dose-based EEC/dose-based toxicity),,,,,
+out_acute_rq_diet_m5,acute diet-based risk quotient (mammal: large river otter),dose-based EEC/dose-based toxicity),,,,,
+exp_acute_rq_diet_a0,acute diet-based risk quotient (bird: sandpipers),dose-based EEC/dose-based toxicity),,,0.049,0.049,0.049
+exp_acute_rq_diet_a1,acute diet-based risk quotient (bird: cranes),dose-based EEC/dose-based toxicity),,,0.054,0.054,0.054
+exp_acute_rq_diet_a2,acute diet-based risk quotient (bird: rails),dose-based EEC/dose-based toxicity),,,0.058,0.058,0.058
+exp_acute_rq_diet_a3,acute diet-based risk quotient (bird: herons),dose-based EEC/dose-based toxicity),,,0.065,0.065,0.065
+exp_acute_rq_diet_a4,acute diet-based risk quotient (bird: small osprey),dose-based EEC/dose-based toxicity),,,0.082,0.082,0.082
+exp_acute_rq_diet_a5,acute diet-based risk quotient (bird: white pelican),dose-based EEC/dose-based toxicity),,,0.113,0.113,0.113
+exp_chronic_rq_dose_m0,chronic dose-based risk quotient (mammal: fog/water shrew),dose-based EEC/dose-based toxicity),,,0.66,0.66,0.66
+exp_chronic_rq_dose_m1,chronic dose-based risk quotient (mammal: rice rat/nosed mole),dose-based EEC/dose-based toxicity),,,0.837,0.837,0.837
+exp_chronic_rq_dose_m2,chronic dose-based risk quotient (mammal: small mink),dose-based EEC/dose-based toxicity),,,1.282,1.282,1.282
+exp_chronic_rq_dose_m3,chronic dose-based risk quotient (mammal: large mink),dose-based EEC/dose-based toxicity),,,1.417,1.417,1.417
+exp_chronic_rq_dose_m4,chronic dose-based risk quotient (mammal: small river otter),dose-based EEC/dose-based toxicity),,,1.525,1.525,1.525
+exp_chronic_rq_dose_m5,chronic dose-based risk quotient (mammal: large river otter),dose-based EEC/dose-based toxicity),,,2.265,2.265,2.265
+exp_chronic_rq_diet_m0,chronic diet-based risk quotient (mammal: fog/water shrew),dose-based EEC/dose-based toxicity),,,2.368,2.368,2.368
+exp_chronic_rq_diet_m1,chronic diet-based risk quotient (mammal: rice rat/nosed mole),dose-based EEC/dose-based toxicity),,,2.464,2.464,2.464
+exp_chronic_rq_diet_m2,chronic diet-based risk quotient (mammal: small mink),dose-based EEC/dose-based toxicity),,,4.105,4.105,4.105
+exp_chronic_rq_diet_m3,chronic diet-based risk quotient (mammal: large mink),dose-based EEC/dose-based toxicity),,,4.105,4.105,4.105
+exp_chronic_rq_diet_m4,chronic diet-based risk quotient (mammal: small river otter),dose-based EEC/dose-based toxicity),,,4.105,4.105,4.105
+exp_chronic_rq_diet_m5,chronic diet-based risk quotient (mammal: large river otter),dose-based EEC/dose-based toxicity),,,5.633,5.633,5.633
+exp_chronic_rq_diet_a0,chronic diet-based risk quotient (bird: sandpipers),dose-based EEC/dose-based toxicity),,,2.475,2.475,2.475
+exp_chronic_rq_diet_a1,chronic diet-based risk quotient (bird: cranes),dose-based EEC/dose-based toxicity),,,2.69,2.69,2.69
+exp_chronic_rq_diet_a2,chronic diet-based risk quotient (bird: rails),dose-based EEC/dose-based toxicity),,,2.92,2.92,2.92
+exp_chronic_rq_diet_a3,chronic diet-based risk quotient (bird: herons),dose-based EEC/dose-based toxicity),,,3.236,3.236,3.236
+exp_chronic_rq_diet_a4,chronic diet-based risk quotient (bird: small osprey),dose-based EEC/dose-based toxicity),,,4.105,4.105,4.105
+exp_chronic_rq_diet_a5,chronic diet-based risk quotient (bird: white pelican),dose-based EEC/dose-based toxicity),,,5.633,5.633,5.633

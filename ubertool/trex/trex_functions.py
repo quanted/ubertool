@@ -247,8 +247,8 @@ class TrexFunctions(object):
         method produces a concentration timeseries (daily for 1 yr + a week) and extracts the maximum concentration value
         also scans time series and extracts the maximum daily concentration for the year
         """
-        max_concs = pd.Series([], dtype = 'float')
-        temp_ts = pd.Series([], dtype = 'float')
+
+        #temp_ts = pd.Series([], dtype = 'float')
 
         #get timeseries of daily concentrations for the year (+ a week)
         temp_ts = self.eec_diet_timeseries(food_multiplier)

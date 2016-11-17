@@ -58,9 +58,9 @@ class UberModel(object):
         :param df_in: Pandas DataFrame object of model input parameters
         """
         df = self._convert_index(df_in)
+        mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
         try:
             # Import the model's input class (e.g. TerrplantInputs) to compare user supplied inputs to
-            mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
             module = importlib.import_module(mod_name)
             model_inputs_class = getattr(module, self.name + "Inputs")
             model_inputs = model_inputs_class()
@@ -74,6 +74,17 @@ class UberModel(object):
             # user_inputs_df = self._sanitize(df)
             for column in df.columns:
                 setattr(self, column, df[column])
+        else:
+            msg_err1 = "Inputs parameters do not have all required inputs. Please see API documentation.\n"
+            keys_a = set(df.keys())
+            keys_b = set(self.pd_obj.keys())
+            msg_err2 = "Expected: " + str(df.columns.sort_values()) + "\n"
+            msg_err3 = "Received: " + str(self.pd_obj.columns.sort_values()) + "\n"
+            missing = [item for item in keys_a if item not in keys_b]
+            msg_missing = "missing the following field(s): {}\n".format(missing)
+            extras = [item for item in keys_b if item not in keys_a]
+            msg_extras = "the following extra field(s) were found: {}\n".format(extras)
+            raise ValueError(msg_err1 + msg_err2 + msg_err3 + msg_missing + msg_extras)
 
     def populate_outputs(self):
         # Create temporary DataFrame where each column name is the same as TRexOutputs attributes
