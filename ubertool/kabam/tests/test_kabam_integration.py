@@ -2349,7 +2349,7 @@ class TestKabam(unittest.TestCase):
         err_msg = str(result) + '\n' + str(expected)
         # npt.assert_array_almost_equal(result, expected, 4, '', True)
         rtol = 1e-5
-        npt.assert_allclose(result, expected, rtol, 0, True, err_msg)
+        npt.assert_allclose(result,expected,rtol,0,True,err_msg,True)
 
     def blackbox_method_str(self, output):
         """
