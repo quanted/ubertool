@@ -41,7 +41,7 @@ class TrexInputs(ModelSharedInputs):
         self.percent_incorp = pd.Series([], dtype="float")
         self.density = pd.Series([], dtype="float")
         self.foliar_diss_hlife = pd.Series([], dtype="float")
-        self.num_apps = pd.Series([], dtype="float") # number of applications per model simulation run
+        self.num_apps = pd.Series([], dtype="int") # number of applications per model simulation run
                 # could calculate self.num_apps = len(self.app_rates) # should at least check if user supplied value is consistent
         self.app_rates = pd.Series([], dtype="object") #Series of lists, each list contains app_rates of a model simulation run
         self.day_out = pd.Series([], dtype="object") #Series of lists, each list contains day #'s of applications within a model simulaiton run
