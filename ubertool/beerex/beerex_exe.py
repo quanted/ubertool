@@ -1,16 +1,8 @@
 from __future__ import division  #brings in Python 3.0 mixed type calculations
-import os.path
-import sys
 import numpy as np
 import pandas as pd
 
-#find parent directory and import base (travis)
-parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentddir)
 from base.uber_model import UberModel, ModelSharedInputs
-
-#print(sys.path)
-#print(os.path)
 
 class BeerexInputs(object):
     """

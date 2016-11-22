@@ -9,6 +9,7 @@ from StringIO import StringIO
 import sys
 from tabulate import tabulate
 import unittest
+
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 print(parentddir)
