@@ -15,7 +15,7 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.par
 print("parent_dir")
 print(parent_dir)
 sys.path.append(parent_dir)
-from trex_exe import Trex
+from trex_exe import Trex, TrexOutputs
 
 print("sys.path")
 print(sys.path)
@@ -64,6 +64,7 @@ finally:
     #print(tabulate(pd_obj_exp.iloc[:,15:16], headers='keys', tablefmt='plain'))
 
 # create an instance of trex object with qaqc data
+trex_output_empty = TrexOutputs()
 trex_calc = Trex(pd_obj_inputs, pd_obj_exp)
 trex_calc.execute_model()
 inputs_json, outputs_json, exp_out_json = trex_calc.get_dict_rep()
@@ -91,6 +92,63 @@ class TestTrex(unittest.TestCase):
         :return:
         """
         pass
+
+    def test_assert_output_series(self):
+        """ Verify that each output variable is a pd.Series """
+
+        try:
+            num_variables = len(trex_calc.pd_obj_out.columns)
+            result = pd.Series(False, index=list(range(num_variables)), dtype='bool')
+            expected = pd.Series(True, index=list(range(num_variables)), dtype='bool')
+
+            for i in range(num_variables):
+                column_name = trex_calc.pd_obj_out.columns[i]
+                output = getattr(trex_calc, column_name)
+                if isinstance(output, pd.Series):
+                    result[i] = True
+
+            tab = pd.concat([result,expected], axis=1)
+            print('model output properties as pandas series')
+            print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
+            npt.assert_array_equal(result, expected)
+        finally:
+            pass
+        return
+
+    def test_assert_output_series_dtypes(self):
+        """ Verify that each output variable is the correct dtype """
+
+        try:
+            num_variables = len(trex_calc.pd_obj_out.columns)
+            #get the string of the type that is expected and the type that has resulted
+            result = pd.Series(False, index=list(range(num_variables)), dtype='bool')
+            expected = pd.Series(True, index=list(range(num_variables)), dtype='bool')
+
+            for i in range(num_variables):
+                column_name = trex_calc.pd_obj_out.columns[i]
+                output_result = getattr(trex_calc, column_name)
+                column_dtype_result = output_result.dtype.name
+                output_expected = getattr(trex_output_empty, column_name)
+                output_expected2 = getattr(trex_calc.pd_obj_out, column_name)
+                column_dtype_expected = output_expected.dtype.name
+                if column_dtype_result == column_dtype_expected:
+                    result[i] = True
+
+                #tab = pd.concat([result,expected], axis=1)
+                if(result[i] != expected[i]):
+                    print(i)
+                    print(column_name)
+                    print(str(result[i]) + "/" + str(expected[i]))
+                    print(column_dtype_result + "/" + column_dtype_expected)
+                    print('result')
+                    print(output_result)
+                    print('expected')
+                    print(output_expected2)
+                #print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
+            npt.assert_array_equal(result, expected)
+        finally:
+            pass
+        return
 
     def test_eec_diet_sg(self):
         """

@@ -13,7 +13,7 @@ import unittest
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 print(parentddir)
 sys.path.append(parentddir)
-from earthworm_exe import Earthworm
+from earthworm_exe import Earthworm, EarthwormOutputs
 
 print(sys.path)
 
@@ -63,6 +63,7 @@ finally:
     #print('earthworm expected')
 
 #generate output
+earthworm_output_empty = EarthwormOutputs()
 earthworm_calc = Earthworm(pd_obj_inputs, pd_obj_exp)
 earthworm_calc.execute_model()
 inputs_json, outputs_json, exp_out_json = earthworm_calc.get_dict_rep()
@@ -99,6 +100,63 @@ class TestEarthworm(unittest.TestCase):
         :return:
         """
         pass
+
+    def test_assert_output_series(self):
+        """ Verify that each output variable is a pd.Series """
+
+        try:
+            num_variables = len(earthworm_calc.pd_obj_out.columns)
+            result = pd.Series(False, index=list(range(num_variables)), dtype='bool')
+            expected = pd.Series(True, index=list(range(num_variables)), dtype='bool')
+
+            for i in range(num_variables):
+                column_name = earthworm_calc.pd_obj_out.columns[i]
+                output = getattr(earthworm_calc, column_name)
+                if isinstance(output, pd.Series):
+                    result[i] = True
+
+            tab = pd.concat([result,expected], axis=1)
+            print('model output properties as pandas series')
+            print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
+            npt.assert_array_equal(result, expected)
+        finally:
+            pass
+        return
+
+    def test_assert_output_series_dtypes(self):
+        """ Verify that each output variable is the correct dtype """
+
+        try:
+            num_variables = len(earthworm_calc.pd_obj_out.columns)
+            #get the string of the type that is expected and the type that has resulted
+            result = pd.Series(False, index=list(range(num_variables)), dtype='bool')
+            expected = pd.Series(True, index=list(range(num_variables)), dtype='bool')
+
+            for i in range(num_variables):
+                column_name = earthworm_calc.pd_obj_out.columns[i]
+                output_result = getattr(earthworm_calc, column_name)
+                column_dtype_result = output_result.dtype.name
+                output_expected = getattr(earthworm_output_empty, column_name)
+                output_expected2 = getattr(earthworm_calc.pd_obj_out, column_name)
+                column_dtype_expected = output_expected.dtype.name
+                if column_dtype_result == column_dtype_expected:
+                    result[i] = True
+
+                #tab = pd.concat([result,expected], axis=1)
+                if(result[i] != expected[i]):
+                    print(i)
+                    print(column_name)
+                    print(str(result[i]) + "/" + str(expected[i]))
+                    print(column_dtype_result + "/" + column_dtype_expected)
+                    print('result')
+                    print(output_result)
+                    print('expected')
+                    print(output_expected2)
+                #print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
+            npt.assert_array_equal(result, expected)
+        finally:
+            pass
+        return
 
     def test_earthworm_fugacity_integration(self):
         """
