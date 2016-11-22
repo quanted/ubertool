@@ -87,6 +87,7 @@ class UberModel(object):
             msg_missing = "missing the following field(s): {}\n".format(missing)
             extras = [item for item in keys_b if item not in keys_a]
             msg_extras = "the following extra field(s) were found: {}\n".format(extras)
+
             raise ValueError(msg_err1 + msg_err2 + msg_err3 + msg_missing + msg_extras)
 
     def populate_outputs(self):

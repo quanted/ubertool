@@ -47,8 +47,8 @@ finally:
 # load transposed qaqc data for expected outputs
 try:
     if __package__ is not None:
-        data_exp_outputs = StringIO(pkgutil.get_data(__package__, 'beerex_qaqc_exp_transpose.csv'))
-        pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
+        data_exp_outputs = StringIO(pkgutil.get_data(__package__, './beerex_qaqc_exp_transpose.csv'))
+        pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine='python')
     else:
         csv_transpose_path_exp = "./beerex_qaqc_exp_transpose.csv"
         #print(csv_transpose_path_exp)
@@ -195,7 +195,7 @@ class TestBeerex(unittest.TestCase):
         Integration test for beerex.eec_method
         """
         try:
-            self.blackbox_method_int('eec_method')
+            self.blackbox_method_int('eec')
         finally:
             pass
         return
@@ -300,62 +300,62 @@ class TestBeerex(unittest.TestCase):
             pass
         return
 
-    def test_awcell_total_dose(self):
+    def test_aw_cell_total_dose(self):
         """
-        Integration test for beerex.awcell_total_dose
+        Integration test for beerex.aw_cell_total_dose
         """
         try:
-            self.blackbox_method_int('awcell_total_dose')
+            self.blackbox_method_int('aw_cell_total_dose')
         finally:
             pass
         return
 
-    def test_awbrood_total_dose(self):
+    def test_aw_brood_total_dose(self):
         """
-        Integration test for beerex.awbrood_total_dose
+        Integration test for beerex.aw_brood_total_dose
         """
         try:
-            self.blackbox_method_int('awbrood_total_dose')
+            self.blackbox_method_int('aw_brood_total_dose')
         finally:
             pass
         return
 
-    def test_awcomb_total_dose(self):
+    def test_aw_comb_total_dose(self):
         """
-        Integration test for beerex.awcomb_total_dose
+        Integration test for beerex.aw_comb_total_dose
         """
         try:
-            self.blackbox_method_int('awcomb_total_dose')
+            self.blackbox_method_int('aw_comb_total_dose')
         finally:
             pass
         return
 
-    def test_awpollen_total_dose(self):
+    def test_aw_pollen_total_dose(self):
         """
-        Integration test for beerex.awpollen_total_dose
+        Integration test for beerex.aw_pollen_total_dose
         """
         try:
-            self.blackbox_method_int('awpollen_total_dose')
+            self.blackbox_method_int('aw_pollen_total_dose')
         finally:
             pass
         return
 
-    def test_awnectar_total_dose(self):
+    def test_aw_nectar_total_dose(self):
         """
-        Integration test for beerex.awnectar_total_dose
+        Integration test for beerex.aw_nectar_total_dose
         """
         try:
-            self.blackbox_method_int('awnectar_total_dose')
+            self.blackbox_method_int('aw_nectar_total_dose')
         finally:
             pass
         return
 
-    def test_awwinter_total_dose(self):
+    def test_aw_winter_total_dose(self):
         """
-        Integration test for beerex.awwinter_total_dose
+        Integration test for beerex.aw_winter_total_dose
         """
         try:
-            self.blackbox_method_int('awwinter_total_dose')
+            self.blackbox_method_int('aw_winter_total_dose')
         finally:
             pass
         return
@@ -480,57 +480,57 @@ class TestBeerex(unittest.TestCase):
         finally:
             pass
 
-    def test_awcell_acute_rq(self):
+    def test_aw_cell_acute_rq(self):
         """
-        Integration test for beerex.awcell_acute_rq
+        Integration test for beerex.aw_cell_acute_rq
         """
         try:
-            self.blackbox_method_int('awcell_acute_rq')
+            self.blackbox_method_int('aw_cell_acute_rq')
         finally:
             pass
 
-    def test_awbrood_acute_rq(self):
+    def test_aw_brood_acute_rq(self):
         """
-        Integration test for beerex.awbrood_acute_rq
+        Integration test for beerex.aw_brood_acute_rq
         """
         try:
-            self.blackbox_method_int('awbrood_acute_rq')
+            self.blackbox_method_int('aw_brood_acute_rq')
         finally:
             pass
 
-    def test_awcomb_acute_rq(self):
+    def test_aw_comb_acute_rq(self):
         """
-        Integration test for beerex.awcomb_acute_rq
+        Integration test for beerex.aw_comb_acute_rq
         """
         try:
-            self.blackbox_method_int('awcomb_acute_rq')
+            self.blackbox_method_int('aw_comb_acute_rq')
         finally:
             pass
 
-    def test_awpollen_acute_rq(self):
+    def test_aw_pollen_acute_rq(self):
         """
-        Integration test for beerex.awpollen_acute_rq
+        Integration test for beerex.aw_pollen_acute_rq
         """
         try:
-            self.blackbox_method_int('awpollen_acute_rq')
+            self.blackbox_method_int('aw_pollen_acute_rq')
         finally:
             pass
 
-    def test_awnectar_acute_rq(self):
+    def test_aw_nectar_acute_rq(self):
         """
-        Integration test for beerex.awnectar_acute_rq
+        Integration test for beerex.aw_nectar_acute_rq
         """
         try:
-            self.blackbox_method_int('awnectar_acute_rq')
+            self.blackbox_method_int('aw_nectar_acute_rq')
         finally:
             pass
 
-    def test_awwinter_acute_rq(self):
+    def test_aw_winter_acute_rq(self):
         """
-        Integration test for beerex.awwinter_acute_rq
+        Integration test for beerex.aw_winter_acute_rq
         """
         try:
-            self.blackbox_method_int('awwinter_acute_rq')
+            self.blackbox_method_int('aw_winter_acute_rq')
         finally:
             pass
 
@@ -652,57 +652,57 @@ class TestBeerex(unittest.TestCase):
         finally:
             pass
 
-    def test_awcell_chronic_rq(self):
+    def test_aw_cell_chronic_rq(self):
         """
-        Integration test for beerex.awcell_chronic_rq
+        Integration test for beerex.aw_cell_chronic_rq
         """
         try:
-            self.blackbox_method_int('awcell_chronic_rq')
+            self.blackbox_method_int('aw_cell_chronic_rq')
         finally:
             pass
 
-    def test_awbrood_chronic_rq(self):
+    def test_aw_brood_chronic_rq(self):
         """
-        Integration test for beerex.awbrood_chronic_rq
+        Integration test for beerex.aw_brood_chronic_rq
         """
         try:
-            self.blackbox_method_int('awbrood_chronic_rq')
+            self.blackbox_method_int('aw_brood_chronic_rq')
         finally:
             pass
 
-    def test_awcomb_chronic_rq(self):
+    def test_aw_comb_chronic_rq(self):
         """
-        Integration test for beerex.awcomb_chronic_rq
+        Integration test for beerex.aw_comb_chronic_rq
         """
         try:
-            self.blackbox_method_int('awcomb_chronic_rq')
+            self.blackbox_method_int('aw_comb_chronic_rq')
         finally:
             pass
 
-    def test_awpollen_chronic_rq(self):
+    def test_aw_pollen_chronic_rq(self):
         """
-        Integration test for beerex.awpollen_chronic_rq
+        Integration test for beerex.aw_pollen_chronic_rq
         """
         try:
-            self.blackbox_method_int('awpollen_chronic_rq')
+            self.blackbox_method_int('aw_pollen_chronic_rq')
         finally:
             pass
 
-    def test_awnectar_chronic_rq(self):
+    def test_aw_nectar_chronic_rq(self):
         """
-        Integration test for beerex.awnectar_chronic_rq
+        Integration test for beerex.aw_nectar_chronic_rq
         """
         try:
-            self.blackbox_method_int('awnectar_chronic_rq')
+            self.blackbox_method_int('aw_nectar_chronic_rq')
         finally:
             pass
 
-    def test_awwinter_chronic_rq(self):
+    def test_aw_winter_chronic_rq(self):
         """
-        Integration test for beerex.awwinter_chronic_rq
+        Integration test for beerex.aw_winter_chronic_rq
         """
         try:
-            self.blackbox_method_int('awwinter_chronic_rq')
+            self.blackbox_method_int('aw_winter_chronic_rq')
         finally:
             pass
 
@@ -734,7 +734,7 @@ class TestBeerex(unittest.TestCase):
         pd.set_option('display.float_format','{:.4E}'.format) # display model output in scientific notation
         result = beerex_calc.pd_obj_out["out_" + output]
         expected = beerex_calc.pd_obj_exp["exp_" + output]
-        tab = pd.concat([result,expected], axis=1)
+        tab = pd.concat([result, expected], axis=1)
         print(" ")
         print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
         # npt.assert_array_almost_equal(result, expected, 4, '', True)
@@ -749,7 +749,7 @@ class TestBeerex(unittest.TestCase):
         """
         result = beerex_calc.pd_obj_out["out_" + output]
         expected = beerex_calc.pd_obj_exp["exp_" + output]
-        tab = pd.concat([result,expected], axis=1)
+        tab = pd.concat([result, expected], axis=1)
         print(" ")
         print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
         npt.assert_array_equal(result, expected)
