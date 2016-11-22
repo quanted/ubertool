@@ -423,6 +423,7 @@ class KabamFunctions(object):
 
         pest_conc_organism = (k1 * ((mO * self.phi * self.water_column_eec) +
                              (mP * self.pore_water_eec)) + (kD * pest_diet_conc)) / (k2 + kE + kG + kM)
+
         return pest_conc_organism
 
     def lipid_norm_residue_conc(self, total_conc, lipid_content):

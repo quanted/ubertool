@@ -74,6 +74,9 @@ class UberModel(object):
             # user_inputs_df = self._sanitize(df)
             for column in df.columns:
                 setattr(self, column, df[column])
+                #if needs to be coerced to a number
+                #s = pd.to_numeric(s, errors='coerce')
+                #else to_string, boolean, etc
         else:
             msg_err1 = "Inputs parameters do not have all required inputs. Please see API documentation.\n"
             keys_a = set(df.keys())
@@ -87,7 +90,7 @@ class UberModel(object):
             raise ValueError(msg_err1 + msg_err2 + msg_err3 + msg_missing + msg_extras)
 
     def populate_outputs(self):
-        # Create temporary DataFrame where each column name is the same as TRexOutputs attributes
+        # Create temporary DataFrame where each column name is the same as *ModelName*Outputs attributes
         """
         Create and return Model Output DataFrame where each column name is a model output parameter
         :param model: string, name of the model as referred to in class names (e.g. terrplant, sip, stir, etc..)

@@ -1,9 +1,14 @@
 from __future__ import division
 import numpy as np
+import os.path
 import pandas as pd
+import sys
+
+parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parentddir)
+
 from base.uber_model import UberModel, ModelSharedInputs
 from kabam_functions import KabamFunctions
-
 
 class KabamInputs(ModelSharedInputs):
     """
@@ -1482,7 +1487,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
 
             #adjusted/acute diet-based toxicity for mammals - all are equal to the mammalian_lc50 value IF PROVIDED(Table 15)
             self.out_acute_diet_based_m0[i] = self.out_acute_diet_based_m1[i] = self.out_acute_diet_based_m2[i] =  \
-                self.out_acute_diet_based_m3[i] = self.out_acute_diet_based_m4[i] =\
+                self.out_acute_diet_based_m3[i] = self.out_acute_diet_based_m4[i] =  \
                 self.out_acute_diet_based_m5[i] = self.mammalian_lc50[i]
 
         #chronic dose-based toxicity for mammals (TABLE 15)
@@ -1611,6 +1616,10 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
 
     def set_global_constants(self):
 
+        #set number of model run simulations to be performed (equal to the number of entries in any one of the input variables)
+        #used throughout code to specify number of times a piece of code should be executed (e.g., for loops)
+        self.num_simulations = len(self.log_kow)
+
         # list of aquatic animals in the food chain from lowest to highest trophic level
         #(data in related arrays will reflect this order)
         self.aquatic_animals = np.array(['pytoplankton', 'zooplankton', 'benthic_invertebrates', 'filterfeeders',
@@ -1622,9 +1631,10 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.mammal_weights = np.array([0.018, 0.085, 0.45, 1.8, 5., 15.], dtype = 'float')
         self.diet_mammals = np.array([[0, 0, 1., 0, 0, 0, 0], [0, 0, .34, .33, .33, 0, 0], [0, 0, 0, 0, 0, 1., 0],
                                       [0, 0, 0, 0, 0, 1., 0], [0, 0, 0, 0, 0, 1., 0], [0, 0, 0, 0, 0, 0, 1.]], dtype = 'float')
-        #transfer mammal weights to output variable
-        self.out_mweight0, self.out_mweight1, self.out_mweight2, self.out_mweight3, \
-        self.out_mweight4, self.out_mweight5 = self.mammal_weights
+        #transfer mammal weights to output variable (replicate for each model simulation run)
+        for i in range(self.num_simulations):
+            self.out_mweight0[i], self.out_mweight1[i], self.out_mweight2[i], self.out_mweight3[i], \
+                self.out_mweight4[i], self.out_mweight5[i] = self.mammal_weights
 
         #list of birds (data in related arrays will reflect this order)
         self.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons', 'small osprey', 'white pelican'], dtype = 'str')
@@ -1632,9 +1642,10 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.diet_birds = np.array([[0, 0, .33, 0.33, 0.34, 0, 0], [0, 0, .33, .33, 0, 0.34, 0],
                                     [0, 0, 0.5, 0, 0.5, 0, 0], [0, 0, 0.5, 0, 0, 0.5, 0],
                                     [0, 0, 0, 0, 0, 1., 0], [0, 0, 0, 0, 0, 0, 1.]], dtype = 'float')
-        #transfer bird weights to output variable
-        self.out_aweight0, self.out_aweight1, self.out_aweight2, self.out_aweight3, \
-        self.out_aweight4, self.out_aweight5 = self.bird_weights
+        #transfer bird weights to output variable (replicate for each model simulation run)
+        for i in range(self.num_simulations):
+            self.out_aweight0[i], self.out_aweight1[i], self.out_aweight2[i], self.out_aweight3[i], \
+                self.out_aweight4[i], self.out_aweight5[i] = self.bird_weights
 
         # conversions
 
@@ -1666,10 +1677,6 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
 
         self.alpha_poc = 0.35  #proportionality constant to describe the similarity of phase partitioning of POC in relation to octanol
         self.alpha_doc = 0.08  #proportionality constant to describe the similarity of phase partitioning of DOC in relation to octanol
-
-        #set number of model run simulations to be performed (equal to the number of entries in any one of the input variables)
-        #used throughout code to specify number of times a piece of code should be executed (e.g., for loops)
-        self.num_simulations = len(self.log_kow)
 
         #convert all percentage-based inputs to fractions
         self.sediment_lipid_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
