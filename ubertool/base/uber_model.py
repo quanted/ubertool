@@ -2,7 +2,6 @@ import importlib
 import pandas as pd
 from pandas import compat
 from parser import Parser
-import numpy as np
 import logging
 
 
@@ -56,6 +55,7 @@ class UberModel(object):
         else:
             print("dtype of {} is {}\n"
                   "This format is not handled by UberModel._coerce_input_dtype()".format(input_series.name, dtype))
+            return input_series
 
     @staticmethod
     def _convert_index(df_in):
