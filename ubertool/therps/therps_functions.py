@@ -1,19 +1,12 @@
 from __future__ import division  #brings in Python 3.0 mixed type calculation rules
-from functools import wraps
-import logging
 import numpy as np
 import pandas as pd
-import time
 
 
-class THerpsFunctions(object):
+class TherpsFunctions(object):
     """
     Function class for THerps.
     """
-
-    def __init__(self):
-        """Class representing the functions for Trex"""
-        super(THerpsFunctions, self).__init__()
 
     def percent_to_frac(self, percent):
         fraction = percent / 100.
@@ -126,7 +119,7 @@ class THerpsFunctions(object):
         #get timeseries of daily concentrations for the year (+ a week)
         temp_ts = self.eec_diet_timeseries(food_multiplier)
         # get maximum daily concentration that occurs during the year for each simulation
-        max_concs = [temp_ts[i].max() for i in range(temp_ts.__len__())]
+        max_concs = pd.Series([temp_ts[i].max() for i in range(temp_ts.__len__())])
         return max_concs
 
     def eec_diet_timeseries(self, food_multiplier):
