@@ -1,9 +1,7 @@
 boto
-bottle
-codecov
 coverage
-coveralls
 futures
+nose #pycharm cant currently run nose2
 nose2
 nose-cov
 numpy
