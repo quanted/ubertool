@@ -11,7 +11,7 @@ import unittest
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parentddir)
-from beerex_exe import BeeRex
+from beerex_exe import Beerex
 
 # load transposed qaqc data for inputs and expected outputs
 # csv_transpose_path_in = "./beerex_qaqc_in_transpose.csv"
@@ -23,7 +23,7 @@ from beerex_exe import BeeRex
 
 # create empty pandas dataframes to create empty beerex object
 df_empty = pd.DataFrame()
-beerex_empty = BeeRex(df_empty, df_empty)
+beerex_empty = Beerex(df_empty, df_empty)
 
 test = {}
 
