@@ -1,17 +1,10 @@
-from __future__ import division  #brings in Python 3.0 mixed type calculations
+from __future__ import division
 from functools import wraps
-import os.path
-import sys
 import pandas as pd
-import time
-from trex_functions import TRexFunctions
-#import logging
-
-parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentddir)
 from base.uber_model import UberModel, ModelSharedInputs
+from trex_functions import TrexFunctions
+import time
 
-#tf = TrexFunctions
 
 def timefn(fn):
     @wraps(fn)
@@ -24,14 +17,14 @@ def timefn(fn):
     return measure_time
 
 
-class TRexInputs(ModelSharedInputs):
+class TrexInputs(ModelSharedInputs):
     """
     Required inputs class for Trex.
     """
 
     def __init__(self):
         """Class representing the inputs for Trex"""
-        super(TRexInputs, self).__init__()
+        super(TrexInputs, self).__init__()
         # Inputs: Assign object attribute variables from the input Pandas DataFrame
         self.use = pd.Series([], dtype="object")
         self.formu_name = pd.Series([], dtype="object")
@@ -48,7 +41,7 @@ class TRexInputs(ModelSharedInputs):
         self.percent_incorp = pd.Series([], dtype="float")
         self.density = pd.Series([], dtype="float")
         self.foliar_diss_hlife = pd.Series([], dtype="float")
-        self.num_apps = pd.Series([], dtype="float") # number of applications per model simulation run
+        self.num_apps = pd.Series([], dtype="int") # number of applications per model simulation run
                 # could calculate self.num_apps = len(self.app_rates) # should at least check if user supplied value is consistent
         self.app_rates = pd.Series([], dtype="object") #Series of lists, each list contains app_rates of a model simulation run
         self.day_out = pd.Series([], dtype="object") #Series of lists, each list contains day #'s of applications within a model simulaiton run
@@ -81,254 +74,237 @@ class TRexInputs(ModelSharedInputs):
         self.tw_mamm = pd.Series([], dtype="float")     # body weight of tested mammal
 
 
-class TRexOutputs(object):
+class TrexOutputs(object):
     """
     Output class for Trex.
     """
 
     def __init__(self):
         """Class representing the outputs for Trex"""
-        super(TRexOutputs, self).__init__()
+        super(TrexOutputs, self).__init__()
 
         # ??do the following 15 variables need to be included in the crosswalk table
         # initial concentrations for different food types
-        self.out_c_0_sg = pd.Series([], dtype = 'float', name="out_c_0_sg")  # short grass
-        self.out_c_0_tg = pd.Series([], dtype = 'float', name="out_c_0_tg")  # tall grass
-        self.out_c_0_blp = pd.Series([], dtype = 'float', name="out_c_0_blp")  # broad-leafed plants
-        self.out_c_0_fp = pd.Series([], dtype = 'float', name="out_c_0_fp")  # fruits/pods
-        self.out_c_0_arthro = pd.Series([], dtype = 'float', name="out_c_0_arthro")  # arthropods
+        self.out_c_0_sg = pd.Series([], dtype='float', name="out_c_0_sg")  # short grass
+        self.out_c_0_tg = pd.Series([], dtype='float', name="out_c_0_tg")  # tall grass
+        self.out_c_0_blp = pd.Series([], dtype='float', name="out_c_0_blp")  # broad-leafed plants
+        self.out_c_0_fp = pd.Series([], dtype='float', name="out_c_0_fp")  # fruits/pods
+        self.out_c_0_arthro = pd.Series([], dtype='float', name="out_c_0_arthro")  # arthropods
 
         # mean concentration estimate based on first application rate
-        self.out_c_mean_sg = pd.Series([], dtype = 'float', name="out_c_mean_sg")  # short grass
-        self.out_c_mean_tg = pd.Series([], dtype = 'float', name="out_c_mean_tg")  # tall grass
-        self.out_c_mean_blp = pd.Series([], dtype = 'float', name="out_c_mean_blp")  # broad-leafed plants
-        self.out_c_mean_fp = pd.Series([], dtype = 'float', name="out_c_mean_fp")  # fruits/pods
-        self.out_c_mean_arthro = pd.Series([], dtype = 'float', name="out_c_mean_arthro")  # arthropods
+        self.out_c_mean_sg = pd.Series([], dtype='float', name="out_c_mean_sg")  # short grass
+        self.out_c_mean_tg = pd.Series([], dtype='float', name="out_c_mean_tg")  # tall grass
+        self.out_c_mean_blp = pd.Series([], dtype='float', name="out_c_mean_blp")  # broad-leafed plants
+        self.out_c_mean_fp = pd.Series([], dtype='float', name="out_c_mean_fp")  # fruits/pods
+        self.out_c_mean_arthro = pd.Series([], dtype='float', name="out_c_mean_arthro")  # arthropods
 
         # time series of concentrations per food source
-        self.out_c_ts_sg = pd.Series([], dtype = 'float', name="out_c_ts_sg")  # short grass
-        self.out_c_ts_tg = pd.Series([], dtype = 'float', name="out_c_ts_tg")  # tall grass
-        self.out_c_ts_blp = pd.Series([], dtype = 'float', name="out_c_ts_blp")  # broad-leafed plants
-        self.out_c_ts_fp = pd.Series([], dtype = 'float', name="out_c_ts_fp")  # fruits/pods
-        self.out_c_ts_arthro = pd.Series([], dtype = 'float', name="out_c_ts_arthro")  # arthropods
+        self.out_c_ts_sg = pd.Series([], dtype='float', name="out_c_ts_sg")  # short grass
+        self.out_c_ts_tg = pd.Series([], dtype='float', name="out_c_ts_tg")  # tall grass
+        self.out_c_ts_blp = pd.Series([], dtype='float', name="out_c_ts_blp")  # broad-leafed plants
+        self.out_c_ts_fp = pd.Series([], dtype='float', name="out_c_ts_fp")  # fruits/pods
+        self.out_c_ts_arthro = pd.Series([], dtype='float', name="out_c_ts_arthro")  # arthropods
 
         # Table5
-        self.out_sa_bird_1_s = pd.Series([], dtype = 'float', name="out_sa_bird_1_s")
-        self.out_sa_bird_2_s = pd.Series([], dtype = 'float', name="out_sa_bird_2_s")
-        self.out_sc_bird_s = pd.Series([], dtype = 'float', name="out_sc_bird_s")
-        self.out_sa_mamm_1_s = pd.Series([], dtype = 'float', name="out_sa_mamm_1_s")
-        self.out_sa_mamm_2_s = pd.Series([], dtype = 'float', name="out_sa_mamm_2_s")
-        self.out_sc_mamm_s = pd.Series([], dtype = 'float', name="out_sc_mamm_s")
+        self.out_sa_bird_1_s = pd.Series([], dtype='float', name="out_sa_bird_1_s")
+        self.out_sa_bird_2_s = pd.Series([], dtype='float', name="out_sa_bird_2_s")
+        self.out_sc_bird_s = pd.Series([], dtype='float', name="out_sc_bird_s")
+        self.out_sa_mamm_1_s = pd.Series([], dtype='float', name="out_sa_mamm_1_s")
+        self.out_sa_mamm_2_s = pd.Series([], dtype='float', name="out_sa_mamm_2_s")
+        self.out_sc_mamm_s = pd.Series([], dtype='float', name="out_sc_mamm_s")
 
-        self.out_sa_bird_1_m = pd.Series([], dtype = 'float', name="out_sa_bird_1_m")
-        self.out_sa_bird_2_m = pd.Series([], dtype = 'float', name="out_sa_bird_2_m")
-        self.out_sc_bird_m = pd.Series([], dtype = 'float', name="out_sc_bird_m")
-        self.out_sa_mamm_1_m = pd.Series([], dtype = 'float', name="out_sa_mamm_1_m")
-        self.out_sa_mamm_2_m = pd.Series([], dtype = 'float', name="out_sa_mamm_2_m")
-        self.out_sc_mamm_m = pd.Series([], dtype = 'float', name="out_sc_mamm_m")
+        self.out_sa_bird_1_m = pd.Series([], dtype='float', name="out_sa_bird_1_m")
+        self.out_sa_bird_2_m = pd.Series([], dtype='float', name="out_sa_bird_2_m")
+        self.out_sc_bird_m = pd.Series([], dtype='float', name="out_sc_bird_m")
+        self.out_sa_mamm_1_m = pd.Series([], dtype='float', name="out_sa_mamm_1_m")
+        self.out_sa_mamm_2_m = pd.Series([], dtype='float', name="out_sa_mamm_2_m")
+        self.out_sc_mamm_m = pd.Series([], dtype='float', name="out_sc_mamm_m")
 
-        self.out_sa_bird_1_l = pd.Series([], dtype = 'float', name="out_sa_bird_1_l")
-        self.out_sa_bird_2_l = pd.Series([], dtype = 'float', name="out_sa_bird_2_l")
-        self.out_sc_bird_l = pd.Series([], dtype = 'float', name="out_sc_bird_l")
-        self.out_sa_mamm_1_l = pd.Series([], dtype = 'float', name="out_sa_mamm_1_l")
-        self.out_sa_mamm_2_l = pd.Series([], dtype = 'float', name="out_sa_mamm_2_l")
-        self.out_sc_mamm_l = pd.Series([], dtype = 'float', name="out_sc_mamm_l")
+        self.out_sa_bird_1_l = pd.Series([], dtype='float', name="out_sa_bird_1_l")
+        self.out_sa_bird_2_l = pd.Series([], dtype='float', name="out_sa_bird_2_l")
+        self.out_sc_bird_l = pd.Series([], dtype='float', name="out_sc_bird_l")
+        self.out_sa_mamm_1_l = pd.Series([], dtype='float', name="out_sa_mamm_1_l")
+        self.out_sa_mamm_2_l = pd.Series([], dtype='float', name="out_sa_mamm_2_l")
+        self.out_sc_mamm_l = pd.Series([], dtype='float', name="out_sc_mamm_l")
 
         # Table 6
-        self.out_eec_diet_sg = pd.Series([], dtype = 'float', name="out_eec_diet_sg")
-        self.out_eec_diet_tg = pd.Series([], dtype = 'float', name="out_eec_diet_tg")
-        self.out_eec_diet_bp = pd.Series([], dtype = 'float', name="out_eec_diet_bp")
-        self.out_eec_diet_fr = pd.Series([], dtype = 'float', name="out_eec_diet_fr")
-        self.out_eec_diet_ar = pd.Series([], dtype = 'float', name="out_eec_diet_ar")
+        self.out_eec_diet_sg = pd.Series([], dtype='float', name="out_eec_diet_sg")
+        self.out_eec_diet_tg = pd.Series([], dtype='float', name="out_eec_diet_tg")
+        self.out_eec_diet_bp = pd.Series([], dtype='float', name="out_eec_diet_bp")
+        self.out_eec_diet_fr = pd.Series([], dtype='float', name="out_eec_diet_fr")
+        self.out_eec_diet_ar = pd.Series([], dtype='float', name="out_eec_diet_ar")
 
         # Table 7
-        self.out_eec_dose_bird_sg_sm = pd.Series([], dtype = 'float', name="out_eec_dose_bird_sg_sm")
-        self.out_eec_dose_bird_sg_md = pd.Series([], dtype = 'float', name="out_eec_dose_bird_sg_md")
-        self.out_eec_dose_bird_sg_lg = pd.Series([], dtype = 'float', name="out_eec_dose_bird_sg_lg")
-        self.out_eec_dose_bird_tg_sm = pd.Series([], dtype = 'float', name="out_eec_dose_bird_tg_sm")
-        self.out_eec_dose_bird_tg_md = pd.Series([], dtype = 'float', name="out_eec_dose_bird_tg_md")
-        self.out_eec_dose_bird_tg_lg = pd.Series([], dtype = 'float', name="out_eec_dose_bird_tg_lg")
-        self.out_eec_dose_bird_bp_sm = pd.Series([], dtype = 'float', name="out_eec_dose_bird_bp_sm")
-        self.out_eec_dose_bird_bp_md = pd.Series([], dtype = 'float', name="out_eec_dose_bird_bp_md")
-        self.out_eec_dose_bird_bp_lg = pd.Series([], dtype = 'float', name="out_eec_dose_bird_bp_lg")
-        self.out_eec_dose_bird_fp_sm = pd.Series([], dtype = 'float', name="out_eec_dose_bird_fp_sm")
-        self.out_eec_dose_bird_fp_md = pd.Series([], dtype = 'float', name="out_eec_dose_bird_fp_md")
-        self.out_eec_dose_bird_fp_lg = pd.Series([], dtype = 'float', name="out_eec_dose_bird_fp_lg")
-        self.out_eec_dose_bird_ar_sm = pd.Series([], dtype = 'float', name="out_eec_dose_bird_ar_sm")
-        self.out_eec_dose_bird_ar_md = pd.Series([], dtype = 'float', name="out_eec_dose_bird_ar_md")
-        self.out_eec_dose_bird_ar_lg = pd.Series([], dtype = 'float', name="out_eec_dose_bird_ar_lg")
-        self.out_eec_dose_bird_se_sm = pd.Series([], dtype = 'float', name="out_eec_dose_bird_se_sm")
-        self.out_eec_dose_bird_se_md = pd.Series([], dtype = 'float', name="out_eec_dose_bird_se_md")
-        self.out_eec_dose_bird_se_lg = pd.Series([], dtype = 'float', name="out_eec_dose_bird_se_lg")
+        self.out_eec_dose_bird_sg_sm = pd.Series([], dtype='float', name="out_eec_dose_bird_sg_sm")
+        self.out_eec_dose_bird_sg_md = pd.Series([], dtype='float', name="out_eec_dose_bird_sg_md")
+        self.out_eec_dose_bird_sg_lg = pd.Series([], dtype='float', name="out_eec_dose_bird_sg_lg")
+        self.out_eec_dose_bird_tg_sm = pd.Series([], dtype='float', name="out_eec_dose_bird_tg_sm")
+        self.out_eec_dose_bird_tg_md = pd.Series([], dtype='float', name="out_eec_dose_bird_tg_md")
+        self.out_eec_dose_bird_tg_lg = pd.Series([], dtype='float', name="out_eec_dose_bird_tg_lg")
+        self.out_eec_dose_bird_bp_sm = pd.Series([], dtype='float', name="out_eec_dose_bird_bp_sm")
+        self.out_eec_dose_bird_bp_md = pd.Series([], dtype='float', name="out_eec_dose_bird_bp_md")
+        self.out_eec_dose_bird_bp_lg = pd.Series([], dtype='float', name="out_eec_dose_bird_bp_lg")
+        self.out_eec_dose_bird_fp_sm = pd.Series([], dtype='float', name="out_eec_dose_bird_fp_sm")
+        self.out_eec_dose_bird_fp_md = pd.Series([], dtype='float', name="out_eec_dose_bird_fp_md")
+        self.out_eec_dose_bird_fp_lg = pd.Series([], dtype='float', name="out_eec_dose_bird_fp_lg")
+        self.out_eec_dose_bird_ar_sm = pd.Series([], dtype='float', name="out_eec_dose_bird_ar_sm")
+        self.out_eec_dose_bird_ar_md = pd.Series([], dtype='float', name="out_eec_dose_bird_ar_md")
+        self.out_eec_dose_bird_ar_lg = pd.Series([], dtype='float', name="out_eec_dose_bird_ar_lg")
+        self.out_eec_dose_bird_se_sm = pd.Series([], dtype='float', name="out_eec_dose_bird_se_sm")
+        self.out_eec_dose_bird_se_md = pd.Series([], dtype='float', name="out_eec_dose_bird_se_md")
+        self.out_eec_dose_bird_se_lg = pd.Series([], dtype='float', name="out_eec_dose_bird_se_lg")
 
         # Table 7_add
-        self.out_arq_bird_sg_sm = pd.Series([], dtype = 'float', name="out_arq_bird_sg_sm")
-        self.out_arq_bird_sg_md = pd.Series([], dtype = 'float', name="out_arq_bird_sg_md")
-        self.out_arq_bird_sg_lg = pd.Series([], dtype = 'float', name="out_arq_bird_sg_lg")
-        self.out_arq_bird_tg_sm = pd.Series([], dtype = 'float', name="out_arq_bird_tg_sm")
-        self.out_arq_bird_tg_md = pd.Series([], dtype = 'float', name="out_arq_bird_tg_md")
-        self.out_arq_bird_tg_lg = pd.Series([], dtype = 'float', name="out_arq_bird_tg_lg")
-        self.out_arq_bird_bp_sm = pd.Series([], dtype = 'float', name="out_arq_bird_bp_sm")
-        self.out_arq_bird_bp_md = pd.Series([], dtype = 'float', name="out_arq_bird_bp_md")
-        self.out_arq_bird_bp_lg = pd.Series([], dtype = 'float', name="out_arq_bird_bp_lg")
-        self.out_arq_bird_fp_sm = pd.Series([], dtype = 'float', name="out_arq_bird_fp_sm")
-        self.out_arq_bird_fp_md = pd.Series([], dtype = 'float', name="out_arq_bird_fp_md")
-        self.out_arq_bird_fp_lg = pd.Series([], dtype = 'float', name="out_arq_bird_fp_lg")
-        self.out_arq_bird_ar_sm = pd.Series([], dtype = 'float', name="out_arq_bird_ar_sm")
-        self.out_arq_bird_ar_md = pd.Series([], dtype = 'float', name="out_arq_bird_ar_md")
-        self.out_arq_bird_ar_lg = pd.Series([], dtype = 'float', name="out_arq_bird_ar_lg")
-        self.out_arq_bird_se_sm = pd.Series([], dtype = 'float', name="out_arq_bird_se_sm")
-        self.out_arq_bird_se_md = pd.Series([], dtype = 'float', name="out_arq_bird_se_md")
-        self.out_arq_bird_se_lg = pd.Series([], dtype = 'float', name="out_arq_bird_se_lg")
+        self.out_arq_bird_sg_sm = pd.Series([], dtype='float', name="out_arq_bird_sg_sm")
+        self.out_arq_bird_sg_md = pd.Series([], dtype='float', name="out_arq_bird_sg_md")
+        self.out_arq_bird_sg_lg = pd.Series([], dtype='float', name="out_arq_bird_sg_lg")
+        self.out_arq_bird_tg_sm = pd.Series([], dtype='float', name="out_arq_bird_tg_sm")
+        self.out_arq_bird_tg_md = pd.Series([], dtype='float', name="out_arq_bird_tg_md")
+        self.out_arq_bird_tg_lg = pd.Series([], dtype='float', name="out_arq_bird_tg_lg")
+        self.out_arq_bird_bp_sm = pd.Series([], dtype='float', name="out_arq_bird_bp_sm")
+        self.out_arq_bird_bp_md = pd.Series([], dtype='float', name="out_arq_bird_bp_md")
+        self.out_arq_bird_bp_lg = pd.Series([], dtype='float', name="out_arq_bird_bp_lg")
+        self.out_arq_bird_fp_sm = pd.Series([], dtype='float', name="out_arq_bird_fp_sm")
+        self.out_arq_bird_fp_md = pd.Series([], dtype='float', name="out_arq_bird_fp_md")
+        self.out_arq_bird_fp_lg = pd.Series([], dtype='float', name="out_arq_bird_fp_lg")
+        self.out_arq_bird_ar_sm = pd.Series([], dtype='float', name="out_arq_bird_ar_sm")
+        self.out_arq_bird_ar_md = pd.Series([], dtype='float', name="out_arq_bird_ar_md")
+        self.out_arq_bird_ar_lg = pd.Series([], dtype='float', name="out_arq_bird_ar_lg")
+        self.out_arq_bird_se_sm = pd.Series([], dtype='float', name="out_arq_bird_se_sm")
+        self.out_arq_bird_se_md = pd.Series([], dtype='float', name="out_arq_bird_se_md")
+        self.out_arq_bird_se_lg = pd.Series([], dtype='float', name="out_arq_bird_se_lg")
 
         # Table 8
-        self.out_arq_diet_bird_sg_a = pd.Series([], dtype = 'float', name="out_arq_diet_bird_sg_a")
-        self.out_arq_diet_bird_sg_c = pd.Series([], dtype = 'float', name="out_arq_diet_bird_sg_c")
-        self.out_arq_diet_bird_tg_a = pd.Series([], dtype = 'float', name="out_arq_diet_bird_tg_a")
-        self.out_arq_diet_bird_tg_c = pd.Series([], dtype = 'float', name="out_arq_diet_bird_tg_c")
-        self.out_arq_diet_bird_bp_a = pd.Series([], dtype = 'float', name="out_arq_diet_bird_bp_a")
-        self.out_arq_diet_bird_bp_c = pd.Series([], dtype = 'float', name="out_arq_diet_bird_bp_c")
-        self.out_arq_diet_bird_fp_a = pd.Series([], dtype = 'float', name="out_arq_diet_bird_fp_a")
-        self.out_arq_diet_bird_fp_c = pd.Series([], dtype = 'float', name="out_arq_diet_bird_fp_c")
-        self.out_arq_diet_bird_ar_a = pd.Series([], dtype = 'float', name="out_arq_diet_bird_ar_a")
-        self.out_arq_diet_bird_ar_c = pd.Series([], dtype = 'float', name="out_arq_diet_bird_ar_c")
+        self.out_arq_diet_bird_sg_a = pd.Series([], dtype='float', name="out_arq_diet_bird_sg_a")
+        self.out_arq_diet_bird_sg_c = pd.Series([], dtype='float', name="out_arq_diet_bird_sg_c")
+        self.out_arq_diet_bird_tg_a = pd.Series([], dtype='float', name="out_arq_diet_bird_tg_a")
+        self.out_arq_diet_bird_tg_c = pd.Series([], dtype='float', name="out_arq_diet_bird_tg_c")
+        self.out_arq_diet_bird_bp_a = pd.Series([], dtype='float', name="out_arq_diet_bird_bp_a")
+        self.out_arq_diet_bird_bp_c = pd.Series([], dtype='float', name="out_arq_diet_bird_bp_c")
+        self.out_arq_diet_bird_fp_a = pd.Series([], dtype='float', name="out_arq_diet_bird_fp_a")
+        self.out_arq_diet_bird_fp_c = pd.Series([], dtype='float', name="out_arq_diet_bird_fp_c")
+        self.out_arq_diet_bird_ar_a = pd.Series([], dtype='float', name="out_arq_diet_bird_ar_a")
+        self.out_arq_diet_bird_ar_c = pd.Series([], dtype='float', name="out_arq_diet_bird_ar_c")
 
         # Table 9
-        self.out_eec_dose_mamm_sg_sm = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_sg_sm")
-        self.out_eec_dose_mamm_sg_md = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_sg_md")
-        self.out_eec_dose_mamm_sg_lg = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_sg_lg")
-        self.out_eec_dose_mamm_tg_sm = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_tg_sm")
-        self.out_eec_dose_mamm_tg_md = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_tg_md")
-        self.out_eec_dose_mamm_tg_lg = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_tg_lg")
-        self.out_eec_dose_mamm_bp_sm = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_bp_sm")
-        self.out_eec_dose_mamm_bp_md = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_bp_md")
-        self.out_eec_dose_mamm_bp_lg = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_bp_lg")
-        self.out_eec_dose_mamm_fp_sm = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_fp_sm")
-        self.out_eec_dose_mamm_fp_md = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_fp_md")
-        self.out_eec_dose_mamm_fp_lg = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_fp_lg")
-        self.out_eec_dose_mamm_ar_sm = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_ar_sm")
-        self.out_eec_dose_mamm_ar_md = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_ar_md")
-        self.out_eec_dose_mamm_ar_lg = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_ar_lg")
-        self.out_eec_dose_mamm_se_sm = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_se_sm")
-        self.out_eec_dose_mamm_se_md = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_se_md")
-        self.out_eec_dose_mamm_se_lg = pd.Series([], dtype = 'float', name="out_eec_dose_mamm_se_lg")
+        self.out_eec_dose_mamm_sg_sm = pd.Series([], dtype='float', name="out_eec_dose_mamm_sg_sm")
+        self.out_eec_dose_mamm_sg_md = pd.Series([], dtype='float', name="out_eec_dose_mamm_sg_md")
+        self.out_eec_dose_mamm_sg_lg = pd.Series([], dtype='float', name="out_eec_dose_mamm_sg_lg")
+        self.out_eec_dose_mamm_tg_sm = pd.Series([], dtype='float', name="out_eec_dose_mamm_tg_sm")
+        self.out_eec_dose_mamm_tg_md = pd.Series([], dtype='float', name="out_eec_dose_mamm_tg_md")
+        self.out_eec_dose_mamm_tg_lg = pd.Series([], dtype='float', name="out_eec_dose_mamm_tg_lg")
+        self.out_eec_dose_mamm_bp_sm = pd.Series([], dtype='float', name="out_eec_dose_mamm_bp_sm")
+        self.out_eec_dose_mamm_bp_md = pd.Series([], dtype='float', name="out_eec_dose_mamm_bp_md")
+        self.out_eec_dose_mamm_bp_lg = pd.Series([], dtype='float', name="out_eec_dose_mamm_bp_lg")
+        self.out_eec_dose_mamm_fp_sm = pd.Series([], dtype='float', name="out_eec_dose_mamm_fp_sm")
+        self.out_eec_dose_mamm_fp_md = pd.Series([], dtype='float', name="out_eec_dose_mamm_fp_md")
+        self.out_eec_dose_mamm_fp_lg = pd.Series([], dtype='float', name="out_eec_dose_mamm_fp_lg")
+        self.out_eec_dose_mamm_ar_sm = pd.Series([], dtype='float', name="out_eec_dose_mamm_ar_sm")
+        self.out_eec_dose_mamm_ar_md = pd.Series([], dtype='float', name="out_eec_dose_mamm_ar_md")
+        self.out_eec_dose_mamm_ar_lg = pd.Series([], dtype='float', name="out_eec_dose_mamm_ar_lg")
+        self.out_eec_dose_mamm_se_sm = pd.Series([], dtype='float', name="out_eec_dose_mamm_se_sm")
+        self.out_eec_dose_mamm_se_md = pd.Series([], dtype='float', name="out_eec_dose_mamm_se_md")
+        self.out_eec_dose_mamm_se_lg = pd.Series([], dtype='float', name="out_eec_dose_mamm_se_lg")
 
         # Table 10out_
-        self.out_arq_dose_mamm_sg_sm = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_sg_sm")
-        self.out_crq_dose_mamm_sg_sm = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_sg_sm")
-        self.out_arq_dose_mamm_sg_md = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_sg_md")
-        self.out_crq_dose_mamm_sg_md = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_sg_md")
-        self.out_arq_dose_mamm_sg_lg = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_sg_lg")
-        self.out_crq_dose_mamm_sg_lg = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_sg_lg")
+        self.out_arq_dose_mamm_sg_sm = pd.Series([], dtype='float', name="out_arq_dose_mamm_sg_sm")
+        self.out_crq_dose_mamm_sg_sm = pd.Series([], dtype='float', name="out_crq_dose_mamm_sg_sm")
+        self.out_arq_dose_mamm_sg_md = pd.Series([], dtype='float', name="out_arq_dose_mamm_sg_md")
+        self.out_crq_dose_mamm_sg_md = pd.Series([], dtype='float', name="out_crq_dose_mamm_sg_md")
+        self.out_arq_dose_mamm_sg_lg = pd.Series([], dtype='float', name="out_arq_dose_mamm_sg_lg")
+        self.out_crq_dose_mamm_sg_lg = pd.Series([], dtype='float', name="out_crq_dose_mamm_sg_lg")
 
-        self.out_arq_dose_mamm_tg_sm = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_tg_sm")
-        self.out_crq_dose_mamm_tg_sm = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_tg_sm")
-        self.out_arq_dose_mamm_tg_md = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_tg_md")
-        self.out_crq_dose_mamm_tg_md = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_tg_md")
-        self.out_arq_dose_mamm_tg_lg = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_tg_lg")
-        self.out_crq_dose_mamm_tg_lg = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_tg_lg")
-        self.out_arq_dose_mamm_bp_sm = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_bp_sm")
-        self.out_crq_dose_mamm_bp_sm = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_bp_sm")
-        self.out_arq_dose_mamm_bp_md = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_bp_md")
-        self.out_crq_dose_mamm_bp_md = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_bp_md")
-        self.out_arq_dose_mamm_bp_lg = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_bp_lg")
-        self.out_crq_dose_mamm_bp_lg = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_bp_lg")
+        self.out_arq_dose_mamm_tg_sm = pd.Series([], dtype='float', name="out_arq_dose_mamm_tg_sm")
+        self.out_crq_dose_mamm_tg_sm = pd.Series([], dtype='float', name="out_crq_dose_mamm_tg_sm")
+        self.out_arq_dose_mamm_tg_md = pd.Series([], dtype='float', name="out_arq_dose_mamm_tg_md")
+        self.out_crq_dose_mamm_tg_md = pd.Series([], dtype='float', name="out_crq_dose_mamm_tg_md")
+        self.out_arq_dose_mamm_tg_lg = pd.Series([], dtype='float', name="out_arq_dose_mamm_tg_lg")
+        self.out_crq_dose_mamm_tg_lg = pd.Series([], dtype='float', name="out_crq_dose_mamm_tg_lg")
+        self.out_arq_dose_mamm_bp_sm = pd.Series([], dtype='float', name="out_arq_dose_mamm_bp_sm")
+        self.out_crq_dose_mamm_bp_sm = pd.Series([], dtype='float', name="out_crq_dose_mamm_bp_sm")
+        self.out_arq_dose_mamm_bp_md = pd.Series([], dtype='float', name="out_arq_dose_mamm_bp_md")
+        self.out_crq_dose_mamm_bp_md = pd.Series([], dtype='float', name="out_crq_dose_mamm_bp_md")
+        self.out_arq_dose_mamm_bp_lg = pd.Series([], dtype='float', name="out_arq_dose_mamm_bp_lg")
+        self.out_crq_dose_mamm_bp_lg = pd.Series([], dtype='float', name="out_crq_dose_mamm_bp_lg")
 
-        self.out_arq_dose_mamm_fp_sm = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_fp_sm")
-        self.out_crq_dose_mamm_fp_sm = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_fp_sm")
-        self.out_arq_dose_mamm_fp_md = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_fp_md")
-        self.out_crq_dose_mamm_fp_md = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_fp_md")
-        self.out_arq_dose_mamm_fp_lg = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_fp_lg")
-        self.out_crq_dose_mamm_fp_lg = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_fp_lg")
+        self.out_arq_dose_mamm_fp_sm = pd.Series([], dtype='float', name="out_arq_dose_mamm_fp_sm")
+        self.out_crq_dose_mamm_fp_sm = pd.Series([], dtype='float', name="out_crq_dose_mamm_fp_sm")
+        self.out_arq_dose_mamm_fp_md = pd.Series([], dtype='float', name="out_arq_dose_mamm_fp_md")
+        self.out_crq_dose_mamm_fp_md = pd.Series([], dtype='float', name="out_crq_dose_mamm_fp_md")
+        self.out_arq_dose_mamm_fp_lg = pd.Series([], dtype='float', name="out_arq_dose_mamm_fp_lg")
+        self.out_crq_dose_mamm_fp_lg = pd.Series([], dtype='float', name="out_crq_dose_mamm_fp_lg")
 
-        self.out_arq_dose_mamm_ar_sm = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_ar_sm")
-        self.out_crq_dose_mamm_ar_sm = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_ar_sm")
-        self.out_arq_dose_mamm_ar_md = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_ar_md")
-        self.out_crq_dose_mamm_ar_md = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_ar_md")
-        self.out_arq_dose_mamm_ar_lg = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_ar_lg")
-        self.out_crq_dose_mamm_ar_lg = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_ar_lg")
+        self.out_arq_dose_mamm_ar_sm = pd.Series([], dtype='float', name="out_arq_dose_mamm_ar_sm")
+        self.out_crq_dose_mamm_ar_sm = pd.Series([], dtype='float', name="out_crq_dose_mamm_ar_sm")
+        self.out_arq_dose_mamm_ar_md = pd.Series([], dtype='float', name="out_arq_dose_mamm_ar_md")
+        self.out_crq_dose_mamm_ar_md = pd.Series([], dtype='float', name="out_crq_dose_mamm_ar_md")
+        self.out_arq_dose_mamm_ar_lg = pd.Series([], dtype='float', name="out_arq_dose_mamm_ar_lg")
+        self.out_crq_dose_mamm_ar_lg = pd.Series([], dtype='float', name="out_crq_dose_mamm_ar_lg")
 
-        self.out_arq_dose_mamm_se_sm = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_se_sm")
-        self.out_crq_dose_mamm_se_sm = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_se_sm")
-        self.out_arq_dose_mamm_se_md = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_se_md")
-        self.out_crq_dose_mamm_se_md = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_se_md")
-        self.out_arq_dose_mamm_se_lg = pd.Series([], dtype = 'float', name="out_arq_dose_mamm_se_lg")
-        self.out_crq_dose_mamm_se_lg = pd.Series([], dtype = 'float', name="out_crq_dose_mamm_se_lg")
+        self.out_arq_dose_mamm_se_sm = pd.Series([], dtype='float', name="out_arq_dose_mamm_se_sm")
+        self.out_crq_dose_mamm_se_sm = pd.Series([], dtype='float', name="out_crq_dose_mamm_se_sm")
+        self.out_arq_dose_mamm_se_md = pd.Series([], dtype='float', name="out_arq_dose_mamm_se_md")
+        self.out_crq_dose_mamm_se_md = pd.Series([], dtype='float', name="out_crq_dose_mamm_se_md")
+        self.out_arq_dose_mamm_se_lg = pd.Series([], dtype='float', name="out_arq_dose_mamm_se_lg")
+        self.out_crq_dose_mamm_se_lg = pd.Series([], dtype='float', name="out_crq_dose_mamm_se_lg")
 
         # Table 11
-        self.out_arq_diet_mamm_sg = pd.Series([], dtype = 'float', name="out_arq_diet_mamm_sg")
-        self.out_arq_diet_mamm_tg = pd.Series([], dtype = 'float', name="out_arq_diet_mamm_tg")
-        self.out_arq_diet_mamm_bp = pd.Series([], dtype = 'float', name="out_arq_diet_mamm_bp")
-        self.out_arq_diet_mamm_fp = pd.Series([], dtype = 'float', name="out_arq_diet_mamm_fp")
-        self.out_arq_diet_mamm_ar = pd.Series([], dtype = 'float', name="out_arq_diet_mamm_ar")
+        self.out_arq_diet_mamm_sg = pd.Series([], dtype='float', name="out_arq_diet_mamm_sg")
+        self.out_arq_diet_mamm_tg = pd.Series([], dtype='float', name="out_arq_diet_mamm_tg")
+        self.out_arq_diet_mamm_bp = pd.Series([], dtype='float', name="out_arq_diet_mamm_bp")
+        self.out_arq_diet_mamm_fp = pd.Series([], dtype='float', name="out_arq_diet_mamm_fp")
+        self.out_arq_diet_mamm_ar = pd.Series([], dtype='float', name="out_arq_diet_mamm_ar")
 
-        self.out_crq_diet_mamm_sg = pd.Series([], dtype = 'float', name="out_crq_diet_mamm_sg")
-        self.out_crq_diet_mamm_tg = pd.Series([], dtype = 'float', name="out_crq_diet_mamm_tg")
-        self.out_crq_diet_mamm_bp = pd.Series([], dtype = 'float', name="out_crq_diet_mamm_bp")
-        self.out_crq_diet_mamm_fp = pd.Series([], dtype = 'float', name="out_crq_diet_mamm_fp")
-        self.out_crq_diet_mamm_ar = pd.Series([], dtype = 'float', name="out_crq_diet_mamm_ar")
+        self.out_crq_diet_mamm_sg = pd.Series([], dtype='float', name="out_crq_diet_mamm_sg")
+        self.out_crq_diet_mamm_tg = pd.Series([], dtype='float', name="out_crq_diet_mamm_tg")
+        self.out_crq_diet_mamm_bp = pd.Series([], dtype='float', name="out_crq_diet_mamm_bp")
+        self.out_crq_diet_mamm_fp = pd.Series([], dtype='float', name="out_crq_diet_mamm_fp")
+        self.out_crq_diet_mamm_ar = pd.Series([], dtype='float', name="out_crq_diet_mamm_ar")
 
         # Table12
-        self.out_ld50_rg_bird_sm = pd.Series([], dtype = 'float', name="out_ld50_rg_bird_sm")
-        self.out_ld50_rg_mamm_sm = pd.Series([], dtype = 'float', name="out_ld50_rg_mamm_sm")
-        self.out_ld50_rg_bird_md = pd.Series([], dtype = 'float', name="out_ld50_rg_bird_md")
-        self.out_ld50_rg_mamm_md = pd.Series([], dtype = 'float', name="out_ld50_rg_mamm_md")
-        self.out_ld50_rg_bird_lg = pd.Series([], dtype = 'float', name="out_ld50_rg_bird_lg")
-        self.out_ld50_rg_mamm_lg = pd.Series([], dtype = 'float', name="out_ld50_rg_mamm_lg")
+        self.out_ld50_rg_bird_sm = pd.Series([], dtype='float', name="out_ld50_rg_bird_sm")
+        self.out_ld50_rg_mamm_sm = pd.Series([], dtype='float', name="out_ld50_rg_mamm_sm")
+        self.out_ld50_rg_bird_md = pd.Series([], dtype='float', name="out_ld50_rg_bird_md")
+        self.out_ld50_rg_mamm_md = pd.Series([], dtype='float', name="out_ld50_rg_mamm_md")
+        self.out_ld50_rg_bird_lg = pd.Series([], dtype='float', name="out_ld50_rg_bird_lg")
+        self.out_ld50_rg_mamm_lg = pd.Series([], dtype='float', name="out_ld50_rg_mamm_lg")
 
         # Table13
-        self.out_ld50_rl_bird_sm = pd.Series([], dtype = 'float', name="out_ld50_rl_bird_sm")
-        self.out_ld50_rl_mamm_sm = pd.Series([], dtype = 'float', name="out_ld50_rl_mamm_sm")
-        self.out_ld50_rl_bird_md = pd.Series([], dtype = 'float', name="out_ld50_rl_bird_md")
-        self.out_ld50_rl_mamm_md = pd.Series([], dtype = 'float', name="out_ld50_rl_mamm_md")
-        self.out_ld50_rl_bird_lg = pd.Series([], dtype = 'float', name="out_ld50_rl_bird_lg")
-        self.out_ld50_rl_mamm_lg = pd.Series([], dtype = 'float', name="out_ld50_rl_mamm_lg")
+        self.out_ld50_rl_bird_sm = pd.Series([], dtype='float', name="out_ld50_rl_bird_sm")
+        self.out_ld50_rl_mamm_sm = pd.Series([], dtype='float', name="out_ld50_rl_mamm_sm")
+        self.out_ld50_rl_bird_md = pd.Series([], dtype='float', name="out_ld50_rl_bird_md")
+        self.out_ld50_rl_mamm_md = pd.Series([], dtype='float', name="out_ld50_rl_mamm_md")
+        self.out_ld50_rl_bird_lg = pd.Series([], dtype='float', name="out_ld50_rl_bird_lg")
+        self.out_ld50_rl_mamm_lg = pd.Series([], dtype='float', name="out_ld50_rl_mamm_lg")
 
         # Table14
-        self.out_ld50_bg_bird_sm = pd.Series([], dtype = 'float', name="out_ld50_bg_bird_sm")
-        self.out_ld50_bg_mamm_sm = pd.Series([], dtype = 'float', name="out_ld50_bg_mamm_sm")
-        self.out_ld50_bg_bird_md = pd.Series([], dtype = 'float', name="out_ld50_bg_bird_md")
-        self.out_ld50_bg_mamm_md = pd.Series([], dtype = 'float', name="out_ld50_bg_mamm_md")
-        self.out_ld50_bg_bird_lg = pd.Series([], dtype = 'float', name="out_ld50_bg_bird_lg")
-        self.out_ld50_bg_mamm_lg = pd.Series([], dtype = 'float', name="out_ld50_bg_mamm_lg")
+        self.out_ld50_bg_bird_sm = pd.Series([], dtype='float', name="out_ld50_bg_bird_sm")
+        self.out_ld50_bg_mamm_sm = pd.Series([], dtype='float', name="out_ld50_bg_mamm_sm")
+        self.out_ld50_bg_bird_md = pd.Series([], dtype='float', name="out_ld50_bg_bird_md")
+        self.out_ld50_bg_mamm_md = pd.Series([], dtype='float', name="out_ld50_bg_mamm_md")
+        self.out_ld50_bg_bird_lg = pd.Series([], dtype='float', name="out_ld50_bg_bird_lg")
+        self.out_ld50_bg_mamm_lg = pd.Series([], dtype='float', name="out_ld50_bg_mamm_lg")
 
         # Table15
-        self.out_ld50_bl_bird_sm = pd.Series([], dtype = 'float', name="out_ld50_bl_bird_sm")
-        self.out_ld50_bl_mamm_sm = pd.Series([], dtype = 'float', name="out_ld50_bl_mamm_sm")
-        self.out_ld50_bl_bird_md = pd.Series([], dtype = 'float', name="out_ld50_bl_bird_md")
-        self.out_ld50_bl_mamm_md = pd.Series([], dtype = 'float', name="out_ld50_bl_mamm_md")
-        self.out_ld50_bl_bird_lg = pd.Series([], dtype = 'float', name="out_ld50_bl_bird_lg")
-        self.out_ld50_bl_mamm_lg = pd.Series([], dtype = 'float', name="out_ld50_bl_mamm_lg")
+        self.out_ld50_bl_bird_sm = pd.Series([], dtype='float', name="out_ld50_bl_bird_sm")
+        self.out_ld50_bl_mamm_sm = pd.Series([], dtype='float', name="out_ld50_bl_mamm_sm")
+        self.out_ld50_bl_bird_md = pd.Series([], dtype='float', name="out_ld50_bl_bird_md")
+        self.out_ld50_bl_mamm_md = pd.Series([], dtype='float', name="out_ld50_bl_mamm_md")
+        self.out_ld50_bl_bird_lg = pd.Series([], dtype='float', name="out_ld50_bl_bird_lg")
+        self.out_ld50_bl_mamm_lg = pd.Series([], dtype='float', name="out_ld50_bl_mamm_lg")
 
 
-class TRex(UberModel, TRexInputs, TRexOutputs, TRexFunctions):
+class Trex(UberModel, TrexInputs, TrexOutputs, TrexFunctions):
     """
     Estimate exposure concentrations and risk quotients for birds and mammals.
     """
 
-    @timefn
     def __init__(self, pd_obj, pd_obj_exp):
         """Class representing the Trex model and containing all its methods"""
-        super(TRex, self).__init__()
+        super(Trex, self).__init__()
         self.pd_obj = pd_obj
         self.pd_obj_exp = pd_obj_exp
         self.pd_obj_out = None
-
-    @timefn
-    def json(self, pd_obj, pd_obj_out, pd_obj_exp):
-        """
-            Convert DataFrames to JSON, returning a tuple
-            of JSON strings (inputs, outputs, exp_out)
-        """
-
-        pd_obj_json = pd_obj.to_json()
-        pd_obj_out_json = pd_obj_out.to_json()
-        try:
-            pd_obj_exp_json = pd_obj_exp.to_json()
-        except:
-            pd_obj_exp_json = "{}"
-
-        return pd_obj_json, pd_obj_out_json, pd_obj_exp_json
 
     def execute_model(self):
         """
@@ -338,10 +314,10 @@ class TRex(UberModel, TRexInputs, TRexOutputs, TRexFunctions):
             3) Run the model's methods to generate outputs
             4) Fill the output DataFrame with the generated model outputs
         """
-        self.populate_inputs(self.pd_obj, self)
-        self.pd_obj_out = self.populate_outputs(self)
+        self.populate_inputs(self.pd_obj)
+        self.pd_obj_out = self.populate_outputs()
         self.run_methods()
-        self.fill_output_dataframe(self)
+        self.fill_output_dataframe()
 
     # Begin model methods
     @timefn

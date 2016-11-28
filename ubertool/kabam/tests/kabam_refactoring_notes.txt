@@ -52,3 +52,12 @@ integration tests.
    rate constants)have default values of 0.0 due to the fact that phytoplankton do not consume other organisms
    (see Kabam documentation section A.5). At this point these variables are included in the input for the model but
    should only have values of 0.0.  An option would be to eliminate them from the input altogether.
+
+8. Regarding the input toxicity data (Table 3). While a combination of toxicity value, test species (for deriving the
+   toxicity value), and the body weight of the test species are listed as required inputs it is the case that
+   the test species and related body weight are used (in the code) only for the avian and mammalian LD50 (for which a
+   body weight adjustment is calculated and placed in Table 15).  The LC50, NOAEC, and Chronic Endpoint toxicity values
+   are not modified (i.e., they are placed directly into Table 15, with the exception of a possible units
+   conversion for the Chronic Endpoint).  Thus, we only require the test species and body weight for the LD50 related
+   toxicity value in the python model.  [I searched the OPP model spreadsheet for all references to species/body weights
+   and found only the LD50 related ones.]

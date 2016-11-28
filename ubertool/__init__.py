@@ -8,3 +8,4 @@ import os
 
 ubertool_dir = os.path.dirname(__file__)
 sys.path.append(ubertool_dir)
+print("Added to PYTHONPATH: {}".format(ubertool_dir))

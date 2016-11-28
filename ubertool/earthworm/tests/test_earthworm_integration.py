@@ -65,7 +65,7 @@ finally:
 #generate output
 earthworm_calc = Earthworm(pd_obj_inputs, pd_obj_exp)
 earthworm_calc.execute_model()
-inputs_json, outputs_json, exp_out_json = earthworm_calc.get_dict_rep(earthworm_calc)
+inputs_json, outputs_json, exp_out_json = earthworm_calc.get_dict_rep()
 #print("earthworm output")
 #print(inputs_json)
 

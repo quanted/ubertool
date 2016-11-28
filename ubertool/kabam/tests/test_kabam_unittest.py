@@ -643,7 +643,7 @@ class TestKabam(unittest.TestCase):
         :return:
         """
         result = pd.Series([], dtype='float')
-        expected_results = pd.Series([0.025, 0.06, 2.00], dtype = 'float')
+        expected_results = pd.Series([2.5e4, 6.e4, 2.e6], dtype = 'float')
 
         try:
             #for this test we'll use the zooplankton variables
@@ -794,7 +794,7 @@ class TestKabam(unittest.TestCase):
         :return:
         """
         result = pd.Series([], dtype='float')
-        expected_results = pd.Series([2.5e4, 8333.333, 500.], dtype = 'float')
+        expected_results = pd.Series([0.025, 0.00833333, 0.0005], dtype = 'float')
 
         try:
             #for this test we'll use the large fish variables
@@ -1483,7 +1483,7 @@ class TestKabam(unittest.TestCase):
                 [1., 2., 3., 4., 5., 6.],
                 [7., 8., 9., 10., 11., 12.],
                 [13., 14., 15., 16., 17., 18.]], dtype = 'float')
-            self.kabam_empty.acute_dose_based_tox_mammals = np.array([
+            self.kabam_empty.dose_based_tox_mammals = np.array([
                              [2., 4., 6., 8., 10., 12.],
                              [14., 16., 18., 20., 22., 24.],
                              [26., 28., 30., 32., 34., 36.]], dtype = 'float')
@@ -1516,7 +1516,7 @@ class TestKabam(unittest.TestCase):
                 [1., 2., 3., 4., 5., 6.],
                 [7., 8., 9., 10., 11., 12.],
                 [13., 14., 15., 16., 17., 18.]], dtype = 'float')
-            self.kabam_empty.chronic_dose_based_tox_mammals = np.array([
+            self.kabam_empty.chronic_dose_based_tox_mamm = np.array([
                              [2., 4., 6., 8., 10., 12.],
                              [14., 16., 18., 20., 22., 24.],
                              [26., 28., 30., 32., 34., 36.]], dtype = 'float')
@@ -1608,7 +1608,7 @@ class TestKabam(unittest.TestCase):
         try:
             self.kabam_empty.dose_based_eec_birds = np.array([[1., 2., 3., 4., 5., 6.],
                                  [7., 8., 9., 10., 11., 12.], [13., 14., 15., 16., 17., 18.]], dtype = 'float')
-            self.kabam_empty.acute_dose_based_tox_birds = np.array([  [2., 4., 6., 8., 10., 12.],
+            self.kabam_empty.dose_based_tox_birds = np.array([  [2., 4., 6., 8., 10., 12.],
                                  [14., 16., 18., 20., 22., 24.], [26., 28., 30., 32., 34., 36.]], dtype = 'float')
 
             result = self.kabam_empty.acute_rq_dose_birds()

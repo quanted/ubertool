@@ -1,17 +1,8 @@
-from __future__ import division  #brings in Python 3.0 mixed type calculations
-from functools import wraps
-import math
+from __future__ import division
 import numpy as np
-import os.path
-import sys
 import pandas as pd
-import time
-from kabam_functions import KabamFunctions
-#import logging
-
-parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentddir)
 from base.uber_model import UberModel, ModelSharedInputs
+from kabam_functions import KabamFunctions
 
 
 class KabamInputs(ModelSharedInputs):
@@ -192,71 +183,71 @@ class KabamOutputs(object):
         self.out_cb_phytoplankton = pd.Series([], dtype = 'float', name="out_cb_phytoplankton")
         self.out_cb_zoo = pd.Series([], dtype = 'float', name="out_cb_zoo")
         self.out_cb_beninv = pd.Series([], dtype = 'float', name="out_cb_beninv")
-        self.out_cb_ff = pd.Series([], dtype = 'float', name="out_cb_ff")
-        self.out_cb_sf = pd.Series([], dtype = 'float', name="out_cb_sf")
-        self.out_cb_mf = pd.Series([], dtype = 'float', name="out_cb_lf")
-        self.out_cb_lf = pd.Series([], dtype = 'float', name="out_cb_lf")
+        self.out_cb_filterfeeders = pd.Series([], dtype = 'float', name="out_cb_filterfeeders")
+        self.out_cb_sfish = pd.Series([], dtype = 'float', name="out_cb_sfish")
+        self.out_cb_mfish = pd.Series([], dtype = 'float', name="out_cb_mfish")
+        self.out_cb_lfish = pd.Series([], dtype = 'float', name="out_cb_lfish")
         self.out_cbl_phytoplankton = pd.Series([], dtype = 'float', name="out_cbl_phytoplankton")
         self.out_cbl_zoo = pd.Series([], dtype = 'float', name="out_cbl_zoo")
         self.out_cbl_beninv = pd.Series([], dtype = 'float', name="out_cbl_beninv")
-        self.out_cbl_ff = pd.Series([], dtype = 'float', name="out_cbl_ff")
-        self.out_cbl_sf = pd.Series([], dtype = 'float', name="out_cbl_sf")
-        self.out_cbl_mf = pd.Series([], dtype = 'float', name="out_cbl_mf")
-        self.out_cbl_lf = pd.Series([], dtype = 'float', name="out_cbl_lf")
+        self.out_cbl_filterfeeders = pd.Series([], dtype = 'float', name="out_cbl_filterfeeders")
+        self.out_cbl_sfish = pd.Series([], dtype = 'float', name="out_cbl_sfish")
+        self.out_cbl_mfish = pd.Series([], dtype = 'float', name="out_cbl_mfish")
+        self.out_cbl_lfish = pd.Series([], dtype = 'float', name="out_cbl_lfish")
         self.out_cbd_zoo = pd.Series([], dtype = 'float', name="out_cbd_zoo")
         self.out_cbd_beninv = pd.Series([], dtype = 'float', name="out_cbd_beninv")
-        self.out_cbd_ff = pd.Series([], dtype = 'float', name="out_cbd_ff")
-        self.out_cbd_sf = pd.Series([], dtype = 'float', name="out_cbd_sf")
-        self.out_cbd_mf = pd.Series([], dtype = 'float', name="out_cbd_mf")
-        self.out_cbd_lf = pd.Series([], dtype = 'float', name="out_cbd_lf")
-        self.out_cbr_phytoprankton = pd.Series([], dtype = 'float', name="out_cbr_phytoplankton")
+        self.out_cbd_filterfeeders = pd.Series([], dtype = 'float', name="out_cbd_filterfeeders")
+        self.out_cbd_sfish = pd.Series([], dtype = 'float', name="out_cbd_sfish")
+        self.out_cbd_mfish = pd.Series([], dtype = 'float', name="out_cbd_mfish")
+        self.out_cbd_lfish = pd.Series([], dtype = 'float', name="out_cbd_lfish")
+        self.out_cbr_phytoplankton = pd.Series([], dtype = 'float', name="out_cbr_phytoplankton")
         self.out_cbr_zoo = pd.Series([], dtype = 'float', name="out_cbr_zoo")
         self.out_cbr_beninv = pd.Series([], dtype = 'float', name="out_cbr_beninv")
-        self.out_cbr_ff = pd.Series([], dtype = 'float', name="out_cbr_ff")
-        self.out_cbr_sf = pd.Series([], dtype = 'float', name="out_cbr_sf")
-        self.out_cbr_mf = pd.Series([], dtype = 'float', name="out_cbr_mf")
-        self.out_cbr_lf = pd.Series([], dtype = 'float', name="out_cbr_lf")
+        self.out_cbr_filterfeeders = pd.Series([], dtype = 'float', name="out_cbr_filterfeeders")
+        self.out_cbr_sfish = pd.Series([], dtype = 'float', name="out_cbr_sfish")
+        self.out_cbr_mfish = pd.Series([], dtype = 'float', name="out_cbr_mfish")
+        self.out_cbr_lfish = pd.Series([], dtype = 'float', name="out_cbr_lfish")
         self.out_cbf_phytoplankton = pd.Series([], dtype = 'float', name="out_cbf_phytoplankton")
         self.out_cbf_zoo = pd.Series([], dtype = 'float', name="out_cbf_zoo")
         self.out_cbf_beninv = pd.Series([], dtype = 'float', name="out_cbf_beninv")
-        self.out_cbf_ff = pd.Series([], dtype = 'float', name="out_cbf_ff")
-        self.out_cbf_sf = pd.Series([], dtype = 'float', name="out_cbf_sf")
-        self.out_cbf_mf = pd.Series([], dtype = 'float', name="out_cbf_mf")
-        self.out_cbf_lf = pd.Series([], dtype = 'float', name="out_cbf_lf")
+        self.out_cbf_filterfeeders = pd.Series([], dtype = 'float', name="out_cbf_filterfeeders")
+        self.out_cbf_sfish = pd.Series([], dtype = 'float', name="out_cbf_sfish")
+        self.out_cbf_mfish = pd.Series([], dtype = 'float', name="out_cbf_mfish")
+        self.out_cbf_lfish = pd.Series([], dtype = 'float', name="out_cbf_lfish")
         self.out_cbaf_phytoplankton = pd.Series([], dtype = 'float', name="out_cbaf_phytoplankton")
         self.out_cbaf_zoo = pd.Series([], dtype = 'float', name="out_cbaf_zoo")
         self.out_cbaf_beninv = pd.Series([], dtype = 'float', name="out_cbaf_beninv")
-        self.out_cbaf_ff = pd.Series([], dtype = 'float', name="out_cbaf_ff")
-        self.out_cbaf_sf = pd.Series([], dtype = 'float', name="out_cbaf_sf")
-        self.out_cbaf_mf = pd.Series([], dtype = 'float', name="out_cbaf_mf")
-        self.out_cbaf_lf = pd.Series([], dtype = 'float', name="out_cbaf_lf")
+        self.out_cbaf_filterfeeders = pd.Series([], dtype = 'float', name="out_cbaf_filterfeeders")
+        self.out_cbaf_sfish = pd.Series([], dtype = 'float', name="out_cbaf_sfish")
+        self.out_cbaf_mfish = pd.Series([], dtype = 'float', name="out_cbaf_mfish")
+        self.out_cbaf_lfish = pd.Series([], dtype = 'float', name="out_cbaf_lfish")
         self.out_cbfl_phytoplankton = pd.Series([], dtype = 'float', name="out_cbfl_phytoplankton")
         self.out_cbfl_zoo = pd.Series([], dtype = 'float', name="out_cbfl_zoo")
         self.out_cbfl_beninv = pd.Series([], dtype = 'float', name="out_cbfl_beninv")
-        self.out_cbfl_ff = pd.Series([], dtype = 'float', name="out_cbfl_ff")
-        self.out_cbfl_sf = pd.Series([], dtype = 'float', name="out_cbfl_sf")
-        self.out_cbfl_mf = pd.Series([], dtype = 'float', name="out_cbfl_mf")
-        self.out_cbfl_lf = pd.Series([], dtype = 'float', name="out_cbfl_lf")
+        self.out_cbfl_filterfeeders = pd.Series([], dtype = 'float', name="out_cbfl_filterfeeders")
+        self.out_cbfl_sfish = pd.Series([], dtype = 'float', name="out_cbfl_sfish")
+        self.out_cbfl_mfish = pd.Series([], dtype = 'float', name="out_cbfl_mfish")
+        self.out_cbfl_lfish = pd.Series([], dtype = 'float', name="out_cbfl_lfish")
         self.out_cbafl_phytoplankton = pd.Series([], dtype = 'float', name="out_cbafl_phytoplankton")
         self.out_cbafl_zoo = pd.Series([], dtype = 'float', name="out_cbafl_zoo")
         self.out_cbafl_beninv = pd.Series([], dtype = 'float', name="out_cbafl_beninv")
-        self.out_cbafl_ff = pd.Series([], dtype = 'float', name="out_cbafl_ff")
-        self.out_cbafl_sf = pd.Series([], dtype = 'float', name="out_cbafl_sf")
-        self.out_cbafl_mf = pd.Series([], dtype = 'float', name="out_cbafl_mf")
-        self.out_cbafl_lf = pd.Series([], dtype = 'float', name="out_cbafl_lf")
+        self.out_cbafl_filterfeeders = pd.Series([], dtype = 'float', name="out_cbafl_filterfeeders")
+        self.out_cbafl_sfish = pd.Series([], dtype = 'float', name="out_cbafl_sfish")
+        self.out_cbafl_mfish = pd.Series([], dtype = 'float', name="out_cbafl_mfish")
+        self.out_cbafl_lfish = pd.Series([], dtype = 'float', name="out_cbafl_lfish")
         self.out_bmf_zoo = pd.Series([], dtype = 'float', name="out_bmf_zoo")
         self.out_bmf_beninv = pd.Series([], dtype = 'float', name="out_bmf_beninv")
-        self.out_bmf_ff = pd.Series([], dtype = 'float', name="out_bmf_ff")
-        self.out_bmf_sf = pd.Series([], dtype = 'float', name="out_bmf_sf")
-        self.out_bmf_mf = pd.Series([], dtype = 'float', name="out_bmf_mf")
-        self.out_bmf_lf = pd.Series([], dtype = 'float', name="out_bmf_lf")
+        self.out_bmf_filterfeeders = pd.Series([], dtype = 'float', name="out_bmf_filterfeeders")
+        self.out_bmf_sfish = pd.Series([], dtype = 'float', name="out_bmf_sfish")
+        self.out_bmf_mfish = pd.Series([], dtype = 'float', name="out_bmf_mfish")
+        self.out_bmf_lfish = pd.Series([], dtype = 'float', name="out_bmf_lfish")
         self.out_cbsafl_phytoplankton = pd.Series([], dtype = 'float', name="out_cbsafl_phytoplankton")
         self.out_cbsafl_zoo = pd.Series([], dtype = 'float', name="out_cbsafl_zoo")
         self.out_cbsafl_beninv = pd.Series([], dtype = 'float', name="out_cbsafl_beninv")
-        self.out_cbsafl_ff = pd.Series([], dtype = 'float', name="out_cbsafl_ff")
-        self.out_cbsafl_sf = pd.Series([], dtype = 'float', name="out_cbsafl_sf")
-        self.out_cbsafl_mf = pd.Series([], dtype = 'float', name="out_cbsafl_mf")
-        self.out_cbsafl_lf = pd.Series([], dtype = 'float', name="out_cbsafl_lf")
+        self.out_cbsafl_filterfeeders = pd.Series([], dtype = 'float', name="out_cbsafl_filterfeeders")
+        self.out_cbsafl_sfish = pd.Series([], dtype = 'float', name="out_cbsafl_sfish")
+        self.out_cbsafl_mfish = pd.Series([], dtype = 'float', name="out_cbsafl_mfish")
+        self.out_cbsafl_lfish = pd.Series([], dtype = 'float', name="out_cbsafl_lfish")
         self.out_mweight0 = pd.Series([], dtype = 'float', name="mweight0")
         self.out_mweight1 = pd.Series([], dtype = 'float', name="mweight1")
         self.out_mweight2 = pd.Series([], dtype = 'float', name="mweight2")
@@ -427,21 +418,6 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.pd_obj_exp = pd_obj_exp
         self.pd_obj_out = None
 
-    def json(self, pd_obj, pd_obj_out, pd_obj_exp):
-        """
-            Convert DataFrames to JSON, returning a tuple
-            of JSON strings (inputs, outputs, exp_out)
-        """
-
-        pd_obj_json = pd_obj.to_json()
-        pd_obj_out_json = pd_obj_out.to_json()
-        try:
-            pd_obj_exp_json = pd_obj_exp.to_json()
-        except:
-            pd_obj_exp_json = "{}"
-
-        return pd_obj_json, pd_obj_out_json, pd_obj_exp_json
-
     def execute_model(self):
         """
         Callable to execute the running of the model:
@@ -450,10 +426,10 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
             3) Run the model's methods to generate outputs
             4) Fill the output DataFrame with the generated model outputs
         """
-        self.populate_inputs(self.pd_obj, self)
-        self.pd_obj_out = self.populate_outputs(self)
+        self.populate_inputs(self.pd_obj)
+        self.pd_obj_out = self.populate_outputs()
         self.run_methods()
-        self.fill_output_dataframe(self)
+        self.fill_output_dataframe()
 
     def run_methods(self):
         """
@@ -480,7 +456,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.lfish_mo = pd.Series([], dtype='float')
         self.lfish_mp = pd.Series([], dtype='float')
 
-        for i in range(len(self.phyto_respire)):
+        for i in range(self.num_simulations):
             self.phytoplankton_mp[i] = self.zoo_mp[i] = self.beninv_mp[i] = self.filterfeeders_mp[i] =  \
             self.sfish_mp[i] = self.mfish_mp[i] = self.lfish_mp[i] = 0.0
 
@@ -524,7 +500,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.mfish_k1 = pd.Series([], dtype = 'float')
         self.lfish_k1 = pd.Series([], dtype = 'float')
 
-        for i in range(len(self.phytoplankton_k1_temp)):
+        for i in range(self.num_simulations):
             if (self.phytoplankton_k1_temp[i] == 'calculated'):
                 self.phytoplankton_k1[i] = self.phytoplankton_k1_calc(self.kow[i])
             else:
@@ -597,7 +573,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.mfish_k2 = pd.Series([], dtype = 'float')
         self.lfish_k2 = pd.Series([], dtype = 'float')
 
-        for i in range(len(self.phytoplankton_k2_temp)):
+        for i in range(self.num_simulations):
             if (self.phytoplankton_k2_temp[i] == 'calculated'):
                 self.phytoplankton_k2[i] = self.aq_animal_k2_calc(self.phytoplankton_k1[i], self.k_bw_phytoplankton[i])
             else:
@@ -681,7 +657,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.mfish_kd = pd.Series([], dtype = 'float')
         self.lfish_kd = pd.Series([], dtype = 'float')
 
-        for i in range(len(self.zoo_kd_temp)):
+        for i in range(self.num_simulations):
             self.phytoplankton_kd[i] = self.phytoplankton_kd_temp[i]  #should be 0.0 as per Appendix A.5 of Kabam Documentation
             if (self.zoo_kd_temp[i] == 'calculated'):
                 self.zoo_kd[i] = self.diet_uptake_rate_const(self.ed_zoo[i], self.gd_zoo[i], self.zoo_wb[i])
@@ -724,7 +700,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.diet_frac_zoo = pd.Series([], dtype = 'float')
         self.diet_content_zoo_lipid = pd.Series([], dtype = 'float')
         self.v_ld_zoo = pd.Series([], dtype = 'float')
-        for i in range(len(self.zoo_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_frac_zoo[i] = [self.zoo_diet_sediment_frac[i],
                              self.zoo_diet_phytoplankton_frac[i]]
             self.diet_content_zoo_lipid[i] = [self.sediment_lipid_frac[i],
@@ -734,7 +710,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         #zooplankton NLOM content of diet
         self.diet_content_zoo_nlom = pd.Series([], dtype = 'float')
         self.v_nd_zoo = pd.Series([], dtype = 'float')
-        for i in range(len(self.zoo_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_content_zoo_nlom[i] = [self.sediment_nlom_frac[i],
                              self.phytoplankton_nlom_frac[i]]
             self.v_nd_zoo[i] = self.overall_diet_content(self.diet_frac_zoo[i], self.diet_content_zoo_nlom[i])
@@ -742,7 +718,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         #zooplankton water content of diet
         self.diet_content_zoo_water = pd.Series([], dtype = 'float')
         self.v_wd_zoo = pd.Series([], dtype = 'float')
-        for i in range(len(self.zoo_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_content_zoo_water[i] = [self.sediment_water_frac[i],
                              self.phytoplankton_water_frac[i]]
             self.v_wd_zoo[i] = self.overall_diet_content(self.diet_frac_zoo[i], self.diet_content_zoo_water[i])
@@ -751,7 +727,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.diet_frac_beninv = pd.Series([], dtype = 'float')
         self.diet_content_beninv_lipid = pd.Series([], dtype = 'float')
         self.v_ld_beninv = pd.Series([], dtype = 'float')
-        for i in range(len(self.beninv_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_frac_beninv[i] = [self.beninv_diet_sediment_frac[i],
                              self.beninv_diet_phytoplankton_frac[i],
                              self.beninv_diet_zooplankton_frac[i]]
@@ -763,7 +739,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         #benthic invertebrates NLOM content of diet
         self.diet_content_beninv_nlom = pd.Series([], dtype = 'float')
         self.v_nd_beninv = pd.Series([], dtype = 'float')
-        for i in range(len(self.beninv_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_content_beninv_nlom[i] = [self.sediment_nlom_frac[i],
                              self.phytoplankton_nlom_frac[i],
                              self.zoo_nlom_frac[i]]
@@ -772,7 +748,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         #benthic invertebrates water content of diet
         self.diet_content_beninv_water = pd.Series([], dtype = 'float')
         self.v_wd_beninv = pd.Series([], dtype = 'float')
-        for i in range(len(self.beninv_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_content_beninv_water[i] = [self.sediment_water_frac[i],
                              self.phytoplankton_water_frac[i],
                              self.zoo_water_frac[i]]
@@ -782,7 +758,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.diet_frac_filterfeeders = pd.Series([], dtype = 'float')
         self.diet_content_filterfeeders_lipid = pd.Series([], dtype = 'float')
         self.v_ld_filterfeeders = pd.Series([], dtype = 'float')
-        for i in range(len(self.filterfeeders_diet_sediment)):
+        for i in range(self.num_simulations):
            self.diet_frac_filterfeeders[i] = [self.filterfeeders_diet_sediment_frac[i],
                              self.filterfeeders_diet_phytoplankton_frac[i],
                              self.filterfeeders_diet_zooplankton_frac[i],
@@ -797,7 +773,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         #filterfeeders NLOM content of diet
         self.diet_content_filterfeeders_nlom = pd.Series([], dtype = 'float')
         self.v_nd_filterfeeders = pd.Series([], dtype = 'float')
-        for i in range(len(self.filterfeeders_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_content_filterfeeders_nlom[i] = [self.sediment_nlom_frac[i],
                              self.phytoplankton_nlom_frac[i],
                              self.zoo_nlom_frac[i],
@@ -808,7 +784,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         #filterfeeders water content of diet
         self.diet_content_filterfeeders_water = pd.Series([], dtype = 'float')
         self.v_wd_filterfeeders = pd.Series([], dtype = 'float')
-        for i in range(len(self.filterfeeders_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_content_filterfeeders_water[i] = [self.sediment_water_frac[i],
                              self.phytoplankton_water_frac[i],
                              self.zoo_water_frac[i],
@@ -820,7 +796,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.diet_frac_sfish = pd.Series([], dtype = 'float')
         self.diet_content_sfish_lipid = pd.Series([], dtype = 'float')
         self.v_ld_sfish = pd.Series([], dtype = 'float')
-        for i in range(len(self.sfish_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_frac_sfish[i] = [self.sfish_diet_sediment_frac[i],
                              self.sfish_diet_phytoplankton_frac[i],
                              self.sfish_diet_zooplankton_frac[i],
@@ -836,7 +812,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         #small fish NLOM content of diet
         self.diet_content_sfish_nlom = pd.Series([], dtype = 'float')
         self.v_nd_sfish = pd.Series([], dtype = 'float')
-        for i in range(len(self.sfish_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_content_sfish_nlom[i] = [self.sediment_nlom_frac[i],
                              self.phytoplankton_nlom_frac[i],
                              self.zoo_nlom_frac[i],
@@ -847,7 +823,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         #small fish water
         self.diet_content_sfish_water = pd.Series([], dtype = 'float')
         self.v_wd_sfish = pd.Series([], dtype = 'float')
-        for i in range(len(self.sfish_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_content_sfish_water[i] = [self.sediment_water_frac[i],
                              self.phytoplankton_water_frac[i],
                              self.zoo_water_frac[i],
@@ -859,7 +835,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.diet_frac_mfish = pd.Series([], dtype = 'float')
         self.diet_content_mfish_lipid = pd.Series([], dtype = 'float')
         self.v_ld_mfish = pd.Series([], dtype = 'float')
-        for i in range(len(self.mfish_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_frac_mfish[i] = [self.mfish_diet_sediment_frac[i],
                              self.mfish_diet_phytoplankton_frac[i],
                              self.mfish_diet_zooplankton_frac[i],
@@ -877,7 +853,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         #medium fish NLOM content of diet
         self.diet_content_mfish_nlom = pd.Series([], dtype = 'float')
         self.v_nd_mfish = pd.Series([], dtype = 'float')
-        for i in range(len(self.zoo_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_content_mfish_nlom[i] = [self.sediment_nlom_frac[i],
                              self.phytoplankton_nlom_frac[i],
                              self.zoo_nlom_frac[i],
@@ -889,7 +865,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         #medium fish water content of diet
         self.diet_content_mfish_water = pd.Series([], dtype = 'float')
         self.v_wd_mfish = pd.Series([], dtype = 'float')
-        for i in range(len(self.zoo_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_content_mfish_water[i] = [self.sediment_water_frac[i],
                              self.phytoplankton_water_frac[i],
                              self.zoo_water_frac[i],
@@ -902,7 +878,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.diet_frac_lfish = pd.Series([], dtype = 'float')
         self.diet_content_lfish_lipid = pd.Series([], dtype = 'float')
         self.v_ld_lfish = pd.Series([], dtype = 'float')
-        for i in range(len(self.lfish_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_frac_lfish[i] = [self.lfish_diet_sediment_frac[i],
                              self.lfish_diet_phytoplankton_frac[i],
                              self.lfish_diet_zooplankton_frac[i],
@@ -917,12 +893,12 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
                              self.filterfeeders_lipid_frac[i],
                              self.sfish_lipid_frac[i],
                              self.mfish_lipid_frac[i]]
-            self.v_ld_lfish[i] = self.overall_diet_content(self.diet_frac_zoo[i], self.diet_content_zoo_lipid[i])
+            self.v_ld_lfish[i] = self.overall_diet_content(self.diet_frac_lfish[i], self.diet_content_lfish_lipid[i])
 
         #large fish NLOM content of diet
         self.diet_content_lfish_nlom = pd.Series([], dtype = 'float')
         self.v_nd_lfish = pd.Series([], dtype = 'float')
-        for i in range(len(self.lfish_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_content_lfish_nlom[i] = [self.sediment_nlom_frac[i],
                              self.phytoplankton_nlom_frac[i],
                              self.zoo_nlom_frac[i],
@@ -935,7 +911,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         #large fish water content of diet
         self.diet_content_lfish_water = pd.Series([], dtype = 'float')
         self.v_wd_lfish = pd.Series([], dtype = 'float')
-        for i in range(len(self.lfish_diet_sediment)):
+        for i in range(self.num_simulations):
             self.diet_content_lfish_water[i] = [self.sediment_water_frac[i],
                              self.phytoplankton_water_frac[i],
                              self.zoo_water_frac[i],
@@ -945,7 +921,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
                              self.mfish_water_frac[i]]
             self.v_wd_lfish[i] = self.overall_diet_content(self.diet_frac_lfish[i], self.diet_content_lfish_water[i])
 
-        # overall diet assimilation factor and egestion rate of fecal matter  Eq a9 GF
+        # overall diet assimilation factor and egestion rate of fecal matter  Eq A9 GF
         self.diet_assim_factor_zoo = pd.Series([], dtype = 'float')
         self.diet_assim_factor_beninv = pd.Series([], dtype = 'float')
         self.diet_assim_factor_filterfeeders = pd.Series([], dtype = 'float')
@@ -974,15 +950,34 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.gf_lfish = self.diet_assim_factor_lfish * self.gd_lfish
 
         #fraction of diet elements (i.e., lipids, NLOM, water) in gut  Eq A9 VLG, VNG, VWG
+        self.vlg_zoo = pd.Series([], dtype = 'float')
+        self.vng_zoo = pd.Series([], dtype = 'float')
+        self.vwg_zoo = pd.Series([], dtype = 'float')
+        self.vlg_beninv = pd.Series([], dtype = 'float')
+        self.vng_beninv = pd.Series([], dtype = 'float')
+        self.vwg_beninv = pd.Series([], dtype = 'float')
+        self.vlg_filterfeeders = pd.Series([], dtype = 'float')
+        self.vng_filterfeeders = pd.Series([], dtype = 'float')
+        self.vwg_filterfeeders = pd.Series([], dtype = 'float')
+        self.vlg_sfish = pd.Series([], dtype = 'float')
+        self.vng_sfish = pd.Series([], dtype = 'float')
+        self.vwg_sfish = pd.Series([], dtype = 'float')
+        self.vlg_mfish = pd.Series([], dtype = 'float')
+        self.vng_mfish = pd.Series([], dtype = 'float')
+        self.vwg_mfish = pd.Series([], dtype = 'float')
+        self.vlg_lfish = pd.Series([], dtype = 'float')
+        self.vng_lfish = pd.Series([], dtype = 'float')
+        self.vwg_lfish = pd.Series([], dtype = 'float')
+        
         self.vlg_zoo = self.diet_elements_gut(self.epsilon_lipid_zoo, self.v_ld_zoo, self.diet_assim_factor_zoo)
         self.vng_zoo = self.diet_elements_gut(self.epsilon_nlom_zoo, self.v_nd_zoo, self.diet_assim_factor_zoo)
         self.vwg_zoo = self.diet_elements_gut(self.epsilon_water, self.v_wd_zoo, self.diet_assim_factor_zoo)
 
         self.vlg_beninv = self.diet_elements_gut(self.epsilon_lipid_inv, self.v_ld_beninv,
                                                          self.diet_assim_factor_beninv)
-        self.vng_beninv = self.diet_elements_gut(self.epsilon_lipid_inv, self.v_nd_beninv,
+        self.vng_beninv = self.diet_elements_gut(self.epsilon_nlom_inv, self.v_nd_beninv,
                                                          self.diet_assim_factor_beninv)
-        self.vwg_beninv = self.diet_elements_gut(self.epsilon_lipid_inv, self.v_wd_beninv,
+        self.vwg_beninv = self.diet_elements_gut(self.epsilon_water, self.v_wd_beninv,
                                                          self.diet_assim_factor_beninv)
 
         self.vlg_filterfeeders = self.diet_elements_gut(self.epsilon_lipid_inv, self.v_ld_filterfeeders,
@@ -1034,7 +1029,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.mfish_ke = pd.Series([], dtype = 'float')
         self.lfish_ke = pd.Series([], dtype = 'float')
 
-        for i in range(len(self.zoo_ke_temp)):
+        for i in range(self.num_simulations):
             self.phytoplankton_ke[i] = self.phytoplankton_ke_temp[i]  #should be 0.0 as per Appendix A.5 of Kabam Documentation
             if (self.zoo_ke_temp[i] == 'calculated'):
                 self.zoo_ke[i] = self.fecal_elim_rate_const(self.gf_zoo[i], self.ed_zoo[i], self.kgb_zoo[i],
@@ -1096,7 +1091,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
 
             #  pest_conc_organism(self, k1, k2, kD, kE, kG, kM, mP, mO, diet_conc):
             # concentration of pesticide in aquatic animal/organism; this method
-            # :unit g/(kg wet weight)
+            # :unit ug/(kg wet weight)
             # :expression Kabam Eq. A1 (CB)
             # :param k1: pesticide uptake rate constant through respiratory area (gills, skin) (L/kg-d)
             # :param k2: rate constant for elimination of the peisticide through the respiratory area (gills, skin) (/d)
@@ -1108,9 +1103,9 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
             # :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
             # :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
             #             via membrane diffusion (fraction)
-            # :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
-            # :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
-            # :param diet_conc: concentration of pesticide in overall diet of aquatic animal/organism (g/kg wet weight)
+            # :param water_column_eec: total pesticide concentraiton in water column above sediment (ug/L)
+            # :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (ug/L)
+            # :param diet_conc: concentration of pesticide in overall diet of aquatic animal/organism (ug/kg wet weight)
 
         #PESTICIDE CONCENTRATION IN ORGANISM AND LIPID NORMALIZED PESTICIDE CONCENTRATION IN ORGANISM
 
@@ -1125,8 +1120,8 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.total_diet_conc_zoo = pd.Series([], dtype = 'float')
         self.diet_lipid_content_zoo = pd.Series([], dtype = 'float')
         self.lipid_norm_diet_conc_zoo = pd.Series([], dtype = 'float')
-        for i in range(len(self.zoo_diet_sediment)):     #loop through model simulation runs
-            self.diet_frac_zoo[i] = [self.zoo_diet_sediment[i], self.zoo_diet_phytoplankton[i]]
+        for i in range(self.num_simulations):     #loop through model simulation runs
+            self.diet_frac_zoo[i] = [self.zoo_diet_sediment_frac[i], self.zoo_diet_phytoplankton_frac[i]]
             self.diet_conc_zoo[i] = [self.c_s[i], self.out_cb_phytoplankton[i]]
             self.diet_lipid_content_zoo[i] = [self.sediment_lipid_frac[i], self.phytoplankton_lipid_frac[i]]
         self.total_diet_conc_zoo, self.lipid_norm_diet_conc_zoo = self.diet_pest_conc(self.diet_frac_zoo,
@@ -1140,9 +1135,9 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.total_diet_conc_beninv = pd.Series([], dtype = 'float')
         self.diet_lipid_content_beninv = pd.Series([], dtype = 'float')
         self.lipid_norm_diet_conc_beninv = pd.Series([], dtype = 'float')
-        for i in range(len(self.beninv_diet_sediment)):     #loop through model simulation runs
-            self.diet_frac_beninv[i] = [self.beninv_diet_sediment[i], self.beninv_diet_phytoplankton[i],
-                                        self.beninv_diet_zooplankton[i]]
+        for i in range(self.num_simulations):     #loop through model simulation runs
+            self.diet_frac_beninv[i] = [self.beninv_diet_sediment_frac[i], self.beninv_diet_phytoplankton_frac[i],
+                                        self.beninv_diet_zooplankton_frac[i]]
             self.diet_conc_beninv[i] = [self.c_s[i], self.out_cb_phytoplankton[i], self.out_cb_zoo[i]]
             self.diet_lipid_content_beninv[i] = [self.sediment_lipid_frac[i], self.phytoplankton_lipid_frac[i],
                                               self.zoo_lipid_frac[i]]
@@ -1158,11 +1153,11 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.total_diet_conc_filterfeeders = pd.Series([], dtype = 'float')
         self.diet_lipid_content_filterfeeders = pd.Series([], dtype = 'float')
         self.lipid_norm_diet_conc_filterfeeders = pd.Series([], dtype = 'float')
-        for i in range(len(self.filterfeeders_diet_sediment)):     #loop through model simulation runs
-            self.diet_frac_filterfeeders[i] = [self.filterfeeders_diet_sediment[i],
-                                               self.filterfeeders_diet_phytoplankton[i],
-                                               self.filterfeeders_diet_zooplankton[i],
-                                               self.filterfeeders_diet_beninv[i]]
+        for i in range(self.num_simulations):     #loop through model simulation runs
+            self.diet_frac_filterfeeders[i] = [self.filterfeeders_diet_sediment_frac[i],
+                                               self.filterfeeders_diet_phytoplankton_frac[i],
+                                               self.filterfeeders_diet_zooplankton_frac[i],
+                                               self.filterfeeders_diet_beninv_frac[i]]
             self.diet_conc_filterfeeders[i] = [self.c_s[i], self.out_cb_phytoplankton[i], self.out_cb_zoo[i],
                                                 self.out_cb_beninv[i]]
             self.diet_lipid_content_filterfeeders[i] = [self.sediment_lipid_frac[i], self.phytoplankton_lipid_frac[i],
@@ -1182,12 +1177,12 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.total_diet_conc_sfish = pd.Series([], dtype = 'float')
         self.diet_lipid_content_sfish = pd.Series([], dtype = 'float')
         self.lipid_norm_diet_conc_sfish = pd.Series([], dtype = 'float')
-        for i in range(len(self.sfish_diet_sediment)):     #loop through model simulation runs
-            self.diet_frac_sfish[i] = [self.sfish_diet_sediment[i], self.sfish_diet_phytoplankton[i],
-                                        self.sfish_diet_zooplankton[i], self.sfish_diet_beninv[i],
-                                       self.sfish_diet_filterfeeders[i]]
+        for i in range(self.num_simulations):     #loop through model simulation runs
+            self.diet_frac_sfish[i] = [self.sfish_diet_sediment_frac[i], self.sfish_diet_phytoplankton_frac[i],
+                                       self.sfish_diet_zooplankton_frac[i], self.sfish_diet_beninv_frac[i],
+                                       self.sfish_diet_filterfeeders_frac[i]]
             self.diet_conc_sfish[i] = [self.c_s[i], self.out_cb_phytoplankton[i], self.out_cb_zoo[i],
-                                        self.out_cb_beninv[i], self.out_cb_filterfeeders[i]]
+                                       self.out_cb_beninv[i], self.out_cb_filterfeeders[i]]
             self.diet_lipid_content_sfish[i] = [self.sediment_lipid_frac[i], self.phytoplankton_lipid_frac[i],
                                               self.zoo_lipid_frac[i], self.beninv_lipid_frac[i], self.filterfeeders_lipid_frac[i]]
         self.total_diet_conc_sfish, self.lipid_norm_diet_conc_sfish = self.diet_pest_conc(self.diet_frac_sfish,
@@ -1202,10 +1197,10 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.total_diet_conc_mfish = pd.Series([], dtype = 'float')
         self.diet_lipid_content_mfish = pd.Series([], dtype = 'float')
         self.lipid_norm_diet_conc_mfish = pd.Series([], dtype = 'float')
-        for i in range(len(self.mfish_diet_sediment)):     #loop through model simulation runs
-            self.diet_frac_mfish[i] = [self.mfish_diet_sediment[i], self.mfish_diet_phytoplankton[i],
-                                        self.mfish_diet_zooplankton[i], self.mfish_diet_beninv[i],
-                                       self.mfish_diet_filterfeeders[i], self.mfish_diet_sfish[i]]
+        for i in range(self.num_simulations):     #loop through model simulation runs
+            self.diet_frac_mfish[i] = [self.mfish_diet_sediment_frac[i], self.mfish_diet_phytoplankton_frac[i],
+                                       self.mfish_diet_zooplankton_frac[i], self.mfish_diet_beninv_frac[i],
+                                       self.mfish_diet_filterfeeders_frac[i], self.mfish_diet_sfish_frac[i]]
             self.diet_conc_mfish[i] = [self.c_s[i], self.out_cb_phytoplankton[i], self.out_cb_zoo[i],
                                         self.out_cb_beninv[i], self.out_cb_filterfeeders[i], self.out_cb_sfish[i]]
             self.diet_lipid_content_mfish[i] = [self.sediment_lipid_frac[i], self.phytoplankton_lipid_frac[i],
@@ -1223,11 +1218,11 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.total_diet_conc_lfish = pd.Series([], dtype = 'float')
         self.diet_lipid_content_lfish = pd.Series([], dtype = 'float')
         self.lipid_norm_diet_conc_lfish = pd.Series([], dtype = 'float')
-        for i in range(len(self.lfish_diet_sediment)):     #loop through model simulation runs
-            self.diet_frac_lfish[i] = [self.lfish_diet_sediment[i], self.lfish_diet_phytoplankton[i],
-                                       self.lfish_diet_zooplankton[i], self.lfish_diet_beninv[i],
-                                       self.lfish_diet_filterfeeders[i], self.lfish_diet_sfish[i],
-                                       self.lfish_diet_mfish[i]]
+        for i in range(self.num_simulations):     #loop through model simulation runs
+            self.diet_frac_lfish[i] = [self.lfish_diet_sediment_frac[i], self.lfish_diet_phytoplankton_frac[i],
+                                       self.lfish_diet_zooplankton_frac[i], self.lfish_diet_beninv_frac[i],
+                                       self.lfish_diet_filterfeeders_frac[i], self.lfish_diet_sfish_frac[i],
+                                       self.lfish_diet_mfish_frac[i]]
             self.diet_conc_lfish[i] = [self.c_s[i], self.out_cb_phytoplankton[i], self.out_cb_zoo[i],
                                         self.out_cb_beninv[i], self.out_cb_filterfeeders[i], self.out_cb_sfish[i],
                                         self.out_cb_mfish[i]]
@@ -1243,15 +1238,15 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         
         #LIPID NORMALIZED PESTICIDE TISSUE RESIDUE
 
-        self.out_cbl_phytoplankton = self.lipid_norm_residue_conc(self.out_cb_phytoplankton,self.phytoplankton_lipid)
-        self.out_cbl_zoo = self.lipid_norm_residue_conc(self.out_cb_zoo,self.zoo_lipid)
-        self.out_cbl_beninv = self.lipid_norm_residue_conc(self.out_cb_beninv,self.beninv_lipid)
-        self.out_cbl_filterfeeders = self.lipid_norm_residue_conc(self.out_cb_filterfeeders,self.filterfeeders_lipid)
-        self.out_cbl_sfish = self.lipid_norm_residue_conc(self.out_cb_sfish,self.sfish_lipid)
-        self.out_cbl_mfish = self.lipid_norm_residue_conc(self.out_cb_mfish,self.mfish_lipid)
-        self.out_cbl_lfish = self.lipid_norm_residue_conc(self.out_cb_lfish,self.lfish_lipid)
+        self.out_cbl_phytoplankton = self.lipid_norm_residue_conc(self.out_cb_phytoplankton,self.phytoplankton_lipid_frac)
+        self.out_cbl_zoo = self.lipid_norm_residue_conc(self.out_cb_zoo,self.zoo_lipid_frac)
+        self.out_cbl_beninv = self.lipid_norm_residue_conc(self.out_cb_beninv,self.beninv_lipid_frac)
+        self.out_cbl_filterfeeders = self.lipid_norm_residue_conc(self.out_cb_filterfeeders,self.filterfeeders_lipid_frac)
+        self.out_cbl_sfish = self.lipid_norm_residue_conc(self.out_cb_sfish,self.sfish_lipid_frac)
+        self.out_cbl_mfish = self.lipid_norm_residue_conc(self.out_cb_mfish,self.mfish_lipid_frac)
+        self.out_cbl_lfish = self.lipid_norm_residue_conc(self.out_cb_lfish,self.lfish_lipid_frac)
 
-        #PESTICIDE CONCENTRAITON ORGINATING FROM UPTAKE THROUGH DIET (K1 = 0; non phytoplankton due to lack of diet)
+        #PESTICIDE CONCENTRAITON ORGINATING FROM UPTAKE THROUGH DIET (K1 = 0; no phytoplankton due to lack of diet)
         self.out_cbd_zoo = self.pest_conc_diet_uptake(self.zoo_kd, self.zoo_k2, self.zoo_ke,  self.zoo_kg,
                                                       self.zoo_km, self.total_diet_conc_zoo)
         self.out_cbd_beninv = self.pest_conc_diet_uptake(self.beninv_kd, self.beninv_k2, self.beninv_ke,
@@ -1300,19 +1295,21 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
 
         #lipid normalized bionconcentration factor (Table 13)
         self.out_cbfl_phytoplankton = self.lipid_norm_bioconc_fact(self.phytoplankton_k1, self.phytoplankton_k2,
-                                                self.phytoplankton_mp, self.phytoplankton_mo, self.phytoplankton_lipid)
+                                                                   self.phytoplankton_mp, self.phytoplankton_mo,
+                                                                   self.phytoplankton_lipid_frac)
         self.out_cbfl_zoo = self.lipid_norm_bioconc_fact(self.zoo_k1, self.zoo_k2,
-                                                self.zoo_mp, self.zoo_mo, self.zoo_lipid)
+                                                self.zoo_mp, self.zoo_mo, self.zoo_lipid_frac)
         self.out_cbfl_beninv = self.lipid_norm_bioconc_fact(self.beninv_k1, self.beninv_k2,
-                                                self.beninv_mp, self.beninv_mo, self.beninv_lipid)
+                                                self.beninv_mp, self.beninv_mo, self.beninv_lipid_frac)
         self.out_cbfl_filterfeeders = self.lipid_norm_bioconc_fact(self.filterfeeders_k1, self.filterfeeders_k2,
-                                                self.filterfeeders_mp, self.filterfeeders_mo, self.filterfeeders_lipid)
+                                                                   self.filterfeeders_mp, self.filterfeeders_mo,
+                                                                   self.filterfeeders_lipid_frac)
         self.out_cbfl_sfish = self.lipid_norm_bioconc_fact(self.sfish_k1, self.sfish_k2,
-                                                self.sfish_mp, self.sfish_mo, self.sfish_lipid)
+                                                self.sfish_mp, self.sfish_mo, self.sfish_lipid_frac)
         self.out_cbfl_mfish = self.lipid_norm_bioconc_fact(self.mfish_k1, self.mfish_k2,
-                                                self.mfish_mp, self.mfish_mo, self.mfish_lipid)
+                                                self.mfish_mp, self.mfish_mo, self.mfish_lipid_frac)
         self.out_cbfl_lfish = self.lipid_norm_bioconc_fact(self.lfish_k1, self.lfish_k2,
-                                                self.lfish_mp, self.lfish_mo, self.lfish_lipid)
+                                                self.lfish_mp, self.lfish_mo, self.lfish_lipid_frac)
 
         #total bioaccumulation factor (Table 12)
         self.out_cbaf_phytoplankton = self.tot_bioacc_fact(self.out_cb_phytoplankton)
@@ -1324,68 +1321,71 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.out_cbaf_lfish = self.tot_bioacc_fact(self.out_cb_lfish)
         
         #lipid normalized bioaccumulation factor (Table 13)
-        self.out_cbafl_phytoplankton = self.lipid_norm_bioacc_fact(self.out_cb_phytoplankton, self.phytoplankton_lipid)
-        self.out_cbafl_zoo = self.lipid_norm_bioacc_fact(self.out_cb_zoo, self.zoo_lipid)
-        self.out_cbafl_beninv = self.lipid_norm_bioacc_fact(self.out_cb_beninv, self.beninv_lipid)
-        self.out_cbafl_filterfeeders = self.lipid_norm_bioacc_fact(self.out_cb_filterfeeders, self.filterfeeders_lipid)
-        self.out_cbafl_sfish = self.lipid_norm_bioacc_fact(self.out_cb_sfish, self.sfish_lipid)
-        self.out_cbafl_mfish = self.lipid_norm_bioacc_fact(self.out_cb_mfish, self.mfish_lipid)
-        self.out_cbafl_lfish = self.lipid_norm_bioacc_fact(self.out_cb_lfish, self.lfish_lipid)
+        self.out_cbafl_phytoplankton = self.lipid_norm_bioacc_fact(self.out_cb_phytoplankton,
+                                                                   self.phytoplankton_lipid_frac)
+        self.out_cbafl_zoo = self.lipid_norm_bioacc_fact(self.out_cb_zoo, self.zoo_lipid_frac)
+        self.out_cbafl_beninv = self.lipid_norm_bioacc_fact(self.out_cb_beninv, self.beninv_lipid_frac)
+        self.out_cbafl_filterfeeders = self.lipid_norm_bioacc_fact(self.out_cb_filterfeeders,
+                                                                   self.filterfeeders_lipid_frac)
+        self.out_cbafl_sfish = self.lipid_norm_bioacc_fact(self.out_cb_sfish, self.sfish_lipid_frac)
+        self.out_cbafl_mfish = self.lipid_norm_bioacc_fact(self.out_cb_mfish, self.mfish_lipid_frac)
+        self.out_cbafl_lfish = self.lipid_norm_bioacc_fact(self.out_cb_lfish, self.lfish_lipid_frac)
 
         #biota sediment accumulatoin factor (Table 13)
-        self.out_cbsafl_phytoplankton = self.biota_sed_acc_fact(self.out_cb_phytoplankton, self.phytoplankton_lipid)
-        self.out_cbsafl_zoo = self.biota_sed_acc_fact(self.out_cb_zoo, self.zoo_lipid)
-        self.out_cbsafl_beninv = self.biota_sed_acc_fact(self.out_cb_beninv, self.beninv_lipid)
-        self.out_cbsafl_filterfeeders = self.biota_sed_acc_fact(self.out_cb_filterfeeders, self.filterfeeders_lipid)
-        self.out_cbsafl_sfish = self.biota_sed_acc_fact(self.out_cb_sfish, self.sfish_lipid)
-        self.out_cbsafl_mfish = self.biota_sed_acc_fact(self.out_cb_mfish, self.mfish_lipid)
-        self.out_cbsafl_lfish = self.biota_sed_acc_fact(self.out_cb_lfish, self.lfish_lipid)
+        self.out_cbsafl_phytoplankton = self.biota_sed_acc_fact(self.out_cb_phytoplankton, self.phytoplankton_lipid_frac)
+        self.out_cbsafl_zoo = self.biota_sed_acc_fact(self.out_cb_zoo, self.zoo_lipid_frac)
+        self.out_cbsafl_beninv = self.biota_sed_acc_fact(self.out_cb_beninv, self.beninv_lipid_frac)
+        self.out_cbsafl_filterfeeders = self.biota_sed_acc_fact(self.out_cb_filterfeeders, self.filterfeeders_lipid_frac)
+        self.out_cbsafl_sfish = self.biota_sed_acc_fact(self.out_cb_sfish, self.sfish_lipid_frac)
+        self.out_cbsafl_mfish = self.biota_sed_acc_fact(self.out_cb_mfish, self.mfish_lipid_frac)
+        self.out_cbsafl_lfish = self.biota_sed_acc_fact(self.out_cb_lfish, self.lfish_lipid_frac)
 
         #biomagnification factor (Table 13 - none for phytoplankton due to lack of diet)
-        self.out_bmf_zoo = self.biomag_fact(self.out_cb_zoo, self.zoo_lipid, self.lipid_norm_diet_conc_zoo)
-        self.out_bmf_beninv = self.biomag_fact(self.out_cb_beninv, self.beninv_lipid, self.lipid_norm_diet_conc_beninv)
-        self.out_bmf_filterfeeders = self.biomag_fact(self.out_cb_filterfeeders, self.filterfeeders_lipid,
+        self.out_bmf_zoo = self.biomag_fact(self.out_cb_zoo, self.zoo_lipid_frac, self.lipid_norm_diet_conc_zoo)
+        self.out_bmf_beninv = self.biomag_fact(self.out_cb_beninv, self.beninv_lipid_frac,
+                                               self.lipid_norm_diet_conc_beninv)
+        self.out_bmf_filterfeeders = self.biomag_fact(self.out_cb_filterfeeders, self.filterfeeders_lipid_frac,
                                                       self.lipid_norm_diet_conc_filterfeeders)
-        self.out_bmf_sfish = self.biomag_fact(self.out_cb_sfish, self.sfish_lipid, self.lipid_norm_diet_conc_sfish)
-        self.out_bmf_mfish = self.biomag_fact(self.out_cb_mfish, self.mfish_lipid, self.lipid_norm_diet_conc_mfish)
-        self.out_bmf_lfish = self.biomag_fact(self.out_cb_lfish, self.lfish_lipid, self.lipid_norm_diet_conc_lfish)
+        self.out_bmf_sfish = self.biomag_fact(self.out_cb_sfish, self.sfish_lipid_frac, self.lipid_norm_diet_conc_sfish)
+        self.out_bmf_mfish = self.biomag_fact(self.out_cb_mfish, self.mfish_lipid_frac, self.lipid_norm_diet_conc_mfish)
+        self.out_bmf_lfish = self.biomag_fact(self.out_cb_lfish, self.lfish_lipid_frac, self.lipid_norm_diet_conc_lfish)
 
         #BEGIN CALCULATIONS FOR DIETARY-BASED AND DOSE-BASED EECs, TOXICITY VALUES, AND RQs
 
 
-        #CONVERT AQUATIC ORGANISM/ANIMAL PESTICIDE CONCENTRATIONS FROM G/KG WW TO UG/KG WW (AND PLACE IN ARRAY STRUCTURE)
-        self.cb_a = np.zeros((len(self.phytoplankton_water),len(self.aquatic_animals)))
-        self.cb_a2 = np.zeros((len(self.phytoplankton_water),len(self.aquatic_animals)))
-        for i in range (len(self.out_cb_phytoplankton)):
+        #PLACE AQUATIC ORGANISM CONCENTRATIONS INTO ARRAY STRUCTURE
+        self.cb_a = np.zeros((self.num_simulations,len(self.aquatic_animals)))
+        for i in range (self.num_simulations):
             self.cb_a[i] = np.array([self.out_cb_phytoplankton[i], self.out_cb_zoo[i], self.out_cb_beninv[i],
                                self.out_cb_filterfeeders[i], self.out_cb_sfish[i], self.out_cb_mfish[i],
                                self.out_cb_lfish[i]])
-        self.cb_a2 = self.cb_a * self.gms_to_microgms
 
         #DRY/WET FOOD INGESTION RATES & DRINKING WATER INTAKE FOR MAMMALS AND BIRDS (TABLE 14)
 
         #dry food ingestion rates: mammals (Table 14)
         self.dry_food_ingestion_rate_mammals = np.array([], dtype = 'float')
         self.dry_food_ingestion_rate_mammals = self.dry_food_ingest_rate_mammals()
-        #trasfer to individual output variables
-        self.out_dfir0, self.out_dfir1, self.out_dfir2, self.out_dfir3, \
-            self.out_dfir4, self.out_dfir5 =  self.dry_food_ingestion_rate_mammals
+        #trasfer to individual output variables (repeat for each model run simulation)
+        for i in range (self.num_simulations):
+            self.out_dfir0[i], self.out_dfir1[i], self.out_dfir2[i], self.out_dfir3[i], \
+                self.out_dfir4[i], self.out_dfir5[i] =  self.dry_food_ingestion_rate_mammals
 
         #dry food ingestion rates: birds (Table 14)
         self.dry_food_ingestion_rate_birds = np.array([], dtype = 'float')
         self.dry_food_ingestion_rate_birds = self.dry_food_ingest_rate_birds()
-        #trasfer to individual output variables
-        self.out_dfira0, self.out_dfira1, self.out_dfira2, self.out_dfira3, \
-            self.out_dfira4, self.out_dfira5 =  self.dry_food_ingestion_rate_birds
+        #trasfer to individual output variables (repeat for each model run simulation)
+        for i in range (self.num_simulations):
+            self.out_dfira0[i], self.out_dfira1[i], self.out_dfira2[i], self.out_dfira3[i], \
+                self.out_dfira4[i], self.out_dfira5[i] =  self.dry_food_ingestion_rate_birds
 
-        self.aq_animal_water_content = np.zeros((len(self.phytoplankton_water),len(self.aquatic_animals)))
-        self.wet_food_ingestion_rate_mammals = np.zeros((len(self.phytoplankton_water),len(self.mammals)))
-        self.wet_food_ingestion_rate_birds = np.zeros((len(self.phytoplankton_water),len(self.birds)))
-
-        for i in range(len(self.phytoplankton_water)):     #loop through model simulation runs
-            self.aq_animal_water_content[i] = [self.phytoplankton_water[i], self.zoo_water[i],
-                                                        self.beninv_water[i], self.filterfeeders_water[i],
-                                                        self.sfish_water[i], self.mfish_water[i], self.lfish_water[i]]
+        self.aq_animal_water_content = np.zeros((self.num_simulations,len(self.aquatic_animals)))
+        self.wet_food_ingestion_rate_mammals = np.zeros((self.num_simulations,len(self.mammals)))
+        self.wet_food_ingestion_rate_birds = np.zeros((self.num_simulations,len(self.birds)))
+        for i in range(self.num_simulations):     #loop through model simulation runs
+            self.aq_animal_water_content[i] = [self.phytoplankton_water_frac[i], self.zoo_water_frac[i],
+                                                        self.beninv_water_frac[i], self.filterfeeders_water_frac[i],
+                                                        self.sfish_water_frac[i], self.mfish_water_frac[i],
+                                                        self.lfish_water_frac[i]]
 
             #wet food ingestion rates: mammals (Table 14)
             self.wet_food_ingestion_rate_mammals[i] = self.wet_food_ingestion_rates(self.aq_animal_water_content[i],
@@ -1404,27 +1404,35 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
                     self.out_wet_food_ingestion_a5[i] = self.wet_food_ingestion_rate_birds[i]
 
         #drinking water intake rates:mammals (Table 14)
-        self.water_ingestion_rate_mammals = np.array([], dtype = 'float')
+        self.water_ingestion_rate_mammals = np.zeros((len(self.aquatic_animals)))
         self.water_ingestion_rate_mammals = self.drinking_water_intake_mammals()
         #trasfer to individual output variables
-        self.out_drinking_water_intake_m0, self.out_drinking_water_intake_m1, self.out_drinking_water_intake_m2, \
-            self.out_drinking_water_intake_m3, self.out_drinking_water_intake_m4,   \
-            self.out_drinking_water_intake_m5 = self.water_ingestion_rate_mammals
+        #these values are a function of body weights which are hardwired as constants
+        #thus, they are calculated once and assigned across all model run simulations
+        for i in range (self.num_simulations):
+            self.out_drinking_water_intake_m0[i], self.out_drinking_water_intake_m1[i],       \
+                self.out_drinking_water_intake_m2[i], self.out_drinking_water_intake_m3[i],   \
+                self.out_drinking_water_intake_m4[i], self.out_drinking_water_intake_m5[i]    \
+                = self.water_ingestion_rate_mammals[0:6]
 
         #drinking water intake rates:birds (Table 14)
+        #these values are a function of body weights which are hardwired as constants
+        #thus, they are calculated once and assigned across all model run simulations
         self.water_ingestion_rate_birds = np.array([], dtype = 'float')
         self.water_ingestion_rate_birds = self.drinking_water_intake_birds()
-        #trasfer to individual output variables
-        self.out_drinking_water_intake_a0, self.out_drinking_water_intake_a1, self.out_drinking_water_intake_a2, \
-            self.out_drinking_water_intake_a3, self.out_drinking_water_intake_a4,   \
-            self.out_drinking_water_intake_a5 = self.water_ingestion_rate_birds
+        #trasfer to individual output variables (need to
+        for i in range (self.num_simulations):
+            self.out_drinking_water_intake_a0[i], self.out_drinking_water_intake_a1[i], \
+                self.out_drinking_water_intake_a2[i], self.out_drinking_water_intake_a3[i], \
+                self.out_drinking_water_intake_a4[i], self.out_drinking_water_intake_a5[i]\
+                = self.water_ingestion_rate_birds[0:6]
 
         # EEC CALCULATIONS FOR MAMMALS AND BIRDS (TABLE 14)
 
         #dose_based EECs: Mammals
-        self.dose_based_eec_mammals = np.zeros((len(self.phytoplankton_water),len(self.mammals)))
-        for i in range (len(self.phytoplankton_water)):
-            self.dose_based_eec_mammals[i] = self.dose_based_eec(self.water_column_eec[i], self.cb_a2[i],
+        self.dose_based_eec_mammals = np.zeros((self.num_simulations,len(self.mammals)))
+        for i in range (self.num_simulations):
+            self.dose_based_eec_mammals[i] = self.dose_based_eec(self.water_column_eec[i], self.cb_a[i],
                                                           self.diet_mammals, self.wet_food_ingestion_rate_mammals[i],
                                                           self.water_ingestion_rate_mammals, self.mammal_weights)
             #transfer to individual output variables
@@ -1432,27 +1440,27 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
                     self.dose_based_eec_mammals[i]
 
         #dose-based EECs: Birds (TABLE 14)
-        dose_based_eec_birds = np.zeros((len(self.phytoplankton_water),len(self.birds)))
-        for i in range (len(self.phytoplankton_water)):
-            dose_based_eec_birds[i] = self.dose_based_eec(self.water_column_eec[i], self.cb_a2[i], self.diet_birds,
+        self.dose_based_eec_birds = np.zeros((self.num_simulations,len(self.birds)))
+        for i in range (self.num_simulations):
+            self.dose_based_eec_birds[i] = self.dose_based_eec(self.water_column_eec[i], self.cb_a[i], self.diet_birds,
                                self.wet_food_ingestion_rate_birds[i],
                                self.water_ingestion_rate_birds, self.bird_weights)
             #transfer to individual output variables
             self.out_db4a0[i],self.out_db4a1[i],self.out_db4a2[i],self.out_db4a3[i],self.out_db4a4[i],\
-                self.out_db4a5[i] = dose_based_eec_birds[i]
+                self.out_db4a5[i] = self.dose_based_eec_birds[i]
 
         #dietary-based EECs: Mammals (TABLE 14)
-        self.diet_based_eec_mammals = np.zeros((len(self.phytoplankton_water),len(self.mammals)))
-        for i in range (len(self.phytoplankton_water)):
-            self.diet_based_eec_mammals[i] = self.dietary_based_eec(self.cb_a2[i], self.diet_mammals[i])
+        self.diet_based_eec_mammals = np.zeros((self.num_simulations,len(self.mammals)))
+        for i in range (self.num_simulations):
+            self.diet_based_eec_mammals[i] = self.dietary_based_eec(self.cb_a[i], self.diet_mammals)
             #transfer to individual output variables
             self.out_db50[i],self.out_db51[i],self.out_db52[i],self.out_db53[i],self.out_db54[i],\
                 self.out_db55[i] = self.diet_based_eec_mammals[i]
 
         #dietary-based EECs: Birds (TABLE 14)
-        self.diet_based_eec_birds = np.zeros((len(self.phytoplankton_water),len(self.birds)))
-        for i in range (len(self.phytoplankton_water)):
-            self.diet_based_eec_birds[i] = self.dietary_based_eec(self.cb_a2[i], self.diet_birds[i])
+        self.diet_based_eec_birds = np.zeros((self.num_simulations,len(self.birds)))
+        for i in range (self.num_simulations):
+            self.diet_based_eec_birds[i] = self.dietary_based_eec(self.cb_a[i], self.diet_birds)
             #transfer to individual output variables
             self.out_db5a0[i],self.out_db5a1[i],self.out_db5a2[i],self.out_db5a3[i],self.out_db5a4[i],\
                 self.out_db5a5[i] = self.diet_based_eec_birds[i]
@@ -1460,25 +1468,26 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         #TOXICITY VALUES FOR MAMMALS AND BIRDS (TABLE 15)
 
         #adjusted/acute dose-based toxicity for mammals (TABLE 15)
-        self.dose_based_tox_mammals = np.array([], dtype = 'float')
-        for i in range(len(self.species_of_the_tested_mammal)):   #loop through model simulation runs
+        self.dose_based_tox_mammals = np.zeros((self.num_simulations,len(self.mammals)))
+        for i in range(self.num_simulations):   #loop through model simulation runs
             if (self.species_of_the_tested_mammal[i] == 'rat'):
-                tested_bw = self.bw_rat
+                tested_bw = self.bw_rat[i]
             else:
-                tested_bw = self.bw_other_mammal
+                tested_bw = self.bw_other_mammal[i]
             self.dose_based_tox_mammals[i] = self.acute_dose_based_tox_mammals(self.mammalian_ld50[i], tested_bw)
+            #transfer to individual output variables
             self.out_acute_dose_based_m0[i],self.out_acute_dose_based_m1[i],self.out_acute_dose_based_m2[i],\
-            self.out_acute_dose_based_m3[i], self.out_acute_dose_based_m4[i],\
-            self.out_acute_dose_based_m5[i] = self.dose_based_tox_mammals[i]
+                self.out_acute_dose_based_m3[i], self.out_acute_dose_based_m4[i],\
+                self.out_acute_dose_based_m5[i] = self.dose_based_tox_mammals[i]
 
-        #adjusted/acute diet-based toxicity for mammals - all are equal to the mammalian_lc50 value IF PROVIDED(Table 15)
-        self.out_acute_diet_based_m0 = self.out_acute_diet_based_m1 = self.out_acute_diet_based_m2 =  \
-            self.out_acute_diet_based_m3 = self.out_acute_diet_based_m4 =\
-            self.out_acute_diet_based_m5 = self.mammalian_lc50
+            #adjusted/acute diet-based toxicity for mammals - all are equal to the mammalian_lc50 value IF PROVIDED(Table 15)
+            self.out_acute_diet_based_m0[i] = self.out_acute_diet_based_m1[i] = self.out_acute_diet_based_m2[i] =  \
+                self.out_acute_diet_based_m3[i] = self.out_acute_diet_based_m4[i] =\
+                self.out_acute_diet_based_m5[i] = self.mammalian_lc50[i]
 
         #chronic dose-based toxicity for mammals (TABLE 15)
-        self.chronic_dose_based_tox_mamm = np.array([], dtype = 'float')
-        for i in range(len(self.species_of_the_tested_mammal)):   #loop through model simulation runs
+        self.chronic_dose_based_tox_mamm = np.zeros((self.num_simulations,len(self.mammals)))
+        for i in range(self.num_simulations):   #loop through model simulation runs
             if (self.species_of_the_tested_mammal[i] == 'rat'):
                 tested_bw = self.bw_rat[i]
             else:
@@ -1486,109 +1495,119 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
             self.chronic_dose_based_tox_mamm[i] = self.chronic_dose_based_tox_mammals(
                                                                     self.mammalian_chronic_endpoint[i], 
                                                                     self.mammalian_chronic_endpoint_unit[i], tested_bw)
-        self.out_chronic_dose_based_m0,self.out_chronic_dose_based_m1,self.out_chronic_dose_based_m2,\
-            self.out_chronic_dose_based_m3, self.out_chronic_dose_based_m4,\
-            self.out_chronic_dose_based_m5 = self.chronic_dose_based_tox_mammals
+            #transfer to individual output variables
+            self.out_chronic_dose_based_m0[i], self.out_chronic_dose_based_m1[i], self.out_chronic_dose_based_m2[i],\
+                self.out_chronic_dose_based_m3[i], self.out_chronic_dose_based_m4[i],\
+                self.out_chronic_dose_based_m5[i] = self.chronic_dose_based_tox_mamm[i]
 
         #Chronic diet-based toxicity for mammals (Table 15)
-        self.chronic_diet_based_tox_mamm = np.array([], dtype = 'float')
-        for i in range(len(self.mammalian_chronic_endpoint)):
-            self.chronic_diet_based_tox_mamm = self.chronic_diet_based_tox_mammals(
+        self.chronic_diet_based_tox_mamm = np.zeros((self.num_simulations,len(self.mammals)))
+        for i in range(self.num_simulations):
+            self.chronic_diet_based_tox_mamm[i] = self.chronic_diet_based_tox_mammals(
                                               self.mammalian_chronic_endpoint[i],
                                               self.mammalian_chronic_endpoint_unit[i])
-        self.out_chronic_diet_based_tox_m0, self.out_chronic_diet_based_tox_m1, self.out_chronic_diet_based_tox_m2, \
-            self.out_chronic_diet_based_tox_m3, self.out_chronic_diet_based_tox_m4, \
-            self.out_chronic_diet_based_tox_m5 = self.chronic_diet_based_tox_mamm
+            #transfer to individual output variables
+            self.out_chronic_diet_based_m0[i], self.out_chronic_diet_based_m1[i], \
+                self.out_chronic_diet_based_m2[i], self.out_chronic_diet_based_m3[i], \
+                self.out_chronic_diet_based_m4[i], self.out_chronic_diet_based_m5[i] \
+                = self.chronic_diet_based_tox_mamm[i]
 
         #adjusted/acute dose-based toxicity for birds (TABLE 15)
-        self.dose_based_tox_birds = np.array([], dtype = 'float')
-        for i in range(len(self.species_of_the_tested_bird)):   #loop through model simulation runs
+        self.dose_based_tox_birds = np.zeros((self.num_simulations,len(self.birds)))
+        for i in range(self.num_simulations):   #loop through model simulation runs
             if (self.species_of_the_tested_bird[i] == 'quail'):
                 tested_bw = self.bw_quail
-            elif (self.species_of_the_tested_bird == 'duck'):
+            elif (self.species_of_the_tested_bird[i] == 'duck'):
                 tested_bw = self.bw_duck
             else:
                 tested_bw = self.bw_other_bird
-            self.dose_based_tox_birds[i] = self.acute_dose_based_tox_birds(self.avian_ld50, tested_bw,
+            self.dose_based_tox_birds[i] = self.acute_dose_based_tox_birds(self.avian_ld50[i], tested_bw[i],
                                                                            self.mineau_scaling_factor[i])
-        self.out_acute_dose_based_a0,self.out_acute_dose_based_a1,self.out_acute_dose_based_a2,\
-            self.out_acute_dose_based_a3, self.out_acute_dose_based_a4,\
-            self.out_acute_dose_based_a5 = self.acute_dose_based_tox_birds
+            self.out_acute_dose_based_a0[i], self.out_acute_dose_based_a1[i], self.out_acute_dose_based_a2[i], \
+                self.out_acute_dose_based_a3[i], self.out_acute_dose_based_a4[i], \
+                self.out_acute_dose_based_a5[i] = self.dose_based_tox_birds[i]
 
-        #adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value(Table 15)
-        self.out_acute_diet_based_a0 = self.out_acute_diet_based_a1 = self.out_acute_diet_based_a2 =  \
-            self.out_acute_diet_based_a3 = self.out_acute_diet_based_a4 =\
-            self.out_acute_diet_based_a5 = self.avian_lc50
+            #adjusted/acute diet-based toxicity for birds - all are equal to the avian_lc50 value(Table 15)
+            self.out_acute_diet_based_a0[i] = self.out_acute_diet_based_a1[i] = self.out_acute_diet_based_a2[i] =  \
+                self.out_acute_diet_based_a3[i] = self.out_acute_diet_based_a4[i] =  \
+                self.out_acute_diet_based_a5[i] = self.avian_lc50[i]
 
-        #Note: There is no chronic dosed-based toxicity for birds
+            #Note: There is no chronic dosed-based toxicity for birds
 
-        #chronic diet-based toxicity for birds - all are equal to the avian_noaec value(Table 15)
-        self.out_chronic_diet_based_a0 = self.out_chronic_diet_based_a1 = self.out_chronic_diet_based_a2 =\
-            self.out_chronic_diet_based_a3 = self.out_chronic_diet_based_a4 =\
-            self.out_chronic_diet_based_a5 = self.avian_noaec
+            #chronic diet-based toxicity for birds - all are equal to the avian_noaec value(Table 15)
+            self.out_chronic_diet_based_a0[i] = self.out_chronic_diet_based_a1[i] = self.out_chronic_diet_based_a2[i] =\
+            self.out_chronic_diet_based_a3[i] = self.out_chronic_diet_based_a4[i] =\
+            self.out_chronic_diet_based_a5[i] = self.avian_noaec[i]
 
 
         #CALCULATE RISK QUOTIENTS FOR MAMMALS AND BIRDS (TABLE 16)
 
         #Acute dose-based risk quotient for mammals (Table 16)
-        self.acute_dose_based_rq_mammals = np.array([], dtype = 'float')
+        self.acute_dose_based_rq_mammals = np.zeros((self.num_simulations,len(self.mammals)))
         self.acute_dose_based_rq_mammals = self.acute_rq_dose_mammals()
-        self.out_acute_rq_dose_m0, self.out_acute_rq_dose_m1, self.out_acute_rq_dose_m2, self.out_acute_rq_dose_m3, \
-            self.out_acute_rq_dose_m4, self.out_acute_rq_dose_m5 = self.acute_dose_based_rq_mammals
+        for i in range(self.num_simulations):   #loop through model simulation runs
+            self.out_acute_rq_dose_m0[i], self.out_acute_rq_dose_m1[i], self.out_acute_rq_dose_m2[i], \
+                self.out_acute_rq_dose_m3[i], self.out_acute_rq_dose_m4[i], self.out_acute_rq_dose_m5[i] \
+                = self.acute_dose_based_rq_mammals[i]
 
         #Chronic dose-based risk quotient for mammals (Table 16)
-        self.chronic_dose_based_rq_mammals = np.array([], dtype = 'float')
+        self.chronic_dose_based_rq_mammals = np.zeros((self.num_simulations,len(self.mammals)))
         self.chronic_dose_based_rq_mammals = self.chronic_rq_dose_mammals()
-        self.out_chronic_rq_dose_m0, self.out_chronic_rq_dose_m1, self.out_chronic_rq_dose_m2, self.out_chronic_rq_dose_m3, \
-            self.out_chronic_rq_dose_m4, self.out_chronic_rq_dose_m5 = self.chronic_dose_based_rq_mammals
+        for i in range(self.num_simulations):   #loop through model simulation runs
+            self.out_chronic_rq_dose_m0[i], self.out_chronic_rq_dose_m1[i], self.out_chronic_rq_dose_m2[i], \
+                self.out_chronic_rq_dose_m3[i], self.out_chronic_rq_dose_m4[i], self.out_chronic_rq_dose_m5[i] \
+                = self.chronic_dose_based_rq_mammals[i]
 
         #Acute diet-based risk quotient for mammals (Table 16)
                     #Note: when a value for mammalian_lc50 is not availble the OPP spreadsheet enters 'N/A'
                     #this doesn't work well in the python code because numpy arrays need to be homogeneous in datatype
                     #so, for now anyway I recommend that the appropriate cell in the ubertool input spreadsheet be blank
                     # rather than inserting a 'N/A'; the blank will be processed as 'nan' rather than 'N/A'
-        self.acute_diet_based_rq_mammals = np.array([], dtype = 'float')
-        for i in range(len(self.mammalian_lc50)):
+        self.acute_diet_based_rq_mammals = np.zeros((self.num_simulations,len(self.mammals)))
+        for i in range(self.num_simulations):
             self.acute_diet_based_rq_mammals[i] = self.acute_rq_diet_mammals(self.diet_based_eec_mammals[i],
                                                                              self.mammalian_lc50[i])
-        self.out_acute_rq_diet_m0, self.out_acute_rq_diet_m1, self.out_acute_rq_diet_m2, self.out_acute_rq_diet_m3, \
-            self.out_acute_rq_diet_m4, self.out_acute_rq_diet_m5 = self.acute_diet_based_rq_mammals
+            self.out_acute_rq_diet_m0[i], self.out_acute_rq_diet_m1[i], self.out_acute_rq_diet_m2[i], \
+                self.out_acute_rq_diet_m3[i], self.out_acute_rq_diet_m4[i], self.out_acute_rq_diet_m5[i] \
+                = self.acute_diet_based_rq_mammals[i]
 
         #Chronic diet-based risk quotient for mammals (Table 16)
-        self.chronic_diet_based_rq_mammals = np.array([], dtype = 'float')
-        for i in range(len(self.mammalian_chronic_endpoint)):
-            self.chronic_diet_based_rq_mammals = self.chronic_rq_diet_mammals(self.diet_based_eec_mammals[i],
+        self.chronic_diet_based_rq_mammals = np.zeros((self.num_simulations,len(self.mammals)))
+        for i in range(self.num_simulations):
+            self.chronic_diet_based_rq_mammals[i] = self.chronic_rq_diet_mammals(self.diet_based_eec_mammals[i],
                                                  self.mammalian_chronic_endpoint[i],
                                                  self.mammalian_chronic_endpoint_unit[i])
-        self.out_chronic_rq_diet_m0, self.out_chronic_rq_diet_m1, self.out_chronic_rq_diet_m2, \
-            self.out_chronic_rq_diet_m3, self.out_chronic_rq_diet_m4, \
-            self.out_chronic_rq_diet_m5 = self.chronic_diet_based_rq_mammals
+            self.out_chronic_rq_diet_m0[i], self.out_chronic_rq_diet_m1[i], self.out_chronic_rq_diet_m2[i], \
+                self.out_chronic_rq_diet_m3[i], self.out_chronic_rq_diet_m4[i], \
+                self.out_chronic_rq_diet_m5[i]  = self.chronic_diet_based_rq_mammals[i]
 
         #Acute dose-based risk quotient for birds (Table 16)
-        self.acute_dose_based_rq_birds = np.array([], dtype = 'float')
+        self.acute_dose_based_rq_birds = np.zeros((self.num_simulations,len(self.birds)))
         self.acute_dose_based_rq_birds = self.acute_rq_dose_birds()
-        self.out_acute_rq_dose_a0, self.out_acute_rq_dose_a1, self.out_acute_rq_dose_a2, self.out_acute_rq_dose_a3, \
-            self.out_acute_rq_dose_a4, self.out_acute_rq_dose_a5 = self.acute_dose_based_rq_birds
+        for i in range(self.num_simulations):   #loop through model simulation runs
+            self.out_acute_rq_dose_a0[i], self.out_acute_rq_dose_a1[i], self.out_acute_rq_dose_a2[i], \
+                self.out_acute_rq_dose_a3[i], self.out_acute_rq_dose_a4[i], self.out_acute_rq_dose_a5[i] \
+                    = self.acute_dose_based_rq_birds[i]
 
         #Acute diet-based for risk quotient birds (Table 16)
-        self.acute_diet_based_rq_birds = np.array([], dtype = 'float')
-        for i in range(len(self.avian_lc50)):  #loop through model simulation runs
-            self.chronic_diet_based_rq_birds = self.acute_rq_diet_birds(self.diet_based_eec_birds[i],
+        self.acute_diet_based_rq_birds = np.zeros((self.num_simulations,len(self.birds)))
+        for i in range(self.num_simulations):  #loop through model simulation runs
+            self.acute_diet_based_rq_birds[i] = self.acute_rq_diet_birds(self.diet_based_eec_birds[i],
                                                  self.avian_lc50[i])
-        self.out_acute_rq_diet_m0, self.out_acute_rq_diet_a1, self.out_acute_rq_diet_a2, \
-            self.out_acute_rq_diet_a3, self.out_acute_rq_diet_a4, \
-            self.out_acute_rq_diet_a5 = self.acute_diet_based_rq_birds
+            self.out_acute_rq_diet_a0[i], self.out_acute_rq_diet_a1[i], self.out_acute_rq_diet_a2[i], \
+                self.out_acute_rq_diet_a3[i], self.out_acute_rq_diet_a4[i], \
+                self.out_acute_rq_diet_a5[i] = self.acute_diet_based_rq_birds[i]
 
         #Note: There is no chronic dosed-based risk quotient for birds
 
         #Chronic diet-based for risk quotient birds (Table 16)
-        self.chronic_diet_based_rq_birds = np.array([], dtype = 'float')
-        for i in range(len(self.avian_noaec)):  #loop through model simulation runs
-            self.chronic_diet_based_rq_birds = self.chronic_rq_diet_birds(self.diet_based_eec_birds[i],
+        self.chronic_diet_based_rq_birds = np.zeros((self.num_simulations,len(self.birds)))
+        for i in range(self.num_simulations):  #loop through model simulation runs
+            self.chronic_diet_based_rq_birds[i] = self.chronic_rq_diet_birds(self.diet_based_eec_birds[i],
                                                  self.avian_noaec[i])
-        self.out_chronic_rq_diet_m0, self.out_chronic_rq_diet_a1, self.out_chronic_rq_diet_a2, \
-            self.out_chronic_rq_diet_a3, self.out_chronic_rq_diet_a4, \
-            self.out_chronic_rq_diet_a5 = self.chronic_diet_based_rq_birds
+            self.out_chronic_rq_diet_a0[i], self.out_chronic_rq_diet_a1[i], self.out_chronic_rq_diet_a2[i], \
+                self.out_chronic_rq_diet_a3[i], self.out_chronic_rq_diet_a4[i], \
+                self.out_chronic_rq_diet_a5[i] = self.chronic_diet_based_rq_birds[i]
 
     def set_global_constants(self):
 
@@ -1625,6 +1644,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.kow = 10.**(self.log_kow) # convert log kow to kow
         self.sediment_oc_frac = self.percent_to_frac(self.sediment_oc)
 
+        #set conversion factor
         self.gms_to_microgms = 1.e6
 
         # Assigned constants
@@ -1639,13 +1659,17 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.epsilon_lipid_zoo = 0.72  # zooplankton dietary assimilation rate of lipids (Kabam Eq. A9)
 
         self.epsilon_nlom_fish  = 0.60 # fish dietary assimilation rate of NLOM (Kabam Eq. A9)
-        self.epsilon_nlom_inv  = 0.60 # aquatic invertebrates dietary assimilation rate of NLOM (Kabam Eq. A9)
-        self.epsilon_nlom_zoo  = 0.60 # zooplankton dietary assimilation rate of NLOM (Kabam Eq. A9)
+        self.epsilon_nlom_inv  = 0.75 # aquatic invertebrates dietary assimilation rate of NLOM (Kabam Eq. A9)
+        self.epsilon_nlom_zoo  = 0.72 # zooplankton dietary assimilation rate of NLOM (Kabam Eq. A9)
 
         self.epsilon_water = 0.25  # freshwater organisms dietary assimilation rate of water
 
         self.alpha_poc = 0.35  #proportionality constant to describe the similarity of phase partitioning of POC in relation to octanol
         self.alpha_doc = 0.08  #proportionality constant to describe the similarity of phase partitioning of DOC in relation to octanol
+
+        #set number of model run simulations to be performed (equal to the number of entries in any one of the input variables)
+        #used throughout code to specify number of times a piece of code should be executed (e.g., for loops)
+        self.num_simulations = len(self.log_kow)
 
         #convert all percentage-based inputs to fractions
         self.sediment_lipid_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
@@ -1680,7 +1704,6 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.beninv_nlom_frac = self.percent_to_frac(self.beninv_nlom)
         self.beninv_water_frac = self.percent_to_frac(self.beninv_water)
 
-
         self.filterfeeders_lipid_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
         self.filterfeeders_nlom_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
         self.filterfeeders_water_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
@@ -1688,7 +1711,6 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.filterfeeders_lipid_frac = self.percent_to_frac(self.filterfeeders_lipid)
         self.filterfeeders_nlom_frac = self.percent_to_frac(self.filterfeeders_nlom)
         self.filterfeeders_water_frac = self.percent_to_frac(self.filterfeeders_water)
-
 
         self.sfish_lipid_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion
         self.sfish_nlom_frac = pd.Series([], dtype="float")  #not direct input; result of units conversion

@@ -1,14 +1,7 @@
 from __future__ import division
-import os.path
 import pandas as pd
-import sys
-#find parent directory and import base (travis)
-parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentddir)
 from base.uber_model import UberModel, ModelSharedInputs
 
-#print(sys.path)
-#print(os.path)
 
 class RiceInputs(ModelSharedInputs):
     """
@@ -45,7 +38,6 @@ class Rice(UberModel, RiceInputs, RiceOutputs):
     """
     Estimate surface water exposure from the use of pesticide in rice paddies
     """
-#?? does the following __init__ override the __init__ located in the inherited classes
     def __init__(self, pd_obj, pd_obj_exp):
         """Class representing the Terrplant model and containing all its methods"""
         super(Rice, self).__init__()
@@ -61,10 +53,10 @@ class Rice(UberModel, RiceInputs, RiceOutputs):
             3) Run the model's methods to generate outputs
             4) Fill the output DataFrame with the generated model outputs
         """
-        self.populate_inputs(self.pd_obj, self)
-        self.pd_obj_out = self.populate_outputs(self)
+        self.populate_inputs(self.pd_obj)
+        self.pd_obj_out = self.populate_outputs()
         self.run_methods()
-        self.fill_output_dataframe(self)
+        self.fill_output_dataframe()
 
     def run_methods(self):
         try:

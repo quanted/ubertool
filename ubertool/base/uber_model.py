@@ -1,5 +1,7 @@
 import importlib
 import pandas as pd
+from pandas import compat
+from parser import Parser
 import logging
 
 
@@ -16,47 +18,75 @@ class UberModel(object):
         self.pd_obj_exp = None
         self.pd_obj_out = None
 
-    def populate_inputs(self, pd_obj, model_obj):
+    def _validate(self, model_inputs, user_inputs):
+        """
+        Compare the user supplied inputs with the ModelInputs() class attributes, ensuring they match by name
+
+        :param model_inputs: ModelInputs() class instance
+        :return: Boolean
+        """
+        # Create temporary DataFrame where each column name is the same as ModelInputs attributes
+        df = pd.DataFrame()
+        for input_param in model_inputs.__dict__:
+            df[input_param] = getattr(self, input_param)
+
+        # Compare column names of temporary DataFrame (created above) to user-supply DataFrame from JSON
+        if df.columns.sort_values().equals(user_inputs.columns.sort_values()):
+            return True
+        else:
+            msg_err1 = "Inputs parameters do not have all required inputs. Please see API documentation.\n"
+            keys_a = set(df.keys())
+            keys_b = set(self.pd_obj.keys())
+            msg_err2 = "Expected: \n{}\n".format(df.columns.sort_values())
+            msg_err3 = "Received: \n{}\n".format(self.pd_obj.columns.sort_values())
+            missing = [item for item in keys_a if item not in keys_b]
+            msg_missing = "missing the following field(s): \n{}\n".format(missing)
+            extras = [item for item in keys_b if item not in keys_a]
+            msg_extras = "the following extra field(s) were found: \n{}\n".format(extras)
+            raise ValueError(msg_err1 + msg_err2 + msg_err3 + msg_missing + msg_extras)
+
+    @staticmethod
+    def _convert_index(df_in):
+        """ Attempt to covert indices of input DataFrame to duck typed dtype """
+        parser = Parser(df_in)
+        df = parser.convert_axes()
+        return df
+
+    def populate_inputs(self, df_in):
         """
         Validate and assign user-provided model inputs to their respective class attributes
-        :param pd_obj: Pandas DataFrame object of model input parameters
-        :param model_obj:
+        :param df_in: Pandas DataFrame object of model input parameters
         """
+        df = self._convert_index(df_in)
+        mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
         try:
             # Import the model's input class (e.g. TerrplantInputs) to compare user supplied inputs to
-            #mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
-            mod_name = model_obj.name.lower() + '_exe'
             module = importlib.import_module(mod_name)
-            model_inputs = getattr(module, model_obj.name + "Inputs")
-            model_inputs_obj = model_inputs()
+            model_inputs_class = getattr(module, self.name + "Inputs")
+            model_inputs = model_inputs_class()
         except ValueError as err:
             logging.info(mod_name)
             logging.info(err.args)
 
-        # Create temporary DataFrame where each column name is the same as ModelInputs attributes
-        df = pd.DataFrame()
-        for input_param in model_inputs_obj.__dict__:
-            df[input_param] = getattr(self, input_param)
-
-        # Compare column names of temporary DataFrame (created above) to user-supply DataFrame from JSON
-        if df.columns.sort_values().equals(pd_obj.columns.sort_values()):
+        if self._validate(model_inputs, df):
             # If the user-supplied DataFrame has the same column names as required by TRexInputs...
             # set each Series in the DataFrame to the corresponding TRexInputs attribute (member variable)
-            for column in pd_obj.columns:
-                setattr(model_obj, column, pd_obj[column])
+            # user_inputs_df = self._sanitize(df)
+            for column in df.columns:
+                setattr(self, column, df[column])
         else:
             msg_err1 = "Inputs parameters do not have all required inputs. Please see API documentation.\n"
             keys_a = set(df.keys())
-            keys_b = set(pd_obj.keys())
+            keys_b = set(self.pd_obj.keys())
             msg_err2 = "Expected: " + str(df.columns.sort_values()) + "\n"
-            msg_err3 = "Received: " + str(pd_obj.columns.sort_values()) + "\n"
+            msg_err3 = "Received: " + str(self.pd_obj.columns.sort_values()) + "\n"
             missing = [item for item in keys_a if item not in keys_b]
-            msg_missing = "missing the following field(s):" + str(missing) + "\n"
+            msg_missing = "missing the following field(s): {}\n".format(missing)
             extras = [item for item in keys_b if item not in keys_a]
-            msg_extras = "the following extra field(s) were found:" + str(extras) + "\n"
+            msg_extras = "the following extra field(s) were found: {}\n".format(extras)
             raise ValueError(msg_err1 + msg_err2 + msg_err3 + msg_missing + msg_extras)
 
-    def populate_outputs(self, model_obj):
+    def populate_outputs(self):
         # Create temporary DataFrame where each column name is the same as TRexOutputs attributes
         """
         Create and return Model Output DataFrame where each column name is a model output parameter
@@ -65,36 +95,64 @@ class UberModel(object):
         :return:
         """
         # Import the model's output class (e.g. TerrplantOutputs) to create a DF to store the model outputs in
-        #mod_name = model_obj.name.lower() + '.' + model_obj.name.lower() + '_exe'
-        mod_name = model_obj.name.lower() + '_exe'
+        mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
         module = importlib.import_module(mod_name)
-        model_outputs = getattr(module, model_obj.name + "Outputs")
+        model_outputs = getattr(module, self.name + "Outputs")
         model_outputs_obj = model_outputs()
         df = pd.DataFrame()
         for input_param in model_outputs_obj.__dict__:
             df[input_param] = getattr(self, input_param)
-            setattr(model_obj, input_param, df[input_param])
+            setattr(self, input_param, df[input_param])
         return df
 
-    def fill_output_dataframe(self, model_obj):
-        """ Combine all output properties into numpy pandas dataframe """
-        for column in model_obj.pd_obj_out:
+    def fill_output_dataframe(self):
+        """ Combine all output properties into Pandas Dataframe """
+        for column in self.pd_obj_out.columns:
             try:
-                model_obj.pd_obj_out[column] = getattr(model_obj, column)
+                output = getattr(self, column)
+                if isinstance(output, pd.Series):
+                    # Ensure model output is a Pandas Series. Only Series can be
+                    # reliably put into a Pandas DataFrame.
+                    self.pd_obj_out[column] = output
+                else:
+                    print('"{}" is not a Pandas Series. Returned outputs must be a Pandas Series'.format(column))
+
             except:
                 print("output dataframe error on " + column)
 
-    @staticmethod
-    def get_dict_rep(model_obj):
+    def get_dict_rep(self):
         """
         Convert DataFrames to dictionary, returning a tuple (inputs, outputs, exp_out)
         :param model_obj: model instance
         :return: (dict(input DataFrame), dict(outputs DataFrame), dict(expected outputs DataFrame))
         """
         try:
-            return model_obj.pd_obj.to_dict(), model_obj.pd_obj_out.to_dict(), model_obj.pd_obj_exp.to_dict()
+            return self.to_dict(self.pd_obj), \
+                   self.to_dict(self.pd_obj_out), \
+                   self.to_dict(self.pd_obj_exp)
         except AttributeError:
-            return model_obj.pd_obj.to_dict(), model_obj.pd_obj_out.to_dict(), {}
+            return self.to_dict(self.pd_obj), \
+                   self.to_dict(self.pd_obj_out), \
+                   {}
+
+    @staticmethod
+    def to_dict(df):
+        """
+        This is an override of the the pd.DataFrame.to_dict() method where the keys in
+        return dictionary are cast to strings. This fixes an error where duck typing would
+        sometimes allow non-String keys, which fails when Flask serializes the dictionary to
+        JSON string to return the HTTP response.
+
+        Original method returns: dict((str(k), v.to_dict()) for k, v in compat.iteritems(df))
+        :param df:
+        :return:
+        """
+        out = {}
+        for k, v in compat.iteritems(df):
+            col = k
+            for row, value in compat.iteritems(v):
+                out[col] = {str(row): value}
+        return out
 
 
 class ModelSharedInputs(object):

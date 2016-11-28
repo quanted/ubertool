@@ -62,7 +62,7 @@ finally:
 # create an instance of terrplant object with qaqc data
 terrplant_calc = Terrplant(pd_obj_inputs, pd_obj_exp)
 terrplant_calc.execute_model()
-inputs_json, outputs_json, exp_out_json = terrplant_calc.get_dict_rep(terrplant_calc)
+inputs_json, outputs_json, exp_out_json = terrplant_calc.get_dict_rep()
 #print("terrplant output")
 #print(inputs_json)
 #print("####")
