@@ -1,14 +1,9 @@
 from __future__ import division
 import numpy as np
-import os.path
 import pandas as pd
-import sys
-
-parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentddir)
-
 from base.uber_model import UberModel, ModelSharedInputs
 from kabam_functions import KabamFunctions
+
 
 class KabamInputs(ModelSharedInputs):
     """
@@ -27,7 +22,6 @@ class KabamInputs(ModelSharedInputs):
         self.k_oc = pd.Series([], dtype='float')
         self.pore_water_eec = pd.Series([], dtype='float')
         self.water_column_eec = pd.Series([], dtype='float')
-#        self.c_wto = pd.Series([], dtype='float')  # replaced by 'self.water_column_eec' above; chk this one more time
         self.mineau_scaling_factor = pd.Series([], dtype='float')
         self.conc_poc = pd.Series([], dtype='float')
         self.conc_doc = pd.Series([], dtype='float')
@@ -184,7 +178,7 @@ class KabamOutputs(object):
         """Class representing the outputs for Kabam"""
         super(KabamOutputs, self).__init__()
         # outputs
-
+        self.out_water_dissolved = pd.Series([], dtype='float', name="out_water_dissolved")
         self.out_cb_phytoplankton = pd.Series([], dtype = 'float', name="out_cb_phytoplankton")
         self.out_cb_zoo = pd.Series([], dtype = 'float', name="out_cb_zoo")
         self.out_cb_beninv = pd.Series([], dtype = 'float', name="out_cb_beninv")
@@ -1078,8 +1072,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.phi = self.frac_pest_freely_diss()
 
         #calculate concentration of freely dissolved pesticide in overlying water column  used in Eqs F2 & F4
-        self.water_d = pd.Series([], dtype='float')
-        self.water_d = self.conc_freely_diss_watercol()
+        self.out_water_dissolved = self.conc_freely_diss_watercol()
 
         #calculate pesticide concentration in sediment normalized for organic carbon content  Eq A4a
         self.c_soc = pd.Series([], dtype='float')

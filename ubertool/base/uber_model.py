@@ -18,7 +18,7 @@ class UberModel(object):
         self.pd_obj_exp = None
         self.pd_obj_out = None
 
-    def _validate(self, model_inputs, user_inputs):
+    def _validate_input_names(self, model_inputs, user_inputs):
         """
         Compare the user supplied inputs with the ModelInputs() class attributes, ensuring they match by name
 
@@ -45,6 +45,18 @@ class UberModel(object):
             msg_extras = "the following extra field(s) were found: \n{}\n".format(extras)
             raise ValueError(msg_err1 + msg_err2 + msg_err3 + msg_missing + msg_extras)
 
+    def _coerce_input_dtype(self, dtype, input_series):
+        if dtype == 'object':
+            return input_series.astype('object')
+        if dtype == 'float':
+            return pd.to_numeric(input_series, errors='coerce')
+        if dtype == 'int':
+            return pd.to_numeric(input_series, errors='coerce', downcast='integer')
+        else:
+            print("dtype of {} is {}\n"
+                  "This format is not handled by UberModel._coerce_input_dtype()".format(input_series.name, dtype))
+            return input_series
+
     @staticmethod
     def _convert_index(df_in):
         """ Attempt to covert indices of input DataFrame to duck typed dtype """
@@ -57,7 +69,7 @@ class UberModel(object):
         Validate and assign user-provided model inputs to their respective class attributes
         :param df_in: Pandas DataFrame object of model input parameters
         """
-        df = self._convert_index(df_in)
+        df_user = self._convert_index(df_in)
         mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
         try:
             # Import the model's input class (e.g. TerrplantInputs) to compare user supplied inputs to
@@ -68,26 +80,10 @@ class UberModel(object):
             logging.info(mod_name)
             logging.info(err.args)
 
-        if self._validate(model_inputs, df):
-            # If the user-supplied DataFrame has the same column names as required by TRexInputs...
-            # set each Series in the DataFrame to the corresponding TRexInputs attribute (member variable)
-            # user_inputs_df = self._sanitize(df)
-            for column in df.columns:
-                setattr(self, column, df[column])
-                #if needs to be coerced to a number
-                #s = pd.to_numeric(s, errors='coerce')
-                #else to_string, boolean, etc
-        else:
-            msg_err1 = "Inputs parameters do not have all required inputs. Please see API documentation.\n"
-            keys_a = set(df.keys())
-            keys_b = set(self.pd_obj.keys())
-            msg_err2 = "Expected: " + str(df.columns.sort_values()) + "\n"
-            msg_err3 = "Received: " + str(self.pd_obj.columns.sort_values()) + "\n"
-            missing = [item for item in keys_a if item not in keys_b]
-            msg_missing = "missing the following field(s): {}\n".format(missing)
-            extras = [item for item in keys_b if item not in keys_a]
-            msg_extras = "the following extra field(s) were found: {}\n".format(extras)
-            raise ValueError(msg_err1 + msg_err2 + msg_err3 + msg_missing + msg_extras)
+        if self._validate_input_names(model_inputs, df_user):
+            for column in df_user.columns:
+                dtype = getattr(model_inputs, column).dtype
+                setattr(self, column, self._coerce_input_dtype(dtype, df_user[column]))
 
     def populate_outputs(self):
         # Create temporary DataFrame where each column name is the same as *ModelName*Outputs attributes

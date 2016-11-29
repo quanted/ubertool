@@ -329,10 +329,8 @@ class KabamFunctions(object):
         :param 1000000: conversion factor from ug/L to g/L
         :return:
         """
-        conc_pest_diss = pd.Series([], dtype = 'float')
 
-        conc_pest_diss = self.phi * self.water_column_eec / 1000000.
-        return conc_pest_diss
+        return self.phi * self.water_column_eec
 
     def conc_sed_norm_4oc(self):
         """
