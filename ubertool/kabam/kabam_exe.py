@@ -164,15 +164,15 @@ class KabamInputs(ModelSharedInputs):
         self.mfish_km = pd.Series([], dtype='float')
         self.lfish_km = pd.Series([], dtype='float')
 
-        self.rate_constants = pd.Series([], dtype='str')
-        self.sediment_respire = pd.Series([], dtype='float')
-        self.phyto_respire = pd.Series([], dtype='float')
-        self.zoo_respire = pd.Series([], dtype='float')
-        self.beninv_respire = pd.Series([], dtype='float')
-        self.filterfeeders_respire = pd.Series([], dtype='float')
-        self.sfish_respire = pd.Series([], dtype='float')
-        self.mfish_respire = pd.Series([], dtype='float')
-        self.lfish_respire = pd.Series([], dtype='float')
+        self.rate_constants = pd.Series([], dtype='object')
+        self.sediment_respire = pd.Series([], dtype='object')
+        self.phyto_respire = pd.Series([], dtype='object')
+        self.zoo_respire = pd.Series([], dtype='object')
+        self.beninv_respire = pd.Series([], dtype='object')
+        self.filterfeeders_respire = pd.Series([], dtype='object')
+        self.sfish_respire = pd.Series([], dtype='object')
+        self.mfish_respire = pd.Series([], dtype='object')
+        self.lfish_respire = pd.Series([], dtype='object')
 
 class KabamOutputs(object):
 
