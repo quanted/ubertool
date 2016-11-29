@@ -67,7 +67,7 @@ finally:
 beerex_output_empty = BeerexOutputs()
 beerex_calc = Beerex(pd_obj_inputs, pd_obj_exp)
 beerex_calc.execute_model()
-inputs_json, outputs_json, exp_out_json = beerex_calc.get_dict_rep(beerex_calc)
+inputs_json, outputs_json, exp_out_json = beerex_calc.get_dict_rep()
     #print("beerex output")
     #print(inputs_json)
     #print("####")

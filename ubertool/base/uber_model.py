@@ -88,6 +88,7 @@ class UberModel(object):
                 dtype = getattr(model_inputs, column).dtype
                 setattr(self, column, self._coerce_input_dtype(dtype, df_user[column]))
 
+
     def populate_outputs(self):
         # Create temporary DataFrame where each column name is the same as *ModelName*Outputs attributes
         """
