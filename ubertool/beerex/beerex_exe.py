@@ -1,16 +1,8 @@
 from __future__ import division  #brings in Python 3.0 mixed type calculations
-import os.path
-import sys
 import numpy as np
 import pandas as pd
-
-#find parent directory and import base (travis)
-parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentddir)
 from base.uber_model import UberModel, ModelSharedInputs
 
-#print(sys.path)
-#print(os.path)
 
 class BeerexInputs(object):
     """
@@ -156,10 +148,10 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
             3) Run the model's methods to generate outputs
             4) Fill the output DataFrame with the generated model outputs
         """
-        self.populate_inputs(self.pd_obj, self)
-        self.pd_obj_out = self.populate_outputs(self)
+        self.populate_inputs(self.pd_obj)
+        self.pd_obj_out = self.populate_outputs()
         self.run_methods()
-        self.fill_output_dataframe(self)
+        self.fill_output_dataframe()
 
     def run_methods(self):
         """Execute the model's methods to generate the model output"""
@@ -247,7 +239,6 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
         self.out_aw_winter_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_aw_winter_total_dose", dtype="float")
         self.out_ad_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_ad_total_dose", dtype="float")
         self.out_aq_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_aq_total_dose", dtype="float")
-
 
     def eec_spray(self, i):
         """
