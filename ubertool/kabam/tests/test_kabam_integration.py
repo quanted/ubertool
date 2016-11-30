@@ -138,7 +138,7 @@ class TestKabam(unittest.TestCase):
                 #tab = pd.concat([result,expected], axis=1)
                 if(result[i] != expected[i]):
                     print(str(i) + ":" + output_name)
-                    print("output assertaion state (result/expected) : " + str(result[i]) + "/" + str(expected[i]))
+                    print("output assertion state (result/expected) : " + str(result[i]) + "/" + str(expected[i]))
                     print("output dtype (result/expected) :            " + output_dtype_result + "/" + output_dtype_expected)
             npt.assert_array_equal(result, expected)
         finally:
