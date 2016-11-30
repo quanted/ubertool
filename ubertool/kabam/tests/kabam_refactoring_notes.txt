@@ -3,7 +3,7 @@ integration tests.
 
 1. Original spreadsheet for kabam input variables listed 'kg_phytoplankton'; it appears that
    this variable is defined as 'organism growth rate constant' (based on Expression for
-   'pesticide tissue residue for sinlge trophic level'); it is noted here because the value
+   'pesticide tissue residue for single trophic level'); it is noted here because the value
    of this variable for all other trophic levels is calculated in the model based on the
    wet weight of the species at the trophic level  --  because there is no input for the
    wet weight of phytoplanton I'm assuming the value for the growth rate is appropriately
@@ -61,3 +61,9 @@ integration tests.
    conversion for the Chronic Endpoint).  Thus, we only require the test species and body weight for the LD50 related
    toxicity value in the python model.  [I searched the OPP model spreadsheet for all references to species/body weights
    and found only the LD50 related ones.]
+
+9. Issue related to Python propensity to infer datatypes upon (in this case) reading the input spreadsheet file.
+   Variable values that are entered as integers (i.e., numbers without a decimal point) are inferred to be integers
+   upon being read into the model (even though the input variable to which the value is  to be assigned is declared
+   to be a float (the inferred type overrides the declaration).  A method has been added to uber_model to coerce all
+   inputs to be of type as declared in the model (the method is '_coerce_input_dtype')
