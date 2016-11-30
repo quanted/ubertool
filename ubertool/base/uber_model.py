@@ -49,7 +49,7 @@ class UberModel(object):
         if dtype == 'object':
             return input_series.astype('object')
         if dtype == 'float':
-            return pd.to_numeric(input_series, errors='coerce')
+            return pd.to_numeric(input_series, errors='coerce', downcast='float')
         if dtype == 'int':
             return pd.to_numeric(input_series, errors='coerce', downcast='integer')
         else:

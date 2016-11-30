@@ -616,7 +616,7 @@ class TestKabam(unittest.TestCase):
         """
 
         result = pd.Series([], dtype='float')
-        expected_results = pd.Series([1.e-7, 2.4e-8, 1.e-6], dtype = 'float')
+        expected_results = pd.Series([1.e-1, 2.4e-2, 1.], dtype = 'float')
 
         try:
             #for this test we'll use the zooplankton variables
