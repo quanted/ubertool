@@ -51,19 +51,20 @@ class UberModel(object):
         #incoming_dtype = 'float64'
         if coerce_dtype == 'object':
             return input_series.astype('object')
-        if coerce_dtype == 'float':
+        elif coerce_dtype == 'float64':
             if incoming_dtype == 'object':
                 #coerces strings to np.nans
                 return pd.to_numeric(input_series, errors='coerce')
             elif incoming_dtype == 'float64':
-                pass
-            elif coerce_dtype == 'int':
-                return input_series.astype('float')
+                return input_series
             else:
-               print("dtype of {} is {}\n"
-                     "This input dtype format is not handled by UberModel.coerce_input_dtype()".format(input_series.name,
-                                                                                            coerce_dtype))
-            return input_series
+                return input_series.astype('float64')
+        elif coerce_dtype == 'int64':
+            if incoming_dtype == 'object':
+                #coerces strings to np.nans
+                return pd.to_numeric(input_series, errors='coerce', downcast='int64')
+            else:
+                return input_series.astype('int64')
         else:
             print("dtype of {} is {}\n"
                   "This format is not handled by UberModel.coerce_input_dtype()".format(input_series.name, coerce_dtype))
@@ -99,11 +100,10 @@ class UberModel(object):
                 # user_inputs_df = self._sanitize(df)
                 for column in df_user.columns:
                     coerce_dtype = str(getattr(model_inputs, column).dtype)
-                    logging.info(coerce_dtype)
                     df_series = df_user[column]
                     initial_dtype = str(df_series.dtype)
-                    logging.info('var:' + column + ' ' + coerce_dtype + ' ' + initial_dtype)
-                    #if initial_dtype != coerce_dtype:
+                    if initial_dtype != coerce_dtype:
+                        logging.info('var:' + column + ' coerce to: ' + coerce_dtype + ' from: ' + initial_dtype)
                     setattr(self, column, self.coerce_input_dtype(initial_dtype, coerce_dtype, df_series))
         except ValueError as err:
             logging.info('input validation problem')
