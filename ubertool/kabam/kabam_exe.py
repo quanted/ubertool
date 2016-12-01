@@ -609,7 +609,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
                 self.lfish_k2[i] = float(self.lfish_k2_temp[i])
 
         # aquatic animal/organism growth rate constants (Kabam Eq. A7.1 & A7.2)
-        self.phytoplankton_kg = pd.Series([], dtype = 'float')
+        #self.phytoplankton_kg = pd.Series([], dtype = 'float')
         self.zoo_kg = pd.Series([], dtype = 'float')
         self.beninv_kg = pd.Series([], dtype = 'float')
         self.filterfeeders_kg = pd.Series([], dtype = 'float')
@@ -617,7 +617,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.mfish_kg = pd.Series([], dtype = 'float')
         self.lfish_kg = pd.Series([], dtype = 'float')
 
-        self.phytoplankton_kg = 0.1 # 0.1 is assigned (not calculated) in OPP model spreadsheet
+        #self.phytoplankton_kg = 0.1 # 0.1 is assigned (not calculated) in OPP model spreadsheet
                                     # in worksheet 'Parameters & Calculations' cell C48
         self.zoo_kg = self.animal_grow_rate_const(self.zoo_wb)
         self.beninv_kg = self.animal_grow_rate_const(self.beninv_wb)

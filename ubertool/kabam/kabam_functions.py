@@ -128,7 +128,8 @@ class KabamFunctions(object):
         coefficient *i.e., 0.0005, 0.00251) provided through a calling argument
         :return:
         """
-        growth_rate = pd.Series([], dtype = 'float')
+
+        growth_rate = pd.Series(np.nan, index=list(range(len(self.water_temp))), dtype = 'float')
 
         for i in range(len(self.water_temp)):  #loop through model simulation runs
             if self.water_temp[i] < 17.5:
