@@ -3,6 +3,7 @@ import pandas as pd
 from pandas import compat
 from parser import Parser
 import logging
+import numpy as np
 
 
 class UberModel(object):
@@ -47,11 +48,14 @@ class UberModel(object):
 
     def _coerce_input_dtype(self, dtype, input_series):
         if dtype == 'object':
-            return input_series.astype('object')
+            return input_series.astype(np.object,casting='safe',copy=False)
+            #return input_series.astype('object')
         if dtype == 'float':
-            return pd.to_numeric(input_series, errors='coerce', downcast='float')
+            return input_series.astype(np.float64,casting='safe',copy=False)
+            #return pd.to_numeric(input_series, errors='coerce', downcast='float')
         if dtype == 'int':
-            return pd.to_numeric(input_series, errors='coerce', downcast='integer')
+            return input_series.astype(np.int64,casting='safe',copy=False)
+            #return pd.to_numeric(input_series, errors='coerce', downcast='integer')
         else:
             print("dtype of {} is {}\n"
                   "This format is not handled by UberModel._coerce_input_dtype()".format(input_series.name, dtype))
@@ -87,7 +91,6 @@ class UberModel(object):
             for column in df_user.columns:
                 dtype = getattr(model_inputs, column).dtype
                 setattr(self, column, self._coerce_input_dtype(dtype, df_user[column]))
-
 
     def populate_outputs(self):
         # Create temporary DataFrame where each column name is the same as *ModelName*Outputs attributes
