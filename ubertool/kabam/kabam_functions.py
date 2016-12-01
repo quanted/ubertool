@@ -139,7 +139,7 @@ class KabamFunctions(object):
 
     def dietary_trans_eff(self):
         """
-        :description Aquatic animal/organizm dietary pesticide transfer efficiency
+        :description Aquatic animal/organism dietary pesticide transfer efficiency
         :unit fraction
         :expression Kabam Eq. A8a (Ed)
         :param kow: octanol-water partition coefficient ()
@@ -513,7 +513,7 @@ class KabamFunctions(object):
         :param lipid_content: fraction of animal/organism that is lipid (fraction)
         :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
                     via membrane diffusion (fraction)
-        :param water_column_eec: total pesticide concentraiton in water column above sediment (ug/L)
+        :param free_pest_conc_watercol: freely dissolved pesticide concentration in water column above sediment (ug/L)
         :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (ug/L)
         :return:
         """
@@ -521,7 +521,7 @@ class KabamFunctions(object):
         lipid_norm_bcf = pd.Series([], dtype = 'float')
 
         lipid_norm_bcf = ((k1 * (mO * self.phi * self.water_column_eec + mP * self.pore_water_eec) / k2 )
-                          / lipid_content) /  (self.water_column_eec * self.phi)
+                              / lipid_content) / self.free_pest_conc_watercol
         return lipid_norm_bcf
 
     def tot_bioacc_fact(self, pest_conc):
@@ -546,14 +546,13 @@ class KabamFunctions(object):
         :expression Kabam Eq. F4
         :param pest_conc: Concentration of pesticide in aquatic animal/organism (ug/(kg wet weight)
         :param lipid_content: fraction of animal/organism that is lipid (fraction)
-        :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
-                    via membrane diffusion (fraction)
-        :param water_column_eec: total pesticide concentraiton in water column above sediment (ug/L)
+        :param free_pest_conc_watercol: freely dissolved pesticide concentration in water column above sediment (ug/L)
         :return:
         """
         lipid_norm_baf = pd.Series([], dtype = 'float')
 
-        lipid_norm_baf = (pest_conc/ lipid_content) / (self.water_column_eec * self.phi)
+        lipid_norm_baf = (pest_conc/ lipid_content) / self.free_pest_conc_watercol
+
         return lipid_norm_baf
 
     def biota_sed_acc_fact(self, pest_conc, lipid_content):  #cdsafl
