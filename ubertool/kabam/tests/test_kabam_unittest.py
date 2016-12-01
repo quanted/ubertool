@@ -945,9 +945,7 @@ class TestKabam(unittest.TestCase):
         :param mP: fraction of respiratory ventilation that involves por-water of sediment (fraction)
         :param mO: fraction of respiratory ventilation that involves overlying water; 1-mP (fraction)
         :param lfish_lipid: fraction of animal/organism that is lipid (fraction)
-        :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
-                    via membrane diffusion (fraction)
-        :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
+        :param out_free_pest_conc_watercol: freely dissolved pesticide concentraiton in water column above sediment (g/L)
         :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
         :return:
         """
@@ -955,8 +953,7 @@ class TestKabam(unittest.TestCase):
         expected_results = pd.Series([47.75, 25.0, 11.1111], dtype = 'float')
 
         try:
-            self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
-            self.kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            self.kabam_empty.out_free_pest_conc_watercol = pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
             self.kabam_empty.pore_water_eec =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
             self.kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
@@ -1009,17 +1006,14 @@ class TestKabam(unittest.TestCase):
         :expression Kabam Eq. F4
         :param cb_lfish: Concentration of pesticide in aquatic animal/organism (g/(kg wet weight)
         :param lfish_lipid: fraction of animal/organism that is lipid (fraction)
-        :param phi: fraction of the overlying water pesticide concentration that is freely dissolved and can be absorbed
-                    via membrane diffusion (fraction)
-        :param water_column_eec: total pesticide concentraiton in water column above sediment (g/L)
+        :param out_free_pest_conc_watercol: freely dissolved pesticide concentration in water column above sediment (g/L)
         :return:
         """
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([1.0, 625.0, 1.66666], dtype = 'float')
 
         try:
-            self.kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
-            self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
+            self.kabam_empty.out_free_pest_conc_watercol = pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
             self.kabam_empty.out_cb_lfish = pd.Series([2.e-5, 2.5e-3, 2.e-4], dtype = 'float')
             self.kabam_empty.lfish_lipid = pd.Series([0.02, 0.04, 0.06], dtype = 'float')

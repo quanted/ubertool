@@ -1,4 +1,4 @@
-property_name,description,units,type,valid_range,run1(original without OPP model spreadsheet),run2(=run1 with k's input instead of calculated,run3(=run1with generated OPP spreadsheet),run4,run5(=run1 + DOC/POC values
+property_name,description,units,type,valid_range,run1(original without OPP model spreadsheet),run2(=run1 with k's input instead of calculated,run3(=run1with generated OPP spreadsheet),run4(OPP run with chlorpyrifos),run5(=run1 + DOC/POC values
 version,,,,,,,,,
 chemical_name,,,,, ,,,chlorpyrifos,
 pc_code,,,,,,,,,
@@ -129,6 +129,7 @@ filterfeeders_respire,Do organisms in trophic level respire some pore water?,,,,
 sfish_respire,Do organisms in trophic level respire some pore water?,,,,yes,yes,yes,yes,yes
 mfish_respire,Do organisms in trophic level respire some pore water?,,,,yes,yes,yes,yes,yes
 lfish_respire,Do organisms in trophic level respire some pore water?,,,,no,no,no,no,no
+out_free_pest_conc_watercol,Concentration of freely dissolved pesticide in water column above sediment,ug/L,,,,,,,
 out_cb_phytoplankton,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight), ,,,,,,
 out_cb_zoo,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,, , , ,,
 out_cb_beninv,Concentration of pesticide in aquatic animal/organism,g/(kg wet weight),,, , , ,,
@@ -353,6 +354,7 @@ out_chronic_rq_diet_a2,chronic diet-based risk quotient (bird: rails),dose-based
 out_chronic_rq_diet_a3,chronic diet-based risk quotient (bird: herons),dose-based EEC/dose-based toxicity),,,,,,,
 out_chronic_rq_diet_a4,chronic diet-based risk quotient (bird: small osprey),dose-based EEC/dose-based toxicity),,,,,,,
 out_chronic_rq_diet_a5,chronic diet-based risk quotient (bird: white pelican),dose-based EEC/dose-based toxicity),,,,,,,
+exp_free_pest_conc_watercol,Concentration of freely dissolved pesticide in water column above sediment,ug/L,,,6,6.0000000E+00,6.0000000E+00,5.360000E+00,5.08905900E+00
 exp_cb_phytoplankton,Concentration of pesticide in aquatic animal/organism,ug/(kg wet weight),,,27298,2.7298250E+04,2.7298250E+04,1.239312E+04,2.31537400E+04
 exp_cb_zoo,Concentration of pesticide in aquatic animal/organism,ug/(kg wet weight),,,21064.696,2.1064700E+04,2.1064700E+04,9.316444E+03,1.78665800E+04
 exp_cb_beninv,Concentration of pesticide in aquatic animal/organism,ug/(kg wet weight),,,23678,2.3677960E+04,2.3677960E+04,1.015290E+04,2.02490700E+04

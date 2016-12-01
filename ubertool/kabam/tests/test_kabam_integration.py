@@ -145,6 +145,16 @@ class TestKabam(unittest.TestCase):
             pass
         return
 
+    def test_free_pest_conc_watercol(self):
+        """
+        Integration test for kabam.free_pest_conc_watercol
+        """
+        try:
+            self.blackbox_method_int('free_pest_conc_watercol')
+        finally:
+            pass
+        return
+
     def test_cb_phytoplankton(self):
         """
         Integration test for kabam.cb_phytoplankton

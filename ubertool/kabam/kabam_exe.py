@@ -178,6 +178,7 @@ class KabamOutputs(object):
         """Class representing the outputs for Kabam"""
         super(KabamOutputs, self).__init__()
         # outputs
+        self.out_free_pest_conc_watercol = pd.Series([], dtype='float', name='out_free_pest_conc_watercol')
         self.out_cb_phytoplankton = pd.Series([], dtype = 'float', name="out_cb_phytoplankton")
         self.out_cb_zoo = pd.Series([], dtype = 'float', name="out_cb_zoo")
         self.out_cb_beninv = pd.Series([], dtype = 'float', name="out_cb_beninv")
@@ -1071,8 +1072,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.phi = self.frac_pest_freely_diss()
 
         #calculate concentration of freely dissolved pesticide in overlying water column used in Eqs F2 & F4
-        self.free_pest_conc_watercol = pd.Series([], dtype='float')
-        self.free_pest_conc_watercol = self.conc_freely_diss_watercol()
+        self.out_free_pest_conc_watercol = self.conc_freely_diss_watercol()
 
         #calculate pesticide concentration in sediment normalized for organic carbon content  Eq A4a
         self.c_soc = pd.Series([], dtype='float')
