@@ -101,6 +101,59 @@ class TestAgdrift(unittest.TestCase):
         """
         pass
 
+    def test_assert_output_series(self):
+        """ Verify that each output variable is a pd.Series """
+
+        try:
+            num_variables = len(kabam_calc.pd_obj_out.columns)
+            result = pd.Series(False, index=list(range(num_variables)), dtype='bool')
+            expected = pd.Series(True, index=list(range(num_variables)), dtype='bool')
+
+            for i in range(num_variables):
+                column_name = kabam_calc.pd_obj_out.columns[i]
+                output = getattr(kabam_calc, column_name)
+                if isinstance(output, pd.Series):
+                    result[i] = True
+
+            tab = pd.concat([result,expected], axis=1)
+            print('model output properties as pandas series')
+            print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
+            npt.assert_array_equal(result, expected)
+        finally:
+            pass
+        return
+
+    def test_assert_output_series_dtypes(self):
+        """ Verify that each output variable is the correct dtype,
+            essentially checking that initial declaration of dtype has not
+            changed due to computation-based coercion of dtype"""
+
+        try:
+            num_variables = len(kabam_calc.pd_obj_out.columns)
+            result = pd.Series(False, index=list(range(num_variables)), dtype='bool')
+            expected = pd.Series(True, index=list(range(num_variables)), dtype='bool')
+
+            for i in range(num_variables):
+                #get the string of the dtype that is expected and the type that has resulted
+                output_name = kabam_calc.pd_obj_out.columns[i]
+                output_result = getattr(kabam_calc, output_name)
+                output_dtype_result = output_result.dtype.name
+                #kabam_output_empty is a copy of the original ModelOutputs declarations (unchanged by computations
+                output_expected_attr = getattr(kabam_output_empty, output_name)
+                output_dtype_expected = output_expected_attr.dtype.name
+                if output_dtype_result == output_dtype_expected:
+                    result[i] = True
+
+                #tab = pd.concat([result,expected], axis=1)
+                if(result[i] != expected[i]):
+                    print(str(i) + ":" + output_name)
+                    print("output assertion state (result/expected) : " + str(result[i]) + "/" + str(expected[i]))
+                    print("output dtype (result/expected) :            " + output_dtype_result + "/" + output_dtype_expected)
+            npt.assert_array_equal(result, expected)
+        finally:
+            pass
+        return
+
     def test_agdrift_init_avg_dep_foa_integration(self):
         """
         Integration test for agdrift.agdrift_fugacity
