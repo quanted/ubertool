@@ -17,14 +17,14 @@ class SipInputs(ModelSharedInputs):
         self.bodyweight_bird_other_2 = pd.Series([], dtype="float")
         self.bodyweight_tested_mammal = pd.Series([], dtype="float")
         self.ld50_avian_water = pd.Series([], dtype="float")
-        self.ld50_species_tested_mammal = pd.Series([], dtype="object")
+#        self.ld50_species_tested_mammal = pd.Series([], dtype="object")
         self.noaec_quail = pd.Series([], dtype="float")
         self.noaec_duck = pd.Series([], dtype="float")
         self.noaec_bird_other_1 = pd.Series([], dtype="float")
         self.noaec_bird_other_2 = pd.Series([], dtype="float")
         self.noael_bodyweight_tested_mammal = pd.Series([], dtype="float")
-        self.noael_species_tested_mammal = pd.Series([], dtype="object")
-        self.species_tested_bird = pd.Series([], dtype="object")
+#        self.noael_species_tested_mammal = pd.Series([], dtype="object")
+#        self.species_tested_bird = pd.Series([], dtype="object")
         self.ld50_mammal_water = pd.Series([], dtype="float")
         self.noael_mammal_water = pd.Series([], dtype="float")
         self.mineau_scaling_factor = pd.Series([], dtype="float")
@@ -55,10 +55,10 @@ class SipOutputs(object):
         self.out_chronconb = pd.Series([], dtype="object", name="out_chronconb")
         self.out_chron_mamm = pd.Series([], dtype="float", name="out_chron_mamm")
         self.out_chronconm = pd.Series([], dtype="object", name="out_chronconm")
-        self.out_det_quail = pd.Series([], dtype="float", name="out_det_quail")
-        self.out_det_duck = pd.Series([], dtype="float", name="out_det_duck")
-        self.out_det_other_1 = pd.Series([], dtype="float", name="out_det_other_1")
-        self.out_det_other_2 = pd.Series([], dtype="float", name="out_det_other_2")
+#        self.out_det_quail = pd.Series([], dtype="float", name="out_det_quail")
+#        self.out_det_duck = pd.Series([], dtype="float", name="out_det_duck")
+#        self.out_det_other_1 = pd.Series([], dtype="float", name="out_det_other_1")
+#        self.out_det_other_2 = pd.Series([], dtype="float", name="out_det_other_2")
 
 
 class Sip(UberModel, SipInputs, SipOutputs):
@@ -281,6 +281,12 @@ class Sip(UberModel, SipInputs, SipOutputs):
         all of the modeled values (Cells F20-24 and results worksheet) and then selects the lowest dose
         equivalent toxicity value to represent the chronic toxicity of the chemical to birds.
         """
+
+        self.out_det_quail = pd.Series([], dtype="float", name="out_det_quail")
+        self.out_det_duck = pd.Series([], dtype="float", name="out_det_duck")
+        self.out_det_other_1 = pd.Series([], dtype="float", name="out_det_other_1")
+        self.out_det_other_2 = pd.Series([], dtype="float", name="out_det_other_2")
+
         try:
             # Body weight of bobtail quail is 178 g
             self.out_det_quail = (self.noaec_quail * self.fi_bird(178.)) / (178. / 1000.)

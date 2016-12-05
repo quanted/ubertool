@@ -32,8 +32,8 @@ out_chron_bird,bird dose to NOAEC ratio,unitless,float64,na,,,,,,,,,,
 out_chronconb,chronic bird ratio message,na,string,na,,,,,,,,,,
 out_chron_mamm,mammal dose to NOAEL ratio,unitless,float64,na,,,,,,,,,,
 out_chronconm,chronic mammal ratio message,na,string,na,,,,,,,,,,
-exp_fw_bird,bird daily water flux intake,L,float64,[0_inf),,,,,,,,,,
-exp_fw_mamm,mammal daily water flux intake,L,float64,[0_inf),,,,,,,,,,
+exp_fw_bird,bird daily water flux intake,L,float64,[0_inf),0.0162,0.0162,0.0162,0.0162,0.0162,0.0162,0.0162,0.0162,0.0162,0.0162
+exp_fw_mamm,mammal daily water flux intake,L,float64,[0_inf),0.172,0.172,0.172,0.172,0.172,0.172,0.172,0.172,0.172,0.172
 exp_dose_bird,bird estimate of daily water intake dose (upper bound exposure),mg/kg-bw,float64,[0_inf),28.350000,0.656100,0.850500,48.600000,0.259200,299.700000,1053.000000,119.880000,162000.000000,44.550000
 exp_dose_mamm,mammal estimate of daily water intake dose (upper bound exposure),mg/kg-bw,float64,[0_inf),6.020000,0.139320,0.180600,10.320000,0.055040,63.640000,223.600000,25.456000,34400.000000,9.460000
 exp_at_bird,bird adjusted LD50 toxicity value (acute adjusted toxicity value),mg/kg-bw,float64,[0_inf),3052.4599,25.3164557,1.494382022,0.7476845876,79.96767654,112.3595506,3.136121465,258.6341971,0.12658228,117.3033708
