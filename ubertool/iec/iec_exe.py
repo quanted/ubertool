@@ -1,9 +1,8 @@
 from __future__ import division
 import numpy as np
 import pandas as pd
-from scipy.special import erfc
 from base.uber_model import UberModel, ModelSharedInputs
-
+from iec_functions import IecFunctions
 
 class IecInputs(ModelSharedInputs):
     """
@@ -31,7 +30,7 @@ class IecOutputs(object):
         self.out_chance_f = pd.Series([], dtype="float", name="out_chance_f")
 
 
-class Iec(UberModel, IecInputs, IecOutputs):
+class Iec(UberModel, IecInputs, IecOutputs, IecFunctions):
     """
     IEC model for proportional population effect based on normal distribution.
     """
@@ -67,27 +66,3 @@ class Iec(UberModel, IecInputs, IecOutputs):
             self.chance_f()
         except Exception, e:
             print str(e)
-
-    def z_score_f(self):
-        """
-        Calculate z score.
-        :return:
-        """
-        self.out_z_score_f = self.dose_response * (np.log10(self.lc50 * self.threshold) - np.log10(self.lc50))
-        return self.out_z_score_f
-
-    def f8_f(self):
-        """
-        Use error function to get probability based on z-score.
-        :return:
-        """
-        self.out_f8_f = 0.5 * erfc(-self.out_z_score_f / np.sqrt(2))
-        return self.out_f8_f
-
-    def chance_f(self):
-        """
-        Chance calculation.
-        :return:
-        """
-        self.out_chance_f = 1 / self.out_f8_f
-        return self.out_chance_f

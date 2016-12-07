@@ -27,13 +27,8 @@ class TestSip(unittest.TestCase):
         Setup routine for sip unittest.
         :return:
         """
-        self.sip_empty = object
-        # create empty pandas dataframes to create empty sip object for testing
-        df_empty = pd.DataFrame()
-        # create an empty sip object
-        self.sip_empty = Sip(df_empty, df_empty)
 
-        #pass
+        pass
         # sip2 = sip_model.sip(0, pd_obj_inputs, pd_obj_exp_out)
         # setup the test as needed
         # e.g. pandas to open sip qaqc csv
@@ -48,20 +43,30 @@ class TestSip(unittest.TestCase):
         # teardown called after each test
         # e.g. maybe write test results to some text file
 
+    def create_sip_object(self):
+        # create empty pandas dataframes to create empty object for testing
+        df_empty = pd.DataFrame()
+        # create an empty kabam object
+        sip_empty = Sip(df_empty, df_empty)
+        return sip_empty
+
     def test_sip_unit_fw_bird(self):
         """
         unittest for function sip.fw_bird:
         :return:
         """
-        expected_results = [0.0162, 0.0162, 0.0162]
-        result = [0.,0.,0.]
+        expected_results = pd.Series([0.0162, 0.0162, 0.0162], dtype='float')
+        result = pd.Series([], dtype='float')
+
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
 
         try:
             # for i in range(0,3):
             #     result[i] = sip_empty.fw_bird()
-            self.sip_empty.no_of_runs = 3
-            self.sip_empty.fw_bird()
-            result = self.sip_empty.out_fw_bird
+            sip_empty.no_of_runs = len(expected_results)
+            sip_empty.fw_bird()
+            result = sip_empty.out_fw_bird
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             tab = [result, expected_results]
@@ -75,11 +80,16 @@ class TestSip(unittest.TestCase):
         unittest for function sip.fw_mamm:
         :return:
         """
-        expected_results = [0.172, 0.172, 0.172]
-        result = [0.,0.,0.]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
+
+        expected_results = pd.Series([0.172, 0.172, 0.172], dtype='float')
+        result = pd.Series([], dtype='float')
+
         try:
-            for i in range(0,3):
-                result[i] = self.sip_empty.fw_mamm()
+            sip_empty.no_of_runs = len(expected_results)
+            result = sip_empty.fw_mamm()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             tab = [result, expected_results]
@@ -93,7 +103,13 @@ class TestSip(unittest.TestCase):
         unittest for function sip.dose_bird:
         :return:
         """
-        expected_results = [1000000., 4805.50175, 849727.21122]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
+
+        expected_results = pd.Series([1000000., 4805.50175, 849727.21122], dtype='float')
+        result = pd.Series([], dtype='float')
+
         try:
             #(self.out_fw_bird * self.solubility)/(self.bodyweight_assessed_bird / 1000.)
             sip_empty.out_fw_bird = pd.Series([10., 0.329, 1.8349], dtype='float')
@@ -113,7 +129,13 @@ class TestSip(unittest.TestCase):
         unittest for function sip.dose_mamm:
         :return:
         """
-        expected_results = [8000000., 48205.7595, 3808036.37889]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
+
+        expected_results = pd.Series([8000000., 48205.7595, 3808036.37889], dtype='float')
+        result = pd.Series([], dtype='float')
+
         try:
             #(self.out_fw_mamm * self.solubility)/(self.bodyweight_assessed_mammal / 1000)
             sip_empty.out_fw_mamm = pd.Series([20., 12.843, 6.998], dtype='float')
@@ -133,12 +155,18 @@ class TestSip(unittest.TestCase):
         unittest for function sip.at_bird:
         :return:
         """
-        expected_results = [1000., 687.9231, 109.3361]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
+
+        expected_results = pd.Series([1000., 687.9231, 109.3361], dtype='float')
+        result = pd.Series([], dtype='float')
+
         try:
             #(self.ld50_avian_water) * ((self.bodyweight_assessed_bird / self.bodyweight_tested_bird)**(self.mineau_scaling_factor - 1.))
             sip_empty.ld50_avian_water = pd.Series([2000., 938.34, 345.83], dtype='float')
             sip_empty.bodyweight_assessed_bird = pd.Series([100., 39.49, 183.54], dtype='float')
-            sip_empty.bodyweight_tested_bird = pd.Series([200., 73.473, 395.485], dtype='float')
+            sip_empty.ld50_bodyweight_tested_bird = pd.Series([200., 73.473, 395.485], dtype='float')
             sip_empty.mineau_scaling_factor = pd.Series([2., 1.5, 2.5], dtype='float')
             result = sip_empty.at_bird()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
@@ -154,11 +182,17 @@ class TestSip(unittest.TestCase):
         unittest for function sip.at_mamm:
         :return:
         """
-        expected_results = [11.89207, 214.0572, 412.6864]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
+
+        expected_results = pd.Series([11.89207, 214.0572, 412.6864], dtype='float')
+        result = pd.Series([], dtype='float')
+
         try:
             #(self.ld50_mammal_water) * ((self.bodyweight_tested_mammal / self.bodyweight_assessed_mammal)**0.25)
             sip_empty.ld50_mammal_water = pd.Series([10., 250., 500.], dtype='float')
-            sip_empty.bodyweight_tested_mammal = pd.Series([200., 39.49, 183.54], dtype='float')
+            sip_empty.ld50_bodyweight_tested_mammal = pd.Series([200., 39.49, 183.54], dtype='float')
             sip_empty.bodyweight_assessed_mammal = pd.Series([100., 73.473, 395.485], dtype='float')
             result = sip_empty.at_mamm()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
@@ -174,11 +208,17 @@ class TestSip(unittest.TestCase):
         unittest for function sip.fi_bird:
         :return:
         """
-        expected_results = [0.012999, 0.03407565, 0.025681]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
+
+        expected_results = pd.Series([0.012999, 0.026578, 0.020412], dtype='float')
+        result = pd.Series([], dtype='float')
+
         try:
             #0.0582 * ((bw_grams / 1000.)**0.651)
-            sip_empty.bw_grams = pd.Series([100., 439.43, 284.59], dtype='float')
-            result = sip_empty.fi_bird(sip_empty.bw_grams)
+            bw_grams = pd.Series([100., 300., 200.], dtype='float')
+            result = sip_empty.fi_bird(bw_grams)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             tab = [result, expected_results]
@@ -192,11 +232,17 @@ class TestSip(unittest.TestCase):
         unittest for function sip.test_act:
         :return:
         """
-        expected_results = [10.5737, 124.8032, 416.4873]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
+
+        expected_results = pd.Series([10.5737, 124.8032, 416.4873], dtype='float')
+        result = pd.Series([], dtype='float')
+
         try:
             #(self.noael_mammal_water) * ((self.bodyweight_tested_mammal / self.bodyweight_assessed_mammal)**0.25)
             sip_empty.noael_mammal_water = pd.Series([10., 120., 400.], dtype='float')
-            sip_empty.bodyweight_tested_mammal = pd.Series([500., 385.45, 673.854], dtype='float')
+            sip_empty.noael_bodyweight_tested_mammal = pd.Series([500., 385.45, 673.854], dtype='float')
             sip_empty.bodyweight_assessed_mammal = pd.Series([400., 329.45, 573.322], dtype='float')
             result = sip_empty.act()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
@@ -288,14 +334,22 @@ class TestSip(unittest.TestCase):
         #      each bird type having one minimum among the bird types;
         #      thus all four calculations result in one minimum per bird type
 
-        expected_results = [4.2174, 4.96125, 7.97237, 10.664648]
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
+
+        expected_results = pd.Series([4.2174, 4.96125, 7.97237, 10.664648], dtype='float')
+        result = pd.Series([], dtype='float')
+
         try:
+            sip_empty.bodyweight_bobwhite_quail = 178.
+            sip_empty.bodyweight_mallard_duck = 1580.
             sip_empty.noaec_quail = pd.Series([100., 300., 75., 150.], dtype='float')
             sip_empty.noaec_duck = pd.Series([400., 100., 200., 350.], dtype='float')
             sip_empty.noaec_bird_other_1 = pd.Series([50., 200., 300., 250.], dtype='float')
             sip_empty.noaec_bird_other_2 = pd.Series([350., 400., 250., 100.], dtype='float')
-            sip_empty.bodyweight_bird_other_1 = pd.Series([345.34, 453.54, 649.29, 294.56], dtype='float')
-            sip_empty.bodyweight_bird_other_2 = pd.Series([123.84, 85.743, 127.884, 176.34], dtype='float')
+            sip_empty.noaec_bodyweight_bird_other_1 = pd.Series([345.34, 453.54, 649.29, 294.56], dtype='float')
+            sip_empty.noaec_bodyweight_bird_other_2 = pd.Series([123.84, 85.743, 127.884, 176.34], dtype='float')
+            sip_empty.no_of_runs = len(expected_results)
             result = sip_empty.det()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
@@ -310,7 +364,13 @@ class TestSip(unittest.TestCase):
         unittest for function sip.acute_bird:
         :return:
         """
-        expected_results = [10., 5.22093, 0.479639]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
+
+        expected_results = pd.Series([10., 5.22093, 0.479639], dtype='float')
+        result = pd.Series([], dtype='float')
+
         try:
             # self.out_acute_bird = self.out_dose_bird / self.out_at_bird
             sip_empty.out_dose_bird = pd.Series([100., 121.23, 43.994], dtype='float')
@@ -338,10 +398,16 @@ class TestSip(unittest.TestCase):
         #     self.out_acuconb = ('Drinking water exposure alone is NOT a potential concern for birds')
         # else:
         #     self.out_acuconb = ('Exposure through drinking water alone is a potential concern for birds')
+
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
+
         expected_results = pd.Series(["Exposure through drinking water alone is a potential concern "
                             "for birds", "Drinking water exposure alone is NOT a potential "
                             "concern for birds", "Exposure through drinking water alone is a "
-                            "potential concern for birds"])
+                            "potential concern for birds"], dtype='object')
+        result = pd.Series([], dtype='object')
+
         try:
             sip_empty.out_acute_bird = pd.Series([0.2, 0.09, 0.1], dtype='float')
             result = sip_empty.acuconb()
@@ -359,7 +425,13 @@ class TestSip(unittest.TestCase):
         :return:
         """
         # self.out_acute_mamm = self.out_dose_mamm / self.out_at_mamm
-        expected_results = [10., 14.68657, 2.124852]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
+
+        expected_results = pd.Series([10., 14.68657, 2.124852], dtype='float')
+        result = pd.Series([], dtype='float')
+
         try:
             sip_empty.out_dose_mamm = pd.Series([100., 34.44, 159.349], dtype='float')
             sip_empty.out_at_mamm = pd.Series([10., 2.345, 74.993], dtype='float')
@@ -387,12 +459,18 @@ class TestSip(unittest.TestCase):
         #     else:
         #         self.out_acuconm = ('Exposure through drinking water alone is a potential concern for mammals')
         #     return self.out_acuconm
+
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
+
         expected_results = pd.Series(["Drinking water exposure alone is NOT a potential concern "
                                       "for mammals", "Exposure through drinking water alone is a "
                                       "potential concern for mammals", "Drinking water exposure "
-                                      "alone is NOT a potential concern for mammals"])
+                                      "alone is NOT a potential concern for mammals"], dtype='object')
+        result = pd.Series([], dtype='object')
+
         try:
-            sip_empty.out_acute_mamm = pd.Series([0.09, 0.2, 0.002])
+            sip_empty.out_acute_mamm = pd.Series([0.09, 0.2, 0.002], dtype='float')
             result = sip_empty.acuconm()
             pdt.assert_series_equal(result, expected_results, True)
         finally:
@@ -408,7 +486,13 @@ class TestSip(unittest.TestCase):
         :return:
         """
         #self.out_chron_bird = self.out_dose_bird / self.out_det
-        expected_results = [0.5, 0.10891, 2.39857]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
+
+        expected_results = pd.Series([0.5, 0.10891, 2.39857], dtype='float')
+        result = pd.Series([], dtype='float')
+
         try:
             sip_empty.out_dose_bird = pd.Series([5., 1.32, 19.191], dtype='float')
             sip_empty.out_det = pd.Series([10., 12.12, 8.001], dtype='float')
@@ -426,11 +510,17 @@ class TestSip(unittest.TestCase):
         unittest for function sip.chronconb:
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
+
         expected_results = pd.Series(["Drinking water exposure alone is NOT "
                                       "a potential concern for birds", "Exposure through "
                                       "drinking water alone is a potential concern for "
                                       "birds", "Drinking water exposure alone is NOT a "
-                                      "potential concern for birds"])
+                                      "potential concern for birds"], dtype='object')
+        result = pd.Series([], dtype='object')
+
         try:
             sip_empty.out_chron_bird = pd.Series([0.12, 3., 0.97], dtype='float')
             result = sip_empty.chronconb()
@@ -448,7 +538,13 @@ class TestSip(unittest.TestCase):
         :return:
         """
         # self.out_chron_mamm = self.out_dose_mamm / self.out_act
-        expected_results = [2.0, 14.1333, 244.7245]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
+
+        expected_results = pd.Series([2.0, 14.1333, 244.7245], dtype='float')
+        result = pd.Series([], dtype='float')
+
         try:
             sip_empty.out_dose_mamm = pd.Series([8., 34.344, 23.983], dtype='float')
             sip_empty.out_act = pd.Series([4., 2.43, 0.098], dtype='float')
@@ -466,10 +562,16 @@ class TestSip(unittest.TestCase):
         unittest for function sip.chronconm:
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        sip_empty = self.create_sip_object()
+
         expected_results = pd.Series(["Drinking water exposure alone is NOT a potential "
                             "concern for mammals", "Exposure through drinking water alone "
                             "is a potential concern for mammals", "Drinking water exposure "
-                            "alone is NOT a potential concern for mammals"])
+                            "alone is NOT a potential concern for mammals"], dtype='object')
+        result = pd.Series([], dtype='object')
+
         try:
             sip_empty.out_chron_mamm = pd.Series([0.5, 1.0, 0.09], dtype='float')
             result = sip_empty.chronconm()

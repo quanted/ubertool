@@ -12,11 +12,6 @@ parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.par
 sys.path.append(parentddir)
 from earthworm_exe import Earthworm
 
-# create empty pandas dataframes to create empty earthworm object for testing
-df_empty = pd.DataFrame()
-# create an empty earthworm object
-earthworm_empty = Earthworm(df_empty, df_empty)
-
 test = {}
 
 
@@ -43,14 +38,25 @@ class TestEarthworm(unittest.TestCase):
         """
         pass
 
+    def create_earthworm_object(self):
+        # create empty pandas dataframes to create empty object for testing
+        df_empty = pd.DataFrame()
+        # create an empty kabam object
+        earthworm_empty = Earthworm(df_empty, df_empty)
+        return earthworm_empty
+
     def test_earthworm_fugacity_unit(self):
         """
         Test the only real earthworm method.
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        earthworm_empty = self.create_earthworm_object()
+
         try:
             expected_results = [0.73699363, 1.908571, 5.194805]
-            earthworm_empty.k_ow = pd.Series([10.0, 100.0, 1000.0  ])
+            earthworm_empty.k_ow = pd.Series([10.0, 100.0, 1000.0])
             earthworm_empty.l_f_e = pd.Series([0.01, 0.02, 0.03])
             earthworm_empty.c_s = pd.Series([0.038692165, 0.05344, 0.10])
             earthworm_empty.k_d = pd.Series([0.0035, 0.035, 0.35])

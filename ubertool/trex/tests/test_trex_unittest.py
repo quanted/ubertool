@@ -30,13 +30,6 @@ class TestTrex(unittest.TestCase):
         Setup routine for trex unit tests.
         :return:
         """
-
-        self.trex_empty = object
-        # create empty pandas dataframes to create empty object for testing
-        df_empty = pd.DataFrame()
-        # create an empty trex object
-        self.trex_empty = Trex(df_empty, df_empty)
-
         pass
         # setup the test as needed
         # e.g. pandas to open trex qaqc csv
@@ -51,20 +44,31 @@ class TestTrex(unittest.TestCase):
         # teardown called after each test
         # e.g. maybe write test results to some text file
 
+    def create_trex_object(self):
+        # create empty pandas dataframes to create empty object for testing
+        df_empty = pd.DataFrame()
+        # create an empty kabam object
+        trex_empty = Trex(df_empty, df_empty)
+        return trex_empty
+
     def test_app_rate_parsing(self):
         """
         unittest for function app_rate_testing:
         method extracts 1st and maximum from each list in a series of lists of app rates
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
         expected_results = pd.Series([], dtype="object")
         result = pd.Series([], dtype="object")
         expected_results = [[0.34, 0.78, 2.34], [0.34, 3.54, 2.34]]
         try:
-            self.trex_empty.app_rates = pd.Series([[0.34], [0.78, 3.54], [2.34, 1.384, 2.22]], dtype='object')
+            trex_empty.app_rates = pd.Series([[0.34], [0.78, 3.54], [2.34, 1.384, 2.22]], dtype='object')
             #trex_empty.app_rates = ([[0.34], [0.78, 3.54], [2.34, 1.384, 2.22]])
             # parse app_rates Series of lists
-            self.trex_empty.app_rate_parsing()
-            result = [self.trex_empty.first_app_rate, self.trex_empty.max_app_rate]
+            trex_empty.app_rate_parsing()
+            result = [trex_empty.first_app_rate, trex_empty.max_app_rate]
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -78,17 +82,21 @@ class TestTrex(unittest.TestCase):
         unittest for function conc_initial:
         conc_0 = (app_rate * self.frac_act_ing * food_multiplier)
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
         result = pd.Series([], dtype = 'float')
         expected_results = [12.7160, 9.8280, 11.2320]
         try:
                 # specify an app_rates Series (that is a series of lists, each list representing
                 # a set of application rates for 'a' model simulation)
-            self.trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                               [2.34, 1.384, 3.4]], dtype='float')
-            self.trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            for i in range(len(self.trex_empty.frac_act_ing)):
-                result[i] = self.trex_empty.conc_initial(i, self.trex_empty.app_rates[i][0], self.trex_empty.food_multiplier_init_sg[i])
+            trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            for i in range(len(trex_empty.frac_act_ing)):
+                result[i] = trex_empty.conc_initial(i, trex_empty.app_rates[i][0], trex_empty.food_multiplier_init_sg[i])
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -101,13 +109,17 @@ class TestTrex(unittest.TestCase):
         """
         unittest for function conc_timestep:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
         result = pd.Series([], dtype = 'float')
         expected_results = [6.25e-5, 0.039685, 7.8886e-30]
         try:
-            self.trex_empty.foliar_diss_hlife = pd.Series([.25, 0.75, 0.01], dtype='float')
+            trex_empty.foliar_diss_hlife = pd.Series([.25, 0.75, 0.01], dtype='float')
             conc_0 = pd.Series([0.001, 0.1, 10.0])
             for i in range(len(conc_0)):
-                result[i] = self.trex_empty.conc_timestep(i, conc_0[i])
+                result[i] = trex_empty.conc_timestep(i, conc_0[i])
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -120,10 +132,14 @@ class TestTrex(unittest.TestCase):
         """
         unittest for function percent_to_frac:
         """
-        expected_results = [.04556, .1034, .9389]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([.04556, .1034, .9389], dtype='float')
         try:
-            self.trex_empty.percent_incorp = pd.Series([4.556, 10.34, 93.89], dtype='float')
-            result = self.trex_empty.percent_to_frac(self.trex_empty.percent_incorp)
+            trex_empty.percent_incorp = pd.Series([4.556, 10.34, 93.89], dtype='float')
+            result = trex_empty.percent_to_frac(trex_empty.percent_incorp)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -136,10 +152,14 @@ class TestTrex(unittest.TestCase):
         """
         unittest for function inches_to_feet:
         """
-        expected_results = [0.37966, 0.86166, 7.82416]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([0.37966, 0.86166, 7.82416], dtype='float')
         try:
-            self.trex_empty.bandwidth = pd.Series([4.556, 10.34, 93.89], dtype='float')
-            result = self.trex_empty.inches_to_feet(self.trex_empty.bandwidth)
+            trex_empty.bandwidth = pd.Series([4.556, 10.34, 93.89], dtype='float')
+            result = trex_empty.inches_to_feet(trex_empty.bandwidth)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -153,16 +173,20 @@ class TestTrex(unittest.TestCase):
         unittest for function at_bird:
         adjusted_toxicity = self.ld50_bird * (aw_bird / self.tw_bird_ld50) ** (self.mineau_sca_fact - 1)
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
         result = pd.Series([], dtype = 'float')
-        expected_results = [69.17640, 146.8274, 56.00997]
+        expected_results = pd.Series([69.17640, 146.8274, 56.00997], dtype='float')
         try:
-            self.trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            self.trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            self.trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
             # following variable is unique to at_bird and is thus sent via arg list
-            self.trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
-            for i in range(len(self.trex_empty.aw_bird_sm)):
-                result[i] = self.trex_empty.at_bird(i, self.trex_empty.aw_bird_sm[i])
+            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            for i in range(len(trex_empty.aw_bird_sm)):
+                result[i] = trex_empty.at_bird(i, trex_empty.aw_bird_sm[i])
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -176,16 +200,20 @@ class TestTrex(unittest.TestCase):
         unittest for function at_bird1; alternative approach using more vectorization:
         adjusted_toxicity = self.ld50_bird * (aw_bird / self.tw_bird_ld50) ** (self.mineau_sca_fact - 1)
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
         result = pd.Series([], dtype = 'float')
-        expected_results = [69.17640, 146.8274, 56.00997]
+        expected_results = pd.Series([69.17640, 146.8274, 56.00997], dtype='float')
         try:
-            self.trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            self.trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            self.trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            self.trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
-            # for i in range(len(self.trex_empty.aw_bird_sm)):
-            #     result[i] = self.trex_empty.at_bird(i, self.trex_empty.aw_bird_sm[i])
-            result = self.trex_empty.at_bird1(self.trex_empty.aw_bird_sm)
+            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            # for i in range(len(trex_empty.aw_bird_sm)):
+            #     result[i] = trex_empty.at_bird(i, trex_empty.aw_bird_sm[i])
+            result = trex_empty.at_bird1(trex_empty.aw_bird_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -199,13 +227,17 @@ class TestTrex(unittest.TestCase):
         unittest for function fi_bird:
         food_intake = (0.648 * (aw_bird ** 0.651)) / (1 - mf_w_bird)
         """
-        expected_results = [4.19728, 22.7780, 59.31724]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([4.19728, 22.7780, 59.31724], dtype='float')
         try:
 #?? 'mf_w_bird_1' is a constant (i.e., not an input whose value changes per model simulation run); thus it should
 #?? be specified here as a constant and not a pd.series -- if this is correct then go ahead and change next line
-            self.trex_empty.mf_w_bird_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
-            self.trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
-            result = self.trex_empty.fi_bird(self.trex_empty.aw_bird_sm, self.trex_empty.mf_w_bird_1)
+            trex_empty.mf_w_bird_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
+            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            result = trex_empty.fi_bird(trex_empty.aw_bird_sm, trex_empty.mf_w_bird_1)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -221,15 +253,18 @@ class TestTrex(unittest.TestCase):
         risk_quotient = m_s_a_r / self.noaec_bird
         """
 
-        expected_results = [6.637969, 77.805, 34.96289, np.nan]
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([6.637969, 77.805, 34.96289, np.nan], dtype='float')
         try:
-            self.trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                 [2.34, 1.384, 3.4], [3.]], dtype='object')
-            self.trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
-            self.trex_empty.frac_act_ing = pd.Series([0.15, 0.20, 0.34, np.nan], dtype='float')
-            self.trex_empty.density = pd.Series([8.33, 7.98, 6.75, np.nan], dtype='float')
-            self.trex_empty.noaec_bird = pd.Series([5., 1.25, 12., np.nan], dtype='float')
-            result = self.trex_empty.sc_bird()
+            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            trex_empty.frac_act_ing = pd.Series([0.15, 0.20, 0.34, np.nan], dtype='float')
+            trex_empty.density = pd.Series([8.33, 7.98, 6.75, np.nan], dtype='float')
+            trex_empty.noaec_bird = pd.Series([5., 1.25, 12., np.nan], dtype='float')
+            result = trex_empty.sc_bird()
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -242,6 +277,10 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function sa_bird_1
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
         result_sm = pd.Series([], dtype = 'float')
         result_md = pd.Series([], dtype = 'float')
         result_lg = pd.Series([], dtype = 'float')
@@ -251,35 +290,35 @@ class TestTrex(unittest.TestCase):
         expected_results_lg = pd.Series([0.037707, 0.269804, 0.01199], dtype = 'float')
 
         try:
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            self.trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='float')
-            self.trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
-            self.trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
+            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            self.trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            self.trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            self.trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
 
-            self.trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
-            self.trex_empty.aw_bird_md = pd.Series([115., 120., 130.], dtype='float')
-            self.trex_empty.aw_bird_lg = pd.Series([1015., 1020., 1030.], dtype='float')
+            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.aw_bird_md = pd.Series([115., 120., 130.], dtype='float')
+            trex_empty.aw_bird_lg = pd.Series([1015., 1020., 1030.], dtype='float')
 
             #reitierate constants here (they have been set in 'trex_inputs'; repeated here for clarity)
-            self.trex_empty.mf_w_bird_1 = 0.1
-            self.trex_empty.nagy_bird_coef_sm = 0.02
-            self.trex_empty.nagy_bird_coef_md = 0.1
-            self.trex_empty.nagy_bird_coef_lg = 1.0
+            trex_empty.mf_w_bird_1 = 0.1
+            trex_empty.nagy_bird_coef_sm = 0.02
+            trex_empty.nagy_bird_coef_md = 0.1
+            trex_empty.nagy_bird_coef_lg = 1.0
 
-            result_sm = self.trex_empty.sa_bird_1("small")
+            result_sm = trex_empty.sa_bird_1("small")
             npt.assert_allclose(result_sm,expected_results_sm,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_md = self.trex_empty.sa_bird_1("medium")
+            result_md = trex_empty.sa_bird_1("medium")
             npt.assert_allclose(result_md,expected_results_md,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_lg = self.trex_empty.sa_bird_1("large")
+            result_lg = trex_empty.sa_bird_1("large")
             npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab_sm = [result_sm, expected_results_sm]
@@ -296,6 +335,10 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function sa_bird_2
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
         result_sm = pd.Series([], dtype = 'float')
         result_md = pd.Series([], dtype = 'float')
         result_lg = pd.Series([], dtype = 'float')
@@ -305,35 +348,35 @@ class TestTrex(unittest.TestCase):
         expected_results_lg =pd.Series([2.001591e-4, 8.602729e-4, 8.66163e-5], dtype = 'float')
 
         try:
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            self.trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            self.trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
-            self.trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
-            self.trex_empty.max_seed_rate = pd.Series([33.19, 20.0, 45.6])
+            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
+            trex_empty.max_seed_rate = pd.Series([33.19, 20.0, 45.6])
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            self.trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            self.trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            self.trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
 
-            self.trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
-            self.trex_empty.aw_bird_md = pd.Series([115., 120., 130.], dtype='float')
-            self.trex_empty.aw_bird_lg = pd.Series([1015., 1020., 1030.], dtype='float')
+            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.aw_bird_md = pd.Series([115., 120., 130.], dtype='float')
+            trex_empty.aw_bird_lg = pd.Series([1015., 1020., 1030.], dtype='float')
 
             #reitierate constants here (they have been set in 'trex_inputs'; repeated here for clarity)
-            self.trex_empty.nagy_bird_coef_sm = 0.02
-            self.trex_empty.nagy_bird_coef_md = 0.1
-            self.trex_empty.nagy_bird_coef_lg = 1.0
+            trex_empty.nagy_bird_coef_sm = 0.02
+            trex_empty.nagy_bird_coef_md = 0.1
+            trex_empty.nagy_bird_coef_lg = 1.0
 
-            result_sm = self.trex_empty.sa_bird_2("small")
+            result_sm = trex_empty.sa_bird_2("small")
             npt.assert_allclose(result_sm,expected_results_sm,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_md = self.trex_empty.sa_bird_2("medium")
+            result_md = trex_empty.sa_bird_2("medium")
             npt.assert_allclose(result_md,expected_results_md,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_lg = self.trex_empty.sa_bird_2("large")
+            result_lg = trex_empty.sa_bird_2("large")
             npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab_sm = [result_sm, expected_results_sm]
@@ -350,6 +393,10 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function sa_mamm_1
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
         result_sm = pd.Series([], dtype = 'float')
         result_md = pd.Series([], dtype = 'float')
         result_lg = pd.Series([], dtype = 'float')
@@ -359,34 +406,34 @@ class TestTrex(unittest.TestCase):
         expected_results_lg =pd.Series([0.010471, 0.204631, 0.002715], dtype = 'float')
 
         try:
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            self.trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            self.trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
-            self.trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
+            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            self.trex_empty.tw_mamm = pd.Series([350., 225., 390.], dtype='float')
-            self.trex_empty.ld50_mamm = pd.Series([321., 100., 400.], dtype='float')
+            trex_empty.tw_mamm = pd.Series([350., 225., 390.], dtype='float')
+            trex_empty.ld50_mamm = pd.Series([321., 100., 400.], dtype='float')
 
-            self.trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
-            self.trex_empty.aw_mamm_md = pd.Series([35., 45., 25.], dtype='float')
-            self.trex_empty.aw_mamm_lg = pd.Series([1015., 1020., 1030.], dtype='float')
+            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.aw_mamm_md = pd.Series([35., 45., 25.], dtype='float')
+            trex_empty.aw_mamm_lg = pd.Series([1015., 1020., 1030.], dtype='float')
 
             #reitierate constants here (they have been set in 'trex_inputs'; repeated here for clarity)
-            self.trex_empty.mf_w_bird_1 = 0.1
-            self.trex_empty.nagy_mamm_coef_sm = 0.015
-            self.trex_empty.nagy_mamm_coef_md = 0.035
-            self.trex_empty.nagy_mamm_coef_lg = 1.0
+            trex_empty.mf_w_bird_1 = 0.1
+            trex_empty.nagy_mamm_coef_sm = 0.015
+            trex_empty.nagy_mamm_coef_md = 0.035
+            trex_empty.nagy_mamm_coef_lg = 1.0
 
-            result_sm = self.trex_empty.sa_mamm_1("small")
+            result_sm = trex_empty.sa_mamm_1("small")
             npt.assert_allclose(result_sm,expected_results_sm,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_md = self.trex_empty.sa_mamm_1("medium")
+            result_md = trex_empty.sa_mamm_1("medium")
             npt.assert_allclose(result_md,expected_results_md,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_lg = self.trex_empty.sa_mamm_1("large")
+            result_lg = trex_empty.sa_mamm_1("large")
             npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab_sm = [result_sm, expected_results_sm]
@@ -403,6 +450,10 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function sa_mamm_2
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
         result_sm = pd.Series([], dtype = 'float')
         result_md = pd.Series([], dtype = 'float')
         result_lg = pd.Series([], dtype = 'float')
@@ -412,35 +463,35 @@ class TestTrex(unittest.TestCase):
         expected_results_lg =pd.Series([1.0592147e-4, 1.24391489e-3, 3.74263186e-5], dtype = 'float')
 
         try:
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            self.trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            self.trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
-            self.trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
-            self.trex_empty.max_seed_rate = pd.Series([33.19, 20.0, 45.6])
+            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
+            trex_empty.max_seed_rate = pd.Series([33.19, 20.0, 45.6])
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            self.trex_empty.tw_mamm = pd.Series([350., 225., 390.], dtype='float')
-            self.trex_empty.ld50_mamm = pd.Series([321., 100., 400.], dtype='float')
+            trex_empty.tw_mamm = pd.Series([350., 225., 390.], dtype='float')
+            trex_empty.ld50_mamm = pd.Series([321., 100., 400.], dtype='float')
 
-            self.trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
-            self.trex_empty.aw_mamm_md = pd.Series([35., 45., 25.], dtype='float')
-            self.trex_empty.aw_mamm_lg = pd.Series([1015., 1020., 1030.], dtype='float')
+            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.aw_mamm_md = pd.Series([35., 45., 25.], dtype='float')
+            trex_empty.aw_mamm_lg = pd.Series([1015., 1020., 1030.], dtype='float')
 
             #reitierate constants here (they have been set in 'trex_inputs'; repeated here for clarity)
-            self.trex_empty.mf_w_mamm_1 = 0.1
-            self.trex_empty.nagy_mamm_coef_sm = 0.015
-            self.trex_empty.nagy_mamm_coef_md = 0.035
-            self.trex_empty.nagy_mamm_coef_lg = 1.0
+            trex_empty.mf_w_mamm_1 = 0.1
+            trex_empty.nagy_mamm_coef_sm = 0.015
+            trex_empty.nagy_mamm_coef_md = 0.035
+            trex_empty.nagy_mamm_coef_lg = 1.0
 
-            result_sm = self.trex_empty.sa_mamm_2("small")
+            result_sm = trex_empty.sa_mamm_2("small")
             npt.assert_allclose(result_sm,expected_results_sm,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_md = self.trex_empty.sa_mamm_2("medium")
+            result_md = trex_empty.sa_mamm_2("medium")
             npt.assert_allclose(result_md,expected_results_md,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_lg = self.trex_empty.sa_mamm_2("large")
+            result_lg = trex_empty.sa_mamm_2("large")
             npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab_sm = [result_sm, expected_results_sm]
@@ -457,6 +508,10 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function sc_mamm
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
         result_sm = pd.Series([], dtype = 'float')
         result_md = pd.Series([], dtype = 'float')
         result_lg = pd.Series([], dtype = 'float')
@@ -466,34 +521,34 @@ class TestTrex(unittest.TestCase):
         expected_results_lg =pd.Series([1.344461, 5.846592, 2.172211], dtype = 'float')
 
         try:
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            self.trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            self.trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
-            self.trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
+            trex_empty.app_rate_parsing()  #get 'first_app_rate' per model simulation run
+            trex_empty.density = pd.Series([8.33, 7.98, 6.75], dtype='float')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            self.trex_empty.tw_mamm = pd.Series([350., 225., 390.], dtype='float')
-            self.trex_empty.noael_mamm = pd.Series([2.5, 3.5, 0.5], dtype='float')
+            trex_empty.tw_mamm = pd.Series([350., 225., 390.], dtype='float')
+            trex_empty.noael_mamm = pd.Series([2.5, 3.5, 0.5], dtype='float')
 
-            self.trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
-            self.trex_empty.aw_mamm_md = pd.Series([35., 45., 25.], dtype='float')
-            self.trex_empty.aw_mamm_lg = pd.Series([1015., 1020., 1030.], dtype='float')
+            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.aw_mamm_md = pd.Series([35., 45., 25.], dtype='float')
+            trex_empty.aw_mamm_lg = pd.Series([1015., 1020., 1030.], dtype='float')
 
             #reitierate constants here (they have been set in 'trex_inputs'; repeated here for clarity)
-            self.trex_empty.mf_w_mamm_1 = 0.1
-            self.trex_empty.nagy_mamm_coef_sm = 0.015
-            self.trex_empty.nagy_mamm_coef_md = 0.035
-            self.trex_empty.nagy_mamm_coef_lg = 1.0
+            trex_empty.mf_w_mamm_1 = 0.1
+            trex_empty.nagy_mamm_coef_sm = 0.015
+            trex_empty.nagy_mamm_coef_md = 0.035
+            trex_empty.nagy_mamm_coef_lg = 1.0
 
-            result_sm = self.trex_empty.sc_mamm("small")
+            result_sm = trex_empty.sc_mamm("small")
             npt.assert_allclose(result_sm,expected_results_sm,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_md = self.trex_empty.sc_mamm("medium")
+            result_md = trex_empty.sc_mamm("medium")
             npt.assert_allclose(result_md,expected_results_md,rtol=1e-4, atol=0, err_msg='', verbose=True)
 
-            result_lg = self.trex_empty.sc_mamm("large")
+            result_lg = trex_empty.sc_mamm("large")
             npt.assert_allclose(result_lg,expected_results_lg,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab_sm = [result_sm, expected_results_sm]
@@ -510,29 +565,33 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function ld50_rg_bird (LD50ft-2 for Row/Band/In-furrow granular birds)
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
         result = pd.Series([], dtype = 'float')
-        expected_results = [346.4856, 25.94132, np.nan]
+        expected_results = pd.Series([346.4856, 25.94132, np.nan], dtype='float')
         try:
             # following parameter values are unique for ld50_bg_bird
-            self.trex_empty.application_type = pd.Series(['Row/Band/In-furrow-Granular',
+            trex_empty.application_type = pd.Series(['Row/Band/In-furrow-Granular',
                                                      'Row/Band/In-furrow-Granular',
                                                      'Row/Band/In-furrow-Liquid'], dtype='object')
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            self.trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            self.trex_empty.app_rate_parsing()  #get 'max app rate' per model simulation run
-            self.trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
-            self.trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
-            self.trex_empty.row_spacing = pd.Series([20., 32., 50.], dtype = 'float')
+            trex_empty.app_rate_parsing()  #get 'max app rate' per model simulation run
+            trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
+            trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
+            trex_empty.row_spacing = pd.Series([20., 32., 50.], dtype = 'float')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            self.trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            self.trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            self.trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            self.trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = self.trex_empty.ld50_rg_bird(self.trex_empty.aw_bird_sm)
+            result = trex_empty.ld50_rg_bird(trex_empty.aw_bird_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
                                 equal_nan=True, err_msg='', verbose=True)
         finally:
@@ -553,29 +612,33 @@ class TestTrex(unittest.TestCase):
         --number of the application_types apply to this method; thus I conclude we continue to use the non-vectorized
         --approach  -- should be revisited when we have a large run to execute
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
         result = pd.Series([], dtype = 'float')
-        expected_results = [346.4856, 25.94132, np.nan]
+        expected_results = pd.Series([346.4856, 25.94132, np.nan], dtype='float')
         try:
             # following parameter values are unique for ld50_bg_bird
-            self.trex_empty.application_type = pd.Series(['Row/Band/In-furrow-Granular',
+            trex_empty.application_type = pd.Series(['Row/Band/In-furrow-Granular',
                                                      'Row/Band/In-furrow-Granular',
                                                      'Row/Band/In-furrow-Liquid'], dtype='object')
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            self.trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            self.trex_empty.app_rate_parsing()  #get 'max app rate' per model simulation run
-            self.trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
-            self.trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
-            self.trex_empty.row_spacing = pd.Series([20., 32., 50.], dtype = 'float')
+            trex_empty.app_rate_parsing()  #get 'max app rate' per model simulation run
+            trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
+            trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
+            trex_empty.row_spacing = pd.Series([20., 32., 50.], dtype = 'float')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            self.trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            self.trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            self.trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            self.trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = self.trex_empty.ld50_rg_bird1(self.trex_empty.aw_bird_sm)
+            result = trex_empty.ld50_rg_bird1(trex_empty.aw_bird_sm)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, equal_nan=True, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -588,23 +651,27 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function ld50_bl_bird (LD50ft-2 for broadcast liquid birds)
         """
-        expected_results = [46.19808, 33.77777, np.nan]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([46.19808, 33.77777, np.nan], dtype='float')
         try:
             # following parameter values are unique for ld50_bl_bird
-            self.trex_empty.application_type = pd.Series(['Broadcast-Liquid', 'Broadcast-Liquid',
+            trex_empty.application_type = pd.Series(['Broadcast-Liquid', 'Broadcast-Liquid',
                                                      'Non-Broadcast'], dtype='object')
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            self.trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            self.trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            self.trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            self.trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            self.trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = self.trex_empty.ld50_bl_bird(self.trex_empty.aw_bird_sm)
+            result = trex_empty.ld50_bl_bird(trex_empty.aw_bird_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
                                 err_msg='', verbose=True, equal_nan=True)
         finally:
@@ -618,24 +685,28 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function ld50_bg_bird (LD50ft-2 for broadcast granular)
         """
-        expected_results = [46.19808, np.nan, 0.4214033]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([46.19808, np.nan, 0.4214033], dtype='float')
         try:
             # following parameter values are unique for ld50_bg_bird
-            self.trex_empty.application_type = pd.Series(['Broadcast-Granular', 'Broadcast-Liquid',
+            trex_empty.application_type = pd.Series(['Broadcast-Granular', 'Broadcast-Liquid',
                                                      'Broadcast-Granular'], dtype='object')
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            self.trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            self.trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            self.trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            self.trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            self.trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = self.trex_empty.ld50_bg_bird(self.trex_empty.aw_bird_sm)
+            result = trex_empty.ld50_bg_bird(trex_empty.aw_bird_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
                                 err_msg='', verbose=True, equal_nan=True)
         finally:
@@ -649,25 +720,29 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function ld50_rl_bird (LD50ft-2 for Row/Band/In-furrow liquid birds)
         """
-        expected_results = [np.nan, 2.20701, 0.0363297]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([np.nan, 2.20701, 0.0363297], dtype='float')
         try:
             # following parameter values are unique for ld50_bg_bird
-            self.trex_empty.application_type = pd.Series(['Broadcast-Granular', 'Row/Band/In-furrow-Liquid',
+            trex_empty.application_type = pd.Series(['Broadcast-Granular', 'Row/Band/In-furrow-Liquid',
                                                      'Row/Band/In-furrow-Liquid'], dtype='object')
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            self.trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            self.trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
-            self.trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
+            trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
+            trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
 
             # following parameter values are needed for internal call to "test_at_bird"
             # results from "test_at_bird"  test using these values are [69.17640, 146.8274, 56.00997]
-            self.trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            self.trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            self.trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            self.trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = self.trex_empty.ld50_rl_bird(self.trex_empty.aw_bird_sm)
+            result = trex_empty.ld50_rl_bird(trex_empty.aw_bird_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
                                 err_msg='', verbose=True, equal_nan=True)
         finally:
@@ -682,14 +757,18 @@ class TestTrex(unittest.TestCase):
         unittest for function at_mamm:
         adjusted_toxicity = self.ld50_mamm * ((self.tw_mamm / aw_mamm) ** 0.25)
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
         result = pd.Series([], dtype = 'float')
-        expected_results = [705.5036, 529.5517, 830.6143]
+        expected_results = pd.Series([705.5036, 529.5517, 830.6143], dtype='float')
         try:
-            self.trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
-            self.trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
-            self.trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
-            for i in range(len(self.trex_empty.ld50_mamm)):
-                result[i] = self.trex_empty.at_mamm(i, self.trex_empty.aw_mamm_sm[i])
+            trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
+            trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
+            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            for i in range(len(trex_empty.ld50_mamm)):
+                result[i] = trex_empty.at_mamm(i, trex_empty.aw_mamm_sm[i])
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -703,12 +782,16 @@ class TestTrex(unittest.TestCase):
         unittest for function anoael_mamm:
         adjusted_toxicity = self.noael_mamm * ((self.tw_mamm / aw_mamm) ** 0.25)
         """
-        expected_results = [5.49457, 9.62821, 2.403398]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([5.49457, 9.62821, 2.403398], dtype='float')
         try:
-            self.trex_empty.noael_mamm = pd.Series([2.5, 5.0, 1.25], dtype='float')
-            self.trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
-            self.trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
-            result = self.trex_empty.anoael_mamm(self.trex_empty.aw_mamm_sm)
+            trex_empty.noael_mamm = pd.Series([2.5, 5.0, 1.25], dtype='float')
+            trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
+            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            result = trex_empty.anoael_mamm(trex_empty.aw_mamm_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -722,11 +805,15 @@ class TestTrex(unittest.TestCase):
         unittest for function fi_mamm:
         food_intake = (0.621 * (aw_mamm ** 0.564)) / (1 - mf_w_mamm)
         """
-        expected_results = [3.17807, 16.8206, 42.28516]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([3.17807, 16.8206, 42.28516], dtype='float')
         try:
-            self.trex_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
-            self.trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
-            result = self.trex_empty.fi_mamm(self.trex_empty.aw_mamm_sm, self.trex_empty.mf_w_mamm_1)
+            trex_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
+            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            result = trex_empty.fi_mamm(trex_empty.aw_mamm_sm, trex_empty.mf_w_mamm_1)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -739,22 +826,26 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function ld50_bl_mamm (LD50ft-2 for broadcast liquid)
         """
-        expected_results = [4.52983, 9.36547, np.nan]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([4.52983, 9.36547, np.nan], dtype='float')
         try:
             # following parameter values are unique for ld50_bl_mamm
-            self.trex_empty.application_type = pd.Series(['Broadcast-Liquid', 'Broadcast-Liquid',
+            trex_empty.application_type = pd.Series(['Broadcast-Liquid', 'Broadcast-Liquid',
                                                      'Non-Broadcast'], dtype='object')
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            self.trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
 
             # following parameter values are needed for internal call to "test_at_mamm"
             # results from "test_at_mamm"  test using these values are [705.5036, 529.5517, 830.6143]
-            self.trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
-            self.trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
-            self.trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
+            trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
+            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = self.trex_empty.ld50_bl_mamm(self.trex_empty.aw_mamm_sm)
+            result = trex_empty.ld50_bl_mamm(trex_empty.aw_mamm_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='',
                                 verbose=True, equal_nan=True)
         finally:
@@ -768,22 +859,26 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function ld50_bg_mamm (LD50ft-2 for broadcast granular)
         """
-        expected_results = [4.52983, 9.36547, np.nan]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([4.52983, 9.36547, np.nan], dtype='float')
         try:
             # following parameter values are unique for ld50_bl_mamm
-            self.trex_empty.application_type = pd.Series(['Broadcast-Granular', 'Broadcast-Granular',
+            trex_empty.application_type = pd.Series(['Broadcast-Granular', 'Broadcast-Granular',
                                                      'Broadcast-Liquid'], dtype='object')
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            self.trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
 
             # following parameter values are needed for internal call to "at_mamm"
             # results from "test_at_mamm"  test using these values are [705.5036, 529.5517, 830.6143]
-            self.trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
-            self.trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
-            self.trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
+            trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
+            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = self.trex_empty.ld50_bg_mamm(self.trex_empty.aw_mamm_sm)
+            result = trex_empty.ld50_bg_mamm(trex_empty.aw_mamm_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
                                 err_msg='', verbose=True, equal_nan=True)
         finally:
@@ -797,25 +892,29 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function ld50_rl_mamm (LD50ft-2 for Row/Band/In-furrow liquid mammals)
         """
-        expected_results = [np.nan, 0.6119317, 0.0024497]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([np.nan, 0.6119317, 0.0024497], dtype='float')
         try:
             # following parameter values are unique for ld50_bl_mamm
-            self.trex_empty.application_type = pd.Series(['Broadcast-Granular',
+            trex_empty.application_type = pd.Series(['Broadcast-Granular',
                                                      'Row/Band/In-furrow-Liquid',
                                                      'Row/Band/In-furrow-Liquid',], dtype='object')
-            self.trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            self.trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
 
             # following parameter values are needed for internal call to "at_mamm"
             # results from "test_at_mamm"  test using these values are [705.5036, 529.5517, 830.6143]
-            self.trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
-            self.trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
-            self.trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
-            self.trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
+            trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
+            trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
+            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
 
-            result = self.trex_empty.ld50_rl_mamm(self.trex_empty.aw_mamm_sm)
+            result = trex_empty.ld50_rl_mamm(trex_empty.aw_mamm_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
                                 err_msg='', verbose=True, equal_nan=True)
         finally:
@@ -829,26 +928,30 @@ class TestTrex(unittest.TestCase):
         """
         # unit test for function ld50_rg_mamm
         """
-        expected_results = [33.9737, 7.192681, np.nan]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([33.9737, 7.192681, np.nan], dtype='float')
         try:
             # following parameter values are unique for ld50_bl_mamm
-            self.trex_empty.application_type = pd.Series(['Row/Band/In-furrow-Granular',
+            trex_empty.application_type = pd.Series(['Row/Band/In-furrow-Granular',
                                                      'Row/Band/In-furrow-Granular',
                                                      'Row/Band/In-furrow-Liquid',], dtype='object')
-            self.trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
+            trex_empty.app_rates = pd.Series([[0.34, 1.384, 13.54], [0.78, 11.34, 3.54],
                                           [2.34, 1.384, 3.4]], dtype='object')
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            self.trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
-            self.trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
-            self.trex_empty.row_spacing = pd.Series([20., 32., 50.], dtype = 'float')
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            trex_empty.frac_incorp = pd.Series([0.25, 0.76, 0.05], dtype= 'float')
+            trex_empty.bandwidth = pd.Series([2., 10., 30.], dtype = 'float')
+            trex_empty.row_spacing = pd.Series([20., 32., 50.], dtype = 'float')
 
             # following parameter values are needed for internal call to "at_mamm"
             # results from "test_at_mamm"  test using these values are [705.5036, 529.5517, 830.6143]
-            self.trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
-            self.trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
-            self.trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
+            trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
+            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = self.trex_empty.ld50_rg_mamm(self.trex_empty.aw_mamm_sm)
+            result = trex_empty.ld50_rg_mamm(trex_empty.aw_mamm_sm)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0,
                                 err_msg='', verbose=True, equal_nan=True)
         finally:
@@ -874,21 +977,24 @@ class TestTrex(unittest.TestCase):
         * to make sure the timeseries processing works when an application occurs on 1st day of year
         """
 
-        expected_results = [1.734, 145.3409, 0.702]
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([1.734, 145.3409, 0.702], dtype='float')
         num_app_days = pd.Series([], dtype='int')
         try:
             #specifying 3 different application scenarios of 1, 4, and 2 applications
-            self.trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            self.trex_empty.day_out = pd.Series([[5], [0, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(self.trex_empty.app_rates)):
-                self.trex_empty.num_apps[i] = len(self.trex_empty.app_rates[i])
-                num_app_days[i] = len(self.trex_empty.day_out[i])
-                assert (self.trex_empty.num_apps[i] == num_app_days[i]), 'series of app-rates and app_days do not match'
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            self.trex_empty.food_multiplier_init_sg = 15.
-            self.trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            trex_empty.day_out = pd.Series([[5], [0, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(trex_empty.app_rates)):
+                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
+                num_app_days[i] = len(trex_empty.day_out[i])
+                assert (trex_empty.num_apps[i] == num_app_days[i]), 'series of app-rates and app_days do not match'
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            trex_empty.food_multiplier_init_sg = 15.
+            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
-            result = self.trex_empty.eec_diet_max(self.trex_empty.food_multiplier_init_sg)
+            result = trex_empty.eec_diet_max(trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -908,29 +1014,33 @@ class TestTrex(unittest.TestCase):
         * methods called inside of 'eec_dose_bird' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         """
-        expected_results = [7.763288, 2693.2339, 22.20837]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([7.763288, 2693.2339, 22.20837], dtype='float')
         num_app_days = pd.Series([], dtype='int')
         try:
-            self.trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            self.trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(self.trex_empty.app_rates)):
-                self.trex_empty.num_apps[i] = len(self.trex_empty.app_rates[i])
-                num_app_days[i] = len(self.trex_empty.day_out[i])
-                assert (self.trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            self.trex_empty.food_multiplier_init_sg = 240.
-            self.trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(trex_empty.app_rates)):
+                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
+                num_app_days[i] = len(trex_empty.day_out[i])
+                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            trex_empty.food_multiplier_init_sg = 240.
+            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
             # variables for 'fi_bird'  (values reflect unittest for 'at_bird'
-            self.trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            self.trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            self.trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            self.trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            self.trex_empty.mf_w_bird_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
+            trex_empty.mf_w_bird_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
 
-            result = self.trex_empty.eec_dose_bird(self.trex_empty.aw_bird_sm, self.trex_empty.mf_w_bird_1,
-                                              self.trex_empty.food_multiplier_init_sg)
+            result = trex_empty.eec_dose_bird(trex_empty.aw_bird_sm, trex_empty.mf_w_bird_1,
+                                              trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -949,30 +1059,34 @@ class TestTrex(unittest.TestCase):
         * methods called inside of 'arq_dose_bird' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         """
-        expected_results = [0.007014, 1.146429, 0.02478172]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([0.007014, 1.146429, 0.02478172], dtype='float')
         num_app_days = pd.Series([], dtype='int')
         try:
             #specifying 3 different application scenarios of 1, 4, and 2 applications
-            self.trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            self.trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(self.trex_empty.app_rates)):
-                self.trex_empty.num_apps[i] = len(self.trex_empty.app_rates[i])
-                num_app_days[i] = len(self.trex_empty.day_out[i])
-                assert (self.trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            self.trex_empty.food_multiplier_init_sg = 15.
-            self.trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(trex_empty.app_rates)):
+                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
+                num_app_days[i] = len(trex_empty.day_out[i])
+                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            trex_empty.food_multiplier_init_sg = 15.
+            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
             # variables for 'at_bird'  (values reflect unittest for 'fi_bird'
-            self.trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
-            self.trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
-            self.trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
-            self.trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.ld50_bird = pd.Series([100., 125., 90.], dtype='float')
+            trex_empty.tw_bird_ld50 = pd.Series([175., 100., 200.], dtype='float')
+            trex_empty.mineau_sca_fact = pd.Series([1.15, 0.9, 1.25], dtype='float')
+            trex_empty.aw_bird_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            self.trex_empty.mf_w_bird_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
+            trex_empty.mf_w_bird_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
 
-            result = self.trex_empty.arq_dose_bird(self.trex_empty.aw_bird_sm, self.trex_empty.mf_w_bird_1,
-                                              self.trex_empty.food_multiplier_init_sg)
+            result = trex_empty.arq_dose_bird(trex_empty.aw_bird_sm, trex_empty.mf_w_bird_1,
+                                              trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -991,25 +1105,29 @@ class TestTrex(unittest.TestCase):
         * methods called inside of 'arq_diet_bird' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
         expected_results = pd.Series([0.019563, 1.509543, 0.0046715], dtype='float')
         result = pd.Series([], dtype = 'float')
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
-            self.trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            self.trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(self.trex_empty.app_rates)):
-                self.trex_empty.num_apps[i] = len(self.trex_empty.app_rates[i])
-                num_app_days[i] = len(self.trex_empty.day_out[i])
-                assert (self.trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
-            #self.trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
-            self.trex_empty.food_multiplier_init_sg = 110.
-            self.trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype='float')
-            self.trex_empty.lc50_bird = pd.Series([650., 718., 1102.], dtype='float')
-            #for i in range (len(self.trex_empty.food_multiplier_init_sg)):
-            #    result[i] = self.trex_empty.arq_diet_bird(self.trex_empty.food_multiplier_init_sg[i])
-            result = self.trex_empty.arq_diet_bird(self.trex_empty.food_multiplier_init_sg)
+            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(trex_empty.app_rates)):
+                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
+                num_app_days[i] = len(trex_empty.day_out[i])
+                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02], dtype='float')
+            #trex_empty.food_multiplier_init_sg = pd.Series([110., 15., 240.], dtype='float')
+            trex_empty.food_multiplier_init_sg = 110.
+            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.], dtype='float')
+            trex_empty.lc50_bird = pd.Series([650., 718., 1102.], dtype='float')
+            #for i in range (len(trex_empty.food_multiplier_init_sg)):
+            #    result[i] = trex_empty.arq_diet_bird(trex_empty.food_multiplier_init_sg[i])
+            result = trex_empty.arq_diet_bird(trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1028,23 +1146,27 @@ class TestTrex(unittest.TestCase):
         * methods called inside of 'crq_diet_bird' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         """
-        expected_results = [2.5432, 60.214, 0.050471]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([2.5432, 60.214, 0.050471], dtype='float')
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
-            self.trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            self.trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(self.trex_empty.app_rates)):
-                self.trex_empty.num_apps[i] = len(self.trex_empty.app_rates[i])
-                num_app_days[i] = len(self.trex_empty.day_out[i])
-                assert (self.trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            self.trex_empty.food_multiplier_init_sg = 110.
-            self.trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(trex_empty.app_rates)):
+                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
+                num_app_days[i] = len(trex_empty.day_out[i])
+                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            trex_empty.food_multiplier_init_sg = 110.
+            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
-            self.trex_empty.noaec_bird = pd.Series([5., 18., 102.])
+            trex_empty.noaec_bird = pd.Series([5., 18., 102.])
 
-            result = self.trex_empty.crq_diet_bird(self.trex_empty.food_multiplier_init_sg)
+            result = trex_empty.crq_diet_bird(trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1063,25 +1185,29 @@ class TestTrex(unittest.TestCase):
         * methods called inside of 'eec_dose_mamm' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
        """
-        expected_results = [0.36738, 124.3028, 0.989473]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([0.36738, 124.3028, 0.989473], dtype='float')
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
-            self.trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            self.trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(self.trex_empty.app_rates)):
-                self.trex_empty.num_apps[i] = len(self.trex_empty.app_rates[i])
-                num_app_days[i] = len(self.trex_empty.day_out[i])
-                assert (self.trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            self.trex_empty.food_multiplier_init_sg = 15.
-            self.trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(trex_empty.app_rates)):
+                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
+                num_app_days[i] = len(trex_empty.day_out[i])
+                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            trex_empty.food_multiplier_init_sg = 15.
+            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
-            self.trex_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
-            self.trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
+            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            result = self.trex_empty.eec_dose_mamm(self.trex_empty.aw_mamm_sm, self.trex_empty.mf_w_mamm_1,
-                                              self.trex_empty.food_multiplier_init_sg)
+            result = trex_empty.eec_dose_mamm(trex_empty.aw_mamm_sm, trex_empty.mf_w_mamm_1,
+                                              trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1100,30 +1226,34 @@ class TestTrex(unittest.TestCase):
         * methods called inside of 'arq_dose_mamm' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         """
-        expected_results = [0.0083319, 3.755716, 0.01906]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([0.0083319, 3.755716, 0.01906], dtype='float')
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
-            self.trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            self.trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(self.trex_empty.app_rates)):
-                self.trex_empty.num_apps[i] = len(self.trex_empty.app_rates[i])
-                num_app_days[i] = len(self.trex_empty.day_out[i])
-                assert (self.trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            self.trex_empty.food_multiplier_init_sg = 240.
-            self.trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(trex_empty.app_rates)):
+                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
+                num_app_days[i] = len(trex_empty.day_out[i])
+                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            trex_empty.food_multiplier_init_sg = 240.
+            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
-            self.trex_empty.noael_mamm = pd.Series([2.5, 5.0, 1.25], dtype='float')
-            self.trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
-            self.trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.noael_mamm = pd.Series([2.5, 5.0, 1.25], dtype='float')
+            trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
+            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
 
-            self.trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
+            trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
 
-            self.trex_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
+            trex_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
 
-            result = self.trex_empty.arq_dose_mamm(self.trex_empty.aw_mamm_sm, self.trex_empty.mf_w_mamm_1,
-                                              self.trex_empty.food_multiplier_init_sg)
+            result = trex_empty.arq_dose_mamm(trex_empty.aw_mamm_sm, trex_empty.mf_w_mamm_1,
+                                              trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1142,30 +1272,34 @@ class TestTrex(unittest.TestCase):
         * methods called inside of 'crq_dose_mamm' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         """
-        expected_results = [0.49033, 94.67533, 3.019115]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([0.49033, 94.67533, 3.019115], dtype='float')
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
-            self.trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            self.trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(self.trex_empty.app_rates)):
-                self.trex_empty.num_apps[i] = len(self.trex_empty.app_rates[i])
-                num_app_days[i] = len(self.trex_empty.day_out[i])
-                assert (self.trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(trex_empty.app_rates)):
+                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
+                num_app_days[i] = len(trex_empty.day_out[i])
+                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
 
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            self.trex_empty.food_multiplier_init_sg = 110.
-            self.trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            trex_empty.food_multiplier_init_sg = 110.
+            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
-            self.trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
-            self.trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
-            self.trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
-            self.trex_empty.noael_mamm = pd.Series([2.5, 5.0, 1.25], dtype='float')
+            trex_empty.ld50_mamm = pd.Series([321., 275., 432.], dtype='float')
+            trex_empty.tw_mamm = pd.Series([350., 275., 410.], dtype='float')
+            trex_empty.aw_mamm_sm = pd.Series([15., 20., 30.], dtype='float')
+            trex_empty.noael_mamm = pd.Series([2.5, 5.0, 1.25], dtype='float')
 
-            self.trex_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
+            trex_empty.mf_w_mamm_1 = pd.Series([0.1, 0.8, 0.9], dtype='float')
 
-            result = self.trex_empty.crq_dose_mamm(self.trex_empty.aw_mamm_sm, self.trex_empty.mf_w_mamm_1,
-                                              self.trex_empty.food_multiplier_init_sg)
+            result = trex_empty.crq_dose_mamm(trex_empty.aw_mamm_sm, trex_empty.mf_w_mamm_1,
+                                              trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1185,23 +1319,27 @@ class TestTrex(unittest.TestCase):
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
 
         """
-        expected_results = [0.0266769, 20.81662, 0.0068823]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([0.0266769, 20.81662, 0.0068823], dtype='float')
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
-            self.trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            self.trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(self.trex_empty.app_rates)):
-                self.trex_empty.num_apps[i] = len(self.trex_empty.app_rates[i])
-                num_app_days[i] = len(self.trex_empty.day_out[i])
-                assert (self.trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            self.trex_empty.food_multiplier_init_sg = 15.
-            self.trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(trex_empty.app_rates)):
+                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
+                num_app_days[i] = len(trex_empty.day_out[i])
+                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            trex_empty.food_multiplier_init_sg = 15.
+            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
-            self.trex_empty.lc50_mamm = pd.Series([65., 7.1, 102.])
+            trex_empty.lc50_mamm = pd.Series([65., 7.1, 102.])
 
-            result = self.trex_empty.arq_diet_mamm(self.trex_empty.food_multiplier_init_sg)
+            result = trex_empty.arq_diet_mamm(trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1220,23 +1358,27 @@ class TestTrex(unittest.TestCase):
         * methods called inside of 'crq_diet_mamm' are not retested/recalculated
         * only the correct passing of variables/values is verified (calculations having been verified in previous unittests)
         """
-        expected_results = [0.426831, 47.29536, 0.110118]
+
+        # create empty pandas dataframes to create empty object for this unittest
+        trex_empty = self.create_trex_object()
+
+        expected_results = pd.Series([0.426831, 47.29536, 0.110118], dtype='float')
         num_app_days = pd.Series([], dtype='int')
         try:
              #specifying 3 different application scenarios of 1, 4, and 2 applications
-            self.trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
-            self.trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
-            for i in range(len(self.trex_empty.app_rates)):
-                self.trex_empty.num_apps[i] = len(self.trex_empty.app_rates[i])
-                num_app_days[i] = len(self.trex_empty.day_out[i])
-                assert (self.trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
-            self.trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
-            self.trex_empty.food_multiplier_init_sg = 240.
-            self.trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
+            trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
+            trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
+            for i in range(len(trex_empty.app_rates)):
+                trex_empty.num_apps[i] = len(trex_empty.app_rates[i])
+                num_app_days[i] = len(trex_empty.day_out[i])
+                assert (trex_empty.num_apps[i] == num_app_days[i]), 'list of app-rates and app_days do not match'
+            trex_empty.frac_act_ing = pd.Series([0.34, 0.84, 0.02])
+            trex_empty.food_multiplier_init_sg = 240.
+            trex_empty.foliar_diss_hlife = pd.Series([25., 5., 45.])
 
-            self.trex_empty.noaec_mamm = pd.Series([65., 50., 102.])
+            trex_empty.noaec_mamm = pd.Series([65., 50., 102.])
 
-            result = self.trex_empty.crq_diet_mamm(self.trex_empty.food_multiplier_init_sg)
+            result = trex_empty.crq_diet_mamm(trex_empty.food_multiplier_init_sg)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]

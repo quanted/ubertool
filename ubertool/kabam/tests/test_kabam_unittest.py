@@ -35,13 +35,6 @@ class TestKabam(unittest.TestCase):
         Setup routine for Kabam unit tests.
         :return:
         """
-
-        self.kabam_empty = object
-        # create empty pandas dataframes to create empty object for testing
-        df_empty = pd.DataFrame()
-        # create an empty kabam object
-        self.kabam_empty = Kabam(df_empty, df_empty)
-
         pass
         # setup the test as needed
         # e.g. pandas to open Kabam qaqc csv
@@ -56,6 +49,12 @@ class TestKabam(unittest.TestCase):
         # teardown called after each test
         # e.g. maybe write test results to some text file
 
+    def create_kabam_object(self):
+        # create empty pandas dataframes to create empty object for testing
+        df_empty = pd.DataFrame()
+        # create an empty kabam object
+        kabam_empty = Kabam(df_empty, df_empty)
+        return kabam_empty
 
     def test_ventilation_rate(self):
         """
@@ -66,16 +65,18 @@ class TestKabam(unittest.TestCase):
         :param conc_do: concentration of dissolved oxygen (mg O2/L)
         :return:
         """
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
 
         result = pd.Series([], dtype='float')
         expected_results = pd.Series(['nan', 0.00394574, 0.468885], dtype = 'float')
 
         try:
             #use the zooplankton variables/values for the test
-            self.kabam_empty.zoo_wb = pd.Series(['nan', 1.e-07, 1.e-4], dtype = 'float')
-            self.kabam_empty.conc_do = pd.Series([5.0, 10.0, 7.5], dtype='float')
+            kabam_empty.zoo_wb = pd.Series(['nan', 1.e-07, 1.e-4], dtype = 'float')
+            kabam_empty.conc_do = pd.Series([5.0, 10.0, 7.5], dtype='float')
 
-            result = self.kabam_empty.ventilation_rate(self.kabam_empty.zoo_wb)
+            result = kabam_empty.ventilation_rate(kabam_empty.zoo_wb)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -93,14 +94,17 @@ class TestKabam(unittest.TestCase):
         :return:
         """
 
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series(['nan', 0.540088, 0.540495], dtype = 'float')
 
         try:
-            self.kabam_empty.log_kow = pd.Series(['nan', 5., 6.], dtype = 'float')
-            self.kabam_empty.kow = 10.**(self.kabam_empty.log_kow)
+            kabam_empty.log_kow = pd.Series(['nan', 5., 6.], dtype = 'float')
+            kabam_empty.kow = 10.**(kabam_empty.log_kow)
 
-            result = self.kabam_empty.pest_uptake_eff_bygills()
+            result = kabam_empty.pest_uptake_eff_bygills()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -118,14 +122,17 @@ class TestKabam(unittest.TestCase):
         :return:
         """
 
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([1639.34426, 8695.6521, 15267.1755], dtype = 'float')
 
         try:
 
-            self.kabam_empty.log_kow = pd.Series([4., 5., 6.], dtype = 'float')
-            self.kabam_empty.kow = 10.**(self.kabam_empty.log_kow)
-            result = self.kabam_empty.phytoplankton_k1_calc(self.kabam_empty.kow)
+            kabam_empty.log_kow = pd.Series([4., 5., 6.], dtype = 'float')
+            kabam_empty.kow = 10.**(kabam_empty.log_kow)
+            result = kabam_empty.phytoplankton_k1_calc(kabam_empty.kow)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -146,6 +153,9 @@ class TestKabam(unittest.TestCase):
         :return:
         """
 
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series(['nan', 1201.13849, 169.37439], dtype = 'float')
 
@@ -154,7 +164,7 @@ class TestKabam(unittest.TestCase):
             vent_rate = pd.Series(['nan', 0.00394574, 0.468885], dtype = 'float')
             wet_wgt = pd.Series(['nan', 1.e-07, 1.e-4], dtype = 'float')
 
-            result = self.kabam_empty.aq_animal_k1_calc(pest_uptake_eff_bygills, vent_rate, wet_wgt)
+            result = kabam_empty.aq_animal_k1_calc(pest_uptake_eff_bygills, vent_rate, wet_wgt)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -177,20 +187,23 @@ class TestKabam(unittest.TestCase):
         :return:
         """
 
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([650.87, 11000.76, 165000.64], dtype = 'float')
 
         try:
             #For test purpose we'll use the zooplankton variable names
-            self.kabam_empty.zoo_lipid_frac = pd.Series([0.03, 0.04, 0.06], dtype = 'float')
-            self.kabam_empty.zoo_nlom_frac = pd.Series([0.10, 0.20, 0.30,], dtype = 'float')
-            self.kabam_empty.zoo_water_frac = pd.Series([0.87, 0.76, 0.64], dtype = 'float')
-            self.kabam_empty.kow = pd.Series([1.e4, 1.e5, 1.e6], dtype = 'float')
+            kabam_empty.zoo_lipid_frac = pd.Series([0.03, 0.04, 0.06], dtype = 'float')
+            kabam_empty.zoo_nlom_frac = pd.Series([0.10, 0.20, 0.30,], dtype = 'float')
+            kabam_empty.zoo_water_frac = pd.Series([0.87, 0.76, 0.64], dtype = 'float')
+            kabam_empty.kow = pd.Series([1.e4, 1.e5, 1.e6], dtype = 'float')
             beta = 0.35
 
-            result = self.kabam_empty.animal_water_part_coef(self.kabam_empty.zoo_lipid_frac,
-                                            self.kabam_empty.zoo_nlom_frac,
-                                            self.kabam_empty.zoo_water_frac, beta)
+            result = kabam_empty.animal_water_part_coef(kabam_empty.zoo_lipid_frac,
+                                            kabam_empty.zoo_nlom_frac,
+                                            kabam_empty.zoo_water_frac, beta)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -210,15 +223,18 @@ class TestKabam(unittest.TestCase):
         :return:
         """
 
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([2.5186969, 0.79045921, 0.09252798], dtype = 'float')
 
         try:
             #For test purpose we'll use the zooplankton variable names
-            self.kabam_empty.zoo_k1 = pd.Series([1639.34426, 8695.6521, 15267.1755], dtype = 'float')
-            self.kabam_empty.k_bw_zoo = pd.Series([650.87, 11000.76, 165000.64], dtype = 'float')
+            kabam_empty.zoo_k1 = pd.Series([1639.34426, 8695.6521, 15267.1755], dtype = 'float')
+            kabam_empty.k_bw_zoo = pd.Series([650.87, 11000.76, 165000.64], dtype = 'float')
 
-            result = self.kabam_empty.aq_animal_k2_calc(self.kabam_empty.zoo_k1, self.kabam_empty.k_bw_zoo)
+            result = kabam_empty.aq_animal_k2_calc(kabam_empty.zoo_k1, kabam_empty.k_bw_zoo)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -237,15 +253,18 @@ class TestKabam(unittest.TestCase):
         :return:
         """
 
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([0.01255943, 0.00125594, 0.00251], dtype = 'float')
 
         try:
             #For test purpose we'll use the zooplankton variable names
-            self.kabam_empty.zoo_wb = pd.Series([1.e-7, 1.e-2, 1.0], dtype = 'float')
-            self.kabam_empty.water_temp = pd.Series([10., 15., 20.], dtype = 'float')
+            kabam_empty.zoo_wb = pd.Series([1.e-7, 1.e-2, 1.0], dtype = 'float')
+            kabam_empty.water_temp = pd.Series([10., 15., 20.], dtype = 'float')
 
-            result = self.kabam_empty.animal_grow_rate_const(self.kabam_empty.zoo_wb)
+            result = kabam_empty.animal_grow_rate_const(kabam_empty.zoo_wb)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -262,13 +281,17 @@ class TestKabam(unittest.TestCase):
         :param kow: octanol-water partition coefficient ()
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([0.499251, 0.492611, 0.434783], dtype = 'float')
 
         try:
-            self.kabam_empty.kow = pd.Series([1.e4, 1.e5, 1.e6], dtype = 'float')
+            kabam_empty.kow = pd.Series([1.e4, 1.e5, 1.e6], dtype = 'float')
 
-            result = self.kabam_empty.dietary_trans_eff()
+            result = kabam_empty.dietary_trans_eff()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -285,15 +308,19 @@ class TestKabam(unittest.TestCase):
         :param wet_wgt: wet weight of animal/organism (kg)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([4.497792e-08, 1.0796617e-3, 0.073042572], dtype = 'float')
 
         try:
             #For test purpose we'll use the zooplankton variable names
-            self.kabam_empty.zoo_wb = pd.Series([1.e-7, 1.e-2, 1.], dtype = 'float')
-            self.kabam_empty.water_temp = pd.Series([10., 15., 20.])
+            kabam_empty.zoo_wb = pd.Series([1.e-7, 1.e-2, 1.], dtype = 'float')
+            kabam_empty.water_temp = pd.Series([10., 15., 20.])
 
-            result = self.kabam_empty.aq_animal_feeding_rate(self.kabam_empty.zoo_wb)
+            result = kabam_empty.aq_animal_feeding_rate(kabam_empty.zoo_wb)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -312,15 +339,19 @@ class TestKabam(unittest.TestCase):
         :param particle_scav_eff: efficiency of scavenging of particles absorbed from water (fraction)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series(['nan', 1.97287e-7, 0.03282195], dtype = 'float')
 
         try:
-            self.kabam_empty.gv_filterfeeders = pd.Series(['nan', 0.00394574, 0.468885], dtype = 'float')
-            self.kabam_empty.conc_ss = pd.Series([0.00005, 0.00005, 0.07], dtype = 'float')
-            self.kabam_empty.particle_scav_eff = 1.0
+            kabam_empty.gv_filterfeeders = pd.Series(['nan', 0.00394574, 0.468885], dtype = 'float')
+            kabam_empty.conc_ss = pd.Series([0.00005, 0.00005, 0.07], dtype = 'float')
+            kabam_empty.particle_scav_eff = 1.0
 
-            result = self.kabam_empty.filterfeeders_feeding_rate()
+            result = kabam_empty.filterfeeders_feeding_rate()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -340,17 +371,20 @@ class TestKabam(unittest.TestCase):
         :return:
         """
 
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([0.22455272, 0.05318532, 0.031755767 ], dtype = 'float')
 
         try:
             #For test purpose we'll use the zooplankton variable names
-            self.kabam_empty.ed_zoo = pd.Series([0.499251, 0.492611, 0.434783], dtype = 'float')
-            self.kabam_empty.gd_zoo = pd.Series([4.497792e-08, 1.0796617e-3, 0.073042572], dtype = 'float')
-            self.kabam_empty.zoo_wb = pd.Series([1.e-7, 1.e-2, 1.0])
+            kabam_empty.ed_zoo = pd.Series([0.499251, 0.492611, 0.434783], dtype = 'float')
+            kabam_empty.gd_zoo = pd.Series([4.497792e-08, 1.0796617e-3, 0.073042572], dtype = 'float')
+            kabam_empty.zoo_wb = pd.Series([1.e-7, 1.e-2, 1.0])
 
-            result = self.kabam_empty.diet_uptake_rate_const(self.kabam_empty.ed_zoo,    \
-                     self.kabam_empty.gd_zoo, self.kabam_empty.zoo_wb)
+            result = kabam_empty.diet_uptake_rate_const(kabam_empty.ed_zoo,    \
+                     kabam_empty.gd_zoo, kabam_empty.zoo_wb)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -377,40 +411,43 @@ class TestKabam(unittest.TestCase):
         :return:
         """
 
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([0.025, 0.03355, 0.0465], dtype = 'float')
 
         try:
             #For test purposes we'll use the small fish diet variables/values
-            self.kabam_empty.sfish_diet_sediment = pd.Series([0.0, 0.01, 0.05], dtype = 'float')
-            self.kabam_empty.sfish_diet_phytoplankton = pd.Series([0.0, 0.01, 0.05], dtype = 'float')
-            self.kabam_empty.sfish_diet_zooplankton = pd.Series([0.5, 0.4, 0.5], dtype = 'float')
-            self.kabam_empty.sfish_diet_benthic_invertebrates = pd.Series([0.5, 0.57, 0.35], dtype = 'float')
-            self.kabam_empty.sfish_diet_filterfeeders = pd.Series([0.0, 0.01, 0.05], dtype = 'float')
+            kabam_empty.sfish_diet_sediment = pd.Series([0.0, 0.01, 0.05], dtype = 'float')
+            kabam_empty.sfish_diet_phytoplankton = pd.Series([0.0, 0.01, 0.05], dtype = 'float')
+            kabam_empty.sfish_diet_zooplankton = pd.Series([0.5, 0.4, 0.5], dtype = 'float')
+            kabam_empty.sfish_diet_benthic_invertebrates = pd.Series([0.5, 0.57, 0.35], dtype = 'float')
+            kabam_empty.sfish_diet_filterfeeders = pd.Series([0.0, 0.01, 0.05], dtype = 'float')
 
-            self.kabam_empty.sediment_lipid = pd.Series([0.0, 0.01, 0.0], dtype = 'float')
-            self.kabam_empty.phytoplankton_lipid = pd.Series([0.02, 0.015, 0.03], dtype = 'float')
-            self.kabam_empty.zoo_lipid = pd.Series([0.03, 0.04, 0.05], dtype = 'float')
-            self.kabam_empty.beninv_lipid = pd.Series([0.02, 0.03, 0.05], dtype = 'float')
-            self.kabam_empty.filterfeeders_lipid = pd.Series([0.01, 0.02, 0.05], dtype = 'float')
+            kabam_empty.sediment_lipid = pd.Series([0.0, 0.01, 0.0], dtype = 'float')
+            kabam_empty.phytoplankton_lipid = pd.Series([0.02, 0.015, 0.03], dtype = 'float')
+            kabam_empty.zoo_lipid = pd.Series([0.03, 0.04, 0.05], dtype = 'float')
+            kabam_empty.beninv_lipid = pd.Series([0.02, 0.03, 0.05], dtype = 'float')
+            kabam_empty.filterfeeders_lipid = pd.Series([0.01, 0.02, 0.05], dtype = 'float')
 
             diet_elements = pd.Series([], dtype = 'float')
             content_fracs = pd.Series([], dtype = 'float')
 
-            for i in range(len(self.kabam_empty.sfish_diet_sediment)):
-                diet_elements = [self.kabam_empty.sfish_diet_sediment[i],
-                                 self.kabam_empty.sfish_diet_phytoplankton[i],
-                                 self.kabam_empty.sfish_diet_zooplankton[i],
-                                 self.kabam_empty.sfish_diet_benthic_invertebrates[i],
-                                 self.kabam_empty.sfish_diet_filterfeeders[i]]
+            for i in range(len(kabam_empty.sfish_diet_sediment)):
+                diet_elements = [kabam_empty.sfish_diet_sediment[i],
+                                 kabam_empty.sfish_diet_phytoplankton[i],
+                                 kabam_empty.sfish_diet_zooplankton[i],
+                                 kabam_empty.sfish_diet_benthic_invertebrates[i],
+                                 kabam_empty.sfish_diet_filterfeeders[i]]
 
-                content_fracs = [self.kabam_empty.sediment_lipid[i],
-                                 self.kabam_empty.phytoplankton_lipid[i],
-                                 self.kabam_empty.zoo_lipid[i],
-                                 self.kabam_empty.beninv_lipid[i],
-                                 self.kabam_empty.filterfeeders_lipid[i]]
+                content_fracs = [kabam_empty.sediment_lipid[i],
+                                 kabam_empty.phytoplankton_lipid[i],
+                                 kabam_empty.zoo_lipid[i],
+                                 kabam_empty.beninv_lipid[i],
+                                 kabam_empty.filterfeeders_lipid[i]]
 
-                result[i] = self.kabam_empty.overall_diet_content(diet_elements, content_fracs)
+                result[i] = kabam_empty.overall_diet_content(diet_elements, content_fracs)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -441,28 +478,31 @@ class TestKabam(unittest.TestCase):
         #as opposed to within a method  -- the method here is limited to the assimilation factor
         #because this factor is used elsewhere as well
 
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         result1 = pd.Series([], dtype='float')
         expected_results = pd.Series([1.43e-9, 5.005e-5, 4.82625e-3], dtype = 'float')
 
         try:
             #For test purposes we'll use the zooplankton variable names and relevant constant values
-            self.kabam_empty.epsilon_lipid_zoo = 0.72
-            self.kabam_empty.epsilon_nlom_zoo = 0.60
-            self.kabam_empty.epsilon_water = 0.25
+            kabam_empty.epsilon_lipid_zoo = 0.72
+            kabam_empty.epsilon_nlom_zoo = 0.60
+            kabam_empty.epsilon_water = 0.25
 
-            self.kabam_empty.v_ld_zoo = pd.Series([0.025, 0.035, 0.045], dtype = 'float')
-            self.kabam_empty.v_nd_zoo = pd.Series([0.025, 0.035, 0.045], dtype = 'float')
-            self.kabam_empty.v_wd_zoo = pd.Series([0.025, 0.035, 0.045], dtype = 'float')
-            self.kabam_empty.gd_zoo = pd.Series([4.e-08, 1.e-3, 0.075], dtype = 'float')
+            kabam_empty.v_ld_zoo = pd.Series([0.025, 0.035, 0.045], dtype = 'float')
+            kabam_empty.v_nd_zoo = pd.Series([0.025, 0.035, 0.045], dtype = 'float')
+            kabam_empty.v_wd_zoo = pd.Series([0.025, 0.035, 0.045], dtype = 'float')
+            kabam_empty.gd_zoo = pd.Series([4.e-08, 1.e-3, 0.075], dtype = 'float')
 
-            result1 = self.kabam_empty.fecal_egestion_rate_factor(self.kabam_empty.epsilon_lipid_zoo,
-                                                                self.kabam_empty.epsilon_nlom_zoo,
-                                                                self.kabam_empty.epsilon_water,
-                                                                self.kabam_empty.v_ld_zoo,
-                                                                self.kabam_empty.v_nd_zoo,
-                                                                self.kabam_empty.v_wd_zoo)
-            result = result1  * self.kabam_empty.gd_zoo
+            result1 = kabam_empty.fecal_egestion_rate_factor(kabam_empty.epsilon_lipid_zoo,
+                                                                kabam_empty.epsilon_nlom_zoo,
+                                                                kabam_empty.epsilon_water,
+                                                                kabam_empty.v_ld_zoo,
+                                                                kabam_empty.v_nd_zoo,
+                                                                kabam_empty.v_wd_zoo)
+            result = result1  * kabam_empty.gd_zoo
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -481,17 +521,21 @@ class TestKabam(unittest.TestCase):
         :param (diet_assim_factor_*) relevant: Aquatic animal/organism egestion rate of fecal matter factor
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([0.2, 0.196, 0.1575], dtype = 'float')
 
         try:
             #for this test we'll use the lipid content for zooplankton
-            self.kabam_empty.epsilon_lipid_zoo = 0.72
-            self.kabam_empty.v_ld_zoo = pd.Series([0.025, 0.035, 0.045], dtype = 'float')
-            self.kabam_empty.diet_assim_factor_zoo = pd.Series([0.035, 0.05, 0.08], dtype = 'float')
+            kabam_empty.epsilon_lipid_zoo = 0.72
+            kabam_empty.v_ld_zoo = pd.Series([0.025, 0.035, 0.045], dtype = 'float')
+            kabam_empty.diet_assim_factor_zoo = pd.Series([0.035, 0.05, 0.08], dtype = 'float')
 
-            result = self.kabam_empty.diet_elements_gut(self.kabam_empty.epsilon_lipid_zoo,
-                    self.kabam_empty.v_ld_zoo, self.kabam_empty.diet_assim_factor_zoo)
+            result = kabam_empty.diet_elements_gut(kabam_empty.epsilon_lipid_zoo,
+                    kabam_empty.v_ld_zoo, kabam_empty.diet_assim_factor_zoo)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -516,24 +560,27 @@ class TestKabam(unittest.TestCase):
         :return:
         """
 
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([0.991233, 1.662808, 1.560184], dtype = 'float')
 
         try:
             #for this test we'll use the zooplankton varialbles
-            self.kabam_empty.beta_aq_animals = 0.035
-            self.kabam_empty.kow = pd.Series([1.e4, 1.e5, 1.e6], dtype = 'float')
-            self.kabam_empty.vlg_zoo = pd.Series([0.2, 0.25, 0.15], dtype = 'float')
-            self.kabam_empty.vng_zoo = pd.Series([0.1, 0.15, 0.25], dtype = 'float')
-            self.kabam_empty.vwg_zoo = pd.Series([0.15, 0.35, 0.05], dtype = 'float')
-            self.kabam_empty.zoo_lipid_frac = pd.Series([0.20, 0.15, 0.10], dtype = 'float')
-            self.kabam_empty.zoo_nlom_frac = pd.Series([0.15, 0.10, 0.05], dtype = 'float')
-            self.kabam_empty.zoo_water_frac = pd.Series([0.65, 0.75, 0.85], dtype = 'float')
+            kabam_empty.beta_aq_animals = 0.035
+            kabam_empty.kow = pd.Series([1.e4, 1.e5, 1.e6], dtype = 'float')
+            kabam_empty.vlg_zoo = pd.Series([0.2, 0.25, 0.15], dtype = 'float')
+            kabam_empty.vng_zoo = pd.Series([0.1, 0.15, 0.25], dtype = 'float')
+            kabam_empty.vwg_zoo = pd.Series([0.15, 0.35, 0.05], dtype = 'float')
+            kabam_empty.zoo_lipid_frac = pd.Series([0.20, 0.15, 0.10], dtype = 'float')
+            kabam_empty.zoo_nlom_frac = pd.Series([0.15, 0.10, 0.05], dtype = 'float')
+            kabam_empty.zoo_water_frac = pd.Series([0.65, 0.75, 0.85], dtype = 'float')
 
-            result = self.kabam_empty.gut_organism_partition_coef(self.kabam_empty.vlg_zoo, self.kabam_empty.vng_zoo,
-                                    self.kabam_empty.vwg_zoo, self.kabam_empty.kow, self.kabam_empty.beta_aq_animals,
-                                    self.kabam_empty.zoo_lipid_frac, self.kabam_empty.zoo_nlom_frac,
-                                    self.kabam_empty.zoo_water_frac)
+            result = kabam_empty.gut_organism_partition_coef(kabam_empty.vlg_zoo, kabam_empty.vng_zoo,
+                                    kabam_empty.vwg_zoo, kabam_empty.kow, kabam_empty.beta_aq_animals,
+                                    kabam_empty.zoo_lipid_frac, kabam_empty.zoo_nlom_frac,
+                                    kabam_empty.zoo_water_frac)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -554,18 +601,21 @@ class TestKabam(unittest.TestCase):
         :return:
         """
 
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([7.5e-4, 0.0525, 5.625e-4], dtype = 'float')
 
         try:
             #for this test we'll use the zooplankton variables
-            self.kabam_empty.gf_zoo = pd.Series([1.5e-9, 5.0e-5, 4.5e-3], dtype = 'float')
-            self.kabam_empty.ed_zoo = pd.Series([0.5, 0.7, 0.25], dtype = 'float')
-            self.kabam_empty.kgb_zoo = pd.Series([1.0, 1.5, 0.5], dtype = 'float')
-            self.kabam_empty.zoo_wb = pd.Series([1.e-6, 1.e-3, 1.0], dtype = 'float')
+            kabam_empty.gf_zoo = pd.Series([1.5e-9, 5.0e-5, 4.5e-3], dtype = 'float')
+            kabam_empty.ed_zoo = pd.Series([0.5, 0.7, 0.25], dtype = 'float')
+            kabam_empty.kgb_zoo = pd.Series([1.0, 1.5, 0.5], dtype = 'float')
+            kabam_empty.zoo_wb = pd.Series([1.e-6, 1.e-3, 1.0], dtype = 'float')
 
-            result = self.kabam_empty.fecal_elim_rate_const(self.kabam_empty.gf_zoo, self.kabam_empty.ed_zoo,
-                                                            self.kabam_empty.kgb_zoo, self.kabam_empty.zoo_wb)
+            result = kabam_empty.fecal_elim_rate_const(kabam_empty.gf_zoo, kabam_empty.ed_zoo,
+                                                            kabam_empty.kgb_zoo, kabam_empty.zoo_wb)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -585,18 +635,22 @@ class TestKabam(unittest.TestCase):
         :param conc_doc: Concentration of Dissolved Organic Carbon in water column (kg OC/L)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([0.13422819, 0.00462963, 0.00514139], dtype = 'float')
 
         try:
             #for this test we'll use the zooplankton variables
-            self.kabam_empty.conc_poc = pd.Series([1.5e-3, 5.0e-3, 4.5e-4], dtype = 'float')
-            self.kabam_empty.alpha_poc = 0.35
-            self.kabam_empty.kow = pd.Series([1.e4, 1.e5, 1.e6], dtype = 'float')
-            self.kabam_empty.conc_doc = pd.Series([1.5e-3, 5.0e-3, 4.5e-4], dtype = 'float')
-            self.kabam_empty.alpha_doc = 0.08
+            kabam_empty.conc_poc = pd.Series([1.5e-3, 5.0e-3, 4.5e-4], dtype = 'float')
+            kabam_empty.alpha_poc = 0.35
+            kabam_empty.kow = pd.Series([1.e4, 1.e5, 1.e6], dtype = 'float')
+            kabam_empty.conc_doc = pd.Series([1.5e-3, 5.0e-3, 4.5e-4], dtype = 'float')
+            kabam_empty.alpha_doc = 0.08
 
-            result = self.kabam_empty.frac_pest_freely_diss()
+            result = kabam_empty.frac_pest_freely_diss()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -615,15 +669,18 @@ class TestKabam(unittest.TestCase):
         :return:
         """
 
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([1.e-1, 2.4e-2, 1.], dtype = 'float')
 
         try:
             #for this test we'll use the zooplankton variables
-            self.kabam_empty.phi = pd.Series([0.1, 0.004, 0.05], dtype = 'float')
-            self.kabam_empty.water_column_eec = pd.Series([1., 6., 20.], dtype = 'float')
+            kabam_empty.phi = pd.Series([0.1, 0.004, 0.05], dtype = 'float')
+            kabam_empty.water_column_eec = pd.Series([1., 6., 20.], dtype = 'float')
 
-            result = self.kabam_empty.conc_freely_diss_watercol()
+            result = kabam_empty.conc_freely_diss_watercol()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -642,15 +699,19 @@ class TestKabam(unittest.TestCase):
 
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([2.5e4, 6.e4, 2.e6], dtype = 'float')
 
         try:
             #for this test we'll use the zooplankton variables
-            self.kabam_empty.k_oc = pd.Series([2.5e4, 1.e4, 1.e5], dtype = 'float')
-            self.kabam_empty.pore_water_eec = pd.Series([1., 6., 20.], dtype = 'float')
+            kabam_empty.k_oc = pd.Series([2.5e4, 1.e4, 1.e5], dtype = 'float')
+            kabam_empty.pore_water_eec = pd.Series([1., 6., 20.], dtype = 'float')
 
-            result = self.kabam_empty.conc_sed_norm_4oc()
+            result = kabam_empty.conc_sed_norm_4oc()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -668,16 +729,20 @@ class TestKabam(unittest.TestCase):
         :param sediment_oc: fraction organic carbon in sediment (fraction)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([0.001, 0.0036, 0.4], dtype = 'float')
 
         try:
             #for this test we'll use the zooplankton variables
-            self.kabam_empty.c_soc = pd.Series([0.025, 0.06, 2.00], dtype = 'float')
-            self.kabam_empty.sediment_oc = pd.Series([4., 6., 20.], dtype = 'float')
-            self.kabam_empty.sediment_oc_frac = self.kabam_empty.percent_to_frac(self.kabam_empty.sediment_oc)
+            kabam_empty.c_soc = pd.Series([0.025, 0.06, 2.00], dtype = 'float')
+            kabam_empty.sediment_oc = pd.Series([4., 6., 20.], dtype = 'float')
+            kabam_empty.sediment_oc_frac = kabam_empty.percent_to_frac(kabam_empty.sediment_oc)
 
-            result = self.kabam_empty.conc_sed_dry_wgt()
+            result = kabam_empty.conc_sed_dry_wgt()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -698,6 +763,10 @@ class TestKabam(unittest.TestCase):
                typically only consume medium fish
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         result1 = pd.Series([], dtype='float')
         result2 = pd.Series([], dtype='float')
@@ -709,20 +778,20 @@ class TestKabam(unittest.TestCase):
             #for large fish (sediment, phytoplankton, zooplankton, benthic invertebrates,
             # filterfeeders, small fish, and medium fish  ---  this is the order related
             #to the values in the two series below)
-            self.kabam_empty.diet_frac_lfish = pd.Series([[0.02, 0.03, 0.10, 0.05, 0.10, 0.7],
+            kabam_empty.diet_frac_lfish = pd.Series([[0.02, 0.03, 0.10, 0.05, 0.10, 0.7],
                                                 [0.0, 0.05, 0.05, 0.05, 0.10, 0.75],
                                                 [0.01, 0.02, 0.03, 0.04, 0.10, 0.8]], dtype = 'float')
-            self.kabam_empty.diet_conc_lfish = pd.Series([[0.10, 0.10, 0.20, 0.15, 0.30, 0.20],
+            kabam_empty.diet_conc_lfish = pd.Series([[0.10, 0.10, 0.20, 0.15, 0.30, 0.20],
                                                 [0.10, 0.10, 0.20, 0.15, 0.30, 0.20],
                                                 [0.10, 0.10, 0.20, 0.15, 0.30, 0.20]], dtype = 'float')
-            self.kabam_empty.diet_lipid_content_lfish = pd.Series([[0.0, 0.02, 0.03, 0.03, 0.04, 0.04],
+            kabam_empty.diet_lipid_content_lfish = pd.Series([[0.0, 0.02, 0.03, 0.03, 0.04, 0.04],
                                                 [0.01, 0.025, 0.035, 0.03, 0.04, 0.045],
                                                 [0.0, 0.02, 0.03, 0.03, 0.05, 0.05]], dtype = 'float')
 
 
-            result1,result2 = self.kabam_empty.diet_pest_conc(self.kabam_empty.diet_frac_lfish,
-                                                     self.kabam_empty.diet_conc_lfish,
-                                                     self.kabam_empty.diet_lipid_content_lfish)
+            result1,result2 = kabam_empty.diet_pest_conc(kabam_empty.diet_frac_lfish,
+                                                     kabam_empty.diet_conc_lfish,
+                                                     kabam_empty.diet_lipid_content_lfish)
             npt.assert_allclose(result1, expected_results1, rtol=1e-4, atol=0, err_msg='', verbose=True)
 
         finally:
@@ -753,29 +822,32 @@ class TestKabam(unittest.TestCase):
         :return:
         """
 
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([1.97044e-3, 1.85185e-3, 3.97389e-3], dtype = 'float')
 
         try:
-            self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
-            self.kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
-            self.kabam_empty.pore_water_eec =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
+            kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
+            kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            kabam_empty.pore_water_eec =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
-            self.kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
-            self.kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
-            self.kabam_empty.lfish_kd =  pd.Series([0.05, 0.03, 0.02], dtype = 'float')
-            self.kabam_empty.lfish_ke =  pd.Series([0.05, 0.02, 0.02], dtype = 'float')
-            self.kabam_empty.lfish_kg =  pd.Series([0.1, 0.01, 0.003], dtype = 'float')
-            self.kabam_empty.lfish_km =  pd.Series([0.0, 0.1, 0.5], dtype = 'float')
-            self.kabam_empty.lfish_mp =  pd.Series([0.0, 0.0, 0.05], dtype = 'float')
-            self.kabam_empty.lfish_mo =  pd.Series([1.0, 1.0, 0.95], dtype = 'float')
-            self.kabam_empty.total_diet_conc_lfish = pd.Series( [.20, .30, .50], dtype = 'float')
+            kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
+            kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
+            kabam_empty.lfish_kd =  pd.Series([0.05, 0.03, 0.02], dtype = 'float')
+            kabam_empty.lfish_ke =  pd.Series([0.05, 0.02, 0.02], dtype = 'float')
+            kabam_empty.lfish_kg =  pd.Series([0.1, 0.01, 0.003], dtype = 'float')
+            kabam_empty.lfish_km =  pd.Series([0.0, 0.1, 0.5], dtype = 'float')
+            kabam_empty.lfish_mp =  pd.Series([0.0, 0.0, 0.05], dtype = 'float')
+            kabam_empty.lfish_mo =  pd.Series([1.0, 1.0, 0.95], dtype = 'float')
+            kabam_empty.total_diet_conc_lfish = pd.Series( [.20, .30, .50], dtype = 'float')
 
-            result = self.kabam_empty.pest_conc_organism(self.kabam_empty.lfish_k1, self.kabam_empty.lfish_k2,
-                                                     self.kabam_empty.lfish_kd, self.kabam_empty.lfish_ke,
-                                                     self.kabam_empty.lfish_kg, self.kabam_empty.lfish_km,
-                                                     self.kabam_empty.lfish_mp, self.kabam_empty.lfish_mo,
-                                                     self.kabam_empty.total_diet_conc_lfish)
+            result = kabam_empty.pest_conc_organism(kabam_empty.lfish_k1, kabam_empty.lfish_k2,
+                                                     kabam_empty.lfish_kd, kabam_empty.lfish_ke,
+                                                     kabam_empty.lfish_kg, kabam_empty.lfish_km,
+                                                     kabam_empty.lfish_mp, kabam_empty.lfish_mo,
+                                                     kabam_empty.total_diet_conc_lfish)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -793,17 +865,21 @@ class TestKabam(unittest.TestCase):
         :param lfish_lipid_frac: fraction of animal/organism that is lipid (fraction)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([0.025, 0.00833333, 0.0005], dtype = 'float')
 
         try:
             #for this test we'll use the large fish variables
-            self.kabam_empty.out_cb_lfish = pd.Series([1.e-3, 5.e-4, 1.e-5], dtype = 'float')
-            self.kabam_empty.lfish_lipid_frac = pd.Series([0.04, 0.06, 0.02], dtype = 'float')
-            self.kabam_empty.gms_to_microgms = 1.e6
+            kabam_empty.out_cb_lfish = pd.Series([1.e-3, 5.e-4, 1.e-5], dtype = 'float')
+            kabam_empty.lfish_lipid_frac = pd.Series([0.04, 0.06, 0.02], dtype = 'float')
+            kabam_empty.gms_to_microgms = 1.e6
 
-            result = self.kabam_empty.lipid_norm_residue_conc(self.kabam_empty.out_cb_lfish,
-                                                              self.kabam_empty.lfish_lipid_frac)
+            result = kabam_empty.lipid_norm_residue_conc(kabam_empty.out_cb_lfish,
+                                                              kabam_empty.lfish_lipid_frac)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -826,23 +902,26 @@ class TestKabam(unittest.TestCase):
         :return:
         """
 
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([9.8522e-4, 1.75439e-3, 2.83849e-3], dtype = 'float')
 
         try:
 
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
-            self.kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
-            self.kabam_empty.lfish_kd =  pd.Series([0.05, 0.03, 0.02], dtype = 'float')
-            self.kabam_empty.lfish_ke =  pd.Series([0.05, 0.02, 0.02], dtype = 'float')
-            self.kabam_empty.lfish_kg =  pd.Series([0.1, 0.01, 0.003], dtype = 'float')
-            self.kabam_empty.lfish_km =  pd.Series([0.0, 0.1, 0.5], dtype = 'float')
-            self.kabam_empty.total_diet_conc_lfish = pd.Series( [.20, .30, .50], dtype = 'float')
+            kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
+            kabam_empty.lfish_kd =  pd.Series([0.05, 0.03, 0.02], dtype = 'float')
+            kabam_empty.lfish_ke =  pd.Series([0.05, 0.02, 0.02], dtype = 'float')
+            kabam_empty.lfish_kg =  pd.Series([0.1, 0.01, 0.003], dtype = 'float')
+            kabam_empty.lfish_km =  pd.Series([0.0, 0.1, 0.5], dtype = 'float')
+            kabam_empty.total_diet_conc_lfish = pd.Series( [.20, .30, .50], dtype = 'float')
 
-            result = self.kabam_empty.pest_conc_diet_uptake(self.kabam_empty.lfish_kd, self.kabam_empty.lfish_k2,
-                                                            self.kabam_empty.lfish_ke, self.kabam_empty.lfish_kg,
-                                                            self.kabam_empty.lfish_km,
-                                                            self.kabam_empty.total_diet_conc_lfish)
+            result = kabam_empty.pest_conc_diet_uptake(kabam_empty.lfish_kd, kabam_empty.lfish_k2,
+                                                            kabam_empty.lfish_ke, kabam_empty.lfish_kg,
+                                                            kabam_empty.lfish_km,
+                                                            kabam_empty.total_diet_conc_lfish)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -869,26 +948,30 @@ class TestKabam(unittest.TestCase):
         :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([9.8522167e-4, 9.746588e-5, 1.1353959e-3], dtype = 'float')
 
         try:
-            self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
-            self.kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
-            self.kabam_empty.pore_water_eec =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
+            kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
+            kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            kabam_empty.pore_water_eec =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
-            self.kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
-            self.kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
-            self.kabam_empty.lfish_ke =  pd.Series([0.05, 0.02, 0.02], dtype = 'float')
-            self.kabam_empty.lfish_kg =  pd.Series([0.1, 0.01, 0.003], dtype = 'float')
-            self.kabam_empty.lfish_km =  pd.Series([0.0, 0.1, 0.5], dtype = 'float')
-            self.kabam_empty.lfish_mp =  pd.Series([0.0, 0.0, 0.05], dtype = 'float')
-            self.kabam_empty.lfish_mo =  pd.Series([1.0, 1.0, 0.95], dtype = 'float')
+            kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
+            kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
+            kabam_empty.lfish_ke =  pd.Series([0.05, 0.02, 0.02], dtype = 'float')
+            kabam_empty.lfish_kg =  pd.Series([0.1, 0.01, 0.003], dtype = 'float')
+            kabam_empty.lfish_km =  pd.Series([0.0, 0.1, 0.5], dtype = 'float')
+            kabam_empty.lfish_mp =  pd.Series([0.0, 0.0, 0.05], dtype = 'float')
+            kabam_empty.lfish_mo =  pd.Series([1.0, 1.0, 0.95], dtype = 'float')
 
-            result = self.kabam_empty.pest_conc_respir_uptake(self.kabam_empty.lfish_k1, self.kabam_empty.lfish_k2,
-                                                     self.kabam_empty.lfish_ke, self.kabam_empty.lfish_kg,
-                                                     self.kabam_empty.lfish_km, self.kabam_empty.lfish_mp,
-                                                     self.kabam_empty.lfish_mo)
+            result = kabam_empty.pest_conc_respir_uptake(kabam_empty.lfish_k1, kabam_empty.lfish_k2,
+                                                     kabam_empty.lfish_ke, kabam_empty.lfish_kg,
+                                                     kabam_empty.lfish_km, kabam_empty.lfish_mp,
+                                                     kabam_empty.lfish_mo)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -912,21 +995,25 @@ class TestKabam(unittest.TestCase):
         :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([0.955, 1.00, 0.6666667], dtype = 'float')
 
         try:
-            self.kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
-            self.kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
-            self.kabam_empty.pore_water_eec =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
+            kabam_empty.phi = pd.Series([1.0, 1.0, 1.0], dtype = 'float')
+            kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            kabam_empty.pore_water_eec =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
-            self.kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
-            self.kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
-            self.kabam_empty.lfish_mp =  pd.Series([0.05, 0.0, 0.05], dtype = 'float')
-            self.kabam_empty.lfish_mo =  pd.Series([0.95, 1.0, 0.95], dtype = 'float')
+            kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
+            kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
+            kabam_empty.lfish_mp =  pd.Series([0.05, 0.0, 0.05], dtype = 'float')
+            kabam_empty.lfish_mo =  pd.Series([0.95, 1.0, 0.95], dtype = 'float')
 
-            result = self.kabam_empty.tot_bioconc_fact(self.kabam_empty.lfish_k1, self.kabam_empty.lfish_k2,
-                                                       self.kabam_empty.lfish_mp, self.kabam_empty.lfish_mo)
+            result = kabam_empty.tot_bioconc_fact(kabam_empty.lfish_k1, kabam_empty.lfish_k2,
+                                                       kabam_empty.lfish_mp, kabam_empty.lfish_mo)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -949,22 +1036,26 @@ class TestKabam(unittest.TestCase):
         :param pore_water_eec: freely dissovled pesticide concentration in pore-water of sediment (g/L)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([47.75, 25.0, 11.1111], dtype = 'float')
 
         try:
-            self.kabam_empty.out_free_pest_conc_watercol = pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
-            self.kabam_empty.pore_water_eec =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
+            kabam_empty.out_free_pest_conc_watercol = pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            kabam_empty.pore_water_eec =  pd.Series([1.e-4, 1.e-5, 2.e-3], dtype = 'float')
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
-            self.kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
-            self.kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
-            self.kabam_empty.lfish_mp =  pd.Series([0.05, 0.0, 0.05], dtype = 'float')
-            self.kabam_empty.lfish_mo =  pd.Series([0.95, 1.0, 0.95], dtype = 'float')
-            self.kabam_empty.lfish_lipid = pd.Series([0.02, 0.04, 0.06], dtype = 'float')
+            kabam_empty.lfish_k1 =  pd.Series([10., 5., 2.], dtype = 'float')
+            kabam_empty.lfish_k2 = pd.Series( [10., 5., 3.], dtype = 'float')
+            kabam_empty.lfish_mp =  pd.Series([0.05, 0.0, 0.05], dtype = 'float')
+            kabam_empty.lfish_mo =  pd.Series([0.95, 1.0, 0.95], dtype = 'float')
+            kabam_empty.lfish_lipid = pd.Series([0.02, 0.04, 0.06], dtype = 'float')
 
-            result = self.kabam_empty.lipid_norm_bioconc_fact(self.kabam_empty.lfish_k1, self.kabam_empty.lfish_k2,
-                                                       self.kabam_empty.lfish_mp, self.kabam_empty.lfish_mo,
-                                                       self.kabam_empty.lfish_lipid)
+            result = kabam_empty.lipid_norm_bioconc_fact(kabam_empty.lfish_k1, kabam_empty.lfish_k2,
+                                                       kabam_empty.lfish_mp, kabam_empty.lfish_mo,
+                                                       kabam_empty.lfish_lipid)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -982,15 +1073,19 @@ class TestKabam(unittest.TestCase):
         :param water_column_eec:  total pesticide concentraiton in water column above sediment (g/L)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([0.02, 25.0, 0.10], dtype = 'float')
 
         try:
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
-            self.kabam_empty.out_cb_lfish = pd.Series([2.e-5, 2.5e-3, 2.e-4], dtype = 'float')
-            self.kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            kabam_empty.out_cb_lfish = pd.Series([2.e-5, 2.5e-3, 2.e-4], dtype = 'float')
+            kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
 
-            result = self.kabam_empty.tot_bioacc_fact(self.kabam_empty.out_cb_lfish)
+            result = kabam_empty.tot_bioacc_fact(kabam_empty.out_cb_lfish)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1009,16 +1104,20 @@ class TestKabam(unittest.TestCase):
         :param out_free_pest_conc_watercol: freely dissolved pesticide concentration in water column above sediment (g/L)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([1.0, 625.0, 1.66666], dtype = 'float')
 
         try:
-            self.kabam_empty.out_free_pest_conc_watercol = pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            kabam_empty.out_free_pest_conc_watercol = pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
-            self.kabam_empty.out_cb_lfish = pd.Series([2.e-5, 2.5e-3, 2.e-4], dtype = 'float')
-            self.kabam_empty.lfish_lipid = pd.Series([0.02, 0.04, 0.06], dtype = 'float')
+            kabam_empty.out_cb_lfish = pd.Series([2.e-5, 2.5e-3, 2.e-4], dtype = 'float')
+            kabam_empty.lfish_lipid = pd.Series([0.02, 0.04, 0.06], dtype = 'float')
 
-            result = self.kabam_empty.lipid_norm_bioacc_fact(self.kabam_empty.out_cb_lfish, self.kabam_empty.lfish_lipid)
+            result = kabam_empty.lipid_norm_bioacc_fact(kabam_empty.out_cb_lfish, kabam_empty.lfish_lipid)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1037,16 +1136,20 @@ class TestKabam(unittest.TestCase):
         :param c_soc Pesticide concentration in sediment normalized for organic carbon content (g/kg OC)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([0.04, 1.0416666, 1.66666e-3], dtype = 'float')
 
         try:
-            self.kabam_empty.c_soc = pd.Series([0.025, 0.06, 2.00], dtype = 'float')
+            kabam_empty.c_soc = pd.Series([0.025, 0.06, 2.00], dtype = 'float')
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
-            self.kabam_empty.out_cb_lfish = pd.Series([2.e-5, 2.5e-3, 2.e-4], dtype = 'float')
-            self.kabam_empty.lfish_lipid = pd.Series([0.02, 0.04, 0.06], dtype = 'float')
+            kabam_empty.out_cb_lfish = pd.Series([2.e-5, 2.5e-3, 2.e-4], dtype = 'float')
+            kabam_empty.lfish_lipid = pd.Series([0.02, 0.04, 0.06], dtype = 'float')
 
-            result = self.kabam_empty.biota_sed_acc_fact(self.kabam_empty.out_cb_lfish, self.kabam_empty.lfish_lipid)
+            result = kabam_empty.biota_sed_acc_fact(kabam_empty.out_cb_lfish, kabam_empty.lfish_lipid)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1066,16 +1169,20 @@ class TestKabam(unittest.TestCase):
                                      animal/organism (g/(kg wet weight))
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([0.02, 0.625, 0.133333], dtype = 'float')
 
         try:
             #for this test we'll use the large fish variables (and values that may not specifically apply to large fish
-            self.kabam_empty.out_cb_lfish = pd.Series([2.e-5, 2.5e-3, 2.e-4], dtype = 'float')
-            self.kabam_empty.lfish_lipid = pd.Series([0.02, 0.04, 0.06], dtype = 'float')
+            kabam_empty.out_cb_lfish = pd.Series([2.e-5, 2.5e-3, 2.e-4], dtype = 'float')
+            kabam_empty.lfish_lipid = pd.Series([0.02, 0.04, 0.06], dtype = 'float')
             self.lipid_norm_diet_conc_lfish = pd.Series([0.05, 0.10, 0.025], dtype = 'float')
 
-            result = self.kabam_empty.biomag_fact(self.kabam_empty.out_cb_lfish, self.kabam_empty.lfish_lipid,
+            result = kabam_empty.biomag_fact(kabam_empty.out_cb_lfish, kabam_empty.lfish_lipid,
                                                   self.lipid_norm_diet_conc_lfish)
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
@@ -1093,17 +1200,21 @@ class TestKabam(unittest.TestCase):
         :param mammal_weights: body weight of mammal (kg)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([0.14044886, 0.10654183, 0.07919266, 0.06187543,
                                       0.05158698, 0.04242409], dtype = 'float')
 
         try:
             #list of mammals (data in related arrays will reflect this order)
-            self.kabam_empty.mammals = np.array(['fog/water shrew', 'rice rat/nosed mole', 'small mink', 'large mink',
+            kabam_empty.mammals = np.array(['fog/water shrew', 'rice rat/nosed mole', 'small mink', 'large mink',
                                      'small river otter', 'large river otter'], dtype = 'str')
-            self.kabam_empty.mammal_weights = np.array([0.018, 0.085, 0.45, 1.8, 5., 15.], dtype = 'float')
+            kabam_empty.mammal_weights = np.array([0.018, 0.085, 0.45, 1.8, 5., 15.], dtype = 'float')
 
-            result = self.kabam_empty.dry_food_ingest_rate_mammals()
+            result = kabam_empty.dry_food_ingest_rate_mammals()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1120,17 +1231,21 @@ class TestKabam(unittest.TestCase):
         :param bird_weights: body weight of bird (kg)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([0.22796256, 0.02996559, 0.14722575,
                                       0.04013711, 0.05383955, 0.0288089], dtype = 'float')
 
         try:
             #list of mammals (data in related arrays will reflect this order)
-            self.kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons',
+            kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons',
                                                'small osprey', 'white pelican'], dtype = 'str')
-            self.kabam_empty.bird_weights = np.array([0.02, 6.7, 0.07, 2.9, 1.25, 7.5], dtype = 'float')
+            kabam_empty.bird_weights = np.array([0.02, 6.7, 0.07, 2.9, 1.25, 7.5], dtype = 'float')
 
-            result = self.kabam_empty.dry_food_ingest_rate_birds()
+            result = kabam_empty.dry_food_ingest_rate_birds()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1150,6 +1265,9 @@ class TestKabam(unittest.TestCase):
         :return:
         """
 
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([[0.90702948, 0.09070295, 0.58823529, 0.19607843, 0.18518519, 0.11111111],
                                       [1.35869565, 0.12437811, 0.88888889, 0.4, 0.5, 0.2],
@@ -1158,7 +1276,7 @@ class TestKabam(unittest.TestCase):
         try:
             #the order of the food sources (aquatic animals/organisms) is: ['pytoplankton', 'zooplankton',
             # 'benthic_invertebrates', 'filterfeeders', 'small_fish', 'medium_fish', 'large_fish']
-            self.kabam_empty.aq_animal_water_content = np.array([[0.90, 0.85,  0.76, 0.85, 0.73, 0.73, 0.73],
+            kabam_empty.aq_animal_water_content = np.array([[0.90, 0.85,  0.76, 0.85, 0.73, 0.73, 0.73],
                                                         [0.95, 0.90,  0.80, 0.90, 0.75, 0.70, 0.75],
                                                         [0.95, 0.80,  0.70, 0.80, 0.75, 0.70, 0.75]], dtype = 'float')
             #for this test we will use variable names and data related to birds; each array element ([]) represents
@@ -1166,17 +1284,17 @@ class TestKabam(unittest.TestCase):
             #an avian species and the fractions associated with its diet of 7 possible food sources
                 #the order of avian species is: ['sandpipers', 'cranes', 'rails', 'herons', 'small osprey', 'white pelican']
                 #the order of food sources is shown above
-            self.kabam_empty.diet_birds = np.array([[0, 0, .33, 0.33, 0.34, 0, 0], [0, 0, .33, .33, 0, 0.34, 0],
+            kabam_empty.diet_birds = np.array([[0, 0, .33, 0.33, 0.34, 0, 0], [0, 0, .33, .33, 0, 0.34, 0],
                                         [0, 0, 0.5, 0, 0.5, 0, 0], [0, 0, 0.5, 0, 0, 0.5, 0], [0, 0, 0, 0, 0, 1., 0],
                                         [0, 0, 0, 0, 0, 0, 1.]], dtype = 'float')
-            self.kabam_empty.dry_food_ingestion_rate_birds = np.array([[0.2, 0.02, 0.15, 0.05, 0.05, 0.03],
+            kabam_empty.dry_food_ingestion_rate_birds = np.array([[0.2, 0.02, 0.15, 0.05, 0.05, 0.03],
                                                                        [0.25, 0.025, 0.20, 0.10, 0.15, 0.05],
                                                                        [0.3, 0.05, 0.10, 0.15, 0.25, 0.15]])
-            for i in range(len(self.kabam_empty.aq_animal_water_content)):     #loop through model simulation runs
+            for i in range(len(kabam_empty.aq_animal_water_content)):     #loop through model simulation runs
 
-                result[i] = self.kabam_empty.wet_food_ingestion_rates(self.kabam_empty.aq_animal_water_content[i],
-                                                               self.kabam_empty.diet_birds,
-                                                               self.kabam_empty.dry_food_ingestion_rate_birds[i])
+                result[i] = kabam_empty.wet_food_ingestion_rates(kabam_empty.aq_animal_water_content[i],
+                                                               kabam_empty.diet_birds,
+                                                               kabam_empty.dry_food_ingestion_rate_birds[i])
                 npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1193,17 +1311,21 @@ class TestKabam(unittest.TestCase):
         :param mammal_weights: body weight of mammal (kg)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([2.66306e-3, 0.01076743, 0.04825324, 0.16802753, 0.42141326, 1.13270633], \
                                       dtype = 'float')
 
         try:
             #list of mammals (data in related arrays will reflect this order)
-            self.kabam_empty.mammals = np.array(['fog/water shrew', 'rice rat/nosed mole', 'small mink', 'large mink',
+            kabam_empty.mammals = np.array(['fog/water shrew', 'rice rat/nosed mole', 'small mink', 'large mink',
                                      'small river otter', 'large river otter'], dtype = 'str')
-            self.kabam_empty.mammal_weights = np.array([0.018, 0.085, 0.45, 1.8, 5., 15.], dtype = 'float')
+            kabam_empty.mammal_weights = np.array([0.018, 0.085, 0.45, 1.8, 5., 15.], dtype = 'float')
 
-            result = self.kabam_empty.drinking_water_intake_mammals()
+            result = kabam_empty.drinking_water_intake_mammals()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1220,17 +1342,21 @@ class TestKabam(unittest.TestCase):
         :param bird_weights: body weight of bird (kg)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([4.29084e-3, 0.21101928, 9.93271e-3, 0.12040892, 0.06851438, 0.2275847], \
                                      dtype = 'float')
 
         try:
             #list of birds (data in related arrays will reflect this order)
-            self.kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons',
+            kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons',
                                                'small osprey', 'white pelican'], dtype = 'str')
-            self.kabam_empty.bird_weights = np.array([0.02, 6.7, 0.07, 2.9, 1.25, 7.5], dtype = 'float')
+            kabam_empty.bird_weights = np.array([0.02, 6.7, 0.07, 2.9, 1.25, 7.5], dtype = 'float')
 
-            result = self.kabam_empty.drinking_water_intake_birds()
+            result = kabam_empty.drinking_water_intake_birds()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1252,6 +1378,10 @@ class TestKabam(unittest.TestCase):
         :param birds: included internally to provide context
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([
             [3.3309436e-4, 2.40677772e-5, 2.64847776e-4, 5.88650493e-5, 1.85733305e-5, 1.66970096e-5],
@@ -1261,30 +1391,30 @@ class TestKabam(unittest.TestCase):
         try:
             #use bird data and variables for this test
             #list of birds (data in related arrays will reflect this order)
-            self.kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons', 'small osprey', \
+            kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons', 'small osprey', \
                                                'white pelican'], dtype = 'str')
-            self.kabam_empty.cb_a2 = np.array([[0.90, 0.09, 0.50, 0.20, 0.40, 0.10, 0.15],
+            kabam_empty.cb_a2 = np.array([[0.90, 0.09, 0.50, 0.20, 0.40, 0.10, 0.15],
                                                [1.2, 0.10, 0.80, 0.4, 0.5, 0.2, 0.9],
                                                [1.2, 0.20, 0.30, 0.5, 0.80, 0.6, 0.5]], dtype = 'float')
-            self.kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
-            self.kabam_empty.diet_birds = np.array([[0, 0, .33, 0.33, 0.34, 0, 0], [0, 0, .33, .33, 0, 0.34, 0],
+            kabam_empty.water_column_eec =  pd.Series([1.e-3, 1.e-4, 2.e-3], dtype = 'float')
+            kabam_empty.diet_birds = np.array([[0, 0, .33, 0.33, 0.34, 0, 0], [0, 0, .33, .33, 0, 0.34, 0],
                                         [0, 0, 0.5, 0, 0.5, 0, 0], [0, 0, 0.5, 0, 0, 0.5, 0],
                                         [0, 0, 0, 0, 0, 1., 0], [0, 0, 0, 0, 0, 0, 1.]], dtype = 'float')
-            self.kabam_empty.wet_food_ingestion_rate_birds = np.array(
+            kabam_empty.wet_food_ingestion_rate_birds = np.array(
                                         [[0.90702948, 0.09070295, 0.58823529, 0.19607843, 0.18518519, 0.1111111],
                                          [1.35869565, 0.12437811, 0.88888888, 0.4, 0.5, 0.2],
                                          [1.2, 0.18726592, 0.36363636, 0.5, 0.8333333, 0.6]], dtype = 'float')
-            self.kabam_empty.water_ingestion_rate_birds = np.array([4.29084e-3, 0.21101928, 9.93271e-3,
+            kabam_empty.water_ingestion_rate_birds = np.array([4.29084e-3, 0.21101928, 9.93271e-3,
                                                                     0.12040892, 0.06851438, 0.2275847], dtype = 'float')
-            self.kabam_empty.bird_weights = np.array([0.02, 6.7, 0.07, 2.9, 1.25, 7.5], dtype = 'float')
+            kabam_empty.bird_weights = np.array([0.02, 6.7, 0.07, 2.9, 1.25, 7.5], dtype = 'float')
 
-            for i in range(len(self.kabam_empty.cb_a2)):
-                result[i] = self.kabam_empty.dose_based_eec(self.kabam_empty.water_column_eec[i],
-                                                            self.kabam_empty.cb_a2[i],
-                                                            self.kabam_empty.diet_birds,
-                                                            self.kabam_empty.wet_food_ingestion_rate_birds[i],
-                                                            self.kabam_empty.water_ingestion_rate_birds,
-                                                            self.kabam_empty.bird_weights)
+            for i in range(len(kabam_empty.cb_a2)):
+                result[i] = kabam_empty.dose_based_eec(kabam_empty.water_column_eec[i],
+                                                            kabam_empty.cb_a2[i],
+                                                            kabam_empty.diet_birds,
+                                                            kabam_empty.wet_food_ingestion_rate_birds[i],
+                                                            kabam_empty.water_ingestion_rate_birds,
+                                                            kabam_empty.bird_weights)
                 npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1303,6 +1433,9 @@ class TestKabam(unittest.TestCase):
         :return:
         """
 
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([[3.67e-4, 2.65e-4, 4.5e-4, 3.e-4, 1.e-4, 1.5e-4],
                                      [5.66e-4, 4.64e-4, 6.5e-4, 5.e-4, 2.e-4, 9.e-4],
@@ -1311,17 +1444,17 @@ class TestKabam(unittest.TestCase):
         try:
             #use bird data and variables for this test
             #list of birds (data in related arrays will reflect this order)
-            self.kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons', \
+            kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons', \
                                                'small osprey', 'white pelican'], dtype = 'str')
-            self.kabam_empty.cb_a2 = np.array([[0.90, 0.09, 0.50, 0.20, 0.40, 0.10, 0.15],
+            kabam_empty.cb_a2 = np.array([[0.90, 0.09, 0.50, 0.20, 0.40, 0.10, 0.15],
                                                [1.2, 0.10, 0.80, 0.4, 0.5, 0.2, 0.9],
                                                [1.2, 0.20, 0.30, 0.5, 0.80, 0.6, 0.5]], dtype = 'float')
-            self.kabam_empty.diet_birds = np.array([[0, 0, .33, 0.33, 0.34, 0, 0], [0, 0, .33, .33, 0, 0.34, 0],
+            kabam_empty.diet_birds = np.array([[0, 0, .33, 0.33, 0.34, 0, 0], [0, 0, .33, .33, 0, 0.34, 0],
                                         [0, 0, 0.5, 0, 0.5, 0, 0], [0, 0, 0.5, 0, 0, 0.5, 0],
                                         [0, 0, 0, 0, 0, 1., 0], [0, 0, 0, 0, 0, 0, 1.]], dtype = 'float')
 
-            for i in range(len(self.kabam_empty.cb_a2)):
-                result[i] = self.kabam_empty.dietary_based_eec(self.kabam_empty.cb_a2[i], self.kabam_empty.diet_birds)
+            for i in range(len(kabam_empty.cb_a2)):
+                result[i] = kabam_empty.dietary_based_eec(kabam_empty.cb_a2[i], kabam_empty.diet_birds)
                 npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1344,26 +1477,30 @@ class TestKabam(unittest.TestCase):
         :param mammal_weights: body weight of assessed animal (kg)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([[104.995065, 71.224971, 46.9552207, 33.2023550, 25.7184336, 19.5417836],
                              [136.9306393, 92.8889451, 61.23724357, 43.30127019, 33.5410196, 25.4856636],
                              [54.2796302, 36.82139815, 24.27458859, 17.1647262, 13.2957397, 10.10257752]], dtype = 'float')
 
         try:
-            self.kabam_empty.mammals = np.array(['fog/water shrew', 'rice rat/nosed mole', 'small mink', 'large mink',
+            kabam_empty.mammals = np.array(['fog/water shrew', 'rice rat/nosed mole', 'small mink', 'large mink',
                                      'small river otter', 'large river otter'], dtype = 'str')
-            self.kabam_empty.mammal_weights = np.array([0.018, 0.085, 0.45, 1.8, 5., 15.], dtype = 'float')
-            self.kabam_empty.mammalian_ld50 = pd.Series([50., 75., 25.])
-            self.kabam_empty.bw_rat = pd.Series([350., 200., 400.])
-            self.kabam_empty.bw_other_mammal = pd.Series([450., 200., 400.])
-            self.kabam_empty.species_of_the_tested_mammal = pd.Series(['rat', 'other', 'rat'], dtype = 'str')
+            kabam_empty.mammal_weights = np.array([0.018, 0.085, 0.45, 1.8, 5., 15.], dtype = 'float')
+            kabam_empty.mammalian_ld50 = pd.Series([50., 75., 25.])
+            kabam_empty.bw_rat = pd.Series([350., 200., 400.])
+            kabam_empty.bw_other_mammal = pd.Series([450., 200., 400.])
+            kabam_empty.species_of_the_tested_mammal = pd.Series(['rat', 'other', 'rat'], dtype = 'str')
 
-            for i in range(len(self.kabam_empty.species_of_the_tested_mammal)):
-                if (self.kabam_empty.species_of_the_tested_mammal[i] == 'rat'):
-                    tested_bw = self.kabam_empty.bw_rat[i]
+            for i in range(len(kabam_empty.species_of_the_tested_mammal)):
+                if (kabam_empty.species_of_the_tested_mammal[i] == 'rat'):
+                    tested_bw = kabam_empty.bw_rat[i]
                 else:
-                    tested_bw = self.kabam_empty.bw_other_mammal[i]
-                result[i] = self.kabam_empty.acute_dose_based_tox_mammals(self.kabam_empty.mammalian_ld50[i],tested_bw)
+                    tested_bw = kabam_empty.bw_other_mammal[i]
+                result[i] = kabam_empty.acute_dose_based_tox_mammals(kabam_empty.mammalian_ld50[i],tested_bw)
                 npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1383,6 +1520,10 @@ class TestKabam(unittest.TestCase):
         :param scaling_factor: Chemical Specific Mineau scaling factor ()
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([[36.9582003, 88.40320842, 44.598579, 77.96793198, 68.7215296, 89.91155422],
                              [49.80192597, 89.07393102, 56.44856978, 81.91867866, 75.30679072, 90.08433255],
@@ -1391,25 +1532,25 @@ class TestKabam(unittest.TestCase):
         try:
             #use rat body weight for this test
 
-            self.kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons', \
+            kabam_empty.birds = np.array(['sandpipers', 'cranes', 'rails', 'herons', \
                                                'small osprey', 'white pelican'], dtype = 'str')
-            self.kabam_empty.bird_weights = np.array([0.02, 6.7, 0.07, 2.9, 1.25, 7.5], dtype = 'float')
-            self.kabam_empty.avian_ld50 = pd.Series([50., 75., 25.])
-            self.kabam_empty.bw_quail = pd.Series([150., 200., 100.])
-            self.kabam_empty.bw_duck = pd.Series([1350., 1200., 1400.])
-            self.kabam_empty.bw_other_bird = pd.Series([450., 200., 400.])
-            self.kabam_empty.species_of_the_tested_bird = pd.Series(['quail', 'duck', 'other'], dtype = 'str')
-            self.kabam_empty.mineau_scaling_factor = pd.Series([1.15, 1.10, 1.25], dtype = 'float')
+            kabam_empty.bird_weights = np.array([0.02, 6.7, 0.07, 2.9, 1.25, 7.5], dtype = 'float')
+            kabam_empty.avian_ld50 = pd.Series([50., 75., 25.])
+            kabam_empty.bw_quail = pd.Series([150., 200., 100.])
+            kabam_empty.bw_duck = pd.Series([1350., 1200., 1400.])
+            kabam_empty.bw_other_bird = pd.Series([450., 200., 400.])
+            kabam_empty.species_of_the_tested_bird = pd.Series(['quail', 'duck', 'other'], dtype = 'str')
+            kabam_empty.mineau_scaling_factor = pd.Series([1.15, 1.10, 1.25], dtype = 'float')
 
-            for i in range(len(self.kabam_empty.species_of_the_tested_bird)):
-                if (self.kabam_empty.species_of_the_tested_bird[i] == 'quail'):
-                    tested_bw = self.kabam_empty.bw_quail[i]
-                elif  (self.kabam_empty.species_of_the_tested_bird[i] == 'duck'):
-                    tested_bw = self.kabam_empty.bw_duck[i]
+            for i in range(len(kabam_empty.species_of_the_tested_bird)):
+                if (kabam_empty.species_of_the_tested_bird[i] == 'quail'):
+                    tested_bw = kabam_empty.bw_quail[i]
+                elif  (kabam_empty.species_of_the_tested_bird[i] == 'duck'):
+                    tested_bw = kabam_empty.bw_duck[i]
                 else:
-                    tested_bw = self.kabam_empty.bw_other_bird[i]
-                result[i] = self.kabam_empty.acute_dose_based_tox_birds(self.kabam_empty.avian_ld50[i], tested_bw,
-                                                                        self.kabam_empty.mineau_scaling_factor[i])
+                    tested_bw = kabam_empty.bw_other_bird[i]
+                result[i] = kabam_empty.acute_dose_based_tox_birds(kabam_empty.avian_ld50[i], tested_bw,
+                                                                        kabam_empty.mineau_scaling_factor[i])
                 npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1427,29 +1568,33 @@ class TestKabam(unittest.TestCase):
         :param mammal_weights: body weight of assessed mammal(kg)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = pd.Series([[1.04995066, 0.71224971, 0.469552207, 0.33202355, 0.25718434, 0.19541784],
                              [45.64354646, 30.9629817, 20.41241452, 14.43375673, 11.18033989, 8.49522122],
                              [5.42796302, 3.68213981, 2.42745886, 1.71647262, 1.32957397, 1.01025775]], dtype = 'float')
 
         try:
-            self.kabam_empty.mammals = np.array(['fog/water shrew', 'rice rat/nosed mole', 'small mink', 'large mink',
+            kabam_empty.mammals = np.array(['fog/water shrew', 'rice rat/nosed mole', 'small mink', 'large mink',
                                      'small river otter', 'large river otter'], dtype = 'str')
-            self.kabam_empty.mammal_weights = np.array([0.018, 0.085, 0.45, 1.8, 5., 15.], dtype = 'float')
-            self.kabam_empty.bw_rat = pd.Series([350., 200., 400.])
-            self.kabam_empty.bw_other_mammal = pd.Series([450., 200., 400.])
-            self.kabam_empty.species_of_the_tested_mammal = pd.Series(['rat', 'other', 'rat'], dtype = 'str')
-            self.kabam_empty.mammalian_chronic_endpoint = pd.Series([10., 25., 50.])
-            self.kabam_empty.mammalian_chronic_endpoint_unit = pd.Series(['ppm', 'mg/kg-bw', 'ppm'], dtype = 'str')
+            kabam_empty.mammal_weights = np.array([0.018, 0.085, 0.45, 1.8, 5., 15.], dtype = 'float')
+            kabam_empty.bw_rat = pd.Series([350., 200., 400.])
+            kabam_empty.bw_other_mammal = pd.Series([450., 200., 400.])
+            kabam_empty.species_of_the_tested_mammal = pd.Series(['rat', 'other', 'rat'], dtype = 'str')
+            kabam_empty.mammalian_chronic_endpoint = pd.Series([10., 25., 50.])
+            kabam_empty.mammalian_chronic_endpoint_unit = pd.Series(['ppm', 'mg/kg-bw', 'ppm'], dtype = 'str')
 
-            for i in range(len(self.kabam_empty.species_of_the_tested_mammal)):
-                if (self.kabam_empty.species_of_the_tested_mammal[i] == 'rat'):
-                    tested_bw = self.kabam_empty.bw_rat[i]
+            for i in range(len(kabam_empty.species_of_the_tested_mammal)):
+                if (kabam_empty.species_of_the_tested_mammal[i] == 'rat'):
+                    tested_bw = kabam_empty.bw_rat[i]
                 else:
-                    tested_bw = self.kabam_empty.bw_other_mammal[i]
-                result[i] = self.kabam_empty.chronic_dose_based_tox_mammals(
-                    self.kabam_empty.mammalian_chronic_endpoint[i],
-                    self.kabam_empty.mammalian_chronic_endpoint_unit[i], tested_bw)
+                    tested_bw = kabam_empty.bw_other_mammal[i]
+                result[i] = kabam_empty.chronic_dose_based_tox_mammals(
+                    kabam_empty.mammalian_chronic_endpoint[i],
+                    kabam_empty.mammalian_chronic_endpoint_unit[i], tested_bw)
                 npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1467,22 +1612,26 @@ class TestKabam(unittest.TestCase):
          :param acute_dose_based_tox_mammals
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = np.array([[0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
                                     [0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
                                     [0.5, 0.5, 0.5, 0.5, 0.5, 0.5]], dtype = 'float')
 
         try:
-            self.kabam_empty.dose_based_eec_mammals = np.array([
+            kabam_empty.dose_based_eec_mammals = np.array([
                 [1., 2., 3., 4., 5., 6.],
                 [7., 8., 9., 10., 11., 12.],
                 [13., 14., 15., 16., 17., 18.]], dtype = 'float')
-            self.kabam_empty.dose_based_tox_mammals = np.array([
+            kabam_empty.dose_based_tox_mammals = np.array([
                              [2., 4., 6., 8., 10., 12.],
                              [14., 16., 18., 20., 22., 24.],
                              [26., 28., 30., 32., 34., 36.]], dtype = 'float')
 
-            result = self.kabam_empty.acute_rq_dose_mammals()
+            result = kabam_empty.acute_rq_dose_mammals()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1500,22 +1649,26 @@ class TestKabam(unittest.TestCase):
         :param chronic_dose_based_tox_mammals: self defined
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = np.array([[0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
                                     [0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
                                     [0.5, 0.5, 0.5, 0.5, 0.5, 0.5]], dtype = 'float')
 
         try:
-            self.kabam_empty.dose_based_eec_mammals = np.array([
+            kabam_empty.dose_based_eec_mammals = np.array([
                 [1., 2., 3., 4., 5., 6.],
                 [7., 8., 9., 10., 11., 12.],
                 [13., 14., 15., 16., 17., 18.]], dtype = 'float')
-            self.kabam_empty.chronic_dose_based_tox_mamm = np.array([
+            kabam_empty.chronic_dose_based_tox_mamm = np.array([
                              [2., 4., 6., 8., 10., 12.],
                              [14., 16., 18., 20., 22., 24.],
                              [26., 28., 30., 32., 34., 36.]], dtype = 'float')
 
-            result = self.kabam_empty.chronic_rq_dose_mammals()
+            result = kabam_empty.chronic_rq_dose_mammals()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1533,19 +1686,23 @@ class TestKabam(unittest.TestCase):
         :param diet_based_eec_mammals: (mg pesticide / kg-bw day)
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = np.array([[0.1, 0.2, 0.3, 0.4, 0.5, 0.6],
                                     ['nan', 'nan', 'nan', 'nan', 'nan', 'nan'],
                                     [1.3, 1.4, 1.5, 1.6, 1.7, 1.8]], dtype = 'float')
 
         try:
-            self.kabam_empty.diet_based_eec_mammals = np.array([ [1., 2., 3., 4., 5., 6.],
+            kabam_empty.diet_based_eec_mammals = np.array([ [1., 2., 3., 4., 5., 6.],
                         [7., 8., 9., 10., 11., 12.], [13., 14., 15., 16., 17., 18.]], dtype = 'float')
-            self.kabam_empty.mammalian_lc50 = np.array([10., 'nan', 10.], dtype = 'float')
+            kabam_empty.mammalian_lc50 = np.array([10., 'nan', 10.], dtype = 'float')
 
-            for i in range(len(self.kabam_empty.mammalian_lc50)):
-                result[i] = self.kabam_empty.acute_rq_diet_mammals(self.kabam_empty.diet_based_eec_mammals[i],
-                                                                   self.kabam_empty.mammalian_lc50[i])
+            for i in range(len(kabam_empty.mammalian_lc50)):
+                result[i] = kabam_empty.acute_rq_diet_mammals(kabam_empty.diet_based_eec_mammals[i],
+                                                                   kabam_empty.mammalian_lc50[i])
                 npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1563,21 +1720,25 @@ class TestKabam(unittest.TestCase):
         :param diet_based_eec: diet-based eec for mammal (mg pesticide / kg
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = np.array([[0.1, 0.2, 0.3, 0.4, 0.5, 0.6],
                                     ['nan', 'nan', 'nan', 'nan', 'nan', 'nan'],
                                     [0.065, 0.07, 0.075, 0.08, 0.085, 0.09]], dtype = 'float')
 
         try:
-            self.kabam_empty.diet_based_eec_mammals = np.array([ [1., 2., 3., 4., 5., 6.],
+            kabam_empty.diet_based_eec_mammals = np.array([ [1., 2., 3., 4., 5., 6.],
                         [7., 8., 9., 10., 11., 12.], [13., 14., 15., 16., 17., 18.]], dtype = 'float')
-            self.kabam_empty.mammalian_chronic_endpoint = np.array([10., 'nan', 10.], dtype = 'float')
-            self.kabam_empty.mammalian_chronic_endpoint_unit = np.array(['ppm', 'mg/kg-bw', 'mg/kg-bw'], dtype = 'str')
+            kabam_empty.mammalian_chronic_endpoint = np.array([10., 'nan', 10.], dtype = 'float')
+            kabam_empty.mammalian_chronic_endpoint_unit = np.array(['ppm', 'mg/kg-bw', 'mg/kg-bw'], dtype = 'str')
 
-            for i in range(len(self.kabam_empty.mammalian_chronic_endpoint)):
-                result[i] = self.kabam_empty.chronic_rq_diet_mammals(self.kabam_empty.diet_based_eec_mammals[i],
-                                                                   self.kabam_empty.mammalian_chronic_endpoint[i],
-                                                                   self.kabam_empty.mammalian_chronic_endpoint_unit[i])
+            for i in range(len(kabam_empty.mammalian_chronic_endpoint)):
+                result[i] = kabam_empty.chronic_rq_diet_mammals(kabam_empty.diet_based_eec_mammals[i],
+                                                                   kabam_empty.mammalian_chronic_endpoint[i],
+                                                                   kabam_empty.mammalian_chronic_endpoint_unit[i])
                 npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1595,17 +1756,21 @@ class TestKabam(unittest.TestCase):
          :param acute_dose_based_tox_birds: self defined
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = np.array([[0.5, 0.5, 0.5, 0.5, 0.5, 0.5], [0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
                                      [0.5, 0.5, 0.5, 0.5, 0.5, 0.5]], dtype = 'float')
 
         try:
-            self.kabam_empty.dose_based_eec_birds = np.array([[1., 2., 3., 4., 5., 6.],
+            kabam_empty.dose_based_eec_birds = np.array([[1., 2., 3., 4., 5., 6.],
                                  [7., 8., 9., 10., 11., 12.], [13., 14., 15., 16., 17., 18.]], dtype = 'float')
-            self.kabam_empty.dose_based_tox_birds = np.array([  [2., 4., 6., 8., 10., 12.],
+            kabam_empty.dose_based_tox_birds = np.array([  [2., 4., 6., 8., 10., 12.],
                                  [14., 16., 18., 20., 22., 24.], [26., 28., 30., 32., 34., 36.]], dtype = 'float')
 
-            result = self.kabam_empty.acute_rq_dose_birds()
+            result = kabam_empty.acute_rq_dose_birds()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1627,19 +1792,23 @@ class TestKabam(unittest.TestCase):
               either assign a 'nan' or issue a divide by zero error.
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = np.array([[0.1, 0.2, 0.3, 0.4, 0.5, 0.6],
                                     ['nan', 'nan', 'nan', 'nan', 'nan', 'nan'],
                                     [1.3, 1.4, 1.5, 1.6, 1.7, 1.8]], dtype = 'float')
 
         try:
-            self.kabam_empty.diet_based_eec_birds = np.array([ [1., 2., 3., 4., 5., 6.],
+            kabam_empty.diet_based_eec_birds = np.array([ [1., 2., 3., 4., 5., 6.],
                         [7., 8., 9., 10., 11., 12.], [13., 14., 15., 16., 17., 18.]], dtype = 'float')
-            self.kabam_empty.avian_lc50 = np.array([10., 'nan', 10.], dtype = 'float')
+            kabam_empty.avian_lc50 = np.array([10., 'nan', 10.], dtype = 'float')
 
-            for i in range(len(self.kabam_empty.avian_lc50)):
-                result[i] = self.kabam_empty.acute_rq_diet_birds(self.kabam_empty.diet_based_eec_birds[i],
-                                                                   self.kabam_empty.avian_lc50[i])
+            for i in range(len(kabam_empty.avian_lc50)):
+                result[i] = kabam_empty.acute_rq_diet_birds(kabam_empty.diet_based_eec_birds[i],
+                                                                   kabam_empty.avian_lc50[i])
                 npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -1657,19 +1826,23 @@ class TestKabam(unittest.TestCase):
         :param diet_based_eec: diet-based eec for mammal (mg pesticide / kg
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        kabam_empty = self.create_kabam_object()
+
         result = pd.Series([], dtype='float')
         expected_results = np.array([[0.1, 0.2, 0.3, 0.4, 0.5, 0.6],
                                     ['nan', 'nan', 'nan', 'nan', 'nan', 'nan'],
                                     [1.3, 1.4, 1.5, 1.6, 1.7, 1.8]], dtype = 'float')
 
         try:
-            self.kabam_empty.diet_based_eec_birds = np.array([ [1., 2., 3., 4., 5., 6.],
+            kabam_empty.diet_based_eec_birds = np.array([ [1., 2., 3., 4., 5., 6.],
                         [7., 8., 9., 10., 11., 12.], [13., 14., 15., 16., 17., 18.]], dtype = 'float')
-            self.kabam_empty.avian_noaec = np.array([10., 'nan', 10.], dtype = 'float')
+            kabam_empty.avian_noaec = np.array([10., 'nan', 10.], dtype = 'float')
 
-            for i in range(len(self.kabam_empty.avian_noaec)):
-                result[i] = self.kabam_empty.chronic_rq_diet_birds(self.kabam_empty.diet_based_eec_birds[i],
-                                                                   self.kabam_empty.avian_noaec[i])
+            for i in range(len(kabam_empty.avian_noaec)):
+                result[i] = kabam_empty.chronic_rq_diet_birds(kabam_empty.diet_based_eec_birds[i],
+                                                                   kabam_empty.avian_noaec[i])
                 npt.assert_allclose(result[i], expected_results[i], rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]

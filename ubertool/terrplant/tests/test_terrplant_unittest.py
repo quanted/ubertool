@@ -13,13 +13,7 @@ parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.par
 sys.path.append(parentddir)
 from terrplant_exe import Terrplant
 
-# create empty pandas dataframes to create empty terrplant object for testing
-df_empty = pd.DataFrame()
-# create an empty sip object
-terrplant_empty = Terrplant(df_empty, df_empty)
-
 test = {}
-
 
 class TestTerrplant(unittest.TestCase):
     """
@@ -46,12 +40,23 @@ class TestTerrplant(unittest.TestCase):
         # teardown called after each test
         # e.g. maybe write test results to some text file
 
-# each of these functions are queued by "run_methods" and have outputs defined as properties in the terrplant qaqc csv
+    def create_terrplant_object(self):
+        # create empty pandas dataframes to create empty object for testing
+        df_empty = pd.DataFrame()
+        # create an empty kabam object
+        terrplant_empty = Terrplant(df_empty, df_empty)
+        return terrplant_empty
+
+    # each of these functions are queued by "run_methods" and have outputs defined as properties in the terrplant qaqc csv
     def test_terrplant_rundry(self):
         """
         unittest for function terrplant.rundry
         """
         #(self.application_rate/self.incorporation_depth) * self.runoff_fraction
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [0.5, 4.41, 6.048]
         try:
             terrplant_empty.application_rate = pd.Series([10, 21, 56], dtype='int')
@@ -71,6 +76,10 @@ class TestTerrplant(unittest.TestCase):
         unittest for function terrplant.runsemi
         """
         #self.out_runsemi = (self.application_rate/self.incorporation_depth) * self.runoff_fraction * 10
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [5.0, 2.5, 19.0]
         try:
             terrplant_empty.application_rate = pd.Series([10, 20, 30], dtype='int')
@@ -90,6 +99,10 @@ class TestTerrplant(unittest.TestCase):
         unittest for function terrplant.spray
         """
         #self.out_spray = self.application_rate * self.drift_fraction
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [5.0, 5.36, 19.05]
         try:
             terrplant_empty.application_rate = pd.Series([10, 20, 30], dtype='int')
@@ -108,6 +121,10 @@ class TestTerrplant(unittest.TestCase):
         unittest for function terrplant.totaldry
         """
         #self.out_totaldry = self.out_rundry + self.out_spray
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results =[5.5, 15.65, 35.32]
         try:
             terrplant_empty.out_run_dry = pd.Series([0.5, 3.65, 12.32], dtype='float')
@@ -126,6 +143,10 @@ class TestTerrplant(unittest.TestCase):
         unittest for function terrplant.totalsemi
         """
         #self.out_totalsemi = self.out_runsemi + self.out_spray
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [5.034, 46.52, 71.669, ]
         try:
             terrplant_empty.out_run_semi = pd.Series([5.0, 12.32, 59.439], dtype='float')
@@ -144,6 +165,10 @@ class TestTerrplant(unittest.TestCase):
         unittest for function terrplant.nms_rq_dry
         """
         #self.out_nms_rq_dry = self.out_totaldry/self.ec25_nonlisted_seedling_emergence_monocot
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [110.0, 1.45211, 0.0669796]
         try:
             terrplant_empty.out_total_dry = pd.Series([5.5, 17.89, 23.12345], dtype='float')
@@ -168,6 +193,10 @@ class TestTerrplant(unittest.TestCase):
         # else:
         #     self.out_nms_loc_dry = ('The risk quotient for non-listed monocot seedlings exposed to'\
         #     ' the pesticide via runoff to a dry area indicates that potential risk is minimal.')
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = pd.Series(["The risk quotient for non-listed monocot seedlings exposed to the "
                             "pesticide via runoff to dry areas indicates a potential risk.",
                             "The risk quotient for non-listed monocot seedlings exposed to "
@@ -191,6 +220,10 @@ class TestTerrplant(unittest.TestCase):
         unittest for function terrplant.nms_rq_semi
         """
         #self.out_nms_rq_semi = self.out_totalsemi/self.ec25_nonlisted_seedling_emergence_monocot
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [200.0, 4.197279, 16.18354]
         try:
             terrplant_empty.out_total_semi = pd.Series([10., 1.234, 23.984], dtype='float')
@@ -214,6 +247,10 @@ class TestTerrplant(unittest.TestCase):
         # else:
         #     self.out_nms_loc_semi = ('The risk quotient for non-listed monocot seedlings exposed to the'\
         #     ' pesticide via runoff to a semi-aquatic area indicates that potential risk is minimal.')
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = pd.Series(["The risk quotient for non-listed monocot seedlings exposed to the "
                                       "pesticide via runoff to semi-aquatic areas indicates a potential "
                                       "risk.", "The risk quotient for non-listed monocot seedlings exposed "
@@ -237,6 +274,10 @@ class TestTerrplant(unittest.TestCase):
         unittest for function terrplant.nms_rq_spray
         """
         #self.out_nms_rq_spray = self.out_spray/out__min_nms_spray
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [215.5062, 1.896628, 16.60117]
         try:
             terrplant_empty.out_spray = pd.Series([5.045, 2.43565, 9.04332], dtype='float')
@@ -260,6 +301,10 @@ class TestTerrplant(unittest.TestCase):
         # else:
         #     self.out_nms_loc_spray = ('The risk quotient for non-listed monocot seedlings exposed to the'\
         # ' pesticide via spray drift indicates that potential risk is minimal.')
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = pd.Series(["The risk quotient for non-listed monocot seedlings exposed to the pesticide via "
                             "spray drift indicates a potential risk.", "The risk quotient for non-listed monocot "
                             "seedlings exposed to the pesticide via spray drift indicates that potential risk "
@@ -281,6 +326,10 @@ class TestTerrplant(unittest.TestCase):
         unittest for function terrplant.lms_rq_dry
         """
         #self.out_lms_rq_dry = self.out_totaldry/self.ec25_nonlisted_seedling_emergence_dicot
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [550.0, 3.40279, 234.0831]
         try:
             terrplant_empty.out_total_dry = pd.Series([5.5, 1.094, 19.5436], dtype='float')
@@ -304,6 +353,10 @@ class TestTerrplant(unittest.TestCase):
         # else:
         #     self.out_lms_loc_dry = ('The risk quotient for listed monocot seedlings exposed to the'\
         #     ' pesticide via runoff to a dry area indicates that potential risk is minimal.')
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = pd.Series(["The risk quotient for listed monocot seedlings exposed to the pesticide "
                             "via runoff to dry areas indicates a potential risk.", "The risk quotient "
                             "for listed monocot seedlings exposed to the pesticide via runoff to dry "
@@ -326,6 +379,10 @@ class TestTerrplant(unittest.TestCase):
         unittest for function terrplant.lms_rq_semi
         """
         #self.out_lms_rq_semi = self.out_totalsemi/self.ec25_nonlisted_seedling_emergence_dicot
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [1000.0, 0.0217295, 72.19618]
         try:
             terrplant_empty.out_total_semi = pd.Series([10., 0.099, 24.5467], dtype='float')
@@ -349,6 +406,10 @@ class TestTerrplant(unittest.TestCase):
         # else:
         #     self.out_lms_loc_semi = ('The risk quotient for listed monocot seedlings exposed to the'\
         #     ' pesticide via runoff to a semi-aquatic area indicates that potential risk is minimal.')
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = pd.Series(["The risk quotient for listed monocot seedlings exposed to the pesticide via "
                             "runoff to semi-aquatic areas indicates a potential risk.", "The risk quotient "
                             "for listed monocot seedlings exposed to the pesticide via runoff to "
@@ -371,6 +432,10 @@ class TestTerrplant(unittest.TestCase):
         unittest for function terrplant.lms_rq_spray
         """
         #self.out_lms_rq_spray = self.out_spray/self.ec25_nonlisted_seedling_emergence_dicot
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [500.0, 3.754362, 0.04772294]
         try:
             terrplant_empty.out_spray = pd.Series([5., 9.1231, 0.09231], dtype='float')
@@ -394,6 +459,10 @@ class TestTerrplant(unittest.TestCase):
         # else:
         #     self.out_lms_loc_spray = ('The risk quotient for listed monocot seedlings exposed to the'\
         #     ' pesticide via spray drift indicates that potential risk is minimal.')
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = pd.Series(["The risk quotient for listed monocot seedlings exposed "
                                       "to the pesticide via spray drift indicates a potential "
                                       "risk.", "The risk quotient for listed monocot seedlings "
@@ -417,6 +486,10 @@ class TestTerrplant(unittest.TestCase):
         unittest for function terrplant.nds_rq_dry
         """
         #self.out_nds_rq_dry = self.out_totaldry/self.noaec_listed_seedling_emergence_monocot
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [275., 1.012424, 9.062258]
         try:
             terrplant_empty.out_total_dry = pd.Series([5.5, 1.0023, 19.32436], dtype='float')
@@ -440,6 +513,10 @@ class TestTerrplant(unittest.TestCase):
         # else:
         #     self.out_nds_loc_dry = ('The risk quotient for non-listed monocot seedlings exposed to the'\
         #     ' pesticide via runoff to dry areas indicates that potential risk is minimal.')
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = pd.Series(["The risk quotient for non-listed dicot seedlings exposed to the "
                                       "pesticide via runoff to dry areas indicates a potential "
                                       "risk.", "The risk quotient for non-listed dicot seedlings "
@@ -463,6 +540,10 @@ class TestTerrplant(unittest.TestCase):
         unittest for function terrplant.nds_rq_semi
         """
         #self.out_nds_rq_semi = self.out_totalsemi/self.noaec_listed_seedling_emergence_monocot
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [500., 3.464141, 0.999986]
         try:
             terrplant_empty.out_total_semi = pd.Series([10., 3.4295, 12.82323], dtype='float')
@@ -486,6 +567,10 @@ class TestTerrplant(unittest.TestCase):
         # else:
         #     self.out_nds_loc_semi = ('The risk quotient for non-listed monocot seedlings exposed to the'\
         #     ' pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal.')
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = pd.Series(["The risk quotient for non-listed dicot seedlings exposed to the "
                                       "pesticide via runoff to semi-aquatic areas indicates a potential "
                                       "risk.", "The risk quotient for non-listed dicot seedlings exposed "
@@ -509,6 +594,10 @@ class TestTerrplant(unittest.TestCase):
         unittest for function terrplant.nds_rq_spray
         """
         #self.out_nds_rq_spray = self.out_spray/self.noaec_listed_seedling_emergence_monocot
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [235.5158, 0.2584818, 1.994142]
         try:
             terrplant_empty.out_spray = pd.Series([5., 0.9912, 23.9321], dtype='float')
@@ -532,6 +621,10 @@ class TestTerrplant(unittest.TestCase):
         # else:
         #     self.out_nds_loc_semi = ('The risk quotient for non-listed monocot seedlings exposed to the'\
         #     ' pesticide via spray drift indicates that potential risk is minimal.')
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = pd.Series(["The risk quotient for non-listed dicot seedlings exposed to the "
                                       "pesticide via spray drift indicates a potential risk.", "The "
                                       "risk quotient for non-listed dicot seedlings exposed to the "
@@ -554,6 +647,10 @@ class TestTerrplant(unittest.TestCase):
         unittest for function terrplant.lds_rq_dry
         """
         #self.out_lds_rq_dry = self.out_totaldry/self.noaec_listed_seedling_emergence_dicot
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [55., 1.001862, 6.043703]
         try:
             terrplant_empty.out_total_dry = pd.Series([5.5, 0.991843, 12.7643], dtype='float')
@@ -577,6 +674,10 @@ class TestTerrplant(unittest.TestCase):
         # else:
         #     self.out_lds_loc_dry = ('The risk quotient for listed monocot seedlings exposed to the'\
         #     ' pesticide via runoff to dry areas indicates that potential risk is minimal.')
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = pd.Series(["The risk quotient for listed dicot seedlings exposed to the "
                                       "pesticide via runoff to dry areas indicates a potential "
                                       "risk.", "The risk quotient for listed dicot seedlings exposed "
@@ -600,6 +701,10 @@ class TestTerrplant(unittest.TestCase):
         unittest for function terrplant.lds_rq_semi
         """
         #self.out_lds_rq_semi = self.out_totalsemi/self.noaec_listed_seedling_emergence_dicot
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [100., 2502.0289, 16.08304]
         try:
             terrplant_empty.out_total_semi = pd.Series([10., 0.8632, 34.2321], dtype='float')
@@ -623,6 +728,10 @@ class TestTerrplant(unittest.TestCase):
         # else:
         #     self.out_lds_loc_semi = ('The risk quotient for listed monocot seedlings exposed to the'\
         #     ' pesticide via runoff to semi-aquatic areas indicates that potential risk is minimal.')
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = pd.Series(["The risk quotient for listed dicot seedlings exposed to the "
                                       "pesticide via runoff to semi-aquatic areas indicates a potential "
                                       "risk.", "The risk quotient for listed dicot seedlings exposed to "
@@ -646,6 +755,10 @@ class TestTerrplant(unittest.TestCase):
         unittest for function terrplant.lds_rq_spray
         """
         #self.out_lds_rq_spray = self.out_spray/self.noaec_listed_seedling_emergence_dicot
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [250., 0.7105719, 1.28799]
         try:
             terrplant_empty.out_spray = pd.Series([5.0, 0.94435, 12.7283], dtype='float')
@@ -669,6 +782,10 @@ class TestTerrplant(unittest.TestCase):
         # else:
         #     self.out_lds_loc_spray = ('The risk quotient for listed monocot seedlings exposed to the'\
         #     ' pesticide via spray drift indicates that potential risk is minimal.')
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = pd.Series(["The risk quotient for listed dicot seedlings exposed to the "
                                       "pesticide via spray drift indicates a potential risk.", "The "
                                       "risk quotient for listed dicot seedlings exposed to the "
@@ -691,6 +808,10 @@ class TestTerrplant(unittest.TestCase):
         """
         unittest for function terrplant.min_nms_spray
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [0.0501, 0.9999, 1.9450]
         try:
             terrplant_empty.ec25_nonlisted_seedling_emergence_monocot = pd.Series([0.0501, 1.0004, 12.943], dtype='float')
@@ -708,6 +829,10 @@ class TestTerrplant(unittest.TestCase):
         """
         unittest for function terrplant.min_lms_spray
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [0.0205, 1.9234, 0.000453]
         try:
             terrplant_empty.noaec_listed_vegetative_vigor_monocot = pd.Series([0.0211, 1.9234, 0.001112], dtype='float')
@@ -725,6 +850,10 @@ class TestTerrplant(unittest.TestCase):
         """
         unittest for function terrplant.min_nds_spray
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [0.0325, 0.00342, 1.3456]
         try:
             terrplant_empty.ec25_nonlisted_vegetative_vigor_dicot = pd.Series([0.0325, 3.432, 1.3456], dtype='float')
@@ -742,6 +871,10 @@ class TestTerrplant(unittest.TestCase):
         """
         unittest for function terrplant.min_lds_spray
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        terrplant_empty = self.create_terrplant_object()
+
         expected_results = [0.3206, 1.00319, 12.32]
         try:
             terrplant_empty.noaec_listed_seedling_emergence_dicot = pd.Series([0.3206, 1.0032, 43.4294], dtype='float')

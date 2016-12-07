@@ -12,9 +12,6 @@ parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.par
 sys.path.append(parentddir)
 from rice_exe import Rice
 
-df_empty = pd.DataFrame()
-rice_empty = Rice(df_empty, df_empty)
-
 test = {}
 
 
@@ -24,22 +21,19 @@ class TestRice(unittest.TestCase):
     """
     print("rice unittests conducted at " + str(datetime.datetime.today()))
 
-    def setup(self):
+    def setUp(self):
         """
         Setup routine for rice tests
         :return:
         """
         pass
-        # sip2 = sip_model.sip(0, pd_obj_inputs, pd_obj_exp_out)
-        # setup the test as needed
-        # e.g. pandas to open sip qaqc csv
-        #  Read qaqc csv and create pandas DataFrames for inputs and expected outputs
 
     def teardown(self):
         """
         Teardown routine for rice tests
         :return:
         """
+
         pass
         # teardown called after each test
         # e.g. maybe write test results to some text file
@@ -47,11 +41,22 @@ class TestRice(unittest.TestCase):
     #   dsed * area * pb
     #   (self.dsed * self.area * self.pb)
 
+    def create_rice_object(self):
+        # create empty pandas dataframes to create empty object for testing
+        df_empty = pd.DataFrame()
+        # create an empty kabam object
+        rice_empty = Rice(df_empty, df_empty)
+        return rice_empty
+
     def test_rice_msed_unit(self):
         """
         Unit tests for calcmsed
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        rice_empty = self.create_rice_object()
+
         try:
             expected_results = [10.0, 2745.135 , 386.7105]
             rice_empty.dsed = pd.Series([1.0, 5.3, 8.25], dtype='float')
@@ -72,6 +77,10 @@ class TestRice(unittest.TestCase):
         Unit tests for calcvw
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        rice_empty = self.create_rice_object()
+
         try:
             expected_results = [25.89, 2414.5793, 415.6669]
             rice_empty.dw = pd.Series([2.2, 4.56, 12.934], dtype='float')
@@ -93,6 +102,10 @@ class TestRice(unittest.TestCase):
         Unittests for calcmass_area
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        rice_empty = self.create_rice_object()
+
         try:
             expected_results = [8960.0, 2606.4292, 138567.2228]
             rice_empty.area = pd.Series([10.0, 345.3, 23.437], dtype='float')
@@ -112,6 +125,10 @@ class TestRice(unittest.TestCase):
         unittests for calccw
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        rice_empty = self.create_rice_object()
+
         try:
             expected_results = [346.0662, 1155.6686, 948.6060]
             rice_empty.dw = pd.Series([2.2, 4.56, 12.934], dtype='float')

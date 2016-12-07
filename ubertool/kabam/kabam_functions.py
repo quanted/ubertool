@@ -46,7 +46,7 @@ class KabamFunctions(object):
 
         pest_uptake_eff_bygills = pd.Series([], dtype = 'float')
 
-        pest_uptake_eff_bygills = (1 / (1.85 + (155 / self.kow)))
+        pest_uptake_eff_bygills = (1 / (1.85 + (155. / self.kow)))
         return pest_uptake_eff_bygills
 
     def phytoplankton_k1_calc(self, k_ow):
