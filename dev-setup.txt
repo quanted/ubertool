@@ -19,7 +19,7 @@ git checkout current_dev_branch
 #interpreter to see pycharm choices
 #with Project:ubertool selected; Files-> (Default) Settings ->Project Interpretor
 
-#create virtualenv if you do not have one
+#create conda env(preferred) or virtualenv if you do not have one
 #also can be done from pycharm
 #with Project:ubertool selected; Files-> (Default) Settings ->Project Interpretor
 #click gear and then create conda env or virtualenv
@@ -27,19 +27,16 @@ git checkout current_dev_branch
 # python version 2.7
 #this directory is already git ignored in the repo
 
-#if you need to run a configuration addition for conda env
-#for a conda env you may have to use the command line and
+#either manually conda install requirements.txt dependencies
+#or wait for pycharm to recognize and install
+
+#for conda env not all packages will be installed, use the command line and
 #activate the virtual environment from the repo directory
+#for best results use git scm command line editor in windows
 ./env/Scripts/activate
 #and then
 pip install whatever_package_conda_didnt_install
+#for packages that say pip install in requirements.txt
 
-#you may already have a django run configuration in the upper right
-#run from pycharm by clicking the green arrow in the title bar nest
-#to the ubertool icon
-#or you may have to configure by selecting Edit Configurations in the title bar
-
-#run from the command line
-
-#you can then visit your browser in (for example):
-http://127.0.0.1:5000/
+#back end models are exposed via the ubertool_ecorest
+#python configuration script for flask_cgi.py

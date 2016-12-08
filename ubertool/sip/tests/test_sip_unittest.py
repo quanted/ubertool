@@ -46,7 +46,7 @@ class TestSip(unittest.TestCase):
     def create_sip_object(self):
         # create empty pandas dataframes to create empty object for testing
         df_empty = pd.DataFrame()
-        # create an empty kabam object
+        # create an empty sip object
         sip_empty = Sip(df_empty, df_empty)
         return sip_empty
 

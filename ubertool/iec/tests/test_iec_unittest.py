@@ -43,17 +43,27 @@ class TestIEC(unittest.TestCase):
         """
         pass
 
+    def create_iec_object(self):
+        # create empty pandas dataframes to create empty object for testing
+        df_empty = pd.DataFrame()
+        # create an empty iec object
+        iec_empty = Iec(df_empty, df_empty)
+        return iec_empty
+
     def test_iec_z_score_f(self):
         """
         unittest for function iec.z_score_f:
         :return:
         """
-        expected_results = [-0.5546622, 0.1524928, 5.861204]
+        # create empty pandas dataframes to create empty object for this unittest
+        iec_empty = self.create_iec_object()
+
+        expected_results = pd.Series([-0.5546622, 0.1524928, 5.861204], dtype='float')
         try:
-            self.iec_empty.threshold = pd.Series([0.6, 1.45, 4.39], dtype='float')
-            self.iec_empty.lc50 = pd.Series([3.0, 1.834, 6.83], dtype='float')
-            self.iec_empty.dose_response = pd.Series([2.5, 0.945, 9.123], dtype='float')
-            result = self.iec_empty.z_score_f()
+            iec_empty.threshold = pd.Series([0.6, 1.45, 4.39], dtype='float')
+            iec_empty.lc50 = pd.Series([3.0, 1.834, 6.83], dtype='float')
+            iec_empty.dose_response = pd.Series([2.5, 0.945, 9.123], dtype='float')
+            result = iec_empty.z_score_f()
             #npt.assert_array_almost_equal(result, -0.554622, 4, '', True)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
@@ -67,10 +77,10 @@ class TestIEC(unittest.TestCase):
         """
         unittest for function iec.f8_f:
         """
-        expected_results = [0.19215, 0.674726, 0.130719]
+        expected_results = pd.Series([0.19215, 0.674726, 0.130719], dtype='float')
         try:
-            self.iec_empty.out_z_score_f = pd.Series([-0.87, 0.453, -1.123])
-            result = self.iec_empty.f8_f()
+            iec_empty.out_z_score_f = pd.Series([-0.87, 0.453, -1.123], dtype='float')
+            result = iec_empty.f8_f()
             #npt.assert_array_almost_equal(result, 0.19215, 4, '', True)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
@@ -84,10 +94,10 @@ class TestIEC(unittest.TestCase):
         """
         unittest for function iec.chance_f:
         """
-        expected_results = [2.941176, 0.722543, 0.0881678]
+        expected_results = pd.Series([2.941176, 0.722543, 0.0881678], dtype='float')
         try:
-            self.iec_empty.out_f8_f = pd.Series([0.34, 1.384, 11.342])
-            result = self.iec_empty.chance_f()
+            iec_empty.out_f8_f = pd.Series([0.34, 1.384, 11.342], dtype='float')
+            result = iec_empty.chance_f()
             #npt.assert_array_almost_equal(result, 2.941176, 4, '', True)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:

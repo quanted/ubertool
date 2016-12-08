@@ -44,7 +44,7 @@ class TestRice(unittest.TestCase):
     def create_rice_object(self):
         # create empty pandas dataframes to create empty object for testing
         df_empty = pd.DataFrame()
-        # create an empty kabam object
+        # create an empty rice object
         rice_empty = Rice(df_empty, df_empty)
         return rice_empty
 

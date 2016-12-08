@@ -49,7 +49,7 @@ class Testtherps(unittest.TestCase):
     def create_therps_object(self):
         # create empty pandas dataframes to create empty object for testing
         df_empty = pd.DataFrame()
-        # create an empty kabam object
+        # create an empty therps object
         therps_empty = THerps(df_empty, df_empty)
         return therps_empty
 

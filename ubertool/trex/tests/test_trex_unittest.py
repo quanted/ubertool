@@ -47,7 +47,7 @@ class TestTrex(unittest.TestCase):
     def create_trex_object(self):
         # create empty pandas dataframes to create empty object for testing
         df_empty = pd.DataFrame()
-        # create an empty kabam object
+        # create an empty trex object
         trex_empty = Trex(df_empty, df_empty)
         return trex_empty
 
@@ -1365,7 +1365,7 @@ class TestTrex(unittest.TestCase):
         expected_results = pd.Series([0.426831, 47.29536, 0.110118], dtype='float')
         num_app_days = pd.Series([], dtype='int')
         try:
-             #specifying 3 different application scenarios of 1, 4, and 2 applications
+            #specifying 3 different application scenarios of 1, 4, and 2 applications
             trex_empty.app_rates = pd.Series([[0.34], [0.78, 11.34, 3.54, 1.54], [2.34, 1.384]], dtype='object')
             trex_empty.day_out = pd.Series([[5], [5, 10, 20, 50], [150, 250]], dtype='object')
             for i in range(len(trex_empty.app_rates)):

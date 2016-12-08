@@ -44,7 +44,7 @@ class TestStir(unittest.TestCase):
     def create_stir_object(self):
         # create empty pandas dataframes to create empty object for testing
         df_empty = pd.DataFrame()
-        # create an empty kabam object
+        # create an empty stir object
         stir_empty = Stir(df_empty, df_empty)
         return stir_empty
 

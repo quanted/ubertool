@@ -43,7 +43,7 @@ class TestTerrplant(unittest.TestCase):
     def create_terrplant_object(self):
         # create empty pandas dataframes to create empty object for testing
         df_empty = pd.DataFrame()
-        # create an empty kabam object
+        # create an empty terrplant object
         terrplant_empty = Terrplant(df_empty, df_empty)
         return terrplant_empty
 

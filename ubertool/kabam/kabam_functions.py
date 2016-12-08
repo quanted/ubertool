@@ -56,8 +56,8 @@ class KabamFunctions(object):
         :expression Kabam Eq. A5.1  (K1:unique to phytoplankton)
         :param 6.05e-5: Parameter 'A' in Eq. A5.1; constant related to resistance to pesticide
                         uptake through the aquaeous phase of plant (days)
-        :param 5.5: Parameter 'B' in Eq. A5.1; contant related to the resistance to pesticide
-                    uptake through the organice phase of plant (days)
+        :param 5.5: Parameter 'B' in Eq. A5.1; constant related to the resistance to pesticide
+                    uptake through the organic phase of plant (days)
         :param k_ow: octanol-water partition coefficient ()
 
         :return:

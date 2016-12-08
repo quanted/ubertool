@@ -1,19 +1,18 @@
 boto
-codecov
-cov-core #nose2 coverage
+cov-core #nose2 coverage, not in conda, pip install
 coverage
 futures
 nose #pycharm cant currently run nose2
-nose2
-nose-cov
-nose-html-reporting
+nose2 #not in conda, pip install
+nose-cov #not in conda, pip install
+nose-html-reporting #not in conda, pip install
 numpy
 pandas
 pylint
-python-coveralls
+python-coveralls #not in conda, pip install
 pytz
 requests
 scipy
-snakefood
+snakefood #not in conda, pip install
 tabulate
-twine
+twine #not in conda, pip install
