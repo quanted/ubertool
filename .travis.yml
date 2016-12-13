@@ -14,7 +14,7 @@ notifications:
 
 script:
   - docker ps -a
-#  - nose2 --with-cov
+  - nose2 --with-cov
 
 after_success:
   - coveralls --config_file .coveragerc
