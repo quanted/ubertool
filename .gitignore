@@ -3,6 +3,7 @@
 *log_test.txt
 *ipynb_checkpoints
 .idea/*
+
 .DS_Store
 
 # Byte-compiled / optimized / DLL files

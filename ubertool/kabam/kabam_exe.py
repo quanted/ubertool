@@ -158,15 +158,15 @@ class KabamInputs(ModelSharedInputs):
         self.mfish_km = pd.Series([], dtype='float')
         self.lfish_km = pd.Series([], dtype='float')
 
-        self.rate_constants = pd.Series([], dtype='str')
-        self.sediment_respire = pd.Series([], dtype='float')
-        self.phyto_respire = pd.Series([], dtype='float')
-        self.zoo_respire = pd.Series([], dtype='float')
-        self.beninv_respire = pd.Series([], dtype='float')
-        self.filterfeeders_respire = pd.Series([], dtype='float')
-        self.sfish_respire = pd.Series([], dtype='float')
-        self.mfish_respire = pd.Series([], dtype='float')
-        self.lfish_respire = pd.Series([], dtype='float')
+        self.rate_constants = pd.Series([], dtype='object')
+        self.sediment_respire = pd.Series([], dtype='object')
+        self.phyto_respire = pd.Series([], dtype='object')
+        self.zoo_respire = pd.Series([], dtype='object')
+        self.beninv_respire = pd.Series([], dtype='object')
+        self.filterfeeders_respire = pd.Series([], dtype='object')
+        self.sfish_respire = pd.Series([], dtype='object')
+        self.mfish_respire = pd.Series([], dtype='object')
+        self.lfish_respire = pd.Series([], dtype='object')
 
 class KabamOutputs(object):
 
@@ -178,7 +178,7 @@ class KabamOutputs(object):
         """Class representing the outputs for Kabam"""
         super(KabamOutputs, self).__init__()
         # outputs
-        self.out_water_dissolved = pd.Series([], dtype='float', name="out_water_dissolved")
+        self.out_free_pest_conc_watercol = pd.Series([], dtype='float', name='out_free_pest_conc_watercol')
         self.out_cb_phytoplankton = pd.Series([], dtype = 'float', name="out_cb_phytoplankton")
         self.out_cb_zoo = pd.Series([], dtype = 'float', name="out_cb_zoo")
         self.out_cb_beninv = pd.Series([], dtype = 'float', name="out_cb_beninv")
@@ -609,7 +609,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
                 self.lfish_k2[i] = float(self.lfish_k2_temp[i])
 
         # aquatic animal/organism growth rate constants (Kabam Eq. A7.1 & A7.2)
-        self.phytoplankton_kg = pd.Series([], dtype = 'float')
+        #self.phytoplankton_kg = pd.Series([], dtype = 'float')
         self.zoo_kg = pd.Series([], dtype = 'float')
         self.beninv_kg = pd.Series([], dtype = 'float')
         self.filterfeeders_kg = pd.Series([], dtype = 'float')
@@ -617,7 +617,7 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.mfish_kg = pd.Series([], dtype = 'float')
         self.lfish_kg = pd.Series([], dtype = 'float')
 
-        self.phytoplankton_kg = 0.1 # 0.1 is assigned (not calculated) in OPP model spreadsheet
+        #self.phytoplankton_kg = 0.1 # 0.1 is assigned (not calculated) in OPP model spreadsheet
                                     # in worksheet 'Parameters & Calculations' cell C48
         self.zoo_kg = self.animal_grow_rate_const(self.zoo_wb)
         self.beninv_kg = self.animal_grow_rate_const(self.beninv_wb)
@@ -1071,8 +1071,8 @@ class Kabam(UberModel, KabamInputs, KabamOutputs, KabamFunctions):
         self.phi = pd.Series([], dtype='float')
         self.phi = self.frac_pest_freely_diss()
 
-        #calculate concentration of freely dissolved pesticide in overlying water column  used in Eqs F2 & F4
-        self.out_water_dissolved = self.conc_freely_diss_watercol()
+        #calculate concentration of freely dissolved pesticide in overlying water column used in Eqs F2 & F4
+        self.out_free_pest_conc_watercol = self.conc_freely_diss_watercol()
 
         #calculate pesticide concentration in sediment normalized for organic carbon content  Eq A4a
         self.c_soc = pd.Series([], dtype='float')

@@ -1,0 +1,3431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Test Report</title>
+    <meta name="author" content="Oleksii Skliarov, Ivan Lysenko"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css" media="screen">
+        body        { font-family: verdana, arial, helvetica, sans-serif; font-size: 80%; }
+        table       { font-size: 100%; }
+        pre         { }
+
+        /* -- heading ---------------------------------------------------------------------- */
+        h1 {
+            font-size: 16pt;
+            color: gray;
+        }
+        .heading {
+            margin-top: 0ex;
+            margin-bottom: 1ex;
+        }
+
+        .heading .attribute {
+            margin-top: 1ex;
+            margin-bottom: 0;
+        }
+
+        .heading .description {
+            margin-top: 4ex;
+            margin-bottom: 6ex;
+        }
+
+        /* -- css div popup ------------------------------------------------------------------------ */
+        a.popup_link {
+        }
+
+        a.popup_link:hover {
+            color: red;
+        }
+
+        .popup_window {
+            display: none;
+            position: relative;
+            left: 0px;
+            top: 0px;
+            /*border: solid #627173 1px; */
+            padding: 8px;
+            background-color: #E6E6D6;
+            font-family: "Lucida Console", "Courier New", Courier, monospace;
+            text-align: left;
+            font-size: 8pt;
+            width: 570px;
+        }
+
+        }
+        /* -- report ------------------------------------------------------------------------ */
+        #show_detail_line {
+            margin-top: 3ex;
+            margin-bottom: 1ex;
+        }
+        .result_table {
+            width: 80%;
+            border-collapse: collapse;
+            border: 1px solid #777;
+        }
+        #header_row {
+            font-weight: bold;
+            color: white;
+            background-color: #777;
+        }
+        .result_table td {
+            border: 1px solid #777;
+            padding: 2px;
+        }
+        .shortDescription {
+            font-style: italic;
+            font-weight: normal;
+        }
+        #total_row  { font-weight: bold; }
+        .passClass  { background-color: #6c6; }
+        .failClass  { background-color: #c60; }
+        .errorClass { background-color: #c00; }
+        .passCase   { color: #6c6; }
+        .failCase   { color: #c60; font-weight: bold; }
+        .errorCase  { color: #c00; font-weight: bold; }
+        .hiddenRow  { display: none; }
+        
+        .testcase   { display: none; }
+		.testclass.active ~ .testcase { display: table-row; }
+
+        /* -- ending ---------------------------------------------------------------------- */
+        #ending {
+        }
+
+    </style>
+</head>
+<body>
+<script language="javascript" type="text/javascript">
+output_list = Array();
+
+/* level - 0:Summary; 1:Failed; 2:All */
+function showCase(level) {
+    trs = document.getElementsByClassName("testclass");
+    for (var i = 0; i < trs.length; i++) {
+        tr = trs[i];
+        if(0==level && tr.className.indexOf("active") != -1){
+			tr.className = tr.className.replace("active", "").replace("  ", " ").trim();
+		}else if (2 == level && tr.className.indexOf("active") == -1){
+			tr.className+=" active";
+		}else if (1 == level){
+			if(tr.className.indexOf("passClass") != -1){
+				if(tr.className.indexOf("active") != -1){
+					tr.className = tr.className.replace("active", "").replace("  ", " ").trim();
+				}
+			}else if (tr.className.indexOf("active") == -1){
+				tr.className+=" active";
+			}
+        }
+    }
+}
+
+function showClassDetail(element) {
+    var currentClassValue = element.className || "";
+      
+    if (currentClassValue.indexOf("active") == -1) {
+		currentClassValue += " active";
+    } else {
+		currentClassValue = currentClassValue.replace("active", "").replace("  ", " ");
+	}
+	element.className = currentClassValue.trim();
+}
+
+
+function showTestDetail(div_id){
+    var details_div = document.getElementById(div_id)
+    var displayState = details_div.style.display
+    // alert(displayState)
+    if (displayState != 'block' ) {
+        displayState = 'block'
+        details_div.style.display = 'block'
+    }
+    else {
+        details_div.style.display = 'none'
+    }
+}
+
+function togleClass(element, clas){
+        var currentClassValue = element.className || "";
+
+        if (currentClassValue.indexOf(clas) == -1) {
+            currentClassValue += " "+clas;
+        } else {
+            currentClassValue = currentClassValue.replace(clas, "").replace("  ", " ");
+        }
+        element.className = currentClassValue.trim()
+    }
+
+function showRawLog(element){
+        togleClass(element, "popup_window")
+    }
+
+function html_escape(s) {
+    s = s.replace(/&/g,'&amp;');
+    s = s.replace(/</g,'&lt;');
+    s = s.replace(/>/g,'&gt;');
+    return s;
+}
+
+</script>
+
+<table>
+    <tr id="header_row">
+        <th>Class</th>
+        <th>Fail</th>
+        <th>Error</th>
+        <th>Skip</th>
+        <th>Success</th>
+        <th>Total</th>
+    </tr>
+        <tr>
+            <td>qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSip</td>
+            <td>15</td>
+            <td>1</td>
+            <td>0</td>
+            <td>1</td>
+            <td>17</td>
+        </tr>
+        <tr>
+            <td>qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSip</td>
+            <td>2</td>
+            <td>2</td>
+            <td>0</td>
+            <td>13</td>
+            <td>17</td>
+        </tr>
+    <tr>
+        <td><strong>Total</strong></td>
+        <td>17</td>
+        <td>3</td>
+        <td>0</td>
+        <td>14</td>
+        <td>34</td>
+    </tr>
+</table>
+
+<!-- test list -->
+<!-- header -->
+<p id='show_detail_line'>Show
+<a href='javascript:showCase(0)'>Summary</a>
+<a href='javascript:showCase(1)'>Failed</a>
+<a href='javascript:showCase(2)'>All</a>
+</p>
+<table class='result_table'>
+    <colgroup>
+        <col align='left' width="50%" />
+        <col align='right' width="10%"/>
+        <col align='right' width="10%"/>
+        <col align='right' width="10%"/>
+        <col align='right' width="10%"/>
+        <col align='right' width="10%"/>
+    </colgroup>
+    <tr id='header_row'>
+        <td>Test Group/Test case</td>
+        <td>Count</td>
+        <td>Pass</td>
+        <td>Fail</td>
+        <td>Error</td>
+        <td>View</td>
+    </tr>
+</table>    
+<!-- for every test suite -->
+    <table class='result_table'>
+	    <colgroup>
+            <col align='left' width="50%" />
+            <col align='right' width="10%"/>
+            <col align='right' width="10%"/>
+            <col align='right' width="10%"/>
+            <col align='right' width="10%"/>
+            <col align='right' width="10%"/>
+        </colgroup>
+        <tr class='testclass failClass'>
+            <td>qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSip</td>
+            <td>17</td>
+            <td>1</td>
+            <td>15</td>
+            <td>1</td>
+            <td><a href="javascript:void(0)" onclick="showClassDetail(this.parentNode.parentNode)">Detail</a></td>
+        </tr>    
+        <!-- for every test -->
+
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_assert_output_series' class='testcase'>
+            <td class="passCase">
+                test_assert_output_series
+                    <div class="shortDescription">
+                        Verify that each output variable is a pd.Series
+                    </div>
+            </td>
+            <td>0:00:00.005000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_assert_output_series')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_assert_output_series' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_assert_output_series').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>model output properties as pandas series
+╒════╤═════╤═════╕
+│    │   0 │   1 │
+╞════╪═════╪═════╡
+│  0 │   1 │   1 │
+├────┼─────┼─────┤
+│  1 │   1 │   1 │
+├────┼─────┼─────┤
+│  2 │   1 │   1 │
+├────┼─────┼─────┤
+│  3 │   1 │   1 │
+├────┼─────┼─────┤
+│  4 │   1 │   1 │
+├────┼─────┼─────┤
+│  5 │   1 │   1 │
+├────┼─────┼─────┤
+│  6 │   1 │   1 │
+├────┼─────┼─────┤
+│  7 │   1 │   1 │
+├────┼─────┼─────┤
+│  8 │   1 │   1 │
+├────┼─────┼─────┤
+│  9 │   1 │   1 │
+├────┼─────┼─────┤
+│ 10 │   1 │   1 │
+├────┼─────┼─────┤
+│ 11 │   1 │   1 │
+├────┼─────┼─────┤
+│ 12 │   1 │   1 │
+├────┼─────┼─────┤
+│ 13 │   1 │   1 │
+├────┼─────┼─────┤
+│ 14 │   1 │   1 │
+├────┼─────┼─────┤
+│ 15 │   1 │   1 │
+├────┼─────┼─────┤
+│ 16 │   1 │   1 │
+├────┼─────┼─────┤
+│ 17 │   1 │   1 │
+├────┼─────┼─────┤
+│ 18 │   1 │   1 │
+├────┼─────┼─────┤
+│ 19 │   1 │   1 │
+╘════╧═════╧═════╛
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_assert_output_series_dtypes' class='testcase'>
+            <td class="failCase">
+                test_assert_output_series_dtypes
+                    <div class="shortDescription">
+                        Verify that each output variable is the correct dtype
+                    </div>
+            </td>
+            <td>0:00:06.807000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_assert_output_series_dtypes')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_assert_output_series_dtypes' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_assert_output_series_dtypes').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>2
+out_det_other_2
+False/True
+object/float64
+result
+0    Series([], dtype: float64)
+1    Series([], dtype: float64)
+2    Series([], dtype: float64)
+3    Series([], dtype: float64)
+4    Series([], dtype: float64)
+5    Series([], dtype: float64)
+6    Series([], dtype: float64)
+7    Series([], dtype: float64)
+8    Series([], dtype: float64)
+9    Series([], dtype: float64)
+dtype: object
+expected
+0    Series([], dtype: float64)
+1    Series([], dtype: float64)
+2    Series([], dtype: float64)
+3    Series([], dtype: float64)
+4    Series([], dtype: float64)
+5    Series([], dtype: float64)
+6    Series([], dtype: float64)
+7    Series([], dtype: float64)
+8    Series([], dtype: float64)
+9    Series([], dtype: float64)
+Name: out_det_other_2, dtype: object
+18
+out_det_other_1
+False/True
+object/float64
+result
+0    Series([], dtype: float64)
+1    Series([], dtype: float64)
+2    Series([], dtype: float64)
+3    Series([], dtype: float64)
+4    Series([], dtype: float64)
+5    Series([], dtype: float64)
+6    Series([], dtype: float64)
+7    Series([], dtype: float64)
+8    Series([], dtype: float64)
+9    Series([], dtype: float64)
+dtype: object
+expected
+0    Series([], dtype: float64)
+1    Series([], dtype: float64)
+2    Series([], dtype: float64)
+3    Series([], dtype: float64)
+4    Series([], dtype: float64)
+5    Series([], dtype: float64)
+6    Series([], dtype: float64)
+7    Series([], dtype: float64)
+8    Series([], dtype: float64)
+9    Series([], dtype: float64)
+Name: out_det_other_1, dtype: object
+
+
+Arrays are not equal
+
+(mismatch 10.0%)
+ x: array([ True,  True, False,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+       False,  True], dtype=bool)
+ y: array([ True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True,  True], dtype=bool)
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 165, in test_assert_output_series_dtypes
+    npt.assert_array_equal(result, expected)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 813, in assert_array_equal
+    verbose=verbose, header='Arrays are not equal')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 739, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Arrays are not equal
+
+(mismatch 10.0%)
+ x: array([ True,  True, False,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+       False,  True], dtype=bool)
+ y: array([ True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True,  True], dtype=bool)
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_act' class='testcase'>
+            <td class="failCase">
+                test_sip_integration_act
+                    <div class="shortDescription">
+                        Integration test for output sip.act
+                    </div>
+            </td>
+            <td>0:00:00.014000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_act')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_act' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_act').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_integration_act
+==  =========  ==========
+      out_act     exp_act
+==  =========  ==========
+ 0        nan   7.69161
+ 1        nan   2.30748
+ 2        nan   0.769161
+ 3        nan   3.8458
+ 4        nan   0.57687
+ 5        nan  12.5373
+ 6        nan   0.0769161
+ 7        nan  26.4591
+ 8        nan   0.0769161
+ 9        nan   0.0769161
+==  =========  ==========
+
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  7.691606,   2.307482,   0.769161,   3.845803,   0.57687 ,
+        12.537317,   0.076916,  26.459124,   0.076916,   0.076916])
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 250, in test_sip_integration_act
+    self.blackbox_method_int('act', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  7.691606,   2.307482,   0.769161,   3.845803,   0.57687 ,
+        12.537317,   0.076916,  26.459124,   0.076916,   0.076916])
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_acuconb' class='testcase'>
+            <td class="failCase">
+                test_sip_integration_acuconb
+                    <div class="shortDescription">
+                        Integration test for output sip.acuconb
+                    </div>
+            </td>
+            <td>0:00:00.022000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_acuconb')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_acuconb' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_acuconb').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>sip integration test for acuconb
+
+                                         out_acuconb  \
+0  Exposure through drinking water alone is a pot...   
+1  Exposure through drinking water alone is a pot...   
+2  Exposure through drinking water alone is a pot...   
+3  Exposure through drinking water alone is a pot...   
+4  Exposure through drinking water alone is a pot...   
+5  Exposure through drinking water alone is a pot...   
+6  Exposure through drinking water alone is a pot...   
+7  Exposure through drinking water alone is a pot...   
+8  Exposure through drinking water alone is a pot...   
+9  Exposure through drinking water alone is a pot...   
+
+                                         exp_acuconb  
+0  Drinking water exposure alone is NOT a potenti...  
+1  Drinking water exposure alone is NOT a potenti...  
+2  Exposure through drinking water alone is a pot...  
+3  Exposure through drinking water alone is a pot...  
+4  Drinking water exposure alone is NOT a potenti...  
+5  Exposure through drinking water alone is a pot...  
+6  Exposure through drinking water alone is a pot...  
+7  Exposure through drinking water alone is a pot...  
+8  Exposure through drinking water alone is a pot...  
+9  Exposure through drinking water alone is a pot...  
+
+
+test_sip_integration_acuconb
+==  ======================================================================  ======================================================================
+    out_acuconb                                                             exp_acuconb
+==  ======================================================================  ======================================================================
+ 0  Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds
+ 1  Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds
+ 2  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 3  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 4  Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds
+ 5  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 6  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 7  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 8  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 9  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+==  ======================================================================  ======================================================================
+
+
+Arrays are not equal
+
+(mismatch 30.0%)
+ x: array(['Exposure through drinking water alone is a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',...
+ y: array(['Drinking water exposure alone is NOT a potential concern for birds',
+       'Drinking water exposure alone is NOT a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',...
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 274, in test_sip_integration_acuconb
+    self.blackbox_method_str('acuconb', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 386, in blackbox_method_str
+    npt.assert_array_equal(result, expected)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 813, in assert_array_equal
+    verbose=verbose, header='Arrays are not equal')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 739, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Arrays are not equal
+
+(mismatch 30.0%)
+ x: array(['Exposure through drinking water alone is a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',...
+ y: array(['Drinking water exposure alone is NOT a potential concern for birds',
+       'Drinking water exposure alone is NOT a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',...
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_acuconm' class='testcase'>
+            <td class="failCase">
+                test_sip_integration_acuconm
+                    <div class="shortDescription">
+                        Integration test for output sip.acuconm
+                    </div>
+            </td>
+            <td>0:00:00.023000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_acuconm')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_acuconm' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_acuconm').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>sip integration test for acuconm
+
+                                         out_acuconm  \
+0  Exposure through drinking water alone is a pot...   
+1  Exposure through drinking water alone is a pot...   
+2  Exposure through drinking water alone is a pot...   
+3  Exposure through drinking water alone is a pot...   
+4  Exposure through drinking water alone is a pot...   
+5  Exposure through drinking water alone is a pot...   
+6  Exposure through drinking water alone is a pot...   
+7  Exposure through drinking water alone is a pot...   
+8  Exposure through drinking water alone is a pot...   
+9  Exposure through drinking water alone is a pot...   
+
+                                         exp_acuconm  
+0  Drinking water exposure alone is NOT a potenti...  
+1  Drinking water exposure alone is NOT a potenti...  
+2  Drinking water exposure alone is NOT a potenti...  
+3  Drinking water exposure alone is NOT a potenti...  
+4  Drinking water exposure alone is NOT a potenti...  
+5  Drinking water exposure alone is NOT a potenti...  
+6  Exposure through drinking water alone is a pot...  
+7  Drinking water exposure alone is NOT a potenti...  
+8  Exposure through drinking water alone is a pot...  
+9  Exposure through drinking water alone is a pot...  
+
+
+test_sip_integration_acuconm
+==  ========================================================================  ========================================================================
+    out_acuconm                                                               exp_acuconm
+==  ========================================================================  ========================================================================
+ 0  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 1  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 2  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 3  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 4  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 5  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 6  Exposure through drinking water alone is a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals
+ 7  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 8  Exposure through drinking water alone is a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals
+ 9  Exposure through drinking water alone is a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals
+==  ========================================================================  ========================================================================
+
+
+Arrays are not equal
+
+(mismatch 70.0%)
+ x: array([ 'Exposure through drinking water alone is a potential concern for mammals',
+       'Exposure through drinking water alone is a potential concern for mammals',
+       'Exposure through drinking water alone is a potential concern for mammals',...
+ y: array(['Drinking water exposure alone is NOT a potential concern for mammals',
+       'Drinking water exposure alone is NOT a potential concern for mammals',
+       'Drinking water exposure alone is NOT a potential concern for mammals',...
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 298, in test_sip_integration_acuconm
+    self.blackbox_method_str('acuconm', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 386, in blackbox_method_str
+    npt.assert_array_equal(result, expected)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 813, in assert_array_equal
+    verbose=verbose, header='Arrays are not equal')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 739, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Arrays are not equal
+
+(mismatch 70.0%)
+ x: array([ 'Exposure through drinking water alone is a potential concern for mammals',
+       'Exposure through drinking water alone is a potential concern for mammals',
+       'Exposure through drinking water alone is a potential concern for mammals',...
+ y: array(['Drinking water exposure alone is NOT a potential concern for mammals',
+       'Drinking water exposure alone is NOT a potential concern for mammals',
+       'Drinking water exposure alone is NOT a potential concern for mammals',...
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_acute_bird' class='testcase'>
+            <td class="failCase">
+                test_sip_integration_acute_bird
+                    <div class="shortDescription">
+                        Integration test for output sip.acute_bird
+                    </div>
+            </td>
+            <td>0:00:00.013000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_acute_bird')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_acute_bird' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_acute_bird').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_integration_acute_bird
+==  ================  ================
+      out_acute_bird    exp_acute_bird
+==  ================  ================
+ 0               nan        0.00928759
+ 1               nan        0.025916
+ 2               nan        0.569132
+ 3               nan       65.0007
+ 4               nan        0.00324131
+ 5               nan        2.66733
+ 6               nan      335.765
+ 7               nan        0.463512
+ 8               nan        1.2798e+06
+ 9               nan        0.379784
+==  ================  ================
+
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  9.287591e-03,   2.591595e-02,   5.691316e-01,   6.500067e+01,
+         3.241310e-03,   2.667330e+00,   3.357651e+02,   4.635118e-01,
+         1.279800e+06,   3.797845e-01])
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 262, in test_sip_integration_acute_bird
+    self.blackbox_method_int('acute_bird', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  9.287591e-03,   2.591595e-02,   5.691316e-01,   6.500067e+01,
+         3.241310e-03,   2.667330e+00,   3.357651e+02,   4.635118e-01,
+         1.279800e+06,   3.797845e-01])
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_acute_mamm' class='testcase'>
+            <td class="failCase">
+                test_sip_integration_acute_mamm
+                    <div class="shortDescription">
+                        Integration test for output sip.acute_mamm
+                    </div>
+            </td>
+            <td>0:00:00.014000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_acute_mamm')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_acute_mamm' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_acute_mamm').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_integration_acute_mamm
+==  ================  ================
+      out_acute_mamm    exp_acute_mamm
+==  ================  ================
+ 0               nan       0.00418765
+ 1               nan       3.62265e-05
+ 2               nan       0.00366877
+ 3               nan       0.0117798
+ 4               nan       0.00188312
+ 5               nan       0.090327
+ 6               nan       8.83606
+ 7               nan       0.0186141
+ 8               nan    1490.8
+ 9               nan       4.09971
+==  ================  ================
+
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  4.187648e-03,   3.622650e-05,   3.668772e-03,   1.177983e-02,
+         1.883119e-03,   9.032702e-02,   8.836065e+00,   1.861407e-02,
+         1.490803e+03,   4.099707e+00])
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 286, in test_sip_integration_acute_mamm
+    self.blackbox_method_int('acute_mamm', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  4.187648e-03,   3.622650e-05,   3.668772e-03,   1.177983e-02,
+         1.883119e-03,   9.032702e-02,   8.836065e+00,   1.861407e-02,
+         1.490803e+03,   4.099707e+00])
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_at_bird' class='testcase'>
+            <td class="failCase">
+                test_sip_integration_at_bird
+                    <div class="shortDescription">
+                        Integration test for output sip.at_bird
+                    </div>
+            </td>
+            <td>0:00:00.013000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_at_bird')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_at_bird' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_at_bird').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_integration_at_bird
+==  =============  =============
+      out_at_bird    exp_at_bird
+==  =============  =============
+ 0            nan    3052.46
+ 1            nan      25.3165
+ 2            nan       1.49438
+ 3            nan       0.747685
+ 4            nan      79.9677
+ 5            nan     112.36
+ 6            nan       3.13612
+ 7            nan     258.634
+ 8            nan       0.126582
+ 9            nan     117.303
+==  =============  =============
+
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  3.052460e+03,   2.531646e+01,   1.494382e+00,   7.476846e-01,
+         7.996768e+01,   1.123596e+02,   3.136121e+00,   2.586342e+02,
+         1.265823e-01,   1.173034e+02])
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 201, in test_sip_integration_at_bird
+    self.blackbox_method_int('at_bird', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  3.052460e+03,   2.531646e+01,   1.494382e+00,   7.476846e-01,
+         7.996768e+01,   1.123596e+02,   3.136121e+00,   2.586342e+02,
+         1.265823e-01,   1.173034e+02])
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_at_mamm' class='testcase'>
+            <td class="failCase">
+                test_sip_integration_at_mamm
+                    <div class="shortDescription">
+                        Integration test for output sip.at_mamm
+                    </div>
+            </td>
+            <td>0:00:00.014000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_at_mamm')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_at_mamm' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_at_mamm').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_integration_at_mamm
+==  =============  =============
+      out_at_mamm    exp_at_mamm
+==  =============  =============
+ 0            nan     1437.56
+ 1            nan     3845.8
+ 2            nan       49.2263
+ 3            nan      876.074
+ 4            nan       29.2281
+ 5            nan      704.551
+ 6            nan       25.3054
+ 7            nan     1367.57
+ 8            nan       23.0748
+ 9            nan        2.30748
+==  =============  =============
+
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  1.437561e+03,   3.845803e+03,   4.922628e+01,   8.760739e+02,
+         2.922810e+01,   7.045511e+02,   2.530538e+01,   1.367567e+03,
+         2.307482e+01,   2.307482e+00])
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 213, in test_sip_integration_at_mamm
+    self.blackbox_method_int('at_mamm', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  1.437561e+03,   3.845803e+03,   4.922628e+01,   8.760739e+02,
+         2.922810e+01,   7.045511e+02,   2.530538e+01,   1.367567e+03,
+         2.307482e+01,   2.307482e+00])
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_chron_bird' class='testcase'>
+            <td class="failCase">
+                test_sip_integration_chron_bird
+                    <div class="shortDescription">
+                        Integration test for output sip.chron_bird
+                    </div>
+            </td>
+            <td>0:00:00.013000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_chron_bird')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_chron_bird' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_chron_bird').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_integration_chron_bird
+==  ================  ================
+      out_chron_bird    exp_chron_bird
+==  ================  ================
+ 0               nan         2.53968
+ 1               nan         0.0403415
+ 2               nan         0.685713
+ 3               nan       118.023
+ 4               nan         0.174149
+ 5               nan        24.962
+ 6               nan     10405.5
+ 7               nan        10.2524
+ 8               nan    508004
+ 9               nan        66.8427
+==  ================  ================
+
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  2.539679e+00,   4.034151e-02,   6.857134e-01,   1.180230e+02,
+         1.741494e-01,   2.496202e+01,   1.040555e+04,   1.025245e+01,
+         5.080043e+05,   6.684267e+01])
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 310, in test_sip_integration_chron_bird
+    self.blackbox_method_int('chron_bird', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  2.539679e+00,   4.034151e-02,   6.857134e-01,   1.180230e+02,
+         1.741494e-01,   2.496202e+01,   1.040555e+04,   1.025245e+01,
+         5.080043e+05,   6.684267e+01])
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_chron_mamm' class='testcase'>
+            <td class="failCase">
+                test_sip_integration_chron_mamm
+                    <div class="shortDescription">
+                        integration test for output sip.chron_mamm
+                    </div>
+            </td>
+            <td>0:00:00.014000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_chron_mamm')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_chron_mamm' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_chron_mamm').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_integration_chron_mamm
+==  ================  ================
+      out_chron_mamm    exp_chron_mamm
+==  ================  ================
+ 0               nan         0.782671
+ 1               nan         0.0603775
+ 2               nan         0.234801
+ 3               nan         2.68344
+ 4               nan         0.0954114
+ 5               nan         5.07605
+ 6               nan      2907.07
+ 7               nan         0.962088
+ 8               nan    447241
+ 9               nan       122.991
+==  ================  ================
+
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  7.826714e-01,   6.037751e-02,   2.348014e-01,   2.683445e+00,
+         9.541137e-02,   5.076046e+00,   2.907065e+03,   9.620878e-01,
+         4.472408e+05,   1.229912e+02])
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 334, in test_sip_integration_chron_mamm
+    self.blackbox_method_int('chron_mamm', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  7.826714e-01,   6.037751e-02,   2.348014e-01,   2.683445e+00,
+         9.541137e-02,   5.076046e+00,   2.907065e+03,   9.620878e-01,
+         4.472408e+05,   1.229912e+02])
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_chronconb' class='testcase'>
+            <td class="failCase">
+                test_sip_integration_chronconb
+                    <div class="shortDescription">
+                        Integration test for output sip.chronconb
+                    </div>
+            </td>
+            <td>0:00:00.026000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_chronconb')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_chronconb' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_chronconb').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>sip integration test for chronconb
+
+                                       out_chronconb  \
+0  Exposure through drinking water alone is a pot...   
+1  Exposure through drinking water alone is a pot...   
+2  Exposure through drinking water alone is a pot...   
+3  Exposure through drinking water alone is a pot...   
+4  Exposure through drinking water alone is a pot...   
+5  Exposure through drinking water alone is a pot...   
+6  Exposure through drinking water alone is a pot...   
+7  Exposure through drinking water alone is a pot...   
+8  Exposure through drinking water alone is a pot...   
+9  Exposure through drinking water alone is a pot...   
+
+                                       exp_chronconb  
+0  Exposure through drinking water alone is a pot...  
+1  Drinking water exposure alone is NOT a potenti...  
+2  Drinking water exposure alone is NOT a potenti...  
+3  Exposure through drinking water alone is a pot...  
+4  Drinking water exposure alone is NOT a potenti...  
+5  Exposure through drinking water alone is a pot...  
+6  Exposure through drinking water alone is a pot...  
+7  Exposure through drinking water alone is a pot...  
+8  Exposure through drinking water alone is a pot...  
+9  Exposure through drinking water alone is a pot...  
+
+
+test_sip_integration_chronconb
+==  ======================================================================  ======================================================================
+    out_chronconb                                                           exp_chronconb
+==  ======================================================================  ======================================================================
+ 0  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 1  Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds
+ 2  Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds
+ 3  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 4  Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds
+ 5  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 6  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 7  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 8  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 9  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+==  ======================================================================  ======================================================================
+
+
+Arrays are not equal
+
+(mismatch 30.0%)
+ x: array(['Exposure through drinking water alone is a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',...
+ y: array(['Exposure through drinking water alone is a potential concern for birds',
+       'Drinking water exposure alone is NOT a potential concern for birds',
+       'Drinking water exposure alone is NOT a potential concern for birds',...
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 322, in test_sip_integration_chronconb
+    self.blackbox_method_str('chronconb', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 386, in blackbox_method_str
+    npt.assert_array_equal(result, expected)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 813, in assert_array_equal
+    verbose=verbose, header='Arrays are not equal')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 739, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Arrays are not equal
+
+(mismatch 30.0%)
+ x: array(['Exposure through drinking water alone is a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',...
+ y: array(['Exposure through drinking water alone is a potential concern for birds',
+       'Drinking water exposure alone is NOT a potential concern for birds',
+       'Drinking water exposure alone is NOT a potential concern for birds',...
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_chronconm' class='testcase'>
+            <td class="failCase">
+                test_sip_integration_chronconm
+                    <div class="shortDescription">
+                        integration test for output sip.chronconm
+                    </div>
+            </td>
+            <td>0:00:00.022000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_chronconm')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_chronconm' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_chronconm').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>sip integration test for chronconm
+
+                                       out_chronconm  \
+0  Exposure through drinking water alone is a pot...   
+1  Exposure through drinking water alone is a pot...   
+2  Exposure through drinking water alone is a pot...   
+3  Exposure through drinking water alone is a pot...   
+4  Exposure through drinking water alone is a pot...   
+5  Exposure through drinking water alone is a pot...   
+6  Exposure through drinking water alone is a pot...   
+7  Exposure through drinking water alone is a pot...   
+8  Exposure through drinking water alone is a pot...   
+9  Exposure through drinking water alone is a pot...   
+
+                                       exp_chronconm  
+0  Drinking water exposure alone is NOT a potenti...  
+1  Drinking water exposure alone is NOT a potenti...  
+2  Drinking water exposure alone is NOT a potenti...  
+3  Exposure through drinking water alone is a pot...  
+4  Drinking water exposure alone is NOT a potenti...  
+5  Exposure through drinking water alone is a pot...  
+6  Exposure through drinking water alone is a pot...  
+7  Drinking water exposure alone is NOT a potenti...  
+8  Exposure through drinking water alone is a pot...  
+9  Exposure through drinking water alone is a pot...  
+
+
+test_sip_integration_chronconm
+==  ========================================================================  ========================================================================
+    out_chronconm                                                             exp_chronconm
+==  ========================================================================  ========================================================================
+ 0  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 1  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 2  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 3  Exposure through drinking water alone is a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals
+ 4  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 5  Exposure through drinking water alone is a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals
+ 6  Exposure through drinking water alone is a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals
+ 7  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 8  Exposure through drinking water alone is a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals
+ 9  Exposure through drinking water alone is a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals
+==  ========================================================================  ========================================================================
+
+
+Arrays are not equal
+
+(mismatch 50.0%)
+ x: array([ 'Exposure through drinking water alone is a potential concern for mammals',
+       'Exposure through drinking water alone is a potential concern for mammals',
+       'Exposure through drinking water alone is a potential concern for mammals',...
+ y: array(['Drinking water exposure alone is NOT a potential concern for mammals',
+       'Drinking water exposure alone is NOT a potential concern for mammals',
+       'Drinking water exposure alone is NOT a potential concern for mammals',...
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 346, in test_sip_integration_chronconm
+    self.blackbox_method_str('chronconm', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 386, in blackbox_method_str
+    npt.assert_array_equal(result, expected)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 813, in assert_array_equal
+    verbose=verbose, header='Arrays are not equal')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 739, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Arrays are not equal
+
+(mismatch 50.0%)
+ x: array([ 'Exposure through drinking water alone is a potential concern for mammals',
+       'Exposure through drinking water alone is a potential concern for mammals',
+       'Exposure through drinking water alone is a potential concern for mammals',...
+ y: array(['Drinking water exposure alone is NOT a potential concern for mammals',
+       'Drinking water exposure alone is NOT a potential concern for mammals',
+       'Drinking water exposure alone is NOT a potential concern for mammals',...
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_det' class='testcase'>
+            <td class="failCase">
+                test_sip_integration_det
+                    <div class="shortDescription">
+                        Integration test for output sip.det
+                    </div>
+            </td>
+            <td>0:00:00.013000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_det')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_det' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_det').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_integration_det
+==  =========  =========
+      out_det    exp_det
+==  =========  =========
+ 0        nan  11.1628
+ 1        nan  16.2636
+ 2        nan   1.24031
+ 3        nan   0.411784
+ 4        nan   1.48838
+ 5        nan  12.0062
+ 6        nan   0.101196
+ 7        nan  11.6928
+ 8        nan   0.318895
+ 9        nan   0.66649
+==  =========  =========
+
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([ 11.162827,  16.263643,   1.240314,   0.411784,   1.488377,
+        12.00624 ,   0.101196,  11.692815,   0.318895,   0.66649 ])
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 238, in test_sip_integration_det
+    self.blackbox_method_int('det', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([ 11.162827,  16.263643,   1.240314,   0.411784,   1.488377,
+        12.00624 ,   0.101196,  11.692815,   0.318895,   0.66649 ])
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_dose_bird' class='testcase'>
+            <td class="failCase">
+                test_sip_integration_dose_bird
+                    <div class="shortDescription">
+                        Integration test for output sip.dose_bird
+                    </div>
+            </td>
+            <td>0:00:00.014000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_dose_bird')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_dose_bird' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_dose_bird').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_integration_dose_bird
+==  ===============  ===============
+      out_dose_bird    exp_dose_bird
+==  ===============  ===============
+ 0              nan          28.35
+ 1              nan           0.6561
+ 2              nan           0.8505
+ 3              nan          48.6
+ 4              nan           0.2592
+ 5              nan         299.7
+ 6              nan        1053
+ 7              nan         119.88
+ 8              nan      162000
+ 9              nan          44.55
+==  ===============  ===============
+
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  2.835000e+01,   6.561000e-01,   8.505000e-01,   4.860000e+01,
+         2.592000e-01,   2.997000e+02,   1.053000e+03,   1.198800e+02,
+         1.620000e+05,   4.455000e+01])
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 177, in test_sip_integration_dose_bird
+    self.blackbox_method_int('dose_bird', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  2.835000e+01,   6.561000e-01,   8.505000e-01,   4.860000e+01,
+         2.592000e-01,   2.997000e+02,   1.053000e+03,   1.198800e+02,
+         1.620000e+05,   4.455000e+01])
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_dose_mamm' class='testcase'>
+            <td class="failCase">
+                test_sip_integration_dose_mamm
+                    <div class="shortDescription">
+                        Integration test for output sip.dose_mamm
+                    </div>
+            </td>
+            <td>0:00:00.013000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_dose_mamm')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_dose_mamm' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_dose_mamm').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_integration_dose_mamm
+==  ===============  ===============
+      out_dose_mamm    exp_dose_mamm
+==  ===============  ===============
+ 0              nan          6.02
+ 1              nan          0.13932
+ 2              nan          0.1806
+ 3              nan         10.32
+ 4              nan          0.05504
+ 5              nan         63.64
+ 6              nan        223.6
+ 7              nan         25.456
+ 8              nan      34400
+ 9              nan          9.46
+==  ===============  ===============
+
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  6.020000e+00,   1.393200e-01,   1.806000e-01,   1.032000e+01,
+         5.504000e-02,   6.364000e+01,   2.236000e+02,   2.545600e+01,
+         3.440000e+04,   9.460000e+00])
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 189, in test_sip_integration_dose_mamm
+    self.blackbox_method_int('dose_mamm', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  6.020000e+00,   1.393200e-01,   1.806000e-01,   1.032000e+01,
+         5.504000e-02,   6.364000e+01,   2.236000e+02,   2.545600e+01,
+         3.440000e+04,   9.460000e+00])
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_fi_bird' class='testcase'>
+            <td class="failCase">
+                test_sip_integration_fi_bird
+                    <div class="shortDescription">
+                        Integration test for output sip.fi_bird
+                    </div>
+            </td>
+            <td>0:00:00.001000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_fi_bird')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_fi_bird' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_integration.TestSiptest_sip_integration_fi_bird').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+local variable 'result' referenced before assignment
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 225, in test_sip_integration_fi_bird
+    self.blackbox_method_int('fi_bird', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 368, in blackbox_method_int
+    tab = pd.concat([result, expected], axis=1)
+UnboundLocalError: local variable 'result' referenced before assignment
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>    <table class='result_table'>
+	    <colgroup>
+            <col align='left' width="50%" />
+            <col align='right' width="10%"/>
+            <col align='right' width="10%"/>
+            <col align='right' width="10%"/>
+            <col align='right' width="10%"/>
+            <col align='right' width="10%"/>
+        </colgroup>
+        <tr class='testclass failClass'>
+            <td>qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSip</td>
+            <td>17</td>
+            <td>13</td>
+            <td>2</td>
+            <td>2</td>
+            <td><a href="javascript:void(0)" onclick="showClassDetail(this.parentNode.parentNode)">Detail</a></td>
+        </tr>    
+        <!-- for every test -->
+
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_act' class='testcase'>
+            <td class="passCase">
+                test_sip_unit_act
+                    <div class="shortDescription">
+                        unittest for function sip.test_act:
+                    </div>
+            </td>
+            <td>0:00:00.003000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_act')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_act' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_act').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_act
+=======  =======  =======
+      0        1        2
+=======  =======  =======
+10.5737  124.803  416.487
+10.5737  124.803  416.487
+=======  =======  =======
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_acuconb' class='testcase'>
+            <td class="passCase">
+                test_sip_unit_acuconb
+                    <div class="shortDescription">
+                        unittest for function sip.acuconb:
+                    </div>
+            </td>
+            <td>0:00:00.002000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_acuconb')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_acuconb' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_acuconb').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_acuconb
+======================================================================  ==================================================================  ======================================================================
+0                                                                       1                                                                   2
+======================================================================  ==================================================================  ======================================================================
+Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+======================================================================  ==================================================================  ======================================================================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_acuconm' class='testcase'>
+            <td class="passCase">
+                test_sip_unit_acuconm
+                    <div class="shortDescription">
+                        unittest for function sip.acuconm:
+                    </div>
+            </td>
+            <td>0:00:00.002000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_acuconm')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_acuconm' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_acuconm').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_acuconm
+====================================================================  ========================================================================  ====================================================================
+0                                                                     1                                                                         2
+====================================================================  ========================================================================  ====================================================================
+Drinking water exposure alone is NOT a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+Drinking water exposure alone is NOT a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+====================================================================  ========================================================================  ====================================================================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_acute_bird' class='testcase'>
+            <td class="passCase">
+                test_sip_unit_acute_bird
+                    <div class="shortDescription">
+                        unittest for function sip.acute_bird:
+                    </div>
+            </td>
+            <td>0:00:00.001000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_acute_bird')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_acute_bird' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_acute_bird').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_acute_bird
+===  =======  ========
+  0        1         2
+===  =======  ========
+ 10  5.22093  0.47964
+ 10  5.22093  0.479639
+===  =======  ========
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_acute_mamm' class='testcase'>
+            <td class="passCase">
+                test_sip_unit_acute_mamm
+                    <div class="shortDescription">
+                        unittest for function sip.acute_mamm:
+                    </div>
+            </td>
+            <td>0:00:00.001000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_acute_mamm')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_acute_mamm' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_acute_mamm').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_acute_mamm
+===  =======  =======
+  0        1        2
+===  =======  =======
+ 10  14.6866  2.12485
+ 10  14.6866  2.12485
+===  =======  =======
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_at_bird' class='testcase'>
+            <td class="passCase">
+                test_sip_unit_at_bird
+                    <div class="shortDescription">
+                        unittest for function sip.at_bird:
+                    </div>
+            </td>
+            <td>0:00:00.003000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_at_bird')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_at_bird' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_at_bird').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_at_bird
+====  =======  =======
+   0        1        2
+====  =======  =======
+1000  687.923  109.336
+1000  687.923  109.336
+====  =======  =======
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_at_mamm' class='testcase'>
+            <td class="passCase">
+                test_sip_unit_at_mamm
+                    <div class="shortDescription">
+                        unittest for function sip.at_mamm:
+                    </div>
+            </td>
+            <td>0:00:00.002000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_at_mamm')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_at_mamm' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_at_mamm').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_at_mamm
+=======  =======  =======
+      0        1        2
+=======  =======  =======
+11.8921  214.057  412.686
+11.8921  214.057  412.686
+=======  =======  =======
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_chron_bird' class='testcase'>
+            <td class="passCase">
+                test_sip_unit_chron_bird
+                    <div class="shortDescription">
+                        unittest for function sip.chron_bird:
+                    </div>
+            </td>
+            <td>0:00:00.001000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_chron_bird')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_chron_bird' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_chron_bird').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_chron_bird
+===  ========  =======
+  0         1        2
+===  ========  =======
+0.5  0.108911  2.39858
+0.5  0.10891   2.39857
+===  ========  =======
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_chron_mamm' class='testcase'>
+            <td class="passCase">
+                test_sip_unit_chron_mamm
+                    <div class="shortDescription">
+                        unittest for function sip.chron_mamm:
+                    </div>
+            </td>
+            <td>0:00:00.002000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_chron_mamm')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_chron_mamm' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_chron_mamm').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_chron_mamm
+===  =======  =======
+  0        1        2
+===  =======  =======
+  2  14.1333  244.724
+  2  14.1333  244.725
+===  =======  =======
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_chronconb' class='testcase'>
+            <td class="passCase">
+                test_sip_unit_chronconb
+                    <div class="shortDescription">
+                        unittest for function sip.chronconb:
+                    </div>
+            </td>
+            <td>0:00:00.002000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_chronconb')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_chronconb' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_chronconb').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_chronconb
+==================================================================  ======================================================================  ==================================================================
+0                                                                   1                                                                       2
+==================================================================  ======================================================================  ==================================================================
+Drinking water exposure alone is NOT a potential concern for birds  Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds
+Drinking water exposure alone is NOT a potential concern for birds  Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds
+==================================================================  ======================================================================  ==================================================================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_chronconm' class='testcase'>
+            <td class="passCase">
+                test_sip_unit_chronconm
+                    <div class="shortDescription">
+                        unittest for function sip.chronconm:
+                    </div>
+            </td>
+            <td>0:00:00.001000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_chronconm')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_chronconm' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_chronconm').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_chronconm
+====================================================================  ========================================================================  ====================================================================
+0                                                                     1                                                                         2
+====================================================================  ========================================================================  ====================================================================
+Drinking water exposure alone is NOT a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+Drinking water exposure alone is NOT a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+====================================================================  ========================================================================  ====================================================================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_det' class='testcase'>
+            <td class="failCase">
+                test_sip_unit_det
+                    <div class="shortDescription">
+                        unittest for function sip.det
+                    </div>
+            </td>
+            <td>0:00:00.014000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_det')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_det' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_det').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_det
+========  =========  =========  ========
+       0          1          2         3
+========  =========  =========  ========
+nan       nan        nan        nan
+  4.2174    4.96125    7.97237   10.6646
+========  =========  =========  ========
+
+
+Not equal to tolerance rtol=0.0001, atol=0
+
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan])
+ y: array([  4.2174  ,   4.96125 ,   7.97237 ,  10.664648])
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_unittest.py", line 295, in test_sip_unit_det
+    npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=0.0001, atol=0
+
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan])
+ y: array([  4.2174  ,   4.96125 ,   7.97237 ,  10.664648])
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_dose_bird' class='testcase'>
+            <td class="passCase">
+                test_sip_unit_dose_bird
+                    <div class="shortDescription">
+                        unittest for function sip.dose_bird:
+                    </div>
+            </td>
+            <td>0:00:00.002000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_dose_bird')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_dose_bird' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_dose_bird').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_dose_bird
+=====  ======  ======
+    0       1       2
+=====  ======  ======
+1e+06  4805.5  849727
+1e+06  4805.5  849727
+=====  ======  ======
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_dose_mamm' class='testcase'>
+            <td class="passCase">
+                test_sip_unit_dose_mamm
+                    <div class="shortDescription">
+                        unittest for function sip.dose_mamm:
+                    </div>
+            </td>
+            <td>0:00:00.002000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_dose_mamm')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_dose_mamm' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_dose_mamm').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_dose_mamm
+=====  =======  ===========
+    0        1            2
+=====  =======  ===========
+8e+06  48205.8  3.80804e+06
+8e+06  48205.8  3.80804e+06
+=====  =======  ===========
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_fi_bird' class='testcase'>
+            <td class="failCase">
+                test_sip_unit_fi_bird
+                    <div class="shortDescription">
+                        unittest for function sip.fi_bird:
+                    </div>
+            </td>
+            <td>0:00:00.003000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_fi_bird')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_fi_bird' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_fi_bird').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_fi_bird
+
+
+
+
+Not equal to tolerance rtol=0.0001, atol=0
+
+(shapes (0L,), (3L,) mismatch)
+ x: array([], dtype=float64)
+ y: array([ 0.012999,  0.034076,  0.025681])
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_unittest.py", line 177, in test_sip_unit_fi_bird
+    npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 694, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=0.0001, atol=0
+
+(shapes (0L,), (3L,) mismatch)
+ x: array([], dtype=float64)
+ y: array([ 0.012999,  0.034076,  0.025681])
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_fw_bird' class='testcase'>
+            <td class="failCase">
+                test_sip_unit_fw_bird
+                    <div class="shortDescription">
+                        unittest for function sip.fw_bird:
+                    </div>
+            </td>
+            <td>0:00:00.003000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_fw_bird')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_fw_bird' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_fw_bird').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_fw_bird
+======  ======  ======
+     0       1       2
+======  ======  ======
+
+0.0162  0.0162  0.0162
+======  ======  ======
+
+ufunc 'isfinite' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''safe''
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_unittest.py", line 60, in test_sip_unit_fw_bird
+    npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 722, in assert_array_compare
+    val = safe_comparison(x, y)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 667, in safe_comparison
+    return comparison(*args, **kwargs)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1387, in compare
+    equal_nan=equal_nan)
+  File "c:\python27\lib\site-packages\numpy\core\numeric.py", line 2450, in isclose
+    xfin = isfinite(x)
+TypeError: ufunc 'isfinite' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''safe''
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_fw_mamm' class='testcase'>
+            <td class="failCase">
+                test_sip_unit_fw_mamm
+                    <div class="shortDescription">
+                        unittest for function sip.fw_mamm:
+                    </div>
+            </td>
+            <td>0:00:00.001000</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_fw_mamm')" >
+                Fail
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_fw_mamm' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.sip.tests.test_sip_unittest.TestSiptest_sip_unit_fw_mamm').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_sip_unit_fw_mamm
+=====  =====  =====
+    0      1      2
+=====  =====  =====
+
+0.172  0.172  0.172
+=====  =====  =====
+
+ufunc 'isfinite' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''safe''
+Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_unittest.py", line 78, in test_sip_unit_fw_mamm
+    npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 722, in assert_array_compare
+    val = safe_comparison(x, y)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 667, in safe_comparison
+    return comparison(*args, **kwargs)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1387, in compare
+    equal_nan=equal_nan)
+  File "c:\python27\lib\site-packages\numpy\core\numeric.py", line 2450, in isclose
+    xfin = isfinite(x)
+TypeError: ufunc 'isfinite' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''safe''
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr></table>
+    <table class='result_table'>
+        <colgroup>
+            <col align='left' width="50%"/>
+            <col align='right' width="10%" id="results_count"/>
+            <col align='right' width="10%" id="results_passed"/>
+            <col align='right' width="10%" id="results_failed"/>
+            <col align='right' width="10%" id="results_errors"/>
+            <col align='right' width="10%"/>
+        </colgroup>
+        <!-- test list end -->
+        <tr id='total_row'>
+            <td>Total</td>
+            <td>34</td>
+            <td>14</td>
+            <td>17</td>
+            <td>3</td>
+            <td>&nbsp;</td>
+        </tr>
+    </table>
+    <br/>
+    <a href="javascript:void(0)" onclick="showRawLog(document.getElementById('rawoutput'))">Full log raw output</a>
+    <div id='rawoutput' class='popup_window'>
+        <pre>
+
+test_sip_unit_act
+=======  =======  =======
+      0        1        2
+=======  =======  =======
+10.5737  124.803  416.487
+10.5737  124.803  416.487
+=======  =======  =======
+
+
+test_sip_unit_acuconb
+======================================================================  ==================================================================  ======================================================================
+0                                                                       1                                                                   2
+======================================================================  ==================================================================  ======================================================================
+Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+======================================================================  ==================================================================  ======================================================================
+
+
+test_sip_unit_acuconm
+====================================================================  ========================================================================  ====================================================================
+0                                                                     1                                                                         2
+====================================================================  ========================================================================  ====================================================================
+Drinking water exposure alone is NOT a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+Drinking water exposure alone is NOT a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+====================================================================  ========================================================================  ====================================================================
+
+
+test_sip_unit_acute_bird
+===  =======  ========
+  0        1         2
+===  =======  ========
+ 10  5.22093  0.47964
+ 10  5.22093  0.479639
+===  =======  ========
+
+
+test_sip_unit_acute_mamm
+===  =======  =======
+  0        1        2
+===  =======  =======
+ 10  14.6866  2.12485
+ 10  14.6866  2.12485
+===  =======  =======
+
+
+test_sip_unit_at_bird
+====  =======  =======
+   0        1        2
+====  =======  =======
+1000  687.923  109.336
+1000  687.923  109.336
+====  =======  =======
+
+
+test_sip_unit_at_mamm
+=======  =======  =======
+      0        1        2
+=======  =======  =======
+11.8921  214.057  412.686
+11.8921  214.057  412.686
+=======  =======  =======
+
+
+test_sip_unit_chron_bird
+===  ========  =======
+  0         1        2
+===  ========  =======
+0.5  0.108911  2.39858
+0.5  0.10891   2.39857
+===  ========  =======
+
+
+test_sip_unit_chron_mamm
+===  =======  =======
+  0        1        2
+===  =======  =======
+  2  14.1333  244.724
+  2  14.1333  244.725
+===  =======  =======
+
+
+test_sip_unit_chronconb
+==================================================================  ======================================================================  ==================================================================
+0                                                                   1                                                                       2
+==================================================================  ======================================================================  ==================================================================
+Drinking water exposure alone is NOT a potential concern for birds  Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds
+Drinking water exposure alone is NOT a potential concern for birds  Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds
+==================================================================  ======================================================================  ==================================================================
+
+
+test_sip_unit_chronconm
+====================================================================  ========================================================================  ====================================================================
+0                                                                     1                                                                         2
+====================================================================  ========================================================================  ====================================================================
+Drinking water exposure alone is NOT a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+Drinking water exposure alone is NOT a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+====================================================================  ========================================================================  ====================================================================
+
+
+test_sip_unit_det
+========  =========  =========  ========
+       0          1          2         3
+========  =========  =========  ========
+nan       nan        nan        nan
+  4.2174    4.96125    7.97237   10.6646
+========  =========  =========  ========
+
+Not equal to tolerance rtol=0.0001, atol=0
+
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan])
+ y: array([  4.2174  ,   4.96125 ,   7.97237 ,  10.664648])Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_unittest.py", line 295, in test_sip_unit_det
+    npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=0.0001, atol=0
+
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan])
+ y: array([  4.2174  ,   4.96125 ,   7.97237 ,  10.664648])
+
+
+test_sip_unit_dose_bird
+=====  ======  ======
+    0       1       2
+=====  ======  ======
+1e+06  4805.5  849727
+1e+06  4805.5  849727
+=====  ======  ======
+
+
+test_sip_unit_dose_mamm
+=====  =======  ===========
+    0        1            2
+=====  =======  ===========
+8e+06  48205.8  3.80804e+06
+8e+06  48205.8  3.80804e+06
+=====  =======  ===========
+
+
+test_sip_unit_fi_bird
+
+
+
+Not equal to tolerance rtol=0.0001, atol=0
+
+(shapes (0L,), (3L,) mismatch)
+ x: array([], dtype=float64)
+ y: array([ 0.012999,  0.034076,  0.025681])Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_unittest.py", line 177, in test_sip_unit_fi_bird
+    npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 694, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=0.0001, atol=0
+
+(shapes (0L,), (3L,) mismatch)
+ x: array([], dtype=float64)
+ y: array([ 0.012999,  0.034076,  0.025681])
+
+
+test_sip_unit_fw_bird
+======  ======  ======
+     0       1       2
+======  ======  ======
+
+0.0162  0.0162  0.0162
+======  ======  ======
+ufunc 'isfinite' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''safe''Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_unittest.py", line 60, in test_sip_unit_fw_bird
+    npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 722, in assert_array_compare
+    val = safe_comparison(x, y)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 667, in safe_comparison
+    return comparison(*args, **kwargs)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1387, in compare
+    equal_nan=equal_nan)
+  File "c:\python27\lib\site-packages\numpy\core\numeric.py", line 2450, in isclose
+    xfin = isfinite(x)
+TypeError: ufunc 'isfinite' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''safe''
+
+
+test_sip_unit_fw_mamm
+=====  =====  =====
+    0      1      2
+=====  =====  =====
+
+0.172  0.172  0.172
+=====  =====  =====
+ufunc 'isfinite' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''safe''Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_unittest.py", line 78, in test_sip_unit_fw_mamm
+    npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 722, in assert_array_compare
+    val = safe_comparison(x, y)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 667, in safe_comparison
+    return comparison(*args, **kwargs)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1387, in compare
+    equal_nan=equal_nan)
+  File "c:\python27\lib\site-packages\numpy\core\numeric.py", line 2450, in isclose
+    xfin = isfinite(x)
+TypeError: ufunc 'isfinite' not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule ''safe''
+model output properties as pandas series
+╒════╤═════╤═════╕
+│    │   0 │   1 │
+╞════╪═════╪═════╡
+│  0 │   1 │   1 │
+├────┼─────┼─────┤
+│  1 │   1 │   1 │
+├────┼─────┼─────┤
+│  2 │   1 │   1 │
+├────┼─────┼─────┤
+│  3 │   1 │   1 │
+├────┼─────┼─────┤
+│  4 │   1 │   1 │
+├────┼─────┼─────┤
+│  5 │   1 │   1 │
+├────┼─────┼─────┤
+│  6 │   1 │   1 │
+├────┼─────┼─────┤
+│  7 │   1 │   1 │
+├────┼─────┼─────┤
+│  8 │   1 │   1 │
+├────┼─────┼─────┤
+│  9 │   1 │   1 │
+├────┼─────┼─────┤
+│ 10 │   1 │   1 │
+├────┼─────┼─────┤
+│ 11 │   1 │   1 │
+├────┼─────┼─────┤
+│ 12 │   1 │   1 │
+├────┼─────┼─────┤
+│ 13 │   1 │   1 │
+├────┼─────┼─────┤
+│ 14 │   1 │   1 │
+├────┼─────┼─────┤
+│ 15 │   1 │   1 │
+├────┼─────┼─────┤
+│ 16 │   1 │   1 │
+├────┼─────┼─────┤
+│ 17 │   1 │   1 │
+├────┼─────┼─────┤
+│ 18 │   1 │   1 │
+├────┼─────┼─────┤
+│ 19 │   1 │   1 │
+╘════╧═════╧═════╛
+2
+out_det_other_2
+False/True
+object/float64
+result
+0    Series([], dtype: float64)
+1    Series([], dtype: float64)
+2    Series([], dtype: float64)
+3    Series([], dtype: float64)
+4    Series([], dtype: float64)
+5    Series([], dtype: float64)
+6    Series([], dtype: float64)
+7    Series([], dtype: float64)
+8    Series([], dtype: float64)
+9    Series([], dtype: float64)
+dtype: object
+expected
+0    Series([], dtype: float64)
+1    Series([], dtype: float64)
+2    Series([], dtype: float64)
+3    Series([], dtype: float64)
+4    Series([], dtype: float64)
+5    Series([], dtype: float64)
+6    Series([], dtype: float64)
+7    Series([], dtype: float64)
+8    Series([], dtype: float64)
+9    Series([], dtype: float64)
+Name: out_det_other_2, dtype: object
+18
+out_det_other_1
+False/True
+object/float64
+result
+0    Series([], dtype: float64)
+1    Series([], dtype: float64)
+2    Series([], dtype: float64)
+3    Series([], dtype: float64)
+4    Series([], dtype: float64)
+5    Series([], dtype: float64)
+6    Series([], dtype: float64)
+7    Series([], dtype: float64)
+8    Series([], dtype: float64)
+9    Series([], dtype: float64)
+dtype: object
+expected
+0    Series([], dtype: float64)
+1    Series([], dtype: float64)
+2    Series([], dtype: float64)
+3    Series([], dtype: float64)
+4    Series([], dtype: float64)
+5    Series([], dtype: float64)
+6    Series([], dtype: float64)
+7    Series([], dtype: float64)
+8    Series([], dtype: float64)
+9    Series([], dtype: float64)
+Name: out_det_other_1, dtype: object
+
+Arrays are not equal
+
+(mismatch 10.0%)
+ x: array([ True,  True, False,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+       False,  True], dtype=bool)
+ y: array([ True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True,  True], dtype=bool)Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 165, in test_assert_output_series_dtypes
+    npt.assert_array_equal(result, expected)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 813, in assert_array_equal
+    verbose=verbose, header='Arrays are not equal')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 739, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Arrays are not equal
+
+(mismatch 10.0%)
+ x: array([ True,  True, False,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+       False,  True], dtype=bool)
+ y: array([ True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True,  True,  True,  True,  True,  True,  True,  True,  True,
+        True,  True], dtype=bool)
+
+
+test_sip_integration_act
+==  =========  ==========
+      out_act     exp_act
+==  =========  ==========
+ 0        nan   7.69161
+ 1        nan   2.30748
+ 2        nan   0.769161
+ 3        nan   3.8458
+ 4        nan   0.57687
+ 5        nan  12.5373
+ 6        nan   0.0769161
+ 7        nan  26.4591
+ 8        nan   0.0769161
+ 9        nan   0.0769161
+==  =========  ==========
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  7.691606,   2.307482,   0.769161,   3.845803,   0.57687 ,
+        12.537317,   0.076916,  26.459124,   0.076916,   0.076916])Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 250, in test_sip_integration_act
+    self.blackbox_method_int('act', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  7.691606,   2.307482,   0.769161,   3.845803,   0.57687 ,
+        12.537317,   0.076916,  26.459124,   0.076916,   0.076916])
+sip integration test for acuconb
+
+                                         out_acuconb  \
+0  Exposure through drinking water alone is a pot...   
+1  Exposure through drinking water alone is a pot...   
+2  Exposure through drinking water alone is a pot...   
+3  Exposure through drinking water alone is a pot...   
+4  Exposure through drinking water alone is a pot...   
+5  Exposure through drinking water alone is a pot...   
+6  Exposure through drinking water alone is a pot...   
+7  Exposure through drinking water alone is a pot...   
+8  Exposure through drinking water alone is a pot...   
+9  Exposure through drinking water alone is a pot...   
+
+                                         exp_acuconb  
+0  Drinking water exposure alone is NOT a potenti...  
+1  Drinking water exposure alone is NOT a potenti...  
+2  Exposure through drinking water alone is a pot...  
+3  Exposure through drinking water alone is a pot...  
+4  Drinking water exposure alone is NOT a potenti...  
+5  Exposure through drinking water alone is a pot...  
+6  Exposure through drinking water alone is a pot...  
+7  Exposure through drinking water alone is a pot...  
+8  Exposure through drinking water alone is a pot...  
+9  Exposure through drinking water alone is a pot...  
+
+
+test_sip_integration_acuconb
+==  ======================================================================  ======================================================================
+    out_acuconb                                                             exp_acuconb
+==  ======================================================================  ======================================================================
+ 0  Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds
+ 1  Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds
+ 2  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 3  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 4  Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds
+ 5  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 6  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 7  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 8  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 9  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+==  ======================================================================  ======================================================================
+
+Arrays are not equal
+
+(mismatch 30.0%)
+ x: array(['Exposure through drinking water alone is a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',...
+ y: array(['Drinking water exposure alone is NOT a potential concern for birds',
+       'Drinking water exposure alone is NOT a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',...Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 274, in test_sip_integration_acuconb
+    self.blackbox_method_str('acuconb', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 386, in blackbox_method_str
+    npt.assert_array_equal(result, expected)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 813, in assert_array_equal
+    verbose=verbose, header='Arrays are not equal')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 739, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Arrays are not equal
+
+(mismatch 30.0%)
+ x: array(['Exposure through drinking water alone is a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',...
+ y: array(['Drinking water exposure alone is NOT a potential concern for birds',
+       'Drinking water exposure alone is NOT a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',...
+sip integration test for acuconm
+
+                                         out_acuconm  \
+0  Exposure through drinking water alone is a pot...   
+1  Exposure through drinking water alone is a pot...   
+2  Exposure through drinking water alone is a pot...   
+3  Exposure through drinking water alone is a pot...   
+4  Exposure through drinking water alone is a pot...   
+5  Exposure through drinking water alone is a pot...   
+6  Exposure through drinking water alone is a pot...   
+7  Exposure through drinking water alone is a pot...   
+8  Exposure through drinking water alone is a pot...   
+9  Exposure through drinking water alone is a pot...   
+
+                                         exp_acuconm  
+0  Drinking water exposure alone is NOT a potenti...  
+1  Drinking water exposure alone is NOT a potenti...  
+2  Drinking water exposure alone is NOT a potenti...  
+3  Drinking water exposure alone is NOT a potenti...  
+4  Drinking water exposure alone is NOT a potenti...  
+5  Drinking water exposure alone is NOT a potenti...  
+6  Exposure through drinking water alone is a pot...  
+7  Drinking water exposure alone is NOT a potenti...  
+8  Exposure through drinking water alone is a pot...  
+9  Exposure through drinking water alone is a pot...  
+
+
+test_sip_integration_acuconm
+==  ========================================================================  ========================================================================
+    out_acuconm                                                               exp_acuconm
+==  ========================================================================  ========================================================================
+ 0  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 1  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 2  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 3  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 4  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 5  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 6  Exposure through drinking water alone is a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals
+ 7  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 8  Exposure through drinking water alone is a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals
+ 9  Exposure through drinking water alone is a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals
+==  ========================================================================  ========================================================================
+
+Arrays are not equal
+
+(mismatch 70.0%)
+ x: array([ 'Exposure through drinking water alone is a potential concern for mammals',
+       'Exposure through drinking water alone is a potential concern for mammals',
+       'Exposure through drinking water alone is a potential concern for mammals',...
+ y: array(['Drinking water exposure alone is NOT a potential concern for mammals',
+       'Drinking water exposure alone is NOT a potential concern for mammals',
+       'Drinking water exposure alone is NOT a potential concern for mammals',...Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 298, in test_sip_integration_acuconm
+    self.blackbox_method_str('acuconm', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 386, in blackbox_method_str
+    npt.assert_array_equal(result, expected)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 813, in assert_array_equal
+    verbose=verbose, header='Arrays are not equal')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 739, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Arrays are not equal
+
+(mismatch 70.0%)
+ x: array([ 'Exposure through drinking water alone is a potential concern for mammals',
+       'Exposure through drinking water alone is a potential concern for mammals',
+       'Exposure through drinking water alone is a potential concern for mammals',...
+ y: array(['Drinking water exposure alone is NOT a potential concern for mammals',
+       'Drinking water exposure alone is NOT a potential concern for mammals',
+       'Drinking water exposure alone is NOT a potential concern for mammals',...
+
+
+test_sip_integration_acute_bird
+==  ================  ================
+      out_acute_bird    exp_acute_bird
+==  ================  ================
+ 0               nan        0.00928759
+ 1               nan        0.025916
+ 2               nan        0.569132
+ 3               nan       65.0007
+ 4               nan        0.00324131
+ 5               nan        2.66733
+ 6               nan      335.765
+ 7               nan        0.463512
+ 8               nan        1.2798e+06
+ 9               nan        0.379784
+==  ================  ================
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  9.287591e-03,   2.591595e-02,   5.691316e-01,   6.500067e+01,
+         3.241310e-03,   2.667330e+00,   3.357651e+02,   4.635118e-01,
+         1.279800e+06,   3.797845e-01])Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 262, in test_sip_integration_acute_bird
+    self.blackbox_method_int('acute_bird', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  9.287591e-03,   2.591595e-02,   5.691316e-01,   6.500067e+01,
+         3.241310e-03,   2.667330e+00,   3.357651e+02,   4.635118e-01,
+         1.279800e+06,   3.797845e-01])
+
+
+test_sip_integration_acute_mamm
+==  ================  ================
+      out_acute_mamm    exp_acute_mamm
+==  ================  ================
+ 0               nan       0.00418765
+ 1               nan       3.62265e-05
+ 2               nan       0.00366877
+ 3               nan       0.0117798
+ 4               nan       0.00188312
+ 5               nan       0.090327
+ 6               nan       8.83606
+ 7               nan       0.0186141
+ 8               nan    1490.8
+ 9               nan       4.09971
+==  ================  ================
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  4.187648e-03,   3.622650e-05,   3.668772e-03,   1.177983e-02,
+         1.883119e-03,   9.032702e-02,   8.836065e+00,   1.861407e-02,
+         1.490803e+03,   4.099707e+00])Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 286, in test_sip_integration_acute_mamm
+    self.blackbox_method_int('acute_mamm', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  4.187648e-03,   3.622650e-05,   3.668772e-03,   1.177983e-02,
+         1.883119e-03,   9.032702e-02,   8.836065e+00,   1.861407e-02,
+         1.490803e+03,   4.099707e+00])
+
+
+test_sip_integration_at_bird
+==  =============  =============
+      out_at_bird    exp_at_bird
+==  =============  =============
+ 0            nan    3052.46
+ 1            nan      25.3165
+ 2            nan       1.49438
+ 3            nan       0.747685
+ 4            nan      79.9677
+ 5            nan     112.36
+ 6            nan       3.13612
+ 7            nan     258.634
+ 8            nan       0.126582
+ 9            nan     117.303
+==  =============  =============
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  3.052460e+03,   2.531646e+01,   1.494382e+00,   7.476846e-01,
+         7.996768e+01,   1.123596e+02,   3.136121e+00,   2.586342e+02,
+         1.265823e-01,   1.173034e+02])Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 201, in test_sip_integration_at_bird
+    self.blackbox_method_int('at_bird', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  3.052460e+03,   2.531646e+01,   1.494382e+00,   7.476846e-01,
+         7.996768e+01,   1.123596e+02,   3.136121e+00,   2.586342e+02,
+         1.265823e-01,   1.173034e+02])
+
+
+test_sip_integration_at_mamm
+==  =============  =============
+      out_at_mamm    exp_at_mamm
+==  =============  =============
+ 0            nan     1437.56
+ 1            nan     3845.8
+ 2            nan       49.2263
+ 3            nan      876.074
+ 4            nan       29.2281
+ 5            nan      704.551
+ 6            nan       25.3054
+ 7            nan     1367.57
+ 8            nan       23.0748
+ 9            nan        2.30748
+==  =============  =============
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  1.437561e+03,   3.845803e+03,   4.922628e+01,   8.760739e+02,
+         2.922810e+01,   7.045511e+02,   2.530538e+01,   1.367567e+03,
+         2.307482e+01,   2.307482e+00])Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 213, in test_sip_integration_at_mamm
+    self.blackbox_method_int('at_mamm', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  1.437561e+03,   3.845803e+03,   4.922628e+01,   8.760739e+02,
+         2.922810e+01,   7.045511e+02,   2.530538e+01,   1.367567e+03,
+         2.307482e+01,   2.307482e+00])
+
+
+test_sip_integration_chron_bird
+==  ================  ================
+      out_chron_bird    exp_chron_bird
+==  ================  ================
+ 0               nan         2.53968
+ 1               nan         0.0403415
+ 2               nan         0.685713
+ 3               nan       118.023
+ 4               nan         0.174149
+ 5               nan        24.962
+ 6               nan     10405.5
+ 7               nan        10.2524
+ 8               nan    508004
+ 9               nan        66.8427
+==  ================  ================
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  2.539679e+00,   4.034151e-02,   6.857134e-01,   1.180230e+02,
+         1.741494e-01,   2.496202e+01,   1.040555e+04,   1.025245e+01,
+         5.080043e+05,   6.684267e+01])Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 310, in test_sip_integration_chron_bird
+    self.blackbox_method_int('chron_bird', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  2.539679e+00,   4.034151e-02,   6.857134e-01,   1.180230e+02,
+         1.741494e-01,   2.496202e+01,   1.040555e+04,   1.025245e+01,
+         5.080043e+05,   6.684267e+01])
+
+
+test_sip_integration_chron_mamm
+==  ================  ================
+      out_chron_mamm    exp_chron_mamm
+==  ================  ================
+ 0               nan         0.782671
+ 1               nan         0.0603775
+ 2               nan         0.234801
+ 3               nan         2.68344
+ 4               nan         0.0954114
+ 5               nan         5.07605
+ 6               nan      2907.07
+ 7               nan         0.962088
+ 8               nan    447241
+ 9               nan       122.991
+==  ================  ================
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  7.826714e-01,   6.037751e-02,   2.348014e-01,   2.683445e+00,
+         9.541137e-02,   5.076046e+00,   2.907065e+03,   9.620878e-01,
+         4.472408e+05,   1.229912e+02])Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 334, in test_sip_integration_chron_mamm
+    self.blackbox_method_int('chron_mamm', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  7.826714e-01,   6.037751e-02,   2.348014e-01,   2.683445e+00,
+         9.541137e-02,   5.076046e+00,   2.907065e+03,   9.620878e-01,
+         4.472408e+05,   1.229912e+02])
+sip integration test for chronconb
+
+                                       out_chronconb  \
+0  Exposure through drinking water alone is a pot...   
+1  Exposure through drinking water alone is a pot...   
+2  Exposure through drinking water alone is a pot...   
+3  Exposure through drinking water alone is a pot...   
+4  Exposure through drinking water alone is a pot...   
+5  Exposure through drinking water alone is a pot...   
+6  Exposure through drinking water alone is a pot...   
+7  Exposure through drinking water alone is a pot...   
+8  Exposure through drinking water alone is a pot...   
+9  Exposure through drinking water alone is a pot...   
+
+                                       exp_chronconb  
+0  Exposure through drinking water alone is a pot...  
+1  Drinking water exposure alone is NOT a potenti...  
+2  Drinking water exposure alone is NOT a potenti...  
+3  Exposure through drinking water alone is a pot...  
+4  Drinking water exposure alone is NOT a potenti...  
+5  Exposure through drinking water alone is a pot...  
+6  Exposure through drinking water alone is a pot...  
+7  Exposure through drinking water alone is a pot...  
+8  Exposure through drinking water alone is a pot...  
+9  Exposure through drinking water alone is a pot...  
+
+
+test_sip_integration_chronconb
+==  ======================================================================  ======================================================================
+    out_chronconb                                                           exp_chronconb
+==  ======================================================================  ======================================================================
+ 0  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 1  Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds
+ 2  Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds
+ 3  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 4  Exposure through drinking water alone is a potential concern for birds  Drinking water exposure alone is NOT a potential concern for birds
+ 5  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 6  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 7  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 8  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+ 9  Exposure through drinking water alone is a potential concern for birds  Exposure through drinking water alone is a potential concern for birds
+==  ======================================================================  ======================================================================
+
+Arrays are not equal
+
+(mismatch 30.0%)
+ x: array(['Exposure through drinking water alone is a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',...
+ y: array(['Exposure through drinking water alone is a potential concern for birds',
+       'Drinking water exposure alone is NOT a potential concern for birds',
+       'Drinking water exposure alone is NOT a potential concern for birds',...Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 322, in test_sip_integration_chronconb
+    self.blackbox_method_str('chronconb', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 386, in blackbox_method_str
+    npt.assert_array_equal(result, expected)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 813, in assert_array_equal
+    verbose=verbose, header='Arrays are not equal')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 739, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Arrays are not equal
+
+(mismatch 30.0%)
+ x: array(['Exposure through drinking water alone is a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',
+       'Exposure through drinking water alone is a potential concern for birds',...
+ y: array(['Exposure through drinking water alone is a potential concern for birds',
+       'Drinking water exposure alone is NOT a potential concern for birds',
+       'Drinking water exposure alone is NOT a potential concern for birds',...
+sip integration test for chronconm
+
+                                       out_chronconm  \
+0  Exposure through drinking water alone is a pot...   
+1  Exposure through drinking water alone is a pot...   
+2  Exposure through drinking water alone is a pot...   
+3  Exposure through drinking water alone is a pot...   
+4  Exposure through drinking water alone is a pot...   
+5  Exposure through drinking water alone is a pot...   
+6  Exposure through drinking water alone is a pot...   
+7  Exposure through drinking water alone is a pot...   
+8  Exposure through drinking water alone is a pot...   
+9  Exposure through drinking water alone is a pot...   
+
+                                       exp_chronconm  
+0  Drinking water exposure alone is NOT a potenti...  
+1  Drinking water exposure alone is NOT a potenti...  
+2  Drinking water exposure alone is NOT a potenti...  
+3  Exposure through drinking water alone is a pot...  
+4  Drinking water exposure alone is NOT a potenti...  
+5  Exposure through drinking water alone is a pot...  
+6  Exposure through drinking water alone is a pot...  
+7  Drinking water exposure alone is NOT a potenti...  
+8  Exposure through drinking water alone is a pot...  
+9  Exposure through drinking water alone is a pot...  
+
+
+test_sip_integration_chronconm
+==  ========================================================================  ========================================================================
+    out_chronconm                                                             exp_chronconm
+==  ========================================================================  ========================================================================
+ 0  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 1  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 2  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 3  Exposure through drinking water alone is a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals
+ 4  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 5  Exposure through drinking water alone is a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals
+ 6  Exposure through drinking water alone is a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals
+ 7  Exposure through drinking water alone is a potential concern for mammals  Drinking water exposure alone is NOT a potential concern for mammals
+ 8  Exposure through drinking water alone is a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals
+ 9  Exposure through drinking water alone is a potential concern for mammals  Exposure through drinking water alone is a potential concern for mammals
+==  ========================================================================  ========================================================================
+
+Arrays are not equal
+
+(mismatch 50.0%)
+ x: array([ 'Exposure through drinking water alone is a potential concern for mammals',
+       'Exposure through drinking water alone is a potential concern for mammals',
+       'Exposure through drinking water alone is a potential concern for mammals',...
+ y: array(['Drinking water exposure alone is NOT a potential concern for mammals',
+       'Drinking water exposure alone is NOT a potential concern for mammals',
+       'Drinking water exposure alone is NOT a potential concern for mammals',...Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 346, in test_sip_integration_chronconm
+    self.blackbox_method_str('chronconm', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 386, in blackbox_method_str
+    npt.assert_array_equal(result, expected)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 813, in assert_array_equal
+    verbose=verbose, header='Arrays are not equal')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 739, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Arrays are not equal
+
+(mismatch 50.0%)
+ x: array([ 'Exposure through drinking water alone is a potential concern for mammals',
+       'Exposure through drinking water alone is a potential concern for mammals',
+       'Exposure through drinking water alone is a potential concern for mammals',...
+ y: array(['Drinking water exposure alone is NOT a potential concern for mammals',
+       'Drinking water exposure alone is NOT a potential concern for mammals',
+       'Drinking water exposure alone is NOT a potential concern for mammals',...
+
+
+test_sip_integration_det
+==  =========  =========
+      out_det    exp_det
+==  =========  =========
+ 0        nan  11.1628
+ 1        nan  16.2636
+ 2        nan   1.24031
+ 3        nan   0.411784
+ 4        nan   1.48838
+ 5        nan  12.0062
+ 6        nan   0.101196
+ 7        nan  11.6928
+ 8        nan   0.318895
+ 9        nan   0.66649
+==  =========  =========
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([ 11.162827,  16.263643,   1.240314,   0.411784,   1.488377,
+        12.00624 ,   0.101196,  11.692815,   0.318895,   0.66649 ])Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 238, in test_sip_integration_det
+    self.blackbox_method_int('det', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([ 11.162827,  16.263643,   1.240314,   0.411784,   1.488377,
+        12.00624 ,   0.101196,  11.692815,   0.318895,   0.66649 ])
+
+
+test_sip_integration_dose_bird
+==  ===============  ===============
+      out_dose_bird    exp_dose_bird
+==  ===============  ===============
+ 0              nan          28.35
+ 1              nan           0.6561
+ 2              nan           0.8505
+ 3              nan          48.6
+ 4              nan           0.2592
+ 5              nan         299.7
+ 6              nan        1053
+ 7              nan         119.88
+ 8              nan      162000
+ 9              nan          44.55
+==  ===============  ===============
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  2.835000e+01,   6.561000e-01,   8.505000e-01,   4.860000e+01,
+         2.592000e-01,   2.997000e+02,   1.053000e+03,   1.198800e+02,
+         1.620000e+05,   4.455000e+01])Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 177, in test_sip_integration_dose_bird
+    self.blackbox_method_int('dose_bird', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  2.835000e+01,   6.561000e-01,   8.505000e-01,   4.860000e+01,
+         2.592000e-01,   2.997000e+02,   1.053000e+03,   1.198800e+02,
+         1.620000e+05,   4.455000e+01])
+
+
+test_sip_integration_dose_mamm
+==  ===============  ===============
+      out_dose_mamm    exp_dose_mamm
+==  ===============  ===============
+ 0              nan          6.02
+ 1              nan          0.13932
+ 2              nan          0.1806
+ 3              nan         10.32
+ 4              nan          0.05504
+ 5              nan         63.64
+ 6              nan        223.6
+ 7              nan         25.456
+ 8              nan      34400
+ 9              nan          9.46
+==  ===============  ===============
+
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  6.020000e+00,   1.393200e-01,   1.806000e-01,   1.032000e+01,
+         5.504000e-02,   6.364000e+01,   2.236000e+02,   2.545600e+01,
+         3.440000e+04,   9.460000e+00])Traceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 189, in test_sip_integration_dose_mamm
+    self.blackbox_method_int('dose_mamm', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 366, in blackbox_method_int
+    npt.assert_allclose(result, expected, rtol, 0, '', True)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 1392, in assert_allclose
+    verbose=verbose, header=header)
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 702, in assert_array_compare
+    chk_same_position(x_isnan, y_isnan, hasval='nan')
+  File "c:\python27\lib\site-packages\numpy\testing\utils.py", line 682, in chk_same_position
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=1e-05, atol=0
+True
+x and y nan location mismatch:
+ x: array([ nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan,  nan])
+ y: array([  6.020000e+00,   1.393200e-01,   1.806000e-01,   1.032000e+01,
+         5.504000e-02,   6.364000e+01,   2.236000e+02,   2.545600e+01,
+         3.440000e+04,   9.460000e+00])
+local variable 'result' referenced before assignmentTraceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 225, in test_sip_integration_fi_bird
+    self.blackbox_method_int('fi_bird', func_name)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\sip\tests\test_sip_integration.py", line 368, in blackbox_method_int
+    tab = pd.concat([result, expected], axis=1)
+UnboundLocalError: local variable 'result' referenced before assignment
+</pre>
+    </div>
+</body>
+</html>

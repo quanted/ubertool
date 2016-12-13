@@ -115,36 +115,42 @@ class TestKabam(unittest.TestCase):
         return
 
     def test_assert_output_series_dtypes(self):
-        """ Verify that each output variable is the correct dtype """
+        """ Verify that each output variable is the correct dtype,
+            essentially checking that initial declaration of dtype has not
+            changed due to computation-based coercion of dtype"""
 
         try:
             num_variables = len(kabam_calc.pd_obj_out.columns)
-            #get the string of the type that is expected and the type that has resulted
             result = pd.Series(False, index=list(range(num_variables)), dtype='bool')
             expected = pd.Series(True, index=list(range(num_variables)), dtype='bool')
 
             for i in range(num_variables):
-                column_name = kabam_calc.pd_obj_out.columns[i]
-                output_result = getattr(kabam_calc, column_name)
-                column_dtype_result = output_result.dtype.name
-                output_expected = getattr(kabam_output_empty, column_name)
-                output_expected2 = getattr(kabam_calc.pd_obj_out, column_name)
-                column_dtype_expected = output_expected.dtype.name
-                if column_dtype_result == column_dtype_expected:
+                #get the string of the dtype that is expected and the type that has resulted
+                output_name = kabam_calc.pd_obj_out.columns[i]
+                output_result = getattr(kabam_calc, output_name)
+                output_dtype_result = output_result.dtype.name
+                #kabam_output_empty is a copy of the original ModelOutputs declarations (unchanged by computations
+                output_expected_attr = getattr(kabam_output_empty, output_name)
+                output_dtype_expected = output_expected_attr.dtype.name
+                if output_dtype_result == output_dtype_expected:
                     result[i] = True
 
                 #tab = pd.concat([result,expected], axis=1)
                 if(result[i] != expected[i]):
-                    print(i)
-                    print(column_name)
-                    print(str(result[i]) + "/" + str(expected[i]))
-                    print(column_dtype_result + "/" + column_dtype_expected)
-                    print('result')
-                    print(output_result)
-                    print('expected')
-                    print(output_expected2)
-                #print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
+                    print(str(i) + ":" + output_name)
+                    print("output assertion state (result/expected) : " + str(result[i]) + "/" + str(expected[i]))
+                    print("output dtype (result/expected) :            " + output_dtype_result + "/" + output_dtype_expected)
             npt.assert_array_equal(result, expected)
+        finally:
+            pass
+        return
+
+    def test_free_pest_conc_watercol(self):
+        """
+        Integration test for kabam.free_pest_conc_watercol
+        """
+        try:
+            self.blackbox_method_int('free_pest_conc_watercol')
         finally:
             pass
         return

@@ -13,11 +13,6 @@ parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.par
 sys.path.append(parentddir)
 from sip_exe import Sip
 
-# create empty pandas dataframes to create empty sip object for testing
-df_empty = pd.DataFrame()
-# create an empty sip object
-sip_empty = Sip(df_empty, df_empty)
-
 test = {}
 
 
@@ -32,7 +27,13 @@ class TestSip(unittest.TestCase):
         Setup routine for sip unittest.
         :return:
         """
-        pass
+        self.sip_empty = object
+        # create empty pandas dataframes to create empty sip object for testing
+        df_empty = pd.DataFrame()
+        # create an empty sip object
+        self.sip_empty = Sip(df_empty, df_empty)
+
+        #pass
         # sip2 = sip_model.sip(0, pd_obj_inputs, pd_obj_exp_out)
         # setup the test as needed
         # e.g. pandas to open sip qaqc csv
@@ -54,9 +55,13 @@ class TestSip(unittest.TestCase):
         """
         expected_results = [0.0162, 0.0162, 0.0162]
         result = [0.,0.,0.]
+
         try:
-            for i in range(0,3):
-                result[i] = sip_empty.fw_bird()
+            # for i in range(0,3):
+            #     result[i] = sip_empty.fw_bird()
+            self.sip_empty.no_of_runs = 3
+            self.sip_empty.fw_bird()
+            result = self.sip_empty.out_fw_bird
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             tab = [result, expected_results]
@@ -74,7 +79,7 @@ class TestSip(unittest.TestCase):
         result = [0.,0.,0.]
         try:
             for i in range(0,3):
-                result[i] = sip_empty.fw_mamm()
+                result[i] = self.sip_empty.fw_mamm()
             npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True )
         finally:
             tab = [result, expected_results]

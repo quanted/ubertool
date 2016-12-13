@@ -18,7 +18,7 @@ class UberModel(object):
         self.pd_obj_exp = None
         self.pd_obj_out = None
 
-    def _validate_input_names(self, model_inputs, user_inputs):
+    def validate_input_names(self, model_inputs, user_inputs):
         """
         Compare the user supplied inputs with the ModelInputs() class attributes, ensuring they match by name
 
@@ -45,20 +45,33 @@ class UberModel(object):
             msg_extras = "the following extra field(s) were found: \n{}\n".format(extras)
             raise ValueError(msg_err1 + msg_err2 + msg_err3 + msg_missing + msg_extras)
 
-    def _coerce_input_dtype(self, dtype, input_series):
-        if dtype == 'object':
+    def coerce_input_dtype(self, incoming_dtype, coerce_dtype, input_series):
+        #incoming_dtype = \
+        logging.info(incoming_dtype)
+        #incoming_dtype = 'float64'
+        if coerce_dtype == 'object':
             return input_series.astype('object')
-        if dtype == 'float':
-            return pd.to_numeric(input_series, errors='coerce')
-        if dtype == 'int':
-            return pd.to_numeric(input_series, errors='coerce', downcast='integer')
+        elif coerce_dtype == 'float64':
+            if incoming_dtype == 'object':
+                #coerces strings to np.nans
+                return pd.to_numeric(input_series, errors='coerce')
+            elif incoming_dtype == 'float64':
+                return input_series
+            else:
+                return input_series.astype('float64')
+        elif coerce_dtype == 'int64' or 'int32':
+            if incoming_dtype == 'object':
+                #coerces strings to np.nans
+                return pd.to_numeric(input_series, errors='coerce', downcast='int64')
+            else:
+                return input_series.astype('int64')
         else:
             print("dtype of {} is {}\n"
-                  "This format is not handled by UberModel._coerce_input_dtype()".format(input_series.name, dtype))
+                  "This format is not handled by UberModel.coerce_input_dtype()".format(input_series.name, coerce_dtype))
             return input_series
 
     @staticmethod
-    def _convert_index(df_in):
+    def convert_index(df_in):
         """ Attempt to covert indices of input DataFrame to duck typed dtype """
         parser = Parser(df_in)
         df = parser.convert_axes()
@@ -69,7 +82,7 @@ class UberModel(object):
         Validate and assign user-provided model inputs to their respective class attributes
         :param df_in: Pandas DataFrame object of model input parameters
         """
-        df_user = self._convert_index(df_in)
+        df_user = self.convert_index(df_in)
         mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
         try:
             # Import the model's input class (e.g. TerrplantInputs) to compare user supplied inputs to
@@ -80,10 +93,21 @@ class UberModel(object):
             logging.info(mod_name)
             logging.info(err.args)
 
-        if self._validate_input_names(model_inputs, df_user):
-            for column in df_user.columns:
-                dtype = getattr(model_inputs, column).dtype
-                setattr(self, column, self._coerce_input_dtype(dtype, df_user[column]))
+        try:
+            if self.validate_input_names(model_inputs, df_user):
+                # If the user-supplied DataFrame has the same column names as required by ModelInputs...
+                # set each Series in the DataFrame to the corresponding ModelInputs attribute (member variable)
+                # user_inputs_df = self._sanitize(df)
+                for column in df_user.columns:
+                    coerce_dtype = str(getattr(model_inputs, column).dtype)
+                    df_series = df_user[column]
+                    initial_dtype = str(df_series.dtype)
+                    if initial_dtype != coerce_dtype:
+                        logging.info('var:' + column + ' coerce to: ' + coerce_dtype + ' from: ' + initial_dtype)
+                    setattr(self, column, self.coerce_input_dtype(initial_dtype, coerce_dtype, df_series))
+        except ValueError as err:
+            logging.info('input validation problem')
+            logging.info(err.args)
 
     def populate_outputs(self):
         # Create temporary DataFrame where each column name is the same as *ModelName*Outputs attributes

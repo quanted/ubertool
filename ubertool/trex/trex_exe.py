@@ -59,10 +59,10 @@ class TrexInputs(ModelSharedInputs):
         self.tw_bird_noaec = pd.Series([], dtype="float")
         self.tw_bird_noael = pd.Series([], dtype="float")
 
-        self.species_of_the_tested_bird_avian_ld50 = pd.Series([], dtype="float")
-        self.species_of_the_tested_bird_avian_lc50 = pd.Series([], dtype="float")
-        self.species_of_the_tested_bird_avian_noaec = pd.Series([], dtype="float")
-        self.species_of_the_tested_bird_avian_noael = pd.Series([], dtype="float")
+        self.species_of_the_tested_bird_avian_ld50 = pd.Series([], dtype="object")
+        self.species_of_the_tested_bird_avian_lc50 = pd.Series([], dtype="object")
+        self.species_of_the_tested_bird_avian_noaec = pd.Series([], dtype="object")
+        self.species_of_the_tested_bird_avian_noael = pd.Series([], dtype="object")
 
         self.ld50_mamm = pd.Series([], dtype="float")
         self.lc50_mamm = pd.Series([], dtype="float")
