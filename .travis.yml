@@ -7,10 +7,14 @@ services:
 
 before_install:
   - docker build -t ubertool .
-  - docker run -it ubertool
+  - docker run -d ubertool
 
 notifications:
   slack: qed-epa:FnRva7RtXZLlczmpxShtokgO
+
+script:
+  - docker ps -a
+#  - nose2 --with-cov
 
 after_success:
   - coveralls --config_file .coveragerc
