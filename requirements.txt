@@ -1,4 +1,3 @@
-boto
 codecov
 coverage
 futures
