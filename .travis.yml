@@ -12,8 +12,5 @@ before_install:
 notifications:
   slack: qed-epa:FnRva7RtXZLlczmpxShtokgO
 
-# command to run tests
-script:
-  - nose2 --with-cov
 after_success:
   - coveralls --config_file .coveragerc
