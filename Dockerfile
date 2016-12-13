@@ -6,5 +6,3 @@ RUN pip install --requirement /tmp/requirements.txt
 
 COPY . /src/
 WORKDIR /src
-
-CMD ["nose2", "--with-cov"]
