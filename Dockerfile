@@ -1,7 +1,10 @@
-FROM puruckertom/uber_py27
+FROM python:2
 
-#Set working directory to app to run commands
-WORKDIR /app
+# Install Python Dependencies
+COPY requirements.txt /tmp/
+RUN pip install --requirement /tmp/requirements.txt
 
-#Add the whole repository to the container
-COPY . ./
+COPY . /src/
+WORKDIR /src
+
+CMD ["nose2", "--with-cov"]

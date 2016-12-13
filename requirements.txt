@@ -1,5 +1,3 @@
-boto
-bottle
 codecov
 coverage
 coveralls
