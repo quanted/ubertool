@@ -1,9 +1,11 @@
 codecov
+cov-core #nose2 coverage
 coverage
 futures
 nose #pycharm cant currently run nose2
 nose2
 nose-cov
+nose-html-reporting
 numpy
 pandas
 pylint

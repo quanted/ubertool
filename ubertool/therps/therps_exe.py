@@ -6,7 +6,7 @@ import pandas as pd
 import therps_functions
 import time
 from functools import wraps
-from therps_functions import TherpsFunctions
+from therps_functions import THerpsFunctions
 from base.uber_model import UberModel, ModelSharedInputs
 
 
@@ -22,14 +22,14 @@ def timefn(fn):
     return measure_time
 
 
-class TherpsInputs(ModelSharedInputs):
+class THerpsInputs(ModelSharedInputs):
     """
     Input class for Therps.
     """
 
     def __init__(self):
         """Class representing the inputs for Therps"""
-        super(TherpsInputs, self).__init__()
+        super(THerpsInputs, self).__init__()
         # Inputs: Assign object attribute variables from the input Pandas DataFrame
         """
         Therps constructor.
@@ -67,8 +67,8 @@ class TherpsInputs(ModelSharedInputs):
         self.use = pd.Series([], dtype="object", name="use")
         self.formu_name = pd.Series([], dtype="object", name="formu_name")
         self.percent_act_ing = pd.Series([], dtype="float", name="percent_act_ing")
-        self.foliar_diss_hlife = pd.Series([], dtype="float", name="foliar_diss_hlife")
-        self.num_apps = pd.Series([], dtype="int", name="num_apps")
+        self.foliar_diss_hlife = pd.Series([], dtype="float64", name="foliar_diss_hlife")
+        self.num_apps = pd.Series([], dtype="int64", name="num_apps")
         self.app_interval = pd.Series([], dtype="int", name="app_interval")
 
         self.application_rate = pd.Series([], dtype="float", name="application_rate")
@@ -103,14 +103,14 @@ class TherpsInputs(ModelSharedInputs):
         self.bw_frog_prey_herp = pd.Series([], dtype="float", name="bw_frog_prey_herp")
 
 
-class TherpsOutputs(object):
+class THerpsOutputs(object):
     """
     Output class for Therps.
     """
 
     def __init__(self):
         """Class representing the outputs for Therps"""
-        super(TherpsOutputs, self).__init__()
+        super(THerpsOutputs, self).__init__()
 
         # application rates and days of applications
         self.day_out = pd.Series([], dtype='object', name='day_out')
@@ -239,14 +239,14 @@ class TherpsOutputs(object):
         self.out_eec_crq_herp_tp_mean = pd.Series([], dtype='float', name="out_eec_crq_herp_tp_mean")
 
 
-class Therps(UberModel, TherpsInputs, TherpsOutputs, TherpsFunctions):
+class THerps(UberModel, THerpsInputs, THerpsOutputs, THerpsFunctions):
     """
     Estimate dietary exposure and risk to terrestrial-phase amphibians and reptiles from pesticide use.
     """
 
     def __init__(self, pd_obj, pd_obj_exp):
         """Class representing the Therps model and containing all its methods"""
-        super(Therps, self).__init__()
+        super(THerps, self).__init__()
         self.pd_obj = pd_obj
         self.pd_obj_exp = pd_obj_exp
         self.pd_obj_out = None
