@@ -59,7 +59,7 @@ class UberModel(object):
                 return input_series
             else:
                 return input_series.astype('float64')
-        elif coerce_dtype == 'int64':
+        elif coerce_dtype == 'int64' or 'int32':
             if incoming_dtype == 'object':
                 #coerces strings to np.nans
                 return pd.to_numeric(input_series, errors='coerce', downcast='int64')

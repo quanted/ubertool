@@ -26,9 +26,9 @@ class IecOutputs(object):
     def __init__(self):
         """Class representing the outputs for IEC"""
         super(IecOutputs, self).__init__()
-        self.out_z_score_f = pd.Series(name="out_z_score_f")
-        self.out_f8_f = pd.Series(name="out_f8_f")
-        self.out_chance_f = pd.Series(name="out_chance_f")
+        self.out_z_score_f = pd.Series([], dtype="float", name="out_z_score_f")
+        self.out_f8_f = pd.Series([], dtype="float", name="out_f8_f")
+        self.out_chance_f = pd.Series([], dtype="float", name="out_chance_f")
 
 
 class Iec(UberModel, IecInputs, IecOutputs):

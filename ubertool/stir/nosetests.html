@@ -1,0 +1,2645 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Test Report</title>
+    <meta name="author" content="Oleksii Skliarov, Ivan Lysenko"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css" media="screen">
+        body        { font-family: verdana, arial, helvetica, sans-serif; font-size: 80%; }
+        table       { font-size: 100%; }
+        pre         { }
+
+        /* -- heading ---------------------------------------------------------------------- */
+        h1 {
+            font-size: 16pt;
+            color: gray;
+        }
+        .heading {
+            margin-top: 0ex;
+            margin-bottom: 1ex;
+        }
+
+        .heading .attribute {
+            margin-top: 1ex;
+            margin-bottom: 0;
+        }
+
+        .heading .description {
+            margin-top: 4ex;
+            margin-bottom: 6ex;
+        }
+
+        /* -- css div popup ------------------------------------------------------------------------ */
+        a.popup_link {
+        }
+
+        a.popup_link:hover {
+            color: red;
+        }
+
+        .popup_window {
+            display: none;
+            position: relative;
+            left: 0px;
+            top: 0px;
+            /*border: solid #627173 1px; */
+            padding: 8px;
+            background-color: #E6E6D6;
+            font-family: "Lucida Console", "Courier New", Courier, monospace;
+            text-align: left;
+            font-size: 8pt;
+            width: 570px;
+        }
+
+        }
+        /* -- report ------------------------------------------------------------------------ */
+        #show_detail_line {
+            margin-top: 3ex;
+            margin-bottom: 1ex;
+        }
+        .result_table {
+            width: 80%;
+            border-collapse: collapse;
+            border: 1px solid #777;
+        }
+        #header_row {
+            font-weight: bold;
+            color: white;
+            background-color: #777;
+        }
+        .result_table td {
+            border: 1px solid #777;
+            padding: 2px;
+        }
+        .shortDescription {
+            font-style: italic;
+            font-weight: normal;
+        }
+        #total_row  { font-weight: bold; }
+        .passClass  { background-color: #6c6; }
+        .failClass  { background-color: #c60; }
+        .errorClass { background-color: #c00; }
+        .passCase   { color: #6c6; }
+        .failCase   { color: #c60; font-weight: bold; }
+        .errorCase  { color: #c00; font-weight: bold; }
+        .hiddenRow  { display: none; }
+        
+        .testcase   { display: none; }
+		.testclass.active ~ .testcase { display: table-row; }
+
+        /* -- ending ---------------------------------------------------------------------- */
+        #ending {
+        }
+
+    </style>
+</head>
+<body>
+<script language="javascript" type="text/javascript">
+output_list = Array();
+
+/* level - 0:Summary; 1:Failed; 2:All */
+function showCase(level) {
+    trs = document.getElementsByClassName("testclass");
+    for (var i = 0; i < trs.length; i++) {
+        tr = trs[i];
+        if(0==level && tr.className.indexOf("active") != -1){
+			tr.className = tr.className.replace("active", "").replace("  ", " ").trim();
+		}else if (2 == level && tr.className.indexOf("active") == -1){
+			tr.className+=" active";
+		}else if (1 == level){
+			if(tr.className.indexOf("passClass") != -1){
+				if(tr.className.indexOf("active") != -1){
+					tr.className = tr.className.replace("active", "").replace("  ", " ").trim();
+				}
+			}else if (tr.className.indexOf("active") == -1){
+				tr.className+=" active";
+			}
+        }
+    }
+}
+
+function showClassDetail(element) {
+    var currentClassValue = element.className || "";
+      
+    if (currentClassValue.indexOf("active") == -1) {
+		currentClassValue += " active";
+    } else {
+		currentClassValue = currentClassValue.replace("active", "").replace("  ", " ");
+	}
+	element.className = currentClassValue.trim();
+}
+
+
+function showTestDetail(div_id){
+    var details_div = document.getElementById(div_id)
+    var displayState = details_div.style.display
+    // alert(displayState)
+    if (displayState != 'block' ) {
+        displayState = 'block'
+        details_div.style.display = 'block'
+    }
+    else {
+        details_div.style.display = 'none'
+    }
+}
+
+function togleClass(element, clas){
+        var currentClassValue = element.className || "";
+
+        if (currentClassValue.indexOf(clas) == -1) {
+            currentClassValue += " "+clas;
+        } else {
+            currentClassValue = currentClassValue.replace(clas, "").replace("  ", " ");
+        }
+        element.className = currentClassValue.trim()
+    }
+
+function showRawLog(element){
+        togleClass(element, "popup_window")
+    }
+
+function html_escape(s) {
+    s = s.replace(/&/g,'&amp;');
+    s = s.replace(/</g,'&lt;');
+    s = s.replace(/>/g,'&gt;');
+    return s;
+}
+
+</script>
+
+<table>
+    <tr id="header_row">
+        <th>Class</th>
+        <th>Fail</th>
+        <th>Error</th>
+        <th>Skip</th>
+        <th>Success</th>
+        <th>Total</th>
+    </tr>
+        <tr>
+            <td>qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStir</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>22</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td>qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStir</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>20</td>
+            <td>20</td>
+        </tr>
+    <tr>
+        <td><strong>Total</strong></td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>42</td>
+        <td>42</td>
+    </tr>
+</table>
+
+<!-- test list -->
+<!-- header -->
+<p id='show_detail_line'>Show
+<a href='javascript:showCase(0)'>Summary</a>
+<a href='javascript:showCase(1)'>Failed</a>
+<a href='javascript:showCase(2)'>All</a>
+</p>
+<table class='result_table'>
+    <colgroup>
+        <col align='left' width="50%" />
+        <col align='right' width="10%"/>
+        <col align='right' width="10%"/>
+        <col align='right' width="10%"/>
+        <col align='right' width="10%"/>
+        <col align='right' width="10%"/>
+    </colgroup>
+    <tr id='header_row'>
+        <td>Test Group/Test case</td>
+        <td>Count</td>
+        <td>Pass</td>
+        <td>Fail</td>
+        <td>Error</td>
+        <td>View</td>
+    </tr>
+</table>    
+<!-- for every test suite -->
+    <table class='result_table'>
+	    <colgroup>
+            <col align='left' width="50%" />
+            <col align='right' width="10%"/>
+            <col align='right' width="10%"/>
+            <col align='right' width="10%"/>
+            <col align='right' width="10%"/>
+            <col align='right' width="10%"/>
+        </colgroup>
+        <tr class='testclass passClass'>
+            <td>qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStir</td>
+            <td>22</td>
+            <td>22</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="javascript:void(0)" onclick="showClassDetail(this.parentNode.parentNode)">Detail</a></td>
+        </tr>    
+        <!-- for every test -->
+
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_assert_output_series' class='testcase'>
+            <td class="passCase">
+                test_assert_output_series
+                    <div class="shortDescription">
+                        Verify that each output variable is a pd.Series
+                    </div>
+            </td>
+            <td>0:00:00.005823</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_assert_output_series')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_assert_output_series' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_assert_output_series').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>model output properties as pandas series
+╒════╤═════╤═════╕
+│    │   0 │   1 │
+╞════╪═════╪═════╡
+│  0 │   1 │   1 │
+├────┼─────┼─────┤
+│  1 │   1 │   1 │
+├────┼─────┼─────┤
+│  2 │   1 │   1 │
+├────┼─────┼─────┤
+│  3 │   1 │   1 │
+├────┼─────┼─────┤
+│  4 │   1 │   1 │
+├────┼─────┼─────┤
+│  5 │   1 │   1 │
+├────┼─────┼─────┤
+│  6 │   1 │   1 │
+├────┼─────┼─────┤
+│  7 │   1 │   1 │
+├────┼─────┼─────┤
+│  8 │   1 │   1 │
+├────┼─────┼─────┤
+│  9 │   1 │   1 │
+├────┼─────┼─────┤
+│ 10 │   1 │   1 │
+├────┼─────┼─────┤
+│ 11 │   1 │   1 │
+├────┼─────┼─────┤
+│ 12 │   1 │   1 │
+├────┼─────┼─────┤
+│ 13 │   1 │   1 │
+├────┼─────┼─────┤
+│ 14 │   1 │   1 │
+├────┼─────┼─────┤
+│ 15 │   1 │   1 │
+├────┼─────┼─────┤
+│ 16 │   1 │   1 │
+├────┼─────┼─────┤
+│ 17 │   1 │   1 │
+├────┼─────┼─────┤
+│ 18 │   1 │   1 │
+├────┼─────┼─────┤
+│ 19 │   1 │   1 │
+├────┼─────┼─────┤
+│ 20 │   1 │   1 │
+├────┼─────┼─────┤
+│ 21 │   1 │   1 │
+╘════╧═════╧═════╛
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_assert_output_series_dtypes' class='testcase'>
+            <td class="passCase">
+                test_assert_output_series_dtypes
+                    <div class="shortDescription">
+                        Verify that each output variable is the correct dtype
+                    </div>
+            </td>
+            <td>0:00:00.011427</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_assert_output_series_dtypes')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_assert_output_series_dtypes' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_assert_output_series_dtypes').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_adjusted_avian_inhalation_ld50' class='testcase'>
+            <td class="passCase">
+                test_stir_adjusted_avian_inhalation_ld50
+                    <div class="shortDescription">
+                        integration test for stir.out_adjusted_avian_inhalation_ld50
+                    </div>
+            </td>
+            <td>0:00:00.004405</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_adjusted_avian_inhalation_ld50')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_adjusted_avian_inhalation_ld50' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_adjusted_avian_inhalation_ld50').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_adjusted_avian_inhalation_ld50
+====  ====================================  ====================================
+  ..    out_adjusted_avian_inhalation_ld50    exp_adjusted_avian_inhalation_ld50
+====  ====================================  ====================================
+   0                            8.63896                               8.63896
+   1                           73.3124                               73.3124
+   2                            0.0039187                             0.0039187
+   3                            0.0180713                             0.0180713
+   4                            0.0254023                             0.0254023
+   5                            0.21173                               0.21173
+   6                            3.6075                                3.6075
+   7                            0.0907425                             0.0907425
+   8                            5.62902                               5.62902
+   9                            0.00173892                            0.00173892
+  10                           51.4454                               51.4454
+====  ====================================  ====================================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_adjusted_mammal_inhalation_ld50' class='testcase'>
+            <td class="passCase">
+                test_stir_adjusted_mammal_inhalation_ld50
+                    <div class="shortDescription">
+                        integration test for stir.out_adjusted_mammal_inhalation_ld50
+                    </div>
+            </td>
+            <td>0:00:00.004561</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_adjusted_mammal_inhalation_ld50')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_adjusted_mammal_inhalation_ld50' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_adjusted_mammal_inhalation_ld50').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_adjusted_mammal_inhalation_ld50
+====  =====================================  =====================================
+  ..    out_adjusted_mammal_inhalation_ld50    exp_adjusted_mammal_inhalation_ld50
+====  =====================================  =====================================
+   0                             201.228                                201.228
+   1                             345.302                                345.302
+   2                               5.95348                                5.95348
+   3                               5.95348                                5.95348
+   4                             297.674                                297.674
+   5                               0.773952                               0.773952
+   6                             226.232                                226.232
+   7                               7.32278                                7.32278
+   8                             297.674                                297.674
+   9                               3.17023                                3.17023
+  10                              10.1209                                10.1209
+====  =====================================  =====================================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_air_conc' class='testcase'>
+            <td class="passCase">
+                test_stir_air_conc
+                    <div class="shortDescription">
+                        integration test for stir.out_air_conc
+                    </div>
+            </td>
+            <td>0:00:00.003875</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_air_conc')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_air_conc' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_air_conc').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_air_conc
+====  ==============  ==============
+  ..    out_air_conc    exp_air_conc
+====  ==============  ==============
+   0     3.63427e-06     3.63428e-06
+   1     6.41942e-05     6.41942e-05
+   2     0.000336255     0.000336255
+   3     0.000203791     0.000203791
+   4     0.00022417      0.00022417
+   5     3.56634e-05     3.56634e-05
+   6     0.000193602     0.000193602
+   7     0.00112085      0.00112085
+   8     5.09478e-05     5.09478e-05
+   9     0.000112085     0.000112085
+  10     6.79304e-05     6.79304e-05
+====  ==============  ==============
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_estimated_avian_inhalation_ld50' class='testcase'>
+            <td class="passCase">
+                test_stir_estimated_avian_inhalation_ld50
+                    <div class="shortDescription">
+                        integration test for stir.out_estimated_avian_inhalation_ld50
+                    </div>
+            </td>
+            <td>0:00:00.004334</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_estimated_avian_inhalation_ld50')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_estimated_avian_inhalation_ld50' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_estimated_avian_inhalation_ld50').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_estimated_avian_inhalation_ld50
+====  =====================================  =====================================
+  ..    out_estimated_avian_inhalation_ld50    exp_estimated_avian_inhalation_ld50
+====  =====================================  =====================================
+   0                             11.9914                                11.9914
+   1                            101.762                                101.762
+   2                              0.309577                               0.309577
+   3                              0.160835                               0.160835
+   4                              0.0489235                              0.0489235
+   5                              0.293894                               0.293894
+   6                             32.1068                                32.1068
+   7                              0.174765                               0.174765
+   8                              7.81342                                7.81342
+   9                              0.137375                               0.137375
+  10                            457.864                                457.864
+====  =====================================  =====================================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_inh_rate_avian' class='testcase'>
+            <td class="passCase">
+                test_stir_inh_rate_avian
+                    <div class="shortDescription">
+                        integration test for stir.out_inh_rate_avian
+                    </div>
+            </td>
+            <td>0:00:00.004055</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_inh_rate_avian')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_inh_rate_avian' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_inh_rate_avian').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_inh_rate_avian
+====  ====================  ====================
+  ..    out_inh_rate_avian    exp_inh_rate_avian
+====  ====================  ====================
+   0               2514.11               2514.11
+   1               2514.11               2514.11
+   2               2514.11               2514.11
+   3               2514.11               2514.11
+   4               2514.11               2514.11
+   5               2514.11               2514.11
+   6               2514.11               2514.11
+   7               2514.11               2514.11
+   8               2514.11               2514.11
+   9               2514.11               2514.11
+  10               2514.11               2514.11
+====  ====================  ====================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_inh_rate_mammal' class='testcase'>
+            <td class="passCase">
+                test_stir_inh_rate_mammal
+                    <div class="shortDescription">
+                        integration test for stir.out_inh_rate_mammal
+                    </div>
+            </td>
+            <td>0:00:00.004113</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_inh_rate_mammal')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_inh_rate_mammal' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_inh_rate_mammal').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_inh_rate_mammal
+====  =====================  =====================
+  ..    out_inh_rate_mammal    exp_inh_rate_mammal
+====  =====================  =====================
+   0                 2370.2                 2370.2
+   1                 2370.2                 2370.2
+   2                 2370.2                 2370.2
+   3                 2370.2                 2370.2
+   4                 2370.2                 2370.2
+   5                 2370.2                 2370.2
+   6                 2370.2                 2370.2
+   7                 2370.2                 2370.2
+   8                 2370.2                 2370.2
+   9                 2370.2                 2370.2
+  10                 2370.2                 2370.2
+====  =====================  =====================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_loc_sid_avian' class='testcase'>
+            <td class="passCase">
+                test_stir_loc_sid_avian
+                    <div class="shortDescription">
+                        integration test for stir.out_loc_sid_avian
+                    </div>
+            </td>
+            <td>0:00:00.006066</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_loc_sid_avian')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_loc_sid_avian' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_loc_sid_avian').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_loc_sid_avian
+====  ===============================  ===============================
+  ..  out_loc_sid_avian                exp_loc_sid_avian
+====  ===============================  ===============================
+   0  Exposure not Likely Significant  Exposure not Likely Significant
+   1  Exposure not Likely Significant  Exposure not Likely Significant
+   2  Exposure not Likely Significant  Exposure not Likely Significant
+   3  Proceed to Refinements           Proceed to Refinements
+   4  Exposure not Likely Significant  Exposure not Likely Significant
+   5  Proceed to Refinements           Proceed to Refinements
+   6  Proceed to Refinements           Proceed to Refinements
+   7  Exposure not Likely Significant  Exposure not Likely Significant
+   8  Exposure not Likely Significant  Exposure not Likely Significant
+   9  Exposure not Likely Significant  Exposure not Likely Significant
+  10  Exposure not Likely Significant  Exposure not Likely Significant
+====  ===============================  ===============================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_loc_sid_mammal' class='testcase'>
+            <td class="passCase">
+                test_stir_loc_sid_mammal
+                    <div class="shortDescription">
+                        integration test for stir.out_loc_sid_mammal
+                    </div>
+            </td>
+            <td>0:00:00.005364</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_loc_sid_mammal')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_loc_sid_mammal' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_loc_sid_mammal').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_loc_sid_mammal
+====  ===============================  ===============================
+  ..  out_loc_sid_mammal               exp_loc_sid_mammal
+====  ===============================  ===============================
+   0  Exposure not Likely Significant  Exposure not Likely Significant
+   1  Exposure not Likely Significant  Exposure not Likely Significant
+   2  Exposure not Likely Significant  Exposure not Likely Significant
+   3  Proceed to Refinements           Proceed to Refinements
+   4  Exposure not Likely Significant  Exposure not Likely Significant
+   5  Proceed to Refinements           Proceed to Refinements
+   6  Exposure not Likely Significant  Exposure not Likely Significant
+   7  Exposure not Likely Significant  Exposure not Likely Significant
+   8  Exposure not Likely Significant  Exposure not Likely Significant
+   9  Exposure not Likely Significant  Exposure not Likely Significant
+  10  Exposure not Likely Significant  Exposure not Likely Significant
+====  ===============================  ===============================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_loc_vid_avian' class='testcase'>
+            <td class="passCase">
+                test_stir_loc_vid_avian
+                    <div class="shortDescription">
+                        integration test for stir.out_loc_vid_avian
+                    </div>
+            </td>
+            <td>0:00:00.006069</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_loc_vid_avian')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_loc_vid_avian' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_loc_vid_avian').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_loc_vid_avian
+====  ===============================  ===============================
+  ..  out_loc_vid_avian                exp_loc_vid_avian
+====  ===============================  ===============================
+   0  Exposure not Likely Significant  Exposure not Likely Significant
+   1  Exposure not Likely Significant  Exposure not Likely Significant
+   2  Proceed to Refinements           Proceed to Refinements
+   3  Proceed to Refinements           Proceed to Refinements
+   4  Proceed to Refinements           Proceed to Refinements
+   5  Exposure not Likely Significant  Exposure not Likely Significant
+   6  Proceed to Refinements           Proceed to Refinements
+   7  Proceed to Refinements           Proceed to Refinements
+   8  Exposure not Likely Significant  Exposure not Likely Significant
+   9  Proceed to Refinements           Proceed to Refinements
+  10  Exposure not Likely Significant  Exposure not Likely Significant
+====  ===============================  ===============================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_loc_vid_mammal' class='testcase'>
+            <td class="passCase">
+                test_stir_loc_vid_mammal
+                    <div class="shortDescription">
+                        integration test for stir.out_loc_vid_mammal
+                    </div>
+            </td>
+            <td>0:00:00.006297</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_loc_vid_mammal')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_loc_vid_mammal' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_loc_vid_mammal').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_loc_vid_mammal
+====  ===============================  ===============================
+  ..  out_loc_vid_mammal               exp_loc_vid_mammal
+====  ===============================  ===============================
+   0  Exposure not Likely Significant  Exposure not Likely Significant
+   1  Exposure not Likely Significant  Exposure not Likely Significant
+   2  Exposure not Likely Significant  Exposure not Likely Significant
+   3  Exposure not Likely Significant  Exposure not Likely Significant
+   4  Exposure not Likely Significant  Exposure not Likely Significant
+   5  Exposure not Likely Significant  Exposure not Likely Significant
+   6  Proceed to Refinements           Proceed to Refinements
+   7  Proceed to Refinements           Proceed to Refinements
+   8  Exposure not Likely Significant  Exposure not Likely Significant
+   9  Proceed to Refinements           Proceed to Refinements
+  10  Exposure not Likely Significant  Exposure not Likely Significant
+====  ===============================  ===============================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_mammal_inhalation_ld50' class='testcase'>
+            <td class="passCase">
+                test_stir_mammal_inhalation_ld50
+                    <div class="shortDescription">
+                        integration test for stir.out_mammal_inhalation_ld50
+                    </div>
+            </td>
+            <td>0:00:00.005760</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_mammal_inhalation_ld50')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_mammal_inhalation_ld50' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_mammal_inhalation_ld50').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_mammal_inhalation_ld50
+====  ============================  ============================
+  ..    out_mammal_inhalation_ld50    exp_mammal_inhalation_ld50
+====  ============================  ============================
+   0                     91.5574                       91.5574
+   1                    157.11                        157.11
+   2                      2.7088                        2.7088
+   3                      2.7088                        2.7088
+   4                    135.44                        135.44
+   5                      0.352144                      0.352144
+   6                    102.934                       102.934
+   7                      3.33182                       3.33182
+   8                    135.44                        135.44
+   9                      1.44244                       1.44244
+  10                      4.60496                       4.60496
+====  ============================  ============================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_ratio_sid_avian' class='testcase'>
+            <td class="passCase">
+                test_stir_ratio_sid_avian
+                    <div class="shortDescription">
+                        integration test for stir.out_ratio_sid_avian
+                    </div>
+            </td>
+            <td>0:00:00.005099</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_ratio_sid_avian')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_ratio_sid_avian' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_ratio_sid_avian').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_ratio_sid_avian
+====  =====================  =====================
+  ..    out_ratio_sid_avian    exp_ratio_sid_avian
+====  =====================  =====================
+   0             0.00118985             0.00118985
+   1             0.00275177             0.00275177
+   2             0                      0
+   3            35.4396                35.4396
+   4             0                      0
+   5             0.52934                0.52934
+   6             0.168654               0.168654
+   7             0                      0
+   8             0.0284437              0.0284437
+   9             0                      0
+  10             0                      0
+====  =====================  =====================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_ratio_sid_mammal' class='testcase'>
+            <td class="passCase">
+                test_stir_ratio_sid_mammal
+                    <div class="shortDescription">
+                        integration test for stir.out_ratio_sid_mammal
+                    </div>
+            </td>
+            <td>0:00:00.004789</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_ratio_sid_mammal')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_ratio_sid_mammal' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_ratio_sid_mammal').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_ratio_sid_mammal
+====  ======================  ======================
+  ..    out_ratio_sid_mammal    exp_ratio_sid_mammal
+====  ======================  ======================
+   0             6.42105e-05             6.42105e-05
+   1             0.000734396             0.000734396
+   2             0                       0
+   3             0.135222                0.135222
+   4             0                       0
+   5             0.18203                 0.18203
+   6             0.00338055              0.00338055
+   7             0                       0
+   8             0.000676111             0.000676111
+   9             0                       0
+  10             0                       0
+====  ======================  ======================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_ratio_vid_avian' class='testcase'>
+            <td class="passCase">
+                test_stir_ratio_vid_avian
+                    <div class="shortDescription">
+                        integration test for stir.out_ratio_vid_avian
+                    </div>
+            </td>
+            <td>0:00:00.004422</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_ratio_vid_avian')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_ratio_vid_avian' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_ratio_vid_avian').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_ratio_vid_avian
+====  =====================  =====================
+  ..    out_ratio_vid_avian    exp_ratio_vid_avian
+====  =====================  =====================
+   0            2.17165e-05            2.17165e-05
+   1            5.97942e-06            5.97943e-06
+   2            0.261744               0.261744
+   3            2.36511                2.3651
+   4           11.3342                11.3342
+   5            0.0390116              0.0390117
+   6            8.50605                8.50605
+   7            7.01804                7.01804
+   8            0.0158636              0.0158636
+   9          164.559                164.559
+  10            0.000335461            0.00033546
+====  =====================  =====================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_ratio_vid_mammal' class='testcase'>
+            <td class="passCase">
+                test_stir_ratio_vid_mammal
+                    <div class="shortDescription">
+                        integration test for stir.out_ratio_vid_mammal
+                    </div>
+            </td>
+            <td>0:00:00.005611</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_ratio_vid_mammal')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_ratio_vid_mammal' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_ratio_vid_mammal').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_ratio_vid_mammal
+====  ======================  ======================
+  ..    out_ratio_vid_mammal    exp_ratio_vid_mammal
+====  ======================  ======================
+   0             1.17194e-06             1.17194e-06
+   1             1.5958e-06              1.5958e-06
+   2             0.000216564             0.000216564
+   3             0.00902422              0.00902422
+   4             0.0012158               0.0012158
+   5             0.0134154               0.0134154
+   6             0.170498                0.170498
+   7             0.109318                0.109318
+   8             0.00037708              0.00037708
+   9             0.113462                0.113462
+  10             0.00214343              0.00214343
+====  ======================  ======================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_sat_air_conc' class='testcase'>
+            <td class="passCase">
+                test_stir_sat_air_conc
+                    <div class="shortDescription">
+                        Integration test for stir.out_sat_air_conc
+                    </div>
+            </td>
+            <td>0:00:00.005258</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_sat_air_conc')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_sat_air_conc' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_sat_air_conc').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_sat_air_conc
+====  ==================  ==================
+  ..    out_sat_air_conc    exp_sat_air_conc
+====  ==================  ==================
+   0          0.00149244          0.00149244
+   1          0.00348725          0.00348725
+   2          0.00815951          0.00815951
+   3          0.340006            0.340006
+   4          2.29039             2.29039
+   5          0.0657088           0.0657087
+   6        244.107             244.107
+   7          5.06609             5.06609
+   8          0.710365            0.710365
+   9          2.2764              2.2764
+  10          0.137289            0.137289
+====  ==================  ==================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_sid_avian' class='testcase'>
+            <td class="passCase">
+                test_stir_sid_avian
+                    <div class="shortDescription">
+                        integration test for stir.out_sid_avian
+                    </div>
+            </td>
+            <td>0:00:00.005861</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_sid_avian')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_sid_avian' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_sid_avian').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_sid_avian
+====  ===============  ===============
+  ..    out_sid_avian    exp_sid_avian
+====  ===============  ===============
+   0        0.0102791        0.0102791
+   1        0.201739         0.201739
+   2        0                0
+   3        0.640441         0.640441
+   4        0                0
+   5        0.112077         0.112077
+   6        0.608419         0.608419
+   7        0                0
+   8        0.16011          0.16011
+   9        0                0
+  10        0                0
+====  ===============  ===============
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_sid_mammal' class='testcase'>
+            <td class="passCase">
+                test_stir_sid_mammal
+                    <div class="shortDescription">
+                        integration test for stir.out_sid_mammal
+                    </div>
+            </td>
+            <td>0:00:00.004945</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_sid_mammal')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_sid_mammal' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_sid_mammal').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_sid_mammal
+====  ================  ================
+  ..    out_sid_mammal    exp_sid_mammal
+====  ================  ================
+   0         0.0129209         0.0129209
+   1         0.253588          0.253588
+   2         0                 0
+   3         0.805042          0.805042
+   4         0                 0
+   5         0.140882          0.140882
+   6         0.76479           0.76479
+   7         0                 0
+   8         0.201261          0.201261
+   9         0                 0
+  10         0                 0
+====  ================  ================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_vid_avian' class='testcase'>
+            <td class="passCase">
+                test_stir_vid_avian
+                    <div class="shortDescription">
+                        integration test for stir.out_vid_avian
+                    </div>
+            </td>
+            <td>0:00:00.005203</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_vid_avian')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_vid_avian' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_vid_avian').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_vid_avian
+====  ===============  ===============
+  ..    out_vid_avian    exp_vid_avian
+====  ===============  ===============
+   0      0.000187608      0.000187608
+   1      0.000438366      0.000438366
+   2      0.00102569       0.00102569
+   3      0.0427406        0.0427406
+   4      0.287914         0.287914
+   5      0.00825994       0.00825994
+   6     30.6856          30.6856
+   7      0.636834         0.636834
+   8      0.0892967        0.0892967
+   9      0.286155         0.286155
+  10      0.0172579        0.0172579
+====  ===============  ===============
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_vid_mammal' class='testcase'>
+            <td class="passCase">
+                test_stir_vid_mammal
+                    <div class="shortDescription">
+                        integration test for stir.out_vid_mammal
+                    </div>
+            </td>
+            <td>0:00:00.005034</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_vid_mammal')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_vid_mammal' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_integration.TestStirtest_stir_vid_mammal').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_vid_mammal
+====  ================  ================
+  ..    out_vid_mammal    exp_vid_mammal
+====  ================  ================
+   0       0.000235826       0.000235826
+   1       0.000551031       0.000551031
+   2       0.00128931        0.00128931
+   3       0.0537255         0.0537255
+   4       0.361912          0.361912
+   5       0.0103829         0.0103829
+   6      38.5722           38.5722
+   7       0.800509          0.800509
+   8       0.112247          0.112247
+   9       0.359701          0.359701
+  10       0.0216934         0.0216934
+====  ================  ================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>    <table class='result_table'>
+	    <colgroup>
+            <col align='left' width="50%" />
+            <col align='right' width="10%"/>
+            <col align='right' width="10%"/>
+            <col align='right' width="10%"/>
+            <col align='right' width="10%"/>
+            <col align='right' width="10%"/>
+        </colgroup>
+        <tr class='testclass passClass'>
+            <td>qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStir</td>
+            <td>20</td>
+            <td>20</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="javascript:void(0)" onclick="showClassDetail(this.parentNode.parentNode)">Detail</a></td>
+        </tr>    
+        <!-- for every test -->
+
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_adjusted_avian_inhalation_ld50' class='testcase'>
+            <td class="passCase">
+                test_stir_calc_adjusted_avian_inhalation_ld50
+                    <div class="shortDescription">
+                        unittest for function stir.CalcAdjustedAvianInhalationLD50
+                    </div>
+            </td>
+            <td>0:00:00.003065</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_adjusted_avian_inhalation_ld50')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_adjusted_avian_inhalation_ld50' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_adjusted_avian_inhalation_ld50').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_calc_adjusted_avian_inhalation_ld50
+===  ========  =======
+  0         1        2
+===  ========  =======
+0.1  0.351067  9.58516
+0.1  0.351067  9.58516
+===  ========  =======
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_adjusted_mammal_inhalation_ld50' class='testcase'>
+            <td class="passCase">
+                test_stir_calc_adjusted_mammal_inhalation_ld50
+                    <div class="shortDescription">
+                        unittest for function stir.CalcAdjustedMammalInhalationLD50
+                    </div>
+            </td>
+            <td>0:00:00.002014</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_adjusted_mammal_inhalation_ld50')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_adjusted_mammal_inhalation_ld50' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_adjusted_mammal_inhalation_ld50').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_calc_adjusted_mammal_inhalation_ld50
+=======  =======  ======
+      0        1       2
+=======  =======  ======
+2.30033  14.6251  3.9417
+2.3003   14.6251  3.9417
+=======  =======  ======
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_conc_air' class='testcase'>
+            <td class="passCase">
+                test_stir_calc_conc_air
+                    <div class="shortDescription">
+                        unittest for function stir.CalcConcAir
+                    </div>
+            </td>
+            <td>0:00:00.001780</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_conc_air')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_conc_air' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_conc_air').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_calc_conc_air
+===========  ===========  =========
+          0            1          2
+===========  ===========  =========
+0.000112085  5.87688e-05  0.0018162
+0.000112085  5.87687e-05  0.0018162
+===========  ===========  =========
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_convert_mammal_inh_lc50_to_ld50' class='testcase'>
+            <td class="passCase">
+                test_stir_calc_convert_mammal_inh_lc50_to_ld50
+                    <div class="shortDescription">
+                        unittest for function stir.CalcConvertMammalInhalationLC50toLD50
+                    </div>
+            </td>
+            <td>0:00:00.002216</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_convert_mammal_inh_lc50_to_ld50')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_convert_mammal_inh_lc50_to_ld50' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_convert_mammal_inh_lc50_to_ld50').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_calc_convert_mammal_inh_lc50_to_ld50
+========  =========  =======
+       0          1        2
+========  =========  =======
+0.142857  0.0431624  0.17222
+0.14286   0.0431624  0.17222
+========  =========  =======
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_estimated_avian_inhalation_ld50' class='testcase'>
+            <td class="passCase">
+                test_stir_calc_estimated_avian_inhalation_ld50
+                    <div class="shortDescription">
+                        unittest for function stir.CalcEstimatedAvianInhalationLD50
+                    </div>
+            </td>
+            <td>0:00:00.001719</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_estimated_avian_inhalation_ld50')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_estimated_avian_inhalation_ld50' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_estimated_avian_inhalation_ld50').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_calc_estimated_avian_inhalation_ld50
+=======  ======  =======
+      0       1        2
+=======  ======  =======
+14.2857  27.834  38.3204
+14.2857  27.834  38.3204
+=======  ======  =======
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_inh_rate_avian' class='testcase'>
+            <td class="passCase">
+                test_stir_calc_inh_rate_avian
+                    <div class="shortDescription">
+                        unittest for function stir.CalcInhRateAvian
+                    </div>
+            </td>
+            <td>0:00:00.001523</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_inh_rate_avian')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_inh_rate_avian' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_inh_rate_avian').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_calc_inh_rate_avian
+=======  =======  =======
+      0        1        2
+=======  =======  =======
+5090.94  29977.7  52038.6
+5090.94  29977.7  52038.6
+=======  =======  =======
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_inh_rate_mammal' class='testcase'>
+            <td class="passCase">
+                test_stir_calc_inh_rate_mammal
+                    <div class="shortDescription">
+                        unittest for function stir.CalcInhRateMammal
+                    </div>
+            </td>
+            <td>0:00:00.001423</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_inh_rate_mammal')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_inh_rate_mammal' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_inh_rate_mammal').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_calc_inh_rate_mammal
+=======  =======  ======
+      0        1       2
+=======  =======  ======
+9044.48  63984.2  127862
+9044.48  63984.2  127862
+=======  =======  ======
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_sat_air_conc' class='testcase'>
+            <td class="passCase">
+                test_stir_calc_sat_air_conc
+                    <div class="shortDescription">
+                        unittest for function stir.CalcSatAirConc
+                    </div>
+            </td>
+            <td>0:00:00.001546</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_sat_air_conc')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_sat_air_conc' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_sat_air_conc').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_calc_sat_air_conc
+=========  ========  =========
+        0         1          2
+=========  ========  =========
+0.0861048  0.423821  0.0489333
+0.086105   0.423821  0.048933
+=========  ========  =========
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_sid_avian' class='testcase'>
+            <td class="passCase">
+                test_stir_calc_sid_avian
+                    <div class="shortDescription">
+                        unittest for function stir.CalcSidAvian
+                    </div>
+            </td>
+            <td>0:00:00.002459</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_sid_avian')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_sid_avian' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_sid_avian').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_calc_sid_avian
+======  =======  =======
+     0        1        2
+======  =======  =======
+468.75  4.87246  2341.36
+468.75  4.87246  2341.36
+======  =======  =======
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_sid_mammal' class='testcase'>
+            <td class="passCase">
+                test_stir_calc_sid_mammal
+                    <div class="shortDescription">
+                        unittest for function stir.CalcSidMammal
+                    </div>
+            </td>
+            <td>0:00:00.002316</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_sid_mammal')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_sid_mammal' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_sid_mammal').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_calc_sid_mammal
+=======  =======  =======
+      0        1        2
+=======  =======  =======
+585.938  26.8806  52.0175
+585.938  26.8806  52.0175
+=======  =======  =======
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_vid_avian' class='testcase'>
+            <td class="passCase">
+                test_stir_calc_vid_avian
+                    <div class="shortDescription">
+                        unittest for function stir.CalcVidAvian
+                    </div>
+            </td>
+            <td>0:00:00.001811</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_vid_avian')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_vid_avian' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_vid_avian').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_calc_vid_avian
+====  =========  ===========
+   0          1            2
+====  =========  ===========
+0.04  0.0008686  0.000532904
+0.04  0.0008686  0.000532904
+====  =========  ===========
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_vid_mammal' class='testcase'>
+            <td class="passCase">
+                test_stir_calc_vid_mammal
+                    <div class="shortDescription">
+                        unittest for function stir.CalcVidMammal
+                    </div>
+            </td>
+            <td>0:00:00.001913</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_vid_mammal')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_vid_mammal' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_calc_vid_mammal').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_calc_vid_mammal
+======  =========  ===========
+     0          1            2
+======  =========  ===========
+0.0625  0.0343145  0.000163607
+0.0625  0.0343144  0.000163607
+======  =========  ===========
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_loc_sid_avian' class='testcase'>
+            <td class="passCase">
+                test_stir_return_loc_sid_avian
+                    <div class="shortDescription">
+                        unittest for function stir.ReturnLocSidAvian
+                    </div>
+            </td>
+            <td>0:00:00.001586</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_loc_sid_avian')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_loc_sid_avian' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_loc_sid_avian').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_return_loc_sid_avian
+===============================  ======================  ===============================
+0                                1                       2
+===============================  ======================  ===============================
+Exposure not Likely Significant  Proceed to Refinements  Exposure not Likely Significant
+Exposure not Likely Significant  Proceed to Refinements  Exposure not Likely Significant
+===============================  ======================  ===============================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_loc_sid_mammal' class='testcase'>
+            <td class="passCase">
+                test_stir_return_loc_sid_mammal
+                    <div class="shortDescription">
+                        unittest for function stir.ReturnLocSidMammal
+                    </div>
+            </td>
+            <td>0:00:00.001366</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_loc_sid_mammal')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_loc_sid_mammal' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_loc_sid_mammal').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_return_loc_sid_mammal
+===============================  ======================  ===============================
+0                                1                       2
+===============================  ======================  ===============================
+Exposure not Likely Significant  Proceed to Refinements  Exposure not Likely Significant
+Exposure not Likely Significant  Proceed to Refinements  Exposure not Likely Significant
+===============================  ======================  ===============================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_loc_vid_avian' class='testcase'>
+            <td class="passCase">
+                test_stir_return_loc_vid_avian
+                    <div class="shortDescription">
+                        unittest for function stir.ReturnLocVidAvian
+                    </div>
+            </td>
+            <td>0:00:00.001359</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_loc_vid_avian')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_loc_vid_avian' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_loc_vid_avian').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_return_loc_vid_avian
+===============================  ======================  ===============================
+0                                1                       2
+===============================  ======================  ===============================
+Exposure not Likely Significant  Proceed to Refinements  Exposure not Likely Significant
+Exposure not Likely Significant  Proceed to Refinements  Exposure not Likely Significant
+===============================  ======================  ===============================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_loc_vid_mammal' class='testcase'>
+            <td class="passCase">
+                test_stir_return_loc_vid_mammal
+                    <div class="shortDescription">
+                        unittest for function stir.ReturnLocVidMammal
+                    </div>
+            </td>
+            <td>0:00:00.001322</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_loc_vid_mammal')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_loc_vid_mammal' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_loc_vid_mammal').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_return_loc_vid_mammal
+===============================  ======================  ===============================
+0                                1                       2
+===============================  ======================  ===============================
+Exposure not Likely Significant  Proceed to Refinements  Exposure not Likely Significant
+Exposure not Likely Significant  Proceed to Refinements  Exposure not Likely Significant
+===============================  ======================  ===============================
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_ratio_sid_avian' class='testcase'>
+            <td class="passCase">
+                test_stir_return_ratio_sid_avian
+                    <div class="shortDescription">
+                        unittest for function stir.ReturnRatioSidAvian
+                    </div>
+            </td>
+            <td>0:00:00.001627</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_ratio_sid_avian')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_ratio_sid_avian' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_ratio_sid_avian').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_return_ratio_sid_avian
+===  =======  =========
+  0        1          2
+===  =======  =========
+0.4  1.98926  0.0972575
+0.4  1.98926  0.0972575
+===  =======  =========
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_ratio_sid_mammal' class='testcase'>
+            <td class="passCase">
+                test_stir_return_ratio_sid_mammal
+                    <div class="shortDescription">
+                        unittest for function stir.ReturnRatioSidMammal
+                    </div>
+            </td>
+            <td>0:00:00.001811</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_ratio_sid_mammal')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_ratio_sid_mammal' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_ratio_sid_mammal').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_return_ratio_sid_mammal
+====  =======  ========
+   0        1         2
+====  =======  ========
+0.25  2.32701  0.284567
+0.25  2.32701  0.284566
+====  =======  ========
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_ratio_vid_avian' class='testcase'>
+            <td class="passCase">
+                test_stir_return_ratio_vid_avian
+                    <div class="shortDescription">
+                        unittest for function stir.ReturnRatioVidAvian
+                    </div>
+            </td>
+            <td>0:00:00.001598</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_ratio_vid_avian')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_ratio_vid_avian' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_ratio_vid_avian').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_return_ratio_vid_avian
+=====  =========  ========
+    0          1         2
+=====  =========  ========
+0.008  0.0352941  0.145334
+0.008  0.0352941  0.145334
+=====  =========  ========
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr>
+<tr id='qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_ratio_vid_mammal' class='testcase'>
+            <td class="passCase">
+                test_stir_return_ratio_vid_mammal
+                    <div class="shortDescription">
+                        unittest for function stir.ReturnRatioVidMammal
+                    </div>
+            </td>
+            <td>0:00:00.001806</td>
+            <td colspan='4' align='center'>
+            <!--css div popup start-->
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_ratio_vid_mammal')" >
+                Pass
+            </a>
+
+            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_ratio_vid_mammal' class="popup_window">
+                <div style='text-align: right; color:red; cursor:pointer;'>
+                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.stir.tests.test_stir_unittest.TestStirtest_stir_return_ratio_vid_mammal').style.display = 'none' " >
+                   [x]</a>
+                </div>
+                <pre>
+
+test_stir_return_ratio_vid_mammal
+===  =========  =======
+  0          1        2
+===  =========  =======
+  2  0.0211982  1.12758
+  2  0.0211981  1.12758
+===  =========  =======
+
+
+
+                </pre>
+            </div>
+            <!--css div popup end-->
+
+            </td>
+        </tr></table>
+    <table class='result_table'>
+        <colgroup>
+            <col align='left' width="50%"/>
+            <col align='right' width="10%" id="results_count"/>
+            <col align='right' width="10%" id="results_passed"/>
+            <col align='right' width="10%" id="results_failed"/>
+            <col align='right' width="10%" id="results_errors"/>
+            <col align='right' width="10%"/>
+        </colgroup>
+        <!-- test list end -->
+        <tr id='total_row'>
+            <td>Total</td>
+            <td>42</td>
+            <td>42</td>
+            <td>0</td>
+            <td>0</td>
+            <td>&nbsp;</td>
+        </tr>
+    </table>
+    <br/>
+    <a href="javascript:void(0)" onclick="showRawLog(document.getElementById('rawoutput'))">Full log raw output</a>
+    <div id='rawoutput' class='popup_window'>
+        <pre>
+
+test_stir_calc_adjusted_avian_inhalation_ld50
+===  ========  =======
+  0         1        2
+===  ========  =======
+0.1  0.351067  9.58516
+0.1  0.351067  9.58516
+===  ========  =======
+
+
+test_stir_calc_adjusted_mammal_inhalation_ld50
+=======  =======  ======
+      0        1       2
+=======  =======  ======
+2.30033  14.6251  3.9417
+2.3003   14.6251  3.9417
+=======  =======  ======
+
+
+test_stir_calc_conc_air
+===========  ===========  =========
+          0            1          2
+===========  ===========  =========
+0.000112085  5.87688e-05  0.0018162
+0.000112085  5.87687e-05  0.0018162
+===========  ===========  =========
+
+
+test_stir_calc_convert_mammal_inh_lc50_to_ld50
+========  =========  =======
+       0          1        2
+========  =========  =======
+0.142857  0.0431624  0.17222
+0.14286   0.0431624  0.17222
+========  =========  =======
+
+
+test_stir_calc_estimated_avian_inhalation_ld50
+=======  ======  =======
+      0       1        2
+=======  ======  =======
+14.2857  27.834  38.3204
+14.2857  27.834  38.3204
+=======  ======  =======
+
+
+test_stir_calc_inh_rate_avian
+=======  =======  =======
+      0        1        2
+=======  =======  =======
+5090.94  29977.7  52038.6
+5090.94  29977.7  52038.6
+=======  =======  =======
+
+
+test_stir_calc_inh_rate_mammal
+=======  =======  ======
+      0        1       2
+=======  =======  ======
+9044.48  63984.2  127862
+9044.48  63984.2  127862
+=======  =======  ======
+
+
+test_stir_calc_sat_air_conc
+=========  ========  =========
+        0         1          2
+=========  ========  =========
+0.0861048  0.423821  0.0489333
+0.086105   0.423821  0.048933
+=========  ========  =========
+
+
+test_stir_calc_sid_avian
+======  =======  =======
+     0        1        2
+======  =======  =======
+468.75  4.87246  2341.36
+468.75  4.87246  2341.36
+======  =======  =======
+
+
+test_stir_calc_sid_mammal
+=======  =======  =======
+      0        1        2
+=======  =======  =======
+585.938  26.8806  52.0175
+585.938  26.8806  52.0175
+=======  =======  =======
+
+
+test_stir_calc_vid_avian
+====  =========  ===========
+   0          1            2
+====  =========  ===========
+0.04  0.0008686  0.000532904
+0.04  0.0008686  0.000532904
+====  =========  ===========
+
+
+test_stir_calc_vid_mammal
+======  =========  ===========
+     0          1            2
+======  =========  ===========
+0.0625  0.0343145  0.000163607
+0.0625  0.0343144  0.000163607
+======  =========  ===========
+
+
+test_stir_return_loc_sid_avian
+===============================  ======================  ===============================
+0                                1                       2
+===============================  ======================  ===============================
+Exposure not Likely Significant  Proceed to Refinements  Exposure not Likely Significant
+Exposure not Likely Significant  Proceed to Refinements  Exposure not Likely Significant
+===============================  ======================  ===============================
+
+
+test_stir_return_loc_sid_mammal
+===============================  ======================  ===============================
+0                                1                       2
+===============================  ======================  ===============================
+Exposure not Likely Significant  Proceed to Refinements  Exposure not Likely Significant
+Exposure not Likely Significant  Proceed to Refinements  Exposure not Likely Significant
+===============================  ======================  ===============================
+
+
+test_stir_return_loc_vid_avian
+===============================  ======================  ===============================
+0                                1                       2
+===============================  ======================  ===============================
+Exposure not Likely Significant  Proceed to Refinements  Exposure not Likely Significant
+Exposure not Likely Significant  Proceed to Refinements  Exposure not Likely Significant
+===============================  ======================  ===============================
+
+
+test_stir_return_loc_vid_mammal
+===============================  ======================  ===============================
+0                                1                       2
+===============================  ======================  ===============================
+Exposure not Likely Significant  Proceed to Refinements  Exposure not Likely Significant
+Exposure not Likely Significant  Proceed to Refinements  Exposure not Likely Significant
+===============================  ======================  ===============================
+
+
+test_stir_return_ratio_sid_avian
+===  =======  =========
+  0        1          2
+===  =======  =========
+0.4  1.98926  0.0972575
+0.4  1.98926  0.0972575
+===  =======  =========
+
+
+test_stir_return_ratio_sid_mammal
+====  =======  ========
+   0        1         2
+====  =======  ========
+0.25  2.32701  0.284567
+0.25  2.32701  0.284566
+====  =======  ========
+
+
+test_stir_return_ratio_vid_avian
+=====  =========  ========
+    0          1         2
+=====  =========  ========
+0.008  0.0352941  0.145334
+0.008  0.0352941  0.145334
+=====  =========  ========
+
+
+test_stir_return_ratio_vid_mammal
+===  =========  =======
+  0          1        2
+===  =========  =======
+  2  0.0211982  1.12758
+  2  0.0211981  1.12758
+===  =========  =======
+model output properties as pandas series
+╒════╤═════╤═════╕
+│    │   0 │   1 │
+╞════╪═════╪═════╡
+│  0 │   1 │   1 │
+├────┼─────┼─────┤
+│  1 │   1 │   1 │
+├────┼─────┼─────┤
+│  2 │   1 │   1 │
+├────┼─────┼─────┤
+│  3 │   1 │   1 │
+├────┼─────┼─────┤
+│  4 │   1 │   1 │
+├────┼─────┼─────┤
+│  5 │   1 │   1 │
+├────┼─────┼─────┤
+│  6 │   1 │   1 │
+├────┼─────┼─────┤
+│  7 │   1 │   1 │
+├────┼─────┼─────┤
+│  8 │   1 │   1 │
+├────┼─────┼─────┤
+│  9 │   1 │   1 │
+├────┼─────┼─────┤
+│ 10 │   1 │   1 │
+├────┼─────┼─────┤
+│ 11 │   1 │   1 │
+├────┼─────┼─────┤
+│ 12 │   1 │   1 │
+├────┼─────┼─────┤
+│ 13 │   1 │   1 │
+├────┼─────┼─────┤
+│ 14 │   1 │   1 │
+├────┼─────┼─────┤
+│ 15 │   1 │   1 │
+├────┼─────┼─────┤
+│ 16 │   1 │   1 │
+├────┼─────┼─────┤
+│ 17 │   1 │   1 │
+├────┼─────┼─────┤
+│ 18 │   1 │   1 │
+├────┼─────┼─────┤
+│ 19 │   1 │   1 │
+├────┼─────┼─────┤
+│ 20 │   1 │   1 │
+├────┼─────┼─────┤
+│ 21 │   1 │   1 │
+╘════╧═════╧═════╛
+
+
+test_stir_adjusted_avian_inhalation_ld50
+====  ====================================  ====================================
+  ..    out_adjusted_avian_inhalation_ld50    exp_adjusted_avian_inhalation_ld50
+====  ====================================  ====================================
+   0                            8.63896                               8.63896
+   1                           73.3124                               73.3124
+   2                            0.0039187                             0.0039187
+   3                            0.0180713                             0.0180713
+   4                            0.0254023                             0.0254023
+   5                            0.21173                               0.21173
+   6                            3.6075                                3.6075
+   7                            0.0907425                             0.0907425
+   8                            5.62902                               5.62902
+   9                            0.00173892                            0.00173892
+  10                           51.4454                               51.4454
+====  ====================================  ====================================
+
+
+test_stir_adjusted_mammal_inhalation_ld50
+====  =====================================  =====================================
+  ..    out_adjusted_mammal_inhalation_ld50    exp_adjusted_mammal_inhalation_ld50
+====  =====================================  =====================================
+   0                             201.228                                201.228
+   1                             345.302                                345.302
+   2                               5.95348                                5.95348
+   3                               5.95348                                5.95348
+   4                             297.674                                297.674
+   5                               0.773952                               0.773952
+   6                             226.232                                226.232
+   7                               7.32278                                7.32278
+   8                             297.674                                297.674
+   9                               3.17023                                3.17023
+  10                              10.1209                                10.1209
+====  =====================================  =====================================
+
+
+test_stir_air_conc
+====  ==============  ==============
+  ..    out_air_conc    exp_air_conc
+====  ==============  ==============
+   0     3.63427e-06     3.63428e-06
+   1     6.41942e-05     6.41942e-05
+   2     0.000336255     0.000336255
+   3     0.000203791     0.000203791
+   4     0.00022417      0.00022417
+   5     3.56634e-05     3.56634e-05
+   6     0.000193602     0.000193602
+   7     0.00112085      0.00112085
+   8     5.09478e-05     5.09478e-05
+   9     0.000112085     0.000112085
+  10     6.79304e-05     6.79304e-05
+====  ==============  ==============
+
+
+test_stir_estimated_avian_inhalation_ld50
+====  =====================================  =====================================
+  ..    out_estimated_avian_inhalation_ld50    exp_estimated_avian_inhalation_ld50
+====  =====================================  =====================================
+   0                             11.9914                                11.9914
+   1                            101.762                                101.762
+   2                              0.309577                               0.309577
+   3                              0.160835                               0.160835
+   4                              0.0489235                              0.0489235
+   5                              0.293894                               0.293894
+   6                             32.1068                                32.1068
+   7                              0.174765                               0.174765
+   8                              7.81342                                7.81342
+   9                              0.137375                               0.137375
+  10                            457.864                                457.864
+====  =====================================  =====================================
+
+
+test_stir_inh_rate_avian
+====  ====================  ====================
+  ..    out_inh_rate_avian    exp_inh_rate_avian
+====  ====================  ====================
+   0               2514.11               2514.11
+   1               2514.11               2514.11
+   2               2514.11               2514.11
+   3               2514.11               2514.11
+   4               2514.11               2514.11
+   5               2514.11               2514.11
+   6               2514.11               2514.11
+   7               2514.11               2514.11
+   8               2514.11               2514.11
+   9               2514.11               2514.11
+  10               2514.11               2514.11
+====  ====================  ====================
+
+
+test_stir_inh_rate_mammal
+====  =====================  =====================
+  ..    out_inh_rate_mammal    exp_inh_rate_mammal
+====  =====================  =====================
+   0                 2370.2                 2370.2
+   1                 2370.2                 2370.2
+   2                 2370.2                 2370.2
+   3                 2370.2                 2370.2
+   4                 2370.2                 2370.2
+   5                 2370.2                 2370.2
+   6                 2370.2                 2370.2
+   7                 2370.2                 2370.2
+   8                 2370.2                 2370.2
+   9                 2370.2                 2370.2
+  10                 2370.2                 2370.2
+====  =====================  =====================
+
+
+test_stir_loc_sid_avian
+====  ===============================  ===============================
+  ..  out_loc_sid_avian                exp_loc_sid_avian
+====  ===============================  ===============================
+   0  Exposure not Likely Significant  Exposure not Likely Significant
+   1  Exposure not Likely Significant  Exposure not Likely Significant
+   2  Exposure not Likely Significant  Exposure not Likely Significant
+   3  Proceed to Refinements           Proceed to Refinements
+   4  Exposure not Likely Significant  Exposure not Likely Significant
+   5  Proceed to Refinements           Proceed to Refinements
+   6  Proceed to Refinements           Proceed to Refinements
+   7  Exposure not Likely Significant  Exposure not Likely Significant
+   8  Exposure not Likely Significant  Exposure not Likely Significant
+   9  Exposure not Likely Significant  Exposure not Likely Significant
+  10  Exposure not Likely Significant  Exposure not Likely Significant
+====  ===============================  ===============================
+
+
+test_stir_loc_sid_mammal
+====  ===============================  ===============================
+  ..  out_loc_sid_mammal               exp_loc_sid_mammal
+====  ===============================  ===============================
+   0  Exposure not Likely Significant  Exposure not Likely Significant
+   1  Exposure not Likely Significant  Exposure not Likely Significant
+   2  Exposure not Likely Significant  Exposure not Likely Significant
+   3  Proceed to Refinements           Proceed to Refinements
+   4  Exposure not Likely Significant  Exposure not Likely Significant
+   5  Proceed to Refinements           Proceed to Refinements
+   6  Exposure not Likely Significant  Exposure not Likely Significant
+   7  Exposure not Likely Significant  Exposure not Likely Significant
+   8  Exposure not Likely Significant  Exposure not Likely Significant
+   9  Exposure not Likely Significant  Exposure not Likely Significant
+  10  Exposure not Likely Significant  Exposure not Likely Significant
+====  ===============================  ===============================
+
+
+test_stir_loc_vid_avian
+====  ===============================  ===============================
+  ..  out_loc_vid_avian                exp_loc_vid_avian
+====  ===============================  ===============================
+   0  Exposure not Likely Significant  Exposure not Likely Significant
+   1  Exposure not Likely Significant  Exposure not Likely Significant
+   2  Proceed to Refinements           Proceed to Refinements
+   3  Proceed to Refinements           Proceed to Refinements
+   4  Proceed to Refinements           Proceed to Refinements
+   5  Exposure not Likely Significant  Exposure not Likely Significant
+   6  Proceed to Refinements           Proceed to Refinements
+   7  Proceed to Refinements           Proceed to Refinements
+   8  Exposure not Likely Significant  Exposure not Likely Significant
+   9  Proceed to Refinements           Proceed to Refinements
+  10  Exposure not Likely Significant  Exposure not Likely Significant
+====  ===============================  ===============================
+
+
+test_stir_loc_vid_mammal
+====  ===============================  ===============================
+  ..  out_loc_vid_mammal               exp_loc_vid_mammal
+====  ===============================  ===============================
+   0  Exposure not Likely Significant  Exposure not Likely Significant
+   1  Exposure not Likely Significant  Exposure not Likely Significant
+   2  Exposure not Likely Significant  Exposure not Likely Significant
+   3  Exposure not Likely Significant  Exposure not Likely Significant
+   4  Exposure not Likely Significant  Exposure not Likely Significant
+   5  Exposure not Likely Significant  Exposure not Likely Significant
+   6  Proceed to Refinements           Proceed to Refinements
+   7  Proceed to Refinements           Proceed to Refinements
+   8  Exposure not Likely Significant  Exposure not Likely Significant
+   9  Proceed to Refinements           Proceed to Refinements
+  10  Exposure not Likely Significant  Exposure not Likely Significant
+====  ===============================  ===============================
+
+
+test_stir_mammal_inhalation_ld50
+====  ============================  ============================
+  ..    out_mammal_inhalation_ld50    exp_mammal_inhalation_ld50
+====  ============================  ============================
+   0                     91.5574                       91.5574
+   1                    157.11                        157.11
+   2                      2.7088                        2.7088
+   3                      2.7088                        2.7088
+   4                    135.44                        135.44
+   5                      0.352144                      0.352144
+   6                    102.934                       102.934
+   7                      3.33182                       3.33182
+   8                    135.44                        135.44
+   9                      1.44244                       1.44244
+  10                      4.60496                       4.60496
+====  ============================  ============================
+
+
+test_stir_ratio_sid_avian
+====  =====================  =====================
+  ..    out_ratio_sid_avian    exp_ratio_sid_avian
+====  =====================  =====================
+   0             0.00118985             0.00118985
+   1             0.00275177             0.00275177
+   2             0                      0
+   3            35.4396                35.4396
+   4             0                      0
+   5             0.52934                0.52934
+   6             0.168654               0.168654
+   7             0                      0
+   8             0.0284437              0.0284437
+   9             0                      0
+  10             0                      0
+====  =====================  =====================
+
+
+test_stir_ratio_sid_mammal
+====  ======================  ======================
+  ..    out_ratio_sid_mammal    exp_ratio_sid_mammal
+====  ======================  ======================
+   0             6.42105e-05             6.42105e-05
+   1             0.000734396             0.000734396
+   2             0                       0
+   3             0.135222                0.135222
+   4             0                       0
+   5             0.18203                 0.18203
+   6             0.00338055              0.00338055
+   7             0                       0
+   8             0.000676111             0.000676111
+   9             0                       0
+  10             0                       0
+====  ======================  ======================
+
+
+test_stir_ratio_vid_avian
+====  =====================  =====================
+  ..    out_ratio_vid_avian    exp_ratio_vid_avian
+====  =====================  =====================
+   0            2.17165e-05            2.17165e-05
+   1            5.97942e-06            5.97943e-06
+   2            0.261744               0.261744
+   3            2.36511                2.3651
+   4           11.3342                11.3342
+   5            0.0390116              0.0390117
+   6            8.50605                8.50605
+   7            7.01804                7.01804
+   8            0.0158636              0.0158636
+   9          164.559                164.559
+  10            0.000335461            0.00033546
+====  =====================  =====================
+
+
+test_stir_ratio_vid_mammal
+====  ======================  ======================
+  ..    out_ratio_vid_mammal    exp_ratio_vid_mammal
+====  ======================  ======================
+   0             1.17194e-06             1.17194e-06
+   1             1.5958e-06              1.5958e-06
+   2             0.000216564             0.000216564
+   3             0.00902422              0.00902422
+   4             0.0012158               0.0012158
+   5             0.0134154               0.0134154
+   6             0.170498                0.170498
+   7             0.109318                0.109318
+   8             0.00037708              0.00037708
+   9             0.113462                0.113462
+  10             0.00214343              0.00214343
+====  ======================  ======================
+
+
+test_stir_sat_air_conc
+====  ==================  ==================
+  ..    out_sat_air_conc    exp_sat_air_conc
+====  ==================  ==================
+   0          0.00149244          0.00149244
+   1          0.00348725          0.00348725
+   2          0.00815951          0.00815951
+   3          0.340006            0.340006
+   4          2.29039             2.29039
+   5          0.0657088           0.0657087
+   6        244.107             244.107
+   7          5.06609             5.06609
+   8          0.710365            0.710365
+   9          2.2764              2.2764
+  10          0.137289            0.137289
+====  ==================  ==================
+
+
+test_stir_sid_avian
+====  ===============  ===============
+  ..    out_sid_avian    exp_sid_avian
+====  ===============  ===============
+   0        0.0102791        0.0102791
+   1        0.201739         0.201739
+   2        0                0
+   3        0.640441         0.640441
+   4        0                0
+   5        0.112077         0.112077
+   6        0.608419         0.608419
+   7        0                0
+   8        0.16011          0.16011
+   9        0                0
+  10        0                0
+====  ===============  ===============
+
+
+test_stir_sid_mammal
+====  ================  ================
+  ..    out_sid_mammal    exp_sid_mammal
+====  ================  ================
+   0         0.0129209         0.0129209
+   1         0.253588          0.253588
+   2         0                 0
+   3         0.805042          0.805042
+   4         0                 0
+   5         0.140882          0.140882
+   6         0.76479           0.76479
+   7         0                 0
+   8         0.201261          0.201261
+   9         0                 0
+  10         0                 0
+====  ================  ================
+
+
+test_stir_vid_avian
+====  ===============  ===============
+  ..    out_vid_avian    exp_vid_avian
+====  ===============  ===============
+   0      0.000187608      0.000187608
+   1      0.000438366      0.000438366
+   2      0.00102569       0.00102569
+   3      0.0427406        0.0427406
+   4      0.287914         0.287914
+   5      0.00825994       0.00825994
+   6     30.6856          30.6856
+   7      0.636834         0.636834
+   8      0.0892967        0.0892967
+   9      0.286155         0.286155
+  10      0.0172579        0.0172579
+====  ===============  ===============
+
+
+test_stir_vid_mammal
+====  ================  ================
+  ..    out_vid_mammal    exp_vid_mammal
+====  ================  ================
+   0       0.000235826       0.000235826
+   1       0.000551031       0.000551031
+   2       0.00128931        0.00128931
+   3       0.0537255         0.0537255
+   4       0.361912          0.361912
+   5       0.0103829         0.0103829
+   6      38.5722           38.5722
+   7       0.800509          0.800509
+   8       0.112247          0.112247
+   9       0.359701          0.359701
+  10       0.0216934         0.0216934
+====  ================  ================
+</pre>
+    </div>
+</body>
+</html>

@@ -215,18 +215,18 @@ class TestSip(unittest.TestCase):
             pass
         return
 
-    def test_sip_integration_fi_bird(self):
-        """
-        Integration test for output sip.fi_bird
-        :return:
-        """
-        func_name = inspect.currentframe().f_code.co_name
-        try:
-            self.blackbox_method_int('fi_bird', func_name)
-            pass
-        finally:
-            pass
-        return
+    # def test_sip_integration_fi_bird(self):
+    #     """
+    #     Integration test for output sip.fi_bird
+    #     :return:
+    #     """
+    #     func_name = inspect.currentframe().f_code.co_name
+    #     try:
+    #         self.blackbox_method_int('fi_bird', func_name)
+    #         pass
+    #     finally:
+    #         pass
+    #     return
 
     def test_sip_integration_det(self):
         """

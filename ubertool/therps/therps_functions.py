@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 
-class TherpsFunctions(object):
+class THerpsFunctions(object):
     """
     Function class for THerps.
     """

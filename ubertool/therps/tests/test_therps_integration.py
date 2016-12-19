@@ -67,7 +67,9 @@ finally:
 therps_output_empty = THerpsOutputs()
 therps_calc = THerps(pd_obj_inputs, pd_obj_exp)
 therps_calc.execute_model()
-inputs_json, outputs_json, exp_out_json = therps_calc.get_dict_rep(therps_calc)
+inputs_json, outputs_json, exp_out_json = therps_calc.get_dict_rep()
+
+#inputs_json, outputs_json, exp_out_json = therps_calc.get_dict_rep(therps_calc)
     #print("therps output")
     #print(inputs_json)
     #print("####")
