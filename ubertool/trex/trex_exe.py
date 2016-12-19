@@ -59,10 +59,10 @@ class TrexInputs(ModelSharedInputs):
         self.tw_bird_noaec = pd.Series([], dtype="float")
         self.tw_bird_noael = pd.Series([], dtype="float")
 
-        self.species_of_the_tested_bird_avian_ld50 = pd.Series([], dtype="float")
-        self.species_of_the_tested_bird_avian_lc50 = pd.Series([], dtype="float")
-        self.species_of_the_tested_bird_avian_noaec = pd.Series([], dtype="float")
-        self.species_of_the_tested_bird_avian_noael = pd.Series([], dtype="float")
+        self.species_of_the_tested_bird_avian_ld50 = pd.Series([], dtype="object")
+        self.species_of_the_tested_bird_avian_lc50 = pd.Series([], dtype="object")
+        self.species_of_the_tested_bird_avian_noaec = pd.Series([], dtype="object")
+        self.species_of_the_tested_bird_avian_noael = pd.Series([], dtype="object")
 
         self.ld50_mamm = pd.Series([], dtype="float")
         self.lc50_mamm = pd.Series([], dtype="float")
@@ -98,12 +98,13 @@ class TrexOutputs(object):
         self.out_c_mean_fp = pd.Series([], dtype='float', name="out_c_mean_fp")  # fruits/pods
         self.out_c_mean_arthro = pd.Series([], dtype='float', name="out_c_mean_arthro")  # arthropods
 
+        # TODO: Add these back in after deciding how to handle the numpy arrays
         # time series of concentrations per food source
-        self.out_c_ts_sg = pd.Series([], dtype='float', name="out_c_ts_sg")  # short grass
-        self.out_c_ts_tg = pd.Series([], dtype='float', name="out_c_ts_tg")  # tall grass
-        self.out_c_ts_blp = pd.Series([], dtype='float', name="out_c_ts_blp")  # broad-leafed plants
-        self.out_c_ts_fp = pd.Series([], dtype='float', name="out_c_ts_fp")  # fruits/pods
-        self.out_c_ts_arthro = pd.Series([], dtype='float', name="out_c_ts_arthro")  # arthropods
+        # self.out_c_ts_sg = pd.Series([], dtype='float', name="out_c_ts_sg")  # short grass
+        # self.out_c_ts_tg = pd.Series([], dtype='float', name="out_c_ts_tg")  # tall grass
+        # self.out_c_ts_blp = pd.Series([], dtype='float', name="out_c_ts_blp")  # broad-leafed plants
+        # self.out_c_ts_fp = pd.Series([], dtype='float', name="out_c_ts_fp")  # fruits/pods
+        # self.out_c_ts_arthro = pd.Series([], dtype='float', name="out_c_ts_arthro")  # arthropods
 
         # Table5
         self.out_sa_bird_1_s = pd.Series([], dtype='float', name="out_sa_bird_1_s")
@@ -508,14 +509,14 @@ class Trex(UberModel, TrexInputs, TrexOutputs, TrexFunctions):
         self.out_arq_dose_mamm_se_lg = self.arq_dose_mamm(self.aw_mamm_lg,self.mf_w_bird_1, self.food_multiplier_init_fp)
         self.out_crq_dose_mamm_se_lg = self.crq_dose_mamm(self.aw_mamm_lg, self.mf_w_bird_1, self.food_multiplier_init_fp)
 
-        # table 11 (Acute dietary-based risk quotients for mammals per food souce)
+        # table 11 (Acute dietary-based risk quotients for mammals per food source)
         self.out_arq_diet_mamm_sg = self.arq_diet_mamm(self.food_multiplier_init_sg)
         self.out_arq_diet_mamm_tg = self.arq_diet_mamm(self.food_multiplier_init_tg)
         self.out_arq_diet_mamm_bp = self.arq_diet_mamm(self.food_multiplier_init_blp)
         self.out_arq_diet_mamm_fp = self.arq_diet_mamm(self.food_multiplier_init_fp)
         self.out_arq_diet_mamm_ar = self.arq_diet_mamm(self.food_multiplier_init_arthro)
 
-        #(Chronic dietary-based risk quotients for mammals per food souce)
+        # (Chronic dietary-based risk quotients for mammals per food source)
         self.out_crq_diet_mamm_sg = self.crq_diet_mamm(self.food_multiplier_init_sg)
         self.out_crq_diet_mamm_tg = self.crq_diet_mamm(self.food_multiplier_init_tg)
         self.out_crq_diet_mamm_bp = self.crq_diet_mamm(self.food_multiplier_init_blp)
