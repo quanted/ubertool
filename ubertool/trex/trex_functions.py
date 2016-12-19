@@ -253,7 +253,7 @@ class TrexFunctions(object):
         #get timeseries of daily concentrations for the year (+ a week)
         temp_ts = self.eec_diet_timeseries(food_multiplier)
         # get maximum daily concentration that occurs during the year
-        max_concs = [temp_ts[i].max() for i in range(len(temp_ts))]
+        max_concs = pd.Series([temp_ts[i].max() for i in range(len(temp_ts))])
         return max_concs
 
     def eec_diet_timeseries(self, food_multiplier):
