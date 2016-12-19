@@ -15,5 +15,6 @@ pytz
 requests
 scipy
 snakefood
+sqlalchemy
 tabulate
 twine
