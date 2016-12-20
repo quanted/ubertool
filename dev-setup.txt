@@ -38,5 +38,20 @@ git checkout current_dev_branch
 pip install whatever_package_conda_didnt_install
 #for packages that say pip install in requirements.txt
 
+
 #back end models are exposed via the ubertool_ecorest
 #python configuration script for flask_cgi.py
+
+#you may already have a django run configuration in the upper right
+#run from pycharm by clicking the green arrow in the title bar nest
+#to the ubertool icon
+#or you may have to configure by selecting Edit Configurations in the title bar
+
+#run from the command line
+
+#you can then visit your browser in (for example):
+http://127.0.0.1:5000/
+
+#you may wanto export pycharm settings as a jar file for future use
+#File -> Export Settings
+

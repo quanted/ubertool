@@ -1,4 +1,4 @@
-boto
+codecov
 cov-core #nose2 coverage, not in conda, pip install
 coverage
 futures
@@ -14,5 +14,6 @@ pytz
 requests
 scipy
 snakefood #not in conda, pip install
+sqlalchemy
 tabulate
 twine #not in conda, pip install
