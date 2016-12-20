@@ -43,3 +43,6 @@ pip install whatever_package_conda_didnt_install
 
 #you can then visit your browser in (for example):
 http://127.0.0.1:5000/
+
+#export pycharm settings as a jar file??
+#File -> Export Settings
