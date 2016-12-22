@@ -299,7 +299,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lw1_total_dose[i] = (self.empirical_jelly[i]/1000.) * self.lw1_jelly[i]
             elif self.empirical_residue[i] == "no":
                 self.out_lw1_total_dose[i] = (self.out_eec[i]/100.) * self.lw1_jelly[i]
-        return self.out_lw1_total_dose[i]
+        return # self.out_lw1_total_dose[i]
 
     def lw2_total_dose(self):
         """
@@ -310,7 +310,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lw2_total_dose[i] = (self.empirical_jelly[i]/1000.) * self.lw2_jelly[i]
             elif self.empirical_residue[i] == "no":
                 self.out_lw2_total_dose[i] = (self.out_eec[i]/100.) * self.lw2_jelly[i]
-        return self.out_lw2_total_dose[i]
+        return # self.out_lw2_total_dose[i]
 
     def lw3_total_dose(self):
         """
@@ -321,7 +321,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lw3_total_dose[i] = (self.empirical_jelly[i]/1000.) * self.lw3_jelly[i]
             elif self.empirical_residue[i] == "no":
                 self.out_lw3_total_dose[i] = (self.out_eec[i]/100.) * self.lw3_jelly[i]
-        return self.out_lw3_total_dose[i]
+        return # self.out_lw3_total_dose[i]
 
     def lw4_total_dose(self):
         """
@@ -332,7 +332,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lw4_total_dose[i] = ((self.empirical_pollen[i]/1000.) * self.lw4_pollen[i]) + ((self.empirical_nectar[i]/1000.) * self.lw4_nectar[i])
             elif self.empirical_residue[i] == "no":
                 self.out_lw4_total_dose[i] = (self.out_eec[i] * self.lw4_pollen[i]) + (self.out_eec[i] * self.lw4_nectar[i])
-        return self.out_lw4_total_dose[i]
+        return # self.out_lw4_total_dose[i]
 
     def lw5_total_dose(self):
         """
@@ -343,7 +343,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lw5_total_dose[i] = ((self.empirical_pollen[i]/1000.) * self.lw5_pollen[i]) + ((self.empirical_nectar[i]/1000.) * self.lw5_nectar[i])
             elif self.empirical_residue[i] == "no":
                 self.out_lw5_total_dose[i] = (self.out_eec[i] * self.lw5_pollen[i]) + (self.out_eec[i] * self.lw5_nectar[i])
-        return self.out_lw5_total_dose[i]
+        return # self.out_lw5_total_dose[i]
 
     def ld6_total_dose(self):
         """
@@ -354,7 +354,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_ld6_total_dose[i] = ((self.empirical_pollen[i]/1000.) * self.ld6_pollen[i]) + ((self.empirical_nectar[i]/1000.) * self.ld6_nectar[i])
             elif self.empirical_residue[i] == "no":
                 self.out_ld6_total_dose[i] = (self.out_eec[i] * self.ld6_pollen[i]) + (self.out_eec[i] * self.ld6_nectar[i])
-        return self.out_ld6_total_dose[i]
+        return # self.out_ld6_total_dose[i]
 
     def lq1_total_dose(self):
         """
@@ -365,7 +365,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lq1_total_dose[i] = (self.empirical_jelly[i]/1000.) * self.lq1_jelly[i]
             elif self.empirical_residue[i] == "no":
                 self.out_lq1_total_dose[i] = (self.out_eec[i]/100.) * self.lq1_jelly[i]
-        return self.out_lq1_total_dose[i]
+        return # self.out_lq1_total_dose[i]
 
     def lq2_total_dose(self):
         """
@@ -376,7 +376,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lq2_total_dose[i] = (self.empirical_jelly[i]/1000.) * self.lq2_jelly[i]
             elif self.empirical_residue[i] == "no":
                 self.out_lq2_total_dose[i] = (self.out_eec[i]/100.) * self.lq2_jelly[i]
-        return self.out_lq2_total_dose[i]
+        return # self.out_lq2_total_dose[i]
 
     def lq3_total_dose(self):
         """
@@ -387,7 +387,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lq3_total_dose[i] = (self.empirical_jelly[i]/1000.) * self.lq3_jelly[i]
             elif self.empirical_residue[i] == "no":
                 self.out_lq3_total_dose[i] = (self.out_eec[i]/100.) * self.lq3_jelly[i]
-        return self.out_lq3_total_dose[i]
+        return # self.out_lq3_total_dose[i]
 
     def lq4_total_dose(self):
         """
@@ -398,7 +398,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lq4_total_dose[i] = (self.empirical_jelly[i]/1000.) * self.lq4_jelly[i]
             elif self.empirical_residue[i] == "no":
                 self.out_lq4_total_dose[i] = (self.out_eec[i]/100.) * self.lq4_jelly[i]
-        return self.out_lq4_total_dose[i]
+        return # self.out_lq4_total_dose[i]
 
     def aw_cell_total_dose(self):
         """
@@ -409,7 +409,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_aw_cell_total_dose[i] = ((self.empirical_nectar[i]/1000.) * self.aw_cell_nectar[i]) + ((self.empirical_pollen[i]/1000.) * self.aw_cell_pollen[i])
             elif self.empirical_residue[i] == "no":
                 self.out_aw_cell_total_dose[i] = (self.out_eec[i] * self.aw_cell_nectar[i]) + (self.out_eec[i] * self.aw_cell_pollen[i])
-        return self.out_aw_cell_total_dose[i]
+        return # self.out_aw_cell_total_dose[i]
 
     def aw_brood_total_dose(self):
         """
@@ -420,7 +420,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_aw_brood_total_dose[i] = ((self.empirical_nectar[i]/1000.) * self.aw_brood_nectar[i]) + ((self.empirical_pollen[i]/1000.) * self.aw_brood_pollen[i])
             elif self.empirical_residue[i] == "no":
                 self.out_aw_brood_total_dose[i] = (self.out_eec[i] * self.aw_brood_nectar[i]) + (self.out_eec[i] * self.aw_brood_pollen[i])
-        return self.out_aw_brood_total_dose[i]
+        return # self.out_aw_brood_total_dose[i]
 
     def aw_comb_total_dose(self):
         """
@@ -431,7 +431,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_aw_comb_total_dose[i] = ((self.empirical_nectar[i]/1000.) * self.aw_comb_nectar[i]) + ((self.empirical_pollen[i]/1000.) * self.aw_comb_pollen[i])
             elif self.empirical_residue[i] == "no":
                 self.out_aw_comb_total_dose[i] = (self.out_eec[i] * self.aw_comb_nectar[i]) + (self.out_eec[i] * self.aw_comb_pollen[i])
-        return self.out_aw_comb_total_dose[i]
+        return # self.out_aw_comb_total_dose[i]
 
     def aw_pollen_total_dose(self):
         """
@@ -442,7 +442,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_aw_pollen_total_dose[i] = ((self.empirical_nectar[i]/1000.) * self.aw_fpollen_nectar[i]) + ((self.empirical_pollen[i]/1000.) * self.aw_fpollen_pollen[i])
             elif self.empirical_residue[i] == "no":
                 self.out_aw_pollen_total_dose[i] = (self.out_eec[i] * self.aw_fpollen_nectar[i]) + (self.out_eec[i] * self.aw_fpollen_pollen[i])
-        return self.out_aw_pollen_total_dose[i]
+        return # self.out_aw_pollen_total_dose[i]
 
     def aw_nectar_total_dose(self):
         """
@@ -453,7 +453,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_aw_nectar_total_dose[i] = ((self.empirical_nectar[i]/1000.) * self.aw_fnectar_nectar[i]) + ((self.empirical_pollen[i]/1000.) * self.aw_fnectar_pollen[i])
             elif self.empirical_residue[i] == "no":
                 self.out_aw_nectar_total_dose[i] = (self.out_eec[i] * self.aw_fnectar_nectar[i]) + (self.out_eec[i] * self.aw_fnectar_pollen[i])
-        return self.out_aw_nectar_total_dose[i]
+        return # self.out_aw_nectar_total_dose[i]
 
     def aw_winter_total_dose(self):
         """
@@ -464,7 +464,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_aw_winter_total_dose[i] = ((self.empirical_nectar[i]/1000.) * self.aw_winter_nectar[i]) + ((self.empirical_pollen[i]/1000.) * self.aw_winter_pollen[i])
             elif self.empirical_residue[i] == "no":
                 self.out_aw_winter_total_dose[i] = (self.out_eec[i] * self.aw_winter_nectar[i]) + (self.out_eec[i] * self.aw_winter_pollen[i])
-        return self.out_aw_winter_total_dose[i]
+        return # self.out_aw_winter_total_dose[i]
 
     def ad_total_dose(self):
         """
@@ -475,7 +475,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_ad_total_dose[i] = ((self.empirical_nectar[i]/1000.) * self.ad_nectar[i]) + ((self.empirical_pollen[i]/1000.) * self.ad_pollen[i])
             elif self.empirical_residue[i] == "no":
                 self.out_ad_total_dose[i] = (self.out_eec[i] * self.ad_nectar[i]) + (self.out_eec[i] * self.ad_pollen[i])
-        return self.out_ad_total_dose[i]
+        return # self.out_ad_total_dose[i]
 
     def aq_total_dose(self):
         """
@@ -486,7 +486,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_aq_total_dose[i] = ((self.empirical_jelly[i]/1000.) * self.aq_jelly[i])
             elif self.empirical_residue[i] == "no":
                 self.out_aq_total_dose[i] = (self.out_eec[i]/100.) * self.aq_jelly[i]
-        return self.out_aq_total_dose[i]
+        return # self.out_aq_total_dose[i]
 
     def lw1_acute_rq(self):
         """
