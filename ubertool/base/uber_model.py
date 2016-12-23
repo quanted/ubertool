@@ -31,15 +31,17 @@ class UberModel(object):
             df[input_param] = getattr(self, input_param)
         keys_a = set(df.keys())
         keys_b = set(self.pd_obj.keys())
-        extras = keys_a - keys_b
-        print('extra keys:')
+        extras = keys_b - keys_a
+        n_extras = len(extras)
+        print('There are {n_extra} extra keys.')
         print(extras)
-        missing = keys_b - keys_a
-        print('missing keys:')
+        missing = keys_a - keys_b
+        n_missing = len(missing)
+        print('There are {n_missing} missing keys.')
         print(missing)
         # Compare column names of temporary DataFrame (created above) to user-supply DataFrame from JSON
-        if df.columns.sort_values().equals(user_inputs.columns.sort_values()):
-        #if len(extras) > 0 & len(missing) == 0:
+        #if df.columns.sort_values().equals(user_inputs.columns.sort_values()):
+        if n_extras >= 0 & n_missing == 0:
             print('Input parameters match what is expected.')
             print(set(df.keys()))
             return True

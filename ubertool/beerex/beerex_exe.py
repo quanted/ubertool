@@ -11,7 +11,7 @@ class BeerexInputs(object):
     def __init__(self):
         """Class representing the inputs for Beerex"""
         super(BeerexInputs, self).__init__()
-        self.incorporation_depth = pd.Series([], dtype="float")
+        #self.incorporation_depth = pd.Series([], dtype="float")
         self.application_rate = pd.Series([], dtype="float")
         self.application_method = pd.Series([], dtype="object")
         # self.application_units = pd.Series([], dtype="object")
