@@ -95,7 +95,7 @@ class UberModel(object):
         df_user = self.convert_index(df_in)
         mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
         try:
-            # Import the model's input class (e.g. TerrplantInputs) to compare user supplied inputs to
+            # Import the model's input class (e.g. TrexInputs) to compare user supplied inputs to
             module = importlib.import_module(mod_name)
             model_inputs_class = getattr(module, self.name + "Inputs")
             model_inputs = model_inputs_class()

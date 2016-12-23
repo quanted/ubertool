@@ -363,9 +363,10 @@ class TrexFunctions(object):
         for i in range(len(aw_bird)):
             if self.application_type[i] == 'Row/Band/In-furrow-Granular':
                 at_bird_temp = self.at_bird(i, aw_bird[i])
-                num_rows_peracre = (43560 ** 0.5) / self.row_spacing[i]
-                expo_rg_bird = ((max(self.app_rates[i]) * self.frac_act_ing[i] * 453590.0) /
-                               (num_rows_peracre * (43560.0 ** 0.5) * self.bandwidth[i])) * (1 - self.frac_incorp[i])
+                num_rows_peracre = (43560 ** 0.5) / self.row_spacing[i] #43560 ft2/acre
+                expo_rg_bird = ((max(self.app_rates[i]) * self.frac_act_ing[i] * 453590.0) /    #453,590 mg/lb
+                               (num_rows_peracre * (43560.0 ** 0.5) * self.bandwidth[i])) *   \
+                                (1 - self.frac_incorp[i])                                    #(43560.0 ** 0.5) = row_length
                 ld50_rg_bird_temp[i] = expo_rg_bird / (at_bird_temp * (aw_bird[i] / 1000.0))
             else:
                 ld50_rg_bird_temp[i] = np.nan
@@ -383,9 +384,9 @@ class TrexFunctions(object):
 
         # calculate all values of 'ld50_rg_bird_temp' regardless of application_type (to facilitate vectorization)
         at_bird_temp = self.at_bird1(aw_bird)
-        num_rows_peracre = (43560 ** 0.5) / self.row_spacing
+        num_rows_peracre = (43560 ** 0.5) / self.row_spacing  #43560 ft2/acre
         expo_rg_bird = ((self.max_app_rate * self.frac_act_ing * 453590.0) /
-                       (num_rows_peracre * (43560.0 ** 0.5) * self.bandwidth)) * (1 - self.frac_incorp)
+                       (num_rows_peracre * (43560.0 ** 0.5) * (self.bandwidth / 12.))) * (1 - self.frac_incorp)  #(43560.0 ** 0.5) = row_length
         ld50_rg_bird_temp = expo_rg_bird / (at_bird_temp * (aw_bird / 1000.0))
         #go back and replace all non 'Row/Band/In-furrow-Granular' app types with value of zero
         for i in range(len(aw_bird)):

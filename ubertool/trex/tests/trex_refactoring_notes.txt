@@ -98,7 +98,7 @@ integration tests.
         values of 0.0000533466 and 0.0000880677 respectively; they were placed in
         the cell with scientific notation as 5.33e-5 and 8.80e-5
 
-        there were changed to 'automatic' formatting; which resolved the issue
+        they were changed to 'automatic' formatting; which resolved the issue
 
 10. Format of blank OPP input spreadsheet cell (i.e., spreadsheet of expected
     value & inputs)
