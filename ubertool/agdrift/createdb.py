@@ -14,184 +14,184 @@ metadata = MetaData()
 
 
 
-# import csv, sqlite3
-# #import csv to sqlite database
-# con = sqlite3.connect("sqlite_agdrift.db")
-# cur = con.cursor()
-# cur.execute("CREATE TABLE output (distance,pond_airblast_orchard,pond_airblast_vineyard,pond_ground_high_f2m,pond_ground_high_vf2f,pond_ground_low_f2m,pond_ground_low_vf2f,pond_aerial_c2vc,pond_aerial_m2c,pond_aerial_f2m,pond_aerial_vf2f);") # use your column names here
+import csv, sqlite3
+#import csv to sqlite database
+con = sqlite3.connect("sqlite_agdrift_distance.db")
+cur = con.cursor()
+cur.execute("CREATE TABLE output (distance_ft,aerial_vf2f,aerial_f2m,aerial_m2c,aerial_c2vc,ground_low_vf,ground_low_fmc,ground_high_vf,ground_high_fmc,airblast_normal,airblast_dense,airblast_sparse,airblast_vineyard,airblast_orchard);") # use your column names here
+
+with open('opp_spray_drift_values.csv','rb') as fin: # `with` statement available in 2.5+
+     # csv.DictReader uses first line in file for column headings by default
+    dr = csv.DictReader(fin) # comma is default delimiter
+    to_db = [(i['distance_ft'], i['aerial_vf2f'],i['aerial_f2m'],i['aerial_m2c'],i['aerial_c2vc'],i['ground_low_vf'],i['ground_low_fmc'],i['ground_high_vf'],i['ground_high_fmc'],i['airblast_normal'],i['airblast_dense'],i['airblast_sparse'],i['airblast_vineyard'],i['airblast_orchard']) for i in dr]
+
+cur.executemany("INSERT INTO output (distance_ft,aerial_vf2f,aerial_f2m,aerial_m2c,aerial_c2vc,ground_low_vf,ground_low_fmc,ground_high_vf,ground_high_fmc,airblast_normal,airblast_dense,airblast_sparse,airblast_vineyard,airblast_orchard) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?);", to_db)
+con.commit()
+con.close()
+
+# output = Table('output', metadata, autoload=True, autoload_with=conn)
 #
-# with open('agdrift_database.csv','rb') as fin: # `with` statement available in 2.5+
-#      # csv.DictReader uses first line in file for column headings by default
-#     dr = csv.DictReader(fin) # comma is default delimiter
-#     to_db = [(i['distance'], i['pond_airblast_orchard'],i['pond_airblast_vineyard'],i['pond_ground_high_f2m'],i['pond_ground_high_vf2f'],i['pond_ground_low_f2m'],i['pond_ground_low_vf2f'],i['pond_aerial_c2vc'],i['pond_aerial_m2c'],i['pond_aerial_f2m'],i['pond_aerial_vf2f']) for i in dr]
+# def get_distance():
+#     engine = create_engine('sqlite:///sqlite_agdrift.db')
+#     conn = engine.connect()
+#     result = conn.execute("SELECT distance from output")
+#     data = np.zeros(300)
+#     for i, row in enumerate(result):
+#         temp = float(row[0])
+#         data[i] = temp.real
+#     conn.close()
+#     return data
+# answer = get_distance()
+# print (answer)
+# print(answer.dtype)
 #
-# cur.executemany("INSERT INTO output (distance,pond_airblast_orchard,pond_airblast_vineyard,pond_ground_high_f2m,pond_ground_high_vf2f,pond_ground_low_f2m,pond_ground_low_vf2f,pond_aerial_c2vc,pond_aerial_m2c,pond_aerial_f2m,pond_aerial_vf2f) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", to_db)
-# con.commit()# save changes
-# con.close()
-
-#output = Table('output', metadata, autoload=True, autoload_with=conn)
-
-def get_distance():
-    engine = create_engine('sqlite:///sqlite_agdrift.db')
-    conn = engine.connect()
-    result = conn.execute("SELECT distance from output")
-    data = np.zeros(300)
-    for i, row in enumerate(result):
-        temp = float(row[0])
-        data[i] = temp.real
-    conn.close()
-    return data
-answer = get_distance()
-print (answer)
-print(answer.dtype)
-
-
-def get_pond_ground_high_vf2f():
-      engine = create_engine('sqlite:///sqlite_agdrift.db')
-      conn = engine.connect()
-      result =conn.execute("SELECT pond_ground_high_vf2f from output")
-      data = np.zeros(300)
-      for i, row in enumerate(result):
-            temp = float(row[0])
-            data[i] = temp.real
-      conn.close()
-      return data
-
-answer = get_pond_ground_high_vf2f()
-print (answer)
-print(answer.dtype)
-
-
-
-def get_pond_ground_high_f2m():
-    engine = create_engine('sqlite:///sqlite_agdrift.db')
-    conn = engine.connect()
-    result = conn.execute("SELECT pond_ground_high_f2m from output")
-    data = np.zeros(300)
-    for i, row in enumerate(result):
-        temp = float(row[0])
-        data[i] = temp.real
-    conn.close()
-    return data
-
-answer = get_pond_ground_high_f2m()
-print(answer)
-print(answer.dtype)
-
-def get_pond_ground_low_f2m():
-    engine = create_engine('sqlite:///sqlite_agdrift.db')
-    conn = engine.connect()
-    result = conn.execute("SELECT pond_ground_low_f2m from output")
-    data = np.zeros(300)
-    for i, row in enumerate(result):
-        temp = float(row[0])
-        data[i] = temp.real
-    conn.close()
-    return data
-answer = get_pond_ground_low_f2m()
-print(answer)
-print(answer.dtype)
-
-def get_pond_ground_low_vf2f():
-    engine = create_engine('sqlite:///sqlite_agdrift.db')
-    conn = engine.connect()
-    result = conn.execute("SELECT pond_ground_low_vf2f from output")
-    data = np.zeros(300)
-    for i, row in enumerate(result):
-        temp = float(row[0])
-        data[i] = temp.real
-    conn.close()
-    return data
-
-answer = get_pond_ground_low_vf2f()
-print(answer)
-print(answer.dtype)
-
-def get_pond_aerial_vf2f():
-    engine = create_engine('sqlite:///sqlite_agdrift.db')
-    conn = engine.connect()
-    result = conn.execute("SELECT pond_aerial_vf2f from output")
-    data = np.zeros(300)
-    for i, row in enumerate(result):
-        temp = float(row[0])
-        data[i] = temp.real
-    conn.close()
-    return data
-
-answer = get_pond_aerial_vf2f()
-print(answer)
-print(answer.dtype)
-
-def get_pond_aerial_f2m():
-    engine = create_engine('sqlite:///sqlite_agdrift.db')
-    conn = engine.connect()
-    result = conn.execute("SELECT pond_aerial_f2m from output")
-    data = np.zeros(300)
-    for i, row in enumerate(result):
-        temp = float(row[0])
-        data[i] = temp.real
-    conn.close()
-    return data
-answer = get_pond_aerial_f2m()
-print(answer)
-print(answer.dtype)
-
-def get_pond_aerial_m2c():
-    engine = create_engine('sqlite:///sqlite_agdrift.db')
-    conn = engine.connect()
-    result = conn.execute("SELECT pond_aerial_m2c from output")
-    data = np.zeros(300)
-    for i, row in enumerate(result):
-        temp = float(row[0])
-        data[i] = temp.real
-    conn.close()
-    return data
-answer = get_pond_aerial_m2c()
-print(answer)
-print(answer.dtype)
-
-def get_pond_aerial_c2vc():
-    engine = create_engine('sqlite:///sqlite_agdrift.db')
-    conn = engine.connect()
-    result = conn.execute("SELECT pond_aerial_c2vc from output")
-    data = np.zeros(300)
-    for i, row in enumerate(result):
-        temp = float(row[0])
-        data[i] = temp.real
-    conn.close()
-    return data
-answer = get_pond_aerial_c2vc()
-print(answer)
-print(answer.dtype)
-
-def get_pond_airblast_orchard():
-    engine = create_engine('sqlite:///sqlite_agdrift.db')
-    conn = engine.connect()
-    result = conn.execute("SELECT pond_airblast_orchard from output")
-    data = np.zeros(300)
-    for i, row in enumerate(result):
-        temp = float(row[0])
-        data[i] = temp.real
-    conn.close()
-    return data
-answer = get_pond_airblast_orchard()
-print(answer)
-print(answer.dtype)
-
-def get_pond_airblast_vineyard():
-    engine = create_engine('sqlite:///sqlite_agdrift.db')
-    conn = engine.connect()
-    result = conn.execute("SELECT pond_airblast_vineyard from output")
-    data = np.zeros(300)
-    for i, row in enumerate(result):
-        temp = float(row[0])
-        data[i] = temp.real
-    conn.close()
-    return data
-
-answer = get_pond_airblast_vineyard()
-print(answer)
-print(answer.dtype)
+#
+# def get_pond_ground_high_vf2f():
+#       engine = create_engine('sqlite:///sqlite_agdrift.db')
+#       conn = engine.connect()
+#       result =conn.execute("SELECT pond_ground_high_vf2f from output")
+#       data = np.zeros(300)
+#       for i, row in enumerate(result):
+#             temp = float(row[0])
+#             data[i] = temp.real
+#       conn.close()
+#       return data
+#
+# answer = get_pond_ground_high_vf2f()
+# print (answer)
+# print(answer.dtype)
+#
+#
+#
+# def get_pond_ground_high_f2m():
+#     engine = create_engine('sqlite:///sqlite_agdrift.db')
+#     conn = engine.connect()
+#     result = conn.execute("SELECT pond_ground_high_f2m from output")
+#     data = np.zeros(300)
+#     for i, row in enumerate(result):
+#         temp = float(row[0])
+#         data[i] = temp.real
+#     conn.close()
+#     return data
+#
+# answer = get_pond_ground_high_f2m()
+# print(answer)
+# print(answer.dtype)
+#
+# def get_pond_ground_low_f2m():
+#     engine = create_engine('sqlite:///sqlite_agdrift.db')
+#     conn = engine.connect()
+#     result = conn.execute("SELECT pond_ground_low_f2m from output")
+#     data = np.zeros(300)
+#     for i, row in enumerate(result):
+#         temp = float(row[0])
+#         data[i] = temp.real
+#     conn.close()
+#     return data
+# answer = get_pond_ground_low_f2m()
+# print(answer)
+# print(answer.dtype)
+#
+# def get_pond_ground_low_vf2f():
+#     engine = create_engine('sqlite:///sqlite_agdrift.db')
+#     conn = engine.connect()
+#     result = conn.execute("SELECT pond_ground_low_vf2f from output")
+#     data = np.zeros(300)
+#     for i, row in enumerate(result):
+#         temp = float(row[0])
+#         data[i] = temp.real
+#     conn.close()
+#     return data
+#
+# answer = get_pond_ground_low_vf2f()
+# print(answer)
+# print(answer.dtype)
+#
+# def get_pond_aerial_vf2f():
+#     engine = create_engine('sqlite:///sqlite_agdrift.db')
+#     conn = engine.connect()
+#     result = conn.execute("SELECT pond_aerial_vf2f from output")
+#     data = np.zeros(300)
+#     for i, row in enumerate(result):
+#         temp = float(row[0])
+#         data[i] = temp.real
+#     conn.close()
+#     return data
+#
+# answer = get_pond_aerial_vf2f()
+# print(answer)
+# print(answer.dtype)
+#
+# def get_pond_aerial_f2m():
+#     engine = create_engine('sqlite:///sqlite_agdrift.db')
+#     conn = engine.connect()
+#     result = conn.execute("SELECT pond_aerial_f2m from output")
+#     data = np.zeros(300)
+#     for i, row in enumerate(result):
+#         temp = float(row[0])
+#         data[i] = temp.real
+#     conn.close()
+#     return data
+# answer = get_pond_aerial_f2m()
+# print(answer)
+# print(answer.dtype)
+#
+# def get_pond_aerial_m2c():
+#     engine = create_engine('sqlite:///sqlite_agdrift.db')
+#     conn = engine.connect()
+#     result = conn.execute("SELECT pond_aerial_m2c from output")
+#     data = np.zeros(300)
+#     for i, row in enumerate(result):
+#         temp = float(row[0])
+#         data[i] = temp.real
+#     conn.close()
+#     return data
+# answer = get_pond_aerial_m2c()
+# print(answer)
+# print(answer.dtype)
+#
+# def get_pond_aerial_c2vc():
+#     engine = create_engine('sqlite:///sqlite_agdrift.db')
+#     conn = engine.connect()
+#     result = conn.execute("SELECT pond_aerial_c2vc from output")
+#     data = np.zeros(300)
+#     for i, row in enumerate(result):
+#         temp = float(row[0])
+#         data[i] = temp.real
+#     conn.close()
+#     return data
+# answer = get_pond_aerial_c2vc()
+# print(answer)
+# print(answer.dtype)
+#
+# def get_pond_airblast_orchard():
+#     engine = create_engine('sqlite:///sqlite_agdrift.db')
+#     conn = engine.connect()
+#     result = conn.execute("SELECT pond_airblast_orchard from output")
+#     data = np.zeros(300)
+#     for i, row in enumerate(result):
+#         temp = float(row[0])
+#         data[i] = temp.real
+#     conn.close()
+#     return data
+# answer = get_pond_airblast_orchard()
+# print(answer)
+# print(answer.dtype)
+#
+# def get_pond_airblast_vineyard():
+#     engine = create_engine('sqlite:///sqlite_agdrift.db')
+#     conn = engine.connect()
+#     result = conn.execute("SELECT pond_airblast_vineyard from output")
+#     data = np.zeros(300)
+#     for i, row in enumerate(result):
+#         temp = float(row[0])
+#         data[i] = temp.real
+#     conn.close()
+#     return data
+#
+# answer = get_pond_airblast_vineyard()
+# print(answer)
+# print(answer.dtype)
 
 # cursor = conn.connection.cursor("SELECT distance,pond_airblast_orchard,pond_airblast_vineyard,pond_ground_high_f2m,pond_ground_high_vf2f,pond_ground_low_f2m,pond_ground_low_vf2f,pond_aerial_c2vc,pond_aerial_m2c,pond_aerial_f2m,pond_aerial_vf2f  from output")
 # cursor.execute("SELECT pond_ground_high_vf2f from output")
