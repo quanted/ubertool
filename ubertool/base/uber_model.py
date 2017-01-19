@@ -41,7 +41,7 @@ class UberModel(object):
         print(missing)
         # Compare column names of temporary DataFrame (created above) to user-supply DataFrame from JSON
         #if df.columns.sort_values().equals(user_inputs.columns.sort_values()):
-        if n_extras >= 0 & n_missing == 0:
+        if n_extras >= 0 and n_missing == 0:
             print('Input parameters match what is expected.')
             print(set(df.keys()))
             return True
