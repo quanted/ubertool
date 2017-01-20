@@ -10,12 +10,8 @@ import unittest
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parentddir)
-from agdrift_exe import Agdrift
 
-# create empty pandas dataframes to create empty sip object for testing
-df_empty = pd.DataFrame()
-# create an empty sip object
-agdrift_empty = Agdrift(df_empty, df_empty)
+from agdrift_exe import Agdrift
 
 test = {}
 
@@ -40,210 +36,215 @@ class TestAgdrift(unittest.TestCase):
         """
         pass
 
-    def test_load_data_pond_ground_high_vf2f(self):
-        try:
-            agdrift_empty.load_data()
+    def create_agdrift_object(self):
+        # create empty pandas dataframes to create empty object for testing
+        df_empty = pd.DataFrame()
+        # create an empty agdrift object
+        agdrift_empty = Agdrift(df_empty, df_empty)
+        return agdrift_empty
+
+    def test_get_pond_ground_high_vf2f(self):
+
+       # create empty pandas dataframes to create empty object for this unittest
+       agdrift_empty = self.create_agdrift_object()
+
+       try:
+            agdrift_empty.pond_ground_high_vf2f = agdrift_empty.get_pond_ground_high_vf2f()
             result = agdrift_empty.pond_ground_high_vf2f[0:3]
-            expected_result = pd.Series([6.164E+00, 4.251E+00, 3.425E+00])
+            expected_result = pd.Series([0.06164, 0.052075, 0.04251])
             npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
-        except:
-            pass
-        finally:
-            pass
-            return
-        # finally:
-        #     tab = [result, expected_result]
-        #     print("\n")
-        #     print(inspect.currentframe().f_code.co_name)
-        #     print(tabulate(tab, headers='keys', tablefmt='rst'))
-        # return
+       finally:
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+       return
 
-    def test_load_data_pond_ground_high_f2m(self):
+    def test_get_pond_ground_high_f2m(self):
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
-            agdrift_empty.load_data()
+            agdrift_empty.pond_ground_high_f2m = agdrift_empty.get_pond_ground_high_f2m()
             result = agdrift_empty.pond_ground_high_f2m[0:3]
-            expected_result = pd.Series([1.650E+00, 9.842E-01, 8.413E-01])
+            expected_result = pd.Series([0.0165, 0.013171, 0.009842])
             npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
-        # finally:
-        #     tab = [result, expected_result]
-        #     print("\n")
-        #     print(inspect.currentframe().f_code.co_name)
-        #     print(tabulate(tab, headers='keys', tablefmt='rst'))
-        # return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
-    def test_load_data_self_pond_ground_low_vf2f(self):
+    def test_get_pond_ground_low_vf2f(self):
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
-            agdrift_empty.load_data()
+            agdrift_empty.pond_ground_low_vf2f = agdrift_empty.get_pond_ground_low_vf2f()
             result = agdrift_empty.pond_ground_low_vf2f[0:3]
-            expected_result = pd.Series([2.681E+00, 1.549E+00, 1.250E+00])
+            expected_result = pd.Series([0.02681, 0.02115, 0.01549])
             npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
-        # finally:
-        #     tab = [result, expected_result]
-        #     print("\n")
-        #     print(inspect.currentframe().f_code.co_name)
-        #     print(tabulate(tab, headers='keys', tablefmt='rst'))
-        # return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
-    def test_load_data_self_pond_ground_low_f2m(self):
+    def test_get_pond_ground_low_f2m(self):
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
-            agdrift_empty.load_data()
+            agdrift_empty.pond_ground_low_f2m = agdrift_empty.get_pond_ground_low_f2m()
             result = agdrift_empty.pond_ground_low_f2m[0:3]
-            expected_result = pd.Series([1.090E+00, 6.124E-01, 5.272E-01])
+            expected_result = pd.Series([0.0109,0.008512, 0.006124])
             npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
-        # finally:
-        #     tab = [result, expected_result]
-        #     print("\n")
-        #     print(inspect.currentframe().f_code.co_name)
-        #     print(tabulate(tab, headers='keys', tablefmt='rst'))
-        # return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
-    def test_load_data_self_pond_aerial_vf2f(self):
+    def test_get_pond_aerial_vf2f(self):
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
-            agdrift_empty.load_data()
+            agdrift_empty.pond_aerial_vf2f = agdrift_empty.get_pond_aerial_vf2f()
             result = agdrift_empty.pond_aerial_vf2f[0:3]
-            expected_result = pd.Series([2.425E+01, 2.319E+01, 2.227E+01])
+            expected_result = pd.Series([0.2425, 0.2372, 0.2319])
             npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
-        # finally:
-        #     tab = [result, expected_result]
-        #     print("\n")
-        #     print(inspect.currentframe().f_code.co_name)
-        #     print(tabulate(tab, headers='keys', tablefmt='rst'))
-        # return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
-    def test_load_data_self_pond_aerial_f2m(self):
+    def test_get_pond_aerial_f2m(self):
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
-            agdrift_empty.load_data()
+            agdrift_empty.pond_aerial_f2m = agdrift_empty.get_pond_aerial_f2m()
             result = agdrift_empty.pond_aerial_f2m[0:3]
-            expected_result = pd.Series([1.266E+01, 1.142E+01, 1.050E+01])
+            expected_result = pd.Series([0.1266, 0.1204, 0.1142])
             npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
-        # finally:
-        #     tab = [result, expected_result]
-        #     print("\n")
-        #     print(inspect.currentframe().f_code.co_name)
-        #     print(tabulate(tab, headers='keys', tablefmt='rst'))
-        # return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
-    def test_load_data_self_pond_aerial_m2c(self):
+    def test_get_pond_aerial_m2c(self):
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
-            agdrift_empty.load_data()
+            agdrift_empty.pond_aerial_m2c = agdrift_empty.get_pond_aerial_m2c()
             result = agdrift_empty.pond_aerial_m2c[0:3]
-            expected_result = pd.Series([8.918E+00, 7.649E+00, 6.759E+00])
+            expected_result = pd.Series([0.08918, 0.082835, 0.07649])
             npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
-        # finally:
-        #     tab = [result, expected_result]
-        #     print("\n")
-        #     print(inspect.currentframe().f_code.co_name)
-        #     print(tabulate(tab, headers='keys', tablefmt='rst'))
-        # return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
-    def test_load_data_self_pond_aerial_c2vc(self):
+    def test_get_pond_aerial_c2vc(self):
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+        result = pd.Series([], dtype='float')
         try:
-            agdrift_empty.load_data()
+            agdrift_empty.pond_aerial_c2vc = agdrift_empty.get_pond_aerial_c2vc()
             result = agdrift_empty.pond_aerial_c2vc[0:3]
-            expected_result = pd.Series([6.879E+00, 5.622E+00, 4.785E+00])
+            expected_result = pd.Series([0.06879, 0.062505, 0.05622])
             npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
-        # finally:
-        #     tab = [result, expected_result]
-        #     print("\n")
-        #     print(inspect.currentframe().f_code.co_name)
-        #     print(tabulate(tab, headers='keys', tablefmt='rst'))
-        # return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
-    def test_load_data_self_pond_airblast_orchard(self):
+    def test_get_pond_airblast_orchard(self):
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
-            agdrift_empty.load_data()
+            agdrift_empty.pond_airblast_orchard = agdrift_empty.get_pond_airblast_orchard()
             result = agdrift_empty.pond_airblast_orchard[0:3]
-            expected_result = pd.Series([2.180E+00, 1.642E+00, 1.301E+00])
+            expected_result = pd.Series([0.0218, 0.01911, 0.01642])
             npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
-        # finally:
-        #     tab = [result, expected_result]
-        #     print("\n")
-        #     print(inspect.currentframe().f_code.co_name)
-        #     print(tabulate(tab, headers='keys', tablefmt='rst'))
-        # return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
-    def test_load_data_self_pond_airblast_vineyard(self):
+    def test_get_pond_airblast_vineyard(self):
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
-            agdrift_empty.load_data()
+            agdrift_empty.pond_airblast_vineyard = agdrift_empty.get_pond_airblast_vineyard()
             result = agdrift_empty.pond_airblast_vineyard[0:3]
-            expected_result = pd.Series([2.433E-01, 1.658E-01, 1.274E-01])
+            expected_result = pd.Series([2.433e-3, 2.0455e-3, 1.658e-3])
             npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
-        # finally:
-        #     tab = [result, expected_result]
-        #     print("\n")
-        #     print(inspect.currentframe().f_code.co_name)
-        #     print(tabulate(tab, headers='keys', tablefmt='rst'))
-        # return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
-    def test_tier_I_aerial(self):
+    def test_tier_I_aerial_c2vc(self):
         """
         unittest for function agdrift.tier_I_aerial
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
+        result = pd.Series([], dtype='object')
         try:
-            expected_result = pd.Series([[0.06878999999999999, 0.06250499999999999, 0.05622],
-                                        [0.06878999999999999, 0.06250499999999999, 0.05622],
-                                        [0.06878999999999999, 0.06250499999999999, 0.05622]])
-            n_tests = len(expected_result) # has to match with the number of arrays in the expected_result above
+            expected_result = pd.Series([0.06878999999999999, 0.06250499999999999, 0.05622])
+            #n_tests = len(expected_result) # has to match with the number of arrays in the expected_result above
             agdrift_empty.load_data()
-            agdrift_empty.ecosystem_type = pd.Series(['EPA Pond'],index=range(n_tests))
-            agdrift_empty.application_method = pd.Series(['Aerial'],index=range(n_tests))
-            agdrift_empty.drop_size = pd.Series(['Very Coarse'],index=range(n_tests))
+            result = agdrift_empty.pond_aerial_c2vc[0:3]
+            #agdrift_empty.aquatic_type = pd.Series(['EPA Defined Pond'],index=range(n_tests))
+            #agdrift_empty.application_method = pd.Series(['Tier I Aerial'],index=range(n_tests))
+            #agdrift_empty.drop_size = pd.Series(['Coarse to Very Coarse'],index=range(n_tests))
             #agdrift_empty.out_y = pd.Series(np.nan,index=range(n_tests))
-            agdrift_empty.out_y = [[[np.nan]]*n_tests]
+#??             #agdrift_empty.out_y = [[[np.nan]]*n_tests]
             #agdrift_empty.out_nasae = pd.Series(np.nan, index=range(n_tests))
-            agdrift_empty.out_nasae = [[[np.nan]] * n_tests]
+#??             #agdrift_empty.out_nasae = [[[np.nan]] * n_tests]
             #agdrift_empty.out_express_y = pd.Series(np.nan, index=range(n_tests))
-            agdrift_empty.out_express_y = [[[np.nan]] * n_tests]
-            agdrift_empty.out_x = pd.Series(np.nan, index=range(n_tests))
-            for i in range(n_tests):
-                agdrift_empty.tier_I_aerial(i)
-            result = agdrift_empty.out_nasae[0:3]
+            # agdrift_empty.out_express_y = [[[np.nan]] * n_tests]
+#??             #agdrift_empty.out_x = pd.Series(np.nan, index=range(n_tests))
+            #for i in range(n_tests):
+            #    agdrift_empty.tier_I_aerial(i)
+            #    #result[i] = agdrift_empty.out_nasae[i]
+            #    #result[i] = [agdrift_empty.out_y[i][0][0:3]]
+            #    result.loc[i] = agdrift_empty.out_y[i][0:3]
+
+            #result.tolist()
             npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
             # [[agdrift_empty.pond_aerial_c2vc], [3],
             #         [[0.06878999999999999, 0.06250499999999999, 0.05622, 0.052035, 0.047850000000000004,
@@ -305,11 +306,12 @@ class TestAgdrift(unittest.TestCase):
             #               0.0023615000000000207, 0.002347999999999999, 0.0023345000000000128, 0.002320999999999991,
             #               0.0023075000000000044]]]
             #self.assertItemsEqual(result, expected)
-        except:
-            pass
         finally:
-            pass
-            return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
         # finally:
         #     tab = [result, expected_result]
         #     print("\n")
@@ -322,6 +324,10 @@ class TestAgdrift(unittest.TestCase):
         unittest for function agdrift.tier_I_ground
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
             agdrift_empty.load_data() #unittest needs agdrift_empty.pond_ground_high_vf2f
             agdrift_empty.ecosystem_type = pd.Series(['EPA Pond'])
@@ -331,11 +337,12 @@ class TestAgdrift(unittest.TestCase):
             result = agdrift_empty.out_express_y[0:3]
             expected_result = pd.Series([0.06164, 0.052074999999999996, 0.042510000000000006])
             npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
         # finally:
         #     tab = [result, expected_result]
         #     print("\n")
@@ -505,6 +512,10 @@ class TestAgdrift(unittest.TestCase):
         unittest for function agdrift.tier_I_airblast
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
             agdrift_empty.load_data()
             agdrift_empty.ecosystem_type = pd.Series(['EPA Pond'])
@@ -583,11 +594,12 @@ class TestAgdrift(unittest.TestCase):
             #                   1.7819999999999504e-05, 1.750499999999988e-05, 1.7189999999999983e-05,
             #                   1.6874999999999807e-05, 1.655999999999991e-05, 1.6244999999999734e-05]]]
             # self.assertListEqual(result, expected)
-        except:
-            pass
         finally:
-            pass
-            return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
         # finally:
         #     tab = [result, expected_result]
         #     print("\n")
@@ -600,17 +612,22 @@ class TestAgdrift(unittest.TestCase):
         unittest for function agdrift.express_extrapolate_f:
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
             agdrift_empty.load_data()
             agdrift_empty.distance = pd.Series([6.])
             agdrift_empty.out_y = agdrift_empty.pond_ground_low_f2m
             expected_result = agdrift_empty.express_extrapolate_f()
             npt.assert_allclose(expected_result, 0.004774, rtol=1e-5,atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
         # finally:
         #     tab = [expected_result]
         #     print("\n")
@@ -624,6 +641,10 @@ class TestAgdrift(unittest.TestCase):
         unittest for function agdrift.deposition_foa_to_lbac_f:
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
             agdrift_empty.load_data()
             agdrift_empty.distance = pd.Series([75.])
@@ -633,11 +654,12 @@ class TestAgdrift(unittest.TestCase):
             expected_result = agdrift_empty.deposition_foa_to_lbac_f()
             #npt.assert_array_almost_equal(result, -0.554622, 4, '', True)
             npt.assert_allclose(expected_result, 0.155193, rtol=1e-5,atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
         # finally:
         #     tab = [expected_result]
         #     print("\n")
@@ -650,6 +672,10 @@ class TestAgdrift(unittest.TestCase):
         unittest for function agdrift.deposition_lbac_to_gha_f:
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
             agdrift_empty.load_data()
             agdrift_empty.distance = pd.Series([12.])
@@ -660,11 +686,12 @@ class TestAgdrift(unittest.TestCase):
             excepted_result = agdrift_empty.deposition_lbac_to_gha_f()
             #npt.assert_array_almost_equal(result, -0.554622, 4, '', True)
             npt.assert_allclose(excepted_result, 17.19102539, rtol=1e-5,atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
         # finally:
         #     tab = [excepted_result]
         #     print("\n")
@@ -677,6 +704,10 @@ class TestAgdrift(unittest.TestCase):
         unittest for function agdrift.deposition_foa_to_gha_f:
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
             #agdrift_empty.load_data()
             #agdrift_empty.distance = pd.Series([130.])
@@ -685,11 +716,12 @@ class TestAgdrift(unittest.TestCase):
             agdrift_empty.out_init_avg_dep_foa = pd.Series([0.2], dtype='float')
             expected_result = agdrift_empty.deposition_foa_to_gha_f()
             npt.assert_allclose(expected_result,0.032824,rtol=1e-5,atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
         # finally:
         #     tab = [expected_result]
         #     print("\n")
@@ -702,6 +734,10 @@ class TestAgdrift(unittest.TestCase):
         unittest for function agdrift.deposition_gha_to_ngl_f:
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
             agdrift_empty.load_data()
             #agdrift_empty.distance = pd.Series([128.])
@@ -715,8 +751,11 @@ class TestAgdrift(unittest.TestCase):
             #npt.assert_array_almost_equal(result, -0.554622, 4, '', True)
             npt.assert_allclose(expected_result,10,rtol=1e-5,atol=0, err_msg='', verbose=True)
         finally:
-            pass
-            return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
         # except:
         #     pass
         # finally:
@@ -731,6 +770,10 @@ class TestAgdrift(unittest.TestCase):
         unittest for function agdrift.deposition_ngl_2_gha_f:
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
             agdrift_empty.load_data()
             # agdrift_empty.distance = pd.Series([223.])
@@ -745,8 +788,11 @@ class TestAgdrift(unittest.TestCase):
             # npt.assert_array_almost_equal(result, -0.554622, 4, '', True)
             npt.assert_allclose(expected_result, 0.004, rtol=1e-5, atol=0, err_msg='', verbose=True)
         finally:
-            pass
-            return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
         # except:
         #     pass
         # finally:
@@ -761,6 +807,10 @@ class TestAgdrift(unittest.TestCase):
         unittest for function agdrift.deposition_gha_to_mgcm_f:
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
             agdrift_empty.load_data()
             #agdrift_empty.distance = pd.Series([190.])
@@ -773,11 +823,12 @@ class TestAgdrift(unittest.TestCase):
             expected_result = agdrift_empty.deposition_gha_to_mgcm_f()
             #npt.assert_array_almost_equal(result, -0.554622, 4, '', True)
             npt.assert_allclose(expected_result,0.554622,rtol=1e-5,atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
         # finally:
         #     tab = [expected_result]
         #     print("\n")
@@ -791,6 +842,10 @@ class TestAgdrift(unittest.TestCase):
         unittest for function agdrift.deposition_ghac_to_lbac_f:
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
             agdrift_empty.load_data()
             #agdrift_empty.distance = pd.Series([270.])
@@ -802,11 +857,12 @@ class TestAgdrift(unittest.TestCase):
             expected_result = agdrift_empty.deposition_ghac_to_lbac_f()
             #npt.assert_array_almost_equal(result, -0.554622, 4, '', True)
             npt.assert_allclose(expected_result,0.000178,rtol=1e-5,atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
         # finally:
         #     tab = [expected_result]
         #     print("\n")
@@ -819,6 +875,10 @@ class TestAgdrift(unittest.TestCase):
         unittest for function agdrift.deposition_lbac_to_foa_f:
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
             agdrift_empty.load_data()
             #agdrift_empty.distance = pd.Series([200.])
@@ -829,11 +889,12 @@ class TestAgdrift(unittest.TestCase):
             expected_result = agdrift_empty.deposition_lbac_to_foa_f()
             #npt.assert_array_almost_equal(result, -0.554622, 4, '', True)
             npt.assert_allclose(expected_result,0.057143,rtol=1e-5,atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
         # finally:
         #     tab = [expected_result]
         #     print("\n")
@@ -846,6 +907,10 @@ class TestAgdrift(unittest.TestCase):
         unittest for function agdrift.deposition_mgcm_to_gha_f:
         :return:
         """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
         try:
             agdrift_empty.load_data()
             #agdrift_empty.distance = pd.Series([76.])
@@ -858,11 +923,12 @@ class TestAgdrift(unittest.TestCase):
             expected_result = agdrift_empty.deposition_mgcm_to_gha_f()
             #npt.assert_array_almost_equal(result, -0.554622, 4, '', True)
             npt.assert_allclose(expected_result,200,rtol=1e-5,atol=0, err_msg='', verbose=True)
-        except:
-            pass
         finally:
-            pass
-            return
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
         # finally:
         #     tab = [expected_result]
         #     print("\n")
