@@ -43,6 +43,162 @@ class TestAgdrift(unittest.TestCase):
         agdrift_empty = Agdrift(df_empty, df_empty)
         return agdrift_empty
 
+    def test_get_distances(self):
+        """
+        :description retrieves distance values for deposition scenario datasets
+        :            all scenarios use same distances
+        :param num_db_values: number of distance values to be retrieved
+        :param distance_name: name of column in sql database that contains the distance values
+        :NOTE any blank fields are filled with 'nan'
+        :return:
+        """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+        expected_result = pd.Series([], dtype='float')
+
+        try:
+
+            expected_result = [0.,0.102525,0.20505,0.4101,0.8202,1.6404,3.2808,4.9212,6.5616,9.8424,13.1232,19.6848,26.2464,
+                        32.808,39.3696,45.9312,52.4928,59.0544,65.616,72.1776,78.7392,85.3008,91.8624,98.424,104.9856,
+                        111.5472,118.1088,124.6704,131.232,137.7936,144.3552,150.9168,157.4784,164.04,170.6016,177.1632,
+                        183.7248,190.2864,196.848,203.4096,209.9712,216.5328,223.0944,229.656,236.2176,242.7792,249.3408,
+                        255.9024,262.464,269.0256,275.5872,282.1488,288.7104,295.272,301.8336,308.3952,314.9568,321.5184,
+                        328.08,334.6416,341.2032,347.7648,354.3264,360.888,367.4496,374.0112,380.5728,387.1344,393.696,
+                        400.2576,406.8192,413.3808,419.9424,426.504,433.0656,439.6272,446.1888,452.7504,459.312,465.8736,
+                        472.4352,478.9968,485.5584,492.12,498.6816,505.2432,511.8048,518.3664,524.928,531.4896,538.0512,
+                        544.6128,551.1744,557.736,564.2976,570.8592,577.4208,583.9824,590.544,597.1056,603.6672,610.2288,
+                        616.7904,623.352,629.9136,636.4752,643.0368,649.5984,656.16,662.7216,669.2832,675.8448,682.4064,
+                        688.968,695.5296,702.0912,708.6528,715.2144,721.776,728.3376,734.8992,741.4608,748.0224,754.584,
+                        761.1456,767.7072,774.2688,780.8304,787.392,793.9536,800.5152,807.0768,813.6384,820.2,826.7616,
+                        833.3232,839.8848,846.4464,853.008,859.5696,866.1312,872.6928,879.2544,885.816,892.3776,898.9392,
+                        905.5008,912.0624,918.624,925.1856,931.7472,938.3088,944.8704,951.432,957.9936,964.5552,971.1168,
+                        977.6784,984.24,990.8016,997.3632]
+
+            agdrift_empty.distance_name = 'distance_ft'
+            agdrift_empty.num_db_values = 161
+            result = agdrift_empty.get_distances(agdrift_empty.num_db_values)
+            npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_get_scenario_deposition_data(self):
+        """
+        :description retrieves deposition data for all scenarios from sql database
+        :            and checks that for each the first, last, and total number of values
+        :            are correct
+        :param scenario: name of scenario for which data is to be retrieved
+        :param num_values: number of values included in scenario datasets
+        :return:
+        """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
+        scenario_data = pd.Series([[]], dtype='float')
+        result = pd.Series([], dtype='float')
+
+
+        expected_result = [0.50013,0.041273,161.0,0.49997,0.011741,161.0,0.4999,0.0053241,161.0,
+                           0.49988,0.0031189,161.0,1.019339,9.66E-04,161.0,1.007885,6.13E-04,161.0,
+                           1.055205,1.41E-03,161.0,1.012828,7.72E-04,161.0,8.91E-03,3.87E-05,161.0,
+                           0.1155276,4.66E-04,161.0,0.4762651,5.14E-05,161.0,3.76E-02,3.10E-05,161.0,
+                           0.2223051,3.58E-04,161.0]
+
+        try:
+            agdrift_empty.num_db_values = 161  #set number of data values in sql db
+
+            #this is the list of scenario names (column names) in sql db (the order here is important because
+            #the expected values are ordered in this manner
+            agdrift_empty.scenario_name = ['aerial_vf2f', 'aerial_f2m', 'aerial_m2c', 'aerial_c2vc',
+                                           'ground_low_vf', 'ground_low_fmc', 'ground_high_vf', 'ground_high_fmc',
+                                           'airblast_normal', 'airblast_dense', 'airblast_sparse', 'airblast_vineyard',
+                                           'airblast_orchard']
+
+            #cycle through reading scenarios and building result list
+            for i in range(len(agdrift_empty.scenario_name)):
+                #get scenario data
+                scenario_data[i] = agdrift_empty.get_scenario_deposition_data(agdrift_empty.scenario_name[i],
+                                                                              agdrift_empty.num_db_values)
+                #extract 1st and last values of scenario data and build result list (including how many values are
+                #retrieved for each scenario
+                if i == 0:
+                    result = [scenario_data[i][0], scenario_data[i][agdrift_empty.num_db_values - 1],
+                              float(len(scenario_data[i]))]
+                else:
+                    result.extend([scenario_data[i][0], scenario_data[i][agdrift_empty.num_db_values - 1],
+                              float(len(scenario_data[i]))])
+            npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_get_column_names(self):
+        """
+        :description retrieves column names from sql database (sqlite_agdrift_distance.db)
+        :            (each column name refers to a specific deposition scenario;
+        :             the scenario name is used later to retrieve the deposition data)
+        :parameter output name of sql database table from which to retrieve requested data
+        :return:
+        """
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
+        result = pd.Series([], dtype='object')
+        expected_result = ['aerial_vf2f', 'aerial_f2m', 'aerial_m2c', 'aerial_c2vc',
+                                           'ground_low_vf', 'ground_low_fmc', 'ground_high_vf', 'ground_high_fmc',
+                                           'airblast_normal', 'airblast_dense', 'airblast_sparse', 'airblast_vineyard',
+                                           'airblast_orchard']
+
+        try:
+            result = agdrift_empty.get_column_names()
+        finally:
+            tab = [result, expected_result]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_filter_arrays(self):
+        """
+        :description  eliminate blank data cells (i.e., distances for which no deposition value is provided)
+                     (and thus reduce the number of x,y values to be used)
+        :parameter x_in: array of distance values associated with values for a deposition scenario (e.g., Aerial/EPA Defined Pond)
+        :parameter y_in: array of deposition values associated with a deposition scenario (e.g., Aerial/EPA Defined Pond)
+        :parameter x_out: processed array of x_in values eliminating indices of blank distance/deposition values
+        :parameter y_out: processed array of y_in values eliminating indices of blank distance/deposition values
+        :NOTE y_in array is assumed to be populated by values >= 0. except for the blanks as 'nan' entries
+        :return:
+        """
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
+        expected_result_x = pd.Series([0.,1.,4.,5.,6.,7.], dtype='float')
+        expected_result_y = pd.Series([10.,11.,14.,15.,16.,17.], dtype='float')
+
+        try:
+            x_in = pd.Series([0.,1.,2.,3.,4.,5.,6.,7.], dtype='float')
+            y_in = pd.Series([10.,11.,'nan','nan',14.,15.,16.,17.], dtype='float')
+            x_out, y_out = agdrift_empty.filter_arrays(x_in, y_in)
+            result_x = x_out
+            result_y = y_out
+            npt.assert_allclose(result_x, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(result_y, expected_result_y, rtol=1e-5, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result_x, expected_result_x]
+            tab = [result_y, expected_result_y]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
     def test_get_pond_ground_high_vf2f(self):
 
        # create empty pandas dataframes to create empty object for this unittest

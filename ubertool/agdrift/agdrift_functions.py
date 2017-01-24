@@ -30,7 +30,7 @@ class AgdriftFunctions(object):
         :param aquatic_body_def: type of endpoint of concern (e.g., pond, wetland); implies whether
         :                    endpoint of concern parameters (e.g.,, pond width) are set (i.e., by user or EPA standard)
         :param drop_size: qualitative description of spray droplet size
-        :param boom_height: qualitative height about ground of spray boom
+        :param boom_height: qualitative height above ground of spray boom
         :param orchard_type: type of orchard being sprayed
         :NOTE we perform an additional validation check related to distances later in the code just before integration
         :return
@@ -128,12 +128,12 @@ class AgdriftFunctions(object):
                     if self.boom_height[i] == 'Low':
                         if self.drop_size[i] == 'Very Fine':
                             self.out_sim_scenario_id[i] = 'ground_low_vf'
-                        elif self.drop_size[i] == 'Fine to Medium' or 'Medium to Coarse':
+                        elif self.drop_size[i] == 'Fine to Medium/Coarse':
                             self.out_sim_scenario_id[i] = 'ground_low_fmc'
                     elif self.boom_height[i] == 'High':
-                        if self.drop_size[i] == 'Very Fine to Fine':
+                        if self.drop_size[i] == 'Very Fine':
                             self.out_sim_scenario_id[i] = 'ground_high_vf'
-                        elif self.drop_size[i] == 'Fine to Medium' or 'Medium to Coarse':
+                        elif self.drop_size[i] == 'Fine to Medium/Coarse':
                             self.out_sim_scenario_id[i] = 'ground_high_fmc'
                 elif self.application_method[i] == 'Tier I Orchard':
                     if self.orchard_type[i] == 'Normal':
@@ -181,6 +181,7 @@ class AgdriftFunctions(object):
         :parameter y_in: array of deposition values associated with a deposition scenario (e.g., Aerial/EPA Defined Pond)
         :parameter x_out: processed array of x_in values eliminating indices of blank distance/deposition values
         :parameter y_out: processed array of y_in values eliminating indices of blank distance/deposition values
+        :NOTE arrays are assumed to be populated by values >= 0. except for the blanks as 'nan' entries
         :return:
         """
 
@@ -211,7 +212,6 @@ class AgdriftFunctions(object):
         :return:
         """
 
-
         if (self.ecosystem_type[i] == 'Aquatic Assessment'):
             if (self.aquatic_body_type[i] == 'EPA Defined Pond'):
                 area_width = self.default_width
@@ -223,41 +223,41 @@ class AgdriftFunctions(object):
                 area_depth = self.default_wetland_depth
             elif (self.aquatic_body_type[i] == 'User Defined Pond'):
                 area_width = self.user_pond_width[i]
-                area_length = self.hectare_sq_ft / area_width
+                area_length = self.sqft_per_hectare / area_width
                 area_depth = self.user_pond_depth[i]
             elif (self.aquatic_body_type[i] == 'User Defined Wetland'):
                 area_width = self.user_wetland_width[i]
-                area_length = self.hectare_sq_ft / area_width
+                area_length = self.sqft_per_hectare / area_width
                 area_depth = self.user_wetland_depth[i]
         elif (self.ecosystem_type[i] == 'Terrestrial Assessment'):
             if (self.terrestrial_field_type[i] == 'User Defined Terrestrial'):  # implies user to specify an area width
                 area_width = self.user_terrestrial_width[i]
-                area_length = self.hectare_sq_ft / area_width
+                area_length = self.sqft_per_hectare / area_width
                 area_depth = 0.  # terrestrial areas have no depth
-            else:  #this is the EPA Defined Terrestrial for which we don't need dimensions
+            else:  #this is the EPA Defined Terrestrial (i.e., a point as opposed to an area) for which we don't need dimensions
                 area_width = 0.
                 area_length = 0.
                 area_depth = 0.
         return area_width, area_length, area_depth
 
-    def load_scenario_raw_data(self):
-        """
-        :description retrieve deposition data from SQL database for all scenarios (e.g., aerial/EPA Defined Pond
-        :parameter num_scenarios number of deposition scenarios included in SQL database
-        :parameter scenario_name name of scenario as included in SQL database
-        :parameter num_db_values number of values included in deposition scenarios (same for all scenarios)
-        :parameter scenario_raw_data array of depostion values retrieved from SQL database
-        :NOTE This method is not currently utilized (instead we use 'get_scenario_deposition_data' to retrieve them as needed)
-        :return:
-        """
-        self.scenario_raw_data = pd.Series([], dtype='float')
-        for i in range(self.num_scenarios):
-            self.scenario_raw_data[i] = self.get_scenario_deposition_data(self.scenario_name[i], self.num_db_values)
-        return
+    # def load_scenario_raw_data(self):
+    #     """
+    #     :description retrieve deposition data from SQL database for all scenarios (e.g., aerial/EPA Defined Pond
+    #     :parameter num_scenarios number of deposition scenarios included in SQL database
+    #     :parameter scenario_name name of scenario as included in SQL database
+    #     :parameter num_db_values number of values included in deposition scenarios (same for all scenarios)
+    #     :parameter scenario_raw_data array of depostion values retrieved from SQL database
+    #     :NOTE This method is not currently utilized (instead we use 'get_scenario_deposition_data' to retrieve them as needed)
+    #     :return:
+    #     """
+    #     self.scenario_raw_data = pd.Series([], dtype='float')
+    #     for i in range(self.num_scenarios):
+    #         self.scenario_raw_data[i] = self.get_scenario_deposition_data(self.scenario_name[i], self.num_db_values)
+    #     return
 
     def get_column_names(self):
         """
-        :description retrieves column names from sql database (sqlite_agdrift_distance.db)
+        :description retrieves column names from sql database (sqlite_agdrift_1994ft.db)
         :            (each column name refers to a specific deposition scenario;
         :             the scenario name is used later to retrieve the deposition data)
         :parameter output name of sql database table from which to retrieve requested data
@@ -267,7 +267,7 @@ class AgdriftFunctions(object):
         # connect to the sql database and get column names (1st column will be the distances
         # rather than a scenario name)
 
-        engine = create_engine('sqlite:///sqlite_agdrift_distance.db')
+        engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
         conn = engine.connect()
         result1 = conn.execute("SELECT * from output")
         col_names = result1.keys()
@@ -278,11 +278,11 @@ class AgdriftFunctions(object):
         :description retrieves distance values for deposition scenario datasets
         :            all scenarios use same distances
         :param num_values: number of distance values to be retrieved
-        :param distance_name name of column in sql database that contains the distance values
+        :param distance_name: name of column in sql database that contains the distance values
         :NOTE any blank fields are filled with 'nan'
         :return:
         """
-        engine = create_engine('sqlite:///sqlite_agdrift_distance.db')
+        engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
         conn = engine.connect()
         result = conn.execute("SELECT " + self.distance_name + " from output")
 
@@ -306,7 +306,7 @@ class AgdriftFunctions(object):
         """
 
         # establish connection and target scenario data
-        engine = create_engine('sqlite:///sqlite_agdrift_distance.db')
+        engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
         conn = engine.connect()
         result = conn.execute("SELECT " + scenario + " from output")
 
@@ -1005,7 +1005,7 @@ class AgdriftFunctions(object):
 #-------------------------
 
         # def get_pond_ground_high_vf2f(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_distance.db')
+        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
         #     conn = engine.connect()
         #     result = conn.execute("SELECT pond_ground_high_vf from output")
         #     data = pd.Series(np.zeros(161))
@@ -1016,7 +1016,7 @@ class AgdriftFunctions(object):
         #     return data
         #
         # def get_pond_ground_high_f2m(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_distance.db')
+        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
         #     conn = engine.connect()
         #     result = conn.execute("SELECT pond_ground_high_f2m from output")
         #     data = pd.Series(np.zeros(161))
@@ -1027,7 +1027,7 @@ class AgdriftFunctions(object):
         #     return data
         #
         # def get_pond_ground_low_f2m(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_distance.db')
+        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
         #     conn = engine.connect()
         #     result = conn.execute("SELECT pond_ground_low_f2m from output")
         #     data = pd.Series(np.zeros(161))
@@ -1038,7 +1038,7 @@ class AgdriftFunctions(object):
         #     return data
         #
         # def get_pond_ground_low_vf2f(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_distance.db')
+        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
         #     conn = engine.connect()
         #     result = conn.execute("SELECT pond_ground_low_vf2f from output")
         #     data = pd.Series(np.zeros(161))
@@ -1049,7 +1049,7 @@ class AgdriftFunctions(object):
         #     return data
         #
         # def get_pond_aerial_vf2f(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_distance.db')
+        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
         #     conn = engine.connect()
         #     result = conn.execute("SELECT pond_aerial_vf2f from output")
         #     data = pd.Series(np.zeros(161))
@@ -1063,7 +1063,7 @@ class AgdriftFunctions(object):
         #     return data
         #
         # def get_pond_aerial_f2m(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_distance.db')
+        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
         #     conn = engine.connect()
         #     result = conn.execute("SELECT pond_aerial_f2m from output")
         #     data = pd.Series(np.zeros(161))
@@ -1074,7 +1074,7 @@ class AgdriftFunctions(object):
         #     return data
         #
         # def get_pond_aerial_m2c(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_distance.db')
+        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
         #     conn = engine.connect()
         #     result = conn.execute("SELECT pond_aerial_m2c from output")
         #     data = pd.Series(np.zeros(161))
@@ -1085,7 +1085,7 @@ class AgdriftFunctions(object):
         #     return data
         #
         # def get_pond_aerial_c2vc(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_distance.db')
+        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
         #     conn = engine.connect()
         #     result = conn.execute("SELECT pond_aerial_c2vc from output")
         #     data = pd.Series(np.zeros(161))
@@ -1096,7 +1096,7 @@ class AgdriftFunctions(object):
         #     return data
         #
         # def get_pond_airblast_orchard(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_distance.db')
+        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
         #     conn = engine.connect()
         #     result = conn.execute("SELECT pond_airblast_orchard from output")
         #     data = pd.Series(np.zeros(161))
@@ -1107,7 +1107,7 @@ class AgdriftFunctions(object):
         #     return data
         #
         # def get_pond_airblast_vineyard(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_distance.db')
+        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
         #     conn = engine.connect()
         #     result = conn.execute("SELECT pond_airblast_vineyard from output")
         #     data = pd.Series(np.zeros(161))
