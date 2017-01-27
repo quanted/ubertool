@@ -31,17 +31,16 @@ class AgdriftFunctions(object):
         :                    endpoint of concern parameters (e.g.,, pond width) are set (i.e., by user or EPA standard)
         :param drop_size: qualitative description of spray droplet size
         :param boom_height: qualitative height above ground of spray boom
-        :param orchard_type: type of orchard being sprayed
+        :param airblast_type: type of orchard being sprayed
         :NOTE we perform an additional validation check related to distances later in the code just before integration
         :return
         """
-        self.out_sim_scenario_chk = pd.Series([], dtype='object')
         for i in range(self.num_simulations):
             if (self.ecosystem_type[i] == 'Aquatic Assessment'):
                 if self.application_method[i] == 'Tier I Aerial':
                     if (self.aquatic_body_type[i] in ['EPA Defined Pond', 'User Defined Pond',   \
                                                  'EPA Defined Wetland', 'User Defined Wetland'] and   \
-                    self.drop_size[i] in ['Very Fine to Fine', 'Fine to Medium', \
+                        self.drop_size[i] in ['Very Fine to Fine', 'Fine to Medium', \
                                           'Medium to Coarse', 'Coarse to Very Coarse']):
                         self.out_sim_scenario_chk[i] = 'Valid Tier I Aquatic Aerial Scenario'
                     else:
@@ -54,13 +53,15 @@ class AgdriftFunctions(object):
                          self.out_sim_scenario_chk[i] = 'Valid Tier I Aquatic Ground Scenario'
                     else:
                         self.out_sim_scenario_chk[i] = 'Invalid Tier I Aquatic Ground Scenario'
-                elif self.application_method[i] == 'Tier I Orchard':
+                elif self.application_method[i] == 'Tier I Airblast':
                     if (self.aquatic_body_type[i] in ['EPA Defined Pond', 'User Defined Pond',   \
                                                  'EPA Defined Wetland', 'User Defined Wetland'] and   \
-                        self.orchard_type[i] in ['Orchard', 'Vineyard', 'Normal', 'Dense', 'Sparse']):
-                        self.out_sim_scenario_chk[i] = 'Valid Tier I Aquatic Orchard Scenario'
+                        self.airblast_type[i] in ['Orchard', 'Vineyard', 'Normal', 'Dense', 'Sparse']):
+                        self.out_sim_scenario_chk[i] = 'Valid Tier I Aquatic Airblast Scenario'
                     else:
-                        self.out_sim_scenario_chk[i] = 'Invalid Tier I Aquatic Orchard Scenario'
+                        self.out_sim_scenario_chk[i] = 'Invalid Tier I Aquatic Airblast Scenario'
+                else:
+                    self.out_sim_scenario_chk[i] = 'Invalid Tier I Aquatic Assessment application_method'
 
             elif (self.ecosystem_type[i] == 'Terrestrial Assessment'):
                 if self.application_method[i] == 'Tier I Aerial':
@@ -77,14 +78,17 @@ class AgdriftFunctions(object):
                          self.out_sim_scenario_chk[i] = 'Valid Tier I Terrestrial Ground Scenario'
                     else:
                         self.out_sim_scenario_chk[i] = 'Invalid Tier I Terrestrial Ground Scenario'
-                elif self.application_method[i] == 'Tier I Orchard':
+                elif self.application_method[i] == 'Tier I Airblast':
                     if (self.terrestrial_field_type[i] in ['EPA Defined Terrestrial', 'User Defined Terrestrial'] and   \
-                        self.orchard_type[i] in ['Orchard', 'Vineyard', 'Normal', 'Dense', 'Sparse']):
-                        self.out_sim_scenario_chk[i] = 'Valid Tier I Terrestrial Orchard Scenario'
+                        self.airblast_type[i] in ['Orchard', 'Vineyard', 'Normal', 'Dense', 'Sparse']):
+                        self.out_sim_scenario_chk[i] = 'Valid Tier I Terrestrial Airblast Scenario'
                     else:
-                        self.out_sim_scenario_chk[i] = 'Invalid Tier I Terrestrial Orchard Scenario'
+                        self.out_sim_scenario_chk[i] = 'Invalid Tier I Terrestrial Airblast Scenario'
+                else:
+                    self.out_sim_scenario_chk[i] = 'Invalid Tier I Terrestrial Assessment application_method'
+
             else:
-                    self.out_sim_scenario_chk[i] = 'Invalid scenario application_method'
+                    self.out_sim_scenario_chk[i] = 'Invalid scenario ecosystem_type'
         return
 
     def assign_column_names(self):
@@ -135,16 +139,16 @@ class AgdriftFunctions(object):
                             self.out_sim_scenario_id[i] = 'ground_high_vf'
                         elif self.drop_size[i] == 'Fine to Medium/Coarse':
                             self.out_sim_scenario_id[i] = 'ground_high_fmc'
-                elif self.application_method[i] == 'Tier I Orchard':
-                    if self.orchard_type[i] == 'Normal':
+                elif self.application_method[i] == 'Tier I Airblast':
+                    if self.airblast_type[i] == 'Normal':
                         self.out_sim_scenario_id[i] = 'airblast_normal'
-                    elif self.orchard_type[i] == 'Dense':
+                    elif self.airblast_type[i] == 'Dense':
                         self.out_sim_scenario_id[i] = 'airblast_dense'
-                    elif self.orchard_type[i] == 'Sparse':
+                    elif self.airblast_type[i] == 'Sparse':
                         self.out_sim_scenario_id[i] = 'airblast_sparse'
-                    elif self.orchard_type[i] == 'Vineyard':
+                    elif self.airblast_type[i] == 'Vineyard':
                         self.out_sim_scenario_id[i] = 'airblast_vineyard'
-                    elif self.orchard_type[i] == 'Orchard':
+                    elif self.airblast_type[i] == 'Orchard':
                         self.out_sim_scenario_id[i] = 'airblast_orchard'
             else:
                 self.out_sim_scenario_id[i] = 'Invalid'
@@ -525,10 +529,10 @@ class AgdriftFunctions(object):
     # # TIER I ORCHARD/AIRBLAST
     # def tier_I_airblast(self, i):
     #     logging.info(
-    #         '------------- Agdrift results' + self.ecosystem_type[0] + self.application_method[0] + self.orchard_type[0])
+    #         '------------- Agdrift results' + self.ecosystem_type[0] + self.application_method[0] + self.airblast_type[0])
     # 
     #     if (self.ecosystem_type[i] == 'EPA Pond' and self.application_method[i] == 'Orchard/Airblast' and
-    #                 self.orchard_type[i] == 'Orchard'):
+    #                 self.airblast_type[i] == 'Orchard'):
     #         self.out_y[i] = [self.pond_airblast_orchard]
     #         # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
     #         self.out_nasae[i] = [9]
@@ -537,7 +541,7 @@ class AgdriftFunctions(object):
     # 
     #     # TIER I ORCHARD/AIRBLAST
     #     elif (self.ecosystem_type[i] == 'EPA Pond' and self.application_method[i] == 'Orchard/Airblast' and
-    #                   self.orchard_type[i] == 'Vineyard'):
+    #                   self.airblast_type[i] == 'Vineyard'):
     #         self.out_y[i] = [self.pond_airblast_vineyard]
     #         self.out_express_y[i] = [self.pond_airblast_vineyard]
     #         self.out_x[i] = self.out_x
@@ -771,34 +775,34 @@ class AgdriftFunctions(object):
         #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Ground' and self.drop_size == 'Medium'):
         #         self.out_y = self.terr_ground_f2m
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Normal'):
+        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Normal'):
         #         self.out_y = self.pond_airblast_normal
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Dense'):
+        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Dense'):
         #         self.out_y = self.pond_airblast_dense
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Sparse'):
+        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Sparse'):
         #         self.out_y = self.pond_airblast_sparse
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Vineyard'):
+        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Vineyard'):
         #         self.out_y = self.pond_airblast_vineyard
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Orchard'):
+        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Orchard'):
         #         self.out_y = pond_airblast_orchard
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Normal'):
+        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Normal'):
         #         self.out_y = self.terr_airblast_normal
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Dense'):
+        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Dense'):
         #         self.out_y = self.terr_airblast_dense
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Sparse'):
+        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Sparse'):
         #         self.out_y = self.terr_airblast_sparse
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Vineyard'):
+        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Vineyard'):
         #         self.out_y = self.terr_airblast_vineyard
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Orchard'):
+        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Orchard'):
         #         self.out_y = self.terr_airblast_orchard
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
         #         self.z = 4
@@ -843,28 +847,28 @@ class AgdriftFunctions(object):
         #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Ground' and self.drop_size == 'Medium'):
         #         self.out_y = self.terr_ground_f2m
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Normal'):
+        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Normal'):
         #         self.out_y = self.pond_airblast_normal
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Dense'):
+        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Dense'):
         #         self.out_y = self.pond_airblast_dense
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Orchard'):
+        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Orchard'):
         #         self.out_y = pond_airblast_orchard
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Normal'):
+        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Normal'):
         #         self.out_y = self.terr_airblast_normal
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Dense'):
+        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Dense'):
         #         self.out_y = self.terr_airblast_dense
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Sparse'):
+        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Sparse'):
         #         self.out_y = self.terr_airblast_sparse
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Vineyard'):
+        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Vineyard'):
         #         self.out_y = self.terr_airblast_vineyard
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.orchard_type == 'Orchard'):
+        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Orchard'):
         #         self.out_y = self.terr_airblast_orchard
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
         #         self.z = 4

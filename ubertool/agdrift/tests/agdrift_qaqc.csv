@@ -3,11 +3,11 @@ version,this breaks the csv,,,,,,,,,,,,,,,,,,
 chemical_name,,,,,a,a,a,a,a,a,b,c,d,e,f,g,h,i,j
 pc_code,this breaks the csv,,,,,,,,,,,,,,,,,,
 application_rate,application rate,lb/ac,float,,0.5,0.75,0.5,0.5,0.5,0.5,0.35,0.2505,0.63,0.41,0.29,0.01,0.75,0.5,0.98
-application_method,type of application method,,,,Tier I Aerial,Tier I Ground,Tier I Aerial,Tier I Aerial,Tier I Aerial,Tier I Aerial,Tier I Ground,Tier I Aerial,Tier I Orchard,Tier I Orchard,Tier I Ground,Tier I Orchard,Tier I Aerial,Tier I Aerial,Tier I Ground
+application_method,type of application method,,,,Tier I Aerial,Tier I Ground,Tier I Aerial,Tier I Aerial,Tier I Aerial,Tier I Aerial,Tier I Ground,Tier I Aerial,Tier I Airblast,Tier I Airblast,Tier I Ground,Tier I Airblast,Tier I Aerial,Tier I Aerial,Tier I Ground
 drop_size,qualitative drop size of applied mixture,,,,Fine to Medium,Very Fine,Fine to Medium,Fine to Medium,Fine to Medium,Fine to Medium,Fine to Medium/Coarse,Fine to Medium,Aerosol to Very Fine,Aerosol to Very Fine,Very Fine,Aerosol to Very Fine,Coarse to Very Coarse,Medium to Coarse,Fine to Medium/Coarse
 ecosystem_type,type of assessment to be performed,,,,Aquatic Assessment,Terrestrial Assessment,Aquatic Assessment,Terrestrial Assessment,Aquatic Assessment,Aquatic Assessment,Aquatic Assessment,Aquatic Assessment,Aquatic Assessment,Aquatic Assessment,Aquatic Assessment,Aquatic Assessment,Aquatic Assessment,Aquatic Assessment,Aquatic Assessment
 boom_height,needed only if Tier I Ground scenario,,,,,High,,,,,Low,,,,High,,,,Low
-orchard_type,needed only if Tier I Orchard scenario,,,,,,,,,,,,Vineyard,Orchard,,Orchard,,,
+airblast_type,needed only if Tier I Orchard scenario,,,,,,,,,,,,Vineyard,Orchard,,Orchard,,,
 aquatic_body_type,needed only if ecosystem_type is Aquatic,,,,User Defined Pond,,EPA Defined Pond, ,User Defined Pond,EPA Defined Pond,EPA Defined Wetland,EPA Defined Wetland,EPA Defined Pond,EPA Defined Wetland,EPA Defined Pond,EPA Defined Pond,EPA Defined Wetland,EPA Defined Wetland,EPA Defined Pond
 terrestrial_field_type,needed only if ecosystem_type is Terrestrial,,,, ,User Defined Terrestrial, ,EPA Defined Terrestrial,,,,,,,,,,,
 user_pond_width,needed only if User Defined Pond,,,,997,,,,6.56,,,,,,,,,,

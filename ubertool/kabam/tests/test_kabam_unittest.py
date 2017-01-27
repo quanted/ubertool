@@ -793,6 +793,7 @@ class TestKabam(unittest.TestCase):
                                                      kabam_empty.diet_conc_lfish,
                                                      kabam_empty.diet_lipid_content_lfish)
             npt.assert_allclose(result1, expected_results1, rtol=1e-4, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(result2, expected_results2, rtol=1e-4, atol=0, err_msg='', verbose=True)
 
         finally:
             tab = [result1, expected_results1, result2, expected_results2]
