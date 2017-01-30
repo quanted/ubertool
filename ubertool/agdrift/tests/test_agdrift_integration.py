@@ -14,7 +14,7 @@ import unittest
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 print(parentddir)
 sys.path.append(parentddir)
-from agdrift_exe import Agdrift
+from agdrift_exe import Agdrift, AgdriftOutputs
 
 print(sys.path)
 
@@ -66,6 +66,7 @@ finally:
 #generate output
 agdrift_calc = Agdrift(pd_obj_inputs, pd_obj_exp)
 agdrift_calc.execute_model()
+agdrift_output_empty = AgdriftOutputs()
 inputs_json, outputs_json, exp_out_json = agdrift_calc.get_dict_rep()
 #print("agdrift output")
 #print(inputs_json)
@@ -105,13 +106,13 @@ class TestAgdrift(unittest.TestCase):
         """ Verify that each output variable is a pd.Series """
 
         try:
-            num_variables = len(kabam_calc.pd_obj_out.columns)
+            num_variables = len(agdrift_calc.pd_obj_out.columns)
             result = pd.Series(False, index=list(range(num_variables)), dtype='bool')
             expected = pd.Series(True, index=list(range(num_variables)), dtype='bool')
 
             for i in range(num_variables):
-                column_name = kabam_calc.pd_obj_out.columns[i]
-                output = getattr(kabam_calc, column_name)
+                column_name = agdrift_calc.pd_obj_out.columns[i]
+                output = getattr(agdrift_calc, column_name)
                 if isinstance(output, pd.Series):
                     result[i] = True
 
@@ -129,17 +130,17 @@ class TestAgdrift(unittest.TestCase):
             changed due to computation-based coercion of dtype"""
 
         try:
-            num_variables = len(kabam_calc.pd_obj_out.columns)
+            num_variables = len(agdrift_calc.pd_obj_out.columns)
             result = pd.Series(False, index=list(range(num_variables)), dtype='bool')
             expected = pd.Series(True, index=list(range(num_variables)), dtype='bool')
 
             for i in range(num_variables):
                 #get the string of the dtype that is expected and the type that has resulted
-                output_name = kabam_calc.pd_obj_out.columns[i]
-                output_result = getattr(kabam_calc, output_name)
+                output_name = agdrift_calc.pd_obj_out.columns[i]
+                output_result = getattr(agdrift_calc, output_name)
                 output_dtype_result = output_result.dtype.name
-                #kabam_output_empty is a copy of the original ModelOutputs declarations (unchanged by computations
-                output_expected_attr = getattr(kabam_output_empty, output_name)
+                #agdrift_output_empty is a copy of the original ModelOutputs declarations (unchanged by computations
+                output_expected_attr = getattr(agdrift_output_empty, output_name)
                 output_dtype_expected = output_expected_attr.dtype.name
                 if output_dtype_result == output_dtype_expected:
                     result[i] = True
