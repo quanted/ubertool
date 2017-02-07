@@ -1,16 +1,22 @@
-,out_sim_scenario_chk,out_sim_scenario_id,out_interp_deposition,exp_avg_dep_foa,exp_avg_dep_lbac,exp_avg_dep_gha,out_avg_waterconc_ngl,out_avg_field_dep_mgcm
-0,,,,0.0115,0.0057,6.42,320.25,  
-1,,,,0.0035,0.0026,2.9, ,2.90E-05
-2,,,,0.01281,0.00571,6.405,320.25,5.9999999999999995e-05
-3,,,,0.01281,0.00571,6.405,320.25,5.9999999999999995e-05
-4,,,,0.01281,0.00571,6.405,320.25,5.9999999999999995e-05
-5,,,,0.01281,0.00571,6.405,320.25,5.9999999999999995e-05
-6,,,,0.0015,0.0005,0.5859,390.63,
-7,,,,0.0321,0.008,9.01,6004.25,
-8,,,,5.96e-05,3.75e-05,0.0421,2.1,
-9,,,,0.0004,0.0002,0.1856,123.73,
-10,,,,0.0032,0.0009,1.03,51.76,
-11,,,,0.0009,8.66e-06,0.0097,0.4854,
-12,,,,0.0158,0.0119,13.28,8855.18,
-13,,,,0.0062,0.0031,3.48,2323.1,
-14,,,,0.0012,0.0012,1.34,67.19,
+,exp_sim_scenario_chk,exp_sim_scenario_id,exp_interp_deposition,exp_avg_dep_foa,exp_avg_dep_lbac,exp_avg_dep_gha,exp_avg_waterconc_ngl,exp_avg_field_dep_mgcm
+0,Valid Tier I Aquatic Aerial Scenario,aerial_f2m,0.01170000,0.01150000,0.00570000,6.42000000,320.89000000,
+1,Valid Tier I Terrestrial Ground Scenario,ground_high_vf,0.00450000,0.00350000,0.00260000,2.90000000,,0.00002900
+2,Valid Tier I Aquatic Aerial Scenario,aerial_f2m,0.01240000,0.01170000,0.00590000,6.57000000,328.48000000,
+3,Valid Tier I Terrestrial Aerial Scenario,aerial_f2m,0.04150000,0.04150000,0.02080000,23.26000000,,0.00020000
+4,Valid Tier I Aquatic Airblast Scenario,airblast_dense,0.07600000,0.06430000,0.03210000,35.99000000,1800.18000000,
+5,Valid Tier I Aquatic Aerial Scenario,aerial_f2m,0.04150000,0.02880000,0.01440000,16.12000000,806.29000000,
+6,Valid Tier I Aquatic Ground Scenario,ground_low_fmc,0.00190000,0.00150000,0.00050000,0.58590000,390.63000000,
+7,Valid Tier I Aquatic Aerial Scenario,aerial_f2m,0.04560000,0.03140000,0.00790000,8.82000000,5877.26000000,
+8,Valid Tier I Aquatic Airblast Scenario,airblast_vineyard,0.00007580,0.00005960,0.00003750,0.04210000,2.10000000,
+9,Valid Tier I Aquatic Airblast Scenario,airblast_orchard,0.00050000,0.00040000,0.00020000,0.18560000,123.73000000,
+10,Valid Tier I Aquatic Ground Scenario,ground_high_vf,0.00410000,0.00320000,0.00090000,1.03000000,51.76000000,
+11,Valid Tier I Aquatic Airblast Scenario,airblast_orchard,0.00110000,0.00090000,0.00000866,0.00970000,0.48540000,
+12,Valid Tier I Aquatic Aerial Scenario,aerial_c2vc,0.03260000,0.01540000,0.01150000,12.90000000,8601.44000000,
+13,Valid Tier I Aquatic Aerial Scenario,aerial_m2c,0.00650000,0.00600000,0.00300000,3.37000000,2246.44000000,
+14,Valid Tier I Aquatic Ground Scenario,ground_low_fmc,0.00150000,0.00120000,0.00120000,1.34000000,67.19000000,
+15,Valid Tier I Terrestrial Ground Scenario,ground_low_fmc,0.00070000,0.00060000,0.00030000,0.35410000,,0.00000354
+16,Valid Tier I Terrestrial Airblast Scenario,airblast_sparse,0.00007650,0.00005560,0.00002780,0.03120000,,0.00000031
+17,Valid Tier I Aquatic Aerial Scenario,aerial_vf2f,0.04390000,0.04190000,0.02090000,23.45000000,1172.69000000,
+18,Valid Tier I Aquatic Aerial Scenario,aerial_vf2f,0.04390000,0.04120000,0.02060000,23.09000000,1154.88000000,
+19,Valid Tier I Terrestrial Ground Scenario,ground_high_fmc,0.00090000,0.00080000,0.00040000,0.44540000,,0.00000445
+20,Valid Tier I Terrestrial Airblast Scenario,airblast_normal,0.00004460,0.00004010,0.00002000,0.02240000,,0.00000022

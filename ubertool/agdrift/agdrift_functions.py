@@ -66,7 +66,7 @@ class AgdriftFunctions(object):
             elif (self.ecosystem_type[i] == 'Terrestrial Assessment'):
                 if self.application_method[i] == 'Tier I Aerial':
                     if (self.terrestrial_field_type[i] in ['EPA Defined Terrestrial', 'User Defined Terrestrial'] and   \
-                            self.drop_size[i] in ['Very Fine', 'Fine to Medium', 'Medium to Coarse',  \
+                            self.drop_size[i] in ['Very Fine to Fine', 'Fine to Medium', 'Medium to Coarse',  \
                                                   'Coarse to Very Coarse']):
                         self.out_sim_scenario_chk[i] = 'Valid Tier I Terrestrial Aerial Scenario'
                     else:
@@ -271,9 +271,9 @@ class AgdriftFunctions(object):
         # connect to the sql database and get column names (1st column will be the distances
         # rather than a scenario name)
 
-        engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
+        engine = create_engine(self.db_name)
         conn = engine.connect()
-        result1 = conn.execute("SELECT * from output")
+        result1 = conn.execute("SELECT * from " + self.db_table)
         col_names = result1.keys()
         return col_names
 
@@ -286,9 +286,9 @@ class AgdriftFunctions(object):
         :NOTE any blank fields are filled with 'nan'
         :return:
         """
-        engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
+        engine = create_engine(self.db_name)
         conn = engine.connect()
-        result = conn.execute("SELECT " + self.distance_name + " from output")
+        result = conn.execute("SELECT " + self.distance_name + " from " + self.db_table)
 
         data = pd.Series(np.zeros(num_values))
         for i, row in enumerate(result):
@@ -310,9 +310,9 @@ class AgdriftFunctions(object):
         """
 
         # establish connection and target scenario data
-        engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
+        engine = create_engine(self.db_name)
         conn = engine.connect()
-        result = conn.execute("SELECT " + scenario + " from output")
+        result = conn.execute("SELECT " + scenario + " from " + self.db_table)
 
         data = pd.Series(np.zeros(num_values))
         for i, row in enumerate(result):
@@ -397,28 +397,28 @@ class AgdriftFunctions(object):
                           self.mg_per_gram) / (self.sqft_per_acre * self.cm2_per_ft2))
         return avg_fielddep_mgcm
 
-    def deposition_gha_to_ngl_f(self):
-        """
-        Deposition calculation.
-        :param out_init_avg_dep_foa:
-        :param application_rate:
-        :return:
-        """
-        if (self.aquatic_type == '1'):
-            self.out_deposition_gha_ngl_f = [self.out_avg_depo_gha * 0.05 * 1000.0]
-        else:
-            self.out_deposition_ngl_f = [self.out_avg_depo_gha * 0.05 * 1000.0 * (6.56 / 0.4921)]
-        return self.out_deposition_gha_ngl_f
-
-    def deposition_gha_to_mgcm_f(self):
-        """
-        Deposition calculation.
-        :param out_init_avg_dep_foa:
-        :param application_rate:
-        :return:
-        """
-        self.out_deposition_mgcm = [self.out_avg_depo_gha * 0.00001]
-        return self.out_deposition_mgcm
+    # def deposition_gha_to_ngl_f(self):
+    #     """
+    #     Deposition calculation.
+    #     :param out_init_avg_dep_foa:
+    #     :param application_rate:
+    #     :return:
+    #     """
+    #     if (self.aquatic_type == '1'):
+    #         self.out_deposition_gha_ngl_f = [self.out_avg_depo_gha * 0.05 * 1000.0]
+    #     else:
+    #         self.out_deposition_ngl_f = [self.out_avg_depo_gha * 0.05 * 1000.0 * (6.56 / 0.4921)]
+    #     return self.out_deposition_gha_ngl_f
+    #
+    # def deposition_gha_to_mgcm_f(self):
+    #     """
+    #     Deposition calculation.
+    #     :param out_init_avg_dep_foa:
+    #     :param application_rate:
+    #     :return:
+    #     """
+    #     self.out_deposition_mgcm = [self.out_avg_depo_gha * 0.00001]
+    #     return self.out_deposition_mgcm
 
         # def deposition_lbac_to_foa_f(self):
         #     """

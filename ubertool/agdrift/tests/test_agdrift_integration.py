@@ -155,18 +155,49 @@ class TestAgdrift(unittest.TestCase):
             pass
         return
 
-    def test_agdrift_init_avg_dep_foa_integration(self):
+    def test_sim_scenario_chk(self):
+        """
+        Integration test for agdrift.agdrift_fugacity
+        """
+        try:
+            self.blackbox_method_str('sim_scenario_chk')
+        finally:
+            pass
+        return
+
+    def test_sim_scenario_id(self):
+        """
+        Integration test for agdrift.agdrift_fugacity
+        """
+        try:
+            self.blackbox_method_str('sim_scenario_id')
+        finally:
+            pass
+        return
+
+    def test_interp_deposition(self):
         """
         Integration test for agdrift.agdrift_fugacity
         """
         func_name = inspect.currentframe().f_code.co_name
         try:
-            self.blackbox_method_float('init_avg_dep_foa', func_name)
+            self.blackbox_method_float('interp_deposition', func_name)
         finally:
             pass
         return
 
-    def test_agdrift_init_avg_dep_foa_integration(self):
+    def test_avg_dep_foa(self):
+        """
+        Integration test for agdrift.agdrift_fugacity
+        """
+        func_name = inspect.currentframe().f_code.co_name
+        try:
+            self.blackbox_method_float('avg_dep_foa', func_name)
+        finally:
+            pass
+        return
+
+    def test_avg_dep_lbac(self):
         """
         Integration test for agdrift.agdrift_fugacity
         """
@@ -177,7 +208,7 @@ class TestAgdrift(unittest.TestCase):
             pass
         return
 
-    def test_agdrift_init_avg_dep_foa_integration(self):
+    def test_avg_dep_gha(self):
         """
         Integration test for agdrift.agdrift_fugacity
         """
@@ -188,24 +219,24 @@ class TestAgdrift(unittest.TestCase):
             pass
         return
 
-    def test_agdrift_init_avg_dep_foa_integration(self):
+    def test_avg_waterconc_ngl(self):
         """
         Integration test for agdrift.agdrift_fugacity
         """
         func_name = inspect.currentframe().f_code.co_name
         try:
-            self.blackbox_method_float('deposition_ngL', func_name)
+            self.blackbox_method_float('avg_waterconc_ngl', func_name)
         finally:
             pass
         return
 
-    def test_agdrift_init_avg_dep_foa_integration(self):
+    def test_avg_field_dep_mgcm(self):
         """
         Integration test for agdrift.agdrift_fugacity
         """
         func_name = inspect.currentframe().f_code.co_name
         try:
-            self.blackbox_method_float('deposition_mgcm', func_name)
+            self.blackbox_method_float('avg_field_dep_mgcm', func_name)
         finally:
             pass
         return
@@ -221,7 +252,7 @@ class TestAgdrift(unittest.TestCase):
             result = agdrift_calc.pd_obj_out["out_" + output]
             expected = agdrift_calc.pd_obj_exp["exp_" + output]
             #npt.assert_array_almost_equal(result, expected, 4, '', True)
-            rtol = 1e-5
+            rtol = 1e-2
             npt.assert_allclose(result, expected, rtol, 0, '', True)
         finally:
             tab = pd.concat([result, expected], axis=1)
@@ -229,6 +260,19 @@ class TestAgdrift(unittest.TestCase):
             print(func_name)
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
+
+    def blackbox_method_str(self, output):
+        """
+        Helper method.
+        :param output:
+        :return:
+        """
+        result = agdrift_calc.pd_obj_out["out_" + output]
+        expected = agdrift_calc.pd_obj_exp["exp_" + output]
+        tab = pd.concat([result,expected], axis=1)
+        print(" ")
+        print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
+        npt.assert_array_equal(result, expected)
 
 # unittest will
 # 1) call the setup method,
