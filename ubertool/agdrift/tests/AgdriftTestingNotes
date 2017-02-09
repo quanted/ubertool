@@ -1,0 +1,65 @@
+The following are notes related to the conduct of the Agdrift Model updating and testing of the code.
+
+1. The Agdrift model has been essentially rewritten to conform, in terms of functionality, to the Tier I calculations
+   facilitated through the Agdrift model user interface.  The Tier I calculations include Tier I Aerial, Tier I Ground,
+   and Tier I Orchard(Airblast(Agriculture).
+2. The exception to the above statement is that this python version of the model does not perform back calculations.
+   That is, in the original Agdrfit interface the user could specify a 'fraction of applied' pesticide related to an
+   unknown distance from the edge of the application area and the model would calculate the distance, along with the
+   other standard outputs.
+3. The database of pesticide depostion rates at specific distances downwind of the application area (center line) are
+   used to perform the calculations average deposition across the area of a downwind pond/wetland/terrestrial field.
+   The database is a SQL database entitled 'sqlite_agdrift_1994ft.db' and is located in the python agdrift test directory
+   within qed/ubertool_ecorest/ubertool/ubertool.
+     a. The database contains downwind deposition data for 13 'scenarios'.  Each scenario represents a combination of
+        aerial, ground, or airblast application.  Aerial applications are included for each of four droplet sizes
+        (very fine to fine, fine to medium, medium to coarse, and coarse to very coarse).  Ground application scenarios
+        include combinations of low/high boom height and very fine/fine to medium/coarse droplet size (four in all).
+        The airblast application includes normal, dense/sparse, vineyard, and orchard (five in all).
+     b. there are 163 distances between 0 and 1994 feet from the edge of the application field.  In the orginal database
+        provided by OPP there were 161 distances between 0 and 997 feet.  We added two distances between 997 and 1994 to
+        allow for extrapolation beyond 997 feet.  We did this because it 'appears' that the Agdrfit model (that we are
+        reproducing in Python) performs calculations for distances beyond 997 feet.  Because we do not have access to the
+        original Agdrift VB software we cannot confirm exactly what and how the extrapolation is conducted.  As an example,
+        if the user specifies an aerial application for a standard EPA Defined Pond (which is 208.7 feet wide) at a downwind
+        distance of 900 feet then the distance to the furthest side of the pond would be (900 = 208.7 = 1108.7).  This would
+        require that an extrapolation for the pond beyond 997 would be required.  From our testing of the
+        Agdrift interface (and knowing that the OPP Adgrift model is based on linearly extrapolating between distances) we
+        calculated an effective slope of a line from the 997 foot deposition value to a distance of 1994 feet.  1994 feet
+        represents the total distance downwind from the application area to the leading edge of the pond (or wetland or
+        terrestrial field) plus the width of the area (which can also be specified up to 997 feet).  The effective line
+        slope from 997 to 1994 feet was used to specify deposition at two additional distances in the SQL database.  The
+        two additional distances are 1495.5 and 1994 feet.  To determine the slope of the line from 997 to 1994 we configured
+        a Tier I Aerial application with an EPA Defined Pond.  We specified the downwind distance to the pond to be 997
+        and we specified the width of the pond to be 997 feet.  The Agdrift model returns an average deposition value over
+        the width of the pond.  Thus, if we assume linearity then the average value between 997 and 1994 will be the actual
+        deposition at 1495.5 feet (the midpoint of the pond).  This deposition allowed us to calculate the slope and by
+        extending the slope we calculated a deoposition value at 1994 feet.  These values were added to the database to
+        allow our Python model code to perform the same extrapolation (allow given the additional distances we are thus
+        interpolating in the Python code).
+4. To test our Python code we use the OPP Agdrfit model (originally written in VB and FORTRAN).  We run the OPP Agdrift
+   model for a set of specific scenarios (some provided by OPP) , using the reults to compare to our running the same
+   scenarios in the Python code.  Conceptually, this works fine, however, integration testing proved a challenge. The
+   OPP Agdrift scenario results are presented in the userinterface and as such is formatted (i.e., the full set of
+   significant digits is not included). The OPP Agdrfit interface employs a few formats; including a) rounding to four
+   decimal places when value is less than 1 and greater than 1e-4, b) using scientific notation with 3 significant
+   digits, and c) rounding to 2 decimal places when value is greater than 1. To emulate these output value formats we
+   rounded values that are less than 1 and greater than 1e-4 to four decimal places.  Numbers smaller than 1e-4 and
+   greater than 1 were left unchanged (i.e., not rounded).  This strategy does not fully resolve issues with comparing
+   results between the two models but comes very close.  Further tweaking can be done.  This necessarily will impact
+   our comparison within the integration tests (we've used 1e-5 for all models up to this point).
+5. While generating output values from the OPP Agdrift model (to compare to the Python model) it was noticed that the OPP
+   Agdrift model gives two different results when running the 'EPA Defined Pond' vs 'User Defined Water Body' (when
+   using the same default width and depth values associated with the 'EPA Defined Pond'). This happens
+   when the 'Distance to Water Body from Edge of Application Area' is greater than approximately 800ft (it is interesting
+   that a value found in the OPP Agdrift code -AGDRIFT1.BAS- listed for a variable named 'MaxDownwindDist' is set at
+   795 m  -- note: it looks like meters rather than feet so its relevance here is uncertain).  For example, if the user
+   specifies Tier I Aerial/Aquatic Assessment and a 'Distance to Water Body from Edge of Application Area' of 900ft
+   (and an 'Active Rate' of 0.5) and selects 'EPA Defind Pond' the resulting value for 'Initial Average Concentration'
+   is 328.48ng/L.  If the user then selects 'User Defined Pond' and specifies the 'Downwind Water Body Width' to be
+   208.7feet and an 'Average Depth' of 6.56ft (note: these values are the same as the defaults for 'EPA Defined Pond')
+   then the resulting 'Initial Average Concentration' is 332.97ng/L.  The difference between these to model results
+   increases as the user increases the 'Distance to Water Body from Edge of Application Area' (out to the allowable
+   maximum of 997ft).  These differences are not due to possible differences in precision in specifying the
+   'Downwind Water Body Width' or 'Average Depth'. Interestingly, the Python model results match the OPP Agdrift
+   model results related to the 'User Defined Water Body' selection.  It is unclear why this difference occurs.
