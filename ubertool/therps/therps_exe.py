@@ -6,7 +6,7 @@ import pandas as pd
 import therps_functions
 import time
 from functools import wraps
-from therps_functions import THerpsFunctions
+from therps_functions import TherpsFunctions
 from base.uber_model import UberModel, ModelSharedInputs
 
 
@@ -22,14 +22,14 @@ def timefn(fn):
     return measure_time
 
 
-class THerpsInputs(ModelSharedInputs):
+class TherpsInputs(ModelSharedInputs):
     """
     Input class for Therps.
     """
 
     def __init__(self):
         """Class representing the inputs for Therps"""
-        super(THerpsInputs, self).__init__()
+        super(TherpsInputs, self).__init__()
         # Inputs: Assign object attribute variables from the input Pandas DataFrame
         """
         Therps constructor.
@@ -102,19 +102,24 @@ class THerpsInputs(ModelSharedInputs):
         self.bw_frog_prey_mamm = pd.Series([], dtype="float", name="bw_frog_prey_mamm")
         self.bw_frog_prey_herp = pd.Series([], dtype="float", name="bw_frog_prey_herp")
 
+        ## application rates and days of applications
+        #self.app_rates = pd.Series([], dtype="object") #Series of lists, each list contains app_rates of a model simulation run
+        #self.day_out = pd.Series([], dtype="object") #Series of lists, each list contains day #'s of applications within a model simulaiton run
 
-class THerpsOutputs(object):
+
+
+class TherpsOutputs(object):
     """
     Output class for Therps.
     """
 
     def __init__(self):
         """Class representing the outputs for Therps"""
-        super(THerpsOutputs, self).__init__()
+        super(TherpsOutputs, self).__init__()
 
-        # application rates and days of applications
-        self.day_out = pd.Series([], dtype='object', name='day_out')
-        self.app_rates = pd.Series([], dtype='object', name='app_rates')
+        ## application rates and days of applications
+        #self.day_out = pd.Series([], dtype='object', name='day_out')
+        #self.app_rates = pd.Series([], dtype='object', name='app_rates')
 
         # TODO: Add these back in after deciding how to handle the numpy arrays
         # timeseries of concentrations related to herbiferous food sources
@@ -239,14 +244,14 @@ class THerpsOutputs(object):
         self.out_eec_crq_herp_tp_mean = pd.Series([], dtype='float', name="out_eec_crq_herp_tp_mean")
 
 
-class THerps(UberModel, THerpsInputs, THerpsOutputs, THerpsFunctions):
+class Therps(UberModel, TherpsInputs, TherpsOutputs, TherpsFunctions):
     """
     Estimate dietary exposure and risk to terrestrial-phase amphibians and reptiles from pesticide use.
     """
 
     def __init__(self, pd_obj, pd_obj_exp):
         """Class representing the Therps model and containing all its methods"""
-        super(THerps, self).__init__()
+        super(Therps, self).__init__()
         self.pd_obj = pd_obj
         self.pd_obj_exp = pd_obj_exp
         self.pd_obj_out = None
