@@ -7,7 +7,7 @@ The following are notes related to the conduct of the Agdrift Model updating and
    That is, in the original Agdrfit interface the user could specify a 'fraction of applied' pesticide related to an
    unknown distance from the edge of the application area and the model would calculate the distance, along with the
    other standard outputs.
-3. The database of pesticide depostion rates at specific distances downwind of the application area (center line) are
+3. The database of pesticide deposition rates at specific distances downwind of the application area (center line) are
    used to perform the calculations average deposition across the area of a downwind pond/wetland/terrestrial field.
    The database is a SQL database entitled 'sqlite_agdrift_1994ft.db' and is located in the python agdrift test directory
    within qed/ubertool_ecorest/ubertool/ubertool.
@@ -22,9 +22,9 @@ The following are notes related to the conduct of the Agdrift Model updating and
         reproducing in Python) performs calculations for distances beyond 997 feet.  Because we do not have access to the
         original Agdrift VB software we cannot confirm exactly what and how the extrapolation is conducted.  As an example,
         if the user specifies an aerial application for a standard EPA Defined Pond (which is 208.7 feet wide) at a downwind
-        distance of 900 feet then the distance to the furthest side of the pond would be (900 = 208.7 = 1108.7).  This would
+        distance of 900 feet then the distance to the furthest side of the pond would be (900 + 208.7 = 1108.7ft).  This would
         require that an extrapolation for the pond beyond 997 would be required.  From our testing of the
-        Agdrift interface (and knowing that the OPP Adgrift model is based on linearly extrapolating between distances) we
+        Agdrift interface (and knowing that the OPP Adgrift model is based on linear extrapolation between distances) we
         calculated an effective slope of a line from the 997 foot deposition value to a distance of 1994 feet.  1994 feet
         represents the total distance downwind from the application area to the leading edge of the pond (or wetland or
         terrestrial field) plus the width of the area (which can also be specified up to 997 feet).  The effective line
@@ -34,9 +34,8 @@ The following are notes related to the conduct of the Agdrift Model updating and
         and we specified the width of the pond to be 997 feet.  The Agdrift model returns an average deposition value over
         the width of the pond.  Thus, if we assume linearity then the average value between 997 and 1994 will be the actual
         deposition at 1495.5 feet (the midpoint of the pond).  This deposition allowed us to calculate the slope and by
-        extending the slope we calculated a deoposition value at 1994 feet.  These values were added to the database to
-        allow our Python model code to perform the same extrapolation (allow given the additional distances we are thus
-        interpolating in the Python code).
+        extending the slope we calculated a deposition value at 1994 feet.  These values were added to the database to
+        allow our Python model code to perform the the necessary extrapolation in the Python code).
 4. To test our Python code we use the OPP Agdrfit model (originally written in VB and FORTRAN).  We run the OPP Agdrift
    model for a set of specific scenarios (some provided by OPP) , using the reults to compare to our running the same
    scenarios in the Python code.  Conceptually, this works fine, however, integration testing proved a challenge. The

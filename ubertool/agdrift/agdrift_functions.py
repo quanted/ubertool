@@ -36,6 +36,7 @@ class AgdriftFunctions(object):
         :return
         """
         for i in range(self.num_simulations):
+            print(self.ecosystem_type[i])
             if (self.ecosystem_type[i] == 'Aquatic Assessment'):
                 if self.application_method[i] == 'Tier I Aerial':
                     if (self.aquatic_body_type[i] in ['EPA Defined Pond', 'User Defined Pond',   \
