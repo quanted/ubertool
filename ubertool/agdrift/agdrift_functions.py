@@ -311,6 +311,15 @@ class AgdriftFunctions(object):
         # establish connection and target scenario data
         engine = create_engine(self.db_name)
         conn = engine.connect()
+        #cursor = conn.cursor()
+
+        #testing for column names
+        string_query = 'SELECT * from ' + self.db_table
+        print(string_query)
+        result1 = conn.execute(string_query)
+        col_names = result1.keys()
+        print(col_names)
+
         result = conn.execute("SELECT " + scenario + " from " + self.db_table)
 
         data = pd.Series(np.zeros(num_values))
