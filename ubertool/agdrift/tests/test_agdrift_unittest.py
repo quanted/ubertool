@@ -437,6 +437,10 @@ class TestAgdrift(unittest.TestCase):
 
         # create empty pandas dataframes to create empty object for this unittest
         agdrift_empty = self.create_agdrift_object()
+
+        agdrift_empty.db_name = 'sqlite:///../sqlite_agdrift_distance.db'
+        agdrift_empty.db_table = 'output'
+
         expected_result = pd.Series([], dtype='float')
 
         try:
@@ -560,6 +564,9 @@ class TestAgdrift(unittest.TestCase):
         """
         # create empty pandas dataframes to create empty object for this unittest
         agdrift_empty = self.create_agdrift_object()
+
+        agdrift_empty.db_name = 'sqlite:///../sqlite_agdrift_distance.db'
+        agdrift_empty.db_table = 'output'
 
         result = pd.Series([], dtype='object')
         expected_result = ['aerial_vf2f', 'aerial_f2m', 'aerial_m2c', 'aerial_c2vc',
