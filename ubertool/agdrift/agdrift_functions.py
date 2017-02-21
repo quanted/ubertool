@@ -487,21 +487,24 @@ class AgdriftFunctions(object):
                           self.mg_per_gram) / (self.sqft_per_acre * self.cm2_per_ft2))
         return avg_fielddep_mgcm
 
-    def create_integration_avg(self, npts_orig, x_array_in, y_array_in, x_dist, x_array_out, y_array_out, npts_out):
+    def create_integration_avg(self, npts_orig, x_array_in, y_array_in, npts_int, x_array_out, y_array_out, npts_out):
         """
         :description this method takes an x/y array and creates a x_out/y_out array of running averages
         :param npts_orig: number of points in orginal x vs y data points
         :param x_array_in: x values of original x vs y data points
         :param y_array_in: y values of original x vs y data points
-        :param x_dist: length of x_array that represents the running average
+        :param npts_int: number of x_array points included in the running average
         :param x_array_out: x values of running average output
         :param y_array_out: y values of running average output
         :param npts_out: number of points in running average output array
+        :Note we assume the increment between x_array points is constant
         :return:
         """
 
-        # for i in range (npts_orig):
-        #     if(x_array_in[i] < x_array_in[npts_orig] - x_dist):
+        # for i in range (npts_orig - npts_int): #calculate running average for these points
+        #     if (i == 0):   #first time through try to process all integration points (i.e., npts_int)
+        #         for j in range (npts_int):
+        #             if(x_array_in[i] < x_array_in[npts_orig] - x_dist):
         #         j = i
         #         x_avg = 0.5 * (x_array_in(j+1) - x_array_in[j]) * (y_array_in(j+1) + y_array_in[j])
 
