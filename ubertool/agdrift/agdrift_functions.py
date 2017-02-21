@@ -3,6 +3,8 @@ from functools import wraps
 import logging
 import numpy as np
 import pandas as pd
+from scipy.optimize import curve_fit
+
 import time
 
 import sqlite3
@@ -243,6 +245,86 @@ class AgdriftFunctions(object):
                 area_length = 0.
                 area_depth = 0.
         return area_width, area_length, area_depth
+    
+    def extend_dist_dep_curve(self,i):
+        """
+        :description extends distance vs deposition (fraction of applied) curce to enable model calculations 
+                     when area of interest (pond, wetland, terrestrial field) lie partially outside the orginal
+                     curve (whose extent is 997 feet).  The extension is achieved by fitting a line of best fit
+                     to the last 16 points of the original curve.  The x,y values representing the last 16 points
+                     are natural log transforms of the distance and deposition values at the 16 points.  Two long
+                     transforms are coded here, reflecting the fact that the AGDRIFT model (v2.1.1) uses each of them
+                     under different circumstandes (which I believe is not the intention but is the way the model 
+                     functions  --  my guess is that one of the transforms was used and then a second one was coded 
+                     to increase the degree of conservativeness  -- but the code was changed in only one of the two 
+                     places where the transformation occurs.  
+                     Finally, the AGDRIFT model extends the curve only when necessary (i.e., when it determines that 
+                     the area of intereest lies partially beyond the last point of the origanal curve (997 ft).  In 
+                     this code all the curves are extended out to 1994 ft, which represents the furthest distance that 
+                     the downwind edge of an area of concern can be specified.  All scenario curves are extended here 
+                     because we are running multiple simulations (e.g., monte carlo) and instead of extending the 
+                     curves each time a simulation requires it (which may be multiple time for the same scenario 
+                     curve) we just do it for all curves up front.  There is a case to be made that the 
+                     curves should be extended external to this code and simply provide the full curve in the SQLite
+                     database containing the original curve.  
+                    
+        :param i: index representing distance vs deposition scenario curve to be extended
+        :return:
+        """
+
+        #set first and last index of points to be used to fit line 
+        npts_orig = len(self.scenario_distance_data[i])
+        first_fit_pt = npts_orig - 16
+
+        # set arrays for containing curve points to be used to fit/extend curve at tail
+        x_array = np.zeros([16])  #distance
+        y_array = np.zeros([16])  #deposition (fraction of applied)
+
+        # select the last 16 data points and perform a natural log transform on the distance/deposition values
+        # then fit these data to a line of best fit
+
+        if (self.extend_ln_ln):  #straight ln ln transformation
+            x_array = np.array([self.scenario_distance_data[i][j] for j in range(first_fit_pt, npts_orig)])
+            x_array = np.log(x_array)
+            y_array = np.array([self.scenario_deposition_data[i][j] for j in range(first_fit_pt, npts_orig)])
+            y_array = np.log(y_array)
+        else:  
+            # this ln ln transformations are done with relative x,y values (this is the transformation
+            # used in the AGDRIFT AGEXTD code
+            x_zero = self.scenario_distance_data[i][first_fit_pt - 1]
+            y_zero = self.scenario_deposition_data[i][first_fit_pt - 1]
+            y_zero_log = np.log(y_zero)
+
+            k = 0
+            for j in range(first_fit_pt, npts_orig):
+                x_array[k] = np.log(self.scenario_distance_data[i][j] - x_zero)
+                y_array[k] = np.log(self.scenario_deposition_data[i][j] / y_zero)
+                k += 1
+
+        # establish scipy function to be fit to x_array, y_array data pts
+        def func(x_array, a, b):
+            return a * x_array + b
+
+        # use scipy's curve fit and get the coefficients for the established function
+        coefficients, pcov = curve_fit(func, x_array, y_array)
+        coef_a = coefficients[0]
+        coef_b = coefficients[1]
+
+        # extend the distance array to 2 * 997 = 1994ft in increments of 6.56ft (and calculate related depositions)
+        npts_ext = int(((((self.max_distance * 2.) - self.scenario_distance_data[i][npts_orig - 1]) / \
+                         self.distance_inc) + 1) + npts_orig)
+        dist = self.scenario_distance_data[i][npts_orig - 1]
+        for j in range(npts_orig, npts_ext):
+            dist = dist + self.distance_inc
+
+            if (self.extend_ln_ln):
+                self.scenario_deposition_data[i][j] = np.exp(coef_a * np.log(dist) + coef_b)
+            else:
+                y_temp = coef_a * np.log(dist - x_zero) + coef_b
+                self.scenario_deposition_data[i][j] = np.exp(y_temp + y_zero_log)
+
+            self.scenario_distance_data[i][j] = self.scenario_distance_data[i][j - 1] + self.distance_inc
+        return
 
     # def load_scenario_raw_data(self):
     #     """
@@ -396,6 +478,25 @@ class AgdriftFunctions(object):
         avg_fielddep_mgcm = ((avg_dep_lbac * self.gms_per_lb *
                           self.mg_per_gram) / (self.sqft_per_acre * self.cm2_per_ft2))
         return avg_fielddep_mgcm
+
+    def create_integration_avg(self, npts_orig, x_array_in, y_array_in, x_dist, x_array_out, y_array_out, npts_out):
+        """
+        :description this method takes an x/y array and creates a x_out/y_out array of running averages
+        :param npts_orig: number of points in orginal x vs y data points
+        :param x_array_in: x values of original x vs y data points
+        :param y_array_in: y values of original x vs y data points
+        :param x_dist: length of x_array that represents the running average
+        :param x_array_out: x values of running average output
+        :param y_array_out: y values of running average output
+        :param npts_out: number of points in running average output array
+        :return:
+        """
+
+        # for i in range (npts_orig):
+        #     if(x_array_in[i] < x_array_in[npts_orig] - x_dist):
+        #         j = i
+        #         x_avg = 0.5 * (x_array_in(j+1) - x_array_in[j]) * (y_array_in(j+1) + y_array_in[j])
+
 
     # def deposition_gha_to_ngl_f(self):
     #     """

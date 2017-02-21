@@ -252,7 +252,7 @@ class TestAgdrift(unittest.TestCase):
             result = agdrift_calc.pd_obj_out["out_" + output]
             expected = agdrift_calc.pd_obj_exp["exp_" + output]
             #npt.assert_array_almost_equal(result, expected, 4, '', True)
-            rtol = 1e-2
+            rtol = 1e-3
             npt.assert_allclose(result, expected, rtol, 0, '', True)
         finally:
             tab = pd.concat([result, expected], axis=1)
