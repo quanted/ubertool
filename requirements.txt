@@ -15,5 +15,6 @@ requests
 scipy
 snakefood #not in conda, pip install
 sqlalchemy
+sqlalchemy_utils
 tabulate
 twine #not in conda, pip install
