@@ -65,6 +65,8 @@ finally:
 
 #generate output
 agdrift_calc = Agdrift(pd_obj_inputs, pd_obj_exp)
+agdrift_calc.db_name = 'sqlite:///../sqlite_agdrift_distance.db'
+agdrift_calc.db_table = 'output'
 agdrift_calc.execute_model()
 agdrift_output_empty = AgdriftOutputs()
 inputs_json, outputs_json, exp_out_json = agdrift_calc.get_dict_rep()

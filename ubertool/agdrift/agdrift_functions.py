@@ -4,12 +4,12 @@ import logging
 import numpy as np
 import pandas as pd
 import time
-
 import sqlite3
 from sqlalchemy import Column, Table, Integer, Float, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import *
+import sqlalchemy_utils as sqlu
 
 metadata = MetaData()
 
@@ -269,11 +269,13 @@ class AgdriftFunctions(object):
 
         # connect to the sql database and get column names (1st column will be the distances
         # rather than a scenario name)
-
-        engine = create_engine(self.db_name)
-        conn = engine.connect()
-        result1 = conn.execute("SELECT * from " + self.db_table)
-        col_names = result1.keys()
+        if sqlu.database_exists(self.db_name):
+            engine = create_engine(self.db_name)
+            conn = engine.connect()
+            result1 = conn.execute("SELECT * from " + self.db_table)
+            col_names = result1.keys()
+        else:
+            print('cannot find agdrift database at ' + self.db_name)
         return col_names
 
     def get_distances(self, num_values):
