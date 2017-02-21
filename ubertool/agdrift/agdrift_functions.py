@@ -37,58 +37,58 @@ class AgdriftFunctions(object):
         :NOTE we perform an additional validation check related to distances later in the code just before integration
         :return
         """
+        aquatic_body_type_list = ['EPA Defined Pond', 'User Defined Pond', 'EPA Defined Wetland', 'User Defined Wetland']
+        aquatic_drop_size_list = ['Very Fine to Fine', 'Fine to Medium', 'Medium to Coarse', 'Coarse to Very Coarse']
+        terrestrial_field_type_list = ['EPA Defined Terrestrial', 'User Defined Terrestrial']
+        terrestrial_drop_size_list = ['Very Fine', 'Fine to Medium/Coarse']
+        airblast_type_list = ['Orchard', 'Vineyard', 'Normal', 'Dense', 'Sparse']
+        boom_height_list = ['High', 'Low']
+
         for i in range(self.num_simulations):
+            print(self.ecosystem_type[i])
             if (self.ecosystem_type[i] == 'Aquatic Assessment'):
                 if self.application_method[i] == 'Tier I Aerial':
-                    if (self.aquatic_body_type[i] in ['EPA Defined Pond', 'User Defined Pond',   \
-                                                 'EPA Defined Wetland', 'User Defined Wetland'] and   \
-                        self.drop_size[i] in ['Very Fine to Fine', 'Fine to Medium', \
-                                          'Medium to Coarse', 'Coarse to Very Coarse']):
+                    if (self.aquatic_body_type[i] in aquatic_body_type_list and
+                                self.drop_size[i] in aquatic_drop_size_list):
                         self.out_sim_scenario_chk[i] = 'Valid Tier I Aquatic Aerial Scenario'
                     else:
                         self.out_sim_scenario_chk[i] = 'Invalid Tier I Aquatic Aerial Scenario'
                 elif self.application_method[i] == 'Tier I Ground':
-                    if (self.aquatic_body_type[i] in ['EPA Defined Pond', 'User Defined Pond',   \
-                                                 'EPA Defined Wetland', 'User Defined Wetland'] and   \
-                         self.drop_size[i] in ['Very Fine', 'Fine to Medium/Coarse'] and \
-                         self.boom_height[i] in ['High', 'Low']):
+                    if (self.aquatic_body_type[i] in aquatic_body_type_list and
+                                self.drop_size[i] in terrestrial_drop_size_list and
+                                self.boom_height[i] in boom_height_list):
                          self.out_sim_scenario_chk[i] = 'Valid Tier I Aquatic Ground Scenario'
                     else:
                         self.out_sim_scenario_chk[i] = 'Invalid Tier I Aquatic Ground Scenario'
                 elif self.application_method[i] == 'Tier I Airblast':
-                    if (self.aquatic_body_type[i] in ['EPA Defined Pond', 'User Defined Pond',   \
-                                                 'EPA Defined Wetland', 'User Defined Wetland'] and   \
-                        self.airblast_type[i] in ['Orchard', 'Vineyard', 'Normal', 'Dense', 'Sparse']):
+                    if (self.aquatic_body_type[i] in aquatic_body_type_list and
+                        self.airblast_type[i] in airblast_type_list):
                         self.out_sim_scenario_chk[i] = 'Valid Tier I Aquatic Airblast Scenario'
                     else:
                         self.out_sim_scenario_chk[i] = 'Invalid Tier I Aquatic Airblast Scenario'
                 else:
                     self.out_sim_scenario_chk[i] = 'Invalid Tier I Aquatic Assessment application_method'
-
             elif (self.ecosystem_type[i] == 'Terrestrial Assessment'):
                 if self.application_method[i] == 'Tier I Aerial':
-                    if (self.terrestrial_field_type[i] in ['EPA Defined Terrestrial', 'User Defined Terrestrial'] and   \
-                            self.drop_size[i] in ['Very Fine to Fine', 'Fine to Medium', 'Medium to Coarse',  \
-                                                  'Coarse to Very Coarse']):
+                    if (self.terrestrial_field_type[i] in terrestrial_field_type_list and
+                                self.drop_size[i] in aquatic_drop_size_list):
                         self.out_sim_scenario_chk[i] = 'Valid Tier I Terrestrial Aerial Scenario'
                     else:
                         self.out_sim_scenario_chk[i] = 'Invalid Tier I Terrestrial Aerial Scenario'
                 elif self.application_method[i] == 'Tier I Ground':
-                    if (self.terrestrial_field_type[i] in ['EPA Defined Terrestrial', 'User Defined Terrestrial'] and   \
-                         self.drop_size[i] in ['Very Fine', 'Fine to Medium/Coarse'] and \
-                         self.boom_height[i] in ['High', 'Low']):
+                    if (self.terrestrial_field_type[i] in terrestrial_field_type_list and
+                         self.boom_height[i] in boom_height_list):
                          self.out_sim_scenario_chk[i] = 'Valid Tier I Terrestrial Ground Scenario'
                     else:
                         self.out_sim_scenario_chk[i] = 'Invalid Tier I Terrestrial Ground Scenario'
                 elif self.application_method[i] == 'Tier I Airblast':
-                    if (self.terrestrial_field_type[i] in ['EPA Defined Terrestrial', 'User Defined Terrestrial'] and   \
-                        self.airblast_type[i] in ['Orchard', 'Vineyard', 'Normal', 'Dense', 'Sparse']):
+                    if (self.terrestrial_field_type[i] in terrestrial_field_type_list and
+                                self.airblast_type[i] in airblast_type_list):
                         self.out_sim_scenario_chk[i] = 'Valid Tier I Terrestrial Airblast Scenario'
                     else:
                         self.out_sim_scenario_chk[i] = 'Invalid Tier I Terrestrial Airblast Scenario'
                 else:
                     self.out_sim_scenario_chk[i] = 'Invalid Tier I Terrestrial Assessment application_method'
-
             else:
                     self.out_sim_scenario_chk[i] = 'Invalid scenario ecosystem_type'
         return
@@ -120,7 +120,6 @@ class AgdriftFunctions(object):
         self.out_sim_scenario_id = pd.Series([], dtype='object')
         for i in range(self.num_simulations):
             if(not 'Invalid' in self.out_sim_scenario_chk[i]):
-
                 if self.application_method[i] == 'Tier I Aerial':
                     if self.drop_size[i] == 'Very Fine to Fine':
                         self.out_sim_scenario_id[i] = 'aerial_vf2f'
@@ -220,13 +219,13 @@ class AgdriftFunctions(object):
 
         if (self.ecosystem_type[i] == 'Aquatic Assessment'):
             if (self.aquatic_body_type[i] == 'EPA Defined Pond'):
-                area_width = self.default_width
-                area_length = self.default_length
-                area_depth = self.default_pond_depth
+                area_width = self.out_default_width
+                area_length = self.out_default_length
+                area_depth = self.out_default_pond_depth
             elif (self.aquatic_body_type[i] == 'EPA Defined Wetland'):
-                area_width = self.default_width
-                area_length = self.default_length
-                area_depth = self.default_wetland_depth
+                area_width = self.out_default_width
+                area_length = self.out_default_length
+                area_depth = self.out_default_wetland_depth
             elif (self.aquatic_body_type[i] == 'User Defined Pond'):
                 area_width = self.user_pond_width[i]
                 area_length = self.sqft_per_hectare / area_width
@@ -394,6 +393,15 @@ class AgdriftFunctions(object):
         # establish connection and target scenario data
         engine = create_engine(self.db_name)
         conn = engine.connect()
+        #cursor = conn.cursor()
+
+        #testing for column names
+        string_query = 'SELECT * from ' + self.db_table
+        print(string_query)
+        result1 = conn.execute(string_query)
+        col_names = result1.keys()
+        print(col_names)
+
         result = conn.execute("SELECT " + scenario + " from " + self.db_table)
 
         data = pd.Series(np.zeros(num_values))

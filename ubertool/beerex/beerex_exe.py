@@ -11,49 +11,50 @@ class BeerexInputs(object):
     def __init__(self):
         """Class representing the inputs for Beerex"""
         super(BeerexInputs, self).__init__()
-        self.application_rate = pd.Series([]).astype("float")
-        self.application_method = pd.Series([]).astype("object")
-        # self.application_units = pd.Series([]).astype("object")
-        self.empirical_residue = pd.Series([]).astype("bool")
-        self.empirical_pollen = pd.Series([]).astype("float")
-        self.empirical_nectar = pd.Series([]).astype("float")
-        self.empirical_jelly = pd.Series([]).astype("float")
-        self.adult_contact_ld50 = pd.Series([]).astype("float")
-        self.adult_oral_ld50 = pd.Series([]).astype("float")
-        self.adult_oral_noael = pd.Series([]).astype("float")
-        self.larval_ld50 = pd.Series([]).astype("float")
-        self.larval_noael = pd.Series([]).astype("float")
-        self.log_kow = pd.Series([]).astype("float")
-        self.koc = pd.Series([]).astype("float")
-        self.mass_tree_vegetation = pd.Series([]).astype("float")
-        self.lw1_jelly = pd.Series([]).astype("float")
-        self.lw2_jelly = pd.Series([]).astype("float")
-        self.lw3_jelly = pd.Series([]).astype("float")
-        self.lw4_nectar = pd.Series([]).astype("float")
-        self.lw4_pollen = pd.Series([]).astype("float")
-        self.lw5_nectar = pd.Series([]).astype("float")
-        self.lw5_pollen = pd.Series([]).astype("float")
-        self.ld6_nectar = pd.Series([]).astype("float")
-        self.ld6_pollen = pd.Series([]).astype("float")
-        self.lq1_jelly = pd.Series([]).astype("float")
-        self.lq2_jelly = pd.Series([]).astype("float")
-        self.lq3_jelly = pd.Series([]).astype("float")
-        self.lq4_jelly = pd.Series([]).astype("float")
-        self.aw_cell_nectar = pd.Series([]).astype("float")
-        self.aw_cell_pollen = pd.Series([]).astype("float")
-        self.aw_brood_nectar = pd.Series([]).astype("float")
-        self.aw_brood_pollen = pd.Series([]).astype("float")
-        self.aw_comb_nectar = pd.Series([]).astype("float")
-        self.aw_comb_pollen = pd.Series([]).astype("float")
-        self.aw_fpollen_nectar = pd.Series([]).astype("float")
-        self.aw_fpollen_pollen = pd.Series([]).astype("float")
-        self.aw_fnectar_nectar = pd.Series([]).astype("float")
-        self.aw_fnectar_pollen = pd.Series([]).astype("float")
-        self.aw_winter_nectar = pd.Series([]).astype("float")
-        self.aw_winter_pollen = pd.Series([]).astype("float")
-        self.ad_nectar = pd.Series([]).astype("float")
-        self.ad_pollen = pd.Series([]).astype("float")
-        self.aq_jelly = pd.Series([]).astype("float")
+        #self.incorporation_depth = pd.Series([], dtype="float")
+        self.application_rate = pd.Series([], dtype="float")
+        self.application_method = pd.Series([], dtype="object")
+        # self.application_units = pd.Series([], dtype="object")
+        self.empirical_residue = pd.Series([], dtype="object")
+        self.empirical_pollen = pd.Series([], dtype="float")
+        self.empirical_nectar = pd.Series([], dtype="float")
+        self.empirical_jelly = pd.Series([], dtype="float")
+        self.adult_contact_ld50 = pd.Series([], dtype="float")
+        self.adult_oral_ld50 = pd.Series([], dtype="float")
+        self.adult_oral_noael = pd.Series([], dtype="float")
+        self.larval_ld50 = pd.Series([], dtype="float")
+        self.larval_noael = pd.Series([], dtype="float")
+        self.log_kow = pd.Series([], dtype="float")
+        self.koc = pd.Series([], dtype="float")
+        self.mass_tree_vegetation = pd.Series([], dtype="float")
+        self.lw1_jelly = pd.Series([], dtype="float")
+        self.lw2_jelly = pd.Series([], dtype="float")
+        self.lw3_jelly = pd.Series([], dtype="float")
+        self.lw4_nectar = pd.Series([], dtype="float")
+        self.lw4_pollen = pd.Series([], dtype="float")
+        self.lw5_nectar = pd.Series([], dtype="float")
+        self.lw5_pollen = pd.Series([], dtype="float")
+        self.ld6_nectar = pd.Series([], dtype="float")
+        self.ld6_pollen = pd.Series([], dtype="float")
+        self.lq1_jelly = pd.Series([], dtype="float")
+        self.lq2_jelly = pd.Series([], dtype="float")
+        self.lq3_jelly = pd.Series([], dtype="float")
+        self.lq4_jelly = pd.Series([], dtype="float")
+        self.aw_cell_nectar = pd.Series([], dtype="float")
+        self.aw_cell_pollen = pd.Series([], dtype="float")
+        self.aw_brood_nectar = pd.Series([], dtype="float")
+        self.aw_brood_pollen = pd.Series([], dtype="float")
+        self.aw_comb_nectar = pd.Series([], dtype="float")
+        self.aw_comb_pollen = pd.Series([], dtype="float")
+        self.aw_fpollen_nectar = pd.Series([], dtype="float")
+        self.aw_fpollen_pollen = pd.Series([], dtype="float")
+        self.aw_fnectar_nectar = pd.Series([], dtype="float")
+        self.aw_fnectar_pollen = pd.Series([], dtype="float")
+        self.aw_winter_nectar = pd.Series([], dtype="float")
+        self.aw_winter_pollen = pd.Series([], dtype="float")
+        self.ad_nectar = pd.Series([], dtype="float")
+        self.ad_pollen = pd.Series([], dtype="float")
+        self.aq_jelly = pd.Series([], dtype="float")
 
 
 class BeerexOutputs(object):
@@ -68,7 +69,7 @@ class BeerexOutputs(object):
         self.out_eec_seed = pd.Series(name="out_eec_seed").astype("float")
         self.out_eec_tree = pd.Series(name="out_eec_tree").astype("float")
         self.out_eec = pd.Series(name="out_eec").astype("float")
-        self.out_lw1_total_dose = pd.Series(name="out_lw1_total_dose").astype(float)
+        self.out_lw1_total_dose = pd.Series(name="out_lw1_total_dose").astype("float")
         self.out_lw2_total_dose = pd.Series(name="out_lw2_total_dose").astype("float")
         self.out_lw3_total_dose = pd.Series(name="out_lw3_total_dose").astype("float")
         self.out_lw4_total_dose = pd.Series(name="out_lw4_total_dose").astype("float")
@@ -148,9 +149,19 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
             3) Run the model's methods to generate outputs
             4) Fill the output DataFrame with the generated model outputs
         """
+        boolog = True
+        if boolog:
+            print('execute_model start ============================')
+            print('populate inputs')
         self.populate_inputs(self.pd_obj)
+        if boolog:
+            print('populate outputs')
         self.pd_obj_out = self.populate_outputs()
+        if boolog:
+            print('run methods')
         self.run_methods()
+        if boolog:
+            print('fill output dataframe')
         self.fill_output_dataframe()
 
     def run_methods(self):
@@ -214,38 +225,15 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
     #   except TypeError:
     #      print ("Type Error: Your variables are not set correctly.")
 
-    def set_global_constants(self):
-        self.n_runs = len(self.application_method)
-        self.out_eec_spray = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_eec_spray", dtype="float")
-        self.out_eec_soil = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_eec_soil", dtype="float")
-        self.out_eec_seed = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_eec_seed", dtype="float")
-        self.out_eec_tree = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_eec_tree", dtype="float")
-        self.out_eec = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_eec", dtype="float")
-        self.out_lw1_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lw1_total_dose", dtype="float")
-        self.out_lw2_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lw2_total_dose", dtype="float")
-        self.out_lw3_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lw3_total_dose", dtype="float")
-        self.out_ld6_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_ld6_total_dose", dtype="float")
-        self.out_lq1_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lq1_total_dose", dtype="float")
-        self.out_lq2_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lq2_total_dose", dtype="float")
-        self.out_lq3_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lq3_total_dose", dtype="float")
-        self.out_lq4_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lq4_total_dose", dtype="float")
-        self.out_lw4_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lw4_total_dose", dtype="float")
-        self.out_lw5_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lw5_total_dose", dtype="float")
-        self.out_aw_cell_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_aw_cell_total_dose", dtype="float")
-        self.out_aw_brood_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_aw_brood_total_dose", dtype="float")
-        self.out_aw_comb_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_aw_comb_total_dose", dtype="float")
-        self.out_aw_pollen_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_aw_pollen_total_dose", dtype="float")
-        self.out_aw_nectar_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_aw_nectar_total_dose", dtype="float")
-        self.out_aw_winter_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_aw_winter_total_dose", dtype="float")
-        self.out_ad_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_ad_total_dose", dtype="float")
-        self.out_aq_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_aq_total_dose", dtype="float")
-
     def eec_spray(self, i):
         """
         EEC for foliar spray
         """
         self.out_eec_spray[i] = (110. * self.application_rate[i]) / 1000
-        return self.out_eec_spray[i]
+        self.out_eec_soil[i] = np.nan
+        self.out_eec_seed[i] = np.nan
+        self.out_eec_tree[i] = np.nan
+        return # self.out_eec_spray[i]
 
     def eec_soil(self, i):
         """
@@ -254,31 +242,43 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
         self.out_eec_soil[i] = ((10.**(0.95*self.log_kow[i]-2.05)+0.82) *
                              (-0.0648*(self.log_kow[i]**2)+0.2431*self.log_kow[i]+0.5822) *
                              (1.5/(0.2+1.5*self.koc[i]*0.01)) * (0.5 * self.application_rate[i])) / 1000.
-        return self.out_eec_soil[i]
+        self.out_eec_spray[i] = np.nan
+        self.out_eec_seed[i] = np.nan
+        self.out_eec_tree[i] = np.nan
+        return # self.out_eec_soil[i]
 
     def eec_seed(self, i):
         """
         EEC for seed treatment
         """
         self.out_eec_seed[i] = 1./1000.
-        return self.out_eec_seed[i]
+        self.out_eec_soil[i] = np.nan
+        self.out_eec_spray[i] = np.nan
+        self.out_eec_tree[i] = np.nan
+        return # self.out_eec_seed[i]
 
     def eec_tree(self, i):
         """
         EEC for tree trunk
         """
         self.out_eec_tree[i] = (self.application_rate[i]/self.mass_tree_vegetation[i]) / 1000.
-        return self.out_eec_tree[i]
+        self.out_eec_soil[i] = np.nan
+        self.out_eec_seed[i] = np.nan
+        self.out_eec_spray[i] = np.nan
+        return # self.out_eec_tree[i]
 
     def eec(self):
         """
         determine which application method is used for subsequent EEC and RQ calculations
         """
+        print('eec method')
+        print(self.n_runs)
         for i in range(self.n_runs):
             if self.application_method[i] == 'foliar spray':
                 self.out_eec_spray[i] = self.eec_spray(i)
                 self.out_eec[i] = self.out_eec_spray[i]
             elif self.application_method[i] == 'soil application':
+                print('running beerex soil application')
                 self.out_eec_soil[i] = self.eec_soil(i)
                 self.out_eec[i] = self.out_eec_soil[i]
             elif self.application_method[i] == 'seed treatment':
@@ -287,7 +287,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
             elif self.application_method[i] == 'tree trunk':
                 self.out_eec_tree[i] = self.eec_tree(i)
                 self.out_eec[i] = self.out_eec_tree[i]
-        print(self.out_eec)
+        #print(self.out_eec)
         return self.out_eec
 
     def lw1_total_dose(self):
@@ -299,7 +299,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lw1_total_dose[i] = (self.empirical_jelly[i]/1000.) * self.lw1_jelly[i]
             elif self.empirical_residue[i] == "no":
                 self.out_lw1_total_dose[i] = (self.out_eec[i]/100.) * self.lw1_jelly[i]
-        return self.out_lw1_total_dose[i]
+        return # self.out_lw1_total_dose[i]
 
     def lw2_total_dose(self):
         """
@@ -310,7 +310,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lw2_total_dose[i] = (self.empirical_jelly[i]/1000.) * self.lw2_jelly[i]
             elif self.empirical_residue[i] == "no":
                 self.out_lw2_total_dose[i] = (self.out_eec[i]/100.) * self.lw2_jelly[i]
-        return self.out_lw2_total_dose[i]
+        return # self.out_lw2_total_dose[i]
 
     def lw3_total_dose(self):
         """
@@ -321,7 +321,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lw3_total_dose[i] = (self.empirical_jelly[i]/1000.) * self.lw3_jelly[i]
             elif self.empirical_residue[i] == "no":
                 self.out_lw3_total_dose[i] = (self.out_eec[i]/100.) * self.lw3_jelly[i]
-        return self.out_lw3_total_dose[i]
+        return # self.out_lw3_total_dose[i]
 
     def lw4_total_dose(self):
         """
@@ -332,7 +332,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lw4_total_dose[i] = ((self.empirical_pollen[i]/1000.) * self.lw4_pollen[i]) + ((self.empirical_nectar[i]/1000.) * self.lw4_nectar[i])
             elif self.empirical_residue[i] == "no":
                 self.out_lw4_total_dose[i] = (self.out_eec[i] * self.lw4_pollen[i]) + (self.out_eec[i] * self.lw4_nectar[i])
-        return self.out_lw4_total_dose[i]
+        return # self.out_lw4_total_dose[i]
 
     def lw5_total_dose(self):
         """
@@ -343,7 +343,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lw5_total_dose[i] = ((self.empirical_pollen[i]/1000.) * self.lw5_pollen[i]) + ((self.empirical_nectar[i]/1000.) * self.lw5_nectar[i])
             elif self.empirical_residue[i] == "no":
                 self.out_lw5_total_dose[i] = (self.out_eec[i] * self.lw5_pollen[i]) + (self.out_eec[i] * self.lw5_nectar[i])
-        return self.out_lw5_total_dose[i]
+        return # self.out_lw5_total_dose[i]
 
     def ld6_total_dose(self):
         """
@@ -354,7 +354,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_ld6_total_dose[i] = ((self.empirical_pollen[i]/1000.) * self.ld6_pollen[i]) + ((self.empirical_nectar[i]/1000.) * self.ld6_nectar[i])
             elif self.empirical_residue[i] == "no":
                 self.out_ld6_total_dose[i] = (self.out_eec[i] * self.ld6_pollen[i]) + (self.out_eec[i] * self.ld6_nectar[i])
-        return self.out_ld6_total_dose[i]
+        return # self.out_ld6_total_dose[i]
 
     def lq1_total_dose(self):
         """
@@ -365,7 +365,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lq1_total_dose[i] = (self.empirical_jelly[i]/1000.) * self.lq1_jelly[i]
             elif self.empirical_residue[i] == "no":
                 self.out_lq1_total_dose[i] = (self.out_eec[i]/100.) * self.lq1_jelly[i]
-        return self.out_lq1_total_dose[i]
+        return # self.out_lq1_total_dose[i]
 
     def lq2_total_dose(self):
         """
@@ -376,7 +376,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lq2_total_dose[i] = (self.empirical_jelly[i]/1000.) * self.lq2_jelly[i]
             elif self.empirical_residue[i] == "no":
                 self.out_lq2_total_dose[i] = (self.out_eec[i]/100.) * self.lq2_jelly[i]
-        return self.out_lq2_total_dose[i]
+        return # self.out_lq2_total_dose[i]
 
     def lq3_total_dose(self):
         """
@@ -387,7 +387,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lq3_total_dose[i] = (self.empirical_jelly[i]/1000.) * self.lq3_jelly[i]
             elif self.empirical_residue[i] == "no":
                 self.out_lq3_total_dose[i] = (self.out_eec[i]/100.) * self.lq3_jelly[i]
-        return self.out_lq3_total_dose[i]
+        return # self.out_lq3_total_dose[i]
 
     def lq4_total_dose(self):
         """
@@ -398,7 +398,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_lq4_total_dose[i] = (self.empirical_jelly[i]/1000.) * self.lq4_jelly[i]
             elif self.empirical_residue[i] == "no":
                 self.out_lq4_total_dose[i] = (self.out_eec[i]/100.) * self.lq4_jelly[i]
-        return self.out_lq4_total_dose[i]
+        return # self.out_lq4_total_dose[i]
 
     def aw_cell_total_dose(self):
         """
@@ -409,7 +409,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_aw_cell_total_dose[i] = ((self.empirical_nectar[i]/1000.) * self.aw_cell_nectar[i]) + ((self.empirical_pollen[i]/1000.) * self.aw_cell_pollen[i])
             elif self.empirical_residue[i] == "no":
                 self.out_aw_cell_total_dose[i] = (self.out_eec[i] * self.aw_cell_nectar[i]) + (self.out_eec[i] * self.aw_cell_pollen[i])
-        return self.out_aw_cell_total_dose[i]
+        return # self.out_aw_cell_total_dose[i]
 
     def aw_brood_total_dose(self):
         """
@@ -420,7 +420,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_aw_brood_total_dose[i] = ((self.empirical_nectar[i]/1000.) * self.aw_brood_nectar[i]) + ((self.empirical_pollen[i]/1000.) * self.aw_brood_pollen[i])
             elif self.empirical_residue[i] == "no":
                 self.out_aw_brood_total_dose[i] = (self.out_eec[i] * self.aw_brood_nectar[i]) + (self.out_eec[i] * self.aw_brood_pollen[i])
-        return self.out_aw_brood_total_dose[i]
+        return # self.out_aw_brood_total_dose[i]
 
     def aw_comb_total_dose(self):
         """
@@ -431,7 +431,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_aw_comb_total_dose[i] = ((self.empirical_nectar[i]/1000.) * self.aw_comb_nectar[i]) + ((self.empirical_pollen[i]/1000.) * self.aw_comb_pollen[i])
             elif self.empirical_residue[i] == "no":
                 self.out_aw_comb_total_dose[i] = (self.out_eec[i] * self.aw_comb_nectar[i]) + (self.out_eec[i] * self.aw_comb_pollen[i])
-        return self.out_aw_comb_total_dose[i]
+        return # self.out_aw_comb_total_dose[i]
 
     def aw_pollen_total_dose(self):
         """
@@ -442,7 +442,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_aw_pollen_total_dose[i] = ((self.empirical_nectar[i]/1000.) * self.aw_fpollen_nectar[i]) + ((self.empirical_pollen[i]/1000.) * self.aw_fpollen_pollen[i])
             elif self.empirical_residue[i] == "no":
                 self.out_aw_pollen_total_dose[i] = (self.out_eec[i] * self.aw_fpollen_nectar[i]) + (self.out_eec[i] * self.aw_fpollen_pollen[i])
-        return self.out_aw_pollen_total_dose[i]
+        return # self.out_aw_pollen_total_dose[i]
 
     def aw_nectar_total_dose(self):
         """
@@ -453,7 +453,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_aw_nectar_total_dose[i] = ((self.empirical_nectar[i]/1000.) * self.aw_fnectar_nectar[i]) + ((self.empirical_pollen[i]/1000.) * self.aw_fnectar_pollen[i])
             elif self.empirical_residue[i] == "no":
                 self.out_aw_nectar_total_dose[i] = (self.out_eec[i] * self.aw_fnectar_nectar[i]) + (self.out_eec[i] * self.aw_fnectar_pollen[i])
-        return self.out_aw_nectar_total_dose[i]
+        return # self.out_aw_nectar_total_dose[i]
 
     def aw_winter_total_dose(self):
         """
@@ -464,7 +464,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_aw_winter_total_dose[i] = ((self.empirical_nectar[i]/1000.) * self.aw_winter_nectar[i]) + ((self.empirical_pollen[i]/1000.) * self.aw_winter_pollen[i])
             elif self.empirical_residue[i] == "no":
                 self.out_aw_winter_total_dose[i] = (self.out_eec[i] * self.aw_winter_nectar[i]) + (self.out_eec[i] * self.aw_winter_pollen[i])
-        return self.out_aw_winter_total_dose[i]
+        return # self.out_aw_winter_total_dose[i]
 
     def ad_total_dose(self):
         """
@@ -475,7 +475,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_ad_total_dose[i] = ((self.empirical_nectar[i]/1000.) * self.ad_nectar[i]) + ((self.empirical_pollen[i]/1000.) * self.ad_pollen[i])
             elif self.empirical_residue[i] == "no":
                 self.out_ad_total_dose[i] = (self.out_eec[i] * self.ad_nectar[i]) + (self.out_eec[i] * self.ad_pollen[i])
-        return self.out_ad_total_dose[i]
+        return # self.out_ad_total_dose[i]
 
     def aq_total_dose(self):
         """
@@ -486,7 +486,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
                 self.out_aq_total_dose[i] = ((self.empirical_jelly[i]/1000.) * self.aq_jelly[i])
             elif self.empirical_residue[i] == "no":
                 self.out_aq_total_dose[i] = (self.out_eec[i]/100.) * self.aq_jelly[i]
-        return self.out_aq_total_dose[i]
+        return # self.out_aq_total_dose[i]
 
     def lw1_acute_rq(self):
         """
@@ -740,52 +740,85 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
         self.out_aq_chronic_rq = self.out_aq_total_dose/self.adult_oral_noael
         return self.out_aq_chronic_rq
 
+    def set_global_constants(self):
+        self.n_runs = len(self.application_method)
+        if self.n_runs == 0:
+            print('no runs to do')
+        boolog = True
+        if boolog:
+            print('application method')
+            print(self.application_method)
+            print('number of runs')
+            print(self.n_runs)
+        self.out_eec_spray = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_eec_spray", dtype="float")
+        self.out_eec_soil = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_eec_soil", dtype="float")
+        self.out_eec_seed = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_eec_seed", dtype="float")
+        self.out_eec_tree = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_eec_tree", dtype="float")
+        self.out_eec = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_eec", dtype="float")
+        self.out_lw1_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lw1_total_dose", dtype="float")
+        self.out_lw2_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lw2_total_dose", dtype="float")
+        self.out_lw3_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lw3_total_dose", dtype="float")
+        self.out_ld6_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_ld6_total_dose", dtype="float")
+        self.out_lq1_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lq1_total_dose", dtype="float")
+        self.out_lq2_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lq2_total_dose", dtype="float")
+        self.out_lq3_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lq3_total_dose", dtype="float")
+        self.out_lq4_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lq4_total_dose", dtype="float")
+        self.out_lw4_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lw4_total_dose", dtype="float")
+        self.out_lw5_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_lw5_total_dose", dtype="float")
+        self.out_aw_cell_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_aw_cell_total_dose", dtype="float")
+        self.out_aw_brood_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_aw_brood_total_dose", dtype="float")
+        self.out_aw_comb_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_aw_comb_total_dose", dtype="float")
+        self.out_aw_pollen_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_aw_pollen_total_dose", dtype="float")
+        self.out_aw_nectar_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_aw_nectar_total_dose", dtype="float")
+        self.out_aw_winter_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_aw_winter_total_dose", dtype="float")
+        self.out_ad_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_ad_total_dose", dtype="float")
+        self.out_aq_total_dose = pd.Series(np.nan, index=list(range(self.n_runs)), name="out_aq_total_dose", dtype="float")
 
-if __name__ == '__main__':
-    pd_in = pd.DataFrame({
-        "application_rate": [1.2],
-        "application_method": ['foliar spray'],
-        "empirical_residue": ['FALSE'],
-        "empirical_pollen": [1.],
-        "empirical_nectar": [0.4],
-        "empirical_jelly": [0.5],
-        "adult_contact_ld50": [2.2],
-        "adult_oral_ld50": [3.5],
-        "adult_oral_noael": [1.7],
-        "larval_ld50": [0.8],
-        "larval_noael": [0.5],
-        "log_kow": [0.24],
-        "koc": [12.3],
-        "mass_tree_vegetation": [69.3],
-        "lw1_jelly": [1.9],
-        "lw2_jelly": [9.4],
-        "lw3_jelly": [19.],
-        "lw4_nectar": [60.],
-        "lw4_pollen": [1.8],
-        "lw5_nectar": [120.],
-        "lw5_pollen": [3.6],
-        "ld6_nectar": [130.],
-        "ld6_pollen": [3.6],
-        "lq1_jelly": [1.9],
-        "lq2_jelly": [9.4],
-        "lq3_jelly": [23.],
-        "lq4_jelly": [141.],
-        "aw_cell_nectar": [60.],
-        "aw_cell_pollen": [6.65],
-        "aw_brood_nectar": [140.],
-        "aw_brood_pollen": [9.6],
-        "aw_comb_nectar": [60.],
-        "aw_comb_pollen": [1.7],
-        "aw_fpollen_nectar": [43.5],
-        "aw_fpollen_pollen": [0.041],
-        "aw_fnectar_nectar": [292.],
-        "aw_fnectar_pollen": [0.041],
-        "aw_winter_nectar": [29.],
-        "aw_winter_pollen": [2.],
-        "ad_nectar": [235.],
-        "ad_pollen": [0.0002],
-        "aq_jelly": [525.],
-    })
-    output = Beerex(pd_in, None)
-    output.execute_model()
-    print("Model has been run")
+# if __name__ == '__main__':
+#     pd_in = pd.DataFrame({
+#         "application_rate": [1.2],
+#         "application_method": ['foliar spray'],
+#         "empirical_residue": ['FALSE'],
+#         "empirical_pollen": [1.],
+#         "empirical_nectar": [0.4],
+#         "empirical_jelly": [0.5],
+#         "adult_contact_ld50": [2.2],
+#         "adult_oral_ld50": [3.5],
+#         "adult_oral_noael": [1.7],
+#         "larval_ld50": [0.8],
+#         "larval_noael": [0.5],
+#         "log_kow": [0.24],
+#         "koc": [12.3],
+#         "mass_tree_vegetation": [69.3],
+#         "lw1_jelly": [1.9],
+#         "lw2_jelly": [9.4],
+#         "lw3_jelly": [19.],
+#         "lw4_nectar": [60.],
+#         "lw4_pollen": [1.8],
+#         "lw5_nectar": [120.],
+#         "lw5_pollen": [3.6],
+#         "ld6_nectar": [130.],
+#         "ld6_pollen": [3.6],
+#         "lq1_jelly": [1.9],
+#         "lq2_jelly": [9.4],
+#         "lq3_jelly": [23.],
+#         "lq4_jelly": [141.],
+#         "aw_cell_nectar": [60.],
+#         "aw_cell_pollen": [6.65],
+#         "aw_brood_nectar": [140.],
+#         "aw_brood_pollen": [9.6],
+#         "aw_comb_nectar": [60.],
+#         "aw_comb_pollen": [1.7],
+#         "aw_fpollen_nectar": [43.5],
+#         "aw_fpollen_pollen": [0.041],
+#         "aw_fnectar_nectar": [292.],
+#         "aw_fnectar_pollen": [0.041],
+#         "aw_winter_nectar": [29.],
+#         "aw_winter_pollen": [2.],
+#         "ad_nectar": [235.],
+#         "ad_pollen": [0.0002],
+#         "aq_jelly": [525.],
+#     })
+#     output = Beerex(pd_in, None)
+#     output.execute_model()
+#     print("Model has been run")

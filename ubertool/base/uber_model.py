@@ -29,20 +29,32 @@ class UberModel(object):
         df = pd.DataFrame()
         for input_param in model_inputs.__dict__:
             df[input_param] = getattr(self, input_param)
-
+        keys_a = set(df.keys())
+        keys_b = set(self.pd_obj.keys())
+        extras = keys_b - keys_a
+        n_extras = len(extras)
+        print('There are {n_extra} extra keys.')
+        print(extras)
+        missing = keys_a - keys_b
+        n_missing = len(missing)
+        print('There are {n_missing} missing keys.')
+        print(missing)
         # Compare column names of temporary DataFrame (created above) to user-supply DataFrame from JSON
-        if df.columns.sort_values().equals(user_inputs.columns.sort_values()):
+        #if df.columns.sort_values().equals(user_inputs.columns.sort_values()):
+        if n_extras >= 0 and n_missing == 0:
+            print('Input parameters match what is expected.')
+            print(set(df.keys()))
             return True
         else:
+            print('Inputs parameters do not have all required inputs.')
             msg_err1 = "Inputs parameters do not have all required inputs. Please see API documentation.\n"
-            keys_a = set(df.keys())
-            keys_b = set(self.pd_obj.keys())
             msg_err2 = "Expected: \n{}\n".format(df.columns.sort_values())
             msg_err3 = "Received: \n{}\n".format(self.pd_obj.columns.sort_values())
             missing = [item for item in keys_a if item not in keys_b]
             msg_missing = "missing the following field(s): \n{}\n".format(missing)
             extras = [item for item in keys_b if item not in keys_a]
             msg_extras = "the following extra field(s) were found: \n{}\n".format(extras)
+            print(msg_err1 + msg_err2 + msg_err3 + msg_missing + msg_extras)
             raise ValueError(msg_err1 + msg_err2 + msg_err3 + msg_missing + msg_extras)
 
     def coerce_input_dtype(self, incoming_dtype, coerce_dtype, input_series):
@@ -85,7 +97,7 @@ class UberModel(object):
         df_user = self.convert_index(df_in)
         mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
         try:
-            # Import the model's input class (e.g. TerrplantInputs) to compare user supplied inputs to
+            # Import the model's input class (e.g. TrexInputs) to compare user supplied inputs to
             module = importlib.import_module(mod_name)
             model_inputs_class = getattr(module, self.name + "Inputs")
             model_inputs = model_inputs_class()
@@ -133,15 +145,18 @@ class UberModel(object):
         for column in self.pd_obj_out.columns:
             try:
                 output = getattr(self, column)
+                print(output)
                 if isinstance(output, pd.Series):
                     # Ensure model output is a Pandas Series. Only Series can be
                     # reliably put into a Pandas DataFrame.
                     self.pd_obj_out[column] = output
                 else:
                     print('"{}" is not a Pandas Series. Returned outputs must be a Pandas Series'.format(column))
-
             except:
                 print("output dataframe error on " + column)
+        print('output dataframe')
+        print(self.pd_obj_out)
+        return
 
     def get_dict_rep(self):
         """

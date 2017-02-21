@@ -3,9 +3,9 @@ import numpy as np
 import pandas as pd
 
 
-class THerpsFunctions(object):
+class TherpsFunctions(object):
     """
-    Function class for THerps.
+    Function class for Therps.
     """
 
     def percent_to_frac(self, percent):

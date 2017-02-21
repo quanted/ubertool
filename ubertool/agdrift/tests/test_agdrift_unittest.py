@@ -255,7 +255,7 @@ class TestAgdrift(unittest.TestCase):
                  'NaN',
                  'NaN',
                  'NaN',
-                 'Vineard',
+                 'Vineyard',
                  'NaN',
                  'NaN',
                  'NaN'], dtype='object')
@@ -425,8 +425,6 @@ class TestAgdrift(unittest.TestCase):
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-
-
     def test_get_distances(self):
         """
         :description retrieves distance values for deposition scenario datasets
@@ -439,6 +437,10 @@ class TestAgdrift(unittest.TestCase):
 
         # create empty pandas dataframes to create empty object for this unittest
         agdrift_empty = self.create_agdrift_object()
+
+        agdrift_empty.db_name = 'sqlite:///../sqlite_agdrift_distance.db'
+        agdrift_empty.db_table = 'output'
+
         expected_result = pd.Series([], dtype='float')
 
         try:
@@ -482,20 +484,45 @@ class TestAgdrift(unittest.TestCase):
 
         # create empty pandas dataframes to create empty object for this unittest
         agdrift_empty = self.create_agdrift_object()
-
-        scenario_data = pd.Series([[]], dtype='float')
+        #scenario_data = pd.Series([[]], dtype='float')
         result = pd.Series([], dtype='float')
 
 
-        expected_result = [0.50013,0.0389962,163.0,0.49997,0.0111688,163.0,0.4999,.0050397964,163.0,
-                           0.49988,0.0029500385,163.0,1.019339,8.6596354e-4,163.0,1.007885,5.5617929e-4,163.0,
-                           1.055205,1.2169296e-3,163.0,1.012828,6.8997011e-4,163.0,8.91E-03,3.4298396e-5,163.0,
-                           0.1155276,4.5799708e-4,163.0,0.4762651,4.0496026e-5,163.0,3.76E-02,2.6858491e-5,163.0,
-                           0.2223051,3.2098651e-4,163.0]
+        #sqlite_agdrift_distance is only 161 long
+        # expected_result = [0.50013,0.0389962,163.0, #aerial_vf2f
+        #                    0.49997,0.0111688,163.0, #aerial_f2m
+        #                    0.4999,.0050397964,163.0, #aerial_m2c
+        #                    0.49988,0.0029500385,163.0, #aerial_c2vc
+        #                    1.019339,8.6596354e-4,163.0, #ground_low_vf
+        #                    1.007885,5.5617929e-4,163.0, #ground_low_fmc
+        #                    1.055205,1.2169296e-3,163.0, #ground_high_vf
+        #                    1.012828,6.8997011e-4,163.0, #ground_high_fmc
+        #                    8.91E-03,3.4298396e-5,163.0, #airblast_normal
+        #                    0.1155276,4.5799708e-4,163.0, #airblast_dense
+        #                    0.4762651,4.0496026e-5,163.0, #airblast_sparse
+        #                    3.76E-02,2.6858491e-5,163.0, #airblast_vineyard
+        #                    0.2223051,3.2098651e-4,163.0] #airblast_orchard
+
+        #changing expected values to the 161st
+        expected_result = [0.50013,0.041273,161.0, #aerial_vf2f
+                           0.49997,0.011741,161.0, #aerial_f2m
+                           0.4999,0.0053241,161.0, #aerial_m2c
+                           0.49988,0.0031189,161.0, #aerial_c2vc
+                           1.019339,9.66E-04,161.0, #ground_low_vf
+                           1.007885,6.13E-04,161.0, #ground_low_fmc
+                           1.055205,1.41E-03,161.0, #ground_high_vf
+                           1.012828,7.72E-04,161.0, #ground_high_fmc
+                           8.91E-03,3.87E-05,161.0, #airblast_normal
+                           0.1155276,4.66E-04,161.0, #airblast_dense
+                           0.4762651,5.14E-05,161.0, #airblast_sparse
+                           3.76E-02,3.10E-05,161.0, #airblast_vineyard
+                           0.2223051,3.58E-04,161.0] #airblast_orchard
 
         try:
-            agdrift_empty.num_db_values = 163  #set number of data values in sql db
-
+            agdrift_empty.num_db_values = 161  #set number of data values in sql db
+            agdrift_empty.db_name = 'sqlite:///../sqlite_agdrift_distance.db'
+            agdrift_empty.db_table = 'output'
+            #agdrift_empty.db_name = 'sqlite_agdrift_distance.db'
             #this is the list of scenario names (column names) in sql db (the order here is important because
             #the expected values are ordered in this manner
             agdrift_empty.scenario_name = ['aerial_vf2f', 'aerial_f2m', 'aerial_m2c', 'aerial_c2vc',
@@ -506,16 +533,19 @@ class TestAgdrift(unittest.TestCase):
             #cycle through reading scenarios and building result list
             for i in range(len(agdrift_empty.scenario_name)):
                 #get scenario data
-                scenario_data[i] = agdrift_empty.get_scenario_deposition_data(agdrift_empty.scenario_name[i],
+                #was scenario_data[i] =
+                vector_query = agdrift_empty.get_scenario_deposition_data(agdrift_empty.scenario_name[i],
                                                                               agdrift_empty.num_db_values)
+                print(vector_query)
                 #extract 1st and last values of scenario data and build result list (including how many values are
                 #retrieved for each scenario
                 if i == 0:
-                    result = [scenario_data[i][0], scenario_data[i][agdrift_empty.num_db_values - 1],
-                              float(len(scenario_data[i]))]
+                    #fix this
+                    result = [vector_query[0], vector_query[agdrift_empty.num_db_values - 1],
+                              float(len(vector_query))]
                 else:
-                    result.extend([scenario_data[i][0], scenario_data[i][agdrift_empty.num_db_values - 1],
-                              float(len(scenario_data[i]))])
+                    result.extend([vector_query[0], vector_query[agdrift_empty.num_db_values - 1],
+                              float(len(vector_query))])
             npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_result]
@@ -534,6 +564,9 @@ class TestAgdrift(unittest.TestCase):
         """
         # create empty pandas dataframes to create empty object for this unittest
         agdrift_empty = self.create_agdrift_object()
+
+        agdrift_empty.db_name = 'sqlite:///../sqlite_agdrift_distance.db'
+        agdrift_empty.db_table = 'output'
 
         result = pd.Series([], dtype='object')
         expected_result = ['aerial_vf2f', 'aerial_f2m', 'aerial_m2c', 'aerial_c2vc',
@@ -682,10 +715,10 @@ class TestAgdrift(unittest.TestCase):
                                                               'User Defined Terrestrial',
                                                               'EPA Defined Terrestrial'], dtype='object')
 
-            agdrift_empty.default_width = 208.7
-            agdrift_empty.default_length = 515.8
-            agdrift_empty.default_pond_depth = 6.56
-            agdrift_empty.default_wetland_depth = 0.4921
+            agdrift_empty.out_default_width = 208.7
+            agdrift_empty.out_default_length = 515.8
+            agdrift_empty.out_default_pond_depth = 6.56
+            agdrift_empty.out_default_wetland_depth = 0.4921
 
             agdrift_empty.user_pond_width = pd.Series(['NaN', 'NaN', 100., 'NaN', 'NaN', 'NaN'], dtype='float')
             agdrift_empty.user_pond_depth = pd.Series(['NaN', 'NaN', 7., 'NaN', 'NaN', 'NaN'], dtype='float')

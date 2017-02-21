@@ -338,6 +338,7 @@ class Trex(UberModel, TrexInputs, TrexOutputs, TrexFunctions):
         self.frac_act_ing = self.percent_to_frac(self.percent_act_ing)
         self.frac_incorp = self.percent_to_frac(self.percent_incorp)
         self.bandwidth = self.inches_to_feet(self.bandwidth)
+        self.row_spacing = self.inches_to_feet(self.row_spacing)
 
         # extract first day and maximum application rates from each model simulation run
         self.app_rate_parsing()
