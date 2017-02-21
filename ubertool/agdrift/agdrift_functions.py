@@ -219,13 +219,13 @@ class AgdriftFunctions(object):
 
         if (self.ecosystem_type[i] == 'Aquatic Assessment'):
             if (self.aquatic_body_type[i] == 'EPA Defined Pond'):
-                area_width = self.out_default_width
-                area_length = self.out_default_length
-                area_depth = self.out_default_pond_depth
+                area_width = self.out_default_width[0]
+                area_length = self.out_default_length[0]
+                area_depth = self.out_default_pond_depth[0]
             elif (self.aquatic_body_type[i] == 'EPA Defined Wetland'):
-                area_width = self.out_default_width
-                area_length = self.out_default_length
-                area_depth = self.out_default_wetland_depth
+                area_width = self.out_default_width[0]
+                area_length = self.out_default_length[0]
+                area_depth = self.out_default_wetland_depth[0]
             elif (self.aquatic_body_type[i] == 'User Defined Pond'):
                 area_width = self.user_pond_width[i]
                 area_length = self.sqft_per_hectare / area_width
