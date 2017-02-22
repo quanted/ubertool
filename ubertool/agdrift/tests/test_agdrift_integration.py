@@ -65,6 +65,8 @@ finally:
 
 #generate output
 agdrift_calc = Agdrift(pd_obj_inputs, pd_obj_exp)
+agdrift_calc.db_name = 'sqlite:///../sqlite_agdrift_distance.db'
+agdrift_calc.db_table = 'output'
 agdrift_calc.execute_model()
 agdrift_output_empty = AgdriftOutputs()
 inputs_json, outputs_json, exp_out_json = agdrift_calc.get_dict_rep()
@@ -252,7 +254,7 @@ class TestAgdrift(unittest.TestCase):
             result = agdrift_calc.pd_obj_out["out_" + output]
             expected = agdrift_calc.pd_obj_exp["exp_" + output]
             #npt.assert_array_almost_equal(result, expected, 4, '', True)
-            rtol = 1e-2
+            rtol = 1e-3
             npt.assert_allclose(result, expected, rtol, 0, '', True)
         finally:
             tab = pd.concat([result, expected], axis=1)
