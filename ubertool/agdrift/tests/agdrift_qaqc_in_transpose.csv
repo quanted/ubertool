@@ -1,24 +1,29 @@
-,version,chemical_name,pc_code,application_rate,application_method,drop_size,ecosystem_type,boom_height,airblast_type,aquatic_body_type,terrestrial_field_type,user_pond_width,user_pond_depth,user_wetland_width,user_wetland_depth,user_terrestrial_width,calculation_input,downwind_distance
-0,,a,,0.5,Tier I Aerial,Fine to Medium,Aquatic Assessment,,,User Defined Pond, ,997,6.56,,, ,Distance to waterbody or field,997
-1,,a,,0.75,Tier I Ground,Very Fine,Terrestrial Assessment,High,,,User Defined Terrestrial,,,,,208.7,Distance to waterbody or field,450
-2,,a,,0.5,Tier I Aerial,Fine to Medium,Aquatic Assessment,,,EPA Defined Pond, ,,,,, ,Distance to waterbody or field,900
-3,,a,,0.5,Tier I Aerial,Fine to Medium,Aquatic Assessment,,,User Defined Pond, ,208.7,6.56,,, ,Distance to waterbody or field,900
-4,,a,,0.5,Tier I Aerial,Fine to Medium,Terrestrial Assessment,,, ,EPA Defined Terrestrial,,,,, ,Distance to waterbody or field,225
-5,,a,,0.5,Tier I Airblast, ,Aquatic Assessment,,Dense,User Defined Pond,,6.56,6.56,,,,Distance to waterbody or field,6.56
-6,,a,,0.5,Tier I Aerial,Fine to Medium,Aquatic Assessment,,,EPA Defined Pond,,,,,,,Distance to waterbody or field,225
-7,,b,,0.35,Tier I Ground,Fine to Medium/Coarse,Aquatic Assessment,Low,,EPA Defined Wetland,,,,,,,Distance to waterbody from edge of field,300
-8,,c,,0.2505,Tier I Aerial,Fine to Medium,Aquatic Assessment,,,EPA Defined Wetland,,,,,,,Distance to waterbody from edge of field,200
-9,,d,,0.63,Tier I Airblast, ,Aquatic Assessment,,Vineyard,EPA Defined Pond,,,,,,,Distance to waterbody from edge of field,550
-10,,e,,0.41,Tier I Airblast, ,Aquatic Assessment,,Orchard,EPA Defined Wetland,,,,,,,Distance to waterbody from edge of field,800
-11,,f,,0.29,Tier I Ground,Very Fine,Aquatic Assessment,High,,EPA Defined Pond,,,,,,,Distance to waterbody from edge of field,482
-12,,g,,0.01,Tier I Airblast, ,Aquatic Assessment,,Orchard,EPA Defined Pond,,,,,,,Distance to waterbody from edge of field,375
-13,,h,,0.75,Tier I Aerial,Coarse to Very Coarse,Aquatic Assessment,,,EPA Defined Wetland,,,,,,,Distance to waterbody from edge of field,111
-14,,i,,0.5,Tier I Aerial,Medium to Coarse,Aquatic Assessment,,,EPA Defined Wetland,,,,,,,Distance to waterbody from edge of field,712
-15,,i,,0.5,Tier I Aerial,Medium to Coarse,Aquatic Assessment,,,User Defined Wetland,,,,208.7,0.4921,,Distance to waterbody from edge of field,712
-16,,j,,0.98,Tier I Ground,Fine to Medium/Coarse,Aquatic Assessment,Low,,EPA Defined Pond,,,,,,,Distance to waterbody from edge of field,397
-17,,a,,0.5,Tier I Ground,Fine to Medium/Coarse,Terrestrial Assessment,Low,, ,User Defined Terrestrial,,,,,350,Distance to waterbody or field,850
-18,,a,,0.5,Tier I Airblast, ,Terrestrial Assessment,,Sparse,,User Defined Terrestrial,,,,,350,Distance to waterbody or field,850
-19,,a,,0.5,Tier I Aerial,Very Fine to Fine,Aquatic Assessment,,,User Defined Pond, ,208.7,6.56,,, ,Distance to waterbody or field,900
-20,,a,,0.5,Tier I Aerial,Very Fine to Fine,Aquatic Assessment,,,EPA Defined Pond, ,,,,, ,Distance to waterbody or field,900
-21,,a,,0.5,Tier I Ground,Fine to Medium/Coarse,Terrestrial Assessment,High,, ,User Defined Terrestrial,,,,,208.7,Distance to waterbody or field,900
-22,,g,,0.5,Tier I Airblast, ,Terrestrial Assessment,,Normal, ,User Defined Terrestrial,,,,,208.7,Distance to waterbody from edge of field,900
+,version,chemical_name,pc_code,application_rate,application_method,drop_size,ecosystem_type,boom_height,airblast_type,aquatic_body_type,terrestrial_field_type,user_pond_width,user_pond_depth,user_wetland_width,user_wetland_depth,user_terrestrial_width,calculation_input,downwind_distance,user_frac_applied,user_avg_dep_gha,user_avg_dep_lbac,user_avg_conc_ngl,user_avg_dep_mgcm2
+0,,a,,0.5,Tier I Aerial,Fine to Medium,Aquatic Assessment,,,User Defined Pond, ,997,6.56,,, ,Fraction of applied,997,0.0115,,,,
+1,,a,,0.75,Tier I Ground,Very Fine,Terrestrial Assessment,High,,,User Defined Terrestrial,,,,,208.7,Initial Average Depostion (g/ha),450,,3.79,,,
+2,,a,,0.5,Tier I Aerial,Fine to Medium,Aquatic Assessment,,,EPA Defined Pond, ,,,,, ,Initial Average Depostion (lb/ac),900,,,0.0059,,
+3,,a,,0.5,Tier I Aerial,Fine to Medium,Aquatic Assessment,,,User Defined Pond, ,208.7,6.56,,, ,Initial Average Concentration (ng/L),900,,,,332.97,
+4,,a,,0.5,Tier I Aerial,Fine to Medium,Terrestrial Assessment,,, ,EPA Defined Terrestrial,,,,, ,Initial Average Deposition (mg/cm2),225,,,,,0.0002
+5,,a,,0.5,Tier I Aerial,Fine to Medium,Aquatic Assessment,,,User Defined Pond, ,997,6.56,,, , ,997,,,,,
+6,,a,,0.75,Tier I Ground,Very Fine,Terrestrial Assessment,High,,,User Defined Terrestrial,,,,,208.7, ,450,,,,,
+7,,a,,0.5,Tier I Aerial,Fine to Medium,Aquatic Assessment,,,EPA Defined Pond, ,,,,, , ,900,,,,,
+8,,a,,0.5,Tier I Aerial,Fine to Medium,Aquatic Assessment,,,User Defined Pond, ,208.7,6.56,,, , ,900,,,,,
+9,,a,,0.5,Tier I Aerial,Fine to Medium,Terrestrial Assessment,,, ,EPA Defined Terrestrial,,,,, , ,225,,,,,
+10,,a,,0.5,Tier I Airblast, ,Aquatic Assessment,,Dense,User Defined Pond,,6.56,6.56,,,, ,6.56,,,,,
+11,,a,,0.5,Tier I Aerial,Fine to Medium,Aquatic Assessment,,,EPA Defined Pond,,,,,,, ,225,,,,,
+12,,b,,0.35,Tier I Ground,Fine to Medium/Coarse,Aquatic Assessment,Low,,EPA Defined Wetland,,,,,,, ,300,,,,,
+13,,c,,0.2505,Tier I Aerial,Fine to Medium,Aquatic Assessment,,,EPA Defined Wetland,,,,,,, ,200,,,,,
+14,,d,,0.63,Tier I Airblast, ,Aquatic Assessment,,Vineyard,EPA Defined Pond,,,,,,, ,550,,,,,
+15,,e,,0.41,Tier I Airblast, ,Aquatic Assessment,,Orchard,EPA Defined Wetland,,,,,,, ,800,,,,,
+16,,f,,0.29,Tier I Ground,Very Fine,Aquatic Assessment,High,,EPA Defined Pond,,,,,,, ,482,,,,,
+17,,g,,0.01,Tier I Airblast, ,Aquatic Assessment,,Orchard,EPA Defined Pond,,,,,,, ,375,,,,,
+18,,h,,0.75,Tier I Aerial,Coarse to Very Coarse,Aquatic Assessment,,,EPA Defined Wetland,,,,,,, ,111,,,,,
+19,,i,,0.5,Tier I Aerial,Medium to Coarse,Aquatic Assessment,,,EPA Defined Wetland,,,,,,, ,712,,,,,
+20,,i,,0.5,Tier I Aerial,Medium to Coarse,Aquatic Assessment,,,User Defined Wetland,,,,208.7,0.4921,, ,712,,,,,
+21,,j,,0.98,Tier I Ground,Fine to Medium/Coarse,Aquatic Assessment,Low,,EPA Defined Pond,,,,,,, ,397,,,,,
+22,,a,,0.5,Tier I Ground,Fine to Medium/Coarse,Terrestrial Assessment,Low,, ,User Defined Terrestrial,,,,,350, ,850,,,,,
+23,,a,,0.5,Tier I Airblast, ,Terrestrial Assessment,,Sparse,,User Defined Terrestrial,,,,,350, ,850,,,,,
+24,,a,,0.5,Tier I Aerial,Very Fine to Fine,Aquatic Assessment,,,User Defined Pond, ,208.7,6.56,,, , ,900,,,,,
+25,,a,,0.5,Tier I Aerial,Very Fine to Fine,Aquatic Assessment,,,EPA Defined Pond, ,,,,, , ,900,,,,,
+26,,a,,0.5,Tier I Ground,Fine to Medium/Coarse,Terrestrial Assessment,High,, ,User Defined Terrestrial,,,,,208.7, ,900,,,,,
+27,,g,,0.5,Tier I Airblast, ,Terrestrial Assessment,,Normal, ,User Defined Terrestrial,,,,,208.7, ,900,,,,,
