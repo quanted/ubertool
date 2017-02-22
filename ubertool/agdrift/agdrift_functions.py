@@ -2,16 +2,16 @@ from __future__ import division  # brings in Python 3.0 mixed type calculation r
 from functools import wraps
 import logging
 import numpy as np
+import os
 import pandas as pd
 from scipy.optimize import curve_fit
-
-import time
-import sqlite3
 from sqlalchemy import Column, Table, Integer, Float, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import *
 import sqlalchemy_utils as sqlu
+import sqlite3
+import time
 
 metadata = MetaData()
 
@@ -357,6 +357,9 @@ class AgdriftFunctions(object):
             result1 = conn.execute("SELECT * from " + self.db_table)
             col_names = result1.keys()
         else:
+            dir_path = os.path.dirname(os.path.abspath(__file__))
+            logging.info('current directory path is:')
+            logging.info(dir_path)
             print('cannot find agdrift database at ' + self.db_name)
         return col_names
 
@@ -399,10 +402,10 @@ class AgdriftFunctions(object):
 
         #testing for column names
         string_query = 'SELECT * from ' + self.db_table
-        print(string_query)
+        logging.info(string_query)
         result1 = conn.execute(string_query)
         col_names = result1.keys()
-        print(col_names)
+        logging.info(col_names)
 
         result = conn.execute("SELECT " + scenario + " from " + self.db_table)
 
@@ -555,7 +558,7 @@ class AgdriftFunctions(object):
         #     """
         #     # self.out_avg_depo_lbac = float(self.out_avg_depo_lbac)
         #     self.out_avg_depo_gha = [(self.out_avg_depo_lbac[0] * 453.592) / 0.404686]
-        #     # print self.out_avg_depo_gha
+        #     # logging.info self.out_avg_depo_gha
         #     return self.out_avg_depo_gha
 
     # def tier_I_aerial(self, i):
@@ -797,7 +800,7 @@ class AgdriftFunctions(object):
         #     self.deposition_gha_to_mgcm_f()
 
         # elif (self.  == 'Initial Average Deposition (lb/ac)'):
-        #     print self.out_avg_depo_lbac
+        #     logging.info self.out_avg_depo_lbac
         #     self.deposition_lbac_to_gha_f()
         #     self.deposition_gha_to_ngl_f()
         #     self.deposition_gha_to_mgcm_f()
@@ -921,7 +924,7 @@ class AgdriftFunctions(object):
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
         #         self.z = 4
         #     else:
-        #         #print 2
+        #         #logging.info 2
         #         self.out_y = 3
         #     return self.out_x, self.out_y
 
