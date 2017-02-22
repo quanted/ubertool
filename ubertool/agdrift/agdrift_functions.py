@@ -2,14 +2,16 @@ from __future__ import division  # brings in Python 3.0 mixed type calculation r
 from functools import wraps
 import logging
 import numpy as np
+import os
 import pandas as pd
-import time
-
-import sqlite3
+from scipy.optimize import curve_fit
 from sqlalchemy import Column, Table, Integer, Float, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import *
+import sqlalchemy_utils as sqlu
+import sqlite3
+import time
 
 metadata = MetaData()
 
@@ -217,13 +219,13 @@ class AgdriftFunctions(object):
 
         if (self.ecosystem_type[i] == 'Aquatic Assessment'):
             if (self.aquatic_body_type[i] == 'EPA Defined Pond'):
-                area_width = self.out_default_width
-                area_length = self.out_default_length
-                area_depth = self.out_default_pond_depth
+                area_width = self.out_default_width[0]
+                area_length = self.out_default_length[0]
+                area_depth = self.out_default_pond_depth[0]
             elif (self.aquatic_body_type[i] == 'EPA Defined Wetland'):
-                area_width = self.out_default_width
-                area_length = self.out_default_length
-                area_depth = self.out_default_wetland_depth
+                area_width = self.out_default_width[0]
+                area_length = self.out_default_length[0]
+                area_depth = self.out_default_wetland_depth[0]
             elif (self.aquatic_body_type[i] == 'User Defined Pond'):
                 area_width = self.user_pond_width[i]
                 area_length = self.sqft_per_hectare / area_width
@@ -242,6 +244,86 @@ class AgdriftFunctions(object):
                 area_length = 0.
                 area_depth = 0.
         return area_width, area_length, area_depth
+    
+    def extend_dist_dep_curve(self,i):
+        """
+        :description extends distance vs deposition (fraction of applied) curce to enable model calculations 
+                     when area of interest (pond, wetland, terrestrial field) lie partially outside the orginal
+                     curve (whose extent is 997 feet).  The extension is achieved by fitting a line of best fit
+                     to the last 16 points of the original curve.  The x,y values representing the last 16 points
+                     are natural log transforms of the distance and deposition values at the 16 points.  Two long
+                     transforms are coded here, reflecting the fact that the AGDRIFT model (v2.1.1) uses each of them
+                     under different circumstandes (which I believe is not the intention but is the way the model 
+                     functions  --  my guess is that one of the transforms was used and then a second one was coded 
+                     to increase the degree of conservativeness  -- but the code was changed in only one of the two 
+                     places where the transformation occurs.  
+                     Finally, the AGDRIFT model extends the curve only when necessary (i.e., when it determines that 
+                     the area of intereest lies partially beyond the last point of the origanal curve (997 ft).  In 
+                     this code all the curves are extended out to 1994 ft, which represents the furthest distance that 
+                     the downwind edge of an area of concern can be specified.  All scenario curves are extended here 
+                     because we are running multiple simulations (e.g., monte carlo) and instead of extending the 
+                     curves each time a simulation requires it (which may be multiple time for the same scenario 
+                     curve) we just do it for all curves up front.  There is a case to be made that the 
+                     curves should be extended external to this code and simply provide the full curve in the SQLite
+                     database containing the original curve.  
+                    
+        :param i: index representing distance vs deposition scenario curve to be extended
+        :return:
+        """
+
+        #set first and last index of points to be used to fit line 
+        npts_orig = len(self.scenario_distance_data[i])
+        first_fit_pt = npts_orig - 16
+
+        # set arrays for containing curve points to be used to fit/extend curve at tail
+        x_array = np.zeros([16])  #distance
+        y_array = np.zeros([16])  #deposition (fraction of applied)
+
+        # select the last 16 data points and perform a natural log transform on the distance/deposition values
+        # then fit these data to a line of best fit
+
+        if (self.extend_ln_ln):  #straight ln ln transformation
+            x_array = np.array([self.scenario_distance_data[i][j] for j in range(first_fit_pt, npts_orig)])
+            x_array = np.log(x_array)
+            y_array = np.array([self.scenario_deposition_data[i][j] for j in range(first_fit_pt, npts_orig)])
+            y_array = np.log(y_array)
+        else:  
+            # this ln ln transformations are done with relative x,y values (this is the transformation
+            # used in the AGDRIFT AGEXTD code
+            x_zero = self.scenario_distance_data[i][first_fit_pt - 1]
+            y_zero = self.scenario_deposition_data[i][first_fit_pt - 1]
+            y_zero_log = np.log(y_zero)
+
+            k = 0
+            for j in range(first_fit_pt, npts_orig):
+                x_array[k] = np.log(self.scenario_distance_data[i][j] - x_zero)
+                y_array[k] = np.log(self.scenario_deposition_data[i][j] / y_zero)
+                k += 1
+
+        # establish scipy function to be fit to x_array, y_array data pts
+        def func(x_array, a, b):
+            return a * x_array + b
+
+        # use scipy's curve fit and get the coefficients for the established function
+        coefficients, pcov = curve_fit(func, x_array, y_array)
+        coef_a = coefficients[0]
+        coef_b = coefficients[1]
+
+        # extend the distance array to 2 * 997 = 1994ft in increments of 6.56ft (and calculate related depositions)
+        npts_ext = int(((((self.max_distance * 2.) - self.scenario_distance_data[i][npts_orig - 1]) / \
+                         self.distance_inc) + 1) + npts_orig)
+        dist = self.scenario_distance_data[i][npts_orig - 1]
+        for j in range(npts_orig, npts_ext):
+            dist = dist + self.distance_inc
+
+            if (self.extend_ln_ln):
+                self.scenario_deposition_data[i][j] = np.exp(coef_a * np.log(dist) + coef_b)
+            else:
+                y_temp = coef_a * np.log(dist - x_zero) + coef_b
+                self.scenario_deposition_data[i][j] = np.exp(y_temp + y_zero_log)
+
+            self.scenario_distance_data[i][j] = self.scenario_distance_data[i][j - 1] + self.distance_inc
+        return
 
     # def load_scenario_raw_data(self):
     #     """
@@ -269,11 +351,16 @@ class AgdriftFunctions(object):
 
         # connect to the sql database and get column names (1st column will be the distances
         # rather than a scenario name)
-
-        engine = create_engine(self.db_name)
-        conn = engine.connect()
-        result1 = conn.execute("SELECT * from " + self.db_table)
-        col_names = result1.keys()
+        if sqlu.database_exists(self.db_name):
+            engine = create_engine(self.db_name)
+            conn = engine.connect()
+            result1 = conn.execute("SELECT * from " + self.db_table)
+            col_names = result1.keys()
+        else:
+            dir_path = os.path.dirname(os.path.abspath(__file__))
+            logging.info('current directory path is:')
+            logging.info(dir_path)
+            print('cannot find agdrift database at ' + self.db_name)
         return col_names
 
     def get_distances(self, num_values):
@@ -315,10 +402,10 @@ class AgdriftFunctions(object):
 
         #testing for column names
         string_query = 'SELECT * from ' + self.db_table
-        print(string_query)
+        logging.info(string_query)
         result1 = conn.execute(string_query)
         col_names = result1.keys()
-        print(col_names)
+        logging.info(col_names)
 
         result = conn.execute("SELECT " + scenario + " from " + self.db_table)
 
@@ -405,6 +492,28 @@ class AgdriftFunctions(object):
                           self.mg_per_gram) / (self.sqft_per_acre * self.cm2_per_ft2))
         return avg_fielddep_mgcm
 
+    def create_integration_avg(self, npts_orig, x_array_in, y_array_in, npts_int, x_array_out, y_array_out, npts_out):
+        """
+        :description this method takes an x/y array and creates a x_out/y_out array of running averages
+        :param npts_orig: number of points in orginal x vs y data points
+        :param x_array_in: x values of original x vs y data points
+        :param y_array_in: y values of original x vs y data points
+        :param npts_int: number of x_array points included in the running average
+        :param x_array_out: x values of running average output
+        :param y_array_out: y values of running average output
+        :param npts_out: number of points in running average output array
+        :Note we assume the increment between x_array points is constant
+        :return:
+        """
+
+        # for i in range (npts_orig - npts_int): #calculate running average for these points
+        #     if (i == 0):   #first time through try to process all integration points (i.e., npts_int)
+        #         for j in range (npts_int):
+        #             if(x_array_in[i] < x_array_in[npts_orig] - x_dist):
+        #         j = i
+        #         x_avg = 0.5 * (x_array_in(j+1) - x_array_in[j]) * (y_array_in(j+1) + y_array_in[j])
+
+
     # def deposition_gha_to_ngl_f(self):
     #     """
     #     Deposition calculation.
@@ -449,7 +558,7 @@ class AgdriftFunctions(object):
         #     """
         #     # self.out_avg_depo_lbac = float(self.out_avg_depo_lbac)
         #     self.out_avg_depo_gha = [(self.out_avg_depo_lbac[0] * 453.592) / 0.404686]
-        #     # print self.out_avg_depo_gha
+        #     # logging.info self.out_avg_depo_gha
         #     return self.out_avg_depo_gha
 
     # def tier_I_aerial(self, i):
@@ -691,7 +800,7 @@ class AgdriftFunctions(object):
         #     self.deposition_gha_to_mgcm_f()
 
         # elif (self.  == 'Initial Average Deposition (lb/ac)'):
-        #     print self.out_avg_depo_lbac
+        #     logging.info self.out_avg_depo_lbac
         #     self.deposition_lbac_to_gha_f()
         #     self.deposition_gha_to_ngl_f()
         #     self.deposition_gha_to_mgcm_f()
@@ -815,7 +924,7 @@ class AgdriftFunctions(object):
         #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
         #         self.z = 4
         #     else:
-        #         #print 2
+        #         #logging.info 2
         #         self.out_y = 3
         #     return self.out_x, self.out_y
 
