@@ -219,31 +219,31 @@ class AgdriftFunctions(object):
 
         if (self.ecosystem_type[i] == 'Aquatic Assessment'):
             if (self.aquatic_body_type[i] == 'EPA Defined Pond'):
-                area_width = self.out_default_width[0]
-                area_length = self.out_default_length[0]
-                area_depth = self.out_default_pond_depth[0]
+                self.out_area_width[i] = self.default_width
+                self.out_area_length[i] = self.default_length
+                self.out_area_depth[i] = self.default_pond_depth
             elif (self.aquatic_body_type[i] == 'EPA Defined Wetland'):
-                area_width = self.out_default_width[0]
-                area_length = self.out_default_length[0]
-                area_depth = self.out_default_wetland_depth[0]
+                self.out_area_width[i] = self.default_width
+                self.out_area_length[i] = self.default_length
+                self.out_area_depth[i] = self.default_wetland_depth
             elif (self.aquatic_body_type[i] == 'User Defined Pond'):
-                area_width = self.user_pond_width[i]
-                area_length = self.sqft_per_hectare / area_width
-                area_depth = self.user_pond_depth[i]
+                self.out_area_width[i] = self.user_pond_width[i]
+                self.out_area_length[i] = self.sqft_per_hectare / self.out_area_width[i]
+                self.out_area_depth[i] = self.user_pond_depth[i]
             elif (self.aquatic_body_type[i] == 'User Defined Wetland'):
-                area_width = self.user_wetland_width[i]
-                area_length = self.sqft_per_hectare / area_width
-                area_depth = self.user_wetland_depth[i]
+                self.out_area_width[i] = self.user_wetland_width[i]
+                self.out_area_length[i] = self.sqft_per_hectare / self.out_area_width[i]
+                self.out_area_depth[i] = self.user_wetland_depth[i]
         elif (self.ecosystem_type[i] == 'Terrestrial Assessment'):
             if (self.terrestrial_field_type[i] == 'User Defined Terrestrial'):  # implies user to specify an area width
-                area_width = self.user_terrestrial_width[i]
-                area_length = self.sqft_per_hectare / area_width
-                area_depth = 0.  # terrestrial areas have no depth
+                self.out_area_width[i] = self.user_terrestrial_width[i]
+                self.out_area_length[i] = self.sqft_per_hectare / self.out_area_width[i]
+                self.out_area_depth[i] = 0.  # terrestrial areas have no depth
             else:  #this is the EPA Defined Terrestrial (i.e., a point as opposed to an area) for which we don't need dimensions
-                area_width = 0.
-                area_length = 0.
-                area_depth = 0.
-        return area_width, area_length, area_depth
+                self.out_area_width[i] = 0.
+                self.out_area_length[i] = 0.
+                self.out_area_depth[i] = 0.
+        return self.out_area_width[i], self.out_area_length[i], self.out_area_depth[i]
     
     def extend_dist_dep_curve(self,i):
         """
@@ -459,7 +459,7 @@ class AgdriftFunctions(object):
         avg_dep_gha = avg_dep_lbac * self.gms_per_lb * self.acres_per_hectare
         return avg_dep_gha
 
-    def calc_avg_waterconc_ngl(self, avg_dep_lbac ,area_width, area_length, area_depth):
+    def calc_avg_waterconc_ngl(self, avg_dep_lbac , area_width, area_length, area_depth):
         """
         :description calculate the average concentration of pesticide in the pond/wetland
         :param avg_dep_lbac: average deposition over width of water body in lbs per acre
