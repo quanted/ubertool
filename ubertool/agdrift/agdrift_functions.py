@@ -361,6 +361,9 @@ class AgdriftFunctions(object):
             logging.info('current directory path is:')
             logging.info(dir_path)
             print('cannot find agdrift database at ' + self.db_name)
+            dir_path = os.path.dirname(os.path.abspath(__file__))
+            print('current directory path is:')
+            print(dir_path)
         return col_names
 
     def get_distances(self, num_values):
