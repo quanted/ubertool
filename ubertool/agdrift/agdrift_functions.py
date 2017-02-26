@@ -351,19 +351,34 @@ class AgdriftFunctions(object):
 
         # connect to the sql database and get column names (1st column will be the distances
         # rather than a scenario name)
-        if sqlu.database_exists(self.db_name):
-            engine = create_engine(self.db_name)
-            conn = engine.connect()
-            result1 = conn.execute("SELECT * from " + self.db_table)
-            col_names = result1.keys()
+        conn = sqlite3.connect(self.db_name)
+        cursor = conn.cursor()
+        get_table = cursor.execute("SELECT * from " + self.db_table)
+        conn.close()
+        col_names = [description[0] for description in get_table.description]
+        # col_names = get_table.keys() sql_alchemy
+        print(col_names)
+        if len(col_names) > 0:
+            # if os.path.isfile(self.db_name):
+            logging.info('found agdrift database')
         else:
+            logging.info('cannot find agdrift database')
             dir_path = os.path.dirname(os.path.abspath(__file__))
             logging.info('current directory path is:')
             logging.info(dir_path)
-            print('cannot find agdrift database at ' + self.db_name)
-            dir_path = os.path.dirname(os.path.abspath(__file__))
-            print('current directory path is:')
-            print(dir_path)
+        # if sqlu.database_exists(self.db_name):
+        #     engine = create_engine(self.db_name)
+        #     conn = engine.connect()
+        #     result1 = conn.execute("SELECT * from " + self.db_table)
+        #     col_names = result1.keys()
+        # else:
+        #     dir_path = os.path.dirname(os.path.abspath(__file__))
+        #     logging.info('current directory path is:')
+        #     logging.info(dir_path)
+        #     print('cannot find agdrift database at ' + self.db_name)
+        #     dir_path = os.path.dirname(os.path.abspath(__file__))
+        #     print('current directory path is:')
+        #     print(dir_path)
         return col_names
 
     def get_distances(self, num_values):
