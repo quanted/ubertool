@@ -390,9 +390,9 @@ class AgdriftFunctions(object):
         :NOTE any blank fields are filled with 'nan'
         :return:
         """
-        engine = create_engine(self.db_name)
-        conn = engine.connect()
-        result = conn.execute("SELECT " + self.distance_name + " from " + self.db_table)
+        conn = sqlite3.connect(self.db_name)
+        cursor = conn.cursor()
+        result = cursor.execute("SELECT " + self.distance_name + " from " + self.db_table)
 
         data = pd.Series(np.zeros(num_values))
         for i, row in enumerate(result):
@@ -414,14 +414,13 @@ class AgdriftFunctions(object):
         """
 
         # establish connection and target scenario data
-        engine = create_engine(self.db_name)
-        conn = engine.connect()
-        #cursor = conn.cursor()
+        conn = sqlite3.connect(self.db_name)
+        cursor = conn.cursor()
 
         #testing for column names
         string_query = 'SELECT * from ' + self.db_table
         logging.info(string_query)
-        result1 = conn.execute(string_query)
+        result1 = cursor.execute(string_query)
         col_names = result1.keys()
         logging.info(col_names)
 
