@@ -897,6 +897,127 @@ class TestAgdrift(unittest.TestCase):
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
+    def test_create_integration_avg_opp(self):
+        """
+        :description retrieves values for distance and the first deposition scenario from the sql database
+        :param num_db_values: number of distance values to be retrieved
+        :param distance_name: name of column in sql database that contains the distance values
+        :NOTE any blank fields are filled with 'nan'
+        :return:
+        """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
+        agdrift_empty.db_name = 'sqlite:///../sqlite_agdrift_distance.db'
+        agdrift_empty.db_table = 'output'
+
+        expected_result = pd.Series([], dtype='float')
+        x_array_in = pd.Series([], dtype='float')
+        y_array_in = pd.Series([], dtype='float')
+        x_array_out = pd.Series([], dtype='float')
+        y_array_out = pd.Series([], dtype='float')
+
+        try:
+
+            expected_result = [0.,0.1025,0.2051,0.4101,0.8202,1.6404,3.2808,4.9212,6.5616,9.8424,13.1232,19.6848,26.2464,
+                        32.808,39.3696,45.9312,52.4928,59.0544,65.616,72.1776,78.7392,85.3008,91.8624,98.424,104.9856,
+                        111.5472,118.1088,124.6704,131.232,137.7936,144.3552,150.9168,157.4784,164.04,170.6016,177.1632,
+                        183.7248,190.2864,196.848,203.4096,209.9712,216.5328,223.0944,229.656,236.2176,242.7792,249.3408,
+                        255.9024,262.464,269.0256,275.5872,282.1488,288.7104,295.272,301.8336,308.3952,314.9568,321.5184,
+                        328.08,334.6416,341.2032,347.7648,354.3264,360.888,367.4496,374.0112,380.5728,387.1344,393.696,
+                        400.2576,406.8192,413.3808,419.9424,426.504,433.0656,439.6272,446.1888,452.7504,459.312,465.8736,
+                        472.4352,478.9968,485.5584,492.12,498.6816,505.2432,511.8048,518.3664,524.928,531.4896,538.0512,
+                        544.6128,551.1744,557.736,564.2976,570.8592,577.4208,583.9824,590.544,597.1056,603.6672,610.2288,
+                        616.7904,623.352,629.9136,636.4752,643.0368,649.5984,656.16,662.7216,669.2832,675.8448,682.4064,
+                        688.968,695.5296,702.0912,708.6528,715.2144,721.776,728.3376,734.8992,741.4608,748.0224,754.584,
+                        761.1456,767.7072,774.2688,780.8304,787.392,793.9536,800.5152,807.0768,813.6384,820.2,826.7616,
+                        833.3232,839.8848,846.4464,853.008,859.5696,866.1312,872.6928,879.2544,885.816,892.3776,898.9392,
+                        905.5008,912.0624,918.624,925.1856,931.7472,938.3088,944.8704,951.432,957.9936,964.5552,971.1168,
+                        977.6784,984.24,990.8016,997.3632,1495.5,1994.0]
+
+            x_dist = 10.
+            weighted_avg = 0.003
+            agdrift_empty.distance_name = 'distance_ft'
+            agdrift_empty.scenario_name = 'ground_low_vf'
+            agdrift_empty.num_db_values = 161
+            x_array_in = agdrift_empty.get_distances(agdrift_empty.num_db_values)
+            y_array_in = agdrift_empty.get_scenario_deposition_data(agdrift_empty.scenario_name, agdrift_empty.num_db_values)
+
+            x_array_out, y_array_out, npts_out = agdrift_empty.create_integration_avg_opp(agdrift_empty.num_db_values,
+                                                                        x_array_in, y_array_in, x_dist, weighted_avg)
+
+            #npt.assert_allclose(y_array_out, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
+        finally:
+            pass
+        #     tab = [y_array_out, expected_result]
+        #     print("\n")
+        #     print(inspect.currentframe().f_code.co_name)
+        #     print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+
+    def test_create_integration_avg(self):
+        """
+        :description retrieves values for distance and the first deposition scenario from the sql database
+        :param num_db_values: number of distance values to be retrieved
+        :param distance_name: name of column in sql database that contains the distance values
+        :NOTE any blank fields are filled with 'nan'
+        :return:
+        """
+
+        #THIS UNIT TEST NEEDS TO BE CLEANED UP AND COMPLETED; AT THIS POINT THERE IS NO ASSERTION OF RESULTS
+        #NUMEROUS TESTS HAVE BEEN CONDUCTED (SO THE TESTED METHOD IS SOUND) BUT THEY NEED TO BE FORMALIZED
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
+        agdrift_empty.db_name = 'sqlite:///../sqlite_agdrift_distance.db'
+        agdrift_empty.db_table = 'output'
+
+        expected_result = pd.Series([], dtype='float')
+        x_array_in = pd.Series([], dtype='float')
+        y_array_in = pd.Series([], dtype='float')
+        x_array_out = pd.Series([], dtype='float')
+        y_array_out = pd.Series([], dtype='float')
+
+        try:
+
+            expected_result = [0.,0.1025,0.2051,0.4101,0.8202,1.6404,3.2808,4.9212,6.5616,9.8424,13.1232,19.6848,26.2464,
+                        32.808,39.3696,45.9312,52.4928,59.0544,65.616,72.1776,78.7392,85.3008,91.8624,98.424,104.9856,
+                        111.5472,118.1088,124.6704,131.232,137.7936,144.3552,150.9168,157.4784,164.04,170.6016,177.1632,
+                        183.7248,190.2864,196.848,203.4096,209.9712,216.5328,223.0944,229.656,236.2176,242.7792,249.3408,
+                        255.9024,262.464,269.0256,275.5872,282.1488,288.7104,295.272,301.8336,308.3952,314.9568,321.5184,
+                        328.08,334.6416,341.2032,347.7648,354.3264,360.888,367.4496,374.0112,380.5728,387.1344,393.696,
+                        400.2576,406.8192,413.3808,419.9424,426.504,433.0656,439.6272,446.1888,452.7504,459.312,465.8736,
+                        472.4352,478.9968,485.5584,492.12,498.6816,505.2432,511.8048,518.3664,524.928,531.4896,538.0512,
+                        544.6128,551.1744,557.736,564.2976,570.8592,577.4208,583.9824,590.544,597.1056,603.6672,610.2288,
+                        616.7904,623.352,629.9136,636.4752,643.0368,649.5984,656.16,662.7216,669.2832,675.8448,682.4064,
+                        688.968,695.5296,702.0912,708.6528,715.2144,721.776,728.3376,734.8992,741.4608,748.0224,754.584,
+                        761.1456,767.7072,774.2688,780.8304,787.392,793.9536,800.5152,807.0768,813.6384,820.2,826.7616,
+                        833.3232,839.8848,846.4464,853.008,859.5696,866.1312,872.6928,879.2544,885.816,892.3776,898.9392,
+                        905.5008,912.0624,918.624,925.1856,931.7472,938.3088,944.8704,951.432,957.9936,964.5552,971.1168,
+                        977.6784,984.24,990.8016,997.3632,1495.5,1994.0]
+
+            x_dist = 175.
+            weighted_avg = 0.002
+            agdrift_empty.distance_name = 'distance_ft'
+            agdrift_empty.scenario_name = 'ground_low_vf'
+            agdrift_empty.num_db_values = 161
+            x_array_in = agdrift_empty.get_distances(agdrift_empty.num_db_values)
+            y_array_in = agdrift_empty.get_scenario_deposition_data(agdrift_empty.scenario_name, agdrift_empty.num_db_values)
+
+            x_array_out, y_array_out, npts_out = agdrift_empty.create_integration_avg(agdrift_empty.num_db_values,
+                                                                        x_array_in, y_array_in, x_dist, weighted_avg)
+
+            #npt.assert_allclose(y_array_out, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
+        finally:
+            pass
+        #     tab = [y_array_out, expected_result]
+        #     print("\n")
+        #     print(inspect.currentframe().f_code.co_name)
+        #     print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 
 #     def test_get_pond_ground_high_vf2f(self):
 #

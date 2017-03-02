@@ -325,21 +325,6 @@ class AgdriftFunctions(object):
             self.scenario_distance_data[i][j] = self.scenario_distance_data[i][j - 1] + self.distance_inc
         return
 
-    # def load_scenario_raw_data(self):
-    #     """
-    #     :description retrieve deposition data from SQL database for all scenarios (e.g., aerial/EPA Defined Pond
-    #     :parameter num_scenarios number of deposition scenarios included in SQL database
-    #     :parameter scenario_name name of scenario as included in SQL database
-    #     :parameter num_db_values number of values included in deposition scenarios (same for all scenarios)
-    #     :parameter scenario_raw_data array of depostion values retrieved from SQL database
-    #     :NOTE This method is not currently utilized (instead we use 'get_scenario_deposition_data' to retrieve them as needed)
-    #     :return:
-    #     """
-    #     self.scenario_raw_data = pd.Series([], dtype='float')
-    #     for i in range(self.num_scenarios):
-    #         self.scenario_raw_data[i] = self.get_scenario_deposition_data(self.scenario_name[i], self.num_db_values)
-    #     return
-
     def get_column_names(self):
         """
         :description retrieves column names from sql database (sqlite_agdrift_1994ft.db)
@@ -444,6 +429,18 @@ class AgdriftFunctions(object):
         avg_dep_lbac = avg_dep_foa * application_rate
         return avg_dep_lbac
 
+    def calc_avg_dep_foa_from_lbac(self, avg_dep_lbac, application_rate):
+        """
+        Deposition calculation.
+        :param avg_dep_foa: average deposition over width of water body as fraction of applied
+        :param application_rate: actual application rate
+        :param avg_dep_lbac: average deposition over width of water body in lbs per acre
+        :return:
+        """
+
+        avg_dep_foa = avg_dep_lbac / application_rate
+        return avg_dep_foa
+
     def calc_avg_dep_gha (self, avg_dep_lbac):
         """
         :description average deposition over width of water body in grams per acre
@@ -455,6 +452,18 @@ class AgdriftFunctions(object):
 
         avg_dep_gha = avg_dep_lbac * self.gms_per_lb * self.acres_per_hectare
         return avg_dep_gha
+
+    def calc_avg_dep_lbac_from_gha(self, avg_dep_gha):
+        """
+        :description average deposition over width of water body in pounds per acre
+        :param avg_dep_lbac: average deposition over width of water body in lbs per acre
+        :param gms_per_lb: conversion factor to convert lbs to grams
+        :param acres_per_hectare: conversion factor to convert acres to hectares
+        :return:
+        """
+
+        avg_dep_lbac = avg_dep_gha / (self.gms_per_lb * self.acres_per_hectare)
+        return avg_dep_lbac
 
     def calc_avg_waterconc_ngl(self, avg_dep_lbac , area_width, area_length, area_depth):
         """
@@ -476,6 +485,29 @@ class AgdriftFunctions(object):
                             (area_width * area_length * area_depth)) / self.liters_per_ft3
         return avg_waterconc_ngl
 
+    def calc_avg_dep_lbac_from_waterconc_ngl(self, avg_waterconc_ngl, area_width, area_length, area_depth):
+        """
+        :description calculate the average deposition onto the pond/wetland/field
+        :param avg_dep_lbac: average deposition over width of water body in lbs per acre
+        :param area_width: average width of water body
+        :parem area_length: average length of water body
+        :param area_depth: average depth of water body
+        :param gms_per_lb: conversion factor to convert lbs to grams
+        :param ng_per_gram conversion factor
+        :param sqft_per_acre conversion factor
+        :param liters_per_ft3 conversion factor
+        :return:
+        """
+
+        #this expression could be shortened but is left in this form to allow easier interpretation
+        avg_dep_lbac =  (avg_waterconc_ngl * self.liters_per_ft3) * (area_width * area_length * area_depth) /  \
+                        (area_width * area_length / self.sqft_per_acre) / (self.gms_per_lb * self.ng_per_gram)
+
+        # avg_waterconc_ngl = ((avg_dep_lbac * self.gms_per_lb * self.ng_per_gram) * \
+        #                     (area_width * area_length / self.sqft_per_acre) / \
+        #                     (area_width * area_length * area_depth)) / self.liters_per_ft3
+        return avg_dep_lbac
+
     def calc_avg_fielddep_mgcm(self, avg_dep_lbac):
         """
         :description calculate the average deposition of pesticide over the terrestrial field
@@ -492,26 +524,154 @@ class AgdriftFunctions(object):
                           self.mg_per_gram) / (self.sqft_per_acre * self.cm2_per_ft2))
         return avg_fielddep_mgcm
 
-    def create_integration_avg(self, npts_orig, x_array_in, y_array_in, npts_int, x_array_out, y_array_out, npts_out):
+
+    def create_integration_avg_opp(self, npts_orig, x_array_in, y_array_in, x_dist, extent_avg):
+        """
+        :description this method takes an x/y array and creates a x_out/y_out array of running averages
+                     the algorithm mimics the AGAVE.FOR routine created by OPP and found in the collection of
+                     software delivered from OPP related to AGDRIFT; this routine is not used because it is
+                     computationally inefficient; it was produced here simply to provide a check on the new
+                     routine found in "create_integration_avg"
+        :param npts_orig: number of points in orginal x vs y data points
+        :param x_array_in: x values of original x vs y data points
+        :param y_array_in: y values of original x vs y data points
+        :param x_dist: length (in x units) for which running weighted average is to be calculated
+        :param extent_avg: weighted average of y_array_in over x_dist
+        :param x_array_out: x values of running weighted average output
+        :param y_array_out: y values of running weighted average output
+        :param npts_out: number of points in running weighted average output array
+        :NOTE We assume we have a monotonically decreasing y_array
+        :return:
+        """
+
+        x_array_out = pd.Series([], dtype='float')
+        y_array_out = pd.Series([], dtype='float')
+
+        for i in range (npts_orig-1): #calculate running average for these points
+            continuing = True
+            if(x_array_in[i] < (x_array_in[npts_orig-1] - x_dist)):
+                j = i
+                x_avg =  (0.5 * (y_array_in[j] + y_array_in[j+1])) * (x_array_in[j+1] - x_array_in[j])
+                while continuing:
+                    j += 1
+                    if (x_array_in[j+1] < (x_array_in[i] + x_dist)):
+                        x_avg = x_avg + (0.5 * (y_array_in[j] + y_array_in[j+1])) * (x_array_in[j+1] - x_array_in[j])
+                    else:
+                        x_interp = x_array_in[i] + x_dist
+                        y_interp = (y_array_in[j] * (x_array_in[j+1] - x_interp) +
+                                    y_array_in[j+1] * (x_interp - x_array_in[j])) / (x_array_in[j+1] - x_array_in[j])
+                        x_avg = x_avg + (0.5 * (y_interp + y_array_in[j])) * (x_interp - x_array_in[j])
+
+                        continuing = False
+                x_array_out[i] = x_array_in[i]
+                y_array_out[i] = x_avg / x_dist
+                npts_out = len(x_array_out)
+
+        return x_array_out, y_array_out, npts_out
+
+    def create_integration_avg(self, npts_orig, x_array_in, y_array_in, x_dist, integrated_avg):
         """
         :description this method takes an x/y array and creates a x_out/y_out array of running averages
         :param npts_orig: number of points in orginal x vs y data points
         :param x_array_in: x values of original x vs y data points
         :param y_array_in: y values of original x vs y data points
-        :param npts_int: number of x_array points included in the running average
-        :param x_array_out: x values of running average output
-        :param y_array_out: y values of running average output
-        :param npts_out: number of points in running average output array
-        :Note we assume the increment between x_array points is constant
+        :param x_dist: length (in x units) for which running weighted average is to be calculated
+        :param integrated_avg: weighted average of y_array_in over x_dist
+        :param x_array_out: x values of running weighted average output
+        :param y_array_out: y values of running weighted average output
+        :param npts_out: number of points in running weighted average output array
+        :param x_dist_of_interest: x location of trailing edge of x_dist for which the specified integrated_avg applies
+        :NOTE We assume we have a monotonically decreasing y_array
+        :NOTE This code could use better documentation; there is multiple indexing going on and it is not
+              easy to follow at this point
         :return:
         """
 
-        # for i in range (npts_orig - npts_int): #calculate running average for these points
-        #     if (i == 0):   #first time through try to process all integration points (i.e., npts_int)
-        #         for j in range (npts_int):
-        #             if(x_array_in[i] < x_array_in[npts_orig] - x_dist):
-        #         j = i
-        #         x_avg = 0.5 * (x_array_in(j+1) - x_array_in[j]) * (y_array_in(j+1) + y_array_in[j])
+        x_array_out = pd.Series([], dtype='float')
+        y_array_out = pd.Series([], dtype='float')
+
+        continuing = True
+        x_tot = 0
+        for i in range (npts_orig-1): #calculate running average for these points
+            if(x_array_in[i] < (x_array_in[npts_orig-1] - x_dist)):
+                if (i == 0):   #first time through process full extent of x_dist (i.e., all x_array_in pts included in x dist)
+                    j = 0
+                    integrated_tot = 0
+
+                    while continuing:
+                        x_tot = x_array_in[j+1]  #because this is the first segment we can simply use the x_array_in points
+                        integrated_inc = (0.5 * (y_array_in[j] + y_array_in[j+1])) * (x_array_in[j+1] - x_array_in[j])
+                        if(j == 0): init_inc = integrated_inc  #save first segment integrated increment
+
+                        if (x_tot <= x_dist):
+                            integrated_tot = integrated_tot + integrated_inc
+                            j += 1
+                        else:  #last segment
+                            x_dist_frac = ((x_dist - x_array_in[j]) / (x_array_in[j+1] - x_array_in[j]))
+                            integrated_inc = integrated_inc * x_dist_frac
+                            last_inc = integrated_inc  #save last increment
+                            integrated_tot = integrated_tot + integrated_inc
+                            continuing = False
+
+                    #populate output array that holds values of running integrated averages
+                    x_array_out[i] = x_array_in[i]
+                    y_array_out[i] = integrated_tot / x_dist
+                    npts_out = len(x_array_out)  # not really necessary; at this point it will always be equal to 1
+
+                    if (y_array_out[i] < integrated_avg):  #if true then we have achieved the integrated_avg before completing the first x_dist
+                        # if we surpass the user supplied integrated_avg before reaching the edge of the first running average then
+                        # output the message and set the x_dist_of_interest to zero (as is done in the original AGDRIFT model)
+                        print "User-specified integrated average occurs before 1st x_dist extent is completed - x distance of interest set to first x_array_in value"
+                        x_dist_of_interest = x_array_in[0]  #original AGDRIFT model sets this value to zero (i.e., first x point value)
+                        return x_dist_of_interest
+
+                else:  #need to process only edges of running weighted average extent (i.e., subtract 1st and last segment, then start adding new segments)
+                    j_init = j
+                    x_loc = x_array_in[j]  #just tracking location along x axis
+                    x_tot = x_tot - ((x_array_in[j+1] - x_array_in[j]) + (x_array_in[i] - x_array_in[i-1]))
+                    integrated_tot = integrated_tot - init_inc - last_inc
+                    continuing = True
+
+                    while continuing:
+                        x_tot_prev = x_tot
+                        x_tot = x_tot + (x_array_in[j+1] - x_array_in[j])
+                        x_loc = x_loc + (x_array_in[j+1] - x_array_in[j])
+                        integrated_inc = (0.5 * (y_array_in[j] + y_array_in[j+1])) * (x_array_in[j+1] - x_array_in[j])
+                        if (j == j_init): init_inc = (0.5 * (y_array_in[i] + y_array_in[i+1])) * (x_array_in[i+1] - x_array_in[i])
+
+                        if (x_tot <= x_dist):
+                            integrated_tot = integrated_tot + integrated_inc
+                            j += 1
+                        else:
+                            x_dist_frac = (x_dist - x_tot_prev) / (x_array_in[j+1] - x_array_in[j])
+                            integrated_inc = integrated_inc * x_dist_frac
+                            last_inc = integrated_inc  #save last increment
+                            integrated_tot = integrated_tot + integrated_inc
+                            continuing = False
+
+                    x_array_out[i] = x_array_in[i]  # this may need to be the midpoint of the x segment rather than the value for the lower end of the x segment
+                    y_array_out[i] = integrated_tot / x_dist
+                    npts_out = len(x_array_out)
+
+                    #determine if the user supplied extent average has been surpassed; if so compute the interpolated distance to the point of interest
+                    if (y_array_out[i] < integrated_avg):
+                        fraction = (y_array_out[i-1] - integrated_avg) / (y_array_out[i-1] - y_array_out[i])
+                        x_dist_of_interest = x_array_out[i-1] + fraction * (x_array_out[i] - x_array_out[i-1])
+
+                        #the following code (except the return statement) should be removed and placed in a separate methods
+
+                        #the following code represents OPP protocol to round up x_dist_of_interest to nearest x midpoint or boundary value
+                        #(except when x_dist_of_interest is in the range of the first 2 meters (i.e., 6.5616 ft)
+                        if (fraction <= 0.5 and x_dist_of_interest > 3.2808):
+                            round_up_x_dist = 0.5 * (x_array_out[i] + x_array_out[i-1])
+                        elif (fraction > 0.5 and x_dist_of_interest > 3.2808):
+                            round_up_x_dist = x_array_out[i]
+                        else:
+                            round_up_x_dist = 3.2808
+                        if (x_dist_of_interest > 3.2808 and x_dist_of_interest < 6.5616):
+                            round_up_x_dist = 6.5616
+
+                        return x_dist_of_interest
 
 
     # def deposition_gha_to_ngl_f(self):
