@@ -33,7 +33,7 @@ class UberModel(object):
         keys_b = set(self.pd_obj.keys())
         extras = keys_b - keys_a
         n_extras = len(extras)
-        print('There are {n_extra} extra keys.')
+        print('There are {n_extras} extra keys.')
         print(extras)
         missing = keys_a - keys_b
         n_missing = len(missing)

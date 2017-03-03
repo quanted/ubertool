@@ -524,6 +524,21 @@ class AgdriftFunctions(object):
                           self.mg_per_gram) / (self.sqft_per_acre * self.cm2_per_ft2))
         return avg_fielddep_mgcm
 
+    def calc_avg_dep_lbac_from_mgcm(self, avg_fielddep_mgcm):
+        """
+        :description calculate the average deposition of pesticide over the terrestrial field
+        :param avg_dep_lbac: average deposition over width of water body in lbs per acre
+        :param area_depth: average depth of water body
+        :param gms_per_lb: conversion factor to convert lbs to grams
+        :param mg_per_gram conversion factor
+        :param sqft_per_acre conversion factor
+        :param cm2_per_ft2 conversion factor
+        :return:
+        """
+
+        avg_dep_lbac = (avg_fielddep_mgcm * (self.sqft_per_acre * self.cm2_per_ft2)) / (self.gms_per_lb * self.mg_per_gram)
+        return avg_dep_lbac
+
 
     def create_integration_avg_opp(self, npts_orig, x_array_in, y_array_in, x_dist, extent_avg):
         """
@@ -671,7 +686,7 @@ class AgdriftFunctions(object):
                         if (x_dist_of_interest > 3.2808 and x_dist_of_interest < 6.5616):
                             round_up_x_dist = 6.5616
 
-                        return x_dist_of_interest
+                        return round_up_x_dist
 
 
     # def deposition_gha_to_ngl_f(self):
