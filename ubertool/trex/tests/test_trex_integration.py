@@ -1739,7 +1739,7 @@ class TestTrex(unittest.TestCase):
         :param output: String; Pandas Series name (e.g. column name) without '_out'
         :return:
         """
-        pd.set_option('display.float_format', lambda x: '%.10e' % x)
+        pd.set_option('display.float_format', lambda x: '{0:.10e}'.format(x))
         result = trex_calc.pd_obj_out["out_" + output]
         expected = trex_calc.pd_obj_exp["exp_" + output]
         tab = pd.concat([result,expected], axis=1)
