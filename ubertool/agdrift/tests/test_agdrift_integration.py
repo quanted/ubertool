@@ -194,7 +194,7 @@ class TestAgdrift(unittest.TestCase):
         """
         func_name = inspect.currentframe().f_code.co_name
         try:
-            self.blackbox_method_float('distance_downwind', func_name)
+             self.blackbox_method_float('distance_downwind', func_name)
         finally:
             pass
         return

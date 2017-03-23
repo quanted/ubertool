@@ -715,10 +715,10 @@ class TestAgdrift(unittest.TestCase):
                                                               'User Defined Terrestrial',
                                                               'EPA Defined Terrestrial'], dtype='object')
 
-            agdrift_empty.out_default_width = 208.7
-            agdrift_empty.out_default_length = 515.8
-            agdrift_empty.out_default_pond_depth = 6.56
-            agdrift_empty.out_default_wetland_depth = 0.4921
+            agdrift_empty.default_width = 208.7
+            agdrift_empty.default_length = 515.8
+            agdrift_empty.default_pond_depth = 6.56
+            agdrift_empty.default_wetland_depth = 0.4921
 
             agdrift_empty.user_pond_width = pd.Series(['NaN', 'NaN', 100., 'NaN', 'NaN', 'NaN'], dtype='float')
             agdrift_empty.user_pond_depth = pd.Series(['NaN', 'NaN', 7., 'NaN', 'NaN', 'NaN'], dtype='float')
@@ -897,7 +897,7 @@ class TestAgdrift(unittest.TestCase):
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
-    def test_create_integration_avg_opp(self):
+    def test_generate_running_avg(self):
         """
         :description retrieves values for distance and the first deposition scenario from the sql database
         :param num_db_values: number of distance values to be retrieved
@@ -937,15 +937,14 @@ class TestAgdrift(unittest.TestCase):
                         977.6784,984.24,990.8016,997.3632,1495.5,1994.0]
 
             x_dist = 10.
-            weighted_avg = 0.003
             agdrift_empty.distance_name = 'distance_ft'
             agdrift_empty.scenario_name = 'ground_low_vf'
             agdrift_empty.num_db_values = 161
             x_array_in = agdrift_empty.get_distances(agdrift_empty.num_db_values)
             y_array_in = agdrift_empty.get_scenario_deposition_data(agdrift_empty.scenario_name, agdrift_empty.num_db_values)
 
-            x_array_out, y_array_out, npts_out = agdrift_empty.create_integration_avg_opp(agdrift_empty.num_db_values,
-                                                                        x_array_in, y_array_in, x_dist, weighted_avg)
+            x_array_out, y_array_out, npts_out = agdrift_empty.generate_running_avg(agdrift_empty.num_db_values,
+                                                                        x_array_in, y_array_in, x_dist)
 
             #npt.assert_allclose(y_array_out, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
         finally:
@@ -956,6 +955,222 @@ class TestAgdrift(unittest.TestCase):
         #     print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
+    def test_generate_running_avg1(self):
+        """
+        :description creates a running average for a specified x axis width (e.g., 7-day average values of an array)
+        :param x_array_in: array of x-axis values
+        :param y_array_in: array of y-axis values
+        :param num_db_values: number of points in the input arrays
+        :param x_array_out: array of x-zxis values in output array
+        :param y_array_out: array of y-axis values in output array
+        :param npts_out: number of points in the output array
+        :param x_dist: width in x_axis units of running weighted average
+        :param num_db_values: number of distance values to be retrieved
+        :param distance_name: name of column in sql database that contains the distance values
+        :NOTE This test uses a uniformly spaced x_array and monotonically increasing y_array
+        :return:
+        """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
+        expected_result_x = pd.Series([], dtype='float')
+        expected_result_y = pd.Series([], dtype='float')
+        expected_result_npts = pd.Series([], dtype='object')
+
+        x_array_in = pd.Series([], dtype='float')
+        y_array_in = pd.Series([], dtype='float')
+        x_array_out = pd.Series([], dtype='float')
+        y_array_out = pd.Series([], dtype='float')
+
+        try:
+
+            expected_result_x = [0.,1.,2.,3.,4.,5.,6.,7.,8.,9.,10.,
+                                 11.,12.,13.,14.,15.,16.,17.,18.,19.,20.,
+                                 21.,22.,23.,24.,25.,26.,27.,28.,29.,30.,
+                                 31.,32.,33.,34.,35.,36.,37.,38.,39.,40.,
+                                 41.,42.,43.,44.]
+            expected_result_y = [2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,10.5,11.5,
+                                 12.5,13.5,14.5,15.5,16.5,17.5,18.5,19.5,20.5,21.5,
+                                 22.5,23.5,24.5,25.5,26.5,27.5,28.5,29.5,30.5,31.5,
+                                 32.5,33.5,34.5,35.5,36.5,37.5,38.5,39.5,40.5,41.5,
+                                 42.5,43.5,44.5,45.5, 46.5]
+            expected_result_npts = 45
+
+            x_dist = 5.
+            num_db_values = 51
+            x_array_in = [0.,1.,2.,3.,4.,5.,6.,7.,8.,9.,10.,
+                               11.,12.,13.,14.,15.,16.,17.,18.,19.,20.,
+                               21.,22.,23.,24.,25.,26.,27.,28.,29.,30.,
+                               31.,32.,33.,34.,35.,36.,37.,38.,39.,40.,
+                               41.,42.,43.,44.,45.,46.,47.,48.,49.,50.]
+            y_array_in = [0.,1.,2.,3.,4.,5.,6.,7.,8.,9.,10.,
+                               11.,12.,13.,14.,15.,16.,17.,18.,19.,20.,
+                               21.,22.,23.,24.,25.,26.,27.,28.,29.,30.,
+                               31.,32.,33.,34.,35.,36.,37.,38.,39.,40.,
+                               41.,42.,43.,44.,45.,46.,47.,48.,49.,50.]
+
+            x_array_out, y_array_out, npts_out = agdrift_empty.generate_running_avg(num_db_values, x_array_in,
+                                                                                    y_array_in, x_dist)
+            npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
+            npt.assert_allclose(x_array_out, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(y_array_out, expected_result_y, rtol=1e-5, atol=0, err_msg='', verbose=True)
+        finally:
+            pass
+            tab1 = [x_array_out, expected_result_x]
+            tab2 = [y_array_out, expected_result_y]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print('expected {0} number of points and got {1} points'.format(expected_result_npts, npts_out))
+            print(tabulate(tab1, headers='keys', tablefmt='rst'))
+            print(tabulate(tab2, headers='keys', tablefmt='rst'))
+        return
+
+    def test_generate_running_avg2(self):
+        """
+        :description creates a running average for a specified x axis width (e.g., 7-day average values of an array)
+        :param x_array_in: array of x-axis values
+        :param y_array_in: array of y-axis values
+        :param num_db_values: number of points in the input arrays
+        :param x_array_out: array of x-zxis values in output array
+        :param y_array_out: array of y-axis values in output array
+        :param npts_out: number of points in the output array
+        :param x_dist: width in x_axis units of running weighted average
+        :param num_db_values: number of distance values to be retrieved
+        :param distance_name: name of column in sql database that contains the distance values
+        :NOTE This test uses a non-uniformly spaced x_array and monotonically increasing y_array
+        :return:
+        """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
+        expected_result_x = pd.Series([], dtype='float')
+        expected_result_y = pd.Series([], dtype='float')
+        expected_result_npts = pd.Series([], dtype='object')
+        x_array_in = pd.Series([], dtype='float')
+        y_array_in = pd.Series([], dtype='float')
+        x_array_out = pd.Series([], dtype='float')
+        y_array_out = pd.Series([], dtype='float')
+
+
+        try:
+
+            expected_result_x = [0.,1.,2.,3.,4.,5.,6.,7.,8.,9.,10.,
+                                 11.5,12.,13.,14.,15.,16.,17.,18.,19.,20.,
+                                 21.5,22.,23.,24.,25.,26.,27.,28.,29.,30.,
+                                 31.5,32.,33.,34.,35.,36.,37.,38.,39.,40.,
+                                 41.5,42.,43.,44.]
+            expected_result_y = [2.5,3.5,4.5,5.5,6.5,7.5,8.4666667,9.4,10.4,11.4,
+                                 12.4,13.975,14.5,15.5,16.5,17.5,18.466666667,19.4,20.4,21.4,
+                                 22.4,23.975,24.5,25.5,26.5,27.5,28.46666667,29.4,30.4,31.4,
+                                 32.4,33.975,34.5,35.5,36.5,37.5,38.466666667,39.4,40.4,41.4,
+                                 42.4,43.975,44.5,45.5, 46.5]
+            expected_result_npts = 45
+
+            x_dist = 5.
+            agdrift_empty.num_db_values = 51
+            x_array_in = [0.,1.,2.,3.,4.,5.,6.,7.,8.,9.,10.,
+                               11.5,12.,13.,14.,15.,16.,17.,18.,19.,20.,
+                               21.5,22.,23.,24.,25.,26.,27.,28.,29.,30.,
+                               31.5,32.,33.,34.,35.,36.,37.,38.,39.,40.,
+                               41.5,42.,43.,44.,45.,46.,47.,48.,49.,50.]
+            y_array_in = [0.,1.,2.,3.,4.,5.,6.,7.,8.,9.,10.,
+                               11.,12.,13.,14.,15.,16.,17.,18.,19.,20.,
+                               21.,22.,23.,24.,25.,26.,27.,28.,29.,30.,
+                               31.,32.,33.,34.,35.,36.,37.,38.,39.,40.,
+                               41.,42.,43.,44.,45.,46.,47.,48.,49.,50.]
+
+            x_array_out, y_array_out, npts_out = agdrift_empty.generate_running_avg(agdrift_empty.num_db_values,
+                                                                                    x_array_in, y_array_in, x_dist)
+            npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
+            npt.assert_allclose(x_array_out, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(y_array_out, expected_result_y, rtol=1e-5, atol=0, err_msg='', verbose=True)
+        finally:
+            pass
+            tab1 = [x_array_out, expected_result_x]
+            tab2 = [y_array_out, expected_result_y]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print('expected {0} number of points and got {1} points'.format(expected_result_npts, npts_out))
+            print(tabulate(tab1, headers='keys', tablefmt='rst'))
+            print(tabulate(tab2, headers='keys', tablefmt='rst'))
+        return
+
+    def test_generate_running_avg3(self):
+        """
+        :description creates a running average for a specified x axis width (e.g., 7-day average values of an array);
+                     averages reflect weighted average assuming linearity between x points;
+                     average is calculated as the area under the y-curve beginning at each x point and extending out x_dist
+                     divided by x_dist (which yields the weighted average y between the relevant x points)
+        :param x_array_in: array of x-axis values
+        :param y_array_in: array of y-axis values
+        :param num_db_values: number of points in the input arrays
+        :param x_array_out: array of x-zxis values in output array
+        :param y_array_out: array of y-axis values in output array
+        :param npts_out: number of points in the output array
+        :param x_dist: width in x_axis units of running weighted average
+        :param num_db_values: number of distance values to be retrieved
+        :param distance_name: name of column in sql database that contains the distance values
+        :NOTE This test uses a monotonically increasing y_array and inserts a gap in the x values
+              that is greater than x_dist
+        :return:
+        """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
+        expected_result_x = pd.Series([], dtype='float')
+        expected_result_y = pd.Series([], dtype='float')
+        expected_result_npts = pd.Series([], dtype='object')
+
+        x_array_in = pd.Series([], dtype='float')
+        y_array_in = pd.Series([], dtype='float')
+        x_array_out = pd.Series([], dtype='float')
+        y_array_out = pd.Series([], dtype='float')
+
+        try:
+
+            expected_result_x = [0.,1.,2.,3.,4.,5.,6.,7.,16.,17.,18.,19.,20.,
+                                 21.,22.,23.,24.,25.,26.,27.,28.,29.,30.,
+                                 31.,32.,33.,34.,35.,36.,37.,38.,39.,40.,
+                                 41.,42.,43.,44.,45.,46.,47.,48.,49.,50.,51.,52.]
+            expected_result_y = [2.5,3.5,4.5,5.4111111,6.14444444,6.7,7.07777777,7.277777777,10.5,11.5,
+                                 12.5,13.5,14.5,15.5,16.5,17.5,18.5,19.5,20.5,21.5,
+                                 22.5,23.5,24.5,25.5,26.5,27.5,28.5,29.5,30.5,31.5,
+                                 32.5,33.5,34.5,35.5,36.5,37.5,38.5,39.5,40.5,41.5,
+                                 42.5,43.5,44.5,45.5, 46.5]
+            expected_result_npts = 45
+
+            x_dist = 5.
+            num_db_values = 51
+            x_array_in = [0.,1.,2.,3.,4.,5.,6.,7.,16.,17.,18.,19.,20.,
+                               21.,22.,23.,24.,25.,26.,27.,28.,29.,30.,
+                               31.,32.,33.,34.,35.,36.,37.,38.,39.,40.,
+                               41.,42.,43.,44.,45.,46.,47.,48.,49.,50.,
+                               51.,52.,53.,54.,55.,56.,57.,58.]
+            y_array_in = [0.,1.,2.,3.,4.,5.,6.,7.,8.,9.,10.,
+                               11.,12.,13.,14.,15.,16.,17.,18.,19.,20.,
+                               21.,22.,23.,24.,25.,26.,27.,28.,29.,30.,
+                               31.,32.,33.,34.,35.,36.,37.,38.,39.,40.,
+                               41.,42.,43.,44.,45.,46.,47.,48.,49.,50.]
+
+            x_array_out, y_array_out, npts_out = agdrift_empty.generate_running_avg(num_db_values, x_array_in,
+                                                                                    y_array_in, x_dist)
+            npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
+            npt.assert_allclose(x_array_out, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(y_array_out, expected_result_y, rtol=1e-5, atol=0, err_msg='', verbose=True)
+        finally:
+            pass
+            tab1 = [x_array_out, expected_result_x]
+            tab2 = [y_array_out, expected_result_y]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print('expected {0} number of points and got {1} points'.format(expected_result_npts, npts_out))
+            print(tabulate(tab1, headers='keys', tablefmt='rst'))
+            print(tabulate(tab2, headers='keys', tablefmt='rst'))
+
+        return
 
     def test_create_integration_avg(self):
         """
@@ -975,7 +1190,10 @@ class TestAgdrift(unittest.TestCase):
         agdrift_empty.db_name = 'sqlite:///../sqlite_agdrift_distance.db'
         agdrift_empty.db_table = 'output'
 
-        expected_result = pd.Series([], dtype='float')
+        expected_result_x = pd.Series([], dtype='float')
+        expected_result_y = pd.Series([], dtype='float')
+        expected_result_npts = pd.Series([], dtype='object')
+
         x_array_in = pd.Series([], dtype='float')
         y_array_in = pd.Series([], dtype='float')
         x_array_out = pd.Series([], dtype='float')
@@ -983,7 +1201,7 @@ class TestAgdrift(unittest.TestCase):
 
         try:
 
-            expected_result = [0.,0.1025,0.2051,0.4101,0.8202,1.6404,3.2808,4.9212,6.5616,9.8424,13.1232,19.6848,26.2464,
+            expected_result_x = [0.,0.102525,0.20505,0.4101,0.8202,1.6404,3.2808,4.9212,6.5616,9.8424,13.1232,19.6848,26.2464,
                         32.808,39.3696,45.9312,52.4928,59.0544,65.616,72.1776,78.7392,85.3008,91.8624,98.424,104.9856,
                         111.5472,118.1088,124.6704,131.232,137.7936,144.3552,150.9168,157.4784,164.04,170.6016,177.1632,
                         183.7248,190.2864,196.848,203.4096,209.9712,216.5328,223.0944,229.656,236.2176,242.7792,249.3408,
@@ -997,7 +1215,25 @@ class TestAgdrift(unittest.TestCase):
                         761.1456,767.7072,774.2688,780.8304,787.392,793.9536,800.5152,807.0768,813.6384,820.2,826.7616,
                         833.3232,839.8848,846.4464,853.008,859.5696,866.1312,872.6928,879.2544,885.816,892.3776,898.9392,
                         905.5008,912.0624,918.624,925.1856,931.7472,938.3088,944.8704,951.432,957.9936,964.5552,971.1168,
-                        977.6784,984.24,990.8016,997.3632,1495.5,1994.0]
+                        977.6784,984.24,990.8016,997.3632]
+            expected_result_y = [0.,0.102525,0.20505,0.4101,0.8202,1.6404,3.2808,4.9212,6.5616,9.8424,13.1232,19.6848,26.2464,
+                        32.808,39.3696,45.9312,52.4928,59.0544,65.616,72.1776,78.7392,85.3008,91.8624,98.424,104.9856,
+                        111.5472,118.1088,124.6704,131.232,137.7936,144.3552,150.9168,157.4784,164.04,170.6016,177.1632,
+                        183.7248,190.2864,196.848,203.4096,209.9712,216.5328,223.0944,229.656,236.2176,242.7792,249.3408,
+                        255.9024,262.464,269.0256,275.5872,282.1488,288.7104,295.272,301.8336,308.3952,314.9568,321.5184,
+                        328.08,334.6416,341.2032,347.7648,354.3264,360.888,367.4496,374.0112,380.5728,387.1344,393.696,
+                        400.2576,406.8192,413.3808,419.9424,426.504,433.0656,439.6272,446.1888,452.7504,459.312,465.8736,
+                        472.4352,478.9968,485.5584,492.12,498.6816,505.2432,511.8048,518.3664,524.928,531.4896,538.0512,
+                        544.6128,551.1744,557.736,564.2976,570.8592,577.4208,583.9824,590.544,597.1056,603.6672,610.2288,
+                        616.7904,623.352,629.9136,636.4752,643.0368,649.5984,656.16,662.7216,669.2832,675.8448,682.4064,
+                        688.968,695.5296,702.0912,708.6528,715.2144,721.776,728.3376,734.8992,741.4608,748.0224,754.584,
+                        761.1456,767.7072,774.2688,780.8304,787.392,793.9536,800.5152,807.0768,813.6384,820.2,826.7616,
+                        833.3232,839.8848,846.4464,853.008,859.5696,866.1312,872.6928,879.2544,885.816,892.3776,898.9392,
+                        905.5008,912.0624,918.624,925.1856,931.7472,938.3088,944.8704,951.432,957.9936,964.5552,971.1168,
+                        977.6784,984.24,990.8016,997.3632]
+            expected_result_npts = 11
+            expected_x_dist_of_interest = 30.5
+
 
             x_dist = 175.
             weighted_avg = 0.002
@@ -1007,16 +1243,239 @@ class TestAgdrift(unittest.TestCase):
             x_array_in = agdrift_empty.get_distances(agdrift_empty.num_db_values)
             y_array_in = agdrift_empty.get_scenario_deposition_data(agdrift_empty.scenario_name, agdrift_empty.num_db_values)
 
-            x_array_out, y_array_out, npts_out = agdrift_empty.create_integration_avg(agdrift_empty.num_db_values,
+            x_array_out, y_array_out, npts_out, x_dist_of_interest = agdrift_empty.create_integration_avg(agdrift_empty.num_db_values,
                                                                         x_array_in, y_array_in, x_dist, weighted_avg)
 
-            #npt.assert_allclose(y_array_out, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
+            npt.assert_array_equal(expected_x_dist_of_interest, x_dist_of_interest, verbose=True)
+            npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
+            npt.assert_allclose(x_array_out, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(y_array_out, expected_result_y, rtol=1e-5, atol=0, err_msg='', verbose=True)
         finally:
             pass
-        #     tab = [y_array_out, expected_result]
-        #     print("\n")
-        #     print(inspect.currentframe().f_code.co_name)
-        #     print(tabulate(tab, headers='keys', tablefmt='rst'))
+            tab1 = [x_array_out, expected_result_x]
+            tab2 = [y_array_out, expected_result_y]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print('expected {0} x-units to area and got {1} '.format(expected_x_dist_of_interest, x_dist_of_interest))
+            print('expected {0} number of points and got {1} points'.format(expected_result_npts, npts_out))
+            print("x_array result/x_array_expected")
+            print(tabulate(tab1, headers='keys', tablefmt='rst'))
+            print("y_array result/y_array_expected")
+            print(tabulate(tab2, headers='keys', tablefmt='rst'))
+        return
+
+    def test_create_integration_avg1(self):
+        """
+        :description retrieves values for distance and the first deposition scenario from the sql database
+        :param num_db_values: number of distance values to be retrieved
+        :param distance_name: name of column in sql database that contains the distance values
+        :NOTE this test is for a monotonically increasing function with some irregularity in x-axis points
+        :return:
+        """
+
+        #THIS UNIT TEST NEEDS TO BE CLEANED UP AND COMPLETED; AT THIS POINT THERE IS NO ASSERTION OF RESULTS
+        #NUMEROUS TESTS HAVE BEEN CONDUCTED (SO THE TESTED METHOD IS SOUND) BUT THEY NEED TO BE FORMALIZED
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
+
+        expected_result_x = pd.Series([], dtype='float')
+        expected_result_y = pd.Series([], dtype='float')
+
+        x_array_in = pd.Series([], dtype='float')
+        y_array_in = pd.Series([], dtype='float')
+        x_array_out = pd.Series([], dtype='float')
+        y_array_out = pd.Series([], dtype='float')
+
+        try:
+
+            expected_result_x = [0.,7.0,16.0,17.0,18.0,19.0,20.0,28.0,29.0,30.0,31.]
+            expected_result_y = [0.5,1.5,4.5,5.3,5.9,6.3,6.5,9.5,10.5,11.5,12.5]
+            expected_result_npts = 11
+            expected_x_dist_of_interest = 30.5
+
+            x_dist = 5.
+            weighted_avg = 12.
+            num_db_values = 51
+            x_array_in = [0.,7.,16.,17.,18.,19.,20.,28.,29.,30.,
+                          31.,32.,33.,34.,35.,36.,37.,38.,39.,40.,
+                          41.,42.,43.,44.,45.,46.,47.,48.,49.,50.,
+                          51.,52.,53.,54.,55.,56.,57.,58.,59.,60.,
+                          61.,62.,63.,64.,65.,66.,67.,68.,69.,70.,
+                          71.]
+            y_array_in = [0.,1.,2.,3.,4.,5.,6.,7.,8.,9.,10.,
+                          11.,12.,13.,14.,15.,16.,17.,18.,19.,20.,
+                          21.,22.,23.,24.,25.,26.,27.,28.,29.,30.,
+                          31.,32.,33.,34.,35.,36.,37.,38.,39.,40.,
+                          41.,42.,43.,44.,45.,46.,47.,48.,49.,50.]
+
+            x_array_out, y_array_out, npts_out, x_dist_of_interest = agdrift_empty.create_integration_avg(num_db_values,
+                                                                        x_array_in, y_array_in, x_dist, weighted_avg)
+            npt.assert_array_equal(expected_x_dist_of_interest, x_dist_of_interest, verbose=True)
+            npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
+            npt.assert_allclose(x_array_out, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(y_array_out, expected_result_y, rtol=1e-5, atol=0, err_msg='', verbose=True)
+        finally:
+            pass
+            tab1 = [x_array_out, expected_result_x]
+            tab2 = [y_array_out, expected_result_y]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print('expected {0} x-units to area and got {1} '.format(expected_x_dist_of_interest, x_dist_of_interest))
+            print('expected {0} number of points and got {1} points'.format(expected_result_npts, npts_out))
+            print("x_array result/x_array_expected")
+            print(tabulate(tab1, headers='keys', tablefmt='rst'))
+            print("y_array result/y_array_expected")
+            print(tabulate(tab2, headers='keys', tablefmt='rst'))
+
+        return
+
+    def test_create_integration_avg2(self):
+        """
+        :description retrieves values for distance and the first deposition scenario from the sql database
+        :param num_db_values: number of distance values to be retrieved
+        :param distance_name: name of column in sql database that contains the distance values
+        :NOTE This test is for a monotonically decreasing function with irregular x-axis spacing
+        :return:
+        """
+
+        #THIS UNIT TEST NEEDS TO BE CLEANED UP AND COMPLETED; AT THIS POINT THERE IS NO ASSERTION OF RESULTS
+        #NUMEROUS TESTS HAVE BEEN CONDUCTED (SO THE TESTED METHOD IS SOUND) BUT THEY NEED TO BE FORMALIZED
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
+
+        expected_result_x = pd.Series([], dtype='float')
+        expected_result_y = pd.Series([], dtype='float')
+
+        x_array_in = pd.Series([], dtype='float')
+        y_array_in = pd.Series([], dtype='float')
+        x_array_out = pd.Series([], dtype='float')
+        y_array_out = pd.Series([], dtype='float')
+
+        try:
+
+            expected_result_x = [0.,7.,16.,17.,18.,19.,20.,28.,29.,30.,
+                                34.,35.,36.,37.,38.,39.,40.,
+                                41.,42.,43.,44.,45.,46.,47.,48.,49.,50.,
+                                51.,52.,53.,54.,55.,56.,57.,58.,59.,60.]
+            expected_result_y = [49.5,48.5,45.5,44.7,44.1,43.7,43.5,41.1,40.7,40.3,
+                                 37.5,36.5,35.5,34.5,33.5,32.5,31.5,30.5,29.5,28.5,
+                                 27.5,26.5,25.5,24.5,23.5,22.5,21.5,20.5,19.5,18.5,
+                                 17.5,16.5,15.5,14.5,13.5,12.5,11.5]
+            expected_result_npts = 37
+            expected_x_dist_of_interest = 59.5
+
+            x_dist = 5.
+            weighted_avg = 12.
+            num_db_values = 51
+            x_array_in = [0.,7.,16.,17.,18.,19.,20.,28.,29.,30.,
+                          34.,35.,36.,37.,38.,39.,40.,
+                          41.,42.,43.,44.,45.,46.,47.,48.,49.,50.,
+                          51.,52.,53.,54.,55.,56.,57.,58.,59.,60.,
+                          61.,62.,63.,64.,65.,66.,67.,68.,69.,70.,
+                          71.,72.,73.,74. ]
+            y_array_in = [50.,49.,48.,47.,46.,45.,44.,43.,42.,41.,
+                          40.,39.,38.,37.,36.,35.,34.,33.,32.,31.,
+                          30.,29.,28.,27.,26.,25.,24.,23.,22.,21.,
+                          20.,19.,18.,17.,16.,15.,14.,13.,12.,11.,
+                          10.,9.,8.,7.,6.,5.,4.,3.,2.,1.,0.]
+
+            x_array_out, y_array_out, npts_out, x_dist_of_interest = agdrift_empty.create_integration_avg(num_db_values,
+                                                                        x_array_in, y_array_in, x_dist, weighted_avg)
+
+            npt.assert_array_equal(expected_x_dist_of_interest, x_dist_of_interest, verbose=True)
+            npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
+            npt.assert_allclose(x_array_out, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(y_array_out, expected_result_y, rtol=1e-5, atol=0, err_msg='', verbose=True)
+        finally:
+            pass
+            tab1 = [x_array_out, expected_result_x]
+            tab2 = [y_array_out, expected_result_y]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print('expected {0} x-units to area and got {1} '.format(expected_x_dist_of_interest, x_dist_of_interest))
+            print('expected {0} number of points and got {1} points'.format(expected_result_npts, npts_out))
+            print("x_array result/x_array_expected")
+            print(tabulate(tab1, headers='keys', tablefmt='rst'))
+            print("y_array result/y_array_expected")
+            print(tabulate(tab2, headers='keys', tablefmt='rst'))
+        return
+
+    def test_create_integration_avg3(self):
+        """
+        :description retrieves values for distance and the first deposition scenario from the sql database
+        :param num_db_values: number of distance values to be retrieved
+        :param distance_name: name of column in sql database that contains the distance values
+        :NOTE this test is for a monotonically decreasing function with regular x-axis spacing
+        :return:
+        """
+
+        #THIS UNIT TEST NEEDS TO BE CLEANED UP AND COMPLETED; AT THIS POINT THERE IS NO ASSERTION OF RESULTS
+        #NUMEROUS TESTS HAVE BEEN CONDUCTED (SO THE TESTED METHOD IS SOUND) BUT THEY NEED TO BE FORMALIZED
+
+        # create empty pandas dataframes to create empty object for this unittest
+        agdrift_empty = self.create_agdrift_object()
+
+
+        expected_result_x = pd.Series([], dtype='float')
+        expected_result_y = pd.Series([], dtype='float')
+
+        x_array_in = pd.Series([], dtype='float')
+        y_array_in = pd.Series([], dtype='float')
+        x_array_out = pd.Series([], dtype='float')
+        y_array_out = pd.Series([], dtype='float')
+        expected_result_x_dist = pd.Series([], dtype='float')
+
+        try:
+
+            expected_result_x = [0.,1.,2.,3.,4.,5.,6.,7.,8.,9.,
+                          10.,11.,12.,13.,14.,15.,16.,17.,18.,19.,
+                          20.,21.,22.,23.,24.,25.,26.,27.,28.,29.,
+                          30.,31.,32.,33.,34.,35.,36.]
+            expected_result_y = [47.5,46.5,45.5,44.5,43.5,42.5,41.5,40.5,39.5,38.5,
+                                 37.5,36.5,35.5,34.5,33.5,32.5,31.5,30.5,29.5,28.5,
+                                 27.5,26.5,25.5,24.5,23.5,22.5,21.5,20.5,19.5,18.5,
+                                 17.5,16.5,15.5,14.5,13.5,12.5,11.5]
+            expected_result_npts = 37
+            expected_x_dist_of_interest = 35.5
+
+            x_dist = 5.
+            weighted_avg = 12.
+            num_db_values = 51
+            x_array_in = [0.,1.,2.,3.,4.,5.,6.,7.,8.,9.,
+                          10.,11.,12.,13.,14.,15.,16.,17.,18.,19.,
+                          20.,21.,22.,23.,24.,25.,26.,27.,28.,29.,
+                          30.,31.,32.,33.,34.,35.,36.,37.,38.,39.,
+                          40.,41.,42.,43.,44.,45.,46.,47.,48.,49.,
+                          50.]
+            y_array_in = [50.,49.,48.,47.,46.,45.,44.,43.,42.,41.,
+                          40.,39.,38.,37.,36.,35.,34.,33.,32.,31.,
+                          30.,29.,28.,27.,26.,25.,24.,23.,22.,21.,
+                          20.,19.,18.,17.,16.,15.,14.,13.,12.,11.,
+                          10.,9.,8.,7.,6.,5.,4.,3.,2.,1.,0.]
+
+            x_array_out, y_array_out, npts_out, x_dist_of_interest = agdrift_empty.create_integration_avg(num_db_values,
+                                                                        x_array_in, y_array_in, x_dist, weighted_avg)
+
+            npt.assert_array_equal(expected_x_dist_of_interest, x_dist_of_interest, verbose=True )
+            npt.assert_array_equal(expected_result_npts, npts_out, verbose=True )
+            npt.assert_allclose(x_array_out, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(y_array_out, expected_result_y, rtol=1e-5, atol=0, err_msg='', verbose=True)
+        finally:
+            pass
+            tab1 = [x_array_out, expected_result_x]
+            tab2 = [y_array_out, expected_result_y]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print('expected {0} x-units to area and got {1} '.format(expected_x_dist_of_interest, x_dist_of_interest))
+            print('expected {0} number of points and got {1} points'.format(expected_result_npts, npts_out))
+            print("x_array result/x_array_expected")
+            print(tabulate(tab1, headers='keys', tablefmt='rst'))
+            print("y_array result/y_array_expected")
+            print(tabulate(tab2, headers='keys', tablefmt='rst'))
         return
 
 #     def test_get_pond_ground_high_vf2f(self):

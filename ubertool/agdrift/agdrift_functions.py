@@ -288,7 +288,7 @@ class AgdriftFunctions(object):
             y_array = np.array([self.scenario_deposition_data[i][j] for j in range(first_fit_pt, npts_orig)])
             y_array = np.log(y_array)
         else:  
-            # this ln ln transformations are done with relative x,y values (this is the transformation
+            # this ln transformation is done with relative x,y values (this is the transformation
             # used in the AGDRIFT AGEXTD code
             x_zero = self.scenario_distance_data[i][first_fit_pt - 1]
             y_zero = self.scenario_deposition_data[i][first_fit_pt - 1]
@@ -481,8 +481,8 @@ class AgdriftFunctions(object):
 
         #this expression could be shortened but is left in this form to allow easier interpretation
         avg_waterconc_ngl = ((avg_dep_lbac * self.gms_per_lb * self.ng_per_gram) * \
-                            (area_width * area_length / self.sqft_per_acre) / \
-                            (area_width * area_length * area_depth)) / self.liters_per_ft3
+                            (area_width * area_length / self.sqft_per_acre)) / \
+                            (area_width * area_length * area_depth * self.liters_per_ft3)
         return avg_waterconc_ngl
 
     def calc_avg_dep_lbac_from_waterconc_ngl(self, avg_waterconc_ngl, area_width, area_length, area_depth):
@@ -503,9 +503,6 @@ class AgdriftFunctions(object):
         avg_dep_lbac =  (avg_waterconc_ngl * self.liters_per_ft3) * (area_width * area_length * area_depth) /  \
                         (area_width * area_length / self.sqft_per_acre) / (self.gms_per_lb * self.ng_per_gram)
 
-        # avg_waterconc_ngl = ((avg_dep_lbac * self.gms_per_lb * self.ng_per_gram) * \
-        #                     (area_width * area_length / self.sqft_per_acre) / \
-        #                     (area_width * area_length * area_depth)) / self.liters_per_ft3
         return avg_dep_lbac
 
     def calc_avg_fielddep_mgcm(self, avg_dep_lbac):
@@ -540,22 +537,23 @@ class AgdriftFunctions(object):
         return avg_dep_lbac
 
 
-    def create_integration_avg_opp(self, npts_orig, x_array_in, y_array_in, x_dist, extent_avg):
+    def generate_running_avg(self, npts_orig, x_array_in, y_array_in, x_dist):
         """
-        :description this method takes an x/y array and creates a x_out/y_out array of running averages
+        :description this method takes an x/y array and creates a x_out/y_out array of running weighted averages;
                      the algorithm mimics the AGAVE.FOR routine created by OPP and found in the collection of
-                     software delivered from OPP related to AGDRIFT; this routine is not used because it is
+                     software delivered from OPP related to AGDRIFT; this routine is not used here  because it is
                      computationally inefficient; it was produced here simply to provide a check on the new
                      routine found in "create_integration_avg"
         :param npts_orig: number of points in orginal x vs y data points
         :param x_array_in: x values of original x vs y data points
-        :param y_array_in: y values of original x vs y data points
+        :param y_array_in: y values of original x vs y data points (assumed to apply from x(i) to x(i+1))
         :param x_dist: length (in x units) for which running weighted average is to be calculated
-        :param extent_avg: weighted average of y_array_in over x_dist
         :param x_array_out: x values of running weighted average output
         :param y_array_out: y values of running weighted average output
         :param npts_out: number of points in running weighted average output array
-        :NOTE We assume we have a monotonically decreasing y_array
+        :NOTE We assume we have a monotonically increasing/decreasing y_array; linearity between points;
+              x(i) can be non-uniformly spaced; the unning averages are calculated for each x[i] (thus, large gaps in
+              in x values (e.g, greater than x_dist) may skew results
         :return:
         """
 
@@ -565,22 +563,33 @@ class AgdriftFunctions(object):
         for i in range (npts_orig-1): #calculate running average for these points
             continuing = True
             if(x_array_in[i] < (x_array_in[npts_orig-1] - x_dist)):
-                j = i
-                x_avg =  (0.5 * (y_array_in[j] + y_array_in[j+1])) * (x_array_in[j+1] - x_array_in[j])
-                while continuing:
+                 j = i
+                 #calculate area under curve for this increment of x (assuming linearity of y between x points)
+                 cum_area =  (0.5 * (y_array_in[j] + y_array_in[j+1])) * (x_array_in[j+1] - x_array_in[j])
+
+                    #if x_dist is completely within this x[i] to x[i+1] segment then interpolate the one needed value of cum_area
+                 if (x_array_in[j+1] > (x_array_in[i] + x_dist)):
+                     x_interp = x_array_in[i] + x_dist
+                     y_interp = (y_array_in[j] * (x_array_in[j + 1] - x_interp) +
+                                 y_array_in[j + 1] * (x_interp - x_array_in[j])) / (x_array_in[j + 1] - x_array_in[j])
+                     cum_area = (0.5 * (y_interp + y_array_in[j])) * (x_interp - x_array_in[j])
+                     continuing = False
+ 
+                 #if x_dist extends beyond x[i+1], i.e., next x value; then calculate and accumulate all necessary cum_area
+                 while continuing:
                     j += 1
                     if (x_array_in[j+1] < (x_array_in[i] + x_dist)):
-                        x_avg = x_avg + (0.5 * (y_array_in[j] + y_array_in[j+1])) * (x_array_in[j+1] - x_array_in[j])
+                        cum_area = cum_area + (0.5 * (y_array_in[j] + y_array_in[j+1])) * (x_array_in[j+1] - x_array_in[j])
                     else:
                         x_interp = x_array_in[i] + x_dist
                         y_interp = (y_array_in[j] * (x_array_in[j+1] - x_interp) +
                                     y_array_in[j+1] * (x_interp - x_array_in[j])) / (x_array_in[j+1] - x_array_in[j])
-                        x_avg = x_avg + (0.5 * (y_interp + y_array_in[j])) * (x_interp - x_array_in[j])
+                        cum_area = cum_area + (0.5 * (y_interp + y_array_in[j])) * (x_interp - x_array_in[j])
 
                         continuing = False
-                x_array_out[i] = x_array_in[i]
-                y_array_out[i] = x_avg / x_dist
-                npts_out = len(x_array_out)
+                 x_array_out[i] = x_array_in[i]
+                 y_array_out[i] = cum_area / x_dist
+                 npts_out = len(x_array_out)
 
         return x_array_out, y_array_out, npts_out
 
@@ -599,22 +608,26 @@ class AgdriftFunctions(object):
         :NOTE We assume we have a monotonically decreasing y_array
         :NOTE This code could use better documentation; there is multiple indexing going on and it is not
               easy to follow at this point
+              segment: distance (in x-axis units) associated with length of running weighted average (e.g., 7-day averaging)
+              increment: step (x-asix distance between x_array_in points) included in calcuation of segment weighted average
         :return:
         """
 
-        x_array_out = pd.Series([], dtype='float')
-        y_array_out = pd.Series([], dtype='float')
+        x_array_out = pd.Series([], dtype='float') #array of x pts associated with y_array_out
+        y_array_out = pd.Series([], dtype='float') #array of running weighted averages
 
         continuing = True
-        x_tot = 0
-        for i in range (npts_orig-1): #calculate running average for these points
+        x_tot = 0   #total x-axis distance from start point of current averaging
+        j_init = 0  #initial x[] of current averaging
+        for i in range (npts_orig-1): #calculate running weighted average for these points
             if(x_array_in[i] < (x_array_in[npts_orig-1] - x_dist)):
                 if (i == 0):   #first time through process full extent of x_dist (i.e., all x_array_in pts included in x dist)
                     j = 0
                     integrated_tot = 0
 
                     while continuing:
-                        x_tot = x_array_in[j+1]  #because this is the first segment we can simply use the x_array_in points
+                        x_tot = x_array_in[j+1]  #because this is the first segment we can simply use the x_array_in
+                                                 #points to represent total distance along x-axis
                         integrated_inc = (0.5 * (y_array_in[j] + y_array_in[j+1])) * (x_array_in[j+1] - x_array_in[j])
                         if(j == 0): init_inc = integrated_inc  #save first segment integrated increment
 
@@ -624,7 +637,10 @@ class AgdriftFunctions(object):
                         else:  #last segment
                             x_dist_frac = ((x_dist - x_array_in[j]) / (x_array_in[j+1] - x_array_in[j]))
                             integrated_inc = integrated_inc * x_dist_frac
-                            last_inc = integrated_inc  #save last increment
+                            if (j == 0): #save last increment?
+                                last_inc = 0.  #don't double count if last increment is same as 1st for this segment
+                            else:
+                                last_inc = integrated_inc
                             integrated_tot = integrated_tot + integrated_inc
                             continuing = False
 
@@ -633,26 +649,43 @@ class AgdriftFunctions(object):
                     y_array_out[i] = integrated_tot / x_dist
                     npts_out = len(x_array_out)  # not really necessary; at this point it will always be equal to 1
 
-                    if (y_array_out[i] < integrated_avg):  #if true then we have achieved the integrated_avg before completing the first x_dist
-                        # if we surpass the user supplied integrated_avg before reaching the edge of the first running average then
-                        # output the message and set the x_dist_of_interest to zero (as is done in the original AGDRIFT model)
-                        print "User-specified integrated average occurs before 1st x_dist extent is completed - x distance of interest set to first x_array_in value"
-                        x_dist_of_interest = x_array_in[0]  #original AGDRIFT model sets this value to zero (i.e., first x point value)
-                        return x_dist_of_interest
+                    if (y_array_in[1] < y_array_in[0]):
+                        if (y_array_out[i] < integrated_avg):  #if true then we have achieved the integrated_avg before completing the first x_dist
+                            # if we surpass the user supplied integrated_avg before reaching the edge of the first running average then
+                            # output the message and set the x_dist_of_interest to zero (as is done in the original AGDRIFT model)
+                            print "User-specified integrated average occurs before 1st x_dist extent is completed - x distance of interest set to first x_array_in value"
+                            x_dist_of_interest = x_array_in[0]  #original AGDRIFT model sets this value to zero (i.e., first x point value)
+                            return x_array_out, y_array_out, npts_out, x_dist_of_interest
+                    else:
+                        if (y_array_out[i] > integrated_avg):  #if true then we have achieved the integrated_avg before completing the first x_dist
+                            # if we surpass the user supplied integrated_avg before reaching the edge of the first running average then
+                            # output the message and set the x_dist_of_interest to zero (as is done in the original AGDRIFT model)
+                            print "User-specified integrated average occurs before 1st x_dist extent is completed - x distance of interest set to first x_array_in value"
+                            x_dist_of_interest = x_array_in[0]  #original AGDRIFT model sets this value to zero (i.e., first x point value)
+                            return x_array_out, y_array_out, npts_out, x_dist_of_interest
 
-                else:  #need to process only edges of running weighted average extent (i.e., subtract 1st and last segment, then start adding new segments)
-                    j_init = j
-                    x_loc = x_array_in[j]  #just tracking location along x axis
-                    x_tot = x_tot - ((x_array_in[j+1] - x_array_in[j]) + (x_array_in[i] - x_array_in[i-1]))
-                    integrated_tot = integrated_tot - init_inc - last_inc
+                else:  #need to process only edges of running weighted average segment (i.e., subtract 1st and last
+                       #increments from previous segment; then start adding new segments)
+
+                    #initialize next segment (i.e., beginning at x[i])
+                    if (j == 0 or j == i or j == i-1):  #3 conditions for a new segment without overlap with previous one
+                        #new segment has no overlap with previous segment
+                        j = j_init = i
+                        x_tot = 0.
+                        integrated_tot = 0.
+                    else:
+                        #new segment includes portion of previous segment
+                        j_init = j  #j_init is the lower bound of 1st 'new' segment to be processed for this new average
+                        x_tot = x_tot - ((x_array_in[j+1] - x_array_in[j]) + (x_array_in[i] - x_array_in[i-1]))
+                        integrated_tot = integrated_tot - init_inc - last_inc
                     continuing = True
 
                     while continuing:
                         x_tot_prev = x_tot
                         x_tot = x_tot + (x_array_in[j+1] - x_array_in[j])
-                        x_loc = x_loc + (x_array_in[j+1] - x_array_in[j])
                         integrated_inc = (0.5 * (y_array_in[j] + y_array_in[j+1])) * (x_array_in[j+1] - x_array_in[j])
-                        if (j == j_init): init_inc = (0.5 * (y_array_in[i] + y_array_in[i+1])) * (x_array_in[i+1] - x_array_in[i])
+                        if (j == j_init): init_inc = (0.5 * (y_array_in[i] + y_array_in[i+1])) * \
+                                                     (x_array_in[i+1] - x_array_in[i])  #note 'i' index to denote 1st increment of current segment
 
                         if (x_tot <= x_dist):
                             integrated_tot = integrated_tot + integrated_inc
@@ -660,33 +693,48 @@ class AgdriftFunctions(object):
                         else:
                             x_dist_frac = (x_dist - x_tot_prev) / (x_array_in[j+1] - x_array_in[j])
                             integrated_inc = integrated_inc * x_dist_frac
-                            last_inc = integrated_inc  #save last increment
+                            if (j == i): #save last increment?
+                                last_inc = 0. #don't double count if last increment is same as 1st for this segment
+                            else:
+                                last_inc = integrated_inc
                             integrated_tot = integrated_tot + integrated_inc
                             continuing = False
 
-                    x_array_out[i] = x_array_in[i]  # this may need to be the midpoint of the x segment rather than the value for the lower end of the x segment
+                    #populate output arrays with latest running weighted average
+                    x_array_out[i] = x_array_in[i]
                     y_array_out[i] = integrated_tot / x_dist
                     npts_out = len(x_array_out)
 
                     #determine if the user supplied extent average has been surpassed; if so compute the interpolated distance to the point of interest
-                    if (y_array_out[i] < integrated_avg):
-                        fraction = (y_array_out[i-1] - integrated_avg) / (y_array_out[i-1] - y_array_out[i])
-                        x_dist_of_interest = x_array_out[i-1] + fraction * (x_array_out[i] - x_array_out[i-1])
+                    if (y_array_in[1] < y_array_in[0]):  #monotonically decreasing function
+                        if (y_array_out[i] < integrated_avg):
+                            fraction = (y_array_out[i-1] - integrated_avg) / (y_array_out[i-1] - y_array_out[i])
+                            #x_dist_of_interest = x_array_out[i-1] + fraction * (x_array_out[i] - x_array_out[i-1])
+                            #above is precise x_dist_of_interest; below is OPP protocol for rounding the distance up to the nearest segment midpoint or segment boundary
+                            if (fraction >= 0.5):
+                                x_dist_of_interest = x_array_out[i]
+                            else:
+                                x_dist_of_interest = x_array_out[i-1] + 0.5 * (x_array_out[i] - x_array_out[i-1])
+                            return x_array_out, y_array_out, npts_out, x_dist_of_interest
+                    else:
+                        if (y_array_out[i] > integrated_avg):
+                            fraction = (integrated_avg - y_array_out[i-1]) / (y_array_out[i] - y_array_out[i-1])
+                            x_dist_of_interest = x_array_out[i-1] + fraction * (x_array_out[i] - x_array_out[i-1])
+                            return x_array_out, y_array_out, npts_out, x_dist_of_interest
 
-                        #the following code (except the return statement) should be removed and placed in a separate methods
-
-                        #the following code represents OPP protocol to round up x_dist_of_interest to nearest x midpoint or boundary value
-                        #(except when x_dist_of_interest is in the range of the first 2 meters (i.e., 6.5616 ft)
-                        if (fraction <= 0.5 and x_dist_of_interest > 3.2808):
-                            round_up_x_dist = 0.5 * (x_array_out[i] + x_array_out[i-1])
-                        elif (fraction > 0.5 and x_dist_of_interest > 3.2808):
-                            round_up_x_dist = x_array_out[i]
-                        else:
-                            round_up_x_dist = 3.2808
-                        if (x_dist_of_interest > 3.2808 and x_dist_of_interest < 6.5616):
-                            round_up_x_dist = 6.5616
-
-                        return round_up_x_dist
+                        # #the following code (except the return statement) should be removed and placed in a separate methods
+                    #
+                    # #the following code represents OPP protocol to round up x_dist_of_interest to nearest x midpoint or boundary value
+                    # #(except when x_dist_of_interest is in the range of the first 2 meters (i.e., 6.5616 ft)
+                    # if (fraction <= 0.5 and x_dist_of_interest > 3.2808):
+                    #     round_up_x_dist = 0.5 * (x_array_out[i] + x_array_out[i-1])
+                    # elif (fraction > 0.5 and x_dist_of_interest > 3.2808):
+                    #     round_up_x_dist = x_array_out[i]
+                    # else:
+                    #     round_up_x_dist = 3.2808
+                    # if (x_dist_of_interest > 3.2808 and x_dist_of_interest < 6.5616):
+                    #     round_up_x_dist = 6.5616
+                    #return x_array_out, y_array_out, npts_out, round_up_x_dist
 
 
     # def deposition_gha_to_ngl_f(self):

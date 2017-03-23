@@ -3,10 +3,7 @@ The following are notes related to the conduct of the Agdrift Model updating and
 1. The Agdrift model has been essentially rewritten to conform, in terms of functionality, to the Tier I calculations
    facilitated through the Agdrift model user interface.  The Tier I calculations include Tier I Aerial, Tier I Ground,
    and Tier I Orchard(Airblast(Agriculture).
-2. The exception to the above statement is that this python version of the model does not perform back calculations.
-   That is, in the original Agdrfit interface the user could specify a 'fraction of applied' pesticide related to an
-   unknown distance from the edge of the application area and the model would calculate the distance, along with the
-   other standard outputs.
+2. This python version of the model also performs Tier I back calculations.
 3. The database of pesticide deposition rates at specific distances downwind of the application area (center line) are
    used to perform the calculations average deposition across the area of a downwind pond/wetland/terrestrial field.
    The database is a SQL database entitled 'sqlite_agdrift_1994ft.db' and is located in the python agdrift test directory
@@ -57,7 +54,7 @@ The following are notes related to the conduct of the Agdrift Model updating and
    (and an 'Active Rate' of 0.5) and selects 'EPA Defind Pond' the resulting value for 'Initial Average Concentration'
    is 328.48ng/L.  If the user then selects 'User Defined Pond' and specifies the 'Downwind Water Body Width' to be
    208.7feet and an 'Average Depth' of 6.56ft (note: these values are the same as the defaults for 'EPA Defined Pond')
-   then the resulting 'Initial Average Concentration' is 332.97ng/L.  The difference between these to model results
+   then the resulting 'Initial Average Concentration' is 332.97ng/L.  The difference between these two model results
    increases as the user increases the 'Distance to Water Body from Edge of Application Area' (out to the allowable
    maximum of 997ft).  These differences are not due to possible differences in precision in specifying the
    'Downwind Water Body Width' or 'Average Depth'. Interestingly, the Python model results match the OPP Agdrift
