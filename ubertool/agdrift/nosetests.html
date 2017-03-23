@@ -179,26 +179,18 @@ function html_escape(s) {
         <tr>
             <td>nose.failure.Failure</td>
             <td>0</td>
-            <td>1</td>
+            <td>2</td>
             <td>0</td>
             <td>0</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrift</td>
-            <td>1</td>
-            <td>6</td>
-            <td>0</td>
-            <td>9</td>
-            <td>16</td>
+            <td>2</td>
         </tr>
     <tr>
         <td><strong>Total</strong></td>
-        <td>1</td>
-        <td>7</td>
         <td>0</td>
-        <td>9</td>
-        <td>17</td>
+        <td>2</td>
+        <td>0</td>
+        <td>0</td>
+        <td>2</td>
     </tr>
 </table>
 
@@ -239,10 +231,10 @@ function html_escape(s) {
         </colgroup>
         <tr class='testclass errorClass'>
             <td>nose.failure.Failure</td>
-            <td>1</td>
+            <td>2</td>
             <td>0</td>
             <td>0</td>
-            <td>1</td>
+            <td>2</td>
             <td><a href="javascript:void(0)" onclick="showClassDetail(this.parentNode.parentNode)">Detail</a></td>
         </tr>    
         <!-- for every test -->
@@ -251,7 +243,7 @@ function html_escape(s) {
             <td class="failCase">
                 runTest
             </td>
-            <td>0:00:00.001306</td>
+            <td>0:00:00.016000</td>
             <td colspan='4' align='center'>
             <!--css div popup start-->
             <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_nose.failure.FailurerunTest')" >
@@ -264,98 +256,27 @@ function html_escape(s) {
                    [x]</a>
                 </div>
                 <pre>
-not all arguments converted during string formatting
+cannot import name moduleTNC
 Traceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 329, in run
+  File "c:\python27\lib\unittest\case.py", line 329, in run
     testMethod()
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/loader.py", line 418, in loadTestsFromName
+  File "c:\python27\lib\site-packages\nose\loader.py", line 418, in loadTestsFromName
     addr.filename, addr.module)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/importer.py", line 47, in importFromPath
+  File "c:\python27\lib\site-packages\nose\importer.py", line 47, in importFromPath
     return self.importFromDir(dir_path, fqname)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/importer.py", line 94, in importFromDir
+  File "c:\python27\lib\site-packages\nose\importer.py", line 94, in importFromDir
     mod = load_module(part_fqname, fh, filename, desc)
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_integration.py", line 70, in <module>
-    agdrift_calc.execute_model()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_exe.py", line 95, in execute_model
-    self.run_methods()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_exe.py", line 113, in run_methods
-    logging.info("Unexpected error:", sys.exc_info()[0])
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 1629, in info
-    root.info(msg, *args, **kwargs)
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 1167, in info
-    self._log(INFO, msg, args, **kwargs)
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 1286, in _log
-    self.handle(record)
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 1296, in handle
-    self.callHandlers(record)
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 1336, in callHandlers
-    hdlr.handle(record)
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 759, in handle
-    self.emit(record)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/plugins/logcapture.py", line 82, in emit
-    self.buffer.append(self.format(record))
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 734, in format
-    return fmt.format(record)
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 465, in format
-    record.message = record.getMessage()
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 329, in getMessage
-    msg = msg % self.args
-TypeError: not all arguments converted during string formatting
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>    <table class='result_table'>
-	    <colgroup>
-            <col align='left' width="50%" />
-            <col align='right' width="10%"/>
-            <col align='right' width="10%"/>
-            <col align='right' width="10%"/>
-            <col align='right' width="10%"/>
-            <col align='right' width="10%"/>
-        </colgroup>
-        <tr class='testclass failClass'>
-            <td>ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrift</td>
-            <td>16</td>
-            <td>9</td>
-            <td>1</td>
-            <td>6</td>
-            <td><a href="javascript:void(0)" onclick="showClassDetail(this.parentNode.parentNode)">Detail</a></td>
-        </tr>    
-        <!-- for every test -->
-
-<tr id='ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_assign_column_names' class='testcase'>
-            <td class="passCase">
-                test_assign_column_names
-                    <div class="shortDescription">
-                        :description assigns column names (except distaqnce column) from sql database to internal scenario names
-                    </div>
-            </td>
-            <td>0:00:00.028241</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_assign_column_names')" >
-                Pass
-            </a>
-
-            <div id='div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_assign_column_names' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_assign_column_names').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_assign_column_names
-===========  ==========  ==========  ===========  =============  ==============  ==============  ===============  ===============  ==============  ===============  =================  ================
-0            1           2           3            4              5               6               7                8                9               10               11                 12
-===========  ==========  ==========  ===========  =============  ==============  ==============  ===============  ===============  ==============  ===============  =================  ================
-aerial_vf2f  aerial_f2m  aerial_m2c  aerial_c2vc  ground_low_vf  ground_low_fmc  ground_high_vf  ground_high_fmc  airblast_normal  airblast_dense  airblast_sparse  airblast_vineyard  airblast_orchard
-aerial_vf2f  aerial_f2m  aerial_m2c  aerial_c2vc  ground_low_vf  ground_low_fmc  ground_high_vf  ground_high_fmc  airblast_normal  airblast_dense  airblast_sparse  airblast_vineyard  airblast_orchard
-===========  ==========  ==========  ===========  =============  ==============  ==============  ===============  ===============  ==============  ===============  =================  ================
-
-
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\agdrift\tests\test_agdrift_unittest.py", line 16, in <module>
+    from agdrift_exe import Agdrift
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\agdrift\agdrift_exe.py", line 8, in <module>
+    from scipy.optimize import curve_fit
+  File "c:\python27\lib\site-packages\scipy\optimize\__init__.py", line 222, in <module>
+    from ._minimize import *
+  File "c:\python27\lib\site-packages\scipy\optimize\_minimize.py", line 31, in <module>
+    from .tnc import _minimize_tnc
+  File "c:\python27\lib\site-packages\scipy\optimize\tnc.py", line 37, in <module>
+    from scipy.optimize import moduleTNC, approx_fprime
+ImportError: cannot import name moduleTNC
 
                 </pre>
             </div>
@@ -363,684 +284,44 @@ aerial_vf2f  aerial_f2m  aerial_m2c  aerial_c2vc  ground_low_vf  ground_low_fmc 
 
             </td>
         </tr>
-<tr id='ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_dep_foa' class='testcase'>
-            <td class="passCase">
-                test_calc_avg_dep_foa
-                    <div class="shortDescription">
-                        :description calculation of average deposition over width of water body
-                    </div>
-            </td>
-            <td>0:00:00.011398</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_dep_foa')" >
-                Pass
-            </a>
-
-            <div id='div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_dep_foa' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_dep_foa').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_calc_avg_dep_foa
-========  ===  ===
-       0    1    2
-========  ===  ===
-0.153846  0.5  240
-0.153846  0.5  240
-========  ===  ===
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_dep_gha' class='testcase'>
-            <td class="passCase">
-                test_calc_avg_dep_gha
-                    <div class="shortDescription">
-                        :description average deposition over width of water body in grams per acre
-                    </div>
-            </td>
-            <td>0:00:00.010505</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_dep_gha')" >
-                Pass
-            </a>
-
-            <div id='div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_dep_gha' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_dep_gha').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_calc_avg_dep_gha
-=======  ========  ==========
-      0         1           2
-=======  ========  ==========
-1.40106  0.364836  0.0336255
-1.40106  0.364836  0.00336255
-=======  ========  ==========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_dep_lbac' class='testcase'>
-            <td class="passCase">
-                test_calc_avg_dep_lbac
-                    <div class="shortDescription">
-                        Deposition calculation.
-                    </div>
-            </td>
-            <td>0:00:00.011261</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_dep_lbac')" >
-                Pass
-            </a>
-
-            <div id='div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_dep_lbac' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_dep_lbac').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_calc_avg_dep_lbac
-===  =====  ========
-  0      1         2
-===  =====  ========
-6.5  31250  3.75e+08
-6.5  31250  3.75e+08
-===  =====  ========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_fielddep_mgcm' class='testcase'>
-            <td class="passCase">
-                test_calc_avg_fielddep_mgcm
-                    <div class="shortDescription">
-                        :description calculate the average deposition of pesticide over the terrestrial field
-                    </div>
-            </td>
-            <td>0:00:00.013039</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_fielddep_mgcm')" >
-                Pass
-            </a>
-
-            <div id='div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_fielddep_mgcm' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_fielddep_mgcm').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_calc_avg_fielddep_mgcm
-===========  ===========  ==============
-          0            1               2
-===========  ===========  ==============
-1.40106e-05  3.64837e-06     3.36255e-07
-1.40106e-05  3.64837e-06  3362.55
-===========  ===========  ==============
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_waterconc_ngl' class='testcase'>
-            <td class="passCase">
-                test_calc_avg_waterconc_ngl
-                    <div class="shortDescription">
-                        :description calculate the average concentration of pesticide in the pond/wetland
-                    </div>
-            </td>
-            <td>0:00:00.029116</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_waterconc_ngl')" >
-                Pass
-            </a>
-
-            <div id='div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_waterconc_ngl' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_calc_avg_waterconc_ngl').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_calc_avg_waterconc_ngl
-=======  =======  =======
-      0        1        2
-=======  =======  =======
-70.0712  18.2465  22.4182
-70.0712  18.2465  22.4182
-=======  =======  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_create_integration_avg' class='testcase'>
+<tr id='nose.failure.FailurerunTest' class='testcase'>
             <td class="failCase">
-                test_create_integration_avg
-                    <div class="shortDescription">
-                        :description retrieves values for distance and the first deposition scenario from the sql database
-                    </div>
+                runTest
             </td>
-            <td>0:00:00.063613</td>
+            <td>0:00:00</td>
             <td colspan='4' align='center'>
             <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_create_integration_avg')" >
+            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_nose.failure.FailurerunTest')" >
                 Fail
             </a>
 
-            <div id='div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_create_integration_avg' class="popup_window">
+            <div id='div_nose.failure.FailurerunTest' class="popup_window">
                 <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_create_integration_avg').style.display = 'none' " >
+                <a onfocus='this.blur();' onclick="document.getElementById('div_nose.failure.FailurerunTest').style.display = 'none' " >
                    [x]</a>
                 </div>
                 <pre>
-(sqlite3.OperationalError) no such table: output [SQL: 'SELECT distance_ft from output']
+cannot import name moduleTNC
 Traceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 329, in run
+  File "c:\python27\lib\unittest\case.py", line 329, in run
     testMethod()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 1007, in test_create_integration_avg
-    x_array_in = agdrift_empty.get_distances(agdrift_empty.num_db_values)
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_functions.py", line 362, in get_distances
-    result = conn.execute("SELECT " + self.distance_name + " from " + self.db_table)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 906, in execute
-    return self._execute_text(object, multiparams, params)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1054, in _execute_text
-    statement, parameters
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1146, in _execute_context
-    context)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1341, in _handle_dbapi_exception
-    exc_info
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/util/compat.py", line 202, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb, cause=cause)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1139, in _execute_context
-    context)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/default.py", line 450, in do_execute
-    cursor.execute(statement, parameters)
-OperationalError: (sqlite3.OperationalError) no such table: output [SQL: 'SELECT distance_ft from output']
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_create_integration_avg_opp' class='testcase'>
-            <td class="failCase">
-                test_create_integration_avg_opp
-                    <div class="shortDescription">
-                        :description retrieves values for distance and the first deposition scenario from the sql database
-                    </div>
-            </td>
-            <td>0:00:00.013959</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_create_integration_avg_opp')" >
-                Fail
-            </a>
-
-            <div id='div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_create_integration_avg_opp' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_create_integration_avg_opp').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-(sqlite3.OperationalError) no such table: output [SQL: 'SELECT distance_ft from output']
-Traceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 329, in run
-    testMethod()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 944, in test_create_integration_avg_opp
-    x_array_in = agdrift_empty.get_distances(agdrift_empty.num_db_values)
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_functions.py", line 362, in get_distances
-    result = conn.execute("SELECT " + self.distance_name + " from " + self.db_table)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 906, in execute
-    return self._execute_text(object, multiparams, params)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1054, in _execute_text
-    statement, parameters
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1146, in _execute_context
-    context)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1341, in _handle_dbapi_exception
-    exc_info
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/util/compat.py", line 202, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb, cause=cause)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1139, in _execute_context
-    context)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/default.py", line 450, in do_execute
-    cursor.execute(statement, parameters)
-OperationalError: (sqlite3.OperationalError) no such table: output [SQL: 'SELECT distance_ft from output']
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_determine_area_dimensions' class='testcase'>
-            <td class="failCase">
-                test_determine_area_dimensions
-                    <div class="shortDescription">
-                        :description determine relevant area/length/depth of waterbody or terrestrial area
-                    </div>
-            </td>
-            <td>0:00:00.016781</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_determine_area_dimensions')" >
-                Fail
-            </a>
-
-            <div id='div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_determine_area_dimensions' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_determine_area_dimensions').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_determine_area_dimensions
-======  ========  =======  =======  =======  ===
-     0         1        2        3        4    5
-======  ========  =======  =======  =======  ===
-nan     nan        nan     nan      nan      nan
-208.7   208.7      100     400      150        0
-nan     nan        nan     nan      nan      nan
-515.8   515.8     1076.39  269.098  717.593    0
-nan     nan        nan     nan      nan      nan
-  6.56    0.4921     7      23        0        0
-======  ========  =======  =======  =======  ===
-
-'Agdrift' object has no attribute 'default_width'
-Traceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 329, in run
-    testMethod()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 736, in test_determine_area_dimensions
-    width_result[i], length_result[i], depth_result[i] = agdrift_empty.determine_area_dimensions(i)
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_functions.py", line 222, in determine_area_dimensions
-    self.out_area_width[i] = self.default_width
-AttributeError: 'Agdrift' object has no attribute 'default_width'
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_filter_arrays' class='testcase'>
-            <td class="passCase">
-                test_filter_arrays
-                    <div class="shortDescription">
-                        :description  eliminate blank data cells (i.e., distances for which no deposition value is provided)
-                    </div>
-            </td>
-            <td>0:00:00.021020</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_filter_arrays')" >
-                Pass
-            </a>
-
-            <div id='div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_filter_arrays' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_filter_arrays').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_filter_arrays
-===  ===  ===  ===  ===  ===
-  0    1    2    3    4    5
-===  ===  ===  ===  ===  ===
- 10   11   14   15   16   17
- 10   11   14   15   16   17
-===  ===  ===  ===  ===  ===
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_get_column_names' class='testcase'>
-            <td class="failCase">
-                test_get_column_names
-                    <div class="shortDescription">
-                        :description retrieves column names from sql database (sqlite_agdrift_distance.db)
-                    </div>
-            </td>
-            <td>0:00:00.014026</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_get_column_names')" >
-                Fail
-            </a>
-
-            <div id='div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_get_column_names' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_get_column_names').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_get_column_names
-===========  ==========  ==========  ===========  =============  ==============  ==============  ===============  ===============  ==============  ===============  =================  ================
-
-aerial_vf2f  aerial_f2m  aerial_m2c  aerial_c2vc  ground_low_vf  ground_low_fmc  ground_high_vf  ground_high_fmc  airblast_normal  airblast_dense  airblast_sparse  airblast_vineyard  airblast_orchard
-===========  ==========  ==========  ===========  =============  ==============  ==============  ===============  ===============  ==============  ===============  =================  ================
-
-(sqlite3.OperationalError) no such table: output [SQL: 'SELECT * from output']
-Traceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 329, in run
-    testMethod()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 578, in test_get_column_names
-    result = agdrift_empty.get_column_names()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_functions.py", line 342, in get_column_names
-    result1 = conn.execute("SELECT * from " + self.db_table)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 906, in execute
-    return self._execute_text(object, multiparams, params)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1054, in _execute_text
-    statement, parameters
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1146, in _execute_context
-    context)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1341, in _handle_dbapi_exception
-    exc_info
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/util/compat.py", line 202, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb, cause=cause)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1139, in _execute_context
-    context)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/default.py", line 450, in do_execute
-    cursor.execute(statement, parameters)
-OperationalError: (sqlite3.OperationalError) no such table: output [SQL: 'SELECT * from output']
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_get_distances' class='testcase'>
-            <td class="failCase">
-                test_get_distances
-                    <div class="shortDescription">
-                        :description retrieves distance values for deposition scenario datasets
-                    </div>
-            </td>
-            <td>0:00:00.010965</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_get_distances')" >
-                Fail
-            </a>
-
-            <div id='div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_get_distances' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_get_distances').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-local variable 'result' referenced before assignment
-Traceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 329, in run
-    testMethod()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 469, in test_get_distances
-    tab = [result, expected_result]
-UnboundLocalError: local variable 'result' referenced before assignment
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_get_scenario_deposition_data' class='testcase'>
-            <td class="failCase">
-                test_get_scenario_deposition_data
-                    <div class="shortDescription">
-                        :description retrieves deposition data for all scenarios from sql database
-                    </div>
-            </td>
-            <td>0:00:00.052973</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_get_scenario_deposition_data')" >
-                Fail
-            </a>
-
-            <div id='div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_get_scenario_deposition_data' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_get_scenario_deposition_data').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_get_scenario_deposition_data
-=======  ========  ===  =======  ========  ===  ======  =========  ===  =======  =========  ===  =======  ========  ===  =======  ========  ===  ======  =======  ===  =======  ========  ===  =======  ========  ===  ========  ========  ===  ========  ========  ===  ======  =======  ===  ========  ========  ===
-
-0.50013  0.041273  161  0.49997  0.011741  161  0.4999  0.0053241  161  0.49988  0.0031189  161  1.01934  0.000966  161  1.00788  0.000613  161  1.0552  0.00141  161  1.01283  0.000772  161  0.00891  3.87e-05  161  0.115528  0.000466  161  0.476265  5.14e-05  161  0.0376  3.1e-05  161  0.222305  0.000358  161
-=======  ========  ===  =======  ========  ===  ======  =========  ===  =======  =========  ===  =======  ========  ===  =======  ========  ===  ======  =======  ===  =======  ========  ===  =======  ========  ===  ========  ========  ===  ========  ========  ===  ======  =======  ===  ========  ========  ===
-
-__init__() takes at least 4 arguments (2 given)
--------------------- >> begin captured logging << --------------------
-root: INFO: SELECT * from output
---------------------- >> end captured logging << ---------------------
-Traceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/case.py", line 133, in run
-    self.runTest(result)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/case.py", line 151, in runTest
-    test(result)
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 393, in __call__
-    return self.run(*args, **kwds)
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 353, in run
-    result.addError(self, sys.exc_info())
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/proxy.py", line 131, in addError
-    plugins.addError(self.test, err)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/plugins/manager.py", line 99, in __call__
-    return self.call(*arg, **kw)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/plugins/manager.py", line 167, in simple
-    result = meth(*arg, **kw)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose_html_reporting/__init__.py", line 251, in addError
-    exc_val if isinstance(exc_val, exc_type) else exc_type(exc_val),
-TypeError: __init__() takes at least 4 arguments (2 given)
--------------------- >> begin captured logging << --------------------
-root: INFO: SELECT * from output
---------------------- >> end captured logging << ---------------------
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_list_sims_per_scenario' class='testcase'>
-            <td class="passCase">
-                test_list_sims_per_scenario
-                    <div class="shortDescription">
-                        :description scan simulations and count number and indices of simulations that apply to each scenario
-                    </div>
-            </td>
-            <td>0:00:00.036324</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_list_sims_per_scenario')" >
-                Pass
-            </a>
-
-            <div id='div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_list_sims_per_scenario' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_list_sims_per_scenario').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_list_sims_per_scenario
-===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ================================================================================  ================================================================================  ================================================================================
-0                                                                                1                                                                                2                                                                                3                                                                                4                                                                                5                                                                                6                                                                                7                                                                                8                                                                                9                                                                                10                                                                                11                                                                                12
-===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ================================================================================  ================================================================================  ================================================================================
-2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                 2                                                                                 2
-2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                 2                                                                                 2
-[0, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [1, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [2, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [3, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [4, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [5, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [6, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [7, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [8, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [9, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [10, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [11, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [12, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-[0, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [1, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [2, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [3, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [4, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [5, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [6, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [7, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [8, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [9, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [10, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [11, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [12, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ================================================================================  ================================================================================  ================================================================================
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_set_sim_scenario_id' class='testcase'>
-            <td class="passCase">
-                test_set_sim_scenario_id
-                    <div class="shortDescription">
-                        :description provides scenario ids per simulation that match scenario names (i.e., column_names) from SQL database
-                    </div>
-            </td>
-            <td>0:00:00.025884</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_set_sim_scenario_id')" >
-                Pass
-            </a>
-
-            <div id='div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_set_sim_scenario_id' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_set_sim_scenario_id').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_set_sim_scenario_id
-===========  ==========  =====================  =============  ==============  ==============  ===============  ===============  ===============  ===============  =================  =================
-0            1           2                      3              4               5               6                7                8                9                10                 11
-===========  ==========  =====================  =============  ==============  ==============  ===============  ===============  ===============  ===============  =================  =================
-aerial_vf2f  aerial_f2m  aerial_m2c             aerial_c2vc    ground_low_vf   ground_low_fmc  ground_high_vf   ground_high_fmc  airblast_normal  airblast_dense   airblast_sparse    airblast_vineyard
-aerial_vf2f  aerial_f2m  aerial_m2caerial_c2vc  ground_low_vf  ground_low_fmc  ground_high_vf  ground_high_fmc  airblast_normal  airblast_dense   airblast_sparse  airblast_vineyard  airblast_orchard
-===========  ==========  =====================  =============  ==============  ==============  ===============  ===============  ===============  ===============  =================  =================
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_validate_sim_scenarios' class='testcase'>
-            <td class="failCase">
-                test_validate_sim_scenarios
-                    <div class="shortDescription">
-                        :description determines if user defined scenarios are valid for processing
-                    </div>
-            </td>
-            <td>0:00:00.089862</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_validate_sim_scenarios')" >
-                Fail
-            </a>
-
-            <div id='div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_validate_sim_scenarios' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_ubertool_ecorest.ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrifttest_validate_sim_scenarios').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>Aquatic Assessment
-Terrestrial Assessment
-Aquatic Assessment
-Terrestrial Assessment
-Aquatic Assessment
-Terrestrial Assessment
-Aquatic Assessment
-Terrestrial Assessment
-Aquatic Assessment
-Terrestrial Assessment
-Aquatic Assessment
-Terrestrial Assessment
-Aquatic Assessment
-Terrestrial Assessment
-Aquatic Assessment
-Aquatic Assessment
-Aquatic Assessment
-Terrestrial Assessment
-Terrestrial Assessment
-Terrestrial Assessment
-Field Assessment
-Aquatic Assessment
-Terrestrial Assessment
-
-
-test_validate_sim_scenarios
-====================================  ========================================  ====================================  ========================================  ====================================  ========================================  ====================================  ========================================  ====================================  ==========================================  ======================================  ==========================================  ======================================  ==========================================  ======================================  ======================================  ========================================  ==========================================  ==========================================  ============================================  ===============================  ====================================================  ========================================================
-0                                     1                                         2                                     3                                         4                                     5                                         6                                     7                                         8                                     9                                           10                                      11                                          12                                      13                                          14                                      15                                      16                                        17                                          18                                          19                                            20                               21                                                    22
-====================================  ========================================  ====================================  ========================================  ====================================  ========================================  ====================================  ========================================  ====================================  ==========================================  ======================================  ==========================================  ======================================  ==========================================  ======================================  ======================================  ========================================  ==========================================  ==========================================  ============================================  ===============================  ====================================================  ========================================================
-Valid Tier I Aquatic Aerial Scenario  Valid Tier I Terrestrial Aerial Scenario  Valid Tier I Aquatic Aerial Scenario  Valid Tier I Terrestrial Aerial Scenario  Valid Tier I Aquatic Aerial Scenario  Valid Tier I Terrestrial Ground Scenario  Valid Tier I Aquatic Ground Scenario  Valid Tier I Terrestrial Ground Scenario  Valid Tier I Aquatic Ground Scenario  Valid Tier I Terrestrial Airblast Scenario  Valid Tier I Aquatic Airblast Scenario  Valid Tier I Terrestrial Airblast Scenario  Valid Tier I Aquatic Airblast Scenario  Valid Tier I Terrestrial Airblast Scenario  Invalid Tier I Aquatic Aerial Scenario  Invalid Tier I Aquatic Ground Scenario  Invalid Tier I Aquatic Airblast Scenario  Invalid Tier I Terrestrial Aerial Scenario  Valid Tier I Terrestrial Ground Scenario    Valid Tier I Terrestrial Airblast Scenario    Invalid scenario ecosystem_type  Invalid Tier I Aquatic Assessment application_method  Invalid Tier I Terrestrial Assessment application_method
-Valid Tier I Aquatic Aerial Scenario  Valid Tier I Terrestrial Aerial Scenario  Valid Tier I Aquatic Aerial Scenario  Valid Tier I Terrestrial Aerial Scenario  Valid Tier I Aquatic Aerial Scenario  Valid Tier I Terrestrial Ground Scenario  Valid Tier I Aquatic Ground Scenario  Valid Tier I Terrestrial Ground Scenario  Valid Tier I Aquatic Ground Scenario  Valid Tier I Terrestrial Airblast Scenario  Valid Tier I Aquatic Airblast Scenario  Valid Tier I Terrestrial Airblast Scenario  Valid Tier I Aquatic Airblast Scenario  Valid Tier I Terrestrial Airblast Scenario  Invalid Tier I Aquatic Aerial Scenario  Invalid Tier I Aquatic Ground Scenario  Invalid Tier I Aquatic Airblast Scenario  Invalid Tier I Terrestrial Aerial Scenario  Invalid Tier I Terrestrial Ground Scenario  Invalid Tier I Terrestrial Airblast Scenario  Invalid scenario ecosystem_type  Invalid Tier I Aquatic Assessment application_method  Invalid Tier I Terrestrial Assessment application_method
-====================================  ========================================  ====================================  ========================================  ====================================  ========================================  ====================================  ========================================  ====================================  ==========================================  ======================================  ==========================================  ======================================  ==========================================  ======================================  ======================================  ========================================  ==========================================  ==========================================  ============================================  ===============================  ====================================================  ========================================================
-
-
-Arrays are not equal
-
-(mismatch 8.69565217391%)
- x: array(['Valid Tier I Aquatic Aerial Scenario',
-       'Valid Tier I Terrestrial Aerial Scenario',
-       'Valid Tier I Aquatic Aerial Scenario',...
- y: array(['Valid Tier I Aquatic Aerial Scenario',
-       'Valid Tier I Terrestrial Aerial Scenario',
-       'Valid Tier I Aquatic Aerial Scenario',...
-Traceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 329, in run
-    testMethod()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 265, in test_validate_sim_scenarios
-    npt.assert_array_equal(result, expected_result, err_msg="", verbose=True)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/numpy/testing/utils.py", line 811, in assert_array_equal
-    verbose=verbose, header='Arrays are not equal')
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/numpy/testing/utils.py", line 737, in assert_array_compare
-    raise AssertionError(msg)
-AssertionError: 
-Arrays are not equal
-
-(mismatch 8.69565217391%)
- x: array(['Valid Tier I Aquatic Aerial Scenario',
-       'Valid Tier I Terrestrial Aerial Scenario',
-       'Valid Tier I Aquatic Aerial Scenario',...
- y: array(['Valid Tier I Aquatic Aerial Scenario',
-       'Valid Tier I Terrestrial Aerial Scenario',
-       'Valid Tier I Aquatic Aerial Scenario',...
+  File "c:\python27\lib\site-packages\nose\loader.py", line 418, in loadTestsFromName
+    addr.filename, addr.module)
+  File "c:\python27\lib\site-packages\nose\importer.py", line 47, in importFromPath
+    return self.importFromDir(dir_path, fqname)
+  File "c:\python27\lib\site-packages\nose\importer.py", line 94, in importFromDir
+    mod = load_module(part_fqname, fh, filename, desc)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\agdrift\tests\test_agdrift_integration.py", line 17, in <module>
+    from agdrift_exe import Agdrift, AgdriftOutputs
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\agdrift\agdrift_exe.py", line 8, in <module>
+    from scipy.optimize import curve_fit
+  File "c:\python27\lib\site-packages\scipy\optimize\__init__.py", line 222, in <module>
+    from ._minimize import *
+  File "c:\python27\lib\site-packages\scipy\optimize\_minimize.py", line 31, in <module>
+    from .tnc import _minimize_tnc
+  File "c:\python27\lib\site-packages\scipy\optimize\tnc.py", line 37, in <module>
+    from scipy.optimize import moduleTNC, approx_fprime
+ImportError: cannot import name moduleTNC
 
                 </pre>
             </div>
@@ -1060,326 +341,56 @@ Arrays are not equal
         <!-- test list end -->
         <tr id='total_row'>
             <td>Total</td>
-            <td>17</td>
-            <td>9</td>
-            <td>1</td>
-            <td>7</td>
+            <td>2</td>
+            <td>0</td>
+            <td>0</td>
+            <td>2</td>
             <td>&nbsp;</td>
         </tr>
     </table>
     <br/>
     <a href="javascript:void(0)" onclick="showRawLog(document.getElementById('rawoutput'))">Full log raw output</a>
     <div id='rawoutput' class='popup_window'>
-        <pre>
-
-test_assign_column_names
-===========  ==========  ==========  ===========  =============  ==============  ==============  ===============  ===============  ==============  ===============  =================  ================
-0            1           2           3            4              5               6               7                8                9               10               11                 12
-===========  ==========  ==========  ===========  =============  ==============  ==============  ===============  ===============  ==============  ===============  =================  ================
-aerial_vf2f  aerial_f2m  aerial_m2c  aerial_c2vc  ground_low_vf  ground_low_fmc  ground_high_vf  ground_high_fmc  airblast_normal  airblast_dense  airblast_sparse  airblast_vineyard  airblast_orchard
-aerial_vf2f  aerial_f2m  aerial_m2c  aerial_c2vc  ground_low_vf  ground_low_fmc  ground_high_vf  ground_high_fmc  airblast_normal  airblast_dense  airblast_sparse  airblast_vineyard  airblast_orchard
-===========  ==========  ==========  ===========  =============  ==============  ==============  ===============  ===============  ==============  ===============  =================  ================
-
-
-test_calc_avg_dep_foa
-========  ===  ===
-       0    1    2
-========  ===  ===
-0.153846  0.5  240
-0.153846  0.5  240
-========  ===  ===
-
-
-test_calc_avg_dep_gha
-=======  ========  ==========
-      0         1           2
-=======  ========  ==========
-1.40106  0.364836  0.0336255
-1.40106  0.364836  0.00336255
-=======  ========  ==========
-
-
-test_calc_avg_dep_lbac
-===  =====  ========
-  0      1         2
-===  =====  ========
-6.5  31250  3.75e+08
-6.5  31250  3.75e+08
-===  =====  ========
-
-
-test_calc_avg_fielddep_mgcm
-===========  ===========  ==============
-          0            1               2
-===========  ===========  ==============
-1.40106e-05  3.64837e-06     3.36255e-07
-1.40106e-05  3.64837e-06  3362.55
-===========  ===========  ==============
-
-
-test_calc_avg_waterconc_ngl
-=======  =======  =======
-      0        1        2
-=======  =======  =======
-70.0712  18.2465  22.4182
-70.0712  18.2465  22.4182
-=======  =======  =======
-(sqlite3.OperationalError) no such table: output [SQL: 'SELECT distance_ft from output']Traceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 329, in run
+        <pre>cannot import name moduleTNCTraceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
     testMethod()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 1007, in test_create_integration_avg
-    x_array_in = agdrift_empty.get_distances(agdrift_empty.num_db_values)
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_functions.py", line 362, in get_distances
-    result = conn.execute("SELECT " + self.distance_name + " from " + self.db_table)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 906, in execute
-    return self._execute_text(object, multiparams, params)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1054, in _execute_text
-    statement, parameters
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1146, in _execute_context
-    context)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1341, in _handle_dbapi_exception
-    exc_info
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/util/compat.py", line 202, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb, cause=cause)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1139, in _execute_context
-    context)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/default.py", line 450, in do_execute
-    cursor.execute(statement, parameters)
-OperationalError: (sqlite3.OperationalError) no such table: output [SQL: 'SELECT distance_ft from output']
-(sqlite3.OperationalError) no such table: output [SQL: 'SELECT distance_ft from output']Traceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 329, in run
-    testMethod()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 944, in test_create_integration_avg_opp
-    x_array_in = agdrift_empty.get_distances(agdrift_empty.num_db_values)
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_functions.py", line 362, in get_distances
-    result = conn.execute("SELECT " + self.distance_name + " from " + self.db_table)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 906, in execute
-    return self._execute_text(object, multiparams, params)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1054, in _execute_text
-    statement, parameters
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1146, in _execute_context
-    context)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1341, in _handle_dbapi_exception
-    exc_info
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/util/compat.py", line 202, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb, cause=cause)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1139, in _execute_context
-    context)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/default.py", line 450, in do_execute
-    cursor.execute(statement, parameters)
-OperationalError: (sqlite3.OperationalError) no such table: output [SQL: 'SELECT distance_ft from output']
-
-
-test_determine_area_dimensions
-======  ========  =======  =======  =======  ===
-     0         1        2        3        4    5
-======  ========  =======  =======  =======  ===
-nan     nan        nan     nan      nan      nan
-208.7   208.7      100     400      150        0
-nan     nan        nan     nan      nan      nan
-515.8   515.8     1076.39  269.098  717.593    0
-nan     nan        nan     nan      nan      nan
-  6.56    0.4921     7      23        0        0
-======  ========  =======  =======  =======  ===
-'Agdrift' object has no attribute 'default_width'Traceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 329, in run
-    testMethod()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 736, in test_determine_area_dimensions
-    width_result[i], length_result[i], depth_result[i] = agdrift_empty.determine_area_dimensions(i)
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_functions.py", line 222, in determine_area_dimensions
-    self.out_area_width[i] = self.default_width
-AttributeError: 'Agdrift' object has no attribute 'default_width'
-
-
-test_filter_arrays
-===  ===  ===  ===  ===  ===
-  0    1    2    3    4    5
-===  ===  ===  ===  ===  ===
- 10   11   14   15   16   17
- 10   11   14   15   16   17
-===  ===  ===  ===  ===  ===
-
-
-test_get_column_names
-===========  ==========  ==========  ===========  =============  ==============  ==============  ===============  ===============  ==============  ===============  =================  ================
-
-aerial_vf2f  aerial_f2m  aerial_m2c  aerial_c2vc  ground_low_vf  ground_low_fmc  ground_high_vf  ground_high_fmc  airblast_normal  airblast_dense  airblast_sparse  airblast_vineyard  airblast_orchard
-===========  ==========  ==========  ===========  =============  ==============  ==============  ===============  ===============  ==============  ===============  =================  ================
-(sqlite3.OperationalError) no such table: output [SQL: 'SELECT * from output']Traceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 329, in run
-    testMethod()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 578, in test_get_column_names
-    result = agdrift_empty.get_column_names()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_functions.py", line 342, in get_column_names
-    result1 = conn.execute("SELECT * from " + self.db_table)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 906, in execute
-    return self._execute_text(object, multiparams, params)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1054, in _execute_text
-    statement, parameters
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1146, in _execute_context
-    context)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1341, in _handle_dbapi_exception
-    exc_info
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/util/compat.py", line 202, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb, cause=cause)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1139, in _execute_context
-    context)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/sqlalchemy/engine/default.py", line 450, in do_execute
-    cursor.execute(statement, parameters)
-OperationalError: (sqlite3.OperationalError) no such table: output [SQL: 'SELECT * from output']
-local variable 'result' referenced before assignmentTraceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 329, in run
-    testMethod()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 469, in test_get_distances
-    tab = [result, expected_result]
-UnboundLocalError: local variable 'result' referenced before assignment
-
-
-test_get_scenario_deposition_data
-=======  ========  ===  =======  ========  ===  ======  =========  ===  =======  =========  ===  =======  ========  ===  =======  ========  ===  ======  =======  ===  =======  ========  ===  =======  ========  ===  ========  ========  ===  ========  ========  ===  ======  =======  ===  ========  ========  ===
-
-0.50013  0.041273  161  0.49997  0.011741  161  0.4999  0.0053241  161  0.49988  0.0031189  161  1.01934  0.000966  161  1.00788  0.000613  161  1.0552  0.00141  161  1.01283  0.000772  161  0.00891  3.87e-05  161  0.115528  0.000466  161  0.476265  5.14e-05  161  0.0376  3.1e-05  161  0.222305  0.000358  161
-=======  ========  ===  =======  ========  ===  ======  =========  ===  =======  =========  ===  =======  ========  ===  =======  ========  ===  ======  =======  ===  =======  ========  ===  =======  ========  ===  ========  ========  ===  ========  ========  ===  ======  =======  ===  ========  ========  ===
-__init__() takes at least 4 arguments (2 given)
--------------------- >> begin captured logging << --------------------
-root: INFO: SELECT * from output
---------------------- >> end captured logging << ---------------------Traceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/case.py", line 133, in run
-    self.runTest(result)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/case.py", line 151, in runTest
-    test(result)
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 393, in __call__
-    return self.run(*args, **kwds)
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 353, in run
-    result.addError(self, sys.exc_info())
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/proxy.py", line 131, in addError
-    plugins.addError(self.test, err)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/plugins/manager.py", line 99, in __call__
-    return self.call(*arg, **kw)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/plugins/manager.py", line 167, in simple
-    result = meth(*arg, **kw)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose_html_reporting/__init__.py", line 251, in addError
-    exc_val if isinstance(exc_val, exc_type) else exc_type(exc_val),
-TypeError: __init__() takes at least 4 arguments (2 given)
--------------------- >> begin captured logging << --------------------
-root: INFO: SELECT * from output
---------------------- >> end captured logging << ---------------------
-
-
-test_list_sims_per_scenario
-===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ================================================================================  ================================================================================  ================================================================================
-0                                                                                1                                                                                2                                                                                3                                                                                4                                                                                5                                                                                6                                                                                7                                                                                8                                                                                9                                                                                10                                                                                11                                                                                12
-===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ================================================================================  ================================================================================  ================================================================================
-2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                 2                                                                                 2
-2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                2                                                                                 2                                                                                 2
-[0, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [1, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [2, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [3, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [4, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [5, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [6, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [7, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [8, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [9, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [10, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [11, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [12, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-[0, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [1, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [2, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [3, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [4, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [5, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [6, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [7, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [8, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [9, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [10, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [11, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  [12, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ===============================================================================  ================================================================================  ================================================================================  ================================================================================
-
-
-test_set_sim_scenario_id
-===========  ==========  =====================  =============  ==============  ==============  ===============  ===============  ===============  ===============  =================  =================
-0            1           2                      3              4               5               6                7                8                9                10                 11
-===========  ==========  =====================  =============  ==============  ==============  ===============  ===============  ===============  ===============  =================  =================
-aerial_vf2f  aerial_f2m  aerial_m2c             aerial_c2vc    ground_low_vf   ground_low_fmc  ground_high_vf   ground_high_fmc  airblast_normal  airblast_dense   airblast_sparse    airblast_vineyard
-aerial_vf2f  aerial_f2m  aerial_m2caerial_c2vc  ground_low_vf  ground_low_fmc  ground_high_vf  ground_high_fmc  airblast_normal  airblast_dense   airblast_sparse  airblast_vineyard  airblast_orchard
-===========  ==========  =====================  =============  ==============  ==============  ===============  ===============  ===============  ===============  =================  =================
-Aquatic Assessment
-Terrestrial Assessment
-Aquatic Assessment
-Terrestrial Assessment
-Aquatic Assessment
-Terrestrial Assessment
-Aquatic Assessment
-Terrestrial Assessment
-Aquatic Assessment
-Terrestrial Assessment
-Aquatic Assessment
-Terrestrial Assessment
-Aquatic Assessment
-Terrestrial Assessment
-Aquatic Assessment
-Aquatic Assessment
-Aquatic Assessment
-Terrestrial Assessment
-Terrestrial Assessment
-Terrestrial Assessment
-Field Assessment
-Aquatic Assessment
-Terrestrial Assessment
-
-
-test_validate_sim_scenarios
-====================================  ========================================  ====================================  ========================================  ====================================  ========================================  ====================================  ========================================  ====================================  ==========================================  ======================================  ==========================================  ======================================  ==========================================  ======================================  ======================================  ========================================  ==========================================  ==========================================  ============================================  ===============================  ====================================================  ========================================================
-0                                     1                                         2                                     3                                         4                                     5                                         6                                     7                                         8                                     9                                           10                                      11                                          12                                      13                                          14                                      15                                      16                                        17                                          18                                          19                                            20                               21                                                    22
-====================================  ========================================  ====================================  ========================================  ====================================  ========================================  ====================================  ========================================  ====================================  ==========================================  ======================================  ==========================================  ======================================  ==========================================  ======================================  ======================================  ========================================  ==========================================  ==========================================  ============================================  ===============================  ====================================================  ========================================================
-Valid Tier I Aquatic Aerial Scenario  Valid Tier I Terrestrial Aerial Scenario  Valid Tier I Aquatic Aerial Scenario  Valid Tier I Terrestrial Aerial Scenario  Valid Tier I Aquatic Aerial Scenario  Valid Tier I Terrestrial Ground Scenario  Valid Tier I Aquatic Ground Scenario  Valid Tier I Terrestrial Ground Scenario  Valid Tier I Aquatic Ground Scenario  Valid Tier I Terrestrial Airblast Scenario  Valid Tier I Aquatic Airblast Scenario  Valid Tier I Terrestrial Airblast Scenario  Valid Tier I Aquatic Airblast Scenario  Valid Tier I Terrestrial Airblast Scenario  Invalid Tier I Aquatic Aerial Scenario  Invalid Tier I Aquatic Ground Scenario  Invalid Tier I Aquatic Airblast Scenario  Invalid Tier I Terrestrial Aerial Scenario  Valid Tier I Terrestrial Ground Scenario    Valid Tier I Terrestrial Airblast Scenario    Invalid scenario ecosystem_type  Invalid Tier I Aquatic Assessment application_method  Invalid Tier I Terrestrial Assessment application_method
-Valid Tier I Aquatic Aerial Scenario  Valid Tier I Terrestrial Aerial Scenario  Valid Tier I Aquatic Aerial Scenario  Valid Tier I Terrestrial Aerial Scenario  Valid Tier I Aquatic Aerial Scenario  Valid Tier I Terrestrial Ground Scenario  Valid Tier I Aquatic Ground Scenario  Valid Tier I Terrestrial Ground Scenario  Valid Tier I Aquatic Ground Scenario  Valid Tier I Terrestrial Airblast Scenario  Valid Tier I Aquatic Airblast Scenario  Valid Tier I Terrestrial Airblast Scenario  Valid Tier I Aquatic Airblast Scenario  Valid Tier I Terrestrial Airblast Scenario  Invalid Tier I Aquatic Aerial Scenario  Invalid Tier I Aquatic Ground Scenario  Invalid Tier I Aquatic Airblast Scenario  Invalid Tier I Terrestrial Aerial Scenario  Invalid Tier I Terrestrial Ground Scenario  Invalid Tier I Terrestrial Airblast Scenario  Invalid scenario ecosystem_type  Invalid Tier I Aquatic Assessment application_method  Invalid Tier I Terrestrial Assessment application_method
-====================================  ========================================  ====================================  ========================================  ====================================  ========================================  ====================================  ========================================  ====================================  ==========================================  ======================================  ==========================================  ======================================  ==========================================  ======================================  ======================================  ========================================  ==========================================  ==========================================  ============================================  ===============================  ====================================================  ========================================================
-
-Arrays are not equal
-
-(mismatch 8.69565217391%)
- x: array(['Valid Tier I Aquatic Aerial Scenario',
-       'Valid Tier I Terrestrial Aerial Scenario',
-       'Valid Tier I Aquatic Aerial Scenario',...
- y: array(['Valid Tier I Aquatic Aerial Scenario',
-       'Valid Tier I Terrestrial Aerial Scenario',
-       'Valid Tier I Aquatic Aerial Scenario',...Traceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 329, in run
-    testMethod()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 265, in test_validate_sim_scenarios
-    npt.assert_array_equal(result, expected_result, err_msg="", verbose=True)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/numpy/testing/utils.py", line 811, in assert_array_equal
-    verbose=verbose, header='Arrays are not equal')
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/numpy/testing/utils.py", line 737, in assert_array_compare
-    raise AssertionError(msg)
-AssertionError: 
-Arrays are not equal
-
-(mismatch 8.69565217391%)
- x: array(['Valid Tier I Aquatic Aerial Scenario',
-       'Valid Tier I Terrestrial Aerial Scenario',
-       'Valid Tier I Aquatic Aerial Scenario',...
- y: array(['Valid Tier I Aquatic Aerial Scenario',
-       'Valid Tier I Terrestrial Aerial Scenario',
-       'Valid Tier I Aquatic Aerial Scenario',...
-not all arguments converted during string formattingTraceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 329, in run
-    testMethod()
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/loader.py", line 418, in loadTestsFromName
+  File "c:\python27\lib\site-packages\nose\loader.py", line 418, in loadTestsFromName
     addr.filename, addr.module)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/importer.py", line 47, in importFromPath
+  File "c:\python27\lib\site-packages\nose\importer.py", line 47, in importFromPath
     return self.importFromDir(dir_path, fqname)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/importer.py", line 94, in importFromDir
+  File "c:\python27\lib\site-packages\nose\importer.py", line 94, in importFromDir
     mod = load_module(part_fqname, fh, filename, desc)
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_integration.py", line 70, in <module>
-    agdrift_calc.execute_model()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_exe.py", line 95, in execute_model
-    self.run_methods()
-  File "/Users/puruckertom/git/qed_ubertool/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_exe.py", line 113, in run_methods
-    logging.info("Unexpected error:", sys.exc_info()[0])
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 1629, in info
-    root.info(msg, *args, **kwargs)
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 1167, in info
-    self._log(INFO, msg, args, **kwargs)
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 1286, in _log
-    self.handle(record)
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 1296, in handle
-    self.callHandlers(record)
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 1336, in callHandlers
-    hdlr.handle(record)
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 759, in handle
-    self.emit(record)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/plugins/logcapture.py", line 82, in emit
-    self.buffer.append(self.format(record))
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 734, in format
-    return fmt.format(record)
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 465, in format
-    record.message = record.getMessage()
-  File "/Users/puruckertom/anaconda/lib/python2.7/logging/__init__.py", line 329, in getMessage
-    msg = msg % self.args
-TypeError: not all arguments converted during string formatting
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\agdrift\tests\test_agdrift_unittest.py", line 16, in <module>
+    from agdrift_exe import Agdrift
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\agdrift\agdrift_exe.py", line 8, in <module>
+    from scipy.optimize import curve_fit
+  File "c:\python27\lib\site-packages\scipy\optimize\__init__.py", line 222, in <module>
+    from ._minimize import *
+  File "c:\python27\lib\site-packages\scipy\optimize\_minimize.py", line 31, in <module>
+    from .tnc import _minimize_tnc
+  File "c:\python27\lib\site-packages\scipy\optimize\tnc.py", line 37, in <module>
+    from scipy.optimize import moduleTNC, approx_fprime
+ImportError: cannot import name moduleTNC
+cannot import name moduleTNCTraceback (most recent call last):
+  File "c:\python27\lib\unittest\case.py", line 329, in run
+    testMethod()
+  File "c:\python27\lib\site-packages\nose\loader.py", line 418, in loadTestsFromName
+    addr.filename, addr.module)
+  File "c:\python27\lib\site-packages\nose\importer.py", line 47, in importFromPath
+    return self.importFromDir(dir_path, fqname)
+  File "c:\python27\lib\site-packages\nose\importer.py", line 94, in importFromDir
+    mod = load_module(part_fqname, fh, filename, desc)
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\agdrift\tests\test_agdrift_integration.py", line 17, in <module>
+    from agdrift_exe import Agdrift, AgdriftOutputs
+  File "C:\Users\GLANIAK\qed\ubertool_ecorest\ubertool\ubertool\agdrift\agdrift_exe.py", line 8, in <module>
+    from scipy.optimize import curve_fit
+  File "c:\python27\lib\site-packages\scipy\optimize\__init__.py", line 222, in <module>
+    from ._minimize import *
+  File "c:\python27\lib\site-packages\scipy\optimize\_minimize.py", line 31, in <module>
+    from .tnc import _minimize_tnc
+  File "c:\python27\lib\site-packages\scipy\optimize\tnc.py", line 37, in <module>
+    from scipy.optimize import moduleTNC, approx_fprime
+ImportError: cannot import name moduleTNC
 </pre>
     </div>
 </body>
