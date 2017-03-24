@@ -714,6 +714,7 @@ class TestAgdrift(unittest.TestCase):
                                                               'NaN',
                                                               'User Defined Terrestrial',
                                                               'EPA Defined Terrestrial'], dtype='object')
+            num_simulations = len(agdrift_empty.ecosystem_type)
 
             agdrift_empty.default_width = 208.7
             agdrift_empty.default_length = 515.8
@@ -726,13 +727,16 @@ class TestAgdrift(unittest.TestCase):
             agdrift_empty.user_wetland_depth = pd.Series(['NaN','NaN', 'NaN', 23., 'NaN', 'NaN'], dtype='float')
             agdrift_empty.user_terrestrial_width = pd.Series(['NaN', 'NaN', 'NaN', 'NaN', 150., 'NaN'], dtype='float')
 
-            width_result = pd.Series(len(agdrift_empty.user_pond_width) * ['NaN'], dtype='float')
-            length_result = pd.Series(len(agdrift_empty.user_pond_width) * ['NaN'], dtype='float')
-            depth_result = pd.Series(len(agdrift_empty.user_pond_width) * ['NaN'], dtype='float')
+            width_result = pd.Series(num_simulations * ['NaN'], dtype='float')
+            length_result = pd.Series(num_simulations * ['NaN'], dtype='float')
+            depth_result = pd.Series(num_simulations * ['NaN'], dtype='float')
+            agdrift_empty.out_area_width = pd.Series(num_simulations * ['nan'], dtype='float')
+            agdrift_empty.out_area_length = pd.Series(num_simulations * ['nan'], dtype='float')
+            agdrift_empty.out_area_depth = pd.Series(num_simulations * ['nan'], dtype='float')
 
             agdrift_empty.sqft_per_hectare = 107639
 
-            for i in range(len(agdrift_empty.ecosystem_type)):
+            for i in range(num_simulations):
                 width_result[i], length_result[i], depth_result[i] = agdrift_empty.determine_area_dimensions(i)
 
             npt.assert_allclose(width_result, expected_width, rtol=1e-5, atol=0, err_msg='', verbose=True)
