@@ -254,6 +254,16 @@ class TestAgdrift(unittest.TestCase):
             pass
         return
 
+    def test_range_chk(self):
+        """
+        Integration test for agdrift.agdrift_fugacity
+        """
+        try:
+            self.blackbox_method_str('range_chk')
+        finally:
+            pass
+        return
+
     def blackbox_method_float(self, output, func_name):
         """
         Helper method to reuse code for testing numpy array outputs from TerrPlant model
@@ -280,13 +290,15 @@ class TestAgdrift(unittest.TestCase):
         :param output:
         :return:
         """
-        result = agdrift_calc.pd_obj_out["out_" + output]
-        expected = agdrift_calc.pd_obj_exp["exp_" + output]
-        tab = pd.concat([result,expected], axis=1)
-        print(" ")
-        print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
-        npt.assert_array_equal(result, expected)
-
+        try:
+            result = agdrift_calc.pd_obj_out["out_" + output]
+            expected = agdrift_calc.pd_obj_exp["exp_" + output]
+            npt.assert_array_equal(result, expected)
+        finally:
+            tab = pd.concat([result,expected], axis=1)
+            print(" ")
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 # unittest will
 # 1) call the setup method,
 # 2) then call every method starting with "test",

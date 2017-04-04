@@ -12,6 +12,7 @@ from sqlalchemy import *
 import sqlalchemy_utils as sqlu
 import sqlite3
 import time
+import csv
 
 metadata = MetaData()
 
@@ -595,7 +596,15 @@ class AgdriftFunctions(object):
 
     def create_integration_avg(self, npts_orig, x_array_in, y_array_in, x_dist, integrated_avg):
         """
-        :description this method takes an x/y array and creates a x_out/y_out array of running averages
+        :description this algorithm searches through a series of x/y values to locate a specified integrated average
+        :            integrated averages are processed for each x[] from x[0] until the integrated average matches that
+        :            specified in the input; for example, say you have a time series of daily water concentrations and you're
+        :            interested in when the 7-day integrated average exceeds a user specified value; this algorithm
+        :            would start at day 1, compute the 7-day integrated average (which would simpily be the 7-day average
+        :            if the the x points are evenly spaced, i.e., every day), it would then check the 7-day average against
+        :            the specified integrated average and if no match it would move to subsequent days and repeat the process
+        :            until it finds the integrated average of interest
+        :            integrated average (which represents a value of the running average of interest to the user
         :param npts_orig: number of points in orginal x vs y data points
         :param x_array_in: x values of original x vs y data points
         :param y_array_in: y values of original x vs y data points
@@ -606,16 +615,16 @@ class AgdriftFunctions(object):
         :param npts_out: number of points in running weighted average output array
         :param x_dist_of_interest: x location of trailing edge of x_dist for which the specified integrated_avg applies
         :NOTE We assume we have a monotonically decreasing y_array
-        :NOTE This code could use better documentation; there is multiple indexing going on and it is not
+        :NOTE This code could use better documentation; there are multiple indices in use and it is not
               easy to follow at this point
               segment: distance (in x-axis units) associated with length of running weighted average (e.g., 7-day averaging)
-              increment: step (x-asix distance between x_array_in points) included in calcuation of segment weighted average
+              increment: step (x-asix distance between x_array_in points) included in calculation of segment weighted average
         :return:
         """
 
         x_array_out = pd.Series([], dtype='float') #array of x pts associated with y_array_out
         y_array_out = pd.Series([], dtype='float') #array of running weighted averages
-
+        range_chk = 'in range'  #for reporting when user specified integrated average is not found within the data series
         continuing = True
         x_tot = 0   #total x-axis distance from start point of current averaging
         j_init = 0  #initial x[] of current averaging
@@ -649,6 +658,7 @@ class AgdriftFunctions(object):
                     y_array_out[i] = integrated_tot / x_dist
                     npts_out = len(x_array_out)  # not really necessary; at this point it will always be equal to 1
 
+                    #determine if the user specified integrated average has been located
                     if (y_array_in[1] < y_array_in[0]):
                         if (y_array_out[i] < integrated_avg):  #if true then we have achieved the integrated_avg before completing the first x_dist
                             # if we surpass the user supplied integrated_avg before reaching the edge of the first running average then
@@ -662,7 +672,7 @@ class AgdriftFunctions(object):
                             # output the message and set the x_dist_of_interest to zero (as is done in the original AGDRIFT model)
                             print "User-specified integrated average occurs before 1st x_dist extent is completed - x distance of interest set to first x_array_in value"
                             x_dist_of_interest = x_array_in[0]  #original AGDRIFT model sets this value to zero (i.e., first x point value)
-                            return x_array_out, y_array_out, npts_out, x_dist_of_interest
+                            return x_array_out, y_array_out, npts_out, x_dist_of_interest, range_chk
 
                 else:  #need to process only edges of running weighted average segment (i.e., subtract 1st and last
                        #increments from previous segment; then start adding new segments)
@@ -705,22 +715,26 @@ class AgdriftFunctions(object):
                     y_array_out[i] = integrated_tot / x_dist
                     npts_out = len(x_array_out)
 
-                    #determine if the user supplied extent average has been surpassed; if so compute the interpolated distance to the point of interest
+                    #determine if the user supplied integrated average has been surpassed; if so compute the interpolated distance to the point of interest
                     if (y_array_in[1] < y_array_in[0]):  #monotonically decreasing function
                         if (y_array_out[i] < integrated_avg):
                             fraction = (y_array_out[i-1] - integrated_avg) / (y_array_out[i-1] - y_array_out[i])
-                            #x_dist_of_interest = x_array_out[i-1] + fraction * (x_array_out[i] - x_array_out[i-1])
-                            #above is precise x_dist_of_interest; below is OPP protocol for rounding the distance up to the nearest segment midpoint or segment boundary
-                            if (fraction >= 0.5):
-                                x_dist_of_interest = x_array_out[i]
+                            if(self.find_nearest_x):  #if true then round to nearest half x unit
+                                #above is precise x_dist_of_interest; below is OPP protocol for rounding the distance up to the nearest segment midpoint or segment boundary
+                                if (fraction >= 0.5):
+                                    x_dist_of_interest = x_array_out[i]
+                                else:
+                                    x_dist_of_interest = x_array_out[i-1] + 0.5 * (x_array_out[i] - x_array_out[i-1])
                             else:
-                                x_dist_of_interest = x_array_out[i-1] + 0.5 * (x_array_out[i] - x_array_out[i-1])
-                            return x_array_out, y_array_out, npts_out, x_dist_of_interest
+                                x_dist_of_interest = x_array_out[i-1] + fraction * (x_array_out[i] - x_array_out[i-1])
+                            return x_array_out, y_array_out, npts_out, x_dist_of_interest, range_chk
+
                     else:
+                        #this increasing function does not naviagate to the nearest 1/2 x point as done above for decreasing function
                         if (y_array_out[i] > integrated_avg):
                             fraction = (integrated_avg - y_array_out[i-1]) / (y_array_out[i] - y_array_out[i-1])
                             x_dist_of_interest = x_array_out[i-1] + fraction * (x_array_out[i] - x_array_out[i-1])
-                            return x_array_out, y_array_out, npts_out, x_dist_of_interest
+                            return x_array_out, y_array_out, npts_out, x_dist_of_interest, range_chk
 
                         # #the following code (except the return statement) should be removed and placed in a separate methods
                     #
@@ -736,8 +750,145 @@ class AgdriftFunctions(object):
                     #     round_up_x_dist = 6.5616
                     #return x_array_out, y_array_out, npts_out, round_up_x_dist
 
+            else:
+                #some extent of the area-of-interest (e.g., pond) lies outside the data range
+                range_chk = 'out of range'
+                return x_array_out, y_array_out, npts_out, 'NaN', range_chk
 
-    # def deposition_gha_to_ngl_f(self):
+    def find_dep_pt_location(self, x_in, y_in, npts, foa):
+        """
+        :description this method locates the downwind distance associated with a specific deposition rate
+        :param x_in: array of distance values
+        :param y_in: array of deposition values
+        :param npts: number of values in x/y arrays
+        :param foa: value of deposition (y value) of interest
+        :return:
+        """
+        range_chk = 'in range'
+        continuing = True
+        j = 0
+        while continuing:
+            if (j == 0 and y_in[j] < foa): #means we're in the spray area and not 'downwind'
+                out_dist = 0.
+            elif (j > npts): #means we are beyond the data range
+                range_chk = 'out of range'
+            else:
+                if (y_in[j] < foa):
+                    fraction = (y_in[j-1] - foa) / (y_in[j-1] - y_in[j])
+                    out_dist = x_in[j-1] + fraction * (x_in[j] - x_in[j-1])
+
+                    # the following code represents OPP protocol to round up x_dist_of_interest to nearest x midpoint or boundary value
+                    # (except when x_dist_of_interest is in the range of the first 2 meters (i.e., 6.5616 ft)
+                    if (fraction <= 0.5 and out_dist > 3.2808):
+                        round_up_x_dist = 0.5 * (x_in[j] + x_in[j-1])
+                    elif (fraction > 0.5 and out_dist > 3.2808):
+                        round_up_x_dist = x_in[j]
+                    else:
+                        round_up_x_dist = 3.2808
+                    if (out_dist > 3.2808 and out_dist < 6.5616):
+                        round_up_x_dist = 6.5616
+                    out_dist = round_up_x_dist  # i is simulation number
+                    continuing = False
+                j += 1
+        return out_dist, range_chk
+
+    def round_model_outputs(self, interp_deposition, avg_dep_foa, avg_dep_lbac, avg_dep_gha, avg_waterconc_ngl,
+                                     avg_field_dep_mgcm, i):
+        """
+        :description round output variable values (and place in output variable series) so that they can be directly
+                     compared to expected results (which were limited in terms of their output format from the OPP AGDRIFT
+                     model (V2.1.1) interface (we don't have the AGDRIFT code so we cannot change the output format to
+                    agree with this model
+        :param interp_deposition:
+        :param avg_dep_foa:
+        :param avg_dep_lbac:
+        :param avg_dep_gha:
+        :param avg_waterconc_ngl:
+        :param avg_field_dep_mgcm:
+        :param i: simulation number
+        :return:
+        """
+        if (np.isfinite(interp_deposition)):
+            if (interp_deposition > 1e-4 and interp_deposition < 1.):
+                self.out_interp_deposition[i] = round(interp_deposition, 4)
+            elif (interp_deposition > 1.):
+                self.out_interp_deposition[i] = round(interp_deposition, 2)
+            else :
+                self.out_interp_deposition[i] = float('{:0.2e}'.format(float(interp_deposition)))
+        else:
+            self.out_interp_deposition[i] = interp_deposition
+
+        if (np.isfinite(avg_dep_foa)):
+            if (avg_dep_foa > 1e-4 and avg_dep_foa < 1.):
+                self.out_avg_dep_foa[i] = round(avg_dep_foa, 4)
+            elif (avg_dep_foa > 1.):
+                self.out_avg_dep_foa[i] = round(avg_dep_foa, 2)
+            else :
+                self.out_avg_dep_foa[i] = float('{:0.2e}'.format(float(avg_dep_foa)))
+        else:
+            self.out_avg_dep_foa[i] = avg_dep_foa
+
+        if (np.isfinite(avg_dep_lbac)):
+            if (avg_dep_lbac > 1e-4 and avg_dep_lbac < 1.):
+                self.out_avg_dep_lbac[i] = round(avg_dep_lbac, 4)
+            elif (avg_dep_lbac > 1.):
+                self.out_avg_dep_lbac[i] = round(avg_dep_lbac, 2)
+            else :
+                self.out_avg_dep_lbac[i] = float('{:0.2e}'.format(float(avg_dep_lbac)))
+        else:
+            self.out_avg_dep_lbac[i] = avg_dep_lbac
+
+        if (np.isfinite(avg_dep_gha)):
+            if (avg_dep_gha > 1e-4 and avg_dep_gha < 1.):
+                self.out_avg_dep_gha[i] = round(avg_dep_gha, 4)
+            elif (avg_dep_gha > 1.):
+                self.out_avg_dep_gha[i] = round(avg_dep_gha, 2)
+            else :
+                self.out_avg_dep_gha[i] = float('{:0.2e}'.format(float(avg_dep_gha)))
+        else:
+            self.out_avg_dep_gha[i] = avg_dep_gha
+
+        if (np.isfinite(avg_waterconc_ngl)):
+            if (avg_waterconc_ngl > 1e-4 and avg_waterconc_ngl < 1.):
+                self.out_avg_waterconc_ngl[i] = round(avg_waterconc_ngl, 4)
+            elif (avg_waterconc_ngl > 1.):
+                self.out_avg_waterconc_ngl[i] = round(avg_waterconc_ngl, 2)
+            else :
+                self.out_avg_waterconc_ngl[i] = float('{:0.2e}'.format(float(avg_waterconc_ngl)))
+        else:
+            self.out_avg_waterconc_ngl[i] = avg_waterconc_ngl
+
+        if(np.isfinite(avg_field_dep_mgcm)):
+            if (avg_field_dep_mgcm > 1e-4 and avg_field_dep_mgcm < 1.):
+                self.out_avg_field_dep_mgcm[i] = round(avg_field_dep_mgcm, 4)
+            elif (avg_field_dep_mgcm > 1.):
+                self.out_avg_field_dep_mgcm[i] = round(avg_field_dep_mgcm, 2)
+            else:
+                self.out_avg_field_dep_mgcm[i] = float('{:0.2e}'.format(float(avg_field_dep_mgcm)))
+        else:
+            self.out_avg_field_dep_mgcm[i] = avg_field_dep_mgcm
+        return
+
+    def write_data_to_csv(self, scenario_index):
+
+        #just a quick method to help debugging
+        #write distance and deposition data to csv file
+        x_in = pd.Series([], dtype='float')
+        y_in = pd.Series([], dtype='float')
+
+        x_in = self.scenario_distance_data[scenario_index]
+        y_in = self.scenario_deposition_data[scenario_index]
+
+        with open("dist_dep.csv", 'wb') as output_file:
+            wr = csv.writer(output_file, dialect='excel')
+            for k in range(len(x_in)):
+                item1 = x_in[k]
+                item2 = y_in[k]
+                wr.writerow([item1,item2],)
+        output_file.close()
+        return
+
+                # def deposition_gha_to_ngl_f(self):
     #     """
     #     Deposition calculation.
     #     :param out_init_avg_dep_foa:

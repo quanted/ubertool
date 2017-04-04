@@ -3,16 +3,20 @@ The following are notes related to the conduct of the Agdrift Model updating and
 1. The Agdrift model has been essentially rewritten to conform, in terms of functionality, to the Tier I calculations
    facilitated through the Agdrift model user interface.  The Tier I calculations include Tier I Aerial, Tier I Ground,
    and Tier I Orchard(Airblast(Agriculture).
+
 2. This python version of the model also performs Tier I back calculations.
+
 3. The database of pesticide deposition rates at specific distances downwind of the application area (center line) are
    used to perform the calculations average deposition across the area of a downwind pond/wetland/terrestrial field.
    The database is a SQL database entitled 'sqlite_agdrift_1994ft.db' and is located in the python agdrift test directory
    within qed/ubertool_ecorest/ubertool/ubertool.
+
      a. The database contains downwind deposition data for 13 'scenarios'.  Each scenario represents a combination of
         aerial, ground, or airblast application.  Aerial applications are included for each of four droplet sizes
         (very fine to fine, fine to medium, medium to coarse, and coarse to very coarse).  Ground application scenarios
         include combinations of low/high boom height and very fine/fine to medium/coarse droplet size (four in all).
         The airblast application includes normal, dense/sparse, vineyard, and orchard (five in all).
+
      b. there are 163 distances between 0 and 1994 feet from the edge of the application field.  In the orginal database
         provided by OPP there were 161 distances between 0 and 997 feet.  We added two distances between 997 and 1994 to
         allow for extrapolation beyond 997 feet.  We did this because it 'appears' that the Agdrfit model (that we are
@@ -33,6 +37,7 @@ The following are notes related to the conduct of the Agdrift Model updating and
         deposition at 1495.5 feet (the midpoint of the pond).  This deposition allowed us to calculate the slope and by
         extending the slope we calculated a deposition value at 1994 feet.  These values were added to the database to
         allow our Python model code to perform the the necessary extrapolation in the Python code).
+
 4. To test our Python code we use the OPP Agdrfit model (originally written in VB and FORTRAN).  We run the OPP Agdrift
    model for a set of specific scenarios (some provided by OPP) , using the reults to compare to our running the same
    scenarios in the Python code.  Conceptually, this works fine, however, integration testing proved a challenge. The
@@ -44,6 +49,7 @@ The following are notes related to the conduct of the Agdrift Model updating and
    greater than 1 were left unchanged (i.e., not rounded).  This strategy does not fully resolve issues with comparing
    results between the two models but comes very close.  Further tweaking can be done.  This necessarily will impact
    our comparison within the integration tests (we've used 1e-5 for all models up to this point).
+
 5. While generating output values from the OPP Agdrift model (to compare to the Python model) it was noticed that the OPP
    Agdrift model gives two different results when running the 'EPA Defined Pond' vs 'User Defined Water Body' (when
    using the same default width and depth values associated with the 'EPA Defined Pond'). This happens
