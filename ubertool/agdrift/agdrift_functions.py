@@ -627,7 +627,7 @@ class AgdriftFunctions(object):
         range_chk = 'in range'  #for reporting when user specified integrated average is not found within the data series
         continuing = True
         x_tot = 0   #total x-axis distance from start point of current averaging
-        j_init = 0  #initial x[] of current averaging
+        j_init = 0 #initial x[] of current averaging
         for i in range (npts_orig-1): #calculate running weighted average for these points
             if(x_array_in[i] < (x_array_in[npts_orig-1] - x_dist)):
                 if (i == 0):   #first time through process full extent of x_dist (i.e., all x_array_in pts included in x dist)
@@ -717,7 +717,7 @@ class AgdriftFunctions(object):
 
                     #determine if the user supplied integrated average has been surpassed; if so compute the interpolated distance to the point of interest
                     if (y_array_in[1] < y_array_in[0]):  #monotonically decreasing function
-                        if (y_array_out[i] < integrated_avg):
+                        if (y_array_out[i] <= integrated_avg):
                             fraction = (y_array_out[i-1] - integrated_avg) / (y_array_out[i-1] - y_array_out[i])
                             if(self.find_nearest_x):  #if true then round to nearest half x unit
                                 #above is precise x_dist_of_interest; below is OPP protocol for rounding the distance up to the nearest segment midpoint or segment boundary
@@ -727,6 +727,8 @@ class AgdriftFunctions(object):
                                     x_dist_of_interest = x_array_out[i-1] + 0.5 * (x_array_out[i] - x_array_out[i-1])
                             else:
                                 x_dist_of_interest = x_array_out[i-1] + fraction * (x_array_out[i] - x_array_out[i-1])
+                            #write output arrays to excel file  --  just for debugging
+                            #self.write_arrays_to_csv(x_array_out, y_array_out, "output_array.csv")
                             return x_array_out, y_array_out, npts_out, x_dist_of_interest, range_chk
 
                     else:
@@ -750,10 +752,9 @@ class AgdriftFunctions(object):
                     #     round_up_x_dist = 6.5616
                     #return x_array_out, y_array_out, npts_out, round_up_x_dist
 
-            else:
-                #some extent of the area-of-interest (e.g., pond) lies outside the data range
-                range_chk = 'out of range'
-                return x_array_out, y_array_out, npts_out, 'NaN', range_chk
+        #some extent of the area-of-interest (e.g., pond) lies outside the data range
+        range_chk = 'out of range'
+        return x_array_out, y_array_out, npts_out, 'NaN', range_chk
 
     def find_dep_pt_location(self, x_in, y_in, npts, foa):
         """
@@ -792,14 +793,13 @@ class AgdriftFunctions(object):
                 j += 1
         return out_dist, range_chk
 
-    def round_model_outputs(self, interp_deposition, avg_dep_foa, avg_dep_lbac, avg_dep_gha, avg_waterconc_ngl,
+    def round_model_outputs(self, avg_dep_foa, avg_dep_lbac, avg_dep_gha, avg_waterconc_ngl,
                                      avg_field_dep_mgcm, i):
         """
         :description round output variable values (and place in output variable series) so that they can be directly
                      compared to expected results (which were limited in terms of their output format from the OPP AGDRIFT
                      model (V2.1.1) interface (we don't have the AGDRIFT code so we cannot change the output format to
                     agree with this model
-        :param interp_deposition:
         :param avg_dep_foa:
         :param avg_dep_lbac:
         :param avg_dep_gha:
@@ -808,15 +808,6 @@ class AgdriftFunctions(object):
         :param i: simulation number
         :return:
         """
-        if (np.isfinite(interp_deposition)):
-            if (interp_deposition > 1e-4 and interp_deposition < 1.):
-                self.out_interp_deposition[i] = round(interp_deposition, 4)
-            elif (interp_deposition > 1.):
-                self.out_interp_deposition[i] = round(interp_deposition, 2)
-            else :
-                self.out_interp_deposition[i] = float('{:0.2e}'.format(float(interp_deposition)))
-        else:
-            self.out_interp_deposition[i] = interp_deposition
 
         if (np.isfinite(avg_dep_foa)):
             if (avg_dep_foa > 1e-4 and avg_dep_foa < 1.):
@@ -885,6 +876,19 @@ class AgdriftFunctions(object):
                 item1 = x_in[k]
                 item2 = y_in[k]
                 wr.writerow([item1,item2],)
+        output_file.close()
+        return
+
+    def write_arrays_to_csv(self, x_in, y_in, db_name):
+
+        # just a quick method to help debugging
+
+        with open(db_name, 'wb') as output_file:
+            wr = csv.writer(output_file, dialect='excel')
+            for k in range(len(x_in)):
+                item1 = x_in[k]
+                item2 = y_in[k]
+                wr.writerow([item1, item2], )
         output_file.close()
         return
 

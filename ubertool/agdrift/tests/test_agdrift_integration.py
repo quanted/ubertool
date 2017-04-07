@@ -177,17 +177,6 @@ class TestAgdrift(unittest.TestCase):
             pass
         return
 
-    def test_interp_deposition(self):
-        """
-        Integration test for agdrift.agdrift_fugacity
-        """
-        func_name = inspect.currentframe().f_code.co_name
-        try:
-            self.blackbox_method_float('interp_deposition', func_name)
-        finally:
-            pass
-        return
-
     def test_distance_downwind(self):
         """
         Integration test for agdrift.agdrift_fugacity

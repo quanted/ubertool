@@ -82,8 +82,8 @@ class TestAgdrift(unittest.TestCase):
             'Invalid Tier I Aquatic Ground Scenario',
             'Invalid Tier I Aquatic Airblast Scenario',
             'Invalid Tier I Terrestrial Aerial Scenario',
-            'Invalid Tier I Terrestrial Ground Scenario',
-            'Invalid Tier I Terrestrial Airblast Scenario',
+            'Valid Tier I Terrestrial Ground Scenario',
+            'Valid Tier I Terrestrial Airblast Scenario',
             'Invalid scenario ecosystem_type',
             'Invalid Tier I Aquatic Assessment application_method',
             'Invalid Tier I Terrestrial Assessment application_method'],dtype='object')
@@ -445,7 +445,7 @@ class TestAgdrift(unittest.TestCase):
 
         try:
 
-            expected_result = [0.,0.1025,0.2051,0.4101,0.8202,1.6404,3.2808,4.9212,6.5616,9.8424,13.1232,19.6848,26.2464,
+            expected_result = [0.,0.102525,0.20505,0.4101,0.8202,1.6404,3.2808,4.9212,6.5616,9.8424,13.1232,19.6848,26.2464,
                         32.808,39.3696,45.9312,52.4928,59.0544,65.616,72.1776,78.7392,85.3008,91.8624,98.424,104.9856,
                         111.5472,118.1088,124.6704,131.232,137.7936,144.3552,150.9168,157.4784,164.04,170.6016,177.1632,
                         183.7248,190.2864,196.848,203.4096,209.9712,216.5328,223.0944,229.656,236.2176,242.7792,249.3408,
@@ -459,7 +459,7 @@ class TestAgdrift(unittest.TestCase):
                         761.1456,767.7072,774.2688,780.8304,787.392,793.9536,800.5152,807.0768,813.6384,820.2,826.7616,
                         833.3232,839.8848,846.4464,853.008,859.5696,866.1312,872.6928,879.2544,885.816,892.3776,898.9392,
                         905.5008,912.0624,918.624,925.1856,931.7472,938.3088,944.8704,951.432,957.9936,964.5552,971.1168,
-                        977.6784,984.24,990.8016,997.3632,1495.5,1994.0]
+                        977.6784,984.24,990.8016,997.3632]
 
             agdrift_empty.distance_name = 'distance_ft'
             agdrift_empty.num_db_values = len(expected_result)
@@ -1185,9 +1185,6 @@ class TestAgdrift(unittest.TestCase):
         :return:
         """
 
-        #THIS UNIT TEST NEEDS TO BE CLEANED UP AND COMPLETED; AT THIS POINT THERE IS NO ASSERTION OF RESULTS
-        #NUMEROUS TESTS HAVE BEEN CONDUCTED (SO THE TESTED METHOD IS SOUND) BUT THEY NEED TO BE FORMALIZED
-
         # create empty pandas dataframes to create empty object for this unittest
         agdrift_empty = self.create_agdrift_object()
 
@@ -1219,36 +1216,42 @@ class TestAgdrift(unittest.TestCase):
                         761.1456,767.7072,774.2688,780.8304,787.392,793.9536,800.5152,807.0768,813.6384,820.2,826.7616,
                         833.3232,839.8848,846.4464,853.008,859.5696,866.1312,872.6928,879.2544,885.816,892.3776,898.9392,
                         905.5008,912.0624,918.624,925.1856,931.7472,938.3088,944.8704,951.432,957.9936,964.5552,971.1168,
-                        977.6784,984.24,990.8016,997.3632]
-            expected_result_y = [0.,0.102525,0.20505,0.4101,0.8202,1.6404,3.2808,4.9212,6.5616,9.8424,13.1232,19.6848,26.2464,
-                        32.808,39.3696,45.9312,52.4928,59.0544,65.616,72.1776,78.7392,85.3008,91.8624,98.424,104.9856,
-                        111.5472,118.1088,124.6704,131.232,137.7936,144.3552,150.9168,157.4784,164.04,170.6016,177.1632,
-                        183.7248,190.2864,196.848,203.4096,209.9712,216.5328,223.0944,229.656,236.2176,242.7792,249.3408,
-                        255.9024,262.464,269.0256,275.5872,282.1488,288.7104,295.272,301.8336,308.3952,314.9568,321.5184,
-                        328.08,334.6416,341.2032,347.7648,354.3264,360.888,367.4496,374.0112,380.5728,387.1344,393.696,
-                        400.2576,406.8192,413.3808,419.9424,426.504,433.0656,439.6272,446.1888,452.7504,459.312,465.8736,
-                        472.4352,478.9968,485.5584,492.12,498.6816,505.2432,511.8048,518.3664,524.928,531.4896,538.0512,
-                        544.6128,551.1744,557.736,564.2976,570.8592,577.4208,583.9824,590.544,597.1056,603.6672,610.2288,
-                        616.7904,623.352,629.9136,636.4752,643.0368,649.5984,656.16,662.7216,669.2832,675.8448,682.4064,
-                        688.968,695.5296,702.0912,708.6528,715.2144,721.776,728.3376,734.8992,741.4608,748.0224,754.584,
-                        761.1456,767.7072,774.2688,780.8304,787.392,793.9536,800.5152,807.0768,813.6384,820.2,826.7616,
-                        833.3232,839.8848,846.4464,853.008,859.5696,866.1312,872.6928,879.2544,885.816,892.3776,898.9392,
-                        905.5008,912.0624,918.624,925.1856,931.7472,938.3088,944.8704,951.432,957.9936,964.5552,971.1168,
-                        977.6784,984.24,990.8016,997.3632]
-            expected_result_npts = 11
-            expected_x_dist_of_interest = 30.5
+                        977.6784,984.24,990.8016]
 
 
-            x_dist = 175.
-            weighted_avg = 0.002
+            expected_result_y = [0.364706389,0.351133211,0.338484161,0.315606383,0.277604029,0.222810736,0.159943507,
+                                 0.121479708,0.099778741,0.068653,0.05635,0.0386,0.0296,0.02415,0.02055,0.01795,
+                                 0.0159675,0.0144675,0.0132,0.01215,0.0113,0.01055,0.009905,0.009345,0.008845,0.0084,
+                                 0.008,0.007635,0.0073,0.007,0.006725,0.006465,0.00623,0.00601,0.005805,0.005615,
+                                 0.005435,0.00527,0.00511,0.00496,0.00482,0.004685,0.00456,0.00444,0.004325,0.00422,
+                                 0.00412,0.00402,0.003925,0.003835,0.00375,0.00367,0.00359,0.00351,0.003435,0.003365,
+                                 0.0033,0.003235,0.00317,0.00311,0.003055,0.003,0.002945,0.002895,0.002845,0.002795,
+                                 0.002745,0.002695,0.00265,0.00261,0.00257,0.002525,0.002485,0.00245,0.00241,0.00237,
+                                 0.002335,0.0023,0.002265,0.002235,0.002205,0.002175,0.002145,0.002115,0.002085,
+                                 0.002055,0.002025,0.002,0.001975,0.001945,0.00192,0.0019,0.001875,0.00185,0.00183,
+                                 0.001805,0.00178,0.00176,0.00174,0.00172,0.0017,0.00168,0.00166,0.00164,0.00162,
+                                 0.001605,0.00159,0.00157,0.00155,0.001535,0.00152,0.0015,0.001485,0.00147,0.001455,
+                                 0.00144,0.001425,0.00141,0.001395,0.001385,0.00137,0.001355,0.00134,0.001325,0.001315,
+                                 0.001305,0.00129,0.001275,0.001265,0.001255,0.001245,0.00123,0.001215,0.001205,
+                                 0.001195,0.001185,0.001175,0.001165,0.001155,0.001145,0.001135,0.001125,0.001115,
+                                 0.001105,0.001095,0.001085,0.001075,0.001065,0.00106,0.001055,0.001045,0.001035,
+                                 0.001025,0.001015,0.001005,0.0009985,0.000993,0.000985,0.000977,0.0009695]
+
+            expected_result_npts = 160
+            expected_x_dist_of_interest = 990.8016
+
+
+            x_dist = 6.56
+            weighted_avg = 0.0009695
             agdrift_empty.distance_name = 'distance_ft'
             agdrift_empty.scenario_name = 'ground_low_vf'
             agdrift_empty.num_db_values = 161
+            agdrift_empty.find_nearest_x = True
             x_array_in = agdrift_empty.get_distances(agdrift_empty.num_db_values)
             y_array_in = agdrift_empty.get_scenario_deposition_data(agdrift_empty.scenario_name, agdrift_empty.num_db_values)
 
-            x_array_out, y_array_out, npts_out, x_dist_of_interest = agdrift_empty.create_integration_avg(agdrift_empty.num_db_values,
-                                                                        x_array_in, y_array_in, x_dist, weighted_avg)
+            x_array_out, y_array_out, npts_out, x_dist_of_interest, range_chk = \
+                agdrift_empty.create_integration_avg(agdrift_empty.num_db_values, x_array_in, y_array_in, x_dist, weighted_avg)
 
             npt.assert_array_equal(expected_x_dist_of_interest, x_dist_of_interest, verbose=True)
             npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
@@ -1276,9 +1279,6 @@ class TestAgdrift(unittest.TestCase):
         :NOTE this test is for a monotonically increasing function with some irregularity in x-axis points
         :return:
         """
-
-        #THIS UNIT TEST NEEDS TO BE CLEANED UP AND COMPLETED; AT THIS POINT THERE IS NO ASSERTION OF RESULTS
-        #NUMEROUS TESTS HAVE BEEN CONDUCTED (SO THE TESTED METHOD IS SOUND) BUT THEY NEED TO BE FORMALIZED
 
         # create empty pandas dataframes to create empty object for this unittest
         agdrift_empty = self.create_agdrift_object()
@@ -1313,9 +1313,11 @@ class TestAgdrift(unittest.TestCase):
                           21.,22.,23.,24.,25.,26.,27.,28.,29.,30.,
                           31.,32.,33.,34.,35.,36.,37.,38.,39.,40.,
                           41.,42.,43.,44.,45.,46.,47.,48.,49.,50.]
+            agdrift_empty.find_nearest_x = True
 
-            x_array_out, y_array_out, npts_out, x_dist_of_interest = agdrift_empty.create_integration_avg(num_db_values,
-                                                                        x_array_in, y_array_in, x_dist, weighted_avg)
+            x_array_out, y_array_out, npts_out, x_dist_of_interest, range_chk = \
+                agdrift_empty.create_integration_avg(num_db_values, x_array_in, y_array_in, x_dist, weighted_avg)
+
             npt.assert_array_equal(expected_x_dist_of_interest, x_dist_of_interest, verbose=True)
             npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
             npt.assert_allclose(x_array_out, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)
@@ -1344,12 +1346,8 @@ class TestAgdrift(unittest.TestCase):
         :return:
         """
 
-        #THIS UNIT TEST NEEDS TO BE CLEANED UP AND COMPLETED; AT THIS POINT THERE IS NO ASSERTION OF RESULTS
-        #NUMEROUS TESTS HAVE BEEN CONDUCTED (SO THE TESTED METHOD IS SOUND) BUT THEY NEED TO BE FORMALIZED
-
         # create empty pandas dataframes to create empty object for this unittest
         agdrift_empty = self.create_agdrift_object()
-
 
         expected_result_x = pd.Series([], dtype='float')
         expected_result_y = pd.Series([], dtype='float')
@@ -1370,11 +1368,13 @@ class TestAgdrift(unittest.TestCase):
                                  27.5,26.5,25.5,24.5,23.5,22.5,21.5,20.5,19.5,18.5,
                                  17.5,16.5,15.5,14.5,13.5,12.5,11.5]
             expected_result_npts = 37
-            expected_x_dist_of_interest = 59.5
+            expected_x_dist_of_interest = 60.
 
             x_dist = 5.
             weighted_avg = 12.
             num_db_values = 51
+            agdrift_empty.find_nearest_x = True
+
             x_array_in = [0.,7.,16.,17.,18.,19.,20.,28.,29.,30.,
                           34.,35.,36.,37.,38.,39.,40.,
                           41.,42.,43.,44.,45.,46.,47.,48.,49.,50.,
@@ -1387,8 +1387,8 @@ class TestAgdrift(unittest.TestCase):
                           20.,19.,18.,17.,16.,15.,14.,13.,12.,11.,
                           10.,9.,8.,7.,6.,5.,4.,3.,2.,1.,0.]
 
-            x_array_out, y_array_out, npts_out, x_dist_of_interest = agdrift_empty.create_integration_avg(num_db_values,
-                                                                        x_array_in, y_array_in, x_dist, weighted_avg)
+            x_array_out, y_array_out, npts_out, x_dist_of_interest, range_chk = \
+                agdrift_empty.create_integration_avg(num_db_values, x_array_in, y_array_in, x_dist, weighted_avg)
 
             npt.assert_array_equal(expected_x_dist_of_interest, x_dist_of_interest, verbose=True)
             npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
@@ -1417,9 +1417,6 @@ class TestAgdrift(unittest.TestCase):
         :return:
         """
 
-        #THIS UNIT TEST NEEDS TO BE CLEANED UP AND COMPLETED; AT THIS POINT THERE IS NO ASSERTION OF RESULTS
-        #NUMEROUS TESTS HAVE BEEN CONDUCTED (SO THE TESTED METHOD IS SOUND) BUT THEY NEED TO BE FORMALIZED
-
         # create empty pandas dataframes to create empty object for this unittest
         agdrift_empty = self.create_agdrift_object()
 
@@ -1444,11 +1441,12 @@ class TestAgdrift(unittest.TestCase):
                                  27.5,26.5,25.5,24.5,23.5,22.5,21.5,20.5,19.5,18.5,
                                  17.5,16.5,15.5,14.5,13.5,12.5,11.5]
             expected_result_npts = 37
-            expected_x_dist_of_interest = 35.5
+            expected_x_dist_of_interest = 36.
 
             x_dist = 5.
             weighted_avg = 12.
             num_db_values = 51
+            agdrift_empty.find_nearest_x = True
             x_array_in = [0.,1.,2.,3.,4.,5.,6.,7.,8.,9.,
                           10.,11.,12.,13.,14.,15.,16.,17.,18.,19.,
                           20.,21.,22.,23.,24.,25.,26.,27.,28.,29.,
@@ -1461,8 +1459,8 @@ class TestAgdrift(unittest.TestCase):
                           20.,19.,18.,17.,16.,15.,14.,13.,12.,11.,
                           10.,9.,8.,7.,6.,5.,4.,3.,2.,1.,0.]
 
-            x_array_out, y_array_out, npts_out, x_dist_of_interest = agdrift_empty.create_integration_avg(num_db_values,
-                                                                        x_array_in, y_array_in, x_dist, weighted_avg)
+            x_array_out, y_array_out, npts_out, x_dist_of_interest, range_chk = \
+                agdrift_empty.create_integration_avg(num_db_values, x_array_in, y_array_in, x_dist, weighted_avg)
 
             npt.assert_array_equal(expected_x_dist_of_interest, x_dist_of_interest, verbose=True )
             npt.assert_array_equal(expected_result_npts, npts_out, verbose=True )
