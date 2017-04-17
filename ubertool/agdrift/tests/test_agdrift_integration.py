@@ -232,13 +232,13 @@ class TestAgdrift(unittest.TestCase):
             pass
         return
 
-    def test_avg_field_dep_mgcm(self):
+    def test_avg_field_dep_mgcm2(self):
         """
         Integration test for agdrift.agdrift_fugacity
         """
         func_name = inspect.currentframe().f_code.co_name
         try:
-            self.blackbox_method_float('avg_field_dep_mgcm', func_name)
+            self.blackbox_method_float('avg_field_dep_mgcm2', func_name)
         finally:
             pass
         return

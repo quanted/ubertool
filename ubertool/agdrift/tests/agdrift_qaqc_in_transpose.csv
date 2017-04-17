@@ -1,4 +1,4 @@
-,version,chemical_name,pc_code,application_rate,application_method,drop_size,ecosystem_type,boom_height,airblast_type,aquatic_body_type,terrestrial_field_type,user_pond_width,user_pond_depth,user_wetland_width,user_wetland_depth,user_terrestrial_width,downwind_distance,calculation_input,user_avg_dep_foa,user_avg_dep_gha,user_avg_dep_lbac,user_avg_conc_ngl,user_avg_dep_mgcm
+,version,chemical_name,pc_code,application_rate,application_method,drop_size,ecosystem_type,boom_height,airblast_type,aquatic_body_type,terrestrial_field_type,user_pond_width,user_pond_depth,user_wetland_width,user_wetland_depth,user_terrestrial_width,downwind_distance,calculation_input,user_avg_dep_foa,user_avg_dep_gha,user_avg_dep_lbac,user_avg_conc_ngl,user_avg_dep_mgcm2
 0,,i,,0.5,Tier I Aerial,Medium to Coarse,Aquatic Assessment,,,EPA Defined Wetland,,,,,,,712,,,,,,
 1,,i,,0.5,Tier I Aerial,Medium to Coarse,Aquatic Assessment,,,User Defined Wetland,,,,208.7,0.4921,,712,,,,,,
 2,,i,,0.5,Tier I Aerial,Medium to Coarse,Aquatic Assessment,,,User Defined Wetland,,,,208.7,0.4921,,,Fraction of applied,0.006,,,,
@@ -31,7 +31,7 @@
 29,,d,,0.63,Tier I Airblast, ,Aquatic Assessment,,Vineyard,EPA Defined Pond,,,,,,,,Fraction of applied,0.0000596,,,,
 30,,e,,0.41,Tier I Airblast, ,Aquatic Assessment,,Orchard,EPA Defined Wetland,,,,,,,,Initial Average Deposition (g/ha),,0.1858,,,
 31,,g,,0.5,Tier I Airblast, ,Terrestrial Assessment,,Normal, ,User Defined Terrestrial,,,,,208.7,,Initial Point Deposition (mg/cm2),,,,,0.000000224
-32,,a,,0.5,Tier I Airblast, ,Aquatic Assessment,,Dense,User Defined Pond,,6.56,6.56,,,,,Initial Average Concentration (ng/L),,,,1800.18,
+32,,a,,0.5,Tier I Airblast, ,Aquatic Assessment,,Dense,User Defined Pond,,6.56,6.56,,,,,Initial Average Concentration (ng/L),,,,1800,
 33,,a,,0.5,Tier I Aerial,Fine to Medium,Terrestrial Assessment,,,,User Defined Terrestrial,,,,,208.7,,Fraction of applied,0.01,,,,
 34,,g,,0.5,Tier I Airblast, ,Terrestrial Assessment,,Normal, ,User Defined Terrestrial,,,,,208.7,,Initial Point Deposition (mg/cm2),,,,,0.0000001
 35,,g,,0.5,Tier I Airblast, ,Terrestrial Assessment,,Normal, ,EPA Defined Terrestrial,,,,,,,Initial Point Deposition (mg/cm2),,,,,0.0000001
