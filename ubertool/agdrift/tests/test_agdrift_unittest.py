@@ -286,10 +286,9 @@ class TestAgdrift(unittest.TestCase):
         # create empty pandas dataframes to create empty object for this unittest
         agdrift_empty = self.create_agdrift_object()
 
-        agdrift_empty.out_sim_scenario_id = pd.Series([], dtype='object')
         expected_result = pd.Series(['aerial_vf2f',
                                      'aerial_f2m',
-                                     'aerial_m2c'
+                                     'aerial_m2c',
                                      'aerial_c2vc',
                                      'ground_low_vf',
                                      'ground_low_fmc',
@@ -372,11 +371,12 @@ class TestAgdrift(unittest.TestCase):
                                                      'Dense',
                                                      'Sparse',
                                                      'Vineyard',
-                                                     'Orchard'
+                                                     'Orchard',
                                                      'NaN'], dtype='object')
 
             agdrift_empty.set_sim_scenario_id()
             result = agdrift_empty.out_sim_scenario_id
+            npt.assert_array_equal(result, expected_result, err_msg="", verbose=True)
         finally:
             tab = [result, expected_result]
             print("\n")
@@ -402,7 +402,7 @@ class TestAgdrift(unittest.TestCase):
                                      'ground_low_vf', 'ground_low_fmc',
                                      'ground_high_vf', 'ground_high_fmc',
                                      'airblast_normal', 'airblast_dense', 'airblast_sparse',
-                                     'airblast_vineyard', 'airblast_orchard', 13])
+                                     'airblast_vineyard', 'airblast_orchard'], dtype='object')
 
         try:
             agdrift_empty.column_names = pd.Series(['aerial_vf2f', 'aerial_f2m', 'aerial_m2c', 'aerial_c2vc',
@@ -414,10 +414,7 @@ class TestAgdrift(unittest.TestCase):
             #call method to assign scenario names
             agdrift_empty.assign_column_names()
             result = agdrift_empty.scenario_name
-            #ready scenario count for appending to scneario list for test purposes
-            #couldn't find more appropriate way to do this appending
-            scenario_num = pd.Series([agdrift_empty.scenario_number], dtype='object')
-            result.append(scenario_num)
+            npt.assert_array_equal(result, expected_result, err_msg="", verbose=True)
         finally:
             tab = [result, expected_result]
             print("\n")
@@ -552,13 +549,14 @@ class TestAgdrift(unittest.TestCase):
         agdrift_empty.db_table = 'output'
 
         result = pd.Series([], dtype='object')
-        expected_result = ['aerial_vf2f', 'aerial_f2m', 'aerial_m2c', 'aerial_c2vc',
+        expected_result = ['distance_ft','aerial_vf2f', 'aerial_f2m', 'aerial_m2c', 'aerial_c2vc',
                                            'ground_low_vf', 'ground_low_fmc', 'ground_high_vf', 'ground_high_fmc',
                                            'airblast_normal', 'airblast_dense', 'airblast_sparse', 'airblast_vineyard',
                                            'airblast_orchard']
 
         try:
             result = agdrift_empty.get_column_names()
+            npt.assert_array_equal(result, expected_result, err_msg="", verbose=True)
         finally:
             tab = [result, expected_result]
             print("\n")
@@ -647,7 +645,6 @@ class TestAgdrift(unittest.TestCase):
             result_num_sims, result_sim_indices = agdrift_empty.list_sims_per_scenario()
             npt.assert_array_equal(result_num_sims, expected_num_sims, err_msg='', verbose=True)
             npt.assert_array_equal(result_sim_indices, expected_sim_indices, err_msg='', verbose=True)
-
         finally:
             tab = [result_num_sims, expected_num_sims, result_sim_indices, expected_sim_indices]
             print("\n")
@@ -752,6 +749,7 @@ class TestAgdrift(unittest.TestCase):
             integration_distance = pd.Series([6.5,250.,1250.], dtype='float')
 
             result = agdrift_empty.calc_avg_dep_foa(integration_result, integration_distance)
+            npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_result]
             print("\n")
@@ -778,6 +776,7 @@ class TestAgdrift(unittest.TestCase):
             application_rate = pd.Series([6.5,250.,1250.], dtype='float')
 
             result = agdrift_empty.calc_avg_dep_lbac(avg_dep_foa, application_rate)
+            npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_result]
             print("\n")
@@ -804,6 +803,7 @@ class TestAgdrift(unittest.TestCase):
             application_rate = pd.Series([6.5,250.,1250.], dtype='float')
 
             result = agdrift_empty.calc_avg_dep_foa_from_lbac(avg_dep_lbac, application_rate)
+            npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_result]
             print("\n")
@@ -831,6 +831,7 @@ class TestAgdrift(unittest.TestCase):
             agdrift_empty.gms_per_lb = 453.592
             agdrift_empty.acres_per_hectare = 2.471
             result = agdrift_empty.calc_avg_dep_lbac_from_gha(avg_dep_gha)
+            npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_result]
             print("\n")
@@ -869,6 +870,7 @@ class TestAgdrift(unittest.TestCase):
             agdrift_empty.acres_per_hectare = 2.471
             result = agdrift_empty.calc_avg_dep_lbac_from_waterconc_ngl(avg_waterconc_ngl, area_width,
                                                                         area_length, area_depth)
+            npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_result]
             print("\n")
@@ -901,6 +903,7 @@ class TestAgdrift(unittest.TestCase):
             agdrift_empty.cm2_per_ft2 = 929.03
             agdrift_empty.mg_per_gram = 1.e3
             result = agdrift_empty.calc_avg_dep_lbac_from_mgcm2(avg_fielddep_mgcm2)
+            npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_result]
             print("\n")
@@ -920,7 +923,7 @@ class TestAgdrift(unittest.TestCase):
         # create empty pandas dataframes to create empty object for this unittest
         agdrift_empty = self.create_agdrift_object()
 
-        expected_result = pd.Series([1.401061, 0.3648362, 0.003362546])
+        expected_result = pd.Series([1.401061, 0.3648362, 0.03362546])
 
         try:
             avg_dep_lbac = pd.Series([1.25e-3,3.255e-4,3e-5], dtype='float')
@@ -928,6 +931,7 @@ class TestAgdrift(unittest.TestCase):
             agdrift_empty.acres_per_hectare = 2.47105
 
             result = agdrift_empty.calc_avg_dep_gha(avg_dep_lbac)
+            npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_result]
             print("\n")
@@ -967,6 +971,7 @@ class TestAgdrift(unittest.TestCase):
 
 
             result = agdrift_empty.calc_avg_waterconc_ngl(avg_dep_lbac ,area_width, area_length, area_depth)
+            npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_result]
             print("\n")
@@ -989,7 +994,7 @@ class TestAgdrift(unittest.TestCase):
         # create empty pandas dataframes to create empty object for this unittest
         agdrift_empty = self.create_agdrift_object()
 
-        expected_result = pd.Series([1.401063e-5, 3.648369e-6, 3.362552e3])
+        expected_result = pd.Series([1.401063e-5, 3.648369e-6, 3.362552e-7])
 
         try:
             avg_dep_lbac = pd.Series([1.25e-3,3.255e-4,3e-5], dtype='float')
@@ -1000,6 +1005,7 @@ class TestAgdrift(unittest.TestCase):
             agdrift_empty.cm2_per_ft2 = 929.03
 
             result = agdrift_empty.calc_avg_fielddep_mgcm2(avg_dep_lbac)
+            npt.assert_allclose(result, expected_result, rtol=1e-5, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_result]
             print("\n")
@@ -1660,8 +1666,11 @@ class TestAgdrift(unittest.TestCase):
         agdrift_empty.out_avg_field_dep_mgcm2 = pd.Series(num_sims * [np.nan], dtype='float')
 
         result = pd.Series(num_sims * [num_args*[np.nan]], dtype='float')
-        expected_result = [1.26,1.26,1.26,1.26,1.26], [0.0004,0.0004,0.0004,0.0004,0.0004],  \
-                          [3.45e-05,3.45e-05,3.45e-05,3.45e-05,3.45e-05]
+        expected_result = pd.Series(num_sims * [num_args*[np.nan]], dtype='float')
+
+        expected_result[0] = [1.26,1.26,1.26,1.26,1.26]
+        expected_result[1] = [0.0004,0.0004,0.0004,0.0004,0.0004]
+        expected_result[2] = [3.45e-05,3.45e-05,3.45e-05,3.45e-05,3.45e-05]
 
         try:
             #setting each variable to same values, each value tests a separate pathway through rounding method
@@ -1683,7 +1692,9 @@ class TestAgdrift(unittest.TestCase):
                 result[i] = [agdrift_empty.out_avg_dep_foa[i], agdrift_empty.out_avg_dep_lbac[i],
                             agdrift_empty.out_avg_dep_gha[i], agdrift_empty.out_avg_waterconc_ngl[i],
                             agdrift_empty.out_avg_field_dep_mgcm2[i]]
-
+            npt.assert_allclose(result[0], expected_result[0], rtol=1e-5, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(result[1], expected_result[1], rtol=1e-5, atol=0, err_msg='', verbose=True)
+            npt.assert_allclose(result[2], expected_result[2], rtol=1e-5, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_result]
             print("\n")
@@ -1911,7 +1922,7 @@ class TestAgdrift(unittest.TestCase):
                                 0.046226,0.044969,0.043922,0.043027,0.041934,0.040528,0.039018,0.037744,0.036762,
                                 0.035923,0.035071,0.034267,0.033456,0.032629,0.03184,0.031078,0.030363,0.02968,0.029028,
                                 0.028399,0.027788,0.027199,0.026642,0.026124,0.025635,0.02517,0.024719,0.024287,0.023867,
-                                0.023457,0.023061,0.022685,0.022334,0.021998,0.021675,0.02136,0.021055,0.020758,0.020467,
+                                0.023457 ,0.023061,0.022685,0.022334,0.021998,0.021675,0.02136,0.021055,0.020758,0.020467,
                                 0.020186,0.019919,0.019665,0.019421,0.019184,0.018951,0.018727,0.018514,0.018311,
                                 0.018118,0.017929,0.017745,0.017564,0.017387,0.017214,0.017046,0.016886,0.016732,
                                 0.016587,0.016446,0.016309,0.016174,0.016039,0.015906,0.015777,0.015653,0.015532,
