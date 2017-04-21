@@ -601,8 +601,8 @@ class AgdriftFunctions(object):
         string_query = 'SELECT * from ' + self.db_table
         logging.info(string_query)
         result1 = cursor.execute(string_query)
-        col_names = result1.keys()
-        logging.info(col_names)
+                             #col_names = result1.keys()
+                             #logging.info(col_names)
 
         result = conn.execute("SELECT " + scenario + " from " + self.db_table)
 
