@@ -52,7 +52,7 @@ class TestAgdrift(unittest.TestCase):
         :param application_method: type of Tier I application method employed
         :param aquatic_body_def: type of endpoint of concern (e.g., pond, wetland); implies whether
         :                    endpoint of concern parameters (e.g.,, pond width) are set (i.e., by user or EPA standard)
-        :param drop_size: qualitative description of spray droplet size
+        :param drop_size_*: qualitative description of spray droplet size for aerial & ground applications
         :param boom_height: qualitative height above ground of spray boom
         :param airblast_type: type of orchard being sprayed
         :NOTE we perform an additional validation check related to distances later in the code just before integration
@@ -187,30 +187,54 @@ class TestAgdrift(unittest.TestCase):
                  'NaN',
                  'NaN',
                  'User Defined Terrestrial'], dtype='object')
-            agdrift_empty.drop_size = pd.Series(
+            agdrift_empty.drop_size_aerial = pd.Series(
                 ['Very Fine to Fine',
                 'Fine to Medium',
                 'Medium to Coarse',
                 'Coarse to Very Coarse',
                 'Fine to Medium',
-                'Very Fine',
-                'Fine to Medium/Coarse',
-                'Very Fine',
-                'Fine to Medium/Coarse',
+                'NaN',
+                'NaN',
+                'NaN',
+                'NaN',
                 'NaN',
                 'NaN',
                 'NaN',
                 'NaN',
                 'NaN',
                 'Medium to Coarse',
-                'Very Fine',
+                'NaN',
                 'Very Fine to Medium',
-                'Fine to Medium/Coarse',
+                'NaN',
                 'Very Fine Indeed',
                 'NaN',
                 'Very Fine to Medium',
                 'Medium to Coarse',
-                 'Very Fine'], dtype='object')
+                'NaN'], dtype='object')
+            agdrift_empty.drop_size_ground = pd.Series(
+                ['NaN',
+                'NaN',
+                'NaN',
+                'NaN',
+                'NaN',
+                'Very Fine',
+                'Fine to Medium/Coarse',
+                'Very Fine',
+                'Fine to Medium/Coarse',
+                'NaN',
+                'NaN',
+                'NaN',
+                'NaN',
+                'NaN',
+                'NaN',
+                'Very Fine',
+                'NaN',
+                'Fine to Medium/Coarse',
+                'Very Fine',
+                'NaN',
+                'Very Fine to Medium',
+                'NaN',
+                'Very Fine'], dtype='object')
             agdrift_empty.boom_height = pd.Series(
                ['NaN',
                 'NaN',
@@ -277,7 +301,7 @@ class TestAgdrift(unittest.TestCase):
         :param num_simulations: number of simulations to assign scenario names
         :param out_sim_scenario_chk: from previous method where scenarios were checked for validity
         :param application_method: application method of scenario
-        :param drop_size: qualitative description of spray droplet size
+        :param drop_size_*: qualitative description of spray droplet size for aerial and ground applications
         :param boom_height: qualitative height above ground of spray boom
         :param airblast_type: type of airblast application (e.g., vineyard, orchard)
         :return:
@@ -331,10 +355,24 @@ class TestAgdrift(unittest.TestCase):
                                                           'Tier I Airblast',
                                                           'Tier I Airblast',
                                                           'Tier I Aerial'], dtype='object')
-            agdrift_empty.drop_size = pd.Series(['Very Fine to Fine',
+            agdrift_empty.drop_size_aerial = pd.Series(['Very Fine to Fine',
                                                  'Fine to Medium',
                                                  'Medium to Coarse',
                                                  'Coarse to Very Coarse',
+                                                 'NaN',
+                                                 'NaN',
+                                                 'NaN',
+                                                 'NaN',
+                                                 'NaN',
+                                                 'NaN',
+                                                 'NaN',
+                                                 'NaN',
+                                                 'NaN',
+                                                 'NaN'], dtype='object')
+            agdrift_empty.drop_size_ground = pd.Series(['NaN',
+                                                 'NaN',
+                                                 'NaN',
+                                                 'NaN',
                                                  'Very Fine',
                                                  'Fine to Medium/Coarse',
                                                  'Very Fine',
