@@ -33,7 +33,7 @@ class UberModel(object):
         keys_b = set(self.pd_obj.keys())
         extras = keys_b - keys_a
         n_extras = len(extras)
-        print('There are {n_extra} extra keys.')
+        print('There are {n_extras} extra keys.')
         print(extras)
         missing = keys_a - keys_b
         n_missing = len(missing)
@@ -97,7 +97,7 @@ class UberModel(object):
         df_user = self.convert_index(df_in)
         mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
         try:
-            # Import the model's input class (e.g. TrexInputs) to compare user supplied inputs to
+            # Import the model's input class (e.g. AgdriftInputs) to compare user supplied inputs to
             module = importlib.import_module(mod_name)
             model_inputs_class = getattr(module, self.name + "Inputs")
             model_inputs = model_inputs_class()

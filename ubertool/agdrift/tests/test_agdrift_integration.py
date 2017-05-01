@@ -177,13 +177,13 @@ class TestAgdrift(unittest.TestCase):
             pass
         return
 
-    def test_interp_deposition(self):
+    def test_distance_downwind(self):
         """
         Integration test for agdrift.agdrift_fugacity
         """
         func_name = inspect.currentframe().f_code.co_name
         try:
-            self.blackbox_method_float('interp_deposition', func_name)
+             self.blackbox_method_float('distance_downwind', func_name)
         finally:
             pass
         return
@@ -232,13 +232,23 @@ class TestAgdrift(unittest.TestCase):
             pass
         return
 
-    def test_avg_field_dep_mgcm(self):
+    def test_avg_field_dep_mgcm2(self):
         """
         Integration test for agdrift.agdrift_fugacity
         """
         func_name = inspect.currentframe().f_code.co_name
         try:
-            self.blackbox_method_float('avg_field_dep_mgcm', func_name)
+            self.blackbox_method_float('avg_field_dep_mgcm2', func_name)
+        finally:
+            pass
+        return
+
+    def test_range_chk(self):
+        """
+        Integration test for agdrift.agdrift_fugacity
+        """
+        try:
+            self.blackbox_method_str('range_chk')
         finally:
             pass
         return
@@ -269,13 +279,15 @@ class TestAgdrift(unittest.TestCase):
         :param output:
         :return:
         """
-        result = agdrift_calc.pd_obj_out["out_" + output]
-        expected = agdrift_calc.pd_obj_exp["exp_" + output]
-        tab = pd.concat([result,expected], axis=1)
-        print(" ")
-        print(tabulate(tab, headers='keys', tablefmt='fancy_grid'))
-        npt.assert_array_equal(result, expected)
-
+        try:
+            result = agdrift_calc.pd_obj_out["out_" + output]
+            expected = agdrift_calc.pd_obj_exp["exp_" + output]
+            npt.assert_array_equal(result, expected)
+        finally:
+            tab = pd.concat([result,expected], axis=1)
+            print(" ")
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
 # unittest will
 # 1) call the setup method,
 # 2) then call every method starting with "test",

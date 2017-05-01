@@ -12,6 +12,7 @@ from sqlalchemy import *
 import sqlalchemy_utils as sqlu
 import sqlite3
 import time
+import csv
 
 metadata = MetaData()
 
@@ -38,9 +39,9 @@ class AgdriftFunctions(object):
         :return
         """
         aquatic_body_type_list = ['EPA Defined Pond', 'User Defined Pond', 'EPA Defined Wetland', 'User Defined Wetland']
-        aquatic_drop_size_list = ['Very Fine to Fine', 'Fine to Medium', 'Medium to Coarse', 'Coarse to Very Coarse']
+        aerial_drop_size_list = ['Very Fine to Fine', 'Fine to Medium', 'Medium to Coarse', 'Coarse to Very Coarse']
         terrestrial_field_type_list = ['EPA Defined Terrestrial', 'User Defined Terrestrial']
-        terrestrial_drop_size_list = ['Very Fine', 'Fine to Medium/Coarse']
+        ground_drop_size_list = ['Very Fine', 'Fine to Medium/Coarse']
         airblast_type_list = ['Orchard', 'Vineyard', 'Normal', 'Dense', 'Sparse']
         boom_height_list = ['High', 'Low']
 
@@ -49,13 +50,13 @@ class AgdriftFunctions(object):
             if (self.ecosystem_type[i] == 'Aquatic Assessment'):
                 if self.application_method[i] == 'Tier I Aerial':
                     if (self.aquatic_body_type[i] in aquatic_body_type_list and
-                                self.drop_size[i] in aquatic_drop_size_list):
+                                self.drop_size_aerial[i] in aerial_drop_size_list):
                         self.out_sim_scenario_chk[i] = 'Valid Tier I Aquatic Aerial Scenario'
                     else:
                         self.out_sim_scenario_chk[i] = 'Invalid Tier I Aquatic Aerial Scenario'
                 elif self.application_method[i] == 'Tier I Ground':
                     if (self.aquatic_body_type[i] in aquatic_body_type_list and
-                                self.drop_size[i] in terrestrial_drop_size_list and
+                                self.drop_size_ground[i] in ground_drop_size_list and
                                 self.boom_height[i] in boom_height_list):
                          self.out_sim_scenario_chk[i] = 'Valid Tier I Aquatic Ground Scenario'
                     else:
@@ -71,13 +72,14 @@ class AgdriftFunctions(object):
             elif (self.ecosystem_type[i] == 'Terrestrial Assessment'):
                 if self.application_method[i] == 'Tier I Aerial':
                     if (self.terrestrial_field_type[i] in terrestrial_field_type_list and
-                                self.drop_size[i] in aquatic_drop_size_list):
+                                self.drop_size_aerial[i] in aerial_drop_size_list):
                         self.out_sim_scenario_chk[i] = 'Valid Tier I Terrestrial Aerial Scenario'
                     else:
                         self.out_sim_scenario_chk[i] = 'Invalid Tier I Terrestrial Aerial Scenario'
                 elif self.application_method[i] == 'Tier I Ground':
                     if (self.terrestrial_field_type[i] in terrestrial_field_type_list and
-                         self.boom_height[i] in boom_height_list):
+                            self.drop_size_ground[i] in ground_drop_size_list and
+                            self.boom_height[i] in boom_height_list):
                          self.out_sim_scenario_chk[i] = 'Valid Tier I Terrestrial Ground Scenario'
                     else:
                         self.out_sim_scenario_chk[i] = 'Invalid Tier I Terrestrial Ground Scenario'
@@ -121,24 +123,24 @@ class AgdriftFunctions(object):
         for i in range(self.num_simulations):
             if(not 'Invalid' in self.out_sim_scenario_chk[i]):
                 if self.application_method[i] == 'Tier I Aerial':
-                    if self.drop_size[i] == 'Very Fine to Fine':
+                    if self.drop_size_aerial[i] == 'Very Fine to Fine':
                         self.out_sim_scenario_id[i] = 'aerial_vf2f'
-                    elif self.drop_size[i] == 'Fine to Medium':
+                    elif self.drop_size_aerial[i] == 'Fine to Medium':
                         self.out_sim_scenario_id[i] = 'aerial_f2m'
-                    elif self.drop_size[i] == 'Medium to Coarse':
+                    elif self.drop_size_aerial[i] == 'Medium to Coarse':
                         self.out_sim_scenario_id[i] = 'aerial_m2c'
-                    elif self.drop_size[i] == 'Coarse to Very Coarse':
+                    elif self.drop_size_aerial[i] == 'Coarse to Very Coarse':
                         self.out_sim_scenario_id[i] = 'aerial_c2vc'
                 elif self.application_method[i] == 'Tier I Ground':
                     if self.boom_height[i] == 'Low':
-                        if self.drop_size[i] == 'Very Fine':
+                        if self.drop_size_ground[i] == 'Very Fine':
                             self.out_sim_scenario_id[i] = 'ground_low_vf'
-                        elif self.drop_size[i] == 'Fine to Medium/Coarse':
+                        elif self.drop_size_ground[i] == 'Fine to Medium/Coarse':
                             self.out_sim_scenario_id[i] = 'ground_low_fmc'
                     elif self.boom_height[i] == 'High':
-                        if self.drop_size[i] == 'Very Fine':
+                        if self.drop_size_ground[i] == 'Very Fine':
                             self.out_sim_scenario_id[i] = 'ground_high_vf'
-                        elif self.drop_size[i] == 'Fine to Medium/Coarse':
+                        elif self.drop_size_ground[i] == 'Fine to Medium/Coarse':
                             self.out_sim_scenario_id[i] = 'ground_high_fmc'
                 elif self.application_method[i] == 'Tier I Airblast':
                     if self.airblast_type[i] == 'Normal':
@@ -247,6 +249,7 @@ class AgdriftFunctions(object):
     
     def extend_dist_dep_curve(self,i):
         """
+        THIS METHOD WAS REWRITTEN (SEE 'EXTEND_CURVE') TO MAKE MORE GENERIC BY PASSING IN THE DATA ARRAYS TO BE EXTENDED
         :description extends distance vs deposition (fraction of applied) curce to enable model calculations 
                      when area of interest (pond, wetland, terrestrial field) lie partially outside the orginal
                      curve (whose extent is 997 feet).  The extension is achieved by fitting a line of best fit
@@ -288,7 +291,7 @@ class AgdriftFunctions(object):
             y_array = np.array([self.scenario_deposition_data[i][j] for j in range(first_fit_pt, npts_orig)])
             y_array = np.log(y_array)
         else:  
-            # this ln ln transformations are done with relative x,y values (this is the transformation
+            # this ln transformation is done with relative x,y values (this is the transformation
             # used in the AGDRIFT AGEXTD code
             x_zero = self.scenario_distance_data[i][first_fit_pt - 1]
             y_zero = self.scenario_deposition_data[i][first_fit_pt - 1]
@@ -325,20 +328,198 @@ class AgdriftFunctions(object):
             self.scenario_distance_data[i][j] = self.scenario_distance_data[i][j - 1] + self.distance_inc
         return
 
-    # def load_scenario_raw_data(self):
-    #     """
-    #     :description retrieve deposition data from SQL database for all scenarios (e.g., aerial/EPA Defined Pond
-    #     :parameter num_scenarios number of deposition scenarios included in SQL database
-    #     :parameter scenario_name name of scenario as included in SQL database
-    #     :parameter num_db_values number of values included in deposition scenarios (same for all scenarios)
-    #     :parameter scenario_raw_data array of depostion values retrieved from SQL database
-    #     :NOTE This method is not currently utilized (instead we use 'get_scenario_deposition_data' to retrieve them as needed)
-    #     :return:
-    #     """
-    #     self.scenario_raw_data = pd.Series([], dtype='float')
-    #     for i in range(self.num_scenarios):
-    #         self.scenario_raw_data[i] = self.get_scenario_deposition_data(self.scenario_name[i], self.num_db_values)
-    #     return
+    def extend_curve(self, x_array, y_array, max_dist, dist_inc, num_pts_ext, ln_ln_trans):
+        """
+        :description extends/extrapolates an x,y array of data points that reflect a ln ln relationship by selecting
+                     a number of points near the end of the x,y arrays and fitting a line to the points
+                     ln ln transforms (two ln ln transforms can by applied; on using the straight natural log of
+                     each selected x,y point and one using a 'relative' value of each of the selected points  --
+                     the relative values are calculated by establishing a zero point closest to the selected
+                     points
+
+                     For AGDRIFT: extends distance vs deposition (fraction of applied) curve to enable model calculations
+                     when area of interest (pond, wetland, terrestrial field) lie partially outside the original
+                     curve (whose extent is 997 feet).  The extension is achieved by fitting a line of best fit
+                     to the last 16 points of the original curve.  The x,y values representing the last 16 points
+                     are natural log transforms of the distance and deposition values at the 16 points.  Two long
+                     transforms are coded here, reflecting the fact that the AGDRIFT model (v2.1.1) uses each of them
+                     under different circumstandes (which I believe is not the intention but is the way the model 
+                     functions  --  my guess is that one of the transforms was used and then a second one was coded 
+                     to increase the degree of conservativeness  -- but the code was changed in only one of the two 
+                     places where the transformation occurs.  
+                     Finally, the AGDRIFT model extends the curve only when necessary (i.e., when it determines that 
+                     the area of intereest lies partially beyond the last point of the origanal curve (997 ft).  In 
+                     this code all the curves are extended out to 1994 ft, which represents the furthest distance that 
+                     the downwind edge of an area of concern can be specified.  All scenario curves are extended here 
+                     because we are running multiple simulations (e.g., monte carlo) and instead of extending the 
+                     curves each time a simulation requires it (which may be multiple time for the same scenario 
+                     curve) we just do it for all curves up front.  There is a case to be made that the 
+                     curves should be extended external to this code and simply provide the full curve in the SQLite
+                     database containing the original curve.  
+
+        :param x_array: array of x values to be extended (must be at least 17 data points in original array)
+        :param y_array: array of y values to be extended
+        :param max_dist: maximum distance (ft) associated with unextended x values
+        :param dist_inc: increment (ft) for each extended data point
+        :param num_pts_ext: number of points at end of original x,y arrays to be used for extending the curve
+        :param ln_ln_trans: form of transformation to perform (True: straight ln ln, False: relative ln ln)
+        :return:
+        """
+
+        # set first and last index of points to be used to fit line 
+        npts_orig = len(x_array)
+        first_fitting_pt = npts_orig - num_pts_ext
+
+        # set arrays for containing curve points to be used to fit/extend curve at tail
+        x_fitting_pts = np.zeros([num_pts_ext])  # distance
+        y_fitting_pts = np.zeros([num_pts_ext])  # deposition (fraction of applied)
+
+        # select the last num_pts_ext data points and perform a natural log transform on the distance/deposition values
+        # then fit these data to a line of best fit
+
+        if (ln_ln_trans):  # straight ln ln transformation
+            x_fitting_pts = np.array([x_array[j] for j in range(first_fitting_pt, npts_orig)])
+            x_fitting_pts = np.log(x_fitting_pts)
+            y_fitting_pts = np.array([y_array[j] for j in range(first_fitting_pt, npts_orig)])
+            y_fitting_pts = np.log(y_fitting_pts)
+        else:
+            # this ln transformation is done with relative x,y values (this is the transformation
+            # used in the AGDRIFT AGEXTD code
+            x_zero = x_array[first_fitting_pt - 1]
+            y_zero = y_array[first_fitting_pt - 1]
+            y_zero_log = np.log(y_zero)
+
+            k = 0
+            for j in range(first_fitting_pt, npts_orig):
+                x_fitting_pts[k] = np.log(x_array[j] - x_zero)
+                y_fitting_pts[k] = np.log(y_array[j] / y_zero)
+                k += 1
+
+        # establish scipy function to be fit to x_fitting_pts, y_fitting_pts data 
+        def func(x_fitting_pts, a, b):
+            return a * x_fitting_pts + b
+
+        # use scipy's curve fit and get the coefficients for the established function
+        coefficients, pcov = curve_fit(func, x_fitting_pts, y_fitting_pts)
+        coef_a = coefficients[0]
+        coef_b = coefficients[1]
+
+        # extend the distance array to 2 * 997 = 1994ft in increments of 6.56ft (and calculate related depositions)
+        npts_ext = int(((((max_dist * 2.) - x_array[npts_orig - 1]) / \
+                         dist_inc)) + npts_orig)
+        dist = x_array[npts_orig - 1]
+        for j in range(npts_orig, npts_ext):
+            dist = dist + dist_inc
+
+            if (ln_ln_trans):
+                y_array[j] = np.exp(coef_a * np.log(dist) + coef_b)
+            else:
+                y_temp = coef_a * np.log(dist - x_zero) + coef_b
+                y_array[j] = np.exp(y_temp + y_zero_log)
+
+            x_array[j] = x_array[j-1] + dist_inc
+        return x_array, y_array
+
+    def extend_curve_opp(self, x_array, y_array, max_dist, dist_inc, num_pts_ext, ln_ln_trans):
+        """
+        :description extends/extrapolates an x,y array of data points that reflect a ln ln relationship by selecting
+                     a number of points near the end of the x,y arrays and fitting a line to the points
+                     ln ln transforms (two ln ln transforms can by applied; on using the straight natural log of
+                     each selected x,y point and one using a 'relative' value of each of the selected points  --
+                     the relative values are calculated by establishing a zero point closest to the selected
+                     points
+
+                     For AGDRIFT: extends distance vs deposition (fraction of applied) curve to enable model calculations
+                     when area of interest (pond, wetland, terrestrial field) lie partially outside the original
+                     curve (whose extent is 997 feet).  The extension is achieved by fitting a line of best fit
+                     to the last 16 points of the original curve.  The x,y values representing the last 16 points
+                     are natural log transforms of the distance and deposition values at the 16 points.  Two long
+                     transforms are coded here, reflecting the fact that the AGDRIFT model (v2.1.1) uses each of them
+                     under different circumstandes (which I believe is not the intention but is the way the model
+                     functions  --  my guess is that one of the transforms was used and then a second one was coded
+                     to increase the degree of conservativeness  -- but the code was changed in only one of the two
+                     places where the transformation occurs.
+                     Finally, the AGDRIFT model extends the curve only when necessary (i.e., when it determines that
+                     the area of interest lies partially beyond the last point of the original curve (997 ft).  In
+                     this code all the curves are extended out to 1994 ft, which represents the furthest distance that
+                     the downwind edge of an area of concern can be specified.  All scenario curves are extended here
+                     because we are running multiple simulations (e.g., monte carlo) and instead of extending the
+                     curves each time a simulation requires it (which may be multiple time for the same scenario
+                     curve) we just do it for all curves up front.  There is a case to be made that the
+                     curves should be extended external to this code and simply provide the full curve in the SQLite
+                     database containing the original curve.
+
+        :param x_array: array of x values to be extended (must be at least 17 data points in original array)
+        :param y_array: array of y values to be extended
+        :param max_dist: maximum distance (ft) associated with unextended x values
+        :param dist_inc: increment (ft) for each extended data point
+        :param num_pts_ext: number of points at end of original x,y arrays to be used for extending the curve
+        :param ln_ln_trans: form of transformation to perform (True: straight ln ln, False: relative ln ln)
+        :return:
+        """
+
+        # set first and last index of points to be used to fit line
+        npts_orig = len(x_array)
+        first_fitting_pt = npts_orig - num_pts_ext
+
+        # set arrays for containing curve points to be used to fit/extend curve at tail
+        x_fitting_pts = np.zeros([num_pts_ext])  # distance
+        y_fitting_pts = np.zeros([num_pts_ext])  # deposition (fraction of applied)
+
+        # select the last num_pts_ext data points and perform a natural log transform on the distance/deposition values
+        # then fit these data to a line of best fit
+
+        #convert x_array from feet to meters
+        x_array = x_array * self.meters_per_ft
+        inc_dist = dist_inc * self.meters_per_ft
+
+        #perform data transformations per Agdrift AGEXTD.FOR routine
+        if (ln_ln_trans):  # straight ln ln transformation
+            x_fitting_pts = np.array([x_array[j] for j in range(first_fitting_pt, npts_orig)])
+            x_fitting_pts = np.log(x_fitting_pts)
+            y_fitting_pts = np.array([y_array[j] for j in range(first_fitting_pt, npts_orig)])
+            y_fitting_pts = np.log(y_fitting_pts)
+        else:
+            # this ln transformation is done with relative x,y values (this is the transformation
+            x_zero = x_array[first_fitting_pt - 1]
+            y_zero = y_array[first_fitting_pt - 1]
+            y_zero_log = np.log(y_zero)
+
+            k = 0
+            for j in range(first_fitting_pt, npts_orig):
+                x_fitting_pts[k] = np.log(x_array[j] - x_zero)
+                y_fitting_pts[k] = np.log(y_array[j] / y_zero)
+                k += 1
+
+        #calculate coefficients as per the Agdrift AGEXTD.FOR routine
+        sum_x = 0.
+        sum_y = 0.
+        sum_x2 = 0.
+        sum_y2 = 0.
+        for i in range(num_pts_ext):
+            sum_x = sum_x + x_fitting_pts[i]
+            sum_y = sum_y + y_fitting_pts[i]
+            sum_x2 = sum_x2 + (x_fitting_pts[i])**2.
+            sum_y2 = sum_y2 + (x_fitting_pts[i] * y_fitting_pts[i])
+        coef_b = (sum_y2 - (sum_x * sum_y/num_pts_ext)) / (sum_x2 - (sum_x*sum_x/num_pts_ext))
+        coef_a = np.exp((sum_y - coef_b*sum_x) / num_pts_ext)
+
+        npts_ext = int((((((max_dist*self.meters_per_ft * 2.) - x_array[npts_orig - 1]) / \
+                         2.0)) + npts_orig) + 1)
+        dist = x_array[npts_orig - 1]
+        for j in range(npts_orig, npts_ext):
+            dist = dist + inc_dist
+
+            if (ln_ln_trans):
+                y_array[j] = coef_a * dist**coef_b
+            else:
+                y_array[j] = y_zero * coef_a * (dist - x_zero)**coef_b
+
+            x_array[j] = x_array[j-1] + inc_dist
+
+        #convert x_array back to feet
+        x_array = x_array * (1./self.meters_per_ft)
+        return x_array, y_array
 
     def get_column_names(self):
         """
@@ -421,8 +602,8 @@ class AgdriftFunctions(object):
         string_query = 'SELECT * from ' + self.db_table
         logging.info(string_query)
         result1 = cursor.execute(string_query)
-        col_names = result1.keys()
-        logging.info(col_names)
+                             #col_names = result1.keys()
+                             #logging.info(col_names)
 
         result = conn.execute("SELECT " + scenario + " from " + self.db_table)
 
@@ -461,7 +642,19 @@ class AgdriftFunctions(object):
         avg_dep_lbac = avg_dep_foa * application_rate
         return avg_dep_lbac
 
-    def calc_avg_dep_gha (self, avg_dep_lbac):
+    def calc_avg_dep_foa_from_lbac(self, avg_dep_lbac, application_rate):
+        """
+        Deposition calculation.
+        :param avg_dep_foa: average deposition over width of water body as fraction of applied
+        :param application_rate: actual application rate
+        :param avg_dep_lbac: average deposition over width of water body in lbs per acre
+        :return:
+        """
+
+        avg_dep_foa = avg_dep_lbac / application_rate
+        return avg_dep_foa
+
+    def calc_avg_dep_gha(self, avg_dep_lbac):
         """
         :description average deposition over width of water body in grams per acre
         :param avg_dep_lbac: average deposition over width of water body in lbs per acre
@@ -472,6 +665,18 @@ class AgdriftFunctions(object):
 
         avg_dep_gha = avg_dep_lbac * self.gms_per_lb * self.acres_per_hectare
         return avg_dep_gha
+
+    def calc_avg_dep_lbac_from_gha(self, avg_dep_gha):
+        """
+        :description average deposition over width of water body in pounds per acre
+        :param avg_dep_lbac: average deposition over width of water body in lbs per acre
+        :param gms_per_lb: conversion factor to convert lbs to grams
+        :param acres_per_hectare: conversion factor to convert acres to hectares
+        :return:
+        """
+
+        avg_dep_lbac = avg_dep_gha / (self.gms_per_lb * self.acres_per_hectare)
+        return avg_dep_lbac
 
     def calc_avg_waterconc_ngl(self, avg_dep_lbac , area_width, area_length, area_depth):
         """
@@ -489,11 +694,31 @@ class AgdriftFunctions(object):
 
         #this expression could be shortened but is left in this form to allow easier interpretation
         avg_waterconc_ngl = ((avg_dep_lbac * self.gms_per_lb * self.ng_per_gram) * \
-                            (area_width * area_length / self.sqft_per_acre) / \
-                            (area_width * area_length * area_depth)) / self.liters_per_ft3
+                            (area_width * area_length / self.sqft_per_acre)) / \
+                            (area_width * area_length * area_depth * self.liters_per_ft3)
         return avg_waterconc_ngl
 
-    def calc_avg_fielddep_mgcm(self, avg_dep_lbac):
+    def calc_avg_dep_lbac_from_waterconc_ngl(self, avg_waterconc_ngl, area_width, area_length, area_depth):
+        """
+        :description calculate the average deposition onto the pond/wetland/field
+        :param avg_dep_lbac: average deposition over width of water body in lbs per acre
+        :param area_width: average width of water body
+        :parem area_length: average length of water body
+        :param area_depth: average depth of water body
+        :param gms_per_lb: conversion factor to convert lbs to grams
+        :param ng_per_gram conversion factor
+        :param sqft_per_acre conversion factor
+        :param liters_per_ft3 conversion factor
+        :return:
+        """
+
+        #this expression could be shortened but is left in this form to allow easier interpretation
+        avg_dep_lbac =  (avg_waterconc_ngl * self.liters_per_ft3) * (area_width * area_length * area_depth) /  \
+                        (area_width * area_length / self.sqft_per_acre) / (self.gms_per_lb * self.ng_per_gram)
+
+        return avg_dep_lbac
+
+    def calc_avg_fielddep_mgcm2(self, avg_dep_lbac):
         """
         :description calculate the average deposition of pesticide over the terrestrial field
         :param avg_dep_lbac: average deposition over width of water body in lbs per acre
@@ -505,752 +730,362 @@ class AgdriftFunctions(object):
         :return:
         """
 
-        avg_fielddep_mgcm = ((avg_dep_lbac * self.gms_per_lb *
+        avg_fielddep_mgcm2 = ((avg_dep_lbac * self.gms_per_lb *
                           self.mg_per_gram) / (self.sqft_per_acre * self.cm2_per_ft2))
-        return avg_fielddep_mgcm
+        return avg_fielddep_mgcm2
 
-    def create_integration_avg(self, npts_orig, x_array_in, y_array_in, npts_int, x_array_out, y_array_out, npts_out):
+    def calc_avg_dep_lbac_from_mgcm2(self, avg_fielddep_mgcm2):
         """
-        :description this method takes an x/y array and creates a x_out/y_out array of running averages
-        :param npts_orig: number of points in orginal x vs y data points
-        :param x_array_in: x values of original x vs y data points
-        :param y_array_in: y values of original x vs y data points
-        :param npts_int: number of x_array points included in the running average
-        :param x_array_out: x values of running average output
-        :param y_array_out: y values of running average output
-        :param npts_out: number of points in running average output array
-        :Note we assume the increment between x_array points is constant
+        :description calculate the average deposition of pesticide over the terrestrial field
+        :param avg_dep_lbac: average deposition over width of water body in lbs per acre
+        :param area_depth: average depth of water body
+        :param gms_per_lb: conversion factor to convert lbs to grams
+        :param mg_per_gram conversion factor
+        :param sqft_per_acre conversion factor
+        :param cm2_per_ft2 conversion factor
         :return:
         """
 
-        # for i in range (npts_orig - npts_int): #calculate running average for these points
-        #     if (i == 0):   #first time through try to process all integration points (i.e., npts_int)
-        #         for j in range (npts_int):
-        #             if(x_array_in[i] < x_array_in[npts_orig] - x_dist):
-        #         j = i
-        #         x_avg = 0.5 * (x_array_in(j+1) - x_array_in[j]) * (y_array_in(j+1) + y_array_in[j])
+        avg_dep_lbac = (avg_fielddep_mgcm2 * (self.sqft_per_acre * self.cm2_per_ft2)) / (self.gms_per_lb * self.mg_per_gram)
+        return avg_dep_lbac
 
 
-    # def deposition_gha_to_ngl_f(self):
-    #     """
-    #     Deposition calculation.
-    #     :param out_init_avg_dep_foa:
-    #     :param application_rate:
-    #     :return:
-    #     """
-    #     if (self.aquatic_type == '1'):
-    #         self.out_deposition_gha_ngl_f = [self.out_avg_depo_gha * 0.05 * 1000.0]
-    #     else:
-    #         self.out_deposition_ngl_f = [self.out_avg_depo_gha * 0.05 * 1000.0 * (6.56 / 0.4921)]
-    #     return self.out_deposition_gha_ngl_f
-    #
-    # def deposition_gha_to_mgcm_f(self):
-    #     """
-    #     Deposition calculation.
-    #     :param out_init_avg_dep_foa:
-    #     :param application_rate:
-    #     :return:
-    #     """
-    #     self.out_deposition_mgcm = [self.out_avg_depo_gha * 0.00001]
-    #     return self.out_deposition_mgcm
+    def generate_running_avg(self, npts_orig, x_array_in, y_array, x_dist):
+        """
+        :description this method takes an x/y array and creates a x_out/y_out array of running weighted averages;
+                     the algorithm mimics the AGAVE.FOR routine created by OPP and found in the collection of
+                     software delivered from OPP related to AGDRIFT; this routine is not used here  because it is
+                     computationally inefficient; it was produced here simply to provide a check on the new
+                     routine found in "locate_integrated_avg"
 
-        # def deposition_lbac_to_foa_f(self):
-        #     """
-        #     Deposition calculation.
-        #     :param out_init_avg_dep_foa:
-        #     :param application_rate:
-        #     :return:
-        #     """
-        #     # self.application_rate = float(self.application_rate)
-        #     self.out_init_avg_dep_foa = [self.out_avg_depo_lbac[0] / self.application_rate[0]]
-        #     return self.out_init_avg_dep_foa
+                     The method generates the running average for each x value (as opposed to establishing
+                     redefining the x values to reflect a value for each x_dist increment; thus if the specified
+                     x_dist is shorter than the distance between any 2 x values then the running average will not be
+                     'continuous', i.e., there will be portions of the original curve not included in the overall
+                     running average
+        :param npts_orig: number of points in orginal x vs y data points
+        :param x_array_in: x values of original x vs y data points
+        :param y_array: y values of original x vs y data points (assumed to apply from x(i) to x(i+1))
+        :param x_dist: length (in x units) for which running weighted average is to be calculated
+        :param x_array_out: x values of running weighted average output
+        :param y_array_out: y values of running weighted average output
+        :param npts_out: number of points in running weighted average output array
+        :NOTE We assume we have a monotonically increasing/decreasing y_array; linearity between points;
+              x(i) can be non-uniformly spaced; the unning averages are calculated for each x[i] (thus, large gaps in
+              in x values (e.g, greater than x_dist) may skew results
+        :return:
+        """
 
+        x_array_out = pd.Series([], dtype='float')
+        y_array_out = pd.Series([], dtype='float')
 
-        # def deposition_lbac_to_gha_f(self):
-        #     """
-        #     Deposition calculation.
-        #     :param out_init_avg_dep_foa:
-        #     :param application_rate:
-        #     :return:
-        #     """
-        #     # self.out_avg_depo_lbac = float(self.out_avg_depo_lbac)
-        #     self.out_avg_depo_gha = [(self.out_avg_depo_lbac[0] * 453.592) / 0.404686]
-        #     # logging.info self.out_avg_depo_gha
-        #     return self.out_avg_depo_gha
+        for i in range (npts_orig-1): #calculate running average for these points
+            continuing = True
+            if(x_array_in[i] < (x_array_in[npts_orig-1] - x_dist)):
+                 j = i
+                 #calculate area under curve for this increment of x (assuming linearity of y between x points)
+                 cum_area =  (0.5 * (y_array[j] + y_array[j+1])) * (x_array_in[j+1] - x_array_in[j])
 
-    # def tier_I_aerial(self, i):
-    #     logging.info(
-    #         '------------- Agdrift results' + self.aquatic_type[0] + self.application_method[0] + self.drop_size[0])
-    # 
-    #     # TIER I AERIAL
-    #     # if self.ecosystem_type[i] == 'EPA Pond' and self.application_method[i] == 'Aerial' and self.drop_size[i] == 'Fine':
-    #     if self.aquatic_type[i] == 'EPA Defined Pond' and self.application_method[i] == 'Tier I Aerial' and \
-    #                     self.drop_size[i] == 'Very Fine to Fine':
-    #         self.out_y.loc[i] = [self.pond_aerial_vf2f]
-    #         # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-    #         self.out_nasae[i] = [0]
-    #         self.out_express_y[i] = [self.pond_aerial_vf2f]
-    #         self.out_x[i] = self.out_x
-    #     # TIER I AERIAL
-    #     # elif (self.ecosystem_type[i] == 'EPA Pond' and self.application_method[i] == 'Aerial' and self.drop_size[i] == 'Medium'):
-    #     elif (self.aquatic_type[i] == 'EPA Defined Pond' and self.application_method[i] == 'Tier I Aerial' and
-    #                   self.drop_size[i] == 'Fine to Medium'):
-    #         self.out_y.loc[i] = [self.pond_aerial_f2m]
-    #         # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-    #         self.out_nasae.loc[i] = [1]
-    #         self.out_express_y.loc[i] = [self.pond_aerial_f2m]
-    #         self.out_x[i] = self.out_x
-    #     # TIER I AERIAL
-    #     # elif (self.ecosystem_type[i] == 'EPA Pond' and self.application_method[i] == 'Aerial' and self.drop_size[i] == 'Coarse'):
-    #     elif (self.aquatic_type[i] == 'EPA Defined Pond' and self.application_method[i] == 'Tier I Aerial' and
-    #                   self.drop_size[i] == 'Medium to Coarse'):
-    #         self.out_y.loc[i] = [self.pond_aerial_m2c]
-    #         self.out_nasae.loc[i] = [2]
-    #         self.out_express_y.loc[i] = [self.pond_aerial_m2c]
-    #         self.out_x[i] = self.out_x
-    #     # TIER I AERIAL
-    #     # elif (self.ecosystem_type[i] == 'EPA Pond' and self.application_method[i] == 'Tier I Aerial' and self.drop_size[i] == 'Very Coarse'):
-    #     elif (self.aquatic_type[i] == 'EPA Defined Pond' and self.application_method[i] == 'Tier I Aerial' and
-    #                   self.drop_size[i] == 'Coarse to Very Coarse'):
-    #         self.out_y.loc[i] = [self.pond_aerial_c2vc]
-    #         # python 3 = list(map(str,self.pond_aerial_c2vc))
-    #         # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-    #         self.out_nasae.loc[i] = [3]
-    #         self.out_express_y.loc[i] = [self.pond_aerial_c2vc]
-    #         # self.out_x[i] = self.out_x
-    #         self.out_x.loc[i] = self.out_x_temp
-    #     else:
-    #         self.out_y.loc[i] = [3]
-    # 
-    # def tier_I_ground(self, i):
-    #     logging.info(
-    #         '------------- Agdrift results' + self.ecosystem_type[0] + self.application_method[0] + self.drop_size[0] +
-    #         self.boom_height[0])
-    # 
-    #     # TIER I GROUND
-    #     if (self.ecosystem_type[i] == 'EPA Pond' and self.application_method[i] == 'Ground' and self.drop_size[
-    #         i] == 'Fine' and self.boom_height[i] == 'low'):
-    #         self.out_y[i] = [self.pond_ground_low_vf2f]
-    #         # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-    #         self.out_nasae[i] = [4]
-    #         self.out_express_y[i] = [self.pond_ground_low_vf2f]
-    #         self.out_x[i] = self.out_x
-    #     # TIER I GROUND
-    #     elif (self.ecosystem_type[i] == 'EPA Pond' and self.application_method[i] == 'Ground' and self.drop_size[
-    #         i] == 'Medium' and self.boom_height[i] == 'low'):
-    #         self.out_y[i] = [self.pond_ground_low_f2m]
-    #         # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-    #         self.out_nasae[i] = [6]
-    #         self.out_express_y[i] = [self.pond_ground_low_f2m]
-    #         self.out_x[i] = self.out_x
-    #     # TIER I GROUND
-    #     elif (self.ecosystem_type[i] == 'EPA Pond' and self.application_method[i] == 'Ground' and
-    #                   self.drop_size[i] == 'Fine' and self.boom_height[i] == 'High'):
-    #         self.out_y[i] = [self.pond_ground_high_vf2f]  # ??
-    #         # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-    #         self.out_nasae[i] = [5]
-    #         self.out_express_y[i] = [self.pond_ground_high_vf2f]
-    #         self.out_x[i] = self.out_x
-    #     # TIER I GROUND
-    #     elif (self.ecosystem_type[i] == 'EPA Pond' and self.application_method[i] == 'Ground' and self.drop_size[
-    #         i] == 'Medium' and self.boom_height[i] == 'High'):
-    #         self.out_y[i] = [self.pond_ground_high_f2m]
-    #         # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-    #         self.out_nasae[i] = [7]
-    #         self.out_express_y[i] = [self.pond_ground_high_f2m]
-    #         self.out_x[i] = self.out_x
-    # 
-    # # TIER I ORCHARD/AIRBLAST
-    # def tier_I_airblast(self, i):
-    #     logging.info(
-    #         '------------- Agdrift results' + self.ecosystem_type[0] + self.application_method[0] + self.airblast_type[0])
-    # 
-    #     if (self.ecosystem_type[i] == 'EPA Pond' and self.application_method[i] == 'Orchard/Airblast' and
-    #                 self.airblast_type[i] == 'Orchard'):
-    #         self.out_y[i] = [self.pond_airblast_orchard]
-    #         # self.out_x[0] = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-    #         self.out_nasae[i] = [9]
-    #         self.out_express_y[i] = [self.pond_airblast_orchard]
-    #         self.out_x[i] = self.out_x
-    # 
-    #     # TIER I ORCHARD/AIRBLAST
-    #     elif (self.ecosystem_type[i] == 'EPA Pond' and self.application_method[i] == 'Orchard/Airblast' and
-    #                   self.airblast_type[i] == 'Vineyard'):
-    #         self.out_y[i] = [self.pond_airblast_vineyard]
-    #         self.out_express_y[i] = [self.pond_airblast_vineyard]
-    #         self.out_x[i] = self.out_x
-    #         self.out_nasae[i] = [8]
-    #     else:
-    #         self.out_y[i] = [3]
+                    #if x_dist is completely within this x[i] to x[i+1] segment then interpolate the one needed value of cum_area
+                 if (x_array_in[j+1] > (x_array_in[i] + x_dist)):
+                     x_interp = x_array_in[i] + x_dist
+                     y_interp = (y_array[j] * (x_array_in[j+1] - x_interp) +
+                                 y_array[j+1] * (x_interp - x_array_in[j])) / (x_array_in[j + 1] - x_array_in[j])
+                     cum_area = (0.5 * (y_interp + y_array[j])) * (x_interp - x_array_in[j])
+                     continuing = False
+ 
+                 #if x_dist extends beyond x[i+1], i.e., next x value; then calculate and accumulate all necessary cum_area
+                 while continuing:
+                    j += 1
+                    if (x_array_in[j+1] < (x_array_in[i] + x_dist)):
+                        cum_area = cum_area + (0.5 * (y_array[j] + y_array[j+1])) * (x_array_in[j+1] - x_array_in[j])
+                    else:
+                        x_interp = x_array_in[i] + x_dist
+                        y_interp = (y_array[j] * (x_array_in[j+1] - x_interp) +
+                                    y_array[j+1] * (x_interp - x_array_in[j])) / (x_array_in[j+1] - x_array_in[j])
+                        cum_area = cum_area + (0.5 * (y_interp + y_array[j])) * (x_interp - x_array_in[j])
 
-    # def express_extrapolate_f(self):
-    #     """
-    #     Extrapolate results from express implementation.
-    #     :param out_y:
-    #     :param out_nasae:
-    #     :param distance:
-    #     :return:
-    #     """
-    #     # XV = np.array([X0, X1, X2, X3, X4, X5, X6, X7, X8, X9])
-    #
-    #     # NASAE1=int(self.out_nasae[0])-1
-    #     # N=max(0,min(9,(self.out_nasae[0]-1)))
-    #     # I=max(0,min(99,int(0.5*int(self.distance[0]))+1))
-    #     i_f = max(1, min(100, int(0.5 * int(self.distance)) + 1))
-    #     ym = 2.0 * (i_f - 1)
-    #     yp = 2.0 * i_f
-    #     i = i_f - 1  # to account for python being zero based
-    #
-    #     self.out_init_avg_dep_foa = [(0.5 * (self.out_y[i] * (yp - int(self.distance)) + self.out_y[i + 1] *
-    #                                          (int(self.distance) - ym))) / 100]
-    #     return self.out_init_avg_dep_foa
+                        continuing = False
+                 x_array_out[i] = x_array_in[i]
+                 y_array_out[i] = cum_area / x_dist
+                 npts_out = len(x_array_out)
 
-    # def extrapolate_from_fig(self, bisect_left, out_x):
-    #     """
-    #     Extrapolating from nearest figure points.
-    #     :param ecosystem_type:
-    #     :param distance:
-    #     :param bisect_left:
-    #     :param out_x:
-    #     :param out_y:
-    #     :return:
-    #     """
-    #     #self.distance = int(self.distance)
-    #     if self.distance[0] in self.out_x:
-    #         y_index = out_x.index(self.distance[0])
-    #         self.out_init_avg_dep_foa = [self.out_y[y_index]]
-    #     else:
-    #         i = bisect_left(self.out_x, self.distance[0])  # find largest distance closest to value
-    #         low1 = self.out_x[0][i - 1]  # assign nearest lowest out_x value for interpolation
-    #         high1 = self.out_x[0][i]  # assign nearest highest out_x value for interpolation
-    #         low_i = i - 1  # assign index values to use to find nearest out_y values for interpolation
-    #         high_i = i  # assign index values to use to find nearest out_y values for interpolation
-    #         self.out_init_avg_dep_foa = [((self.distance[0] - low1) * (self.out_y[0][high_i] - self.out_y[0][low_i]) / (high1 - low1)) + \
-    #                                 self.out_y[0][low_i]]
-    #     return self.out_init_avg_dep_foa
+        return x_array_out, y_array_out, npts_out
 
-    # def extrapolate_from_fig2(self, out_y):
-    #     """
-    #     Extrapolating from nearest figure points, alternative figure.
-    #     :param ecosystem_type:
-    #     :param out_init_avg_dep_foa:
-    #     :param bisect_left:
-    #     :param out_x:
-    #     :param out_y:
-    #     :return:
-    #     """
-    #     #self.out_init_avg_dep_foa = float(self.out_init_avg_dep_foa)
-    #     if self.out_init_avg_dep_foa in self.out_y:
-    #         x_index = out_y.index(self.out_init_avg_dep_foa[0])
-    #         self.distance[0] = self.out_x[x_index]
-    #     else:
-    #         i = min(enumerate(self.out_y), key=lambda out_x: abs(
-    #                 out_x[1] - self.out_init_avg_dep_foa))  # finds smallest closest value closest to input value
-    #         i2 = i[0]
-    #         low1 = self.out_y[i2]  # assign nearest lowest out_x value for interpolation
-    #         high1 = self.out_y[i2 - 1]  # assign nearest highest out_x value for interpolation
-    #         low_i = i2  # assign index values to use to find nearest out_y values for interpolation
-    #         high_i = i2 - 1  # assign index values to use to find nearest out_y values for interpolation
-    #         self.distance[0] = ((self.out_init_avg_dep_foa[0] - low1) * (self.out_x[high_i] - self.out_x[low_i]) / (high1 - low1)) + \
-    #                         self.out_x[low_i]
-    #     return self.distance
+    def locate_integrated_avg(self, npts_orig, x_array_in, y_array, x_dist, integrated_avg):
+        """
+        :description this algorithm searches through a series of x/y values to locate a specified integrated average
+        :            integrated averages are processed for each x[] from x[0] until the integrated average matches that
+        :            specified in the input; for example, say you have a time series of daily water concentrations and you're
+        :            interested in when the 7-day integrated average exceeds a user specified value; this algorithm
+        :            would start at day 1, compute the 7-day integrated average (which would simpily be the 7-day average
+        :            if the the x points are evenly spaced, i.e., every day), it would then check the 7-day average against
+        :            the specified integrated average and if no match it would move to subsequent days and repeat the process
+        :            until it finds the integrated average of interest
+        :            integrated average (which represents a value of the running average of interest to the user
+        :param npts_orig: number of points in orginal x vs y data points
+        :param x_array_in: x values of original x vs y data points
+        :param y_array: y values of original x vs y data points
+        :param x_dist: length (in x units) for which running weighted average is to be calculated
+        :param integrated_avg: weighted average of y_array over x_dist
+        :param x_array_out: x values of running weighted average output
+        :param y_array_out: y values of running weighted average output
+        :param npts_out: number of points in running weighted average output array
+        :param x_dist_of_interest: x location of trailing edge of x_dist for which the specified integrated_avg applies
+        :NOTE We assume we have a monotonically decreasing y_array
+        :NOTE This code could use better documentation; there are multiple indices in use and it is not
+              easy to follow at this point
+              segment: distance (in x-axis units) associated with length of running weighted average (e.g., 7-day averaging)
+              increment: step (x-asix distance between x_array_in points) included in calculation of segment weighted average
+        :return:
+        """
 
-    # def deposition_foa_to_gha_f(self):
-    #     """
-    #     Deposition calculation.
-    #     :param out_init_avg_dep_foa:
-    #     :param application_rate:
-    #     :return:
-    #     """
-    #     self.out_avg_depo_gha = [self.out_init_avg_dep_foa * 100.0 * self.application_rate * 10.0]
-    #     return self.out_avg_depo_gha
+        x_array_out = pd.Series([], dtype='float') #array of x pts associated with y_array_out
+        y_array_out = pd.Series([], dtype='float') #array of running weighted averages
+        range_chk = 'in range'  #for reporting when user specified integrated average is not found within the data series
+        continuing = True
+        x_tot = 0   #total x-axis distance from start point of current averaging
+        j_init = 0 #index of initial x[] of current averaging
+        for i in range (npts_orig-1): #calculate running weighted average for these points
+            if(x_array_in[i] < (x_array_in[npts_orig-1] - x_dist)):
+                if (i == 0):   #first time through process full extent of x_dist (i.e., all x_array_in pts included in x dist)
+                    j = 0
+                    integrated_tot = 0
 
-    # def deposition_ngl_2_gha_f(self):
-    #     """
-    #     Deposition calculation.
-    #     :param out_init_avg_dep_foa:
-    #     :param application_rate:
-    #     :return:
-    #     """
-    #     # self.out_deposition_ngl = float(self.out_deposition_ngl)
-    #     if (self.aquatic_type == '1'):
-    #         self.deposition_ngl_2_gha_f = [self.out_deposition_ngl[0] / (0.05 * 1000)]
-    #     else:
-    #         self.deposition_ngl_2_gha_f = [((self.out_deposition_ngl[0] / 6.56) * 0.4921) / (0.05 * 1000)]
-    #     return self.deposition_ngl_2_gha_f
+                    while continuing:
+                        x_tot = x_tot + (x_array_in[j+1] - x_array_in[j])
+                        integrated_inc = (0.5 * (y_array[j] + y_array[j+1])) * (x_array_in[j+1] - x_array_in[j])
+                        if(j == 0): init_inc = integrated_inc  #save first increment of running average integration
 
-    # def deposition_ghac_to_lbac_f(self):
-    #     """
-    #     Deposition calculation.
-    #     :param out_init_avg_dep_foa:
-    #     :param application_rate:
-    #     :return:
-    #     """
-    #     # self.out_avg_depo_gha = float(self.out_avg_depo_gha)
-    #     self.out_avg_depo_lbac = [(self.out_avg_depo_gha[0] * 0.00220462 / 2.47105)]
-    #     return self.out_avg_depo_lbac
+                        if (x_tot <= x_dist):
+                            integrated_tot = integrated_tot + integrated_inc
+                            j += 1
+                        else:  #last segment
+                            x_interp = x_array_in[i] + x_dist
+                            y_interp = (y_array[j] * (x_array_in[j+1] - x_interp) +
+                                        y_array[j+1] * (x_interp - x_array_in[j])) / (
+                                       x_array_in[j+1] - x_array_in[j])
+                            integrated_inc = (0.5 * (y_interp + y_array[j])) * (x_interp - x_array_in[j])
+                            if (j == 0): #save last increment?
+                                last_inc = 0.  #don't double count if last increment is same as 1st for this segment
+                            else:
+                                last_inc = integrated_inc
+                            integrated_tot = integrated_tot + integrated_inc
+                            continuing = False
 
-    # def deposition_mgcm_to_gha_f(self):
-    #     """
-    #     Deposition calculation.
-    #     :param out_init_avg_dep_foa:
-    #     :param application_rate:
-    #     :return:
-    #     """
-    #     # self.out_deposition_mgcm = float(self.out_deposition_mgcm)
-    #     self.out_avg_depo_gha = [self.out_deposition_mgcm[0] / 0.00001]
-    #     return self.out_avg_depo_gha
+                    #populate output array that holds values of running integrated averages
+                    x_array_out[i] = x_array_in[i]
+                    y_array_out[i] = integrated_tot / x_dist
+                    npts_out = len(x_array_out)  # not really necessary; at this point it will always be equal to 1
 
+                    #determine if the user specified integrated average has been located
+                    if (y_array[1] < y_array[0]):     #y is decreasing function of x
+                        if (y_array_out[i] < integrated_avg):  #if true then we have achieved the integrated_avg before completing the first x_dist
+                            # if we surpass the user supplied integrated_avg before reaching the edge of the first running average then
+                            # output the message and set the x_dist_of_interest to zero (as is done in the original AGDRIFT model)
+                            print "User-specified integrated average occurs before 1st x_dist extent is completed - x distance of interest set to first x_array_in value"
+                            x_dist_of_interest = x_array_in[0]  #original AGDRIFT model sets this value to zero (i.e., first x point value)
+                            return x_array_out, y_array_out, npts_out, x_dist_of_interest, range_chk
+                    else:
+                        if (y_array_out[i] > integrated_avg):  #if true then we have achieved the integrated_avg before completing the first x_dist
+                            # if we surpass the user supplied integrated_avg before reaching the edge of the first running average then
+                            # output the message and set the x_dist_of_interest to zero (as is done in the original AGDRIFT model)
+                            print "User-specified integrated average occurs before 1st x_dist extent is completed - x distance of interest set to first x_array_in value"
+                            x_dist_of_interest = x_array_in[0]  #original AGDRIFT model sets this value to zero (i.e., first x point value)
+                            return x_array_out, y_array_out, npts_out, x_dist_of_interest, range_chk
 
-        # elif (self.calculation_input == 'Fraction'):
-        #     self.extrapolate_from_fig2(self.out_y)
-        #     self.deposition_foa_to_lbac_f()
-        #     self.deposition_lbac_to_gha_f()
-        #     self.deposition_gha_to_ngl_f()
-        #     self.deposition_gha_to_mgcm_f()
+                else:  #need to process only edges of running weighted average segment (i.e., subtract 1st and last
+                       #increments from previous segment; then start adding new segments)
 
-        # elif (self.calculation_input == 'Initial Average Deposition (g/ha)'):
-        #     self.deposition_ghac_to_lbac_f()
-        #     self.deposition_lbac_to_foa_f()
-        #     self.extrapolate_from_fig2(self.out_y)
-        #     self.deposition_gha_to_ngl_f()
-        #     self.deposition_gha_to_mgcm_f()
+                    #initialize next segment (i.e., beginning at x[i])
+                    if (j == 0 or j == i or j == i-1):  #3 conditions for a new segment without overlap with previous one
+                        #new segment has no overlap with previous segment
+                        j = j_init = i
+                        x_tot = 0.
+                        integrated_tot = 0.
+                    else:
+                        #new segment includes portion of previous segment
+                        j_init = j  #j_init is the lower bound of 1st 'new' segment to be processed for this new average
+                        x_tot = x_tot - ((x_array_in[j+1] - x_array_in[j]) + (x_array_in[i] - x_array_in[i-1]))
+                        integrated_tot = integrated_tot - init_inc - last_inc
+                    continuing = True
 
-        # elif (self.  == 'Initial Average Deposition (lb/ac)'):
-        #     logging.info self.out_avg_depo_lbac
-        #     self.deposition_lbac_to_gha_f()
-        #     self.deposition_gha_to_ngl_f()
-        #     self.deposition_gha_to_mgcm_f()
-        #     self.deposition_lbac_to_foa_f()
-        #     self.extrapolate_from_fig2(self.out_y)
+                    while continuing:
+                        x_tot = x_tot + (x_array_in[j+1] - x_array_in[j])
+                        integrated_inc = (0.5 * (y_array[j] + y_array[j+1])) * (x_array_in[j+1] - x_array_in[j])
+                        if (j == j_init): init_inc = (0.5 * (y_array[i] + y_array[i+1])) * \
+                                                     (x_array_in[i+1] - x_array_in[i])  #note 'i' index to denote 1st increment of current segment
 
-        # elif (self.calculation_input == 'Initial Average Concentration (ng/l)'):
-        #     self.deposition_ngl_2_gha_f()
-        #     self.deposition_ghac_to_lbac_f()
-        #     self.deposition_lbac_to_foa_f()
-        #     self.extrapolate_from_fig2(self.out_y)
-        #     self.deposition_gha_to_mgcm_f()
+                        if (x_tot <= x_dist):
+                            integrated_tot = integrated_tot + integrated_inc
+                            j += 1
+                        else:
+                            x_interp = x_array_in[i] + x_dist
+                            y_interp = (y_array[j] * (x_array_in[j+1] - x_interp) +
+                                        y_array[j+1] * (x_interp - x_array_in[j])) / (
+                                       x_array_in[j+1] - x_array_in[j])
+                            integrated_inc = (0.5 * (y_interp + y_array[j])) * (x_interp - x_array_in[j])
+                            if (j == i): #save last increment?
+                                last_inc = 0. #don't double count if last increment is same as 1st for this segment
+                            else:
+                                last_inc = integrated_inc
+                            integrated_tot = integrated_tot + integrated_inc
+                            continuing = False
 
-        # else:
-        #     self.deposition_mgcm_to_gha_f()
-        #     self.deposition_ghac_to_lbac_f()
-        #     self.deposition_lbac_to_foa_f()
-        #     self.extrapolate_from_fig2(self.out_y)
-        #     self.deposition_gha_to_ngl_f()
+                    #populate output arrays with latest running weighted average
+                    x_array_out[i] = x_array_in[i]
+                    y_array_out[i] = integrated_tot / x_dist
+                    npts_out = len(x_array_out)
 
-        # def results(self):
-        #     self.pond_ground_high_vf2f = [0.0616,0.0572,0.0455,0.0376,0.0267,0.0194,0.013,0.0098,0.0078,0.0064,0.0053,0.0046,0.0039,0.0035,0.003,0.0027,0.0024,0.0022,0.002,0.0018,0.0017,0.0015,0.0014,0.0013,0.0012]
-        #     self.pond_ground_high_f2m = [0.0165,0.0137,0.0104,0.009,0.0071,0.0056,0.0042,0.0034,0.0028,0.0024,0.0021,0.0019,0.0017,0.0015,0.0014,0.0013,0.0012,0.0011,0.001,0.00095,0.0009,0.0008,0.0008,0.0007,0.0007]
-        #     self.pond_ground_low_vf2f = [0.0268,0.0231,0.0167,0.0136,0.01,0.0076,0.0054,0.0043,0.0036,0.0031,0.0027,0.0024,0.0021,0.0019,0.0017,0.0016,0.0015,0.0013,0.0012,0.0012,0.0011,0.001,0.001,0.0009,0.0009]
-        #     self.pond_ground_low_f2m = [0.0109,0.0086,0.0065,0.0056,0.0045,0.0036,0.0028,0.0023,0.0019,0.0017,0.0015,0.0013,0.0012,0.0011,0.001,0.0009,0.0009,0.0008,0.0008,0.0007,0.0007,0.0006,0.0006,0.0006,0.0006]
+                    #determine if the user supplied integrated average has been surpassed; if so compute the interpolated distance to the point of interest
+                    if (y_array[1] < y_array[0]):  #y is decreasing function of x
+                        if (y_array_out[i] <= integrated_avg):
+                            fraction = (y_array_out[i-1] - integrated_avg) / (y_array_out[i-1] - y_array_out[i])
+                            if(self.find_nearest_x):  #if true then round to nearest half x unit
+                                #above is precise x_dist_of_interest; below is OPP protocol for rounding the distance up to the nearest segment midpoint or segment boundary
+                                if (fraction >= 0.5):
+                                    x_dist_of_interest = x_array_out[i]
+                                else:
+                                    x_dist_of_interest = x_array_out[i-1] + 0.5 * (x_array_out[i] - x_array_out[i-1])
+                                #this is crazy but it is what the OPP Agdrift appears to do
+                                if(x_dist_of_interest <= 3.2808): x_dist_of_interest = 3.2808
+                                if(x_dist_of_interest > 3.2808 and x_dist_of_interest <= 6.5616): x_dist_of_interest = 6.5616
+                                if(x_dist_of_interest > 6.5616 and x_dist_of_interest <= 9.8424): x_dist_of_interest = 9.8424
+                                if(x_dist_of_interest > 9.8424 and x_dist_of_interest <= 13.1232): x_dist_of_interest = 13.1232
+                            else:
+                                x_dist_of_interest = x_array_out[i-1] + fraction * (x_array_out[i] - x_array_out[i-1])
+                            #write output arrays to excel file  --  just for debugging
+                            #self.write_arrays_to_csv(x_array_out, y_array_out, "output_array.csv")
 
-        # #####one less value (begin)
-        #     self.pond_aerial_vf2f = [0.2425,0.2409,0.2344,0.2271,0.2083,0.1829,0.1455,0.1204,0.103,0.0904,0.0809,0.0734,0.0674,0.0625,0.0584,0.055,0.0521,0.0497,0.0476,0.0458,0.0442,0.0428,0.0416,0.0405,0.0396]
-        #     self.pond_aerial_f2m = [0.1266,0.1247,0.1172,0.1094,0.0926,0.0743,0.0511,0.0392,0.0321,0.0272,0.0238,0.0212,0.0193,0.0177,0.0165,0.0155,0.0146,0.0139,0.0133,0.0128,0.0124,0.012,0.0117,0.0114,0.0111]
-        #     self.pond_aerial_m2c = [0.0892,0.0900,0.0800,0.0700,0.0600,0.0400,0.0300,0.0200,0.0200,0.0130,0.0112,0.0099,0.0090,0.0083,0.0077,0.0073,0.0069,0.0066,0.0063,0.0060,0.0058,0.0056,0.0055,0.0053,0.0052]
-        #     self.pond_aerial_c2vc = [0.0892,0.0900,0.0800,0.0700,0.0600,0.0400,0.0300,0.0200,0.0200,0.0130,0.0112,0.0099,0.0090,0.0083,0.0077,0.0073,0.0069,0.0066,0.0063,0.0060,0.0058,0.0056,0.0055,0.0053,0.0052]
-        #     self.terr_aerial_vf2f = [0.5000,0.4913,0.4564,0.4220,0.3588,0.3039,0.2247,0.1741,0.1403,0.1171,0.1010,0.0893,0.0799,0.0729,0.0671,0.0626,0.0585,0.0550,0.0519,0.0494,0.0475,0.0458,0.0442,0.0428,0.0416]
-        #     self.terr_aerial_f2m = [0.4999,0.4808,0.4046,0.3365,0.2231,0.1712,0.0979,0.0638,0.0469,0.0374,0.0312,0.0266,0.0234,0.021,0.0192,0.0177,0.0164,0.0154,0.0146,0.0139,0.0133,0.0128,0.0124,0.012,0.0117]
-        #     self.terr_aerial_m2c =[0.5,0.4776,0.3882,0.3034,0.1711,0.1114,0.0561,0.0346,0.0249,0.0188,0.015,0.0126,0.011,0.0098,0.0089,0.0082,0.0077,0.0072,0.0069,0.0065,0.0063,0.006,0.0058,0.0056,0.0055]
-        #     self.terr_aerial_c2vc =[0.5,0.4776,0.3882,0.3034,0.1711,0.1114,0.0561,0.0346,0.0249,0.0188,0.015,0.0126,0.011,0.0098,0.0089,0.0082,0.0077,0.0072,0.0069,0.0065,0.0063,0.006,0.0058,0.0056,0.0055]
-        #     self.terr_ground_vf2f = [1.06,0.8564,0.4475,0.2595,0.104,0.05,0.0248,0.0164,0.012,0.0093,0.0075,0.0062,0.0053,0.0045,0.0039,0.0034,0.003,0.0027,0.0024,0.0022,0.002,0.0018,0.0017,0.0015,0.0014]
-        # #####one less value (end)
+                            return x_array_out, y_array_out, npts_out, x_dist_of_interest, range_chk
 
-        #     self.terr_ground_f2m = [1.01,0.3731,0.0889,0.0459,0.0208,0.0119,0.007,0.0051,0.004,0.0033,0.0028,0.0024,0.0021,0.0019,0.0017,0.0015,0.0014,0.0013,0.0012,0.0011,0.001,0.0009,0.0009,0.0008,0.0008]
-        #     self.pond_airblast_normal = [0.0011,0.0011,0.001,0.0009,0.0007,0.0005,0.0003,0.0002,0.0002,0.0002,0.0001,0.0001,0.0000978,0.0000863,0.0000769,0.0000629,0.0000626,0.0000571,0.0000523,0.0000482,0.0000446,0.0000414,0.0000386,0.0000361,0.0000339]
-        #     self.pond_airblast_dense = [0.0145,0.014,0.0122,0.0106,0.0074,0.005,0.003,0.0022,0.0017,0.0014,0.0012,0.0011,0.001,0.0009,0.0008,0.0007,0.0007,0.0006,0.0006,0.0005,0.0005,0.0005,0.0005,0.0004,0.0004]
-        #     self.pond_airblast_sparse = [0.0416,0.0395,0.0323,0.0258,0.015,0.0077,0.0031,0.0017,0.001,0.0007,0.0005,0.0004,0.0003,0.0002,0.0002,0.0002,0.0001,0.0001,0.0000898,0.0000771,0.0000668,0.0000583,0.0000513,0.0000453,0.0000405]
-        #     self.pond_airblast_vineyard = [0.0024,0.0023,0.0018,0.0014,0.0009,0.0006,0.0003,0.0002,0.0002,0.0001,0.0001,0.0001,0.0000881,0.0000765,0.0000672,0.0000596,0.0000533,0.000048,0.0000435,0.0000397,0.0000363,0.0000334,0.0000309,0.0000286,0.0000267]
-        #     self.pond_airblast_orchard = [0.0218,0.0208,0.0175,0.0145,0.0093,0.0056,0.0031,0.0021,0.0016,0.0013,0.0011,0.0009,0.0008,0.0007,0.0007,0.0006,0.0005,0.0005,0.0005,0.0004,0.0004,0.0004,0.0004,0.0003,0.0003]
-        #     self.terr_airblast_normal = [0.0089,0.0081,0.0058,0.0042,0.0023,0.0012,0.0006,0.0004,0.0003,0.0002,0.0002,0.0002,0.0001,0.0001,0.0000965,0.0000765,0.0000625,0.0000523,0.0000446,0.0000387]
-        #     self.terr_airblast_dense = [0.1155,0.1078,0.0834,0.0631,0.033,0.0157,0.0065,0.0038,0.0026,0.002,0.0016,0.0014,0.0012,0.0011,0.0009,0.0008,0.0007,0.0006,0.0005,0.0005]
-        #     self.terr_airblast_sparse = [0.4763,0.4385,0.3218,0.2285,0.1007,0.0373,0.0103,0.0044,0.0023,0.0014,0.0009,0.0006,0.0005,0.0004,0.0003,0.0002,0.0001,0.0000889,0.0000665,0.0000514]
-        #     self.terr_airblast_vineyard = [0.0376,0.0324,0.0195,0.012,0.0047,0.0019,0.0008,0.0004,0.0003,0.0002,0.0002,0.0001,0.0001,0.0001,0.000087,0.0000667,0.0000531,0.0000434,0.0000363,0.000031]
-        #     self.terr_airblast_orchard = [0.2223,0.2046,0.1506,0.108,0.0503,0.021,0.0074,0.004,0.0026,0.0019,0.0015,0.0012,0.0011,0.0009,0.0008,0.0006,0.0005,0.0005,0.0004,0.0004]
+                    else:
+                        #this increasing function does not navigate to the nearest 1/2 x point as done above for decreasing function
+                        if (y_array_out[i] > integrated_avg):
+                            fraction = (integrated_avg - y_array_out[i-1]) / (y_array_out[i] - y_array_out[i-1])
+                            x_dist_of_interest = x_array_out[i-1] + fraction * (x_array_out[i] - x_array_out[i-1])
+                            return x_array_out, y_array_out, npts_out, x_dist_of_interest, range_chk
 
-        #     if (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Aerial' and self.drop_size == 'Fine'):
-        #         self.out_y = self.pond_aerial_vf2f
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Aerial' and self.drop_size == 'Medium'):
-        #         self.out_y = self.pond_aerial_f2m
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Aerial' and self.drop_size == 'Coarse'):
-        #         self.out_y = self.pond_aerial_m2c
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Aerial' and self.drop_size == 'Very Coarse'):
-        #         self.out_y = self.pond_aerial_c2vc
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Ground' and self.drop_size == 'Fine' and self.boom_height == 'low'):
-        #         self.out_y = self.pond_ground_low_vf2f
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Ground' and self.drop_size == 'Medium' and self.boom_height == 'low'):
-        #         self.out_y = self.pond_ground_low_f2m
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Ground' and self.drop_size == 'Fine' and self.boom_height == 'High'):
-        #         self.out_y = self.pond_ground_high_vf2f
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Ground' and self.drop_size == 'Medium' and self.boom_height == 'High'):
-        #         self.out_y = self.pond_ground_high_f2m
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Aerial' and self.drop_size == 'Fine'):
-        #         self.out_y = self.terr_aerial_vf2f
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Aerial' and self.drop_size == 'Medium'):
-        #         self.out_y = self.terr_aerial_f2m
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Aerial' and self.drop_size == 'Coarse'):
-        #         self.out_y = self.terr_aerial_m2c
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Aerial' and self.drop_size == 'Very Coarse'):
-        #         self.out_y = self.terr_aerial_c2vc
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Ground' and self.drop_size == 'Fine'):
-        #         self.out_y = self.terr_ground_vf2f
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Ground' and self.drop_size == 'Medium'):
-        #         self.out_y = self.terr_ground_f2m
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Normal'):
-        #         self.out_y = self.pond_airblast_normal
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Dense'):
-        #         self.out_y = self.pond_airblast_dense
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Sparse'):
-        #         self.out_y = self.pond_airblast_sparse
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Vineyard'):
-        #         self.out_y = self.pond_airblast_vineyard
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Orchard'):
-        #         self.out_y = pond_airblast_orchard
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Normal'):
-        #         self.out_y = self.terr_airblast_normal
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Dense'):
-        #         self.out_y = self.terr_airblast_dense
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Sparse'):
-        #         self.out_y = self.terr_airblast_sparse
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Vineyard'):
-        #         self.out_y = self.terr_airblast_vineyard
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Orchard'):
-        #         self.out_y = self.terr_airblast_orchard
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #         self.z = 4
-        #     else:
-        #         #logging.info 2
-        #         self.out_y = 3
-        #     return self.out_x, self.out_y
+        #some extent of the area-of-interest (e.g., pond) lies outside the data range
+        range_chk = 'out of range'
+        return x_array_out, y_array_out, npts_out, np.nan, range_chk
 
-        #     self.terr_aerial_vf2f = [0.5000,0.4913,0.4564,0.4220,0.3588,0.3039,0.2247,0.1741,0.1403,0.1171,0.1010,0.0893,0.0799,0.0729,0.0671,0.0626,0.0585,0.0550,0.0519,0.0494,0.0475,0.0458,0.0442,0.0428,0.0416]
-        #     self.terr_aerial_f2m = [0.4999,0.4808,0.4046,0.3365,0.2231,0.1712,0.0979,0.0638,0.0469,0.0374,0.0312,0.0266,0.0234,0.021,0.0192,0.0177,0.0164,0.0154,0.0146,0.0139,0.0133,0.0128,0.0124,0.012,0.0117]
-        #     self.terr_aerial_m2c =[0.5,0.4776,0.3882,0.3034,0.1711,0.1114,0.0561,0.0346,0.0249,0.0188,0.015,0.0126,0.011,0.0098,0.0089,0.0082,0.0077,0.0072,0.0069,0.0065,0.0063,0.006,0.0058,0.0056,0.0055]
-        #     self.terr_aerial_c2vc =[0.5,0.4776,0.3882,0.3034,0.1711,0.1114,0.0561,0.0346,0.0249,0.0188,0.015,0.0126,0.011,0.0098,0.0089,0.0082,0.0077,0.0072,0.0069,0.0065,0.0063,0.006,0.0058,0.0056,0.0055]
-        #     self.terr_ground_vf2f = [1.06,0.8564,0.4475,0.2595,0.104,0.05,0.0248,0.0164,0.012,0.0093,0.0075,0.0062,0.0053,0.0045,0.0039,0.0034,0.003,0.0027,0.0024,0.0022,0.002,0.0018,0.0017,0.0015,0.0014]
-        # #####one less value (end)
+    def find_dep_pt_location(self, x_in, y_in, npts, foa):
+        """
+        :description this method locates the downwind distance associated with a specific deposition rate
+        :param x_in: array of distance values
+        :param y_in: array of deposition values
+        :param npts: number of values in x/y arrays
+        :param foa: value of deposition (y value) of interest
+        :return:
+        """
+        range_chk = 'in range'
+        continuing = True
+        j = 0
+        while continuing:
+            if (j == 0 and y_in[j] < foa): #means we're in the spray area and not 'downwind'
+                out_dist = 0.
+                continuing = False
+            elif (j > npts-1): #means we are beyond the data range
+                out_dist = np.nan
+                range_chk = 'out of range'
+                continuing = False
+            else:
+                if (y_in[j] < foa):
+                    fraction = (y_in[j-1] - foa) / (y_in[j-1] - y_in[j])
+                    out_dist = x_in[j-1] + fraction * (x_in[j] - x_in[j-1])
 
-        #     self.terr_ground_f2m = [1.01,0.3731,0.0889,0.0459,0.0208,0.0119,0.007,0.0051,0.004,0.0033,0.0028,0.0024,0.0021,0.0019,0.0017,0.0015,0.0014,0.0013,0.0012,0.0011,0.001,0.0009,0.0009,0.0008,0.0008]
-        #     self.pond_airblast_normal = [0.0011,0.0011,0.001,0.0009,0.0007,0.0005,0.0003,0.0002,0.0002,0.0002,0.0001,0.0001,0.0000978,0.0000863,0.0000769,0.0000629,0.0000626,0.0000571,0.0000523,0.0000482,0.0000446,0.0000414,0.0000386,0.0000361,0.0000339]
-        #     self.pond_airblast_dense = [0.0145,0.014,0.0122,0.0106,0.0074,0.005,0.003,0.0022,0.0017,0.0014,0.0012,0.0011,0.001,0.0009,0.0008,0.0007,0.0007,0.0006,0.0006,0.0005,0.0005,0.0005,0.0005,0.0004,0.0004]
+                    # the following code represents OPP protocol to round up x_dist_of_interest to nearest x midpoint or boundary value
+                    # (except when x_dist_of_interest is in the range of the first 2 meters (i.e., 6.5616 ft)
+                    if (fraction <= 0.5 and out_dist > 3.2808):
+                        round_up_x_dist = 0.5 * (x_in[j] + x_in[j-1])
+                    elif (fraction > 0.5 and out_dist > 3.2808):
+                        round_up_x_dist = x_in[j]
+                    else:
+                        round_up_x_dist = 3.2808
+                    if (out_dist > 3.2808 and out_dist < 6.5616):
+                        round_up_x_dist = 6.5616
+                    out_dist = round_up_x_dist  # i is simulation number
+                    continuing = False
+                j += 1
+        return out_dist, range_chk
 
-        #     self.pond_airblast_orchard = [0.0218,0.0208,0.0175,0.0145,0.0093,0.0056,0.0031,0.0021,0.0016,0.0013,0.0011,0.0009,0.0008,0.0007,0.0007,0.0006,0.0005,0.0005,0.0005,0.0004,0.0004,0.0004,0.0004,0.0003,0.0003]
-        #     self.terr_airblast_normal = [0.0089,0.0081,0.0058,0.0042,0.0023,0.0012,0.0006,0.0004,0.0003,0.0002,0.0002,0.0002,0.0001,0.0001,0.0000965,0.0000765,0.0000625,0.0000523,0.0000446,0.0000387]
-        #     self.terr_airblast_dense = [0.1155,0.1078,0.0834,0.0631,0.033,0.0157,0.0065,0.0038,0.0026,0.002,0.0016,0.0014,0.0012,0.0011,0.0009,0.0008,0.0007,0.0006,0.0005,0.0005]
-        #     self.terr_airblast_sparse = [0.4763,0.4385,0.3218,0.2285,0.1007,0.0373,0.0103,0.0044,0.0023,0.0014,0.0009,0.0006,0.0005,0.0004,0.0003,0.0002,0.0001,0.0000889,0.0000665,0.0000514]
-        #     self.terr_airblast_vineyard = [0.0376,0.0324,0.0195,0.012,0.0047,0.0019,0.0008,0.0004,0.0003,0.0002,0.0002,0.0001,0.0001,0.0001,0.000087,0.0000667,0.0000531,0.0000434,0.0000363,0.000031]
-        #     self.terr_airblast_orchard = [0.2223,0.2046,0.1506,0.108,0.0503,0.021,0.0074,0.004,0.0026,0.0019,0.0015,0.0012,0.0011,0.0009,0.0008,0.0006,0.0005,0.0005,0.0004,0.0004]
+    def round_model_outputs(self, avg_dep_foa, avg_dep_lbac, avg_dep_gha, avg_waterconc_ngl,
+                                     avg_field_dep_mgcm2, i):
+        """
+        :description round output variable values (and place in output variable series) so that they can be directly
+                     compared to expected results (which were limited in terms of their output format from the OPP AGDRIFT
+                     model (V2.1.1) interface (we don't have the AGDRIFT code so we cannot change the output format to
+                    agree with this model
+        :param avg_dep_foa:
+        :param avg_dep_lbac:
+        :param avg_dep_gha:
+        :param avg_waterconc_ngl:
+        :param avg_field_dep_mgcm2:
+        :param i: simulation number
+        :return:
+        """
 
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Aerial' and self.drop_size == 'Fine'):
-        #         self.out_y = self.terr_aerial_vf2f
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Aerial' and self.drop_size == 'Medium'):
-        #         self.out_y = self.terr_aerial_f2m
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Aerial' and self.drop_size == 'Coarse'):
-        #         self.out_y = self.terr_aerial_m2c
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Aerial' and self.drop_size == 'Very Coarse'):
-        #         self.out_y = self.terr_aerial_c2vc
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Ground' and self.drop_size == 'Fine'):
-        #         self.out_y = self.terr_ground_vf2f
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Ground' and self.drop_size == 'Medium'):
-        #         self.out_y = self.terr_ground_f2m
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Normal'):
-        #         self.out_y = self.pond_airblast_normal
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Dense'):
-        #         self.out_y = self.pond_airblast_dense
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'EPA Pond' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Orchard'):
-        #         self.out_y = pond_airblast_orchard
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Normal'):
-        #         self.out_y = self.terr_airblast_normal
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Dense'):
-        #         self.out_y = self.terr_airblast_dense
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Sparse'):
-        #         self.out_y = self.terr_airblast_sparse
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Vineyard'):
-        #         self.out_y = self.terr_airblast_vineyard
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #     elif (self.ecosystem_type == 'Terrestrial' and self.application_method == 'Orchard/Airblast' and self.airblast_type == 'Orchard'):
-        #         self.out_y = self.terr_airblast_orchard
-        #         self.out_x = [0,1,5,10,25,50,100,150,200,250,300,350,400,450,500,600,700,800,900,997]
-        #         self.z = 4
+        if (np.isfinite(avg_dep_foa)):
+            if (avg_dep_foa > 1e-4 and avg_dep_foa < 1.):
+                self.out_avg_dep_foa[i] = round(avg_dep_foa, 4)
+            elif (avg_dep_foa > 1.):
+                self.out_avg_dep_foa[i] = round(avg_dep_foa, 2)
+            else :
+                self.out_avg_dep_foa[i] = float('{:0.2e}'.format(float(avg_dep_foa)))
+        else:
+            self.out_avg_dep_foa[i] = avg_dep_foa
 
-    # def load_pond_ground_high_vf2f(self):
-    #     conn = sqlite3.connect('agdrift.db')
-    #     cur = conn.cursor()
-    #     cur.execute("SELECT pond_ground_high_vf2f  from output")
-    #     pond_ground_high_vf2fs = cur.fetchall()
-    #     pond_ground_high_vf2fs = np.array(pond_ground_high_vf2fs).astype('float').flatten()
-    #     cur.close()
-    #     conn.close()
-    #     return pond_ground_high_vf2fs
+        if (np.isfinite(avg_dep_lbac)):
+            if (avg_dep_lbac > 1e-4 and avg_dep_lbac < 1.):
+                self.out_avg_dep_lbac[i] = round(avg_dep_lbac, 4)
+            elif (avg_dep_lbac > 1.):
+                self.out_avg_dep_lbac[i] = round(avg_dep_lbac, 2)
+            else :
+                self.out_avg_dep_lbac[i] = float('{:0.2e}'.format(float(avg_dep_lbac)))
+        else:
+            self.out_avg_dep_lbac[i] = avg_dep_lbac
 
+        if (np.isfinite(avg_dep_gha)):
+            if (avg_dep_gha > 1e-4 and avg_dep_gha < 1.):
+                self.out_avg_dep_gha[i] = round(avg_dep_gha, 4)
+            elif (avg_dep_gha > 1.):
+                self.out_avg_dep_gha[i] = round(avg_dep_gha, 2)
+            else :
+                self.out_avg_dep_gha[i] = float('{:0.2e}'.format(float(avg_dep_gha)))
+        else:
+            self.out_avg_dep_gha[i] = avg_dep_gha
 
-    # def get_distance(self):
-    #     engine = create_engine('sqlite:///sqlite_agdrift.db')
-    #     conn = engine.connect()
-    #     result = conn.execute("SELECT distance from output")
-    #     data = pd.Series(np.zeros(300))
-    #     for i, row in enumerate(result):
-    #         temp = float(row[0])
-    #         data[i] = temp.real
-    #     conn.close()
-    #     return data
-    #
-    # def get_pond_ground_high_vf2f(self):
-    #     engine = create_engine('sqlite:///sqlite_agdrift.db')
-    #     conn = engine.connect()
-    #     result = conn.execute("SELECT pond_ground_high_vf2f from output")
-    #     data = pd.Series(np.zeros(300))
-    #     for i, row in enumerate(result):
-    #         temp = float(row[0])
-    #         data[i] = temp.real
-    #     conn.close()
-    #     return data
-    #
-    # def get_pond_ground_high_f2m(self):
-    #     engine = create_engine('sqlite:///sqlite_agdrift.db')
-    #     conn = engine.connect()
-    #     result = conn.execute("SELECT pond_ground_high_f2m from output")
-    #     data = pd.Series(np.zeros(300))
-    #     for i, row in enumerate(result):
-    #         temp = float(row[0])
-    #         data[i] = temp.real
-    #     conn.close()
-    #     return data
-    #
-    # def get_pond_ground_low_f2m(self):
-    #     engine = create_engine('sqlite:///sqlite_agdrift.db')
-    #     conn = engine.connect()
-    #     result = conn.execute("SELECT pond_ground_low_f2m from output")
-    #     data = pd.Series(np.zeros(300))
-    #     for i, row in enumerate(result):
-    #         temp = float(row[0])
-    #         data[i] = temp.real
-    #     conn.close()
-    #     return data
-    #
-    # def get_pond_ground_low_vf2f(self):
-    #     engine = create_engine('sqlite:///sqlite_agdrift.db')
-    #     conn = engine.connect()
-    #     result = conn.execute("SELECT pond_ground_low_vf2f from output")
-    #     data = pd.Series(np.zeros(300))
-    #     for i, row in enumerate(result):
-    #         temp = float(row[0])
-    #         data[i] = temp.real
-    #     conn.close()
-    #     return data
-    #
-    # def get_pond_aerial_vf2f(self):
-    #     engine = create_engine('sqlite:///sqlite_agdrift.db')
-    #     conn = engine.connect()
-    #     result = conn.execute("SELECT pond_aerial_vf2f from output")
-    #     data = pd.Series(np.zeros(300))
-    #     for i, row in enumerate(result):
-    #         temp = float(row[0])
-    #         data[i] = temp.real
-    #     conn.close()
-    #     return data
-    #
-    # def get_pond_aerial_f2m(self):
-    #     engine = create_engine('sqlite:///sqlite_agdrift.db')
-    #     conn = engine.connect()
-    #     result = conn.execute("SELECT pond_aerial_f2m from output")
-    #     data = pd.Series(np.zeros(300))
-    #     for i, row in enumerate(result):
-    #         temp = float(row[0])
-    #         data[i] = temp.real
-    #     conn.close()
-    #     return data
-    #
-    # def get_pond_aerial_m2c(self):
-    #     engine = create_engine('sqlite:///sqlite_agdrift.db')
-    #     conn = engine.connect()
-    #     result = conn.execute("SELECT pond_aerial_m2c from output")
-    #     data = pd.Series(np.zeros(300))
-    #     for i, row in enumerate(result):
-    #         temp = float(row[0])
-    #         data[i] = temp.real
-    #     conn.close()
-    #     return data
-    #
-    # def get_pond_aerial_c2vc(self):
-    #     engine = create_engine('sqlite:///sqlite_agdrift.db')
-    #     conn = engine.connect()
-    #     result = conn.execute("SELECT pond_aerial_c2vc from output")
-    #     data = pd.Series(np.zeros(300))
-    #     for i, row in enumerate(result):
-    #         temp = float(row[0])
-    #         data[i] = temp.real
-    #     conn.close()
-    #     return data
-    #
-    # def get_pond_airblast_orchard(self):
-    #     engine = create_engine('sqlite:///sqlite_agdrift.db')
-    #     conn = engine.connect()
-    #     result = conn.execute("SELECT pond_airblast_orchard from output")
-    #     data = pd.Series(np.zeros(300))
-    #     for i, row in enumerate(result):
-    #         temp = float(row[0])
-    #         data[i] = temp.real
-    #     conn.close()
-    #     return data
-    #
-    # def get_pond_airblast_vineyard(self):
-    #     engine = create_engine('sqlite:///sqlite_agdrift.db')
-    #     conn = engine.connect()
-    #     result = conn.execute("SELECT pond_airblast_vineyard from output")
-    #     data = pd.Series(np.zeros(300))
-    #     for i, row in enumerate(result):
-    #         temp = float(row[0])
-    #         data[i] = temp.real
-    #     conn.close()
-    #     return data
+        if (np.isfinite(avg_waterconc_ngl)):
+            if (avg_waterconc_ngl > 1e-4 and avg_waterconc_ngl < 1.):
+                self.out_avg_waterconc_ngl[i] = round(avg_waterconc_ngl, 4)
+            elif (avg_waterconc_ngl > 1.):
+                self.out_avg_waterconc_ngl[i] = round(avg_waterconc_ngl, 2)
+            else :
+                self.out_avg_waterconc_ngl[i] = float('{:0.2e}'.format(float(avg_waterconc_ngl)))
+        else:
+            self.out_avg_waterconc_ngl[i] = avg_waterconc_ngl
 
+        if(np.isfinite(avg_field_dep_mgcm2)):
+            if (avg_field_dep_mgcm2 > 1e-4 and avg_field_dep_mgcm2 < 1.):
+                self.out_avg_field_dep_mgcm2[i] = round(avg_field_dep_mgcm2, 4)
+            elif (avg_field_dep_mgcm2 > 1.):
+                self.out_avg_field_dep_mgcm2[i] = round(avg_field_dep_mgcm2, 2)
+            else:
+                self.out_avg_field_dep_mgcm2[i] = float('{:0.2e}'.format(float(avg_field_dep_mgcm2)))
+        else:
+            self.out_avg_field_dep_mgcm2[i] = avg_field_dep_mgcm2
+        return
 
-#-------------------------
+    def write_arrays_to_csv(self, x_in, y_in, db_name):
 
-        # def get_pond_ground_high_vf2f(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
-        #     conn = engine.connect()
-        #     result = conn.execute("SELECT pond_ground_high_vf from output")
-        #     data = pd.Series(np.zeros(161))
-        #     for i, row in enumerate(result):
-        #         temp = float(row[0])
-        #         data[i] = temp.real
-        #     conn.close()
-        #     return data
-        #
-        # def get_pond_ground_high_f2m(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
-        #     conn = engine.connect()
-        #     result = conn.execute("SELECT pond_ground_high_f2m from output")
-        #     data = pd.Series(np.zeros(161))
-        #     for i, row in enumerate(result):
-        #         temp = float(row[0])
-        #         data[i] = temp.real
-        #     conn.close()
-        #     return data
-        #
-        # def get_pond_ground_low_f2m(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
-        #     conn = engine.connect()
-        #     result = conn.execute("SELECT pond_ground_low_f2m from output")
-        #     data = pd.Series(np.zeros(161))
-        #     for i, row in enumerate(result):
-        #         temp = float(row[0])
-        #         data[i] = temp.real
-        #     conn.close()
-        #     return data
-        #
-        # def get_pond_ground_low_vf2f(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
-        #     conn = engine.connect()
-        #     result = conn.execute("SELECT pond_ground_low_vf2f from output")
-        #     data = pd.Series(np.zeros(161))
-        #     for i, row in enumerate(result):
-        #         temp = float(row[0])
-        #         data[i] = temp.real
-        #     conn.close()
-        #     return data
-        #
-        # def get_pond_aerial_vf2f(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
-        #     conn = engine.connect()
-        #     result = conn.execute("SELECT pond_aerial_vf2f from output")
-        #     data = pd.Series(np.zeros(161))
-        #     for i, row in enumerate(result):
-        #         try:
-        #             temp = float(row[0])
-        #             data[i] = temp.real
-        #         except:
-        #             data[i] = 'nan'
-        #     conn.close()
-        #     return data
-        #
-        # def get_pond_aerial_f2m(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
-        #     conn = engine.connect()
-        #     result = conn.execute("SELECT pond_aerial_f2m from output")
-        #     data = pd.Series(np.zeros(161))
-        #     for i, row in enumerate(result):
-        #         temp = float(row[0])
-        #         data[i] = temp.real
-        #     conn.close()
-        #     return data
-        #
-        # def get_pond_aerial_m2c(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
-        #     conn = engine.connect()
-        #     result = conn.execute("SELECT pond_aerial_m2c from output")
-        #     data = pd.Series(np.zeros(161))
-        #     for i, row in enumerate(result):
-        #         temp = float(row[0])
-        #         data[i] = temp.real
-        #     conn.close()
-        #     return data
-        #
-        # def get_pond_aerial_c2vc(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
-        #     conn = engine.connect()
-        #     result = conn.execute("SELECT pond_aerial_c2vc from output")
-        #     data = pd.Series(np.zeros(161))
-        #     for i, row in enumerate(result):
-        #         temp = float(row[0])
-        #         data[i] = temp.real
-        #     conn.close()
-        #     return data
-        #
-        # def get_pond_airblast_orchard(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
-        #     conn = engine.connect()
-        #     result = conn.execute("SELECT pond_airblast_orchard from output")
-        #     data = pd.Series(np.zeros(161))
-        #     for i, row in enumerate(result):
-        #         temp = float(row[0])
-        #         data[i] = temp.real
-        #     conn.close()
-        #     return data
-        #
-        # def get_pond_airblast_vineyard(self):
-        #     engine = create_engine('sqlite:///sqlite_agdrift_1994ft.db')
-        #     conn = engine.connect()
-        #     result = conn.execute("SELECT pond_airblast_vineyard from output")
-        #     data = pd.Series(np.zeros(161))
-        #     for i, row in enumerate(result):
-        #         temp = float(row[0])
-        #         data[i] = temp.real
-        #     conn.close()
-        #     return data
+        # just a quick method to help debugging
+
+        with open(db_name, 'wb') as output_file:
+            wr = csv.writer(output_file, dialect='excel')
+            for k in range(len(x_in)):
+                item1 = x_in[k]
+                item2 = y_in[k]
+                wr.writerow([item1, item2])
+        output_file.close()
+        return
