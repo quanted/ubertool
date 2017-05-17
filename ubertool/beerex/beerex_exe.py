@@ -2,6 +2,10 @@ from __future__ import division  #brings in Python 3.0 mixed type calculations
 import numpy as np
 import pandas as pd
 
+#find parent directory and import model
+parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(parentddir)
+
 from base.uber_model import UberModel, ModelSharedInputs
 
 class BeerexInputs(object):
@@ -14,6 +18,7 @@ class BeerexInputs(object):
         #self.incorporation_depth = pd.Series([], dtype="float")
         self.application_rate = pd.Series([], dtype="float")
         self.application_method = pd.Series([], dtype="object")
+        self.crop_type = pd.Series([], dtype="object")
         # self.application_units = pd.Series([], dtype="object")
         self.empirical_residue = pd.Series([], dtype="object")
         self.empirical_pollen = pd.Series([], dtype="float")
