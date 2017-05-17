@@ -1,2 +1,37 @@
 ,version,chemical_name,pc_code,application_rate,application_method,drop_size_aerial,drop_size_ground,ecosystem_type,boom_height,airblast_type,aquatic_body_type,terrestrial_field_type,user_pond_width,user_pond_depth,user_wetland_width,user_wetland_depth,user_terrestrial_width,downwind_distance,calculation_input,user_frac_applied,user_avg_dep_gha,user_avg_dep_lbac,user_avg_conc_ngl,user_avg_dep_mgcm2
-0,,i,,0.5,Tier I Aerial,Medium to Coarse,Very Fine to Fine,Aquatic Assessment,High,Orchard,EPA Defined Pond,Point Deposition,208.7,6.56,208.7,0.4921,208.7,225,Distance,0.0314,8.82,6.56,0.0079,6.56
+0,,i,,0.5,tier_1_aerial,medium_to_coarse,,aquatic_assessment,,,epa_defined_pond,,,,,,,712,distance_to_point_or_area_ft,,,,,
+1,,i,,0.5,tier_1_aerial,medium_to_coarse,,aquatic_assessment,,,user_defined_wetland,,,,208.7,0.4921,,712,distance_to_point_or_area_ft,,,,,
+2,,i,,0.5,tier_1_aerial,medium_to_coarse,,aquatic_assessment,,,user_defined_wetland,,,,208.7,0.4921,,,fraction_of_applied,0.006,,,,
+3,,i,,0.5,tier_1_aerial,medium_to_coarse,,aquatic_assessment,,,epa_defined_wetland,,,, , ,,,fraction_of_applied,0.006,,,,
+4,,i,,0.5,tier_1_aerial,medium_to_coarse,,aquatic_assessment,,,epa_defined_wetland,,,,,,,,fraction_of_applied,0.0060148,,,,
+5,,i,,0.5,tier_1_aerial,medium_to_coarse,,aquatic_assessment,,,user_defined_wetland,,,,208.7,0.4921,,,initial_deposition_gha,,3.36,,,
+6,,i,,0.5,tier_1_aerial,medium_to_coarse,,aquatic_assessment,,,epa_defined_wetland,,,, , ,,,initial_deposition_lbac,,,0.003,,
+7,,i,,0.5,tier_1_aerial,medium_to_coarse,,aquatic_assessment,,,epa_defined_wetland,,,,,,,,initial_concentration_ngL,,,,2240.85,
+8,,a,,0.5,tier_1_aerial,fine_to_medium,,terrestrial_assessment,,,,epa_defined_terrestrial,,,,,,225,distance_to_point_or_area_ft,,,,,
+9,,a,,0.5,tier_1_aerial,fine_to_medium,,terrestrial_assessment,,,,epa_defined_terrestrial,,,,,,1,distance_to_point_or_area_ft,,,,,
+10,,a,,0.5,tier_1_aerial,fine_to_medium,,terrestrial_assessment,,,,epa_defined_terrestrial,,,,,,,fraction_of_applied,0.4808,,,,
+11,,a,,0.5,tier_1_aerial,fine_to_medium,,terrestrial_assessment,,,,epa_defined_terrestrial,,,,,,,initial_deposition_gha,,269.37,,,
+12,,a,,0.5,tier_1_aerial,fine_to_medium,,terrestrial_assessment,,,,epa_defined_terrestrial,,,,,,,initial_deposition_lbac,,,0.2404,,
+13,,a,,0.5,tier_1_aerial,fine_to_medium,,terrestrial_assessment,,,,epa_defined_terrestrial,,,,,,,initial_deposition_mgcm2,,,,,0.0027
+14,,a,,0.5,tier_1_aerial,fine_to_medium,,aquatic_assessment,,,user_defined_pond,,997,6.56,,,,997,distance_to_point_or_area_ft,,,,,
+15,,a,,0.5,tier_1_aerial,fine_to_medium,,aquatic_assessment,,,user_defined_pond,,997,6.56,,,,,fraction_of_applied,0.0115,,,,
+16,,a,,0.5,tier_1_aerial,fine_to_medium,,aquatic_assessment,,,user_defined_pond,,997,6.56,,,,,fraction_of_applied,0.0114538,,,,
+17,,a,,0.5,tier_1_aerial,fine_to_medium,,aquatic_assessment,,,user_defined_pond,,997,6.56,,,,,fraction_of_applied,0.0096297,,,,
+18,,a,,0.75,tier_1_ground,,very_fine,terrestrial_assessment,high,,,user_defined_terrestrial,,,,,208.7, ,initial_deposition_gha,,3.79,,,
+19,,a,,0.75,tier_1_ground,,very_fine,terrestrial_assessment,high,,,user_defined_terrestrial,,,,,208.7,450,distance_to_point_or_area_ft,,,,,
+20,,a,,0.5,tier_1_aerial,fine_to_medium,,aquatic_assessment,,,user_defined_pond, ,208.7,6.56,,, ,900,distance_to_point_or_area_ft,,,,,
+21,,a,,0.5,tier_1_ground,,fine_to_medium-coarse,terrestrial_assessment,low,, ,user_defined_terrestrial,,,,,350,850,distance_to_point_or_area_ft,,,,,
+22,,a,,0.5,tier_1_ground,,fine_to_medium-coarse,terrestrial_assessment,high,, ,user_defined_terrestrial,,,,,208.7,900,distance_to_point_or_area_ft,,,,,
+23,,a,,0.5,tier_1_airblast, , ,terrestrial_assessment,,sparse,,user_defined_terrestrial,,,,,350,850,distance_to_point_or_area_ft,,,,,
+24,,g,,0.5,tier_1_airblast, , ,terrestrial_assessment,,normal, ,user_defined_terrestrial,,,,,208.7,900,distance_to_point_or_area_ft,,,,,
+25,,a,,0.5,tier_1_airblast, , ,aquatic_assessment,,dense,user_defined_pond,,6.56,6.56,,,,6.56,distance_to_point_or_area_ft,,,,,
+26,,d,,0.63,tier_1_airblast, , ,aquatic_assessment,,vineyard,epa_defined_pond,,,,,,,550,distance_to_point_or_area_ft,,,,,
+27,,e,,0.41,tier_1_airblast, , ,aquatic_assessment,,orchard,epa_defined_wetland,,,,,,,800,distance_to_point_or_area_ft,,,,,
+28,,g,,0.5,tier_1_airblast, , ,terrestrial_assessment,,normal, ,user_defined_terrestrial,,,,,208.7,900,distance_to_point_or_area_ft,,,,,
+29,,d,,0.63,tier_1_airblast, , ,aquatic_assessment,,vineyard,epa_defined_pond,,,,,,,,fraction_of_applied,0.0000596,,,,
+30,,e,,0.41,tier_1_airblast, , ,aquatic_assessment,,orchard,epa_defined_wetland,,,,,,,,initial_deposition_gha,,0.1858,,,
+31,,g,,0.5,tier_1_airblast, , ,terrestrial_assessment,,normal, ,user_defined_terrestrial,,,,,208.7,,initial_deposition_mgcm2,,,,,0.000000224
+32,,a,,0.5,tier_1_airblast, , ,aquatic_assessment,,dense,user_defined_pond,,6.56,6.56,,,,,initial_concentration_ngL,,,,1800,
+33,,a,,0.5,tier_1_aerial,fine_to_medium,,terrestrial_assessment,,,,user_defined_terrestrial,,,,,208.7,,fraction_of_applied,0.01,,,,
+34,,g,,0.5,tier_1_airblast, , ,terrestrial_assessment,,normal, ,user_defined_terrestrial,,,,,208.7,,initial_deposition_mgcm2,,,,,0.0000001
+35,,g,,0.5,tier_1_airblast, , ,terrestrial_assessment,,normal, ,epa_defined_terrestrial,,,,,,,initial_deposition_mgcm2,,,,,0.0000001
