@@ -29,7 +29,7 @@ class UberModel(object):
         df = pd.DataFrame()
         for input_param in model_inputs.__dict__:
             df[input_param] = getattr(self, input_param)
-        keys_a = set(df.keys())
+        keys_a = set(getattr(self, input_param))
         keys_b = set(self.pd_obj.keys())
         extras = keys_b - keys_a
         n_extras = len(extras)
