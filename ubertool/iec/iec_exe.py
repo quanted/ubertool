@@ -65,4 +65,4 @@ class Iec(UberModel, IecInputs, IecOutputs, IecFunctions):
             self.f8_f()
             self.chance_f()
         except Exception, e:
-            print str(e)
+

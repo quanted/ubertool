@@ -135,7 +135,7 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs, TerrplantFunctions
             self.lds_rq_spray()
             self.loc_lds_spray()
         except TypeError:
-            print "Type Error: Your variables are not set correctly."
+
 
 class TerrplantApiMetadata(object):
     """

@@ -66,5 +66,5 @@ class Rice(UberModel, RiceInputs, RiceOutputs, RiceFunctions):
             self.calc_mass_area()
             self.calc_cw()
         except TypeError:
-            print "Type Error: Your variables are not set correctly."
+
 

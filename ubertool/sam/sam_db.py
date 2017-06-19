@@ -34,7 +34,7 @@ def create_mongo_document(jid, run_type, args, list_of_julian_days):
             http_headers = {'Content-Type': 'application/json'}
             requests.post(url, data=json.dumps(document), headers=http_headers, timeout=30)
         except Exception as e:
-            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
+
 
     else:  # Time-Averaged Results
 
@@ -44,7 +44,7 @@ def create_mongo_document(jid, run_type, args, list_of_julian_days):
             client = pymongo.MongoClient('localhost', 27017)
             db = client.ubertool
         except Exception as e:
-            print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
+
 
         if args['output_time_avg_option'] == '1':  # Time-Averaged Concentrations
 
@@ -84,7 +84,7 @@ def create_mongo_document(jid, run_type, args, list_of_julian_days):
             try:
                 db['sam'].insert(document)
             except Exception as e:
-                print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
+
 
 
 def update_mongo(jid, run_type, args, huc_output):
@@ -106,7 +106,7 @@ def update_mongo(jid, run_type, args, huc_output):
         client = pymongo.MongoClient('localhost', 27017)
         db = client.ubertool
     except Exception as e:
-        print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
+
         return None
 
     if args['output_type'] == '1':  # Daily Concentrations
@@ -210,8 +210,8 @@ def update_postgres(jid, args, huc_output):
         for item in data_list:  # Concatenate list items into 1 single tuple = (k, v1, v2, v3, etc..)
             tup_1 = (item[0],)
             data_list[i] = tup_1 + tuple(item[1])
-            # print data_list[i]
-            # print len(data_list[i])
+            #
+            #
             i += 1
 
         if args['output_tox_thres_exceed'] in ('1', '3'):  # By year

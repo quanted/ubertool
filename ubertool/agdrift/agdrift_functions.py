@@ -1030,14 +1030,14 @@ class AgdriftFunctions(object):
                         if (y_array_out[i] < integrated_avg):  #if true then we have achieved the integrated_avg before completing the first x_dist
                             # if we surpass the user supplied integrated_avg before reaching the edge of the first running average then
                             # output the message and set the x_dist_of_interest to zero (as is done in the original AGDRIFT model)
-                            print "User-specified integrated average occurs before 1st x_dist extent is completed - x distance of interest set to first x_array_in value"
+
                             x_dist_of_interest = x_array_in[0]  #original AGDRIFT model sets this value to zero (i.e., first x point value)
                             return x_array_out, y_array_out, npts_out, x_dist_of_interest, range_chk
                     else:
                         if (y_array_out[i] > integrated_avg):  #if true then we have achieved the integrated_avg before completing the first x_dist
                             # if we surpass the user supplied integrated_avg before reaching the edge of the first running average then
                             # output the message and set the x_dist_of_interest to zero (as is done in the original AGDRIFT model)
-                            print "User-specified integrated average occurs before 1st x_dist extent is completed - x distance of interest set to first x_array_in value"
+
                             x_dist_of_interest = x_array_in[0]  #original AGDRIFT model sets this value to zero (i.e., first x point value)
                             return x_array_out, y_array_out, npts_out, x_dist_of_interest, range_chk
 

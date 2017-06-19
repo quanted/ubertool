@@ -125,10 +125,10 @@ class Stir(UberModel, StirInputs, StirOutputs, StirFunctions):
 #     :return:
 #     """
 #     test_stir = stir(True, True, 1, 1, 1, 1, 1, 1, 1, 1)
-#     print vars(test_stir)
+#
 #     stir_json = toJSON(test_stir)
 #     new_stir = fromJSON(stir_json)
-#     print vars(new_stir)
+#
 #
 #
 # if __name__ == '__main__':

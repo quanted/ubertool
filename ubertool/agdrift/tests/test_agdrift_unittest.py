@@ -1974,7 +1974,7 @@ class TestAgdrift(unittest.TestCase):
             x_array_out, y_array_out = agdrift_empty.extend_curve_opp(x_array_in, y_array_in, max_dist, dist_inc, num_pts_ext,
                                                                   ln_ln_trans)
             npts_out = [len(y_array_out)]
-            #print out output arrays for debugging
+            #
             agdrift_empty.write_arrays_to_csv(x_array_out, y_array_out, "extend_data.csv")
             npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
             npt.assert_allclose(x_array_out, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)
@@ -2157,7 +2157,7 @@ class TestAgdrift(unittest.TestCase):
             x_array_out, y_array_out = agdrift_empty.extend_curve_opp(x_array_in, y_array_in, max_dist, dist_inc, num_pts_ext,
                                                                   ln_ln_trans)
             npts_out = [len(y_array_out)]
-            #print out output arrays for debugging
+            #
             agdrift_empty.write_arrays_to_csv(x_array_out, y_array_out, "extend_data.csv")
             npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
             npt.assert_allclose(x_array_out, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)
@@ -2339,7 +2339,7 @@ class TestAgdrift(unittest.TestCase):
             x_array_out, y_array_out = agdrift_empty.extend_curve(x_array_in, y_array_in, max_dist, dist_inc, num_pts_ext,
                                                                   ln_ln_trans)
             npts_out = [len(y_array_out)]
-            #print out output arrays for debugging
+            #
             agdrift_empty.write_arrays_to_csv(x_array_out, y_array_out, "extend_data.csv")
             npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
             npt.assert_allclose(x_array_out, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)
@@ -2521,7 +2521,7 @@ class TestAgdrift(unittest.TestCase):
             x_array_out, y_array_out = agdrift_empty.extend_curve(x_array_in, y_array_in, max_dist, dist_inc, num_pts_ext,
                                                                   ln_ln_trans)
             npts_out = [len(y_array_out)]
-            #print out output arrays for debugging
+            #
             agdrift_empty.write_arrays_to_csv(x_array_out, y_array_out, "extend_data.csv")
             npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
             npt.assert_allclose(x_array_out, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)

@@ -230,7 +230,7 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
         self.ad_chronic_rq()
         self.aq_chronic_rq()
     #   except TypeError:
-    #      print ("Type Error: Your variables are not set correctly.")
+    #
 
     def eec_spray(self, i):
         """

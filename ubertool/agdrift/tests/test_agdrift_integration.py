@@ -73,12 +73,12 @@ inputs_json, outputs_json, exp_out_json = agdrift_calc.get_dict_rep()
 #print("agdrift output")
 #print(inputs_json)
 
-#print input tables
+#
 #print(tabulate(pd_obj_inputs.iloc[:,0:5], headers='keys', tablefmt='fancy_grid'))
 #print(tabulate(pd_obj_inputs.iloc[:,6:11], headers='keys', tablefmt='fancy_grid'))
 #print(tabulate(pd_obj_inputs.iloc[:,12:17], headers='keys', tablefmt='fancy_grid'))
 
-#print expected output tables
+#
 #print(tabulate(pd_obj_exp.iloc[:,0:1], headers='keys', tablefmt='fancy_grid'))
 
 test = {}
