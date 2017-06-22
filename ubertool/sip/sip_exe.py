@@ -108,7 +108,7 @@ class Sip(UberModel, SipInputs, SipOutputs, SipFunctions):
             self.chron_mamm()
             self.chronconm()
         except TypeError:
-            print "Type Error: Your variables are not set correctly."
+
 
     def set_global_constants(self):
         """

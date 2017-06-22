@@ -1,43 +1,43 @@
-   ,description,units,type,valid_range,run0
-version,this breaks the csv,,,,
-chemical_name,,,,,i
-pc_code,this breaks the csv,,,,
-application_rate,application rate,lb/ac,float,,0.5
-application_method,type of application method,,,,tier_1_aerial
-drop_size_aerial,qualitative drop size of applied mixture,,,,very_fine_to_fine
-drop_size_ground,qualitative drop size of applied mixture,,,,
-ecosystem_type,type of assessment to be performed,,,,terrestrial_assessment
-boom_height,needed only if Tier I Ground scenario,,,,
-airblast_type,needed only if Tier I Orchard scenario,,,,
-aquatic_body_type,needed only if ecosystem_type is Aquatic,,,,
-terrestrial_field_type,needed only if ecosystem_type is Terrestrial,,,,user_defined_terrestrial
-user_pond_width,needed only if User Defined Pond,,,,
-user_pond_depth,needed only if User Defined Pond,,,,
-user_wetland_width,needed only if User Defined Wetland,,,,
-user_wetland_depth,needed only if User Defined Wetland,,,,
-user_terrestrial_width,needed only if User Defined Terrestrial area,,,,208.7
-downwind_distance,distance from edge of applicaiton area to leading edge of pond/wetland/terrestrial area of concern or terrestrial point of concern,ft,integer,[0_(997 - area width)],0
-calculation_input,indicator of a request for an inverse calculation that calculates the downwind distance correstponding to one of the following user inputs,,,,distance_to_point_or_area_ft
-user_frac_applied,,,,,
-user_avg_dep_gha,,,,,
-user_avg_dep_lbac,,,,,
-user_avg_conc_ngl,,,,,
-user_avg_dep_mgcm2,,,,,
-out_sim_scenario_chk,identifies Valid and Invalid Simulation Scenarios,,,,
-out_sim_scenario_id,name of simulation scenario as it appears in SQL database,,,,
-out_distance_downwind,"downwind distance from edge of field to initial edge of pond/wetland/field; calculated for inverse model run, repeat of input for forward model calculation",,,,
-out_avg_dep_foa,average deposition over centerline of area in fraction of applied terms,,,,
-out_avg_dep_lbac,average deposition over centerline of area in pounds per acre,,,,
-out_avg_dep_gha,average deposition over centerline of area in grams per hectare,,,,
-out_avg_waterconc_ngl,average water concentration in pond/wetland in nanograms per liter,,,,
-out_avg_field_dep_mgcm2,average deposition rate over terrestrial area in milligrams per square centimeter,,,,
-out_range_chk,"whether distance to area of interest (e.g., pond) is within range of data",,,,
-exp_sim_scenario_chk,identifies Valid and Invalid Simulation Scenarios,,,,Valid Tier I Terrestrial Aerial Scenario
-exp_sim_scenario_id,name of simulation scenario as it appears in SQL database,,,,aerial_vf2f
-exp_distance_downwind,"downwind distance from edge of field to initial edge of pond/wetland/field; calculated for inverse model run, repeat of input for forward model calculation",,,,0.0000000000
-exp_avg_dep_foa,average deposition over centerline of area in fraction of applied terms,,,,0.2421000000
-exp_avg_dep_lbac,average deposition over centerline of area in pounds per acre,,,,0.1210000000
-exp_avg_dep_gha,average deposition over centerline of area in grams per hectare,,,,135.6400000000
-exp_avg_waterconc_ngl,average water concentration in pond/wetland in nanograms per liter,,,,
-exp_avg_field_dep_mgcm2,average deposition rate over terrestrial area in milligrams per square centimeter, ,,,0.0014000000
-exp_range_chk,"whether distance to area of interest (e.g., pond) is within range of data",,,,in range
+   ,description,units,type,valid_range,run0,run1,run2,run3,run4,run5,run6,run7,run8,run9,run10,run11,run12,run13,run14,run15,run16,run17,run18,run19,run20,run21,run22,run23,run24,run25,run26,run27,run28,run29,run30,run31,run32,run33,run34,run35,run36
+version,this breaks the csv,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+chemical_name,,,,,i,i,i,i,i,i,i,i,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,g,a,d,e,g,d,e,g,a,a,g,g,i
+pc_code,this breaks the csv,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+application_rate,application rate,lb/ac,float,,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.75,0.75,0.5,0.5,0.5,0.5,0.5,0.5,0.63,0.41,0.5,0.63,0.41,0.5,0.5,0.5,0.5,0.5,0.5
+application_method,type of application method,,,,tier_1_aerial,tier_1_aerial,tier_1_aerial,tier_1_aerial,tier_1_aerial,tier_1_aerial,tier_1_aerial,tier_1_aerial,tier_1_aerial,tier_1_aerial,tier_1_aerial,tier_1_aerial,tier_1_aerial,tier_1_aerial,tier_1_aerial,tier_1_aerial,tier_1_aerial,tier_1_aerial,tier_1_ground,tier_1_ground,tier_1_aerial,tier_1_ground,tier_1_ground,tier_1_airblast,tier_1_airblast,tier_1_airblast,tier_1_airblast,tier_1_airblast,tier_1_airblast,tier_1_airblast,tier_1_airblast,tier_1_airblast,tier_1_airblast,tier_1_aerial,tier_1_airblast,tier_1_airblast,tier_1_aerial
+drop_size_aerial,qualitative drop size of applied mixture,,,,medium_to_coarse,medium_to_coarse,medium_to_coarse,medium_to_coarse,medium_to_coarse,medium_to_coarse,medium_to_coarse,medium_to_coarse,fine_to_medium,fine_to_medium,fine_to_medium,fine_to_medium,fine_to_medium,fine_to_medium,fine_to_medium,fine_to_medium,fine_to_medium,fine_to_medium,,,fine_to_medium,,, , , , , , , , , , ,fine_to_medium, , ,very_fine_to_fine
+drop_size_ground,qualitative drop size of applied mixture,,,,,,,,,,,,,,,,,,,,,,very_fine,very_fine,,fine_to_medium-coarse,fine_to_medium-coarse, , , , , , , , , , ,, , ,
+ecosystem_type,type of assessment to be performed,,,,aquatic_assessment,aquatic_assessment,aquatic_assessment,aquatic_assessment,aquatic_assessment,aquatic_assessment,aquatic_assessment,aquatic_assessment,terrestrial_assessment,terrestrial_assessment,terrestrial_assessment,terrestrial_assessment,terrestrial_assessment,terrestrial_assessment,aquatic_assessment,aquatic_assessment,aquatic_assessment,aquatic_assessment,terrestrial_assessment,terrestrial_assessment,aquatic_assessment,terrestrial_assessment,terrestrial_assessment,terrestrial_assessment,terrestrial_assessment,aquatic_assessment,aquatic_assessment,aquatic_assessment,terrestrial_assessment,aquatic_assessment,aquatic_assessment,terrestrial_assessment,aquatic_assessment,terrestrial_assessment,terrestrial_assessment,terrestrial_assessment,terrestrial_assessment
+boom_height,needed only if Tier I Ground scenario,,,,,,,,,,,,,,,,,,,,,,high,high,,low,high,,,,,,,,,,,,,,
+airblast_type,needed only if Tier I Orchard scenario,,,,,,,,,,,,,,,,,,,,,,,,,,,sparse,normal,dense,vineyard,orchard,normal,vineyard,orchard,normal,dense,,normal,normal,
+aquatic_body_type,needed only if ecosystem_type is Aquatic,,,,epa_defined_pond,user_defined_wetland,user_defined_wetland,epa_defined_wetland,epa_defined_wetland,user_defined_wetland,epa_defined_wetland,epa_defined_wetland,,,,,,,user_defined_pond,user_defined_pond,user_defined_pond,user_defined_pond,,,user_defined_pond, , ,, ,user_defined_pond,epa_defined_pond,epa_defined_wetland, ,epa_defined_pond,epa_defined_wetland, ,user_defined_pond,, , ,
+terrestrial_field_type,needed only if ecosystem_type is Terrestrial,,,,,,,,,,,,epa_defined_terrestrial,epa_defined_terrestrial,epa_defined_terrestrial,epa_defined_terrestrial,epa_defined_terrestrial,epa_defined_terrestrial,,,,,user_defined_terrestrial,user_defined_terrestrial, ,user_defined_terrestrial,user_defined_terrestrial,user_defined_terrestrial,user_defined_terrestrial,,,,user_defined_terrestrial,,,user_defined_terrestrial,,user_defined_terrestrial,user_defined_terrestrial,epa_defined_terrestrial,user_defined_terrestrial
+user_pond_width,needed only if User Defined Pond,,,,,,,,,,,,,,,,,,997,997,997,997,,,208.7,,,,,6.56,,,,,,,6.56,,,,
+user_pond_depth,needed only if User Defined Pond,,,,,,,,,,,,,,,,,,6.56,6.56,6.56,6.56,,,6.56,,,,,6.56,,,,,,,6.56,,,,
+user_wetland_width,needed only if User Defined Wetland,,,,,208.7,208.7, ,,208.7, ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+user_wetland_depth,needed only if User Defined Wetland,,,,,0.4921,0.4921, ,,0.4921, ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+user_terrestrial_width,needed only if User Defined Terrestrial area,,,,,,,,,,,,,,,,,,,,,,208.7,208.7, ,350,208.7,350,208.7,,,,208.7,,,208.7,,208.7,208.7,,208.7
+calculation_input,indicator of a request for an inverse calculation that calculates the downwind distance correstponding to one of the following user inputs,,,,distance_to_point_or_area_ft,distance_to_point_or_area_ft,fraction_of_applied,fraction_of_applied,fraction_of_applied,initial_deposition_gha,initial_deposition_lbac,initial_concentration_ngL,distance_to_point_or_area_ft,distance_to_point_or_area_ft,fraction_of_applied,initial_deposition_gha,initial_deposition_lbac,initial_deposition_mgcm2,distance_to_point_or_area_ft,fraction_of_applied,fraction_of_applied,fraction_of_applied,initial_deposition_gha,distance_to_point_or_area_ft,distance_to_point_or_area_ft,distance_to_point_or_area_ft,distance_to_point_or_area_ft,distance_to_point_or_area_ft,distance_to_point_or_area_ft,distance_to_point_or_area_ft,distance_to_point_or_area_ft,distance_to_point_or_area_ft,distance_to_point_or_area_ft,fraction_of_applied,initial_deposition_gha,initial_deposition_mgcm2,initial_concentration_ngL,fraction_of_applied,initial_deposition_mgcm2,initial_deposition_mgcm2,distance_to_point_or_area_ft
+downwind_distance,distance from edge of applicaiton area to leading edge of pond/wetland/terrestrial area of concern or terrestrial point of concern,ft,integer,[0_(997 - area width)],712,712,,,,,,,225,1,,,,,997,,,, ,450,900,850,900,850,900,6.56,550,800,900,,,,,,,,0
+user_frac_applied,,,,,,,0.006,0.006,0.0060148,,,,,,0.4808,,,,,0.0115,0.0114538,0.0096297,,,,,,,,,,,,0.0000596,,,,0.01,,,
+user_avg_dep_gha,,,,,,,,,,3.36,,,,,,269.37,,,,,,,3.79,,,,,,,,,,,,0.1858,,,,,,
+user_avg_dep_lbac,,,,,,,,,,,0.003,,,,,,0.2404,,,,,,,,,,,,,,,,,,,,,,,,
+user_avg_conc_ngl,,,,,,,,,,,,2240.85,,,,,,,,,,,,,,,,,,,,,,,,,1800,,,,
+user_avg_dep_mgcm2,,,,,,,,,,,,,,,,,,0.0027,,,,,,,,,,,,,,,,,,0.000000224,,,0.0000001,0.0000001,
+out_sim_scenario_chk,identifies Valid and Invalid Simulation Scenarios,,,,,,,,,,,,,,,,,, ,,, ,,,,,,,,,,,,,,,,,,,
+out_sim_scenario_id,name of simulation scenario as it appears in SQL database,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+out_distance_downwind,"downwind distance from edge of field to initial edge of pond/wetland/field; calculated for inverse model run, repeat of input for forward model calculation",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+out_avg_dep_foa,average deposition over centerline of area in fraction of applied terms,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+out_avg_dep_lbac,average deposition over centerline of area in pounds per acre,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+out_avg_dep_gha,average deposition over centerline of area in grams per hectare,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+out_avg_waterconc_ngl,average water concentration in pond/wetland in nanograms per liter,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+out_avg_field_dep_mgcm2,average deposition rate over terrestrial area in milligrams per square centimeter,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+out_range_chk,"whether distance to area of interest (e.g., pond) is within range of data",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+exp_sim_scenario_chk,identifies Valid and Invalid Simulation Scenarios,,,,Valid Tier I Aquatic Aerial Scenario,Valid Tier I Aquatic Aerial Scenario,Valid Tier I Aquatic Aerial Scenario,Valid Tier I Aquatic Aerial Scenario,Valid Tier I Aquatic Aerial Scenario,Valid Tier I Aquatic Aerial Scenario,Valid Tier I Aquatic Aerial Scenario,Valid Tier I Aquatic Aerial Scenario,Valid Tier I Terrestrial Aerial Scenario,Valid Tier I Terrestrial Aerial Scenario,Valid Tier I Terrestrial Aerial Scenario,Valid Tier I Terrestrial Aerial Scenario,Valid Tier I Terrestrial Aerial Scenario,Valid Tier I Terrestrial Aerial Scenario,Valid Tier I Aquatic Aerial Scenario,Valid Tier I Aquatic Aerial Scenario,Valid Tier I Aquatic Aerial Scenario,Valid Tier I Aquatic Aerial Scenario,Valid Tier I Terrestrial Ground Scenario,Valid Tier I Terrestrial Ground Scenario,Valid Tier I Aquatic Aerial Scenario,Valid Tier I Terrestrial Ground Scenario,Valid Tier I Terrestrial Ground Scenario,Valid Tier I Terrestrial Airblast Scenario,Valid Tier I Terrestrial Airblast Scenario,Valid Tier I Aquatic Airblast Scenario,Valid Tier I Aquatic Airblast Scenario,Valid Tier I Aquatic Airblast Scenario,Valid Tier I Terrestrial Airblast Scenario,Valid Tier I Aquatic Airblast Scenario,Valid Tier I Aquatic Airblast Scenario,Valid Tier I Terrestrial Airblast Scenario,Valid Tier I Aquatic Airblast Scenario,Valid Tier I Terrestrial Aerial Scenario,Valid Tier I Terrestrial Airblast Scenario,Valid Tier I Terrestrial Airblast Scenario,Valid Tier I Terrestrial Aerial Scenario
+exp_sim_scenario_id,name of simulation scenario as it appears in SQL database,,,,aerial_m2c,aerial_m2c,aerial_m2c,aerial_m2c,aerial_m2c,aerial_m2c,aerial_m2c,aerial_m2c,aerial_f2m,aerial_f2m,aerial_f2m,aerial_f2m,aerial_f2m,aerial_f2m,aerial_f2m,aerial_f2m,aerial_f2m,aerial_f2m,ground_high_vf,ground_high_vf,aerial_f2m,ground_low_fmc,ground_high_fmc,airblast_sparse,airblast_normal,airblast_dense,airblast_vineyard,airblast_orchard,airblast_normal,airblast_vineyard,airblast_orchard,airblast_normal,airblast_dense,aerial_f2m,airblast_normal,airblast_normal,aerial_vf2f
+exp_distance_downwind,"downwind distance from edge of field to initial edge of pond/wetland/field; calculated for inverse model run, repeat of input for forward model calculation",,,,712.0000000000,712.0000000000,715.2100000000,715.2100000000,715.2100000000,718.4900000000,715.2100000000,718.4900000000,225.0000000000,1.0000000000,3.2808000000,3.2808000000,3.2808000000,3.2808000000,997.0000000000,931.7500000000,997.3600000000,,354.3300000000,450.0000000000,900.0000000000,850.0000000000,900.0000000000,850.0000000000,900.0000000000,6.5600000000,550.0000000000,800.0000000000,900.0000000000,551.1700000000,800.5100000000,905.5100000000,9.8424000000,,,,0.0000000000
+exp_avg_dep_foa,average deposition over centerline of area in fraction of applied terms,,,,0.0060000000,0.0060000000,0.0060000000,0.0060000000,0.0060000000,0.0060000000,0.0060000000,0.0060000000,0.0415000000,0.4808000000,0.4808000000,0.4809000000,0.4809000000,0.4820000000,0.0115000000,0.0115000000,0.0115000000,0.0096000000,0.0045000000,0.0035000000,0.0119000000,0.0006000000,0.0008000000,0.0000556000,0.0000401000,0.0642000000,0.0000596000,0.0004000000,0.0000401000,0.0000596000,0.0004000000,0.0000400000,0.0642000000,0.0100000000,0.0000178000,0.0000178000,0.2421000000
+exp_avg_dep_lbac,average deposition over centerline of area in pounds per acre,,,,0.0030000000,0.0030000000,0.0030000000,0.0030000000,0.0030000000,0.0030000000,0.0030000000,0.0030000000,0.0208000000,0.2404000000,0.2403000000,0.2404000000,0.2404000000,0.2409000000,0.0057000000,0.0057000000,0.0057000000,0.0048000000,0.0034000000,0.0026000000,0.0059000000,0.0003000000,0.0004000000,0.0000278000,0.0000200000,0.0321000000,0.0000376000,0.0002000000,0.0000200000,0.0000375000,0.0002000000,0.0000200000,0.0321000000,0.0050000000,0.0000089200,0.0000089200,0.1210000000
+exp_avg_dep_gha,average deposition over centerline of area in grams per hectare,,,,3.3700000000,3.3700000000,3.3600000000,3.3600000000,3.3700000000,3.3600000000,3.3600000000,3.3600000000,23.2600000000,269.3700000000,269.3400000000,269.3700000000,269.4100000000,270.0000000000,6.4200000000,6.4400000000,6.4200000000,5.4000000000,3.7900000000,2.9000000000,6.6600000000,0.3541000000,0.4454000000,0.0312000000,0.0224000000,35.9900000000,0.0421000000,0.1858000000,0.0224000000,0.0421000000,0.1858000000,0.0224000000,35.9900000000,5.6000000000,0.0100000000,0.0100000000,135.6400000000
+exp_avg_waterconc_ngl,average water concentration in pond/wetland in nanograms per liter,,,,168.5200000000,2246.4400000000,2240.8500000000,2240.8500000000,2246.3800000000,2240.8500000000,2241.4100000000,2240.8500000000,,,,,,,320.8900000000,322.1900000000,320.8900000000,269.7900000000,,,332.9700000000,,,,,1800.1800000000,2.1100000000,123.8900000000,,2.1000000000,123.8900000000,,1800.0000000000,,,,
+exp_avg_field_dep_mgcm2,average deposition rate over terrestrial area in milligrams per square centimeter,,,,,,,,,,,,0.0002000000,0.0027000000,0.0027000000,0.0027000000,0.0027000000,0.0027000000,,,,,0.0000379000,0.0000290000,,0.0000035400,0.0000044600,0.0000003120,0.0000002240,,,,0.0000002240,,,0.0000002240,,0.0000560000,0.0000001000,0.0000001000,0.0014000000
+exp_range_chk,"whether distance to area of interest (e.g., pond) is within range of data",,,,in range,in range,in range,in range,in range,in range,in range,in range,in range,in range,in range,in range,in range,in range,in range,in range,in range,out of range,in range,in range,in range,in range,in range,in range,in range,in range,in range,in range,in range,in range,in range,in range,in range,out of range,out of range,out of range,in range

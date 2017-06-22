@@ -66,4 +66,4 @@ class Earthworm(UberModel, EarthwormInputs, EarthwormOutputs, EarthwormFunctions
         try:
             self.earthworm_fugacity()
         except Exception, e:
-            print str(e)
+

@@ -38,6 +38,7 @@ class AgdriftFunctions(object):
         :NOTE we perform an additional validation check related to distances later in the code just before integration
         :return
         """
+        #list of valid options per scenario variable
         aquatic_body_type_list = ['epa_defined_pond', 'user_defined_pond', 'epa_defined_wetland', 'user_defined_wetland']
         aerial_drop_size_list = ['very_fine_to_fine', 'fine_to_medium', 'medium_to_coarse', 'coarse_to_very_coarse']
         terrestrial_field_type_list = ['epa_defined_terrestrial', 'user_defined_terrestrial']
@@ -46,7 +47,7 @@ class AgdriftFunctions(object):
         boom_height_list = ['high', 'low']
 
         for i in range(self.num_simulations):
-            print(self.ecosystem_type[i])
+            #print(self.ecosystem_type[i])
             if (self.ecosystem_type[i] == 'aquatic_assessment'):
                 if self.application_method[i] == 'tier_1_aerial':
                     if (self.aquatic_body_type[i] in aquatic_body_type_list and
@@ -68,7 +69,7 @@ class AgdriftFunctions(object):
                     else:
                         self.out_sim_scenario_chk[i] = 'Invalid Tier I Aquatic Airblast Scenario'
                 else:
-                    self.out_sim_scenario_chk[i] = 'Invalid Tier I aquatic_assessment application_method'
+                    self.out_sim_scenario_chk[i] = 'Invalid Tier I Aquatic Assessment application method'
             elif (self.ecosystem_type[i] == 'terrestrial_assessment'):
                 if self.application_method[i] == 'tier_1_aerial':
                     if (self.terrestrial_field_type[i] in terrestrial_field_type_list and
@@ -90,9 +91,155 @@ class AgdriftFunctions(object):
                     else:
                         self.out_sim_scenario_chk[i] = 'Invalid Tier I Terrestrial Airblast Scenario'
                 else:
-                    self.out_sim_scenario_chk[i] = 'Invalid Tier I terrestrial_assessment application_method'
+                    self.out_sim_scenario_chk[i] = 'Invalid Tier I Terrestrial Assessment application method'
             else:
                     self.out_sim_scenario_chk[i] = 'Invalid scenario ecosystem_type'
+        return
+
+    def check_numerical_inputs(self):
+        """
+        :description determines if all numerical inputs for valid scenarios are present and in appropriate range
+        :return
+        """
+        #list of valid options for calculation input
+        calculation_input_list = ['distance_to_point_or_area_ft', 'fraction_of_applied', 'initial_deposition_gha',
+                                  'initial_deposition_lbac', 'initial_deposition_mgcm2', 'initial_concentration_ngL']
+
+        #initialize validation variables to default values
+        self.user_pond_width_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
+        self.user_pond_depth_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
+        self.user_wetland_width_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
+        self.user_wetland_depth_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
+        self.user_terrestrial_width_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
+        self.calculation_input_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
+        self.downwind_distance_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
+        self.user_frac_applied_type_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
+        self.user_avg_dep_gha_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
+        self.user_avg_dep_mgcm2_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
+        self.user_avg_conc_ngl_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
+        self.user_avg_dep_lbac_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
+        self.scenario_description_sum_chk = pd.Series(self.num_simulations * ['Valid'], dtype='object')
+        self.scenario_area_dim_sum_chk = pd.Series(self.num_simulations * ['Valid'], dtype='object')
+        self.scenario_calc_type_sum_chk = pd.Series(self.num_simulations * ['Valid'], dtype='object')
+
+
+        for i in range(self.num_simulations):
+            #check pond/wetland/terrestrial area dimensions
+            if ('Valid Tier I Aquatic' in self.out_sim_scenario_chk[i]):
+                if ('user_defined_pond' in self.aquatic_body_type[i]):
+                    if (self.user_pond_width[i] >= self.min_area_width and
+                            self.user_pond_width[i] <= self.max_distance):
+                        self.user_pond_width_chk[i] = 'Ok'
+                    else:
+                        self.user_pond_width_chk[i] = 'Must be >= ' + str(self.min_area_width) +  \
+                                                       ' and <= ' + str(self.max_distance) + 'feet'
+                        self.scenario_area_dim_sum_chk[i] = 'Invalid'
+
+                    if (self.user_pond_depth[i] >= self.min_waterbody_depth and
+                        self.user_pond_depth[i] <= self.max_waterbody_depth):
+                        self.user_pond_depth_chk[i] = 'Ok'
+                    else:
+                        self.user_pond_depth_chk[i] = 'Must be >= ' + str(self.min_waterbody_depth) + \
+                                                       ' and  <= ' + str(self.max_waterbody_depth)
+                        self.scenario_area_dim_sum_chk[i] = 'Invalid'
+
+                elif ('user_defined_wetland' in self.aquatic_body_type[i]):
+                    if (self.user_wetland_width[i] >= self.min_area_width and
+                            self.user_wetland_width[i] <= self.max_distance):
+                        self.user_wetland_width_chk[i] = 'Ok'
+                    else:
+                        self.user_wetland_width_chk[i] = 'Must be >= 0'
+                        self.scenario_area_dim_sum_chk[i] = 'Invalid'
+                    if (self.user_wetland_depth[i] > self.min_waterbody_depth and
+                        self.user_wetland_depth[i] <= self.max_waterbody_depth):
+                        self.user_wetland_depth_chk[i] = 'Ok'
+                    else:
+                        self.user_wetland_depth_chk[i] = 'Must be >= ' + str(self.min_waterbody_depth) + \
+                                                       ' and  <= ' + str(self.max_waterbody_depth)
+                        self.scenario_area_dim_sum_chk[i] = 'Invalid'
+
+            elif ('Valid Tier I Terrestrial' in self.out_sim_scenario_chk[i]):
+                if ('user_defined_terrestrial' in self.terrestrial_field_type[i]):
+                    if (self.user_terrestrial_width[i] > 0.0):
+                        self.user_terrestrial_width_chk[i] = 'Ok'
+                    else:
+                        self.user_terrestrial_width_chk[i] = 'Must be > 0'
+                        self.scenario_area_dim_sum_chk[i] = 'Invalid'
+
+            else:
+                self.scenario_description_sum_chk[i] = 'Invalid'
+
+            #check calculation input type and values
+            if (self.calculation_input[i] in calculation_input_list):
+                self.calculation_input_chk[i] = 'Ok'
+                if (self.calculation_input[i] == 'distance_to_point_or_area_ft'):
+                    if (self.downwind_distance[i] >= 0 and  \
+                            self.downwind_distance[i] <= self.max_distance):
+                        self.downwind_distance_chk[i] = 'Ok'
+                    else:
+                        self.downwind_distance_chk[i] = 'Must be >= 0 and <= ' + str(self.max_distance)
+                        self.scenario_calc_type_sum_chk[i] = 'Invalid'
+                elif (self.calculation_input[i] == 'fraction_of_applied'):
+                    if (self.user_frac_applied[i] > 0):
+                        self.user_frac_applied_type_chk[i] = 'Ok'
+                    else:
+                        self.user_frac_applied_type_chk[i] = 'Must be > 0'
+                        self.scenario_calc_type_sum_chk[i] = 'Invalid'
+                elif (self.calculation_input[i] == 'initial_deposition_gha'):
+                    if (self.user_avg_dep_gha[i] > 0):
+                        self.user_avg_dep_gha_chk[i] = 'Ok'
+                    else:
+                        self.user_avg_dep_gha_chk[i] = 'Must be > 0'
+                        self.scenario_calc_type_sum_chk[i] = 'Invalid'
+                elif (self.calculation_input[i] == 'initial_deposition_lbac'):
+                    if (self.user_avg_dep_lbac[i] > 0):
+                        self.user_avg_dep_lbac_chk[i] = 'Ok'
+                    else:
+                        self.user_avg_dep_lbac_chk[i] = 'Must be > 0'
+                        self.scenario_calc_type_sum_chk[i] = 'Invalid'
+                elif (self.calculation_input[i] == 'initial_deposition_mgcm2'):
+                    if (self.user_avg_dep_mgcm2[i] > 0):
+                        self.user_avg_dep_mgcm2_chk[i] = 'Ok'
+                    else:
+                        self.user_avg_dep_mgcm2_chk[i] = 'Must be > 0'
+                        self.scenario_calc_type_sum_chk[i] = 'Invalid'
+                elif (self.calculation_input[i] == 'initial_concentration_ngL'):
+                    if (self.user_avg_conc_ngl[i] > 0):
+                        self.user_avg_conc_ngl_chk[i] = 'Ok'
+                    else:
+                        self.user_avg_conc_ngl_chk[i] = 'Must be > 0'
+                        self.scenario_calc_type_sum_chk[i] = 'Invalid'
+            else:
+                self.calculation_input_chk[i] = 'Invalid calculation_input string'
+                self.scenario_calc_type_sum_chk[i] = 'Invalid'
+
+
+        #write results to summary excel file
+        csv_path = "./agdrift_input_validation.xlsx"
+        sim_num = pd.Series(['Simulation ' + str(i) for i in range (self.num_simulations)], dtype='object')
+
+        #populate general scenario validation summary dataframe
+        inputs_summary_df = pd.concat([sim_num, self.scenario_description_sum_chk, self.scenario_area_dim_sum_chk,
+                                self.scenario_calc_type_sum_chk], axis=1 )
+        inputs_summary_df.columns = ['Simulation #', 'Scenario Description', 'Area Dimensions', 'Calculation Type & Intial Values']
+
+        #populate scenario validation details dataframe
+        inputs_details_df = pd.concat([sim_num, self.out_sim_scenario_chk, self.user_pond_width_chk, self.user_pond_depth_chk, \
+                     self.user_wetland_width_chk, self.user_wetland_depth_chk, self.user_terrestrial_width_chk, \
+                     self.calculation_input_chk, self.downwind_distance_chk, self.user_frac_applied_type_chk, \
+                     self.user_avg_dep_gha_chk, self.user_avg_dep_lbac_chk, self.user_avg_dep_mgcm2_chk, \
+                     self.user_avg_conc_ngl_chk], axis=1)
+        inputs_details_df.columns = ['Simulation #', 'Scenario Description Check','User Pond Width', 'User Pond Depth',
+                              'Users Wetland Width','User Wetland Depth','Terrestrial Width', 'Calculation Type',
+                              'Downwind Distance','Fraction Applied','Avg Deposition(gha)', 'Avg Deposition(lbac)',
+                              'Avg Deposition(mgcm2)','Avg Concentration(ngl)']
+
+        #write worksheets within excel file; one for summary validation data and one for detailed validation data
+        writer = pd.ExcelWriter(csv_path, engine='xlsxwriter')
+        inputs_summary_df.to_excel(writer, sheet_name='input_validation_summary')
+        inputs_details_df.to_excel(writer, sheet_name='input_validation_matrix')
+        writer.save()
+
         return
 
     def assign_column_names(self):
@@ -250,7 +397,7 @@ class AgdriftFunctions(object):
     def extend_dist_dep_curve(self,i):
         """
         THIS METHOD WAS REWRITTEN (SEE 'EXTEND_CURVE') TO MAKE MORE GENERIC BY PASSING IN THE DATA ARRAYS TO BE EXTENDED
-        :description extends distance vs deposition (fraction of applied) curce to enable model calculations 
+        :description extends distance vs deposition (fraction of applied) curve to enable model calculations 
                      when area of interest (pond, wetland, terrestrial field) lie partially outside the orginal
                      curve (whose extent is 997 feet).  The extension is achieved by fitting a line of best fit
                      to the last 16 points of the original curve.  The x,y values representing the last 16 points
@@ -883,14 +1030,14 @@ class AgdriftFunctions(object):
                         if (y_array_out[i] < integrated_avg):  #if true then we have achieved the integrated_avg before completing the first x_dist
                             # if we surpass the user supplied integrated_avg before reaching the edge of the first running average then
                             # output the message and set the x_dist_of_interest to zero (as is done in the original AGDRIFT model)
-                            print "User-specified integrated average occurs before 1st x_dist extent is completed - x distance of interest set to first x_array_in value"
+
                             x_dist_of_interest = x_array_in[0]  #original AGDRIFT model sets this value to zero (i.e., first x point value)
                             return x_array_out, y_array_out, npts_out, x_dist_of_interest, range_chk
                     else:
                         if (y_array_out[i] > integrated_avg):  #if true then we have achieved the integrated_avg before completing the first x_dist
                             # if we surpass the user supplied integrated_avg before reaching the edge of the first running average then
                             # output the message and set the x_dist_of_interest to zero (as is done in the original AGDRIFT model)
-                            print "User-specified integrated average occurs before 1st x_dist extent is completed - x distance of interest set to first x_array_in value"
+
                             x_dist_of_interest = x_array_in[0]  #original AGDRIFT model sets this value to zero (i.e., first x point value)
                             return x_array_out, y_array_out, npts_out, x_dist_of_interest, range_chk
 

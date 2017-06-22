@@ -32,7 +32,7 @@ def get_model_object(jid, model_name):
             model_object = ""
     except Exception as e:
         # handle exception
-        print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
+
     return model_object
 
 def get_sam_huc_output(jid, huc12):
@@ -50,7 +50,7 @@ def get_sam_huc_output(jid, huc12):
             model_object = ""
     except Exception as e:
         # handle exception
-        print "Error '{0}' occured. Arguments {1}.".format(e.message, e.args)
+
     return model_object
 
 def get_sam_monthly_huc_streak_output():
