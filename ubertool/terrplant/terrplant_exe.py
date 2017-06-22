@@ -1,7 +1,7 @@
 from __future__ import division
 import pandas as pd
 from base.uber_model import UberModel, ModelSharedInputs
-from terrplant_functions import TerrplantFunctions
+from .terrplant_functions import TerrplantFunctions
 
 class TerrplantInputs(ModelSharedInputs):
     """
@@ -135,6 +135,7 @@ class Terrplant(UberModel, TerrplantInputs, TerrplantOutputs, TerrplantFunctions
             self.lds_rq_spray()
             self.loc_lds_spray()
         except TypeError:
+            pass
 
 
 class TerrplantApiMetadata(object):

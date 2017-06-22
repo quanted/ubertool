@@ -7,7 +7,7 @@ parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.par
 sys.path.append(parentddir)
 
 from base.uber_model import UberModel, ModelSharedInputs
-from earthworm_functions import EarthwormFunctions
+from .earthworm_functions import EarthwormFunctions
 
 class EarthwormInputs(ModelSharedInputs):
     """
@@ -65,5 +65,6 @@ class Earthworm(UberModel, EarthwormInputs, EarthwormOutputs, EarthwormFunctions
         """ Execute all algorithm methods for model logic """
         try:
             self.earthworm_fugacity()
-        except Exception, e:
+        except Exception as e:
+            pass
 

@@ -2,7 +2,7 @@ from __future__ import division
 from functools import wraps
 import pandas as pd
 from base.uber_model import UberModel, ModelSharedInputs
-from trex_functions import TrexFunctions
+from .trex_functions import TrexFunctions
 import time
 
 
