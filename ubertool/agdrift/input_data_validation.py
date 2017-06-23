@@ -20,7 +20,7 @@ sys.path.append(currentdir)
 sys.path.append(inputdir)
 
 #from base.uber_model import UberModel, ModelSharedInputs
-#from agdrift_functions import AgdriftFunctions
+#from .agdrift_functions import AgdriftFunctions
 from agdrift_exe import Agdrift, AgdriftInputs, AgdriftOutputs
 
 print(sys.path)

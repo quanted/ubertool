@@ -1,7 +1,7 @@
 import importlib
 import pandas as pd
 from pandas import compat
-from parser import Parser
+from .parser import Parser
 import logging
 
 
@@ -95,7 +95,7 @@ class UberModel(object):
         :param df_in: Pandas DataFrame object of model input parameters
         """
         df_user = self.convert_index(df_in)
-        mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
+        mod_name = "ubertool_ecorest.ubertool.ubertool." + self.name.lower() + "." + self.name.lower() + '_exe'
         try:
             # Import the model's input class (e.g. AgdriftInputs) to compare user supplied inputs to
             module = importlib.import_module(mod_name)
@@ -130,7 +130,7 @@ class UberModel(object):
         :return:
         """
         # Import the model's output class (e.g. TerrplantOutputs) to create a DF to store the model outputs in
-        mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
+        mod_name = "ubertool_ecorest.ubertool.ubertool." + self.name.lower() + "." + self.name.lower() + '_exe'
         module = importlib.import_module(mod_name)
         model_outputs = getattr(module, self.name + "Outputs")
         model_outputs_obj = model_outputs()

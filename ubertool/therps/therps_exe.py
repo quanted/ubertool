@@ -3,10 +3,9 @@ import numpy as np
 import os.path
 import sys
 import pandas as pd
-import therps_functions
+from .therps_functions import TherpsFunctions
 import time
 from functools import wraps
-from therps_functions import TherpsFunctions
 from base.uber_model import UberModel, ModelSharedInputs
 
 

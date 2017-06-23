@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 # mpl.use('agg')
 static_path = os.path.join(os.environ['PROJECT_ROOT'], '..', 'static')
 # static_path = '/var/www/ubertool/ubertool_ecorest/static'
-# from sam_rest import sam_dataqueries
+# from sam_rest_old import sam_dataqueries
 
 
 def sam_figures_callable(jid,tox_exceed_option, huc_output):
@@ -39,7 +39,7 @@ def sam_figures_callable(jid,tox_exceed_option, huc_output):
 def generate_sam_month_streak_boxplot(jobid, huc_output):
     """
     Average streak by month boxplot
-    get sam monthly data array of streaks
+    get sam_new monthly data array of streaks
     sam_vector = sam_dataqueries.GetSAM_MonthlyArrayStreakOutput(jobid)
     :param jobid:
     :param huc_output:
@@ -98,7 +98,7 @@ def generate_sam_annual_streak_boxplot(jobid):
     :param jobid:
     :return:
     """
-    # get sam annual data array of streaks
+    # get sam_new annual data array of streaks
     sam_vector = sam_dataqueries.get_sam_annual_array_streak_output(jobid)
 
     # Create a figure instance
@@ -155,7 +155,7 @@ def generate_sam_month_freq_of_exceed_boxplot(jobid):
     :param jobid:
     :return:
     """
-    # get sam monthly data array of streaks
+    # get sam_new monthly data array of streaks
     sam_vector = sam_dataqueries.get_sam_monthly_array_freq_of_exceed_output(jobid)
 
     # Create a figure instance
@@ -203,7 +203,7 @@ def generate_sam_annual_freq_of_exceed_boxplot(jobid):
     :param jobid:
     :return:
     """
-    # get sam annual data array of streaks
+    # get sam_new annual data array of streaks
     sam_vector = sam_dataqueries.get_sam_annual_vector_freq_of_exceed_output(jobid)
 
     # Create a figure instance
@@ -260,7 +260,7 @@ def generate_sam_month_streak_histogram(jobid):
     :param jobid:
     :return:
     """
-    # get sam data vector of streaks
+    # get sam_new data vector of streaks
     sam_vector = sam_dataqueries.get_sam_monthly_vector_streak_output(jobid)
 
     # Create a second figure instance
@@ -299,7 +299,7 @@ def generate_sam_annual_streak_histogram(jobid):
     :param jobid:
     :return:
     """
-    # get sam data vector of streaks
+    # get sam_new data vector of streaks
     sam_vector = sam_dataqueries.get_sam_annual_array_streak_output(jobid)
 
     # Create a second figure instance
@@ -338,7 +338,7 @@ def generate_sam_month_freq_of_exceed_histogram(jobid):
     :param jobid:
     :return:
     """
-    # get sam data vector of streaks
+    # get sam_new data vector of streaks
     sam_vector = sam_dataqueries.get_sam_monthly_array_freq_of_exceed_output(jobid)
 
     # Create a second figure instance
@@ -377,7 +377,7 @@ def generate_sam_annual_freq_of_exceed_histogram(jobid):
     :param jobid:
     :return:
     """
-    # get sam data vector of streaks
+    # get sam_new data vector of streaks
     sam_vector = sam_dataqueries.get_sam_annual_vector_freq_of_exceed_output(jobid)
 
     # Create a second figure instance
@@ -417,7 +417,7 @@ def generate_sam_month_streak_huc_plot(jobid, hucid):
     :param hucid:
     :return:
     """
-    # get sam streak data for a particular huc
+    # get sam_new streak data for a particular huc
     sam_huc = sam_dataqueries.get_sam_monthly_huc_streak_output(jobid, hucid)
 
     # month info
@@ -466,7 +466,7 @@ def generate_sam_annual_streak_huc_plot(jobid, hucid):
     :param hucid:
     :return:
     """
-    # get sam streak data for a particular huc
+    # get sam_new streak data for a particular huc
     sam_huc = sam_dataqueries.get_sam_annual_array_streak_output(jobid, hucid)
 
     # month info
@@ -521,7 +521,7 @@ def generate_sam_month_freq_of_exceed_huc_plot(jobid, hucid):
     :param hucid:
     :return:
     """
-    # get sam streak data for a particular huc
+    # get sam_new streak data for a particular huc
     sam_huc = sam_dataqueries.get_sam_monthly_array_freq_of_exceed_output(jobid, hucid)
 
     # month info
@@ -570,7 +570,7 @@ def generate_sam_annual_freq_of_exceed_huc_plot(jobid, hucid):
     :param hucid:
     :return:
     """
-    # get sam streak data for a particular huc
+    # get sam_new streak data for a particular huc
     sam_huc = sam_dataqueries.get_sam_monthly_array_freq_of_exceed_output(jobid, hucid)
 
     # month info
