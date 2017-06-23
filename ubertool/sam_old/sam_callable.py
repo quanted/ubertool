@@ -45,7 +45,7 @@ def mongo_motor_insert(jid, huc_ids, np_array):
     """
     # TODO: Remove the next line (was previously used for testing, production 'jid' is the 'jid' param)
     # jid = name_temp + "_" +section
-    url = 'http://localhost:8787/sam_new/daily/' + jid
+    url = 'http://localhost:8787/sam/daily/' + jid
     # http_headers = {'Content-Type': 'application/json'}
     http_headers = {'Content-Type': 'application/octet-stream'}
     # data = json.dumps(create_mongo_document(np_array, name_temp, section))
