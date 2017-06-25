@@ -13,7 +13,7 @@ python-coveralls==2.9.1 #not in conda, pip install
 pytz==2017.2
 requests==2.18.1
 scipy==0.19.1
-snakefood #not in conda, pip install
+snakefood==1.4 #not in conda, pip install
 sqlalchemy
 sqlalchemy_utils
 tabulate
