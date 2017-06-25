@@ -1,4 +1,4 @@
-codecov
+codecov==2.0.9
 cov-core #nose2 coverage, not in conda, pip install
 coverage
 futures
