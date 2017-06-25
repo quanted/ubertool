@@ -1,7 +1,7 @@
 codecov==2.0.9
 cov-core==1.15.0 #nose2 coverage, not in conda, pip install
 coverage==4.4.1
-futures
+futures==3.1.1
 nose #pycharm cant currently run nose2
 nose2 #not in conda, pip install
 nose-cov #not in conda, pip install
