@@ -1,7 +1,7 @@
 from __future__ import division
 import pandas as pd
 from base.uber_model import UberModel, ModelSharedInputs
-from sip_functions import SipFunctions
+from .sip_functions import SipFunctions
 
 
 class SipInputs(ModelSharedInputs):
@@ -108,7 +108,7 @@ class Sip(UberModel, SipInputs, SipOutputs, SipFunctions):
             self.chron_mamm()
             self.chronconm()
         except TypeError:
-
+            pass
 
     def set_global_constants(self):
         """

@@ -96,7 +96,7 @@ def sam(inputs_json, jid, run_type):
                     split_csv(no_of_processes, name_temp)
                     sam_avg_conc(no_of_processes, no_of_workers, name_temp, temp_sam_run_path, args, jid, run_type)
 
-            except ImportError, e:
+            except ImportError as e:
                 logging.exception(e)
 
                 """
@@ -112,7 +112,7 @@ def sam(inputs_json, jid, run_type):
             return jid
 
 
-        except Exception, e:
+        except Exception as e:
             logging.exception(e)
             return {'user_id': 'admin', 'result': {'error': str(e)}, '_id': jid}
     else:
@@ -498,13 +498,13 @@ def update_global_output_holder(temp_sam_run_path, args, section):
                         try:
                             huc_output[line_list[0]] = line_list[1:]
 
-                        except IndexError, e:
+                        except IndexError as e:
                             logging.info(line_list)
                             logging.exception(e)
 
                 #f_out.close()
 
-            except IOError, e:
+            except IOError as e:
                 logging.exception(e)
 
 

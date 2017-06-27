@@ -2,7 +2,7 @@ from __future__ import division
 import numpy as np
 import pandas as pd
 from base.uber_model import UberModel, ModelSharedInputs
-from iec_functions import IecFunctions
+from .iec_functions import IecFunctions
 
 class IecInputs(ModelSharedInputs):
     """
@@ -64,5 +64,6 @@ class Iec(UberModel, IecInputs, IecOutputs, IecFunctions):
             self.z_score_f()
             self.f8_f()
             self.chance_f()
-        except Exception, e:
+        except Exception as e:
+            pass
 

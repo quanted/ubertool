@@ -6,7 +6,7 @@ try:
     import superprzm  # Import superprzm.dll / .so
 
     _dll_loaded = True
-except ImportError, e:
+except ImportError as e:
     logging.exception(e)
     _dll_loaded = False
 

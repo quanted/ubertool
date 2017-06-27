@@ -1,7 +1,7 @@
 from __future__ import division
 import pandas as pd
 from base.uber_model import UberModel, ModelSharedInputs
-from rice_functions import RiceFunctions
+from .rice_functions import RiceFunctions
 
 class RiceInputs(ModelSharedInputs):
     """
@@ -66,5 +66,6 @@ class Rice(UberModel, RiceInputs, RiceOutputs, RiceFunctions):
             self.calc_mass_area()
             self.calc_cw()
         except TypeError:
+            pass
 
 

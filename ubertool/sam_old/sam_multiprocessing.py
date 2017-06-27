@@ -14,7 +14,7 @@ try:
     import superprzm  # Import superprzm.dll / .so
 
     _dll_loaded = True
-except ImportError, e:
+except ImportError as e:
     logging.exception(e)
     _dll_loaded = False
 
@@ -193,7 +193,7 @@ def daily_conc_callable(jid, sam_bin_path, name_temp, section, array_size=320):
 
     try:
         sam_callable.run(jid, sam_bin_path, name_temp, section, int(array_size))
-    except Exception, e:
+    except Exception as e:
         mp_logger.exception(e)
 
 

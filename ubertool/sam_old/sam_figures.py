@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 # mpl.use('agg')
 static_path = os.path.join(os.environ['PROJECT_ROOT'], '..', 'static')
 # static_path = '/var/www/ubertool/ubertool_ecorest/static'
-# from sam_rest import sam_dataqueries
+# from sam_rest_old import sam_dataqueries
 
 
 def sam_figures_callable(jid,tox_exceed_option, huc_output):
