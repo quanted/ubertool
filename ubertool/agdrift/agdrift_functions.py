@@ -9,7 +9,7 @@ from sqlalchemy import Column, Table, Integer, Float, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import *
-import sqlalchemy_utils as sqlu
+# import sqlalchemy_utils as sqlu
 import sqlite3
 import time
 import csv
