@@ -8,7 +8,7 @@ nose-cov==1.6 #not in conda, pip install
 nose-html-reporting==0.2.3 #not in conda, pip install
 numpy==1.13.0
 pandas==0.20.2
-pylint==1.7.1
+pylint==1.7.2
 python-coveralls==2.9.1 #not in conda, pip install
 pytz==2017.2
 requests==2.18.1
