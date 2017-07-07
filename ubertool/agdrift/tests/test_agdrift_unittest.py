@@ -9,11 +9,11 @@ import sys
 from tabulate import tabulate
 import unittest
 
-#find parent directory and import model
-parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentddir)
+##find parent directory and import model
+#parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+#sys.path.append(parentddir)
 
-from agdrift_exe import Agdrift
+from ..agdrift_exe import Agdrift
 
 test = {}
 

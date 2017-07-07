@@ -1,6 +1,6 @@
 from __future__ import division
 import pandas as pd
-from base.uber_model import UberModel, ModelSharedInputs
+from ..base.uber_model import UberModel, ModelSharedInputs
 from .sip_functions import SipFunctions
 
 

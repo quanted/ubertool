@@ -3,10 +3,10 @@ import pandas as pd
 import os.path
 import sys
 
-parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentddir)
+# parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+# sys.path.append(parentddir)
 
-from base.uber_model import UberModel, ModelSharedInputs
+from ..base.uber_model import UberModel, ModelSharedInputs
 from .earthworm_functions import EarthwormFunctions
 
 class EarthwormInputs(ModelSharedInputs):

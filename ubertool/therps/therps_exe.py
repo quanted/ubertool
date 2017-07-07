@@ -6,7 +6,7 @@ import pandas as pd
 from .therps_functions import TherpsFunctions
 import time
 from functools import wraps
-from base.uber_model import UberModel, ModelSharedInputs
+from ..base.uber_model import UberModel, ModelSharedInputs
 
 
 def timefn(fn):

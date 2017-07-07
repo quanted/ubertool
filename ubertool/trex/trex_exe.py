@@ -1,7 +1,7 @@
 from __future__ import division
 from functools import wraps
 import pandas as pd
-from base.uber_model import UberModel, ModelSharedInputs
+from ..base.uber_model import UberModel, ModelSharedInputs
 from .trex_functions import TrexFunctions
 import time
 
@@ -321,7 +321,7 @@ class Trex(UberModel, TrexInputs, TrexOutputs, TrexFunctions):
         self.fill_output_dataframe()
 
     # Begin model methods
-    @timefn
+#    @timefn
     def run_methods(self):
 
         # convert user supplied app_rates/day_out from series of lists as
