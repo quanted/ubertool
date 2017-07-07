@@ -28,9 +28,9 @@ def create_mongo_document(jid, run_type, args, list_of_julian_days):
             }
         }
         try:
-            # db['sam_new'].insert(document)  # PyMongo driver version (DEPRECATED)
+            # db['sam'].insert(document)  # PyMongo driver version (DEPRECATED)
             # Send SAM run Meatadata document to Mongo server (Motor/Tornado driver version)
-            url = 'http://localhost:8787/sam_new/metadata/' + jid
+            url = 'http://localhost:8787/sam/metadata/' + jid
             http_headers = {'Content-Type': 'application/json'}
             requests.post(url, data=json.dumps(document), headers=http_headers, timeout=30)
         except Exception as e:
@@ -68,7 +68,7 @@ def create_mongo_document(jid, run_type, args, list_of_julian_days):
                 filename = "Eco_mth_avgdur_" + jid
 
         # Create Mongo document for "jid" if it doesn't exist
-        count = db['sam_new'].find({"jid": jid}, {"_id": 1}).limit(1).count()
+        count = db['sam'].find({"jid": jid}, {"_id": 1}).limit(1).count()
         if count == 0:
             # This document will store all the information about the SAM run (NOTE: Daily Conc. is different....above)
             document = {
@@ -82,7 +82,7 @@ def create_mongo_document(jid, run_type, args, list_of_julian_days):
                 }
             }
             try:
-                db['sam_new'].insert(document)
+                db['sam'].insert(document)
             except Exception as e:
 
 
@@ -124,15 +124,15 @@ def update_mongo(jid, run_type, args, huc_output):
                     'output': {k: huc_output[k]}
                 }
             }
-            db['sam_new'].insert(document)
+            db['sam'].insert(document)
             # try:
-            #     db['sam_new'].insert(document)
+            #     db['sam'].insert(document)
             # except:
             #     logging.exception(Exception)
 
             # try:
             #     logging.info("About to update MongoDB...")
-            #     db.sam_new.update(
+            #     db.sam.update(
             #         { "jid": jid },
             #         { '$set': { "model_object_dict.output": huc_output }}
             #     )
@@ -167,7 +167,7 @@ def update_mongo_tornado(jid, huc_output):
     :param huc_output:
     :return:
     """
-    response = requests.post("http://localhost:8787/sam_new/daily/" + jid, huc_output)
+    response = requests.post("http://localhost:8787/sam/daily/" + jid, huc_output)
     if response.status_code == 200:
         return "OK"
     else:
@@ -188,7 +188,7 @@ def update_postgres(jid, args, huc_output):
     try:
         conn = pg.connect(
             host="172.20.100.14",
-            database="sam_new",
+            database="sam",
             user=keys_Picloud_S3.postgres_user,
             password=keys_Picloud_S3.postgres_pwd
         )

@@ -39,7 +39,7 @@ def get_sam_huc_output(jid, huc12):
     """
     Retrieves JSON from MongoDB representing model (Python) object and returns it as Python dictionary
     """
-    all_dic = {"jid": jid, "model_name": "sam_new", "huc12": huc12}
+    all_dic = {"jid": jid, "model_name": "sam", "huc12": huc12}
     data = json.dumps(all_dic)
     url = url_part1 + '/get_sam_huc_output'
     try:
