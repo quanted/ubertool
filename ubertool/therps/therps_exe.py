@@ -3,10 +3,11 @@ import numpy as np
 import os.path
 import sys
 import pandas as pd
+from base.uber_model import UberModel, ModelSharedInputs
 from .therps_functions import TherpsFunctions
 import time
 from functools import wraps
-from ..base.uber_model import UberModel, ModelSharedInputs
+
 
 
 def timefn(fn):

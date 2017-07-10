@@ -1,6 +1,6 @@
 from __future__ import division
 import pandas as pd
-from ..base.uber_model import UberModel, ModelSharedInputs
+from base.uber_model import UberModel, ModelSharedInputs
 from .rice_functions import RiceFunctions
 
 class RiceInputs(ModelSharedInputs):
