@@ -12,10 +12,10 @@ import unittest
 print("Python version: " + sys.version)
 print("Numpy version: " + np.__version__)
 
-#find parent directory and import model
-parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parent_dir)
-from trex_exe import Trex
+# #find parent directory and import model
+# parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+# sys.path.append(parent_dir)
+from ..trex_exe import Trex
 
 test = {}
 

@@ -5,16 +5,19 @@ import numpy.testing as npt
 import os.path
 import pandas as pd
 import pkgutil
-from StringIO import StringIO
 import sys
 from tabulate import tabulate
 import unittest
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO, BytesIO
 
-#find parent directory and import model
-parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parent_dir)
+# #find parent directory and import model
+# parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+# sys.path.append(parent_dir)
 
-from kabam_exe import Kabam, KabamOutputs
+from ..kabam_exe import Kabam, KabamOutputs
 
 print("sys.path")
 print(sys.path)
@@ -25,7 +28,7 @@ print(sys.path)
 try:
     if __package__ is not None:
         csv_data = pkgutil.get_data(__package__, 'kabam_qaqc_in_transpose.csv')
-        data_inputs = StringIO(csv_data)
+        data_inputs = BytesIO(csv_data)
         pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
     else:
         csv_transpose_path_in = "./kabam_qaqc_in_transpose.csv"
@@ -46,7 +49,7 @@ finally:
 # load transposed qaqc data for expected outputs
 try:
     if __package__ is not None:
-        data_exp_outputs = StringIO(pkgutil.get_data(__package__, 'kabam_qaqc_exp_transpose.csv'))
+        data_exp_outputs = BytesIO(pkgutil.get_data(__package__, 'kabam_qaqc_exp_transpose.csv'))
         pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
     else:
         csv_transpose_path_exp = "./kabam_qaqc_exp_transpose.csv"

@@ -12,7 +12,7 @@ class TherpsFunctions(object):
         fraction = percent / 100.
         return fraction
 
-    def convert_app_intervals(self):
+    def convert_app_intervals_old(self):
         """
         method converts number of applications and application interval into application rates and day of year number
         this is so that the same concentration timeseries method from trex_functions can be reused here
@@ -36,6 +36,30 @@ class TherpsFunctions(object):
             day_out_temp[i] = app_days_temp  #move simulation specific data lists into model objects
             app_rates_temp[i] = app_rate_temp
         return day_out_temp, app_rates_temp
+
+    def convert_app_intervals(self):
+        """
+        method converts number of applications and application interval into application rates and day of year number
+        this is so that the same concentration timeseries method from trex_functions can be reused here
+        :return:
+        """
+        day_out_temp = pd.Series([], dtype = 'object')
+        app_rates_temp = pd.Series([], dtype = 'object')
+
+        for i in range(len(self.num_apps)):  # iterate over number of simulations to process
+            app_rate_temp = pd.Series([self.num_apps[i]*0], dtype='float')
+            app_days_temp = pd.Series([self.num_apps[i]*0], dtype='int')
+            for k in range (0, self.num_apps[i]):  # assign rates and app days per simulation
+                app_rate_temp[k] = self.application_rate[i]
+                if k == 0:
+                    app_days_temp[k] = 1  #changed to 1 to reflect day number rather than list index                       #elif k == 1:
+                        #    app_days_temp[k] = (self.app_interval[i] + app_days_temp[k-1]) - 1
+                else:
+                    app_days_temp[k] = self.app_interval[i] + app_days_temp[k-1]
+            day_out_temp[i] = app_days_temp  #move simulation specific data lists into model objects
+            app_rates_temp[i] = app_rate_temp
+        return day_out_temp, app_rates_temp
+
 
     def convert_app_intervals_original(self):
         """

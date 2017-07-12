@@ -24,4 +24,4 @@ try:
     print(pd_obj_exp_out_transposed)
     pd_obj_exp_out_transposed.to_csv(csv_exp)
 except Exception as e:
-    print e.message
+    print (e.message)
