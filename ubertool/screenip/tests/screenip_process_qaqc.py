@@ -1,9 +1,9 @@
 # needs to be run whenever the qaqc csv is updated
 import pandas as pd
 
-csv_path = "./sip_qaqc.csv"
-csv_in = "./sip_qaqc_in_transpose.csv"
-csv_exp = "./sip_qaqc_exp_transpose.csv"
+csv_path = "./screenip_qaqc.csv"
+csv_in = "./screenip_qaqc_in_transpose.csv"
+csv_exp = "./screenip_qaqc_exp_transpose.csv"
 
 #skiprows 0-indexed (supposably, but does not seem to be the case)
 #skipfooter- number of rows at bottom to skip
