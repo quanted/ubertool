@@ -44,7 +44,6 @@ class TrexFunctions(object):
         #method converts a panda series of lists whose elements are strings
         #to a series of lists of floats
         #create list of strings
-        pd_series_floats = [[0.0 for i in range (len(self.num_apps))] for j in range (len(self.num_apps))]
         temp1 = pd.Series([], dtype="object")
         temp = pd_series_strings.tolist()
         for j, item in enumerate(temp):
@@ -53,6 +52,11 @@ class TrexFunctions(object):
         #create list of vectors of strings
         temp2 = [str(i).split(',') for i in temp1]
         #convert to floats and assign back to series
+        max_apps = 0
+        for i in enumerate(pd_series_strings):
+            temp_apps = len(pd_series_strings[i].split(','))
+            max_apps = max(max_apps, temp_apps)
+        pd_series_floats = [[0.0 for i in range (len(self.num_apps))] for j in range (len(self.num_apps))]
         for j, item in enumerate(temp2):
             for k in range(len(item)):
                 pd_series_floats[j][k] = float(temp2[j][k])
