@@ -63,14 +63,14 @@ class ScreenipOutputs(object):
 #        self.out_det_other_2 = pd.Series([], dtype="float", name="out_det_other_2")
 
 
-class screenip(UberModel, ScreenipInputs, ScreenipOutputs, ScreenipFunctions):
+class Screenip(UberModel, ScreenipInputs, ScreenipOutputs, ScreenipFunctions):
     """
     Estimate chemical exposure from drinking water alone in birds and mammals.
     """
 
     def __init__(self, pd_obj, pd_obj_exp):
         """Class representing the Terrplant model and containing all its methods"""
-        super(screenip, self).__init__()
+        super(Screenip, self).__init__()
         self.pd_obj = pd_obj
         self.pd_obj_exp = pd_obj_exp
         self.pd_obj_out = None
