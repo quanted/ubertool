@@ -53,14 +53,36 @@ class TrexFunctions(object):
         temp2 = [str(i).split(',') for i in temp1]
         #convert to floats and assign back to series
         max_apps = 0
-        for i in enumerate(pd_series_strings):
-            temp_apps = len(pd_series_strings[i].split(','))
+        for i, app_list in enumerate(pd_series_strings):
+            temp_apps = len(app_list.split(','))
             max_apps = max(max_apps, temp_apps)
-        pd_series_floats = [[0.0 for i in range (len(self.num_apps))] for j in range (len(self.num_apps))]
+        pd_series_floats = [[0.0 for i in range(max_apps)] for j in range(len(self.num_apps))]
         for j, item in enumerate(temp2):
             for k in range(len(item)):
                 pd_series_floats[j][k] = float(temp2[j][k])
         return pd_series_floats
+
+    def convert_strlist_int(self, pd_series_strings):
+        #method converts a panda series of lists whose elements are strings
+        #to a series of lists of integers
+        #create list of strings
+        temp1 = pd.Series([], dtype="object")
+        temp = pd_series_strings.tolist()
+        for j, item in enumerate(temp):
+            temp1[j] = item.strip('[')
+            temp1[j] = temp1[j].strip(']')
+        #create list of vectors of strings
+        temp2 = [str(i).split(',') for i in temp1]
+        #convert to integers and assign back to series
+        max_apps = 0
+        for i, app_list in enumerate(pd_series_strings):
+            temp_apps = len(app_list.split(','))
+            max_apps = max(max_apps, temp_apps)
+        pd_series_ints = [[0 for i in range(max_apps)] for j in range (len(self.num_apps))]
+        for j, item in enumerate(temp2):
+            for k in range(len(item)):
+                pd_series_ints[j][k] = int(temp2[j][k])
+        return pd_series_ints
 
     def convert_strlist_int_python27(self, pd_series_strings):
         #method converts a panda series of lists whose elements are strings
@@ -78,24 +100,6 @@ class TrexFunctions(object):
         for j, item in enumerate(temp2):
             temp_item = map(int, item)
             pd_series_ints.loc[j] = temp_item
-        return pd_series_ints
-
-    def convert_strlist_int(self, pd_series_strings):
-        #method converts a panda series of lists whose elements are strings
-        #to a series of lists of integers
-        #create list of strings
-        pd_series_ints = [[0 for i in range (len(self.num_apps))] for j in range (len(self.num_apps))]
-        temp1 = pd.Series([], dtype="object")
-        temp = pd_series_strings.tolist()
-        for j, item in enumerate(temp):
-            temp1[j] = item.strip('[')
-            temp1[j] = temp1[j].strip(']')
-        #create list of vectors of strings
-        temp2 = [str(i).split(',') for i in temp1]
-        #convert to integers and assign back to series
-        for j, item in enumerate(temp2):
-            for k in range(len(item)):
-                pd_series_ints[j][k] = int(temp2[j][k])
         return pd_series_ints
 
     def conc_initial(self, i, application_rate, food_multiplier):
