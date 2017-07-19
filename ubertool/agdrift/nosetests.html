@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unit Test Report</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<style>
+body {
+    font-family: Calibri, "Trebuchet MS", sans-serif;
+}
+* {
+    word-break: break-all;
+}
+table, td, th, .dataid {
+    border: 1px solid #aaa;
+    border-collapse: collapse;
+    background: #fff;
+}
+section {
+    background: rgba(0, 0, 0, 0.05);
+    margin: 2ex;
+    padding: 1ex;
+    border: 1px solid #999;
+    border-radius: 5px;
+}
+h1 {
+    font-size: 130%;
+}
+h2 {
+    font-size: 120%;
+}
+h3 {
+    font-size: 100%;
+}
+h4 {
+    font-size: 85%;
+}
+h1, h2, h3, h4, a[href] {
+    cursor: pointer;
+    color: #0074d9;
+    text-decoration: none;
+}
+h3 strong, a.failed {
+    color: #ff4136;
+}
+.failed {
+    color: #ff4136;
+}
+a.success {
+    color: #3d9970;
+}
+pre {
+    font-family: 'Consolas', 'Deja Vu Sans Mono',
+                 'Bitstream Vera Sans Mono', 'Monaco',
+                 'Courier New', monospace;
+}
+
+.test-details,
+.traceback {
+    display: none;
+}
+section:target .test-details {
+    display: block;
+}
+
+</style>
+</head>
+<body>
+    <h1>Overview</h1>
+    <section>
+        <table>
+            <tr>
+                <th>Class</th>
+                <th>Fail</th>
+                <th class="failed">Error</th>
+                <th>Skip</th>
+                <th>Success</th>
+                <th>Total</th>
+            </tr>
+                <tr>
+                    <td>ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrift</td>
+                    <td>0</td>
+                    <td class="failed">5</td>
+                    <td>0</td>
+                    <td>27</td>
+                    <td>32</td>
+                </tr>
+                <tr>
+                    <td>nose.failure.Failure</td>
+                    <td>0</td>
+                    <td class="failed">1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                </tr>
+            <tr>
+                <td><strong>Total</strong></td>
+                <td>0</td>
+                <td class="failed">6</td>
+                <td>0</td>
+                <td>27</td>
+                <td>33</td>
+            </tr>
+        </table>
+    </section>
+    <h1>Failure details</h1>
+            <section>
+                <h2>ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrift (0 failures, 5 errors)</h2>
+                <div>
+                        <section id="ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrift:test_generate_running_avg">
+                            <h3>test_generate_running_avg: <strong>builtins.UnboundLocalError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 1144, in test_generate_running_avg
+    print('expected {0} number of points and got {1} points'.format(expected_result_npts, npts_out))
+UnboundLocalError: local variable 'npts_out' referenced before assignment
+-------------------- >> begin captured stdout << ---------------------
+
+
+test_generate_running_avg
+
+--------------------- >> end captured stdout << ----------------------
+</pre>
+                                <h4>Details</h4>
+                                <pre>local variable 'npts_out' referenced before assignment
+-------------------- >> begin captured stdout << ---------------------
+
+
+test_generate_running_avg
+
+--------------------- >> end captured stdout << ----------------------</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrift:test_get_column_names">
+                            <h3>test_get_column_names: <strong>sqlite3.OperationalError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 596, in test_get_column_names
+    result = agdrift_empty.get_column_names()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_functions.py", line 682, in get_column_names
+    conn = sqlite3.connect(self.db_name)
+sqlite3.OperationalError: unable to open database file
+-------------------- >> begin captured stdout << ---------------------
+
+
+test_get_column_names
+===========  ===========  ==========  ==========  ===========  =============  ==============  ==============  ===============  ===============  ==============  ===============  =================  ================
+
+distance_ft  aerial_vf2f  aerial_f2m  aerial_m2c  aerial_c2vc  ground_low_vf  ground_low_fmc  ground_high_vf  ground_high_fmc  airblast_normal  airblast_dense  airblast_sparse  airblast_vineyard  airblast_orchard
+===========  ===========  ==========  ==========  ===========  =============  ==============  ==============  ===============  ===============  ==============  ===============  =================  ================
+
+--------------------- >> end captured stdout << ----------------------
+</pre>
+                                <h4>Details</h4>
+                                <pre>unable to open database file
+-------------------- >> begin captured stdout << ---------------------
+
+
+test_get_column_names
+===========  ===========  ==========  ==========  ===========  =============  ==============  ==============  ===============  ===============  ==============  ===============  =================  ================
+
+distance_ft  aerial_vf2f  aerial_f2m  aerial_m2c  aerial_c2vc  ground_low_vf  ground_low_fmc  ground_high_vf  ground_high_fmc  airblast_normal  airblast_dense  airblast_sparse  airblast_vineyard  airblast_orchard
+===========  ===========  ==========  ==========  ===========  =============  ==============  ==============  ===============  ===============  ==============  ===============  =================  ================
+
+--------------------- >> end captured stdout << ----------------------</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrift:test_get_distances">
+                            <h3>test_get_distances: <strong>builtins.UnboundLocalError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 501, in test_get_distances
+    result = agdrift_empty.get_distances(agdrift_empty.num_db_values)
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_functions.py", line 721, in get_distances
+    conn = sqlite3.connect(self.db_name)
+sqlite3.OperationalError: unable to open database file
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 504, in test_get_distances
+    tab = [result, expected_result]
+UnboundLocalError: local variable 'result' referenced before assignment
+</pre>
+                                <h4>Details</h4>
+                                <pre>local variable 'result' referenced before assignment</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrift:test_get_scenario_deposition_data">
+                            <h3>test_get_scenario_deposition_data: <strong>sqlite3.OperationalError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 556, in test_get_scenario_deposition_data
+    agdrift_empty.num_db_values)
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_functions.py", line 745, in get_scenario_deposition_data
+    conn = sqlite3.connect(self.db_name)
+sqlite3.OperationalError: unable to open database file
+-------------------- >> begin captured stdout << ---------------------
+
+
+test_get_scenario_deposition_data
+=======  ========  ===  =======  ========  ===  ======  =========  ===  =======  =========  ===  =======  ========  ===  =======  ========  ===  ======  =======  ===  =======  ========  ===  =======  ========  ===  ========  ========  ===  ========  ========  ===  ======  =======  ===  ========  ========  ===
+
+0.50013  0.041273  161  0.49997  0.011741  161  0.4999  0.0053241  161  0.49988  0.0031189  161  1.01934  0.000966  161  1.00788  0.000613  161  1.0552  0.00141  161  1.01283  0.000772  161  0.00891  3.87e-05  161  0.115528  0.000466  161  0.476265  5.14e-05  161  0.0376  3.1e-05  161  0.222305  0.000358  161
+=======  ========  ===  =======  ========  ===  ======  =========  ===  =======  =========  ===  =======  ========  ===  =======  ========  ===  ======  =======  ===  =======  ========  ===  =======  ========  ===  ========  ========  ===  ========  ========  ===  ======  =======  ===  ========  ========  ===
+
+--------------------- >> end captured stdout << ----------------------
+</pre>
+                                <h4>Details</h4>
+                                <pre>unable to open database file
+-------------------- >> begin captured stdout << ---------------------
+
+
+test_get_scenario_deposition_data
+=======  ========  ===  =======  ========  ===  ======  =========  ===  =======  =========  ===  =======  ========  ===  =======  ========  ===  ======  =======  ===  =======  ========  ===  =======  ========  ===  ========  ========  ===  ========  ========  ===  ======  =======  ===  ========  ========  ===
+
+0.50013  0.041273  161  0.49997  0.011741  161  0.4999  0.0053241  161  0.49988  0.0031189  161  1.01934  0.000966  161  1.00788  0.000613  161  1.0552  0.00141  161  1.01283  0.000772  161  0.00891  3.87e-05  161  0.115528  0.000466  161  0.476265  5.14e-05  161  0.0376  3.1e-05  161  0.222305  0.000358  161
+=======  ========  ===  =======  ========  ===  ======  =========  ===  =======  =========  ===  =======  ========  ===  =======  ========  ===  ======  =======  ===  =======  ========  ===  =======  ========  ===  ========  ========  ===  ========  ========  ===  ======  =======  ===  ========  ========  ===
+
+--------------------- >> end captured stdout << ----------------------</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrift:test_locate_integrated_avg">
+                            <h3>test_locate_integrated_avg: <strong>builtins.UnboundLocalError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_unittest.py", line 1463, in test_locate_integrated_avg
+    print('expected {0} x-units to area and got {1} '.format(expected_x_dist_of_interest, x_dist_of_interest))
+UnboundLocalError: local variable 'x_dist_of_interest' referenced before assignment
+-------------------- >> begin captured stdout << ---------------------
+
+
+test_locate_integrated_avg
+
+--------------------- >> end captured stdout << ----------------------
+</pre>
+                                <h4>Details</h4>
+                                <pre>local variable 'x_dist_of_interest' referenced before assignment
+-------------------- >> begin captured stdout << ---------------------
+
+
+test_locate_integrated_avg
+
+--------------------- >> end captured stdout << ----------------------</pre>
+                            </div>
+                        </section>
+                </div>
+            </section>
+            <section>
+                <h2>nose.failure.Failure (0 failures, 1 errors)</h2>
+                <div>
+                        <section id="nose.failure.Failure:runTest">
+                            <h3>runTest: <strong>builtins.TypeError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_exe.py", line 110, in run_methods
+    self.create_additional_io_parameters()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_exe.py", line 426, in create_additional_io_parameters
+    self.column_names = self.get_column_names()  # distance and scenario names as identified as database columns
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_functions.py", line 682, in get_column_names
+    conn = sqlite3.connect(self.db_name)
+sqlite3.OperationalError: unable to open database file
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/anaconda/lib/python3.6/site-packages/nose/failure.py", line 39, in runTest
+    raise self.exc_val.with_traceback(self.tb)
+  File "/anaconda/lib/python3.6/site-packages/nose/loader.py", line 417, in loadTestsFromName
+    addr.filename, addr.module)
+  File "/anaconda/lib/python3.6/site-packages/nose/importer.py", line 47, in importFromPath
+    return self.importFromDir(dir_path, fqname)
+  File "/anaconda/lib/python3.6/site-packages/nose/importer.py", line 94, in importFromDir
+    mod = load_module(part_fqname, fh, filename, desc)
+  File "/anaconda/lib/python3.6/imp.py", line 234, in load_module
+    return load_source(name, filename, file)
+  File "/anaconda/lib/python3.6/imp.py", line 172, in load_source
+    module = _load(spec)
+  File "<frozen importlib._bootstrap>", line 675, in _load
+  File "<frozen importlib._bootstrap>", line 655, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 678, in exec_module
+  File "<frozen importlib._bootstrap>", line 205, in _call_with_frames_removed
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/agdrift/tests/test_agdrift_integration.py", line 74, in <module>
+    agdrift_calc.execute_model()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_exe.py", line 97, in execute_model
+    self.run_methods()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/agdrift/agdrift_exe.py", line 114, in run_methods
+    logging.info("Unexpected error:", sys.exc_info()[0])
+  File "/anaconda/lib/python3.6/logging/__init__.py", line 1875, in info
+    root.info(msg, *args, **kwargs)
+  File "/anaconda/lib/python3.6/logging/__init__.py", line 1306, in info
+    self._log(INFO, msg, args, **kwargs)
+  File "/anaconda/lib/python3.6/logging/__init__.py", line 1442, in _log
+    self.handle(record)
+  File "/anaconda/lib/python3.6/logging/__init__.py", line 1452, in handle
+    self.callHandlers(record)
+  File "/anaconda/lib/python3.6/logging/__init__.py", line 1514, in callHandlers
+    hdlr.handle(record)
+  File "/anaconda/lib/python3.6/logging/__init__.py", line 863, in handle
+    self.emit(record)
+  File "/anaconda/lib/python3.6/site-packages/nose/plugins/logcapture.py", line 82, in emit
+    self.buffer.append(self.format(record))
+  File "/anaconda/lib/python3.6/logging/__init__.py", line 838, in format
+    return fmt.format(record)
+  File "/anaconda/lib/python3.6/logging/__init__.py", line 575, in format
+    record.message = record.getMessage()
+  File "/anaconda/lib/python3.6/logging/__init__.py", line 338, in getMessage
+    msg = msg % self.args
+TypeError: not all arguments converted during string formatting
+</pre>
+                                <h4>Details</h4>
+                                <pre>not all arguments converted during string formatting</pre>
+                            </div>
+                        </section>
+                </div>
+            </section>
+
+    <h1>All tests</h1>
+    <section>
+        <h2>ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrift (0 failures, 5 errors)</h2>
+        <ul>
+                <li><a class="success">test_assign_column_names</a></li>
+                <li><a class="success">test_calc_avg_dep_foa</a></li>
+                <li><a class="success">test_calc_avg_dep_foa_from_lbac</a></li>
+                <li><a class="success">test_calc_avg_dep_gha</a></li>
+                <li><a class="success">test_calc_avg_dep_lbac</a></li>
+                <li><a class="success">test_calc_avg_dep_lbac_from_gha</a></li>
+                <li><a class="success">test_calc_avg_dep_lbac_from_mgcm2</a></li>
+                <li><a class="success">test_calc_avg_dep_lbac_from_waterconc_ngl</a></li>
+                <li><a class="success">test_calc_avg_fielddep_mgcm2</a></li>
+                <li><a class="success">test_calc_avg_waterconc_ngl</a></li>
+                <li><a class="success">test_determine_area_dimensions</a></li>
+                <li><a class="success">test_extend_curve</a></li>
+                <li><a class="success">test_extend_curve1</a></li>
+                <li><a class="success">test_extend_curve_opp</a></li>
+                <li><a class="success">test_extend_curve_opp1</a></li>
+                <li><a class="success">test_filter_arrays</a></li>
+                <li><a class="success">test_find_dep_pt_location</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrift:test_generate_running_avg">test_generate_running_avg</a></li>
+                <li><a class="success">test_generate_running_avg1</a></li>
+                <li><a class="success">test_generate_running_avg2</a></li>
+                <li><a class="success">test_generate_running_avg3</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrift:test_get_column_names">test_get_column_names</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrift:test_get_distances">test_get_distances</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrift:test_get_scenario_deposition_data">test_get_scenario_deposition_data</a></li>
+                <li><a class="success">test_list_sims_per_scenario</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.agdrift.tests.test_agdrift_unittest.TestAgdrift:test_locate_integrated_avg">test_locate_integrated_avg</a></li>
+                <li><a class="success">test_locate_integrated_avg1</a></li>
+                <li><a class="success">test_locate_integrated_avg2</a></li>
+                <li><a class="success">test_locate_integrated_avg3</a></li>
+                <li><a class="success">test_round_model_outputs</a></li>
+                <li><a class="success">test_set_sim_scenario_id</a></li>
+                <li><a class="success">test_validate_sim_scenarios</a></li>
+        </ul>
+    </section>
+    <section>
+        <h2>nose.failure.Failure (0 failures, 1 errors)</h2>
+        <ul>
+                <li><a class="failed" href="#nose.failure.Failure:runTest">runTest</a></li>
+        </ul>
+    </section>
+</body>
+<script>
+    Array.prototype.forEach.call(document.querySelectorAll('h1, h2, h3, h4'), function(el) {
+        el.addEventListener('click', function() {
+            el.nextElementSibling.style.display = document.defaultView.getComputedStyle(el.nextElementSibling).display == 'none' ? 'block' : 'none';
+        })
+    })
+</script>
+</html>
