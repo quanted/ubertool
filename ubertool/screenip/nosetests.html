@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unit Test Report</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<style>
+body {
+    font-family: Calibri, "Trebuchet MS", sans-serif;
+}
+* {
+    word-break: break-all;
+}
+table, td, th, .dataid {
+    border: 1px solid #aaa;
+    border-collapse: collapse;
+    background: #fff;
+}
+section {
+    background: rgba(0, 0, 0, 0.05);
+    margin: 2ex;
+    padding: 1ex;
+    border: 1px solid #999;
+    border-radius: 5px;
+}
+h1 {
+    font-size: 130%;
+}
+h2 {
+    font-size: 120%;
+}
+h3 {
+    font-size: 100%;
+}
+h4 {
+    font-size: 85%;
+}
+h1, h2, h3, h4, a[href] {
+    cursor: pointer;
+    color: #0074d9;
+    text-decoration: none;
+}
+h3 strong, a.failed {
+    color: #ff4136;
+}
+.failed {
+    color: #ff4136;
+}
+a.success {
+    color: #3d9970;
+}
+pre {
+    font-family: 'Consolas', 'Deja Vu Sans Mono',
+                 'Bitstream Vera Sans Mono', 'Monaco',
+                 'Courier New', monospace;
+}
+
+.test-details,
+.traceback {
+    display: none;
+}
+section:target .test-details {
+    display: block;
+}
+
+</style>
+</head>
+<body>
+    <h1>Overview</h1>
+    <section>
+        <table>
+            <tr>
+                <th>Class</th>
+                <th>Fail</th>
+                <th class="failed">Error</th>
+                <th>Skip</th>
+                <th>Success</th>
+                <th>Total</th>
+            </tr>
+                <tr>
+                    <td>ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip</td>
+                    <td>0</td>
+                    <td class="failed">17</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>17</td>
+                </tr>
+                <tr>
+                    <td>ubertool.ubertool.screenip.tests.test_screenip_integration.TestScreenip</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>16</td>
+                    <td>16</td>
+                </tr>
+            <tr>
+                <td><strong>Total</strong></td>
+                <td>0</td>
+                <td class="failed">17</td>
+                <td>0</td>
+                <td>16</td>
+                <td>33</td>
+            </tr>
+        </table>
+    </section>
+    <h1>Failure details</h1>
+            <section>
+                <h2>ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip (0 failures, 17 errors)</h2>
+                <div>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_act">
+                            <h3>test_screenip_unit_act: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 237, in test_screenip_unit_act
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+-------------------- >> begin captured logging << --------------------
+root: INFO: var:version coerce to: object from: float64
+root: INFO: float64
+root: INFO: object
+root: INFO: var:pc_code coerce to: object from: int64
+root: INFO: int64
+root: INFO: float64
+root: INFO: float64
+root: INFO: object
+root: INFO: float64
+root: INFO: float64
+root: INFO: object
+root: INFO: float64
+root: INFO: float64
+root: INFO: object
+root: INFO: float64
+root: INFO: float64
+root: INFO: float64
+root: INFO: float64
+root: INFO: float64
+root: INFO: float64
+root: INFO: float64
+root: INFO: float64
+--------------------- >> end captured logging << ---------------------
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined
+-------------------- >> begin captured logging << --------------------
+root: INFO: var:version coerce to: object from: float64
+root: INFO: float64
+root: INFO: object
+root: INFO: var:pc_code coerce to: object from: int64
+root: INFO: int64
+root: INFO: float64
+root: INFO: float64
+root: INFO: object
+root: INFO: float64
+root: INFO: float64
+root: INFO: object
+root: INFO: float64
+root: INFO: float64
+root: INFO: object
+root: INFO: float64
+root: INFO: float64
+root: INFO: float64
+root: INFO: float64
+root: INFO: float64
+root: INFO: float64
+root: INFO: float64
+root: INFO: float64
+--------------------- >> end captured logging << ---------------------</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_acuconb">
+                            <h3>test_screenip_unit_acuconb: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 403, in test_screenip_unit_acuconb
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_acuconm">
+                            <h3>test_screenip_unit_acuconm: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 464, in test_screenip_unit_acuconm
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_acute_bird">
+                            <h3>test_screenip_unit_acute_bird: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 369, in test_screenip_unit_acute_bird
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_acute_mamm">
+                            <h3>test_screenip_unit_acute_mamm: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 430, in test_screenip_unit_acute_mamm
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_at_bird">
+                            <h3>test_screenip_unit_at_bird: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 160, in test_screenip_unit_at_bird
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_at_mamm">
+                            <h3>test_screenip_unit_at_mamm: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 187, in test_screenip_unit_at_mamm
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_chron_bird">
+                            <h3>test_screenip_unit_chron_bird: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 491, in test_screenip_unit_chron_bird
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_chron_mamm">
+                            <h3>test_screenip_unit_chron_mamm: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 543, in test_screenip_unit_chron_mamm
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_chronconb">
+                            <h3>test_screenip_unit_chronconb: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 515, in test_screenip_unit_chronconb
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_chronconm">
+                            <h3>test_screenip_unit_chronconm: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 567, in test_screenip_unit_chronconm
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_det">
+                            <h3>test_screenip_unit_det: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 338, in test_screenip_unit_det
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_dose_bird">
+                            <h3>test_screenip_unit_dose_bird: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 108, in test_screenip_unit_dose_bird
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_dose_mamm">
+                            <h3>test_screenip_unit_dose_mamm: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 134, in test_screenip_unit_dose_mamm
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_fi_bird">
+                            <h3>test_screenip_unit_fi_bird: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 213, in test_screenip_unit_fi_bird
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_fw_bird">
+                            <h3>test_screenip_unit_fw_bird: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 62, in test_screenip_unit_fw_bird
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_fw_mamm">
+                            <h3>test_screenip_unit_fw_mamm: <strong>builtins.NameError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 85, in test_screenip_unit_fw_mamm
+    screenip_empty = self.create_screenip_object()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/screenip/tests/test_screenip_unittest.py", line 50, in create_screenip_object
+    screenip_empty = screenip(df_empty, df_empty)
+NameError: name 'screenip' is not defined
+</pre>
+                                <h4>Details</h4>
+                                <pre>name 'screenip' is not defined</pre>
+                            </div>
+                        </section>
+                </div>
+            </section>
+
+    <h1>All tests</h1>
+    <section>
+        <h2>ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip (0 failures, 17 errors)</h2>
+        <ul>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_act">test_screenip_unit_act</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_acuconb">test_screenip_unit_acuconb</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_acuconm">test_screenip_unit_acuconm</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_acute_bird">test_screenip_unit_acute_bird</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_acute_mamm">test_screenip_unit_acute_mamm</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_at_bird">test_screenip_unit_at_bird</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_at_mamm">test_screenip_unit_at_mamm</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_chron_bird">test_screenip_unit_chron_bird</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_chron_mamm">test_screenip_unit_chron_mamm</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_chronconb">test_screenip_unit_chronconb</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_chronconm">test_screenip_unit_chronconm</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_det">test_screenip_unit_det</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_dose_bird">test_screenip_unit_dose_bird</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_dose_mamm">test_screenip_unit_dose_mamm</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_fi_bird">test_screenip_unit_fi_bird</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_fw_bird">test_screenip_unit_fw_bird</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.screenip.tests.test_screenip_unittest.TestScreenip:test_screenip_unit_fw_mamm">test_screenip_unit_fw_mamm</a></li>
+        </ul>
+    </section>
+    <section>
+        <h2>ubertool.ubertool.screenip.tests.test_screenip_integration.TestScreenip (0 failures, 0 errors)</h2>
+        <ul>
+                <li><a class="success">test_assert_output_series</a></li>
+                <li><a class="success">test_assert_output_series_dtypes</a></li>
+                <li><a class="success">test_screenip_integration_act</a></li>
+                <li><a class="success">test_screenip_integration_acuconb</a></li>
+                <li><a class="success">test_screenip_integration_acuconm</a></li>
+                <li><a class="success">test_screenip_integration_acute_bird</a></li>
+                <li><a class="success">test_screenip_integration_acute_mamm</a></li>
+                <li><a class="success">test_screenip_integration_at_bird</a></li>
+                <li><a class="success">test_screenip_integration_at_mamm</a></li>
+                <li><a class="success">test_screenip_integration_chron_bird</a></li>
+                <li><a class="success">test_screenip_integration_chron_mamm</a></li>
+                <li><a class="success">test_screenip_integration_chronconb</a></li>
+                <li><a class="success">test_screenip_integration_chronconm</a></li>
+                <li><a class="success">test_screenip_integration_det</a></li>
+                <li><a class="success">test_screenip_integration_dose_bird</a></li>
+                <li><a class="success">test_screenip_integration_dose_mamm</a></li>
+        </ul>
+    </section>
+</body>
+<script>
+    Array.prototype.forEach.call(document.querySelectorAll('h1, h2, h3, h4'), function(el) {
+        el.addEventListener('click', function() {
+            el.nextElementSibling.style.display = document.defaultView.getComputedStyle(el.nextElementSibling).display == 'none' ? 'block' : 'none';
+        })
+    })
+</script>
+</html>

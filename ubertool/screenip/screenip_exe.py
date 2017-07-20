@@ -1,17 +1,18 @@
 from __future__ import division
 import pandas as pd
 from base.uber_model import UberModel, ModelSharedInputs
-from .sip_functions import SipFunctions
+from .screenip_functions import ScreenipFunctions
+#ananconda has a sip package already, renamedto screenip
 
 
-class SipInputs(ModelSharedInputs):
+class ScreenipInputs(ModelSharedInputs):
     """
-    Input class for SIP.
+    Input class for screenip.
     """
 
     def __init__(self):
-        """Class representing the inputs for SIP"""
-        super(SipInputs, self).__init__()
+        """Class representing the inputs for screenip"""
+        super(ScreenipInputs, self).__init__()
         self.solubility = pd.Series([], dtype="float")
         self.ld50_mammal_water = pd.Series([], dtype="float")
         self.ld50_species_tested_mammal = pd.Series([], dtype="object")
@@ -31,14 +32,14 @@ class SipInputs(ModelSharedInputs):
         self.noaec_bodyweight_bird_other_2 = pd.Series([], dtype="float")
 
 
-class SipOutputs(object):
+class ScreenipOutputs(object):
     """
-    Output class for SIP.
+    Output class for screenip.
     """
 
     def __init__(self):
-        """Class representing the outputs for SIP"""
-        super(SipOutputs, self).__init__()
+        """Class representing the outputs for screenip"""
+        super(ScreenipOutputs, self).__init__()
         self.out_fw_bird = pd.Series([], dtype="float", name="out_fw_bird")
         self.out_fw_mamm = pd.Series([], dtype="float", name="out_fw_mamm")
         self.out_dose_bird = pd.Series([], dtype="float", name="out_dose_bird")
@@ -62,14 +63,14 @@ class SipOutputs(object):
 #        self.out_det_other_2 = pd.Series([], dtype="float", name="out_det_other_2")
 
 
-class Sip(UberModel, SipInputs, SipOutputs, SipFunctions):
+class Screenip(UberModel, ScreenipInputs, ScreenipOutputs, ScreenipFunctions):
     """
     Estimate chemical exposure from drinking water alone in birds and mammals.
     """
 
     def __init__(self, pd_obj, pd_obj_exp):
         """Class representing the Terrplant model and containing all its methods"""
-        super(Sip, self).__init__()
+        super(Screenip, self).__init__()
         self.pd_obj = pd_obj
         self.pd_obj_exp = pd_obj_exp
         self.pd_obj_out = None
