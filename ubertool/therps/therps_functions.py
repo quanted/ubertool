@@ -134,7 +134,7 @@ class TherpsFunctions(object):
     def eec_diet_max(self, food_multiplier):
         """
         method ported from trex_functions
-        method calls method to produce a concentration timeseries (daily for 1 yr + a week) and extracts the maximum concentration value
+        method calls method to produce a concentration timeseries (daily for 1 yr + a week)
         then scans the time series and extracts the maximum daily concentration for the year
         """
         max_concs = pd.Series([], dtype = 'float')

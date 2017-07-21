@@ -128,8 +128,8 @@ class TerrplantFunctions(object):
         self.out_lms_loc_dry = pd.Series([msg_pass if boo else msg_fail for boo in boo_ratios])
         #exceed_boolean = self.out_lms_rq_dry >= 1.0
         #self.out_lms_loc_dry = exceed_boolean.map(lambda x:
-        #                                          'The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates a potential risk.' if x == True
-        #                                          else 'The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal.')
+        # 'The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates a potential risk.' if x == True
+        #  else 'The risk quotient for listed monocot seedlings exposed to the pesticide via runoff to dry areas indicates that potential risk is minimal.')
         return self.out_lms_loc_dry
 
     def lms_rq_semi(self):
