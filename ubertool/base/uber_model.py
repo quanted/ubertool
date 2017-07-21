@@ -95,8 +95,8 @@ class UberModel(object):
         :param df_in: Pandas DataFrame object of model input parameters
         """
         df_user = self.convert_index(df_in)
-        mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
-        #mod_name = "ubertool_ecorest.ubertool.ubertool." + self.name.lower() + "." + self.name.lower() + '_exe'
+        # mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
+        mod_name = "ubertool.ubertool." + self.name.lower() + "." + self.name.lower() + '_exe'
         print(mod_name)
         try:
             # Import the model's input class (e.g. AgdriftInputs) to compare user supplied inputs to

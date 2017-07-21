@@ -22,7 +22,7 @@ class TrexFunctions(object):
             self.max_app_rate[i] = max(self.app_rates[i])
         return
 
-    def convert_strlist_float(self, pd_series_strings):
+    def convert_strlist_float_python27(self, pd_series_strings):
         #method converts a panda series of lists whose elements are strings
         #to a series of lists of floats
         #create list of strings
@@ -40,7 +40,51 @@ class TrexFunctions(object):
             pd_series_floats.loc[j] = temp_item
         return pd_series_floats
 
+    def convert_strlist_float(self, pd_series_strings):
+        #method converts a panda series of lists whose elements are strings
+        #to a series of lists of floats
+        #create list of strings
+        temp1 = pd.Series([], dtype="object")
+        temp = pd_series_strings.tolist()
+        for j, item in enumerate(temp):
+            temp1[j] = item.strip('[')
+            temp1[j] = temp1[j].strip(']')
+        #create list of vectors of strings
+        temp2 = [str(i).split(',') for i in temp1]
+        #convert to floats and assign back to series
+        max_apps = 0
+        for i, app_list in enumerate(pd_series_strings):
+            temp_apps = len(app_list.split(','))
+            max_apps = max(max_apps, temp_apps)
+        pd_series_floats = [[0.0 for i in range(max_apps)] for j in range(len(self.num_apps))]
+        for j, item in enumerate(temp2):
+            for k in range(len(item)):
+                pd_series_floats[j][k] = float(temp2[j][k])
+        return pd_series_floats
+
     def convert_strlist_int(self, pd_series_strings):
+        #method converts a panda series of lists whose elements are strings
+        #to a series of lists of integers
+        #create list of strings
+        temp1 = pd.Series([], dtype="object")
+        temp = pd_series_strings.tolist()
+        for j, item in enumerate(temp):
+            temp1[j] = item.strip('[')
+            temp1[j] = temp1[j].strip(']')
+        #create list of vectors of strings
+        temp2 = [str(i).split(',') for i in temp1]
+        #convert to integers and assign back to series
+        max_apps = 0
+        for i, app_list in enumerate(pd_series_strings):
+            temp_apps = len(app_list.split(','))
+            max_apps = max(max_apps, temp_apps)
+        pd_series_ints = [[0 for i in range(max_apps)] for j in range (len(self.num_apps))]
+        for j, item in enumerate(temp2):
+            for k in range(len(item)):
+                pd_series_ints[j][k] = int(temp2[j][k])
+        return pd_series_ints
+
+    def convert_strlist_int_python27(self, pd_series_strings):
         #method converts a panda series of lists whose elements are strings
         #to a series of lists of integers
         #create list of strings
@@ -385,10 +429,11 @@ class TrexFunctions(object):
         # calculate all values of 'ld50_rg_bird_temp' regardless of application_type (to facilitate vectorization)
         at_bird_temp = self.at_bird1(aw_bird)
         num_rows_peracre = (43560 ** 0.5) / self.row_spacing  #43560 ft2/acre
+
         expo_rg_bird = ((self.max_app_rate * self.frac_act_ing * 453590.0) /
-                       (num_rows_peracre * (43560.0 ** 0.5) * (self.bandwidth / 12.))) * (1 - self.frac_incorp)  #(43560.0 ** 0.5) = row_length
+                       (num_rows_peracre * (43560.0 ** 0.5) * (self.bandwidth))) * (1 - self.frac_incorp)
         ld50_rg_bird_temp = expo_rg_bird / (at_bird_temp * (aw_bird / 1000.0))
-        #go back and replace all non 'Row/Band/In-furrow-Granular' app types with value of zero
+        #go back and replace all non 'Row/Band/In-furrow-Granular' app types with value of nan (not a number)
         for i in range(len(aw_bird)):
             if self.application_type[i] != 'Row/Band/In-furrow-Granular':
                 ld50_rg_bird_temp[i] = np.nan

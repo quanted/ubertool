@@ -6,4 +6,4 @@
 #nose2 -v
 
 #run the tests and create an html report
-nosetests tests/test_sip_unittest.py tests/test_sip_integration.py --with-html
+nosetests tests/test_screenip_unittest.py tests/test_screenip_integration.py --with-html

@@ -12,9 +12,9 @@ import unittest
 
 
 #find parent directory and import model
-parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-sys.path.append(parentddir)
-from therps_exe import THerps
+# parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+# sys.path.append(parentddir)
+from ..therps_exe import Therps
 
 print("Python version: " + sys.version)
 print("Numpy version: " + np.__version__)
@@ -50,7 +50,7 @@ class Testtherps(unittest.TestCase):
         # create empty pandas dataframes to create empty object for testing
         df_empty = pd.DataFrame()
         # create an empty therps object
-        therps_empty = THerps(df_empty, df_empty)
+        therps_empty = Therps(df_empty, df_empty)
         return therps_empty
 
     def test_convert_app_intervals(self):
