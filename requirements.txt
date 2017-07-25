@@ -12,7 +12,7 @@ pandas==0.20.3
 pylint==1.7.2
 python-coveralls==2.9.1 #not in conda, pip install
 pytz==2017.2
-requests==2.18.1
+requests==2.18.2
 scipy==0.19.1
 snakefood==1.4 #not in conda, pip install
 sqlalchemy==1.1.11
