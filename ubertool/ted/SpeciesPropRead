@@ -1,0 +1,30 @@
+import csv, sys
+import pandas as pd
+
+filename = 'TEDSpeciesProperties.csv'
+sci_name = pd.Series([], dtype='object')
+com_name = pd.Series([], dtype='object')
+taxa = pd.Series([], dtype='object')
+order = pd.Series([], dtype='object')
+usfws_id = pd.Series([], dtype='object')
+body_wgt= pd.Series([], dtype='float')
+diet_item = pd.Series([], dtype='object')
+h2o_cont = pd.Series([], dtype='float')
+
+try:
+    with open(filename,'rt') as csvfile:
+        # csv.DictReader uses first line in file for column headings by default
+        dr = pd.read_csv(csvfile) # comma is default delimiter
+except csv.Error as e:
+    sys.exit('file: %s, %s' (filename, e))
+
+print(dr)
+sci_name = dr.ix[:,'Scientific Name']
+com_name = dr.ix[:,'Common Name']
+taxa = dr.ix[:,'Taxa']
+order = dr.ix[:,'Order']
+usfws_id = dr.ix[:,'USFWS Species ID (ENTITY_ID)']
+body_wgt= dr.ix[:,'BW (g)']
+diet_item = dr.ix[:,'Food item']
+h2o_cont = dr.ix[:,'Water content of diet']
+

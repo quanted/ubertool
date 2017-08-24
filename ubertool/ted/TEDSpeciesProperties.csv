@@ -1,0 +1,820 @@
+Scientific Name,Common Name,Taxa,Order,USFWS Species ID (ENTITY_ID),BW (g),Food item,Water content of diet
+Hyla wrightorum,Arizona Treefrog,Amphibians,Anura,9694,1.9,arthropods,0.69
+Hyla wrightorum,Arizona Treefrog,Amphibians,Anura,9694,1.9,soil inverts,0.84
+Anaxyrus californicus,Arroyo Toad,Amphibians,Anura,204,14,arthropods,0.69
+Rana draytonii,California Red-legged Frog,Amphibians,Anura,205,8.7,amphibians,0.85
+Rana draytonii,California Red-legged Frog,Amphibians,Anura,205,8.7,arthropods,0.69
+Rana draytonii,California Red-legged Frog,Amphibians,Anura,205,8.7,mammals (small),0.68
+Rana chiricahuensis,Chiricahua Leopard Frog,Amphibians,Anura,206,13,arthropods,0.69
+Rana chiricahuensis,Chiricahua Leopard Frog,Amphibians,Anura,206,13,benthic inverts,0.78
+Rana chiricahuensis,Chiricahua Leopard Frog,Amphibians,Anura,206,13,birds,0.68
+Rana chiricahuensis,Chiricahua Leopard Frog,Amphibians,Anura,206,13,"fish, aq amphibians",0.75
+Rana luteiventris,Columbia spotted frog,Amphibians,Anura,5819,11,amphibians,0.85
+Rana luteiventris,Columbia spotted frog,Amphibians,Anura,5819,11,arthropods,0.69
+Rana luteiventris,Columbia spotted frog,Amphibians,Anura,5819,11,filter feeders,0.82
+Rana sevosa,Dusty Gopher Frog,Amphibians,Anura,208,21,amphibians,0.85
+Rana sevosa,Dusty Gopher Frog,Amphibians,Anura,208,21,arthropods,0.69
+Rana sevosa,Dusty Gopher Frog,Amphibians,Anura,208,21,soil inverts,0.84
+Eleutherodactylus jasperi,Golden Coqui (frog),Amphibians,Anura,193,3.9,arthropods,0.69
+Eleutherodactylus cooki,Guajon (frog),Amphibians,Anura,196,8.9,arthropods,0.69
+Bufo houstonensis,Houston Toad,Amphibians,Anura,190,8,amphibians,0.85
+Bufo houstonensis,Houston Toad,Amphibians,Anura,190,8,arthropods,0.69
+Eleutherodactylus juanariveroi,Llanero Coqui,Amphibians,Anura,9378,3,arthropods,0.69
+Eleutherodactylus juanariveroi,Llanero Coqui,Amphibians,Anura,9378,3,benthic inverts,0.78
+Rana muscosa,Mountain yellow-legged frog (Northern CA DPS),Amphibians,Anura,1740,13.84,arthropods,0.69
+Rana muscosa,Mountain yellow-legged frog (Northern CA DPS),Amphibians,Anura,1740,13.84,benthic inverts,0.78
+Rana muscosa,Mountain Yellow-legged Frog (southern CA DPS),Amphibians,Anura,207,13.84,arthropods,0.69
+Rana muscosa,Mountain Yellow-legged Frog (southern CA DPS),Amphibians,Anura,207,13.84,benthic inverts,0.78
+Rana pretiosa,Oregon spotted frog,Amphibians,Anura,4090,8,amphibians,0.85
+Rana pretiosa,Oregon spotted frog,Amphibians,Anura,4090,8,arthropods,0.69
+Peltophryne lemur,Puerto Rican Crested Toad,Amphibians,Anura,195,57,arthropods,0.69
+Peltophryne lemur,Puerto Rican Crested Toad,Amphibians,Anura,195,57,soil inverts,0.84
+Lithobates onca,Relict leopard Frog,Amphibians,Anura,3628,0.014,arthropods,0.69
+Rana sierrae,Sierra Nevada Yellow-legged Frog,Amphibians,Anura,10517,6,arthropods,0.69
+Rana sierrae,Sierra Nevada Yellow-legged Frog,Amphibians,Anura,10517,6,benthic inverts,0.78
+Anaxyrus baxteri,Wyoming Toad,Amphibians,Anura,202,15,arthropods,0.69
+Anaxyrus canorus,Yosemite Toad,Amphibians,Anura,1707,2.3,arthropods,0.69
+Ambystoma californiense,California  Tiger Salamander (Central California DPS),Amphibians,Caudata,4773,31,amphibians,0.85
+Ambystoma californiense,California  Tiger Salamander (Central California DPS),Amphibians,Caudata,4773,31,arthropods,0.69
+Ambystoma californiense,California  Tiger Salamander (Central California DPS),Amphibians,Caudata,4773,31,soil inverts,0.84
+Ambystoma californiense,California  Tiger Salamander (Santa Barbara County DPS),Amphibians,Caudata,8395,31,amphibians,0.85
+Ambystoma californiense,California  Tiger Salamander (Santa Barbara County DPS),Amphibians,Caudata,8395,31,arthropods,0.69
+Ambystoma californiense,California  Tiger Salamander (Santa Barbara County DPS),Amphibians,Caudata,8395,31,soil inverts,0.84
+Ambystoma californiense,California  Tiger Salamander (Sonoma County DPS),Amphibians,Caudata,203,31,amphibians,0.85
+Ambystoma californiense,California  Tiger Salamander (Sonoma County DPS),Amphibians,Caudata,203,31,arthropods,0.69
+Ambystoma californiense,California  Tiger Salamander (Sonoma County DPS),Amphibians,Caudata,203,31,soil inverts,0.84
+Plethodon nettingi,Cheat Mountain Salamander,Amphibians,Caudata,198,1.2,arthropods,0.69
+Batrachoseps aridus,Desert Slender Salamander,Amphibians,Caudata,191,2.3,arthropods,0.69
+Ambystoma cingulatum,Frosted Flatwoods Salamander,Amphibians,Caudata,199,3.9,soil inverts,0.84
+Plethodon neomexicanus,Jemez Mountains salamander,Amphibians,Caudata,3849,8.1,arthropods,0.69
+Phaeognathus hubrichti,Red Hills Salamander,Amphibians,Caudata,192,0.24,arthropods,0.69
+Ambystoma bishopi,Reticulated Flatwoods Salamander,Amphibians,Caudata,9943,4.3,benthic inverts,0.78
+Ambystoma bishopi,Reticulated Flatwoods Salamander,Amphibians,Caudata,9943,4.3,"fish, aq amphibians",0.75
+Ambystoma bishopi,Reticulated Flatwoods Salamander,Amphibians,Caudata,9943,4.3,soil inverts,0.84
+Ambystoma macrodactylum croceum,Santa Cruz long-toed Salamander,Amphibians,Caudata,188,3,arthropods,0.69
+Ambystoma macrodactylum croceum,Santa Cruz long-toed Salamander,Amphibians,Caudata,188,3,soil inverts,0.84
+Plethodon shenandoah,Shenandoah Salamander,Amphibians,Caudata,200,1.3,arthropods,0.69
+Ambystoma tigrinum stebbinsi,Sonora Tiger Salamander,Amphibians,Caudata,201,4.6,arthropods,0.69
+Ambystoma tigrinum stebbinsi,Sonora Tiger Salamander,Amphibians,Caudata,201,4.6,benthic inverts,0.78
+Notophthalmus perstriatus,Striped newt,Amphibians,Caudata,7482,0.8,arthropods,0.69
+Notophthalmus perstriatus,Striped newt,Amphibians,Caudata,7482,0.8,benthic inverts,0.78
+Notophthalmus perstriatus,Striped newt,Amphibians,Caudata,7482,0.8,soil inverts,0.84
+Rostrhamus sociabilis plumbeus ,Everglade snail kite,Birds,Accipitriformes,1221,380,benthic inverts,0.78
+Buteo solitarius,Hawaiian hawk (='lo),Birds,Accipitriformes,8386,441,arthropods,0.69
+Buteo solitarius,Hawaiian hawk (='lo),Birds,Accipitriformes,8386,441,birds,0.68
+Buteo solitarius,Hawaiian hawk (='lo),Birds,Accipitriformes,8386,441,mammals (small),0.68
+Buteo platypterus brunnescens,Puerto Rican broad-winged hawk,Birds,Accipitriformes,127,380,amphibians,0.85
+Buteo platypterus brunnescens,Puerto Rican broad-winged hawk,Birds,Accipitriformes,127,380,arthropods,0.69
+Buteo platypterus brunnescens,Puerto Rican broad-winged hawk,Birds,Accipitriformes,127,380,birds,0.68
+Buteo platypterus brunnescens,Puerto Rican broad-winged hawk,Birds,Accipitriformes,127,380,mammals (small),0.68
+Buteo platypterus brunnescens,Puerto Rican broad-winged hawk,Birds,Accipitriformes,127,380,reptiles,0.66
+Accipiter striatus venator,Puerto Rican sharp-shinned hawk,Birds,Accipitriformes,128,82,birds,0.68
+Anas wyvilliana,Hawaiian duck (=koloa),Birds,Anseriformes,69,460,algae,0.8
+Anas wyvilliana,Hawaiian duck (=koloa),Birds,Anseriformes,69,460,benthic inverts,0.78
+Anas wyvilliana,Hawaiian duck (=koloa),Birds,Anseriformes,69,460,grass,0.79
+Anas wyvilliana,Hawaiian duck (=koloa),Birds,Anseriformes,69,460,leaves,0.85
+Anas wyvilliana,Hawaiian duck (=koloa),Birds,Anseriformes,69,460,seeds,0.093
+Anas wyvilliana,Hawaiian duck (=koloa),Birds,Anseriformes,69,460,soil inverts,0.84
+Branta (=Nesochen) sandvicensis,Hawaiian Goose,Birds,Anseriformes,73,1500,fruit,0.77
+Branta (=Nesochen) sandvicensis,Hawaiian Goose,Birds,Anseriformes,73,1500,grass,0.79
+Branta (=Nesochen) sandvicensis,Hawaiian Goose,Birds,Anseriformes,73,1500,"leaves, flowers",0.85
+Branta (=Nesochen) sandvicensis,Hawaiian Goose,Birds,Anseriformes,73,1500,seeds,0.093
+Anas laysanensis,Laysan duck,Birds,Anseriformes,70,420,algae,0.8
+Anas laysanensis,Laysan duck,Birds,Anseriformes,70,420,arthropods,0.69
+Anas laysanensis,Laysan duck,Birds,Anseriformes,70,420,grass,0.79
+Anas laysanensis,Laysan duck,Birds,Anseriformes,70,420,"leaves, flowers",0.85
+Anas laysanensis,Laysan duck,Birds,Anseriformes,70,420,seeds,0.093
+Anas laysanensis,Laysan duck,Birds,Anseriformes,70,420,zooplankton,0.83
+Somateria fischeri,Spectacled eider,Birds,Anseriformes,146,1075,aquatic plants,0.8
+Somateria fischeri,Spectacled eider,Birds,Anseriformes,146,1075,benthic inverts,0.78
+Somateria fischeri,Spectacled eider,Birds,Anseriformes,146,1075,leaves,0.85
+Polysticta stelleri ,Steller?s eider,Birds,Anseriformes,147,773,aquatic plants,0.8
+Polysticta stelleri ,Steller?s eider,Birds,Anseriformes,1473,773,benthic inverts,0.78
+Aerodramus vanikorensis bartschi,Mariana gray swiftlet,Birds,Apodiformes,148,6.4,arthropods,0.69
+Caprimulgus noctitherus,Puerto Rican nightjar,Birds,Caprimulgiformes,111,33.8,arthropods,0.69
+Sterna antillarum browni ,California least tern,Birds,Charadriiformes,96,39,fish,0.75
+Numenius borealis,Eskimo Curlew,Birds,Charadriiformes,91,270,arthropods,0.69
+Numenius borealis,Eskimo Curlew,Birds,Charadriiformes,91,270,fruit,0.77
+Himantopus mexicanus knudseni ,Hawaiian stilt,Birds,Charadriiformes,104,166,benthic inverts,0.78
+Himantopus mexicanus knudseni ,Hawaiian stilt,Birds,Charadriiformes,104,166,fish,0.75
+Sterna antillarum ,Least tern,Birds,Charadriiformes,134,39,fish,0.75
+Brachyramphus marmoratus ,Marbled murrelet,Birds,Charadriiformes,143,222,benthic inverts,0.78
+Brachyramphus marmoratus ,Marbled murrelet,Birds,Charadriiformes,143,222,fish,0.75
+Charadrius melodus,Piping plover (all birds not listed as endangered),Birds,Charadriiformes,131,40,arthropods,0.69
+Charadrius melodus,Piping plover (all birds not listed as endangered),Birds,Charadriiformes,131,40,benthic inverts,0.78
+Charadrius melodus,Piping plover (Great Lakes breeding population),Birds,Charadriiformes,130,40,arthropods,0.69
+Charadrius melodus,Piping plover (Great Lakes breeding population),Birds,Charadriiformes,130,40,benthic inverts,0.78
+Calidris canutus rufa ,Red knot,Birds,Charadriiformes,8621,90,benthic inverts,0.78
+Calidris canutus rufa ,Red knot,Birds,Charadriiformes,8621,90,filter feeders,0.82
+Sterna douglalli dougallii,Roseate tern (Caribbean population),Birds,Charadriiformes,136,100,fish,0.75
+Sterna douglalli dougallii ,Roseate tern (Northeast population),Birds,Charadriiformes,135,110,fish,0.75
+Charadrius alexandrinus nivosus,Western snowy plover,Birds,Charadriiformes,132,34,arthropods,0.69
+Synthliboramphus hypoleucus ,Xantus's Murrelet,Birds,Charadriiformes,6618,148,fish,0.75
+Synthliboramphus hypoleucus ,Xantus's Murrelet,Birds,Charadriiformes,6618,148,zooplankton,0.83
+Mycteria Americana ,Wood stork,Birds,Ciconiiformes,124,2050,fish,0.75
+Gallicolumba stairi,Friendly Ground-Dove (American Samoa DPS),Birds,Columbiformes,5170,58,arthropods,0.69
+Gallicolumba stairi,Friendly Ground-Dove (American Samoa DPS),Birds,Columbiformes,5170,58,fruit,0.77
+Gallicolumba stairi,Friendly Ground-Dove (American Samoa DPS),Birds,Columbiformes,5170,58,leaves,0.85
+Gallicolumba stairi,Friendly Ground-Dove (American Samoa DPS),Birds,Columbiformes,5170,58,seeds,0.093
+Columba inornata wetmorei,Puerto Rican plain pigeon,Birds,Columbiformes,101,494,leaves,0.85
+Columba inornata wetmorei,Puerto Rican plain pigeon,Birds,Columbiformes,101,494,seeds,0.093
+Halcyon cinnamomina cinnamomina,Guam Micronesian Kingfisher,Birds,Coraciiformes,119,50.5,arthropods,0.69
+Halcyon cinnamomina cinnamomina,Guam Micronesian Kingfisher,Birds,Coraciiformes,119,50.5,benthic inverts,0.78
+Halcyon cinnamomina cinnamomina,Guam Micronesian Kingfisher,Birds,Coraciiformes,119,50.5,birds,0.68
+Halcyon cinnamomina cinnamomina,Guam Micronesian Kingfisher,Birds,Coraciiformes,119,50.5,fish,0.75
+Halcyon cinnamomina cinnamomina,Guam Micronesian Kingfisher,Birds,Coraciiformes,119,50.5,mammals (small),0.68
+Halcyon cinnamomina cinnamomina,Guam Micronesian Kingfisher,Birds,Coraciiformes,119,50.5,reptiles,0.66
+Halcyon cinnamomina cinnamomina,Guam Micronesian Kingfisher,Birds,Coraciiformes,119,50.5,soil inverts,0.84
+Coccyzus americanus,Yellow-billed Cuckoo (western DPS),Birds,Cuculiformes,6901,52.3,amphibians,0.85
+Coccyzus americanus,Yellow-billed Cuckoo (western DPS),Birds,Cuculiformes,6901,52.3,arthropods,0.69
+Coccyzus americanus,Yellow-billed Cuckoo (western DPS),Birds,Cuculiformes,6901,52.3,birds,0.68
+Coccyzus americanus,Yellow-billed Cuckoo (western DPS),Birds,Cuculiformes,6901,52.3,carrion,0.68
+Coccyzus americanus,Yellow-billed Cuckoo (western DPS),Birds,Cuculiformes,6901,52.3,fruit,0.77
+Coccyzus americanus,Yellow-billed Cuckoo (western DPS),Birds,Cuculiformes,6901,52.3,reptiles,0.66
+Coccyzus americanus,Yellow-billed Cuckoo (western DPS),Birds,Cuculiformes,6901,52.3,seeds,0.093
+Polyborus plancus audubonii,Audubon's crested caracara,Birds,Falconiformes,125,834,amphibians,0.85
+Polyborus plancus audubonii,Audubon's crested caracara,Birds,Falconiformes,125,834,arthropods,0.69
+Polyborus plancus audubonii,Audubon's crested caracara,Birds,Falconiformes,125,834,benthic inverts,0.78
+Polyborus plancus audubonii,Audubon's crested caracara,Birds,Falconiformes,125,834,birds,0.68
+Polyborus plancus audubonii,Audubon's crested caracara,Birds,Falconiformes,125,834,carrion,0.68
+Polyborus plancus audubonii,Audubon's crested caracara,Birds,Falconiformes,125,834,fish,0.75
+Polyborus plancus audubonii,Audubon's crested caracara,Birds,Falconiformes,125,834,mammals (small),0.68
+Polyborus plancus audubonii,Audubon's crested caracara,Birds,Falconiformes,125,834,reptiles,0.66
+Polyborus plancus audubonii,Audubon's crested caracara,Birds,Falconiformes,125,834,soil inverts,0.84
+Gymnogyps californianus,California condor,Birds,Falconiformes,66,8500,carrion,0.68
+Gymnogyps californianus,"California condor (specific portions of AZ, NV and UT)",Birds,Falconiformes,1737,8500,carrion,0.68
+Falco femoralis septentrionalis,Northern aplomado falcon,Birds,Falconiformes,126,325,arthropods,0.69
+Falco femoralis septentrionalis,Northern aplomado falcon,Birds,Falconiformes,126,325,birds,0.68
+Falco femoralis septentrionalis,Northern aplomado falcon,Birds,Falconiformes,126,325,mammals (small),0.68
+Falco femoralis septentrionalis,Northern aplomado falcon,Birds,Falconiformes,126,325,reptiles,0.66
+Falco femoralis septentrionalis,"Northern aplomado falcon (AZ, NM)",Birds,Falconiformes,9122,325,arthropods,0.69
+Falco femoralis septentrionalis,"Northern aplomado falcon (AZ, NM)",Birds,Falconiformes,9122,325,birds,0.68
+Falco femoralis septentrionalis,"Northern aplomado falcon (AZ, NM)",Birds,Falconiformes,9122,325,mammals (small),0.68
+Falco femoralis septentrionalis,"Northern aplomado falcon (AZ, NM)",Birds,Falconiformes,9122,325,reptiles,0.66
+Tympanuchus cupido attwateri,Attwater's greater prairie-chicken,Birds,Galliformes,83,737,arthropods,0.69
+Tympanuchus cupido attwateri,Attwater's greater prairie-chicken,Birds,Galliformes,83,737,grass,0.79
+Tympanuchus cupido attwateri,Attwater's greater prairie-chicken,Birds,Galliformes,83,737,"leaves, flowers",0.85
+Centrocercus urophasianus,Greater sage-grouse (Columbia Basin DPS),Birds,Galliformes,4120,1300,arthropods,0.69
+Centrocercus urophasianus,Greater sage-grouse (Columbia Basin DPS),Birds,Galliformes,4120,1300,fruit,0.77
+Centrocercus urophasianus,Greater sage-grouse (Columbia Basin DPS),Birds,Galliformes,4120,1300,"leaves, flowers",0.85
+Centrocercus urophasianus,Greater sage-grouse (entire),Birds,Galliformes,8741,1200,arthropods,0.69
+Centrocercus urophasianus,Greater sage-grouse (entire),Birds,Galliformes,8741,1200,fruit,0.77
+Centrocercus urophasianus,Greater sage-grouse (entire),Birds,Galliformes,8741,1200,"leaves, flowers",0.85
+Centrocercus minimus,Gunnison sage-grouse,Birds,Galliformes,4064,1100,arthropods,0.69
+Centrocercus minimus,Gunnison sage-grouse,Birds,Galliformes,4064,1100,leaves,0.85
+Tympanuchus pallidicinctus,Lesser prairie-chicken,Birds,Galliformes,2691,628,arthropods,0.69
+Tympanuchus pallidicinctus,Lesser prairie-chicken,Birds,Galliformes,2691,628,grass,0.79
+Tympanuchus pallidicinctus,Lesser prairie-chicken,Birds,Galliformes,2691,628,"leaves, flowers",0.85
+Tympanuchus pallidicinctus,Lesser prairie-chicken,Birds,Galliformes,2691,628,seeds,0.093
+Colinus virginianus ridgwayi,Masked bobwhite quail,Birds,Galliformes,89,178,arthropods,0.69
+Colinus virginianus ridgwayi,Masked bobwhite quail,Birds,Galliformes,89,178,fruit,0.77
+Colinus virginianus ridgwayi,Masked bobwhite quail,Birds,Galliformes,89,178,grass,0.79
+Colinus virginianus ridgwayi,Masked bobwhite quail,Birds,Galliformes,89,178,leaves,0.85
+Colinus virginianus ridgwayi,Masked bobwhite quail,Birds,Galliformes,89,178,seeds,0.093
+Megapodius laperouse,Micronesian megapode,Birds,Galliformes,87,350,arthropods,0.69
+Megapodius laperouse,Micronesian megapode,Birds,Galliformes,87,350,seeds,0.093
+Rallus longirostris obsoletus,California clapper rail,Birds,Gruiformes,102,248,arthropods,0.69
+Rallus longirostris obsoletus,California clapper rail,Birds,Gruiformes,102,248,filter feeders,0.82
+Rallus owstoni,Guam rail,Birds,Gruiformes,121,67,carrion,0.68
+Rallus owstoni,Guam rail,Birds,Gruiformes,121,67,leaves,0.85
+Rallus owstoni,Guam rail,Birds,Gruiformes,121,67,reptiles,0.66
+Rallus owstoni,Guam rail,Birds,Gruiformes,121,67,seeds,0.093
+Rallus owstoni,Guam rail,Birds,Gruiformes,121,67,soil inverts,0.84
+Rallus owstoni,Guam rail (Experimental pop),Birds,Gruiformes,4889,67,carrion,0.68
+Rallus owstoni,Guam rail (Experimental pop),Birds,Gruiformes,4889,67,leaves,0.85
+Rallus owstoni,Guam rail (Experimental pop),Birds,Gruiformes,4889,67,reptiles,0.66
+Rallus owstoni,Guam rail (Experimental pop),Birds,Gruiformes,4889,67,seeds,0.093
+Rallus owstoni,Guam rail (Experimental pop),Birds,Gruiformes,4889,67,soil inverts,0.84
+Gallinula chloropus sandvicensis,Hawaiian common moorhen,Birds,Gruiformes,76,334,algae,0.8
+Gallinula chloropus sandvicensis,Hawaiian common moorhen,Birds,Gruiformes,76,334,benthic inverts,0.78
+Gallinula chloropus sandvicensis,Hawaiian common moorhen,Birds,Gruiformes,76,334,filter feeders,0.82
+Gallinula chloropus sandvicensis,Hawaiian common moorhen,Birds,Gruiformes,76,334,fruit,0.77
+Gallinula chloropus sandvicensis,Hawaiian common moorhen,Birds,Gruiformes,76,334,grass,0.79
+Gallinula chloropus sandvicensis,Hawaiian common moorhen,Birds,Gruiformes,76,334,"leaves, flowers",0.85
+Gallinula chloropus sandvicensis,Hawaiian common moorhen,Birds,Gruiformes,76,334,seeds,0.093
+Fulica americana alai,Hawaiian coot,Birds,Gruiformes,108,427,aquatic plants,0.8
+Fulica americana alai,Hawaiian coot,Birds,Gruiformes,108,427,arthropods,0.69
+Fulica americana alai,Hawaiian coot,Birds,Gruiformes,108,427,benthic inverts,0.78
+Fulica americana alai,Hawaiian coot,Birds,Gruiformes,108,427,fish,0.75
+Rallus longirostris levipes ,Light-footed clapper rail,Birds,Gruiformes,103,250,benthic inverts,0.78
+Gallinula chloropus guami,Mariana common moorhen,Birds,Gruiformes,120,334,aquatic plants,0.8
+Gallinula chloropus guami,Mariana common moorhen,Birds,Gruiformes,120,334,arthropods,0.69
+Gallinula chloropus guami,Mariana common moorhen,Birds,Gruiformes,120,334,benthic inverts,0.78
+Gallinula chloropus guami,Mariana common moorhen,Birds,Gruiformes,120,334,grass,0.79
+Gallinula chloropus guami,Mariana common moorhen,Birds,Gruiformes,120,334,"leaves, flowers",0.85
+Grus canadensis pulla,Mississippi sandhill crane,Birds,Gruiformes,110,2450,amphibians,0.85
+Grus canadensis pulla,Mississippi sandhill crane,Birds,Gruiformes,110,2450,arthropods,0.69
+Grus canadensis pulla,Mississippi sandhill crane,Birds,Gruiformes,110,2450,benthic inverts,0.78
+Grus canadensis pulla,Mississippi sandhill crane,Birds,Gruiformes,110,2450,birds,0.68
+Grus canadensis pulla,Mississippi sandhill crane,Birds,Gruiformes,110,2450,fruit,0.77
+Grus canadensis pulla,Mississippi sandhill crane,Birds,Gruiformes,110,2450,grass,0.79
+Grus canadensis pulla,Mississippi sandhill crane,Birds,Gruiformes,110,2450,"leaves, flowers",0.85
+Grus canadensis pulla,Mississippi sandhill crane,Birds,Gruiformes,110,2450,mammals (small),0.68
+Grus canadensis pulla,Mississippi sandhill crane,Birds,Gruiformes,110,2450,reptiles,0.66
+Grus canadensis pulla,Mississippi sandhill crane,Birds,Gruiformes,110,2450,seeds,0.093
+Grus canadensis pulla,Mississippi sandhill crane,Birds,Gruiformes,110,2450,soil inverts,0.84
+Porzana tabuensis,Spotless Crake (American Samoa pop),Birds,Gruiformes,1353,44,aquatic plants,0.8
+Porzana tabuensis,Spotless Crake (American Samoa pop),Birds,Gruiformes,1353,44,arthropods,0.69
+Porzana tabuensis,Spotless Crake (American Samoa pop),Birds,Gruiformes,1353,44,benthic inverts,0.78
+Porzana tabuensis,Spotless Crake (American Samoa pop),Birds,Gruiformes,1353,44,fruit,0.77
+Porzana tabuensis,Spotless Crake (American Samoa pop),Birds,Gruiformes,1353,44,seeds,0.093
+Porzana tabuensis,Spotless Crake (American Samoa pop),Birds,Gruiformes,1353,44,soil inverts,0.84
+Grus americana,Whooping crane,Birds,Gruiformes,67,5400,amphibians,0.85
+Grus americana,Whooping crane,Birds,Gruiformes,67,5400,arthropods,0.69
+Grus americana,Whooping crane,Birds,Gruiformes,67,5400,benthic inverts,0.78
+Grus americana,Whooping crane,Birds,Gruiformes,67,5400,birds,0.68
+Grus americana,Whooping crane,Birds,Gruiformes,67,5400,fish,0.75
+Grus americana,Whooping crane,Birds,Gruiformes,67,5400,fruit,0.77
+Grus americana,Whooping crane,Birds,Gruiformes,67,5400,mammals (small),0.68
+Grus americana,Whooping crane,Birds,Gruiformes,67,5400,seeds,0.093
+Grus americana,"Whooping crane (AL, AR, GA, IL, IN, IA, KY, LA, MI, MN, MS, MO, NC, OH, SC, TN, VA, WI, WV)",Birds,Gruiformes,7342,5400,amphibians,0.85
+Grus americana,"Whooping crane (AL, AR, GA, IL, IN, IA, KY, LA, MI, MN, MS, MO, NC, OH, SC, TN, VA, WI, WV)",Birds,Gruiformes,7342,5400,arthropods,0.69
+Grus americana,"Whooping crane (AL, AR, GA, IL, IN, IA, KY, LA, MI, MN, MS, MO, NC, OH, SC, TN, VA, WI, WV)",Birds,Gruiformes,7342,5400,benthic inverts,0.78
+Grus americana,"Whooping crane (AL, AR, GA, IL, IN, IA, KY, LA, MI, MN, MS, MO, NC, OH, SC, TN, VA, WI, WV)",Birds,Gruiformes,7342,5400,birds,0.68
+Grus americana,"Whooping crane (AL, AR, GA, IL, IN, IA, KY, LA, MI, MN, MS, MO, NC, OH, SC, TN, VA, WI, WV)",Birds,Gruiformes,7342,5400,fish,0.75
+Grus americana,"Whooping crane (AL, AR, GA, IL, IN, IA, KY, LA, MI, MN, MS, MO, NC, OH, SC, TN, VA, WI, WV)",Birds,Gruiformes,7342,5400,fruit,0.77
+Grus americana,"Whooping crane (AL, AR, GA, IL, IN, IA, KY, LA, MI, MN, MS, MO, NC, OH, SC, TN, VA, WI, WV)",Birds,Gruiformes,7342,5400,mammals (small),0.68
+Grus americana,"Whooping crane (AL, AR, GA, IL, IN, IA, KY, LA, MI, MN, MS, MO, NC, OH, SC, TN, VA, WI, WV)",Birds,Gruiformes,7342,5400,seeds,0.093
+Grus americana,"Whooping crane (CO, ID, FL, NM, UT, and the western half of Wyoming)",Birds,Gruiformes,4679,5400,amphibians,0.85
+Grus americana,"Whooping crane (CO, ID, FL, NM, UT, and the western half of Wyoming)",Birds,Gruiformes,4679,5400,arthropods,0.69
+Grus americana,"Whooping crane (CO, ID, FL, NM, UT, and the western half of Wyoming)",Birds,Gruiformes,4679,5400,benthic inverts,0.78
+Grus americana,"Whooping crane (CO, ID, FL, NM, UT, and the western half of Wyoming)",Birds,Gruiformes,4679,5400,birds,0.68
+Grus americana,"Whooping crane (CO, ID, FL, NM, UT, and the western half of Wyoming)",Birds,Gruiformes,4679,5400,fish,0.75
+Grus americana,"Whooping crane (CO, ID, FL, NM, UT, and the western half of Wyoming)",Birds,Gruiformes,4679,5400,fruit,0.77
+Grus americana,"Whooping crane (CO, ID, FL, NM, UT, and the western half of Wyoming)",Birds,Gruiformes,4679,5400,mammals (small),0.68
+Grus americana,"Whooping crane (CO, ID, FL, NM, UT, and the western half of Wyoming)",Birds,Gruiformes,4679,5400,seeds,0.093
+Grus americana,Whooping crane (Southwestern LA),Birds,Gruiformes,10124,5400,amphibians,0.85
+Grus americana,Whooping crane (Southwestern LA),Birds,Gruiformes,10124,5400,arthropods,0.69
+Grus americana,Whooping crane (Southwestern LA),Birds,Gruiformes,10124,5400,benthic inverts,0.78
+Grus americana,Whooping crane (Southwestern LA),Birds,Gruiformes,10124,5400,birds,0.68
+Grus americana,Whooping crane (Southwestern LA),Birds,Gruiformes,10124,5400,fish,0.75
+Grus americana,Whooping crane (Southwestern LA),Birds,Gruiformes,10124,5400,fruit,0.77
+Grus americana,Whooping crane (Southwestern LA),Birds,Gruiformes,10124,5400,mammals (small),0.68
+Grus americana,Whooping crane (Southwestern LA),Birds,Gruiformes,10124,5400,seeds,0.093
+Rallus longirostris yumanensis ,Yuma clapper rail,Birds,Gruiformes,84,226,benthic inverts,0.78
+Rallus longirostris yumanensis ,Yuma clapper rail,Birds,Gruiformes,84,226,filter feeders,0.82
+Rallus longirostris yumanensis ,Yuma clapper rail,Birds,Gruiformes,84,226,fish,0.75
+Psittirostra psittacea,`O`u (honeycreeper),Birds,Passeriformes,78,20,arthropods,0.69
+Psittirostra psittacea,`O`u (honeycreeper),Birds,Passeriformes,78,20,fruit,0.77
+Psittirostra psittacea,`O`u (honeycreeper),Birds,Passeriformes,78,20,leaves,0.85
+Psittirostra psittacea,`O`u (honeycreeper),Birds,Passeriformes,78,20,nectar,0.7
+Loxops caeruleirostris,Akekee,Birds,Passeriformes,6522,9.5,arthropods,0.69
+Hemignathus munroi,Akiapola`au (honeycreeper),Birds,Passeriformes,65,28,arthropods,0.69
+Hemignathus munroi,Akiapola`au (honeycreeper),Birds,Passeriformes,65,28,nectar,0.7
+Oreomystis bairdi,Akikiki,Birds,Passeriformes,4136,11.5,arthropods,0.69
+Oreomystis bairdi,Akikiki,Birds,Passeriformes,4136,11.5,fruit,0.77
+Oreomystis bairdi,Akikiki,Birds,Passeriformes,4136,11.5,nectar,0.7
+Vermivora bachmanii,Bachman's warbler (=wood),Birds,Passeriformes,93,5.1,arthropods,0.69
+Vireo atricapilla,Black-capped vireo,Birds,Passeriformes,138,9,arthropods,0.69
+Ammodramus maritimus mirabilis,Cape Sable seaside sparrow,Birds,Passeriformes,85,19.8,arthropods,0.69
+Ammodramus maritimus mirabilis,Cape Sable seaside sparrow,Birds,Passeriformes,85,19.8,benthic inverts,0.78
+Ammodramus maritimus mirabilis,Cape Sable seaside sparrow,Birds,Passeriformes,85,19.8,seeds,0.093
+Polioptila californica californica,Coastal California gnatcatcher,Birds,Passeriformes,145,6,arthropods,0.69
+Polioptila californica californica,Coastal California gnatcatcher,Birds,Passeriformes,145,6,fruit,0.77
+Polioptila californica californica,Coastal California gnatcatcher,Birds,Passeriformes,145,6,seeds,0.093
+Palmeria dolei,Crested honeycreeper,Birds,Passeriformes,74,24,arthropods,0.69
+Palmeria dolei,Crested honeycreeper,Birds,Passeriformes,74,24,nectar,0.7
+Dendroica angelae,Elfin-woods warbler,Birds,Passeriformes,4237,6.9,arthropods,0.69
+Ammodramus savannarum floridanus,Florida grasshopper sparrow,Birds,Passeriformes,133,13.4,arthropods,0.69
+Ammodramus savannarum floridanus,Florida grasshopper sparrow,Birds,Passeriformes,133,13.4,seeds,0.093
+Aphelocoma coerulescens,Florida scrub-jay,Birds,Passeriformes,140,59,amphibians,0.85
+Aphelocoma coerulescens,Florida scrub-jay,Birds,Passeriformes,140,59,arthropods,0.69
+Aphelocoma coerulescens,Florida scrub-jay,Birds,Passeriformes,140,59,birds,0.68
+Aphelocoma coerulescens,Florida scrub-jay,Birds,Passeriformes,140,59,fruit,0.77
+Aphelocoma coerulescens,Florida scrub-jay,Birds,Passeriformes,140,59,mammals (small),0.68
+Aphelocoma coerulescens,Florida scrub-jay,Birds,Passeriformes,140,59,reptiles,0.66
+Aphelocoma coerulescens,Florida scrub-jay,Birds,Passeriformes,140,59,seeds,0.093
+Dendroica chrysoparia,Golden-cheeked warbler (=wood),Birds,Passeriformes,139,9.4,arthropods,0.69
+Loxops coccineus coccineus,Hawaii akepa (honeycreeper),Birds,Passeriformes,97,10,arthropods,0.69
+Loxops coccineus coccineus,Hawaii akepa (honeycreeper),Birds,Passeriformes,97,10,fruit,0.77
+Loxops coccineus coccineus,Hawaii akepa (honeycreeper),Birds,Passeriformes,97,10,leaves,0.85
+Loxops coccineus coccineus,Hawaii akepa (honeycreeper),Birds,Passeriformes,97,10,nectar,0.7
+Oreomystis mana,Hawaii creeper,Birds,Passeriformes,112,13.7,arthropods,0.69
+Pipilo crissalis eremophilus,Inyo California towhee,Birds,Passeriformes,137,46.3,arthropods,0.69
+Pipilo crissalis eremophilus,Inyo California towhee,Birds,Passeriformes,137,46.3,fruit,0.77
+Pipilo crissalis eremophilus,Inyo California towhee,Birds,Passeriformes,137,46.3,seeds,0.093
+Moho braccatus,Kauai  `O`o (honeyeater),Birds,Passeriformes,77,38,arthropods,0.69
+Moho braccatus,Kauai  `O`o (honeyeater),Birds,Passeriformes,77,38,fruit,0.77
+Moho braccatus,Kauai  `O`o (honeyeater),Birds,Passeriformes,77,38,nectar,0.7
+Moho braccatus,Kauai  `O`o (honeyeater),Birds,Passeriformes,77,38,soil inverts,0.84
+Hemignathus procerus,Kauai Akialoa (honeycreeper),Birds,Passeriformes,64,34,arthropods,0.69
+Hemignathus procerus,Kauai Akialoa (honeycreeper),Birds,Passeriformes,64,34,nectar,0.7
+Hemignathus hanapepe,Kauai Nukupu`u (honeycreeper),Birds,Passeriformes,100,23,arthropods,0.69
+Hemignathus hanapepe,Kauai Nukupu`u (honeycreeper),Birds,Passeriformes,100,23,nectar,0.7
+Setophaga kirtlandii (= Dendroica kirtlandii),Kirtland's warbler,Birds,Passeriformes,94,12.3,arthropods,0.69
+Setophaga kirtlandii (= Dendroica kirtlandii),Kirtland's warbler,Birds,Passeriformes,94,12.3,fruit,0.77
+Myadestes myadestinus,Large Kauai thrush (=kamao),Birds,Passeriformes,105,50,arthropods,0.69
+Myadestes myadestinus,Large Kauai thrush (=kamao),Birds,Passeriformes,105,50,fruit,0.77
+Myadestes myadestinus,Large Kauai thrush (=kamao),Birds,Passeriformes,105,50,soil inverts,0.84
+Telespyza cantans,Laysan finch (honeycreeper),Birds,Passeriformes,71,19,arthropods,0.69
+Telespyza cantans,Laysan finch (honeycreeper),Birds,Passeriformes,71,19,carrion,0.68
+Telespyza cantans,Laysan finch (honeycreeper),Birds,Passeriformes,71,19,grass,0.79
+Telespyza cantans,Laysan finch (honeycreeper),Birds,Passeriformes,71,19,"leaves, flowers",0.85
+Telespyza cantans,Laysan finch (honeycreeper),Birds,Passeriformes,71,19,seeds,0.093
+Vireo bellii pusillus,Least Bell's vireo,Birds,Passeriformes,123,7.4,arthropods,0.69
+Corvus kubaryi,Mariana crow (=aga),Birds,Passeriformes,118,240,arthropods,0.69
+Corvus kubaryi,Mariana crow (=aga),Birds,Passeriformes,118,240,fruit,0.77
+Corvus kubaryi,Mariana crow (=aga),Birds,Passeriformes,118,240,grass,0.79
+Corvus kubaryi,Mariana crow (=aga),Birds,Passeriformes,118,240,leaves,0.85
+Corvus kubaryi,Mariana crow (=aga),Birds,Passeriformes,118,240,mammals (small),0.68
+Corvus kubaryi,Mariana crow (=aga),Birds,Passeriformes,118,240,reptiles,0.66
+Corvus kubaryi,Mariana crow (=aga),Birds,Passeriformes,118,240,seeds,0.093
+Loxops coccineus ochraceus,Maui akepa (honeycreeper),Birds,Passeriformes,98,10,arthropods,0.69
+Loxops coccineus ochraceus,Maui akepa (honeycreeper),Birds,Passeriformes,98,10,nectar,0.7
+Hemignathus affinis,Maui Nukupu`u (honeycreeper),Birds,Passeriformes,11333,23,arthropods,0.69
+Hemignathus affinis,Maui Nukupu`u (honeycreeper),Birds,Passeriformes,11333,23,nectar,0.7
+Pseudonestor xanthophrys,Maui parrotbill (honeycreeper),Birds,Passeriformes,81,20,arthropods,0.69
+Paroreomyza flammea,Molokai creeper,Birds,Passeriformes,109,14,arthropods,0.69
+Myadestes lanaiensis rutha,Molokai thrush,Birds,Passeriformes,106,50,arthropods,0.69
+Myadestes lanaiensis rutha,Molokai thrush,Birds,Passeriformes,106,50,fruit,0.77
+Acrocephalus luscinia,Nightingale reed warbler (old world warbler),Birds,Passeriformes,1222,34.4,arthropods,0.69
+Acrocephalus luscinia,Nightingale reed warbler (old world warbler),Birds,Passeriformes,1222,34.4,reptiles,0.66
+Acrocephalus luscinia,Nightingale reed warbler (old world warbler),Birds,Passeriformes,1222,34.4,soil inverts,0.84
+Telespyza ultima,Nihoa finch (honeycreeper),Birds,Passeriformes,72,19,arthropods,0.69
+Telespyza ultima,Nihoa finch (honeycreeper),Birds,Passeriformes,72,19,flowers,0.85
+Telespyza ultima,Nihoa finch (honeycreeper),Birds,Passeriformes,72,19,seeds,0.093
+Acrocephalus familiaris kingi,Nihoa millerbird (old world warbler),Birds,Passeriformes,75,15,arthropods,0.69
+Paroreomyza maculata,Oahu creeper,Birds,Passeriformes,99,14,arthropods,0.69
+Chasiempis sandwichensis ibidis,Oahu elepaio,Birds,Passeriformes,150,12.5,arthropods,0.69
+Loxioides bailleui,Palila (honeycreeper),Birds,Passeriformes,79,38,arthropods,0.69
+Loxioides bailleui,Palila (honeycreeper),Birds,Passeriformes,79,38,fruit,0.77
+Loxioides bailleui,Palila (honeycreeper),Birds,Passeriformes,79,38,"leaves, flowers",0.85
+Loxioides bailleui,Palila (honeycreeper),Birds,Passeriformes,79,38,seeds,0.093
+Melamprosops phaeosoma,Po`ouli (honeycreeper),Birds,Passeriformes,113,26,arthropods,0.69
+Melamprosops phaeosoma,Po`ouli (honeycreeper),Birds,Passeriformes,113,26,soil inverts,0.84
+Zosterops rotensis,Rota bridled white-eye,Birds,Passeriformes,1241,9.2,arthropods,0.69
+Zosterops rotensis,Rota bridled white-eye,Birds,Passeriformes,1241,9.2,fruit,0.77
+Zosterops rotensis,Rota bridled white-eye,Birds,Passeriformes,1241,9.2,nectar,0.7
+Zosterops rotensis,Rota bridled white-eye,Birds,Passeriformes,1241,9.2,seeds,0.093
+Lanius ludovicianus mearnsi,San Clemente loggerhead shrike,Birds,Passeriformes,115,45,arthropods,0.69
+Lanius ludovicianus mearnsi,San Clemente loggerhead shrike,Birds,Passeriformes,115,45,birds,0.68
+Lanius ludovicianus mearnsi,San Clemente loggerhead shrike,Birds,Passeriformes,115,45,mammals (small),0.68
+Lanius ludovicianus mearnsi,San Clemente loggerhead shrike,Birds,Passeriformes,115,45,reptiles,0.66
+Amphispiza belli clementeae,San Clemente sage sparrow,Birds,Passeriformes,116,16.8,arthropods,0.69
+Amphispiza belli clementeae,San Clemente sage sparrow,Birds,Passeriformes,116,16.8,fruit,0.77
+Amphispiza belli clementeae,San Clemente sage sparrow,Birds,Passeriformes,116,16.8,grass,0.79
+Amphispiza belli clementeae,San Clemente sage sparrow,Birds,Passeriformes,116,16.8,"leaves, flowers",0.85
+Amphispiza belli clementeae,San Clemente sage sparrow,Birds,Passeriformes,116,16.8,seeds,0.093
+Myadestes palmeri,Small Kauai thrush (=puaiohi),Birds,Passeriformes,86,37,arthropods,0.69
+Myadestes palmeri,Small Kauai thrush (=puaiohi),Birds,Passeriformes,86,37,fruit,0.77
+Myadestes palmeri,Small Kauai thrush (=puaiohi),Birds,Passeriformes,86,37,soil inverts,0.84
+Empidonax traillii extimus,Southwestern willow flycatcher,Birds,Passeriformes,149,12,arthropods,0.69
+Anthus spragueii,Sprague's pipit,Birds,Passeriformes,9966,18.2,arthropods,0.69
+Anthus spragueii,Sprague's pipit,Birds,Passeriformes,9966,18.2,seeds,0.093
+Eremophila alpestris strigata,Streaked Horned lark,Birds,Passeriformes,4296,30.8,arthropods,0.69
+Eremophila alpestris strigata,Streaked Horned lark,Birds,Passeriformes,4296,30.8,seeds,0.093
+Agelaius xanthomus,Yellow-shouldered blackbird,Birds,Passeriformes,117,35.5,arthropods,0.69
+Agelaius xanthomus,Yellow-shouldered blackbird,Birds,Passeriformes,117,35.5,fruit,0.77
+Agelaius xanthomus,Yellow-shouldered blackbird,Birds,Passeriformes,117,35.5,nectar,0.7
+Agelaius xanthomus,Yellow-shouldered blackbird,Birds,Passeriformes,117,35.5,seeds,0.093
+Campephilus principalis,Ivory-billed woodpecker,Birds,Piciformes,95,454,arthropods,0.69
+Campephilus principalis,Ivory-billed woodpecker,Birds,Piciformes,95,454,fruit,0.77
+Campephilus principalis,Ivory-billed woodpecker,Birds,Piciformes,95,454,seeds,0.093
+Picoides borealis,Red-cockaded woodpecker,Birds,Piciformes,107,40,arthropods,0.69
+Picoides borealis,Red-cockaded woodpecker,Birds,Piciformes,107,40,fruit,0.77
+Picoides borealis,Red-cockaded woodpecker,Birds,Piciformes,107,40,seeds,0.093
+Oceanodroma castro ,Band-rumped storm-petrel,Birds,Procellariiformes,2859,31.5,benthic inverts,0.78
+Oceanodroma castro ,Band-rumped storm-petrel,Birds,Procellariiformes,2859,31.5,fish,0.75
+Pterodroma phaeopygia sandwichensis ,Hawaiian Dark rumped petrel,Birds,Procellariiformes,82,434,benthic inverts,0.78
+Pterodroma phaeopygia sandwichensis ,Hawaiian Dark rumped petrel,Birds,Procellariiformes,82,434,fish,0.75
+Puffinus auricularis newelli ,Newell?s townsend?s shearwater,Birds,Procellariiformes,114,454,fish,0.75
+Phoebastria albatrus ,Short tailed albatross,Birds,Procellariiformes,88,4309,benthic inverts,0.78
+Phoebastria albatrus ,Short tailed albatross,Birds,Procellariiformes,88,4309,fish,0.75
+Amazona vittata,Puerto Rican parrot,Birds,Psittaciformes,80,270,fruit,0.77
+Amazona vittata,Puerto Rican parrot,Birds,Psittaciformes,80,270,leaves ,0.85
+Amazona vittata,Puerto Rican parrot,Birds,Psittaciformes,80,270,seeds,0.093
+Amazona viridigenalis,Red-crowned parrot,Birds,Psittaciformes,10021,293,fruit,0.77
+Amazona viridigenalis,Red-crowned parrot,Birds,Psittaciformes,10021,293,"leaves, flowers",0.85
+Amazona viridigenalis,Red-crowned parrot,Birds,Psittaciformes,10021,293,seeds,0.093
+Strix occidentalis lucida,Mexican spotted owl,Birds,Strigiformes,129,518,arthropods,0.69
+Strix occidentalis lucida,Mexican spotted owl,Birds,Strigiformes,129,518,birds,0.68
+Strix occidentalis lucida,Mexican spotted owl,Birds,Strigiformes,129,518,mammals (small),0.68
+Strix occidentalis lucida,Mexican spotted owl,Birds,Strigiformes,129,518,reptiles,0.66
+Strix occidentalis caurina,Northern spotted owl,Birds,Strigiformes,142,430,arthropods,0.69
+Strix occidentalis caurina,Northern spotted owl,Birds,Strigiformes,142,430,birds,0.68
+Strix occidentalis caurina,Northern spotted owl,Birds,Strigiformes,142,430,mammals (small),0.68
+Odocoileus virginianus leucurus,Columbian White-tailed Deer (Columbia River DPS),Mammals,Artiodactyla,3,45000,grass,0.79
+Odocoileus virginianus leucurus,Columbian White-tailed Deer (Columbia River DPS),Mammals,Artiodactyla,3,45000,leaves,0.85
+Odocoileus virginianus clavium,Key Deer,Mammals,Artiodactyla,4,28000,grass,0.79
+Odocoileus virginianus clavium,Key Deer,Mammals,Artiodactyla,4,28000,"leaves, flowers",0.85
+Ovis canadensis nelsoni,Peninsular Bighorn Sheep (Peninsular CA Population),Mammals,Artiodactyla,56,48000,grass,0.79
+Ovis canadensis nelsoni,Peninsular Bighorn Sheep (Peninsular CA Population),Mammals,Artiodactyla,56,48000,leaves,0.85
+Ovis canadensis sierrae,Sierra Nevada Bighorn Sheep,Mammals,Artiodactyla,57,61000,grass,0.79
+Antilocapra americana sonoriensis,Sonoran Pronghorn,Mammals,Artiodactyla,9,47630,fruit,0.77
+Antilocapra americana sonoriensis,Sonoran Pronghorn,Mammals,Artiodactyla,9,47630,leaves ,0.85
+Antilocapra americana sonoriensis,Sonoran Pronghorn,Mammals,Artiodactyla,10141,47630,fruit,0.77
+Antilocapra americana sonoriensis,Sonoran Pronghorn,Mammals,Artiodactyla,10141,47630,leaves ,0.85
+Bison bison athabascae,Wood Bison,Mammals,Artiodactyla,6654,350000,grass,0.79
+Bison bison athabascae,Wood Bison,Mammals,Artiodactyla,6654,350000,leaves,0.85
+Bison bison athabascae,"Wood Bison (Experimental Population, Alaska)",Mammals,Artiodactyla,FWS001,350000,grass,0.79
+Bison bison athabascae,"Wood Bison (Experimental Population, Alaska)",Mammals,Artiodactyla,FWS001,350000,leaves,0.85
+Rangifer tarandus caribou,Woodland Caribou (Selkirk Mountain Population),Mammals,Artiodactyla,33,135000,leaves,0.85
+Mustela nigripes,Black-footed Ferret,Mammals,Carnivora,5,645,arthropods,0.69
+Mustela nigripes,Black-footed Ferret,Mammals,Carnivora,5,645,birds,0.68
+Mustela nigripes,Black-footed Ferret,Mammals,Carnivora,5,645,mammals (small),0.68
+Mustela nigripes,Black-footed Ferret,Mammals,Carnivora,7572,645,arthropods,0.69
+Mustela nigripes,Black-footed Ferret,Mammals,Carnivora,7572,645,birds,0.68
+Mustela nigripes,Black-footed Ferret,Mammals,Carnivora,7572,645,mammals (small),0.68
+Lynx canadensis,Canada Lynx,Mammals,Carnivora,24,8000,birds,0.68
+Lynx canadensis,Canada Lynx,Mammals,Carnivora,24,8000,carrion,0.68
+Lynx canadensis,Canada Lynx,Mammals,Carnivora,24,8000,fish,0.75
+Lynx canadensis,Canada Lynx,Mammals,Carnivora,24,8000,mammals (large),0.68
+Lynx canadensis,Canada Lynx,Mammals,Carnivora,24,8000,mammals (small),0.68
+Martes pennanti,Fisher (West Coast DPS),Mammals,Carnivora,4648,1500,arthropods,0.69
+Martes pennanti,Fisher (West Coast DPS),Mammals,Carnivora,4648,1500,birds,0.68
+Martes pennanti,Fisher (West Coast DPS),Mammals,Carnivora,4648,1500,mammals (small),0.68
+Martes pennanti,Fisher (West Coast DPS),Mammals,Carnivora,4648,1500,reptiles,0.66
+Puma(=Felis)  concolor coryi,Florida Panther,Mammals,Carnivora,8,34000,mammals (large),0.68
+Puma(=Felis)  concolor coryi,Florida Panther,Mammals,Carnivora,8,34000,reptiles,0.66
+Canis lupus,Gray Wolf,Mammals,Carnivora,11,17700,birds,0.68
+Canis lupus,Gray Wolf,Mammals,Carnivora,11,17700,fish,0.75
+Canis lupus,Gray Wolf,Mammals,Carnivora,11,17700,fruit,0.77
+Canis lupus,Gray Wolf,Mammals,Carnivora,11,17700,mammals (large),0.68
+Canis lupus,Gray Wolf,Mammals,Carnivora,11,17700,mammals (small),0.68
+Canis lupus,Gray Wolf (MN),Mammals,Carnivora,12,17700,birds,0.68
+Canis lupus,Gray Wolf (MN),Mammals,Carnivora,12,17700,fish,0.75
+Canis lupus,Gray Wolf (MN),Mammals,Carnivora,12,17700,fruit,0.77
+Canis lupus,Gray Wolf (MN),Mammals,Carnivora,12,17700,mammals (large),0.68
+Canis lupus,Gray Wolf (MN),Mammals,Carnivora,12,17700,mammals (small),0.68
+Canis lupus,Gray Wolf (Wyoming),Mammals,Carnivora,10010,17700,birds,0.68
+Canis lupus,Gray Wolf (Wyoming),Mammals,Carnivora,10010,17700,fish,0.75
+Canis lupus,Gray Wolf (Wyoming),Mammals,Carnivora,10010,17700,fruit,0.77
+Canis lupus,Gray Wolf (Wyoming),Mammals,Carnivora,10010,17700,mammals (large),0.68
+Canis lupus,Gray Wolf (Wyoming),Mammals,Carnivora,10010,17700,mammals (small),0.68
+Ursus arctos horribilis,Grizzly Bear (Cabinet-Yaak Recovery Zone Population),Mammals,Carnivora,7753,113000,arthropods,0.69
+Ursus arctos horribilis,Grizzly Bear (Cabinet-Yaak Recovery Zone Population),Mammals,Carnivora,7753,113000,carrion,0.68
+Ursus arctos horribilis,Grizzly Bear (Cabinet-Yaak Recovery Zone Population),Mammals,Carnivora,7753,113000,fish,0.75
+Ursus arctos horribilis,Grizzly Bear (Cabinet-Yaak Recovery Zone Population),Mammals,Carnivora,7753,113000,fruit,0.77
+Ursus arctos horribilis,Grizzly Bear (Cabinet-Yaak Recovery Zone Population),Mammals,Carnivora,7753,113000,grass,0.79
+Ursus arctos horribilis,Grizzly Bear (Cabinet-Yaak Recovery Zone Population),Mammals,Carnivora,7753,113000,leaves (surrogate for fungi),0.85
+Ursus arctos horribilis,Grizzly Bear (Cabinet-Yaak Recovery Zone Population),Mammals,Carnivora,7753,113000,mammals (large),0.68
+Ursus arctos horribilis,Grizzly Bear (Cabinet-Yaak Recovery Zone Population),Mammals,Carnivora,7753,113000,mammals (small),0.68
+Ursus arctos horribilis,"Grizzly Bear (ID, MT)",Mammals,Carnivora,1302,113000,arthropods,0.69
+Ursus arctos horribilis,"Grizzly Bear (ID, MT)",Mammals,Carnivora,1302,113000,carrion,0.68
+Ursus arctos horribilis,"Grizzly Bear (ID, MT)",Mammals,Carnivora,1302,113000,fish,0.75
+Ursus arctos horribilis,"Grizzly Bear (ID, MT)",Mammals,Carnivora,1302,113000,fruit,0.77
+Ursus arctos horribilis,"Grizzly Bear (ID, MT)",Mammals,Carnivora,1302,113000,grass,0.79
+Ursus arctos horribilis,"Grizzly Bear (ID, MT)",Mammals,Carnivora,1302,113000,leaves (surrogate for fungi),0.85
+Ursus arctos horribilis,"Grizzly Bear (ID, MT)",Mammals,Carnivora,1302,113000,mammals (large),0.68
+Ursus arctos horribilis,"Grizzly Bear (ID, MT)",Mammals,Carnivora,1302,113000,mammals (small),0.68
+Ursus arctos horribilis,Grizzly Bear (lower 48 states),Mammals,Carnivora,2,113000,arthropods,0.69
+Ursus arctos horribilis,Grizzly Bear (lower 48 states),Mammals,Carnivora,2,113000,carrion,0.68
+Ursus arctos horribilis,Grizzly Bear (lower 48 states),Mammals,Carnivora,2,113000,fish,0.75
+Ursus arctos horribilis,Grizzly Bear (lower 48 states),Mammals,Carnivora,2,113000,fruit,0.77
+Ursus arctos horribilis,Grizzly Bear (lower 48 states),Mammals,Carnivora,2,113000,grass,0.79
+Ursus arctos horribilis,Grizzly Bear (lower 48 states),Mammals,Carnivora,2,113000,leaves (surrogate for fungi),0.85
+Ursus arctos horribilis,Grizzly Bear (lower 48 states),Mammals,Carnivora,2,113000,mammals (large),0.68
+Ursus arctos horribilis,Grizzly Bear (lower 48 states),Mammals,Carnivora,2,113000,mammals (small),0.68
+Ursus arctos horribilis,Grizzly Bear (Selkirk Recovery Zone Population),Mammals,Carnivora,4110,113000,arthropods,0.69
+Ursus arctos horribilis,Grizzly Bear (Selkirk Recovery Zone Population),Mammals,Carnivora,4110,113000,carrion,0.68
+Ursus arctos horribilis,Grizzly Bear (Selkirk Recovery Zone Population),Mammals,Carnivora,4110,113000,fish,0.75
+Ursus arctos horribilis,Grizzly Bear (Selkirk Recovery Zone Population),Mammals,Carnivora,4110,113000,fruit,0.77
+Ursus arctos horribilis,Grizzly Bear (Selkirk Recovery Zone Population),Mammals,Carnivora,4110,113000,grass,0.79
+Ursus arctos horribilis,Grizzly Bear (Selkirk Recovery Zone Population),Mammals,Carnivora,4110,113000,leaves (surrogate for fungi),0.85
+Ursus arctos horribilis,Grizzly Bear (Selkirk Recovery Zone Population),Mammals,Carnivora,4110,113000,mammals (large),0.68
+Ursus arctos horribilis,Grizzly Bear (Selkirk Recovery Zone Population),Mammals,Carnivora,4110,113000,mammals (small),0.68
+Herpailurus (=Felis) yagouaroundi cacomitli,Gulf Coast Jaguarundi (TX population),Mammals,Carnivora,22,9100,birds,0.68
+Herpailurus (=Felis) yagouaroundi cacomitli,Gulf Coast Jaguarundi (TX population),Mammals,Carnivora,22,9100,mammals (small),0.68
+Herpailurus (=Felis) yagouaroundi cacomitli,Gulf Coast Jaguarundi (TX population),Mammals,Carnivora,22,9100,reptiles,0.66
+Panthera onca,Jaguar,Mammals,Carnivora,18,45000,birds,0.68
+Panthera onca,Jaguar,Mammals,Carnivora,18,45000,fish,0.75
+Panthera onca,Jaguar,Mammals,Carnivora,18,45000,mammals (small),0.68
+Panthera onca,Jaguar,Mammals,Carnivora,18,45000,reptiles,0.66
+Ursus americanus luteolus,Louisiana Black Bear,Mammals,Carnivora,36,92000,arthropods,0.69
+Ursus americanus luteolus,Louisiana Black Bear,Mammals,Carnivora,36,92000,carrion,0.68
+Ursus americanus luteolus,Louisiana Black Bear,Mammals,Carnivora,36,92000,fruit,0.77
+Ursus americanus luteolus,Louisiana Black Bear,Mammals,Carnivora,36,92000,grass,0.79
+Ursus americanus luteolus,Louisiana Black Bear,Mammals,Carnivora,36,92000,seeds,0.093
+Canis lupus baileyi,Mexican gray wolf,Mammals,Carnivora,13,23000,birds,0.68
+Canis lupus baileyi,Mexican gray wolf,Mammals,Carnivora,13,23000,mammals (large),0.68
+Canis lupus baileyi,Mexican gray wolf,Mammals,Carnivora,13,23000,mammals (small),0.68
+Canis lupus baileyi,Mexican gray wolf (AZ and NM),Mammals,Carnivora,10484,23000,birds,0.68
+Canis lupus baileyi,Mexican gray wolf (AZ and NM),Mammals,Carnivora,10484,23000,mammals (large),0.68
+Canis lupus baileyi,Mexican gray wolf (AZ and NM),Mammals,Carnivora,10484,23000,mammals (small),0.68
+Leopardus (=Felis) pardalis,"Ocelot (AZ, TX)",Mammals,Carnivora,30,7000,birds,0.68
+Leopardus (=Felis) pardalis,"Ocelot (AZ, TX)",Mammals,Carnivora,30,7000,mammals (small),0.68
+Leopardus (=Felis) pardalis,"Ocelot (AZ, TX)",Mammals,Carnivora,30,7000,reptiles,0.66
+Canis rufus,Red Wolf,Mammals,Carnivora,14,19000,mammals (large),0.68
+Canis rufus,Red Wolf,Mammals,Carnivora,14,19000,mammals (small),0.68
+Canis rufus,Red Wolf (NC and TN),Mammals,Carnivora,4369,19000,mammals (large),0.68
+Canis rufus,Red Wolf (NC and TN),Mammals,Carnivora,4369,19000,mammals (small),0.68
+Vulpes macrotis mutica,San Joaquin Kit Fox (CA population),Mammals,Carnivora,6,2100,arthropods,0.69
+Vulpes macrotis mutica,San Joaquin Kit Fox (CA population),Mammals,Carnivora,6,2100,birds,0.68
+Vulpes macrotis mutica,San Joaquin Kit Fox (CA population),Mammals,Carnivora,6,2100,grass,0.79
+Vulpes macrotis mutica,San Joaquin Kit Fox (CA population),Mammals,Carnivora,6,2100,leaves,0.85
+Vulpes macrotis mutica,San Joaquin Kit Fox (CA population),Mammals,Carnivora,6,2100,mammals (small),0.68
+Urocyon littoralis littoralis,San Miguel Island Fox (CA population),Mammals,Carnivora,1236,1400,amphibians,0.85
+Urocyon littoralis littoralis,San Miguel Island Fox (CA population),Mammals,Carnivora,1236,1400,arthropods,0.69
+Urocyon littoralis littoralis,San Miguel Island Fox (CA population),Mammals,Carnivora,1236,1400,benthic inverts,0.78
+Urocyon littoralis littoralis,San Miguel Island Fox (CA population),Mammals,Carnivora,1236,1400,birds,0.68
+Urocyon littoralis littoralis,San Miguel Island Fox (CA population),Mammals,Carnivora,1236,1400,fruit,0.77
+Urocyon littoralis littoralis,San Miguel Island Fox (CA population),Mammals,Carnivora,1236,1400,grass,0.79
+Urocyon littoralis littoralis,San Miguel Island Fox (CA population),Mammals,Carnivora,1236,1400,mammals (small),0.68
+Urocyon littoralis littoralis,San Miguel Island Fox (CA population),Mammals,Carnivora,1236,1400,reptiles,0.66
+Urocyon littoralis catalinae,Santa Catalina Island Fox (CA population),Mammals,Carnivora,1237,1400,amphibians,0.85
+Urocyon littoralis catalinae,Santa Catalina Island Fox (CA population),Mammals,Carnivora,1237,1400,arthropods,0.69
+Urocyon littoralis catalinae,Santa Catalina Island Fox (CA population),Mammals,Carnivora,1237,1400,benthic inverts,0.78
+Urocyon littoralis catalinae,Santa Catalina Island Fox (CA population),Mammals,Carnivora,1237,1400,birds,0.68
+Urocyon littoralis catalinae,Santa Catalina Island Fox (CA population),Mammals,Carnivora,1237,1400,fruit,0.77
+Urocyon littoralis catalinae,Santa Catalina Island Fox (CA population),Mammals,Carnivora,1237,1400,grass,0.79
+Urocyon littoralis catalinae,Santa Catalina Island Fox (CA population),Mammals,Carnivora,1237,1400,mammals (small),0.68
+Urocyon littoralis catalinae,Santa Catalina Island Fox (CA population),Mammals,Carnivora,1237,1400,reptiles,0.66
+Urocyon littoralis santacruzae,Santa Cruz Island Fox (CA population),Mammals,Carnivora,1238,1400,amphibians,0.85
+Urocyon littoralis santacruzae,Santa Cruz Island Fox (CA population),Mammals,Carnivora,1238,1400,arthropods,0.69
+Urocyon littoralis santacruzae,Santa Cruz Island Fox (CA population),Mammals,Carnivora,1238,1400,benthic inverts,0.78
+Urocyon littoralis santacruzae,Santa Cruz Island Fox (CA population),Mammals,Carnivora,1238,1400,birds,0.68
+Urocyon littoralis santacruzae,Santa Cruz Island Fox (CA population),Mammals,Carnivora,1238,1400,fruit,0.77
+Urocyon littoralis santacruzae,Santa Cruz Island Fox (CA population),Mammals,Carnivora,1238,1400,grass,0.79
+Urocyon littoralis santacruzae,Santa Cruz Island Fox (CA population),Mammals,Carnivora,1238,1400,mammals (small),0.68
+Urocyon littoralis santacruzae,Santa Cruz Island Fox (CA population),Mammals,Carnivora,1238,1400,reptiles,0.66
+Urocyon littoralis santarosae,Santa Rosa Island Fox (CA population),Mammals,Carnivora,1239,1400,amphibians,0.85
+Urocyon littoralis santarosae,Santa Rosa Island Fox (CA population),Mammals,Carnivora,1239,1400,arthropods,0.69
+Urocyon littoralis santarosae,Santa Rosa Island Fox (CA population),Mammals,Carnivora,1239,1400,benthic inverts,0.78
+Urocyon littoralis santarosae,Santa Rosa Island Fox (CA population),Mammals,Carnivora,1239,1400,birds,0.68
+Urocyon littoralis santarosae,Santa Rosa Island Fox (CA population),Mammals,Carnivora,1239,1400,fruit,0.77
+Urocyon littoralis santarosae,Santa Rosa Island Fox (CA population),Mammals,Carnivora,1239,1400,grass,0.79
+Urocyon littoralis santarosae,Santa Rosa Island Fox (CA population),Mammals,Carnivora,1239,1400,mammals (small),0.68
+Urocyon littoralis santarosae,Santa Rosa Island Fox (CA population),Mammals,Carnivora,1239,1400,reptiles,0.66
+Vulpes vulpes necator,Sierra Nevada red fox,Mammals,Carnivora,11260,4200,mammals (small),0.68
+Vulpes vulpes necator,Sierra Nevada red fox,Mammals,Carnivora,11260,4200,fruit,0.77
+Vulpes vulpes necator,Sierra Nevada red fox,Mammals,Carnivora,11260,4200,carrion,0.68
+Vulpes vulpes necator,Sierra Nevada red fox,Mammals,Carnivora,11260,4200,birds,0.68
+Vulpes vulpes necator,Sierra Nevada red fox,Mammals,Carnivora,11260,4200,arthropods,0.69
+Vulpes vulpes necator,Sierra Nevada red fox,Mammals,Carnivora,11260,4200,grass,0.79
+Eumops floridanus,Florida bonneted bat,Mammals,Chiroptera,9725,30,arthropods,0.69
+Myotis grisescens,Gray Bat,Mammals,Chiroptera,21,7,arthropods,0.69
+Lasiurus cinereus semotus,Hawaiian Hoary Bat,Mammals,Chiroptera,15,13,arthropods,0.69
+Myotis sodalis,Indiana Bat,Mammals,Chiroptera,1,5.4,arthropods,0.69
+Leptonycteris curasoae yerbabuenae,Lesser Long-nosed Bat,Mammals,Chiroptera,47,20,fruit,0.77
+Leptonycteris curasoae yerbabuenae,Lesser Long-nosed Bat,Mammals,Chiroptera,47,20,nectar,0.7
+Pteropus mariannus mariannus,Mariana Fruit Bat ,Mammals,Chiroptera,8962,350,fruit,0.77
+Pteropus mariannus mariannus,Mariana Fruit Bat ,Mammals,Chiroptera,8962,350,leaves,0.85
+Pteropus mariannus mariannus,Mariana Fruit Bat ,Mammals,Chiroptera,8962,350,"nectar, pollen",0.7
+Leptonycteris nivalis,Mexican Long-nosed Bat,Mammals,Chiroptera,48,18,arthropods,0.69
+Leptonycteris nivalis,Mexican Long-nosed Bat,Mammals,Chiroptera,48,18,fruit,0.77
+Leptonycteris nivalis,Mexican Long-nosed Bat,Mammals,Chiroptera,48,18,nectar,0.7
+Myotis septentrionalis,Northern Long-Eared Bat,Mammals,Chiroptera,10043,5,arthropods,0.69
+Corynorhinus (=Plecotus) townsendii ingens,Ozark Big-eared Bat,Mammals,Chiroptera,25,7,arthropods,0.69
+Emballonura semicaudata rotensis,Pacific sheath-tailed Bat,Mammals,Chiroptera,8166,5.5,arthropods,0.69
+Emballonura semicaudata semicaudata,Pacific sheath-tailed Bat (American Samoa population),Mammals,Chiroptera,4564,5.5,arthropods,0.69
+Corynorhinus (=Plecotus) townsendii virginianus,Virginia Big-eared Bat,Mammals,Chiroptera,27,5,arthropods,0.69
+Sorex ornatus relictus,Buena Vista Lake Ornate Shrew,Mammals,Insectivora,58,4.1,arthropods,0.69
+Sorex ornatus relictus,Buena Vista Lake Ornate Shrew,Mammals,Insectivora,58,4.1,benthic inverts,0.78
+Sorex ornatus relictus,Buena Vista Lake Ornate Shrew,Mammals,Insectivora,58,4.1,soil inverts,0.84
+Sylvilagus palustris hefneri,Lower Keys Marsh Rabbit (FL population),Mammals,Lagomorpha,46,1000,grass,0.79
+Sylvilagus palustris hefneri,Lower Keys Marsh Rabbit (FL population),Mammals,Lagomorpha,46,1000,leaves,0.85
+Sylvilagus transitionalis,New England cottontail rabbit,Mammals,Lagomorpha,3778,756,fruit,0.77
+Sylvilagus transitionalis,New England cottontail rabbit,Mammals,Lagomorpha,3778,756,grass,0.79
+Sylvilagus transitionalis,New England cottontail rabbit,Mammals,Lagomorpha,3778,756,leaves,0.85
+Sylvilagus transitionalis,New England cottontail rabbit,Mammals,Lagomorpha,3778,756,seeds,0.093
+Brachylagus idahoensis,Pygmy Rabbit (Columbia Basin DPS),Mammals,Lagomorpha,1240,375,grass,0.79
+Brachylagus idahoensis,Pygmy Rabbit (Columbia Basin DPS),Mammals,Lagomorpha,1240,375,leaves,0.85
+Sylvilagus bachmani riparius,Riparian Brush Rabbit (CA population),Mammals,Lagomorpha,55,500,grass,0.79
+Sylvilagus bachmani riparius,Riparian Brush Rabbit (CA population),Mammals,Lagomorpha,55,500,leaves,0.85
+Peromyscus polionotus ammobates,Alabama Beach Mouse,Mammals,Rodentia,41,15,amphibians,0.85
+Peromyscus polionotus ammobates,Alabama Beach Mouse,Mammals,Rodentia,41,15,arthropods,0.69
+Peromyscus polionotus ammobates,Alabama Beach Mouse,Mammals,Rodentia,41,15,fruit,0.77
+Peromyscus polionotus ammobates,Alabama Beach Mouse,Mammals,Rodentia,41,15,grass,0.79
+Peromyscus polionotus ammobates,Alabama Beach Mouse,Mammals,Rodentia,41,15,leaves,0.85
+Peromyscus polionotus ammobates,Alabama Beach Mouse,Mammals,Rodentia,41,15,mammals (small),0.68
+Peromyscus polionotus ammobates,Alabama Beach Mouse,Mammals,Rodentia,41,15,reptiles,0.66
+Peromyscus polionotus ammobates,Alabama Beach Mouse,Mammals,Rodentia,41,15,seeds,0.093
+Microtus californicus scirpensis,Amargosa Vole,Mammals,Rodentia,28,60,grass,0.79
+Microtus californicus scirpensis,Amargosa Vole,Mammals,Rodentia,28,60,leaves,0.85
+Microtus californicus scirpensis,Amargosa Vole,Mammals,Rodentia,28,60,seeds,0.093
+Peromyscus polionotus phasma,Anastasia Island Beach Mouse,Mammals,Rodentia,50,12,amphibians,0.85
+Peromyscus polionotus phasma,Anastasia Island Beach Mouse,Mammals,Rodentia,50,12,arthropods,0.69
+Peromyscus polionotus phasma,Anastasia Island Beach Mouse,Mammals,Rodentia,50,12,fruit,0.77
+Peromyscus polionotus phasma,Anastasia Island Beach Mouse,Mammals,Rodentia,50,12,grass,0.79
+Peromyscus polionotus phasma,Anastasia Island Beach Mouse,Mammals,Rodentia,50,12,mammals (small),0.68
+Peromyscus polionotus phasma,Anastasia Island Beach Mouse,Mammals,Rodentia,50,12,reptiles,0.66
+Peromyscus polionotus phasma,Anastasia Island Beach Mouse,Mammals,Rodentia,50,12,seeds,0.093
+Glaucomys sabrinus coloratus,Carolina Northern Flying Squirrel,Mammals,Rodentia,42,90,fruit,0.77
+Glaucomys sabrinus coloratus,Carolina Northern Flying Squirrel,Mammals,Rodentia,42,90,"leaves (surrogate for fungi, lichen)",0.85
+Glaucomys sabrinus coloratus,Carolina Northern Flying Squirrel,Mammals,Rodentia,42,90,seeds,0.093
+Peromyscus polionotus allophrys,Choctawhatchee Beach Mouse,Mammals,Rodentia,34,15,amphibians,0.85
+Peromyscus polionotus allophrys,Choctawhatchee Beach Mouse,Mammals,Rodentia,34,15,arthropods,0.69
+Peromyscus polionotus allophrys,Choctawhatchee Beach Mouse,Mammals,Rodentia,34,15,fruit,0.77
+Peromyscus polionotus allophrys,Choctawhatchee Beach Mouse,Mammals,Rodentia,34,15,grass,0.79
+Peromyscus polionotus allophrys,Choctawhatchee Beach Mouse,Mammals,Rodentia,34,15,leaves,0.85
+Peromyscus polionotus allophrys,Choctawhatchee Beach Mouse,Mammals,Rodentia,34,15,mammals (small),0.68
+Peromyscus polionotus allophrys,Choctawhatchee Beach Mouse,Mammals,Rodentia,34,15,reptiles,0.66
+Peromyscus polionotus allophrys,Choctawhatchee Beach Mouse,Mammals,Rodentia,34,15,seeds,0.093
+Sciurus niger cinereus,Delmarva Peninsula Fox Squirrel,Mammals,Rodentia,10,800,arthropods,0.69
+Sciurus niger cinereus,Delmarva Peninsula Fox Squirrel,Mammals,Rodentia,10,800,birds,0.68
+Sciurus niger cinereus,Delmarva Peninsula Fox Squirrel,Mammals,Rodentia,10,800,"leaves, flowers",0.85
+Sciurus niger cinereus,Delmarva Peninsula Fox Squirrel,Mammals,Rodentia,10,800,seeds,0.093
+Sciurus niger cinereus,Delmarva Peninsula Fox Squirrel,Mammals,Rodentia,6334,800,arthropods,0.69
+Sciurus niger cinereus,Delmarva Peninsula Fox Squirrel,Mammals,Rodentia,6334,800,birds,0.68
+Sciurus niger cinereus,Delmarva Peninsula Fox Squirrel,Mammals,Rodentia,6334,800,"leaves, flowers",0.85
+Sciurus niger cinereus,Delmarva Peninsula Fox Squirrel,Mammals,Rodentia,6334,800,seeds,0.093
+Microtus pennsylvanicus dukecampbelli,Florida Salt Marsh Vole,Mammals,Rodentia,60,34,grass,0.79
+Microtus pennsylvanicus dukecampbelli,Florida Salt Marsh Vole,Mammals,Rodentia,60,34,seeds,0.093
+Dipodomys nitratoides exilis,Fresno Kangaroo Rat,Mammals,Rodentia,37,34,arthropods,0.69
+Dipodomys nitratoides exilis,Fresno Kangaroo Rat,Mammals,Rodentia,37,34,grass,0.79
+Dipodomys nitratoides exilis,Fresno Kangaroo Rat,Mammals,Rodentia,37,34,leaves,0.85
+Dipodomys nitratoides exilis,Fresno Kangaroo Rat,Mammals,Rodentia,37,34,seeds,0.093
+Dipodomys ingens,Giant Kangaroo Rat,Mammals,Rodentia,38,151.4,arthropods,0.69
+Dipodomys ingens,Giant Kangaroo Rat,Mammals,Rodentia,38,151.4,grass,0.79
+Dipodomys ingens,Giant Kangaroo Rat,Mammals,Rodentia,38,151.4,leaves,0.85
+Dipodomys ingens,Giant Kangaroo Rat,Mammals,Rodentia,38,151.4,seeds,0.093
+Microtus mexicanus hualpaiensis,Hualapai Mexican Vole,Mammals,Rodentia,61,28,grass,0.79
+Microtus mexicanus hualpaiensis,Hualapai Mexican Vole,Mammals,Rodentia,61,28,leaves,0.85
+Peromyscus gossypinus allapaticola,Key Largo Cotton Mouse,Mammals,Rodentia,31,17,arthropods,0.69
+Peromyscus gossypinus allapaticola,Key Largo Cotton Mouse,Mammals,Rodentia,31,17,fruit,0.77
+Peromyscus gossypinus allapaticola,Key Largo Cotton Mouse,Mammals,Rodentia,31,17,grass,0.79
+Peromyscus gossypinus allapaticola,Key Largo Cotton Mouse,Mammals,Rodentia,31,17,leaves,0.85
+Neotoma floridana smalli,Key Largo Woodrat,Mammals,Rodentia,32,210,arthropods,0.69
+Neotoma floridana smalli,Key Largo Woodrat,Mammals,Rodentia,32,210,fruit,0.77
+Neotoma floridana smalli,Key Largo Woodrat,Mammals,Rodentia,32,210,grass,0.79
+Neotoma floridana smalli,Key Largo Woodrat,Mammals,Rodentia,32,210,leaves,0.85
+Neotoma floridana smalli,Key Largo Woodrat,Mammals,Rodentia,32,210,seeds,0.093
+Dipodomys heermanni morroensis,Morro Bay Kangaroo Rat,Mammals,Rodentia,16,56,arthropods,0.69
+Dipodomys heermanni morroensis,Morro Bay Kangaroo Rat,Mammals,Rodentia,16,56,fruit,0.77
+Dipodomys heermanni morroensis,Morro Bay Kangaroo Rat,Mammals,Rodentia,16,56,grass,0.79
+Dipodomys heermanni morroensis,Morro Bay Kangaroo Rat,Mammals,Rodentia,16,56,leaves,0.85
+Dipodomys heermanni morroensis,Morro Bay Kangaroo Rat,Mammals,Rodentia,16,56,seeds,0.093
+Tamiasciurus hudsonicus grahamensis,Mount Graham Red Squirrel,Mammals,Rodentia,43,236.4,fruit,0.77
+Tamiasciurus hudsonicus grahamensis,Mount Graham Red Squirrel,Mammals,Rodentia,43,236.4,leaves (surrogate for fungi),0.85
+Tamiasciurus hudsonicus grahamensis,Mount Graham Red Squirrel,Mammals,Rodentia,43,236.4,pollen,0.063
+Tamiasciurus hudsonicus grahamensis,Mount Graham Red Squirrel,Mammals,Rodentia,43,236.4,seeds,0.093
+Zapus hudsonius luteus,New Mexico meadow jumping mouse,Mammals,Rodentia,5210,12,arthropods,0.69
+Zapus hudsonius luteus,New Mexico meadow jumping mouse,Mammals,Rodentia,5210,12,fruit,0.77
+Zapus hudsonius luteus,New Mexico meadow jumping mouse,Mammals,Rodentia,5210,12,leaves (surrogate for fungi),0.85
+Zapus hudsonius luteus,New Mexico meadow jumping mouse,Mammals,Rodentia,5210,12,seeds,0.093
+Spermophilus brunneus brunneus,Northern Idaho Ground Squirrel,Mammals,Rodentia,59,120,grass,0.79
+Spermophilus brunneus brunneus,Northern Idaho Ground Squirrel,Mammals,Rodentia,59,120,"leaves, flowers",0.85
+Spermophilus brunneus brunneus,Northern Idaho Ground Squirrel,Mammals,Rodentia,59,120,seeds,0.093
+Thomomys mazama pugetensis,Olympia pocket gopher,Mammals,Rodentia,8683,75,leaves,0.85
+Perognathus longimembris pacificus,Pacific Pocket Mouse,Mammals,Rodentia,51,5,arthropods,0.69
+Perognathus longimembris pacificus,Pacific Pocket Mouse,Mammals,Rodentia,51,5,grass,0.79
+Perognathus longimembris pacificus,Pacific Pocket Mouse,Mammals,Rodentia,51,5,leaves,0.85
+Perognathus longimembris pacificus,Pacific Pocket Mouse,Mammals,Rodentia,51,5,seeds,0.093
+Tamias minimus atristriatus,Penasco least chipmunk,Mammals,Rodentia,4228,32,arthropods,0.69
+Tamias minimus atristriatus,Penasco least chipmunk,Mammals,Rodentia,4228,32,fruit,0.77
+Tamias minimus atristriatus,Penasco least chipmunk,Mammals,Rodentia,4228,32,leaves,0.85
+Tamias minimus atristriatus,Penasco least chipmunk,Mammals,Rodentia,4228,32,seeds,0.093
+Peromyscus polionotus trissyllepsis,Perdido Key Beach Mouse,Mammals,Rodentia,35,15,amphibians,0.85
+Peromyscus polionotus trissyllepsis,Perdido Key Beach Mouse,Mammals,Rodentia,35,15,arthropods,0.69
+Peromyscus polionotus trissyllepsis,Perdido Key Beach Mouse,Mammals,Rodentia,35,15,fruit,0.77
+Peromyscus polionotus trissyllepsis,Perdido Key Beach Mouse,Mammals,Rodentia,35,15,grass,0.79
+Peromyscus polionotus trissyllepsis,Perdido Key Beach Mouse,Mammals,Rodentia,35,15,leaves,0.85
+Peromyscus polionotus trissyllepsis,Perdido Key Beach Mouse,Mammals,Rodentia,35,15,mammals (small),0.68
+Peromyscus polionotus trissyllepsis,Perdido Key Beach Mouse,Mammals,Rodentia,35,15,reptiles,0.66
+Peromyscus polionotus trissyllepsis,Perdido Key Beach Mouse,Mammals,Rodentia,35,15,seeds,0.093
+Aplodontia rufa nigra,Point Arena Mountain Beaver,Mammals,Rodentia,49,453,leaves,0.85
+Zapus hudsonius preblei,Preble's Meadow Jumping Mouse,Mammals,Rodentia,52,3,arthropods,0.69
+Zapus hudsonius preblei,Preble's Meadow Jumping Mouse,Mammals,Rodentia,52,3,fruit,0.77
+Zapus hudsonius preblei,Preble's Meadow Jumping Mouse,Mammals,Rodentia,52,3,leaves (surrogate for fungi),0.85
+Zapus hudsonius preblei,Preble's Meadow Jumping Mouse,Mammals,Rodentia,52,3,seeds,0.093
+Arborimus longicaudus,Red tree vole (north Oregon coast DPS),Mammals,Rodentia,10178,25,"bark (twigs), pine needles (grass as surrogate)",0.093
+Oryzomys palustris natator,Rice rat (Lower FL Keys Population),Mammals,Rodentia,29,14,arthropods,0.69
+Oryzomys palustris natator,Rice rat (Lower FL Keys Population),Mammals,Rodentia,29,14,benthic inverts,0.78
+Oryzomys palustris natator,Rice rat (Lower FL Keys Population),Mammals,Rodentia,29,14,birds,0.68
+Oryzomys palustris natator,Rice rat (Lower FL Keys Population),Mammals,Rodentia,29,14,carrion,0.68
+Oryzomys palustris natator,Rice rat (Lower FL Keys Population),Mammals,Rodentia,29,14,fish,0.75
+Oryzomys palustris natator,Rice rat (Lower FL Keys Population),Mammals,Rodentia,29,14,mammals (small),0.68
+Oryzomys palustris natator,Rice rat (Lower FL Keys Population),Mammals,Rodentia,29,14,reptiles,0.66
+Neotoma fuscipes riparia,Riparian Woodrat,Mammals,Rodentia,62,400,fruit,0.77
+Neotoma fuscipes riparia,Riparian Woodrat,Mammals,Rodentia,62,400,"leaves, flowers (fungi)",0.85
+Thomomys mazama glacialis,Roy Prairie pocket gopher,Mammals,Rodentia,3194,75,leaves,0.85
+Reithrodontomys raviventris,Salt Marsh Harvest Mouse (CA population),Mammals,Rodentia,17,7.6,arthropods,0.69
+Reithrodontomys raviventris,Salt Marsh Harvest Mouse (CA population),Mammals,Rodentia,17,7.6,grass,0.79
+Reithrodontomys raviventris,Salt Marsh Harvest Mouse (CA population),Mammals,Rodentia,17,7.6,leaves,0.85
+Reithrodontomys raviventris,Salt Marsh Harvest Mouse (CA population),Mammals,Rodentia,17,7.6,seeds,0.093
+Dipodomys merriami parvus,San Bernardino Merriam's Kangaroo Rat,Mammals,Rodentia,63,23.2,arthropods,0.69
+Dipodomys merriami parvus,San Bernardino Merriam's Kangaroo Rat,Mammals,Rodentia,63,23.2,grass,0.79
+Dipodomys merriami parvus,San Bernardino Merriam's Kangaroo Rat,Mammals,Rodentia,63,23.2,leaves,0.85
+Dipodomys merriami parvus,San Bernardino Merriam's Kangaroo Rat,Mammals,Rodentia,63,23.2,seeds,0.093
+Peromyscus polionotus niveiventris,Southeastern Beach Mouse (FL),Mammals,Rodentia,53,12,amphibians,0.85
+Peromyscus polionotus niveiventris,Southeastern Beach Mouse (FL),Mammals,Rodentia,53,12,arthropods,0.69
+Peromyscus polionotus niveiventris,Southeastern Beach Mouse (FL),Mammals,Rodentia,53,12,grass,0.79
+Peromyscus polionotus niveiventris,Southeastern Beach Mouse (FL),Mammals,Rodentia,53,12,mammals (small),0.68
+Peromyscus polionotus niveiventris,Southeastern Beach Mouse (FL),Mammals,Rodentia,53,12,reptiles,0.66
+Peromyscus polionotus niveiventris,Southeastern Beach Mouse (FL),Mammals,Rodentia,53,12,seeds,0.093
+Urocitellus endemicus,Southern Idaho ground Squirrel,Mammals,Rodentia,2299,120,grass,0.79
+Urocitellus endemicus,Southern Idaho ground Squirrel,Mammals,Rodentia,2299,120,leaves,0.85
+Urocitellus endemicus,Southern Idaho ground Squirrel,Mammals,Rodentia,2299,120,seeds,0.093
+Peromyscus polionotus peninsularis,St. Andrew Beach Mouse (FL),Mammals,Rodentia,54,15,amphibians,0.85
+Peromyscus polionotus peninsularis,St. Andrew Beach Mouse (FL),Mammals,Rodentia,54,15,arthropods,0.69
+Peromyscus polionotus peninsularis,St. Andrew Beach Mouse (FL),Mammals,Rodentia,54,15,fruit,0.77
+Peromyscus polionotus peninsularis,St. Andrew Beach Mouse (FL),Mammals,Rodentia,54,15,grass,0.79
+Peromyscus polionotus peninsularis,St. Andrew Beach Mouse (FL),Mammals,Rodentia,54,15,mammals (small),0.68
+Peromyscus polionotus peninsularis,St. Andrew Beach Mouse (FL),Mammals,Rodentia,54,15,reptiles,0.66
+Dipodomys stephensi (and D. cascus),Stephens' Kangaroo Rat,Mammals,Rodentia,39,70,arthropods,0.69
+Dipodomys stephensi (and D. cascus),Stephens' Kangaroo Rat,Mammals,Rodentia,39,70,grass,0.79
+Dipodomys stephensi (and D. cascus),Stephens' Kangaroo Rat,Mammals,Rodentia,39,70,leaves,0.85
+Dipodomys stephensi (and D. cascus),Stephens' Kangaroo Rat,Mammals,Rodentia,39,70,seeds,0.093
+Thomomys mazama tumuli,Tenino pocket gopher,Mammals,Rodentia,8684,75,leaves,0.85
+Dipodomys nitratoides nitratoides,Tipton Kangaroo Rat,Mammals,Rodentia,40,35,arthropods,0.69
+Dipodomys nitratoides nitratoides,Tipton Kangaroo Rat,Mammals,Rodentia,40,35,grass,0.79
+Dipodomys nitratoides nitratoides,Tipton Kangaroo Rat,Mammals,Rodentia,40,35,leaves,0.85
+Dipodomys nitratoides nitratoides,Tipton Kangaroo Rat,Mammals,Rodentia,40,35,seeds,0.093
+Cynomys parvidens,Utah Prairie Dog,Mammals,Rodentia,20,640,arthropods,0.69
+Cynomys parvidens,Utah Prairie Dog,Mammals,Rodentia,20,640,grass,0.79
+Cynomys parvidens,Utah Prairie Dog,Mammals,Rodentia,20,640,leaves,0.85
+Cynomys parvidens,Utah Prairie Dog,Mammals,Rodentia,20,640,seeds,0.093
+Urocitellus washingtoni,Washington ground squirrel,Mammals,Rodentia,2389,120,arthropods,0.69
+Urocitellus washingtoni,Washington ground squirrel,Mammals,Rodentia,2389,120,leaves,0.85
+Urocitellus washingtoni,Washington ground squirrel,Mammals,Rodentia,2389,120,seeds,0.093
+Thomomys mazama yelmensis,Yelm pocket gopher,Mammals,Rodentia,8685,75,leaves,0.85
+Crocodylus acutus,American Crocodile (Florida population),Reptiles,Crocodilia,176,45000,benthic inverts,0.78
+Crocodylus acutus,American Crocodile (Florida population),Reptiles,Crocodilia,176,45000,birds,0.68
+Crocodylus acutus,American Crocodile (Florida population),Reptiles,Crocodilia,176,45000,fish,0.75
+Crocodylus acutus,American Crocodile (Florida population),Reptiles,Crocodilia,176,45000,mammals (small),0.68
+Crocodylus acutus,American Crocodile (Florida population),Reptiles,Crocodilia,176,45000,reptiles,0.66
+Masticophis lateralis euryxanthus,Alameda Whipsnake,Reptiles,Squamata,183,60,amphibians,0.85
+Masticophis lateralis euryxanthus,Alameda Whipsnake,Reptiles,Squamata,183,60,arthropods,0.69
+Masticophis lateralis euryxanthus,Alameda Whipsnake,Reptiles,Squamata,183,60,birds,0.68
+Masticophis lateralis euryxanthus,Alameda Whipsnake,Reptiles,Squamata,183,60,mammals (small),0.68
+Masticophis lateralis euryxanthus,Alameda Whipsnake,Reptiles,Squamata,183,60,reptiles,0.66
+Nerodia clarkii taeniata,Atlantic Salt Marsh Snake,Reptiles,Squamata,167,70,"fish, aq amphibians",0.75
+Pituophis melanoleucus lodingi,Black pine snake,Reptiles,Squamata,6097,1000,birds,0.68
+Pituophis melanoleucus lodingi,Black pine snake,Reptiles,Squamata,6097,1000,mammals (small),0.68
+Eumeces egregius lividus,Bluetail Mole Skink,Reptiles,Squamata,178,3.7,arthropods,0.69
+Gambelia silus,Blunt-nosed Leopard Lizard,Reptiles,Squamata,151,20.6,arthropods,0.69
+Gambelia silus,Blunt-nosed Leopard Lizard,Reptiles,Squamata,151,20.6,leaves,0.85
+Gambelia silus,Blunt-nosed Leopard Lizard,Reptiles,Squamata,151,20.6,reptiles,0.66
+Uma inornata,Coachella Valley Fringe-toed Lizard,Reptiles,Squamata,175,9.8,arthropods,0.69
+Uma inornata,Coachella Valley Fringe-toed Lizard,Reptiles,Squamata,175,9.8,"leaves, flowers",0.85
+Uma inornata,Coachella Valley Fringe-toed Lizard,Reptiles,Squamata,175,9.8,reptiles,0.66
+Nerodia erythrogaster neglecta,Copperbelly Water Snake (Northern DPS),Reptiles,Squamata,180,50,benthic inverts,0.78
+Nerodia erythrogaster neglecta,Copperbelly Water Snake (Northern DPS),Reptiles,Squamata,180,50,"fish, aq amphibians",0.75
+Anolis roosevelti,Culebra Island Giant Anole,Reptiles,Squamata,162,78,arthropods,0.69
+Anolis roosevelti,Culebra Island Giant Anole,Reptiles,Squamata,162,78,fruit,0.77
+Anolis roosevelti,Culebra Island Giant Anole,Reptiles,Squamata,162,78,reptiles,0.66
+Drymarchon corais couperi,Eastern Indigo Snake,Reptiles,Squamata,173,550,amphibians,0.85
+Drymarchon corais couperi,Eastern Indigo Snake,Reptiles,Squamata,173,550,arthropods,0.69
+Drymarchon corais couperi,Eastern Indigo Snake,Reptiles,Squamata,173,550,birds,0.68
+Drymarchon corais couperi,Eastern Indigo Snake,Reptiles,Squamata,173,550,fish,0.75
+Drymarchon corais couperi,Eastern Indigo Snake,Reptiles,Squamata,173,550,mammals (small),0.68
+Drymarchon corais couperi,Eastern Indigo Snake,Reptiles,Squamata,173,550,reptiles,0.66
+Sistrurus catenatus,Eastern Massasauga (=rattlesnake),Reptiles,Squamata,7800,130,amphibians,0.85
+Sistrurus catenatus,Eastern Massasauga (=rattlesnake),Reptiles,Squamata,7800,130,mammals (small),0.68
+Sistrurus catenatus,Eastern Massasauga (=rattlesnake),Reptiles,Squamata,7800,130,reptiles,0.66
+Thamnophis gigas,Giant Garter Snake,Reptiles,Squamata,187,140,"fish, aq amphibians",0.75
+Pituophis ruthveni,Louisiana pine snake,Reptiles,Squamata,3722,1000,mammals (small),0.68
+Epicrates monensis monensis,Mona Boa,Reptiles,Squamata,164,70,mammals (small),0.68
+Epicrates monensis monensis,Mona Boa,Reptiles,Squamata,164,70,reptiles,0.66
+Cyclura cornuta stejnegeri,Mona Ground Iguana,Reptiles,Squamata,165,4135,arthropods,0.69
+Cyclura cornuta stejnegeri,Mona Ground Iguana,Reptiles,Squamata,165,4135,fruit,0.77
+Cyclura cornuta stejnegeri,Mona Ground Iguana,Reptiles,Squamata,165,4135,leaves,0.85
+Sphaerodactylus micropithecus,Monito Gecko,Reptiles,Squamata,177,0.15,arthropods,0.69
+Thamnophis rufipunctatus ,Narrow-headed garter snake,Reptiles,Squamata,3271,150,amphibians,0.85
+Thamnophis rufipunctatus ,Narrow-headed garter snake,Reptiles,Squamata,3271,150,"fish, aq amphibians",0.75
+Crotalus willardi obscurus,New Mexican ridge-nosed Rattlesnake,Reptiles,Squamata,166,85,arthropods,0.69
+Crotalus willardi obscurus,New Mexican ridge-nosed Rattlesnake,Reptiles,Squamata,166,85,birds,0.68
+Crotalus willardi obscurus,New Mexican ridge-nosed Rattlesnake,Reptiles,Squamata,166,85,mammals (small),0.68
+Crotalus willardi obscurus,New Mexican ridge-nosed Rattlesnake,Reptiles,Squamata,166,85,reptiles,0.66
+Thamnophis eques megalops,Northern Mexican gartersnake,Reptiles,Squamata,1783,104,amphibians,0.85
+Thamnophis eques megalops,Northern Mexican gartersnake,Reptiles,Squamata,1783,104,benthic inverts,0.78
+Thamnophis eques megalops,Northern Mexican gartersnake,Reptiles,Squamata,1783,104,"fish, aq amphibians",0.75
+Thamnophis eques megalops,Northern Mexican gartersnake,Reptiles,Squamata,1783,104,mammals (small),0.68
+Thamnophis eques megalops,Northern Mexican gartersnake,Reptiles,Squamata,1783,104,reptiles,0.66
+Thamnophis eques megalops,Northern Mexican gartersnake,Reptiles,Squamata,1783,104,soil inverts,0.84
+Epicrates inornatus,Puerto Rican Boa,Reptiles,Squamata,156,140,arthropods,0.69
+Epicrates inornatus,Puerto Rican Boa,Reptiles,Squamata,156,140,birds,0.68
+Epicrates inornatus,Puerto Rican Boa,Reptiles,Squamata,156,140,carrion,0.68
+Epicrates inornatus,Puerto Rican Boa,Reptiles,Squamata,156,140,mammals (small),0.68
+Epicrates inornatus,Puerto Rican Boa,Reptiles,Squamata,156,140,reptiles,0.66
+Thamnophis sirtalis tetrataenia,San Francisco Garter Snake,Reptiles,Squamata,152,113,amphibians,0.85
+Thamnophis sirtalis tetrataenia,San Francisco Garter Snake,Reptiles,Squamata,152,113,"fish, aq amphibians",0.75
+Thamnophis sirtalis tetrataenia,San Francisco Garter Snake,Reptiles,Squamata,152,113,mammals (small),0.68
+Neoseps reynoldsi,Sand Skink,Reptiles,Squamata,179,1.5,arthropods,0.69
+Emoia slevini,Slevin's skink,Reptiles,Squamata,10732,8.9,arthropods,0.69
+Ameiva polops,St. Croix Ground Lizard,Reptiles,Squamata,163,0.72,arthropods,0.69
+Ameiva polops,St. Croix Ground Lizard,Reptiles,Squamata,163,0.72,soil inverts,0.84
+Epicrates monensis granti,Virgin Islands Tree Boa,Reptiles,Squamata,174,128,birds,0.68
+Epicrates monensis granti,Virgin Islands Tree Boa,Reptiles,Squamata,174,128,mammals (small),0.68
+Epicrates monensis granti,Virgin Islands Tree Boa,Reptiles,Squamata,174,128,reptiles,0.66
+Pseudemys alabamensis ,Alabama red-belly turtle,Reptiles,Testudines,168,2380,aquatic plants,0.8
+Clemmys muhlenbergii,Bog Turtle (northern population),Reptiles,Testudines,182,110,amphibians,0.85
+Clemmys muhlenbergii,Bog Turtle (northern population),Reptiles,Testudines,182,110,arthropods,0.69
+Clemmys muhlenbergii,Bog Turtle (northern population),Reptiles,Testudines,182,110,benthic inverts,0.78
+Clemmys muhlenbergii,Bog Turtle (northern population),Reptiles,Testudines,182,110,carrion,0.68
+Clemmys muhlenbergii,Bog Turtle (northern population),Reptiles,Testudines,182,110,leaves,0.85
+Clemmys muhlenbergii,Bog Turtle (northern population),Reptiles,Testudines,182,110,reptiles,0.66
+Clemmys muhlenbergii,Bog Turtle (northern population),Reptiles,Testudines,182,110,soil inverts,0.84
+Gopherus agassizii,Desert Tortoise (except AZ south and east of Colorado River),Reptiles,Testudines,185,3600,grass,0.79
+Gopherus agassizii,Desert Tortoise (except AZ south and east of Colorado River),Reptiles,Testudines,185,3600,"leaves, flowers",0.85
+Pseudemys rubriventris bangsi,Flattened musk turtle,Reptiles,Testudines,169,26,benthic inverts,0.78
+Pseudemys rubriventris bangsi,Flattened musk turtle,Reptiles,Testudines,169,26,filter feeders,0.82
+Gopherus polyphemus,Gopher Tortoise (Eastern),Reptiles,Testudines,3532,4500,fruit,0.77
+Gopherus polyphemus,Gopher Tortoise (Eastern),Reptiles,Testudines,3532,4500,grass,0.79
+Gopherus polyphemus,Gopher Tortoise (Eastern),Reptiles,Testudines,3532,4500,leaves,0.85
+Gopherus polyphemus,"Gopher Tortoise (west of Mobile and Tombigbee Rivers in AL, MS, and LA)",Reptiles,Testudines,181,4500,fruit,0.77
+Gopherus polyphemus,"Gopher Tortoise (west of Mobile and Tombigbee Rivers in AL, MS, and LA)",Reptiles,Testudines,181,4500,grass,0.79
+Gopherus polyphemus,"Gopher Tortoise (west of Mobile and Tombigbee Rivers in AL, MS, and LA)",Reptiles,Testudines,181,4500,leaves,0.85
+Pseudemys rubriventris bangsi ,Plymouth red-bellied turtle,Reptiles,Testudines,170,2450,aquatic plants,0.8
+Pseudemys rubriventris bangsi ,Plymouth red-bellied turtle,Reptiles,Testudines,170,2450,benthic inverts,0.78
+Graptemys oculifera,Ringed Map Turtle,Reptiles,Testudines,171,220,"aquatic plants, algae",0.8
+Graptemys oculifera,Ringed Map Turtle,Reptiles,Testudines,171,220,arthropods,0.69
+Graptemys oculifera,Ringed Map Turtle,Reptiles,Testudines,171,220,benthic inverts,0.78
+Graptemys oculifera,Ringed Map Turtle,Reptiles,Testudines,171,220,soil inverts,0.84
+Gopherus morafkai,Sonoran desert tortoise,Reptiles,Testudines,10291,11000,grass,0.79
+Gopherus morafkai,Sonoran desert tortoise,Reptiles,Testudines,10291,11000,leaves,0.85
+Kinosternon sonoriense longifemorale,Sonoyta mud turtle,Reptiles,Testudines,6620,88,aquatic plants,0.8
+Kinosternon sonoriense longifemorale,Sonoyta mud turtle,Reptiles,Testudines,6620,88,benthic inverts,0.78
+Kinosternon sonoriense longifemorale,Sonoyta mud turtle,Reptiles,Testudines,6620,88,fish and aq amphibians,0.75
+Graptemys flavimaculata ,Yellow-blotched map turtle,Reptiles,Testudines,172,200,"aquatic plants, algae",0.8
+Graptemys flavimaculata ,Yellow-blotched map turtle,Reptiles,Testudines,172,200,benthic inverts,0.78

@@ -65,7 +65,7 @@ class TestTrex(unittest.TestCase):
         expected_results = [[0.34, 0.78, 2.34], [0.34, 3.54, 2.34]]
         try:
             trex_empty.app_rates = pd.Series([[0.34], [0.78, 3.54], [2.34, 1.384, 2.22]], dtype='object')
-            #trex_empty.app_rates = ([[0.34], [0.78, 3.54], [2.34, 1.384, 2.22]])
+            # trex_empty.app_rates = ([[0.34], [0.78, 3.54], [2.34, 1.384, 2.22]])
             # parse app_rates Series of lists
             trex_empty.app_rate_parsing()
             result = [trex_empty.first_app_rate, trex_empty.max_app_rate]

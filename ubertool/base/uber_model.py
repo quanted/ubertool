@@ -102,7 +102,7 @@ class UberModel(object):
             # Import the model's input class (e.g. AgdriftInputs) to compare user supplied inputs to
             module = importlib.import_module(mod_name)
             model_inputs_class = getattr(module, self.name + "Inputs")
-            model_inputs = model_inputs_class()
+            model_inputs =   ()
         except ValueError as err:
             logging.info(mod_name)
             logging.info(err.args)
