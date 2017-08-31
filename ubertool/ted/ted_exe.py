@@ -5,6 +5,7 @@ import numpy as np
 import time
 import csv, sys
 import os.path
+import logging
 
 
 from .ted_functions import TedFunctions
@@ -31,7 +32,7 @@ class TedSpeciesProperties(object):
     def ReadSpeciesProperties(self):
         # this is a temporary method to initiate the species/diet food items lists (this will be replaced with
         # a method to access a SQL database containing the properties
-        filename = 'TEDSpeciesProperties.csv'
+        filename = './ted/tests/TEDSpeciesProperties.csv'
         try:
             with open(filename,'rt') as csvfile:
                 # csv.DictReader uses first line in file for column headings by default
@@ -60,7 +61,7 @@ class TedInputs(ModelSharedInputs):
 
         # Inputs: Assign object attribute variables from the input Pandas DataFrame
 
-        self.chem_name = pd.Series([], dtype="object", name="chem_name")
+        self.chemical_name = pd.Series([], dtype="object", name="chemical_name")
 
         # application parameters for min/max application scenarios
         self.crop_min = pd.Series([], dtype="object", name="crop")
@@ -70,7 +71,7 @@ class TedInputs(ModelSharedInputs):
         self.app_interval_min = pd.Series([], dtype="int", name="app_interval_min")
 
         self.droplet_spec_min = pd.Series([], dtype="object", name="droplet_spec_min")
-        self.boom_hgt_min = pd.Series([], dtype="float", name="droplet_spec_min")
+        self.boom_hgt_min = pd.Series([], dtype="object", name="droplet_spec_min")
 
         self.crop_max = pd.Series([], dtype="object", name="crop")
         self.app_method_max = pd.Series([], dtype="object", name="app_method_max")
@@ -79,12 +80,12 @@ class TedInputs(ModelSharedInputs):
         self.app_interval_max = pd.Series([], dtype="int", name="app_interval_max")
 
         self.droplet_spec_max = pd.Series([], dtype="object", name="droplet_spec_max")
-        self.boom_hgt_max = pd.Series([], dtype="float", name="droplet_spec_max")
+        self.boom_hgt_max = pd.Series([], dtype="object", name="droplet_spec_max")
 
         # physical, chemical, and fate properties of pesticide
         self.foliar_diss_hlife = pd.Series([], dtype="float", name="foliar_diss_hlife")
         self.aerobic_soil_meta_hlife = pd.Series([], dtype="float", name="aerobic_soil_meta_hlife")
-        self.frac_retained_mammals = pd.Series([], dtype="float", name="frac_retained_mammals")
+        self.frac_retained_mamm = pd.Series([], dtype="float", name="frac_retained_mamm")
         self.frac_retained_birds = pd.Series([], dtype="float", name="frac_retained_birds")
         self.log_kow = pd.Series([], dtype="float", name="log_kow")
         self.koc = pd.Series([], dtype="float", name="koc")
@@ -174,12 +175,15 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedSpeciesProperties):
             # TODO: an EXCEL spreadsheet to match that of OPP)
 
             # set/reset arrays for holding single simulation results
-            self.intialize_eec_arrays()
-
+            self.initialize_eec_arrays()
 
             # set spray drift parameters for estimating distances from source related to downgradient pesticide concentrations (for min/max application scenarios)
-            drift_param_a_min, drift_param_b_min, drift_param_c_min = self.set_drift_parameters(self.app_method_min[sim_num], self.boom_hgt_min[sim_num], self.droplet_spec_min[sim_num])
-            drift_param_a_max, drift_param_b_max, drift_param_c_max = self.set_drift_parameters(self.app_method_max[sim_num], self.boom_hgt_max[sim_num], self.droplet_spec_max[sim_num])
+            drift_param_a_min, drift_param_b_min, drift_param_c_min = \
+                self.set_drift_parameters(self.app_method_min[sim_num], self.boom_hgt_min[sim_num],
+                                          self.droplet_spec_min[sim_num])
+            drift_param_a_max, drift_param_b_max, drift_param_c_max =  \
+               self.set_drift_parameters(self.app_method_max[sim_num], self.boom_hgt_max[sim_num],
+                                         self.droplet_spec_max[sim_num])
 
             # calculate daily time series of conentration based EECs (TED Worksheets : 'Min rate concentrations' & 'Max rate concentration)
 
@@ -188,52 +192,52 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedSpeciesProperties):
             app_flags_max_scenario = self.daily_app_flag(self.num_apps_max[sim_num], self.app_interval_max[sim_num])
 
             # calculate upper bound and mean concentration based EECs for food items (daily values for a year) - min application scenario
-            self.out_diet_eec_upper_min_sg = self.daily_plant_timeseries(sim_num, self.app_rate_min, self.food_multiplier_upper_sg, app_flags_min_scenario)  # short grass
-            self.out_diet_eec_upper_min_tg = self.daily_plant_timeseries(sim_num, self.app_rate_min, self.food_multiplier_upper_tg,  app_flags_min_scenario)  # tall grass
-            self.out_diet_eec_upper_min_blp = self.daily_plant_timeseries(sim_num, self.app_rate_min, self.food_multiplier_upper_blp, app_flags_min_scenario)  # broad-leafed plants
-            self.out_diet_eec_upper_min_fp = self.daily_plant_timeseries(sim_num, self.app_rate_min, self.food_multiplier_upper_fp, app_flags_min_scenario)  # seeds/fruits/pods
-            self.out_diet_eec_upper_min_arthro = self.daily_plant_timeseries(sim_num, self.app_rate_min, self.food_multiplier_upper_arthro, app_flags_min_scenario)  # arthropods
+            self.out_diet_eec_upper_min_sg = self.daily_plant_timeseries(sim_num, self.app_rate_min[sim_num], self.food_multiplier_upper_sg, app_flags_min_scenario)  # short grass
+            self.out_diet_eec_upper_min_tg = self.daily_plant_timeseries(sim_num, self.app_rate_min[sim_num], self.food_multiplier_upper_tg,  app_flags_min_scenario)  # tall grass
+            self.out_diet_eec_upper_min_blp = self.daily_plant_timeseries(sim_num, self.app_rate_min[sim_num], self.food_multiplier_upper_blp, app_flags_min_scenario)  # broad-leafed plants
+            self.out_diet_eec_upper_min_fp = self.daily_plant_timeseries(sim_num, self.app_rate_min[sim_num], self.food_multiplier_upper_fp, app_flags_min_scenario)  # seeds/fruits/pods
+            self.out_diet_eec_upper_min_arthro = self.daily_plant_timeseries(sim_num, self.app_rate_min[sim_num], self.food_multiplier_upper_arthro, app_flags_min_scenario)  # arthropods
 
-            self.out_diet_eec_mean_min_sg = self.daily_plant_timeseries(sim_num, self.app_rate_min, self.food_multiplier_mean_sg, app_flags_min_scenario)  # short grass
-            self.out_diet_eec_mean_min_tg = self.daily_plant_timeseries(sim_num, self.app_rate_min, self.food_multiplier_mean_tg, app_flags_min_scenario)  # tall grass
-            self.out_diet_eec_mean_min_blp = self.daily_plant_timeseries(sim_num, self.app_rate_min, self.food_multiplier_mean_blp, app_flags_min_scenario)  # broad-leafed plants
-            self.out_diet_eec_mean_min_fp = self.daily_plant_timeseries(sim_num, self.app_rate_min, self.food_multiplier_mean_fp, app_flags_min_scenario)  # seeds/fruits/pods
-            self.out_diet_eec_mean_min_arthro = self.daily_plant_timeseries(sim_num, self.app_rate_min, self.food_multiplier_mean_arthro, app_flags_min_scenario)  # arthropods
+            self.out_diet_eec_mean_min_sg = self.daily_plant_timeseries(sim_num, self.app_rate_min[sim_num], self.food_multiplier_mean_sg, app_flags_min_scenario)  # short grass
+            self.out_diet_eec_mean_min_tg = self.daily_plant_timeseries(sim_num, self.app_rate_min[sim_num], self.food_multiplier_mean_tg, app_flags_min_scenario)  # tall grass
+            self.out_diet_eec_mean_min_blp = self.daily_plant_timeseries(sim_num, self.app_rate_min[sim_num], self.food_multiplier_mean_blp, app_flags_min_scenario)  # broad-leafed plants
+            self.out_diet_eec_mean_min_fp = self.daily_plant_timeseries(sim_num, self.app_rate_min[sim_num], self.food_multiplier_mean_fp, app_flags_min_scenario)  # seeds/fruits/pods
+            self.out_diet_eec_mean_min_arthro = self.daily_plant_timeseries(sim_num, self.app_rate_min[sim_num], self.food_multiplier_mean_arthro, app_flags_min_scenario)  # arthropods
 
             # calculate upper bound and mean concentration based EECs for food items (daily values for a year) - max application scenario
-            self.out_diet_eec_upper_max_sg = self.daily_plant_timeseries(sim_num, self.app_rate_max, self.food_multiplier_upper_sg, app_flags_max_scenario)  # short grass
-            self.out_diet_eec_upper_max_tg = self.daily_plant_timeseries(sim_num, self.app_rate_max, self.food_multiplier_upper_tg, app_flags_max_scenario)  # tall grass
-            self.out_diet_eec_upper_max_blp = self.daily_plant_timeseries(sim_num, self.app_rate_max, self.food_multiplier_upper_blp, app_flags_max_scenario)  # broad-leafed plants
-            self.out_diet_eec_upper_max_fp = self.daily_plant_timeseries(sim_num, self.app_rate_max, self.food_multiplier_upper_fp, app_flags_max_scenario)  # seeds/fruits/pods
-            self.out_diet_eec_upper_max_arthro = self.daily_plant_timeseries(sim_num, self.app_rate_max, self.food_multiplier_upper_arthro, app_flags_max_scenario)  # arthropods
+            self.out_diet_eec_upper_max_sg = self.daily_plant_timeseries(sim_num, self.app_rate_max[sim_num], self.food_multiplier_upper_sg, app_flags_max_scenario)  # short grass
+            self.out_diet_eec_upper_max_tg = self.daily_plant_timeseries(sim_num, self.app_rate_max[sim_num], self.food_multiplier_upper_tg, app_flags_max_scenario)  # tall grass
+            self.out_diet_eec_upper_max_blp = self.daily_plant_timeseries(sim_num, self.app_rate_max[sim_num], self.food_multiplier_upper_blp, app_flags_max_scenario)  # broad-leafed plants
+            self.out_diet_eec_upper_max_fp = self.daily_plant_timeseries(sim_num, self.app_rate_max[sim_num], self.food_multiplier_upper_fp, app_flags_max_scenario)  # seeds/fruits/pods
+            self.out_diet_eec_upper_max_arthro = self.daily_plant_timeseries(sim_num, self.app_rate_max[sim_num], self.food_multiplier_upper_arthro, app_flags_max_scenario)  # arthropods
 
-            self.out_diet_eec_mean_max_sg = self.daily_plant_timeseries(sim_num, self.app_rate_max, self.food_multiplier_mean_sg, app_flags_max_scenario)  # short grass
-            self.out_diet_eec_mean_max_tg = self.daily_plant_timeseries(sim_num, self.app_rate_max, self.food_multiplier_mean_tg, app_flags_max_scenario)  # tall grass
-            self.out_diet_eec_mean_max_blp = self.daily_plant_timeseries(sim_num, self.app_rate_max, self.food_multiplier_mean_blp, app_flags_max_scenario)  # broad-leafed plants
-            self.out_diet_eec_mean_max_fp = self.daily_plant_timeseries(sim_num, self.app_rate_max, self.food_multiplier_mean_fp, app_flags_max_scenario)  # seeds/fruits/pods
-            self.out_diet_eec_mean_max_arthro = self.daily_plant_timeseries(sim_num, self.app_rate_max, self.food_multiplier_mean_arthro, app_flags_max_scenario)  # arthropods
+            self.out_diet_eec_mean_max_sg = self.daily_plant_timeseries(sim_num, self.app_rate_max[sim_num], self.food_multiplier_mean_sg, app_flags_max_scenario)  # short grass
+            self.out_diet_eec_mean_max_tg = self.daily_plant_timeseries(sim_num, self.app_rate_max[sim_num], self.food_multiplier_mean_tg, app_flags_max_scenario)  # tall grass
+            self.out_diet_eec_mean_max_blp = self.daily_plant_timeseries(sim_num, self.app_rate_max[sim_num], self.food_multiplier_mean_blp, app_flags_max_scenario)  # broad-leafed plants
+            self.out_diet_eec_mean_max_fp = self.daily_plant_timeseries(sim_num, self.app_rate_max[sim_num], self.food_multiplier_mean_fp, app_flags_max_scenario)  # seeds/fruits/pods
+            self.out_diet_eec_mean_max_arthro = self.daily_plant_timeseries(sim_num, self.app_rate_max[sim_num], self.food_multiplier_mean_arthro, app_flags_max_scenario)  # arthropods
 
             # calculate daily soil pore water, soil, puddles, and dew concentrations (min/max application scenarios)
-            self.out_conc_pore_h2o_min = self.daily_soil_h2o_timeseries(sim_num, self.app_rate_min, app_flags_min_scenario, "pore_water")
-            self.out_conc_pore_h2o_max = self.daily_soil_h2o_timeseries(sim_num, self.app_rate_max, app_flags_max_scenario, "pore_water")
+            self.out_conc_pore_h2o_min = self.daily_soil_h2o_timeseries(sim_num, self.app_rate_min[sim_num], app_flags_min_scenario, "pore_water")
+            self.out_conc_pore_h2o_max = self.daily_soil_h2o_timeseries(sim_num, self.app_rate_max[sim_num], app_flags_max_scenario, "pore_water")
 
-            self.out_conc_puddles_min = self.daily_soil_h2o_timeseries(sim_num, self.app_rate_min, app_flags_min_scenario, "puddles")
-            self.out_conc_puddles_max = self.daily_soil_h2o_timeseries(sim_num, self.app_rate_max, app_flags_max_scenario, "puddles")
+            self.out_conc_puddles_min = self.daily_soil_h2o_timeseries(sim_num, self.app_rate_min[sim_num], app_flags_min_scenario, "puddles")
+            self.out_conc_puddles_max = self.daily_soil_h2o_timeseries(sim_num, self.app_rate_max[sim_num], app_flags_max_scenario, "puddles")
 
             self.out_dew_conc_min = self.daily_plant_dew_timeseries(sim_num, self.out_diet_eec_upper_min_blp)
             self.out_dew_conc_max = self.daily_plant_dew_timeseries(sim_num, self.out_diet_eec_upper_max_blp)
 
-            self.out_soil_conc_min = self.daily_soil_timeseries(sim_num, self.out_conc_pore_h20_min)
-            self.out_soil_conc_max = self.daily_soil_timeseries(sim_num, self.out_conc_pore_h20_max)
+            self.out_soil_conc_min = self.daily_soil_timeseries(sim_num, self.out_conc_pore_h2o_min)
+            self.out_soil_conc_max = self.daily_soil_timeseries(sim_num, self.out_conc_pore_h2o_max)
 
             # calculate daily air (under canopy) concentrations (min/max application scenarios)
-            self.out_air_conc_min = self.daily_canopy_air_timeseries(sim_num, self.app_rate_min, app_flags_min_scenario)
-            self.out_air_conc_max = self.daily_canopy_air_timeseries(sim_num, self.app_rate_max, app_flags_max_scenario)
+            self.out_air_conc_min = self.daily_canopy_air_timeseries(sim_num, self.app_rate_min[sim_num], app_flags_min_scenario)
+            self.out_air_conc_max = self.daily_canopy_air_timeseries(sim_num, self.app_rate_max[sim_num], app_flags_max_scenario)
 
             # calculate daily concentrations for soil-dwelling invertebrates, small mammals, large mammals, and small birds
             # (min/max application scenarios & upper/mean food multipliers)
-            self.out_diet_eec_min_soil_inv = self.daily_soil_inv_timeseries(sim_num, self.out_conc_pore_h20_min)
-            self.out_diet_eec_max_soil_inv = self.daily_soil_inv_timeseries(sim_num, self.out_conc_pore_h20_max)
+            self.out_diet_eec_min_soil_inv = self.daily_soil_inv_timeseries(sim_num, self.out_conc_pore_h2o_min)
+            self.out_diet_eec_max_soil_inv = self.daily_soil_inv_timeseries(sim_num, self.out_conc_pore_h2o_max)
 
             # calculate daily whole body concentrations for prey items (small mammals, large mammals, small birds, small terrestrial phase amphibians/reptiles
             # (min/max application scenarios & upper/mean food multipliers)
@@ -260,16 +264,16 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedSpeciesProperties):
     def set_global_constants(self):
         # Assigned constants
 
-        self.num_simulations = len(self.chem_name)
+        self.num_simulations = len(self.chemical_name)
 
-        self.num_simulation_days = 366.
+        self.num_simulation_days = 366
         self.day_num = np.arange(366)  # create array of day numbers from 0 - 365
 
         # constants and conversions
         self.density_h2o = 1.  # kg/L
         self.stan_temp_kelvin = 298.  # temperature in Kelvin for 25degC
         self.gas_const = 8.205e-5  # universal gas constant (atm-m3/mol-K)
-        self_hectare_area = 10000.  # area of hectare (m2)
+        self.hectare_area = 10000.  # area of hectare (m2)
         self.lbs_to_gms = 453.592
         self.hectare_to_acre = 2.47105
         self.gms_to_mg = 1000.
@@ -299,8 +303,8 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedSpeciesProperties):
         self.soil_particle_density = 2.65  # kg/L
         self.soil_bulk_density = 1.5  # kg/L
         self.soil_porosity = (1. - (self.soil_bulk_density / self.soil_particle_density))
-        self_h2o_depth_puddles = 1.3  # centimeters; for water depth in Eq.3
-        self_h2o_depth_soil = 0.0  # centimeters; for water depth in Eq.3
+        self.h2o_depth_puddles = 1.3  # centimeters; for water depth in Eq.3
+        self.h2o_depth_soil = 0.0  # centimeters; for water depth in Eq.3
 
         # earthworm properties
         self.lipid_earthworm = 0.01  # lipid content of earthworm
@@ -354,8 +358,8 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedSpeciesProperties):
 
     def initialize_eec_arrays(self):
 
-        app_flags_min_scenario = np.zeros(self.num_simulation_days)
-        app_flags_max_scenario = np.zeros(self.num_simulation_days)
+        app_flags_min_scenario = np.full(self.num_simulation_days, True, dtype=bool)
+        app_flags_max_scenario = np.full(self.num_simulation_days, True, dtype=bool)
 
         self.out_diet_eec_upper_min_sg = np.zeros(self.num_simulation_days)
         self.out_diet_eec_upper_min_tg = np.zeros(self.num_simulation_days)

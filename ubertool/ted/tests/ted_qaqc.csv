@@ -1,28 +1,28 @@
-property_name,description,units,type,valid_range,run0
-version,,,,,
-chemical_name,chemical_name,unitless,,,malathion
-pc_code,,,,,
-crop_min,crop name for minimum application scenario,,,,
-app_method_min,"method for minimum application scenario (aerial, ground, airblast)",,,,aerial
-app_rate_min,application rate for minimum application scenario,lb a.i./acre,,,0.18
-num_apps_min,number of applicatiions for minimum application scenario,unitless,,,3
-app_interval_min,application interval for minimum application scenario,days,,,7
-droplet_spec_min,droplet spectrum for minumum application scenario (aerial and ground methods only),,,,very fine to fine
-boom_hgt_min,boom height  for minimum application scenario (ground method only),,,,
-crop_max,crop name for maximum application scenario,,,,
-app_method_max,"method for maximum application scenario (aerial, ground, airblast)",,,,ground
-app_rate_max,application rate for maximum application scenario,lb a.i./acre,,,0.18
-num_apps_max,number of applicatiions for maximum application scenario,unitless,,,3
-app_interval_max,application interval for maximum application scenario,days,,,7
-droplet_spec_max,droplet spectrum for maxumum application scenario (aerial and ground methods only),,,,fine to medium
-boom_hgt_max,boom height  for maximum application scenario (ground method only),,,,low
-foliar_diss_hlife,foliar dissipation half-life,days,,,35
-aerobic_soil_meta_hlife,aerobic soil metabolism half-life,days,,,15
-frac_retained_mammals,daily fraction of pesiticide retained in mammals,,,,0.1
-frac_retained_birds,daily fraction of pesticide retained in birds,,,,0.05
-log_kow,log kow of pesticide active ingredient,,,,2.75
-koc,koc of pesticide active ingredient,L/kg-oc,,,1500
-solubility,solubility of pesticide active ingredient,mg/L,,,145
-henry_law_const,henry's law constant of pesticide active ingredient,atm-m3/mol,,,2.00E-07
-out_diet_eec_upper_min_sg_maxdaily,the maximum pesticide concentration in short grass among the daily values for the upper dietary food factor and minimum application scenario,mg/kg-diet,,,
-exp_diet_eec_upper_min_sg_maxdaily,the expected value of the maximum pesticide concentration in short grass among the daily values for the upper dietary food factor and minimum application scenario,mg/kg-diet,,,80.234
+property_name,description,units,type,valid_range,run0,run1
+version,,,,,,
+chemical_name,chemical_name,unitless,,,malathion,malathion
+pc_code,,,,,,
+crop_min,crop name for minimum application scenario,,,,,
+app_method_min,"method for minimum application scenario (aerial, ground, airblast)",,,,aerial,ground
+app_rate_min,application rate for minimum application scenario,lb a.i./acre,,,0.18,0.5
+num_apps_min,number of applicatiions for minimum application scenario,unitless,,,3,4
+app_interval_min,application interval for minimum application scenario,days,,,7,7
+droplet_spec_min,droplet spectrum for minumum application scenario (aerial and ground methods only),,,,very_fine_to_fine,fine_to_medium
+boom_hgt_min,boom height  for minimum application scenario (ground method only),,,, ,low
+crop_max,crop name for maximum application scenario,,,,,
+app_method_max,"method for maximum application scenario (aerial, ground, airblast)",,,,ground,ground
+app_rate_max,application rate for maximum application scenario,lb a.i./acre,,,0.36,0.7
+num_apps_max,number of applicatiions for maximum application scenario,unitless,,,3,3
+app_interval_max,application interval for maximum application scenario,days,,,7,7
+droplet_spec_max,droplet spectrum for maxumum application scenario (aerial and ground methods only),,,,fine_to_medium-coarse,very_fine_to_fine
+boom_hgt_max,boom height  for maximum application scenario (ground method only),,,,low,low
+foliar_diss_hlife,foliar dissipation half-life,days,,,35,35
+aerobic_soil_meta_hlife,aerobic soil metabolism half-life,days,,,15,15
+frac_retained_mamm,daily fraction of pesiticide retained in mammals,,,,0.1,0.1
+frac_retained_birds,daily fraction of pesticide retained in birds,,,,0.05,0.05
+log_kow,log kow of pesticide active ingredient,,,,2.75,2.75
+koc,koc of pesticide active ingredient,L/kg-oc,,,1500,1500
+solubility,solubility of pesticide active ingredient,mg/L,,,145,145
+henry_law_const,henry's law constant of pesticide active ingredient,atm-m3/mol,,,2.00E-07,2.00E-07
+out_diet_eec_upper_min_sg_maxdaily,the maximum pesticide concentration in short grass among the daily values for the upper dietary food factor and minimum application scenario,mg/kg-diet,,,,
+exp_diet_eec_upper_min_sg_maxdaily,the expected value of the maximum pesticide concentration in short grass among the daily values for the upper dietary food factor and minimum application scenario,mg/kg-diet,,,80.234,80.234

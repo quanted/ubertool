@@ -36,7 +36,7 @@ try:
         # print(csv_transpose_path_in)
         pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
         # with open('./trex_qaqc_in_transpose.csv') as f:
-            # csv_data = csv.reader(f)
+        # csv_data = csv.reader(f)
 finally:
     pass
     # print("trex inputs")

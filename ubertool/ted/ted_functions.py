@@ -3,10 +3,15 @@ import logging
 import numpy as np
 import pandas as pd
 
+
 class TedFunctions(object):
     """
     Function class for TED model.
     """
+
+    def __init__(self):
+        """Class representing the functions for Trex"""
+        super(TedFunctions, self).__init__()
 
     def daily_app_flag(self, num_apps, app_interval):
         """
@@ -19,15 +24,14 @@ class TedFunctions(object):
         :return:
         """
 
-        daily_flag = np.zeros(366)  # set daily flag to default of 0
+        daily_flag = np.full(self.num_simulation_days, False, dtype=bool)  # set daily flag to default of 0
 
         # set daily_flag to 1 for all application days
-        for i in range(self.num_apps):  # assume at least 1 application and it is on day 0
+        for i in range(num_apps):  # assume at least 1 application and it is on day 0
             # calculate day index of each application and update the daily application array flag
             if (i == 0):
                 daily_flag[0] = 1
-            else:
-                index = i * self.app_interval
+            index = i * app_interval
             daily_flag[index] = 1
         return daily_flag
 
@@ -42,7 +46,7 @@ class TedFunctions(object):
         """
         return application_rate * food_multiplier
 
-    def conc_initial_soil_h20(self, application_rate, water_type):
+    def conc_initial_soil_h2o(self, i, application_rate, water_type):
         """
         :description calculates initial (1st application day) concentration in soil pore water or surface puddles(ug/L)
         :param application rate; active ingredient application rate (lbs a.i./acre)
@@ -59,13 +63,13 @@ class TedFunctions(object):
         """
 
         if(water_type=="puddles"):
-            return (application_rate*self.app_rate_conv) / (self.h2o_depth_puddles + (self.soil_depth*(self.soil_porosity + (self.soil_bulk_density*self.koc*self.soil_foc))))
+            return (application_rate*self.app_rate_conv) / (self.h2o_depth_puddles + (self.soil_depth*(self.soil_porosity + (self.soil_bulk_density*self.koc[i]*self.soil_foc))))
         elif(water_type=="pore_water"):
-            return (application_rate*self.app_rate_conv) / (self.h2o_depth_soil + (self.soil_depth*(self.soil_porosity + (self.soil_bulk_density*self.koc*self.soil_foc))))
+            return (application_rate*self.app_rate_conv) / (self.h2o_depth_soil + (self.soil_depth*(self.soil_porosity + (self.soil_bulk_density*self.koc[i]*self.soil_foc))))
 
         return
 
-    def conc_initial_canopy_air(self, application_rate):
+    def conc_initial_canopy_air(self, i, application_rate):
         """
         :description calculates initial (1st application day) air concentration of pesticide within plant canopy (ug/mL)
         :param application rate; active ingredient application rate (lbs a.i./acre)
@@ -80,9 +84,9 @@ class TedFunctions(object):
 
         mass_pest = application_rate * self.lbs_to_gms * self.hectare_to_acre * self.gms_to_mg  #converting lbs/acre to mg Eq 25
         volume_air = self.crop_hgt * self.hectare_area * self.m3_to_liters   #crop_hgt(m), hectare_area(m2), 1000 (L/m3) #Eq 26
-        log_biotransfer_factor = 1.065 * self.log_kow - self.log_unitless_hlc - 1.654  #Eq 27
+        log_biotransfer_factor = 1.065 * self.log_kow[i] - self.log_unitless_hlc[i] - 1.654  #Eq 27
 
-        conc_air = mass_pest / (volume_air + (self.mass_mass * 10.**(self.log_unitless_hlc) / self.density_plant))
+        conc_air = mass_pest / (volume_air + (self.mass_plant * 10.**(log_biotransfer_factor) / self.density_plant))
 
         return conc_air
 
@@ -117,7 +121,7 @@ class TedFunctions(object):
             if(day_index==0):
                 conc[day_index] = self.conc_initial_plant(application_rate, food_multiplier)
             else:
-                conc[day_index] = self.conc_timestep(i, conc[day_index-1], self.foliar_diss_hlife[i])
+                conc[day_index] = self.conc_timestep(conc[day_index-1], self.foliar_diss_hlife[i])
                 if(daily_flag[day_index]==1): conc[day_index] = conc[day_index] + conc[0]
         return conc
 
@@ -140,9 +144,9 @@ class TedFunctions(object):
 
         for day_index in range(self.num_simulation_days):
             if(day_index==0):
-                conc[day_index] = self.conc_initial_soil_h20(application_rate, water_type)
+                conc[day_index] = self.conc_initial_soil_h2o(i, application_rate, water_type)
             else:
-                conc[day_index] = self.conc_timestep(i, conc[day_index-1], self.aerobic_soil_meta_hlife[i])
+                conc[day_index] = self.conc_timestep(conc[day_index-1], self.aerobic_soil_meta_hlife[i])
                 if(daily_flag[day_index]==1): conc[day_index] = conc[day_index] + conc[0]
         return conc
 
@@ -164,13 +168,14 @@ class TedFunctions(object):
 
         for day_index in range(self.num_simulation_days):
             conc[day_index] = (blp_conc[day_index] * self.frac_pest_on_surface * self.density_h2o) / (self.mass_wax * (10.**(self.log_kow[i])))
+            if (conc[day_index] > self.solubility[i]): conc[day_index] = self.solubility[i]
         return conc
 
-    def daily_soil_timeseries(self, i, pore_h20_conc):
+    def daily_soil_timeseries(self, i, pore_h2o_conc):
         """
         :description generates annual timeseries of daily pesticide concentrations in soil
         :param i; simulation number/index
-        :param pore_h20_conc; daily values of pesticide concentration in soil pore water
+        :param pore_h2o_conc; daily values of pesticide concentration in soil pore water
 
         :Notes # calculations are performed daily from day of first application (assumed day 0) through the last day of a year
                # note: day numbers are synchronized with 0-based array indexing; thus the year does not have a calendar specific
@@ -181,14 +186,14 @@ class TedFunctions(object):
         conc = np.zeros(self.num_simulation_days)
 
         for day_index in range(self.num_simulation_days):
-            conc[day_index] = pore_h20_conc[day_index] * self.soil_foc * self.koc[i]
+            conc[day_index] = pore_h2o_conc[day_index] * self.soil_foc * self.koc[i]
         return conc
 
-    def daily_soil_inv_timeseries(self, i, pore_h20_conc):
+    def daily_soil_inv_timeseries(self, i, pore_h2o_conc):
         """
         :description generates annual timeseries of daily pesticide concentrations in soil invertebrates (earthworms)
         :param i; simulation number/index
-        :param pore_h20_conc; daily values of pesticide concentration in soil pore water
+        :param pore_h2o_conc; daily values of pesticide concentration in soil pore water
 
         :Notes # calculations are performed daily from day of first application (assumed day 0) through the last day of a year
                # note: day numbers are synchronized with 0-based array indexing; thus the year does not have a calendar specific
@@ -202,7 +207,7 @@ class TedFunctions(object):
         conc = np.zeros(self.num_simulation_days)
 
         for day_index in range(self.num_simulation_days):
-            conc[day_index] = (pore_h20_conc[day_index] * (10.** self.log_kow[i]) * self.lipid_earthworm) / self.density_earthworm
+            conc[day_index] = (pore_h2o_conc[day_index] * (10.** self.log_kow[i]) * self.lipid_earthworm) / self.density_earthworm
         return conc
 
     def daily_animal_dose_timeseries(self, a1, b1, body_wgt, frac_h2o, intake_food_conc, frac_retained):
@@ -212,7 +217,7 @@ class TedFunctions(object):
         :param b1; exponent of allometrice expression
         :param body_wgt; body weight of species (g)
         :param frac_h2o; fraction of water in food item
-        :param intake_food_conc; pesticide concentration in food item (mg a.i./kg)
+        :param intake_food_conc; pesticide concentration in food item (daily mg a.i./kg)
         :param frac_retained; fraction of ingested food retained by animal (mammals, birds, reptiles/amphibians)
 
         :Notes # calculations are performed daily from day of first application (assumed day 0) through the last day of a year
@@ -290,9 +295,9 @@ class TedFunctions(object):
 
         for day_index in range(self.num_simulation_days):
             if(day_index==0):
-                conc[day_index] = self.conc_initial_canopy_air(application_rate)
+                conc[day_index] = self.conc_initial_canopy_air(i, application_rate)
             else:
-                conc[day_index] = self.conc_timestep(i, conc[day_index-1], self.foliar_diss_hlife[i])
+                conc[day_index] = self.conc_timestep(conc[day_index-1], self.foliar_diss_hlife[i])
                 if(daily_flag[day_index]==1): conc[day_index] = conc[day_index] + conc[0]
         return conc
 
@@ -329,6 +334,7 @@ class TedFunctions(object):
         :return:
         """
 
+        logging.info('im in set_drift_parameters')
         if app_method == 'aerial':
             if drop_size == 'very_fine_to_fine':
                 param_a = 0.0292
@@ -348,7 +354,7 @@ class TedFunctions(object):
                 param_c = 0.4999
         elif app_method == 'ground':
             if boom_hgt == 'low':
-                if drop_size == 'very_fine to fine':
+                if drop_size == 'very_fine_to_fine':
                     param_a = 1.0063
                     param_b = 0.9998
                     param_c = 1.0193
@@ -357,7 +363,7 @@ class TedFunctions(object):
                     param_b = 0.8523
                     param_c = 1.0079
             elif boom_hgt == 'high':
-                if drop_size == 'very_fine to fine':
+                if drop_size == 'very_fine_to_fine':
                     param_a = 0.1913
                     param_b = 1.2366
                     param_c = 1.0552
@@ -369,5 +375,8 @@ class TedFunctions(object):
             param_a = 0.0351
             param_b = 2.4586
             param_c = 0.4763
+
+        else:
+            pass
 
         return param_a, param_b, param_c

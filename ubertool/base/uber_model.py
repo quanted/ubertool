@@ -99,10 +99,10 @@ class UberModel(object):
         mod_name = "ubertool.ubertool." + self.name.lower() + "." + self.name.lower() + '_exe'
         print(mod_name)
         try:
-            # Import the model's input class (e.g. AgdriftInputs) to compare user supplied inputs to
+            # Import the model's input class (e.g. TedInputs) to compare user supplied inputs to
             module = importlib.import_module(mod_name)
             model_inputs_class = getattr(module, self.name + "Inputs")
-            model_inputs =   ()
+            model_inputs = model_inputs_class()
         except ValueError as err:
             logging.info(mod_name)
             logging.info(err.args)
