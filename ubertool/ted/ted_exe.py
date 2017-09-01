@@ -269,6 +269,8 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedSpeciesProperties):
         self.num_simulation_days = 366
         self.day_num = np.arange(366)  # create array of day numbers from 0 - 365
 
+        self.max_distance_from_source = 1000.  # max distance (m) from source for distance calculations
+
         # constants and conversions
         self.density_h2o = 1.  # kg/L
         self.stan_temp_kelvin = 298.  # temperature in Kelvin for 25degC

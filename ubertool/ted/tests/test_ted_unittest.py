@@ -1,4 +1,4 @@
-from __future__ import division  #brings in Python 3.0 mixed type calculation rules
+from __future__ import division  # brings in Python 3.0 mixed type calculation rules
 import datetime
 import inspect
 import numpy as np
@@ -177,13 +177,15 @@ class TestTed(unittest.TestCase):
                                False, False, False, False, False, False]]
 
         try:
+            # internal model constants
             ted_empty.num_simulation_days = 366
 
-            num_apps = pd.Series([3, 5, 1])
-            app_interval = pd.Series([3, 7, 1])
+            # input varialbles that change per simulation
+            ted_empty.num_apps_min = pd.Series([3, 5, 1])
+            ted_empty.app_interval_min = pd.Series([3, 7, 1])
 
             for i in range (3):
-                result[i] = ted_empty.daily_app_flag(num_apps[i], app_interval[i])
+                result[i] = ted_empty.daily_app_flag(ted_empty.num_apps_min[i], ted_empty.app_interval_min[i])
                 np.array_equal(result[i],expected_results[i])
         finally:
             for i in range(3):
@@ -191,6 +193,92 @@ class TestTed(unittest.TestCase):
                 print("\n")
                 print(inspect.currentframe().f_code.co_name)
                 print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_set_drift_parameters(self):
+        """
+        :description provides parmaeter values to use when calculating distances from edge of application source area to
+                     concentration of interest
+        :param app_method; application method (aerial/ground/airblast)
+        :param boom_hgt; height of boom (low/high) - 'NA' if not ground application
+        :param drop_size; droplet spectrum for application (see list below for aerial/ground - 'NA' if airblast)
+        :param param_a (result[i][0]; parameter a for spray drift distance calculation
+        :param param_b (result[i][1]; parameter b for spray drift distance calculation
+        :param param_c (result[i][2]; parameter c for spray drift distance calculation
+
+        :return:
+        """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        ted_empty = self.create_ted_object()
+
+        expected_results = pd.Series([], dtype='float')
+        result = pd.Series(9*[[0.,0.,0.]], dtype='float')
+        expected_results = [[0.0292,0.822,0.6539],[0.043,1.03,0.5],[0.0721,1.0977,0.4999],[0.1014,1.1344,0.4999],
+                            [1.0063,0.9998,1.0193],[5.5513,0.8523,1.0079],[0.1913,1.2366,1.0552],
+                            [2.4154,0.9077,1.0128],[0.0351,2.4586,0.4763]]
+
+        try:
+
+            # input variable that change per simulation
+            ted_empty.app_method_min = pd.Series(['aerial','aerial','aerial','aerial','ground','ground','ground','ground','airblast'])
+            ted_empty.boom_hgt_min = pd.Series(['','','','','low','low','high','high',''])
+            ted_empty.droplet_spec_min = pd.Series(['very_fine_to_fine','fine_to_medium','medium_to_coarse','coarse_to_very_coarse',
+                                                    'very_fine_to_fine','fine_to_medium-coarse','very_fine_to_fine','fine_to_medium-coarse',''])
+
+
+            for i in range (9):  # test that the nine combinations are accessed
+                result[i][0], result[i][1], result[i][2] = ted_empty.set_drift_parameters(ted_empty.app_method_min[i], ted_empty.boom_hgt_min[i], ted_empty.droplet_spec_min[i])
+                npt.assert_allclose(result[i],expected_results[i],rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            for i in range (9):
+                tab = [result, expected_results]
+                print("\n")
+                print(inspect.currentframe().f_code.co_name)
+                print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+
+    def test_drift_distance_calc(self):
+        """
+        :description provides parmaeter values to use when calculating distances from edge of application source area to
+                     concentration of interest
+        :param app_rate_frac; fraction of active ingredient application rate equivalent to the health threshold of concern
+        :param param_a; parameter a for spray drift distance calculation
+        :param param_b; parameter b for spray drift distance calculation
+        :param param_c; parameter c for spray drift distance calculation
+
+        :return:
+        """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        ted_empty = self.create_ted_object()
+
+        expected_results = pd.Series([], dtype='float')
+        result = pd.Series([], dtype='float')
+        expected_results = [302.050738, 11.484378, 0.0]
+
+        try:
+
+            # internal model constants
+            ted_empty.max_distance_from_source = 1000.
+
+            # input variable that is internally specified from among options
+            param_a = pd.Series([0.0292, 0.1913, 0.0351], dtype='float')
+            param_b = pd.Series([0.822, 1.2366, 2.4586], dtype='float')
+            param_c = pd.Series([0.6539, 1.0522, 0.4763], dtype='float')
+
+            # internally calculated variables
+            app_rate_frac = pd.Series([0.1,0.25,0.88], dtype='float')
+
+            for i in range(3):
+                result[i] = ted_empty.drift_distance_calc(app_rate_frac[i], param_a[i], param_b[i], param_c[i])
+            npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
 
     def test_conc_timestep(self):
@@ -210,10 +298,12 @@ class TestTed(unittest.TestCase):
         expected_results = [9.803896e-4, 0.106066, 1.220703e-3]
 
         try:
-            conc_ini = pd.Series([1.e-3, 0.15, 1.25])
+
+            # input variable that is internally specified from among options
             half_life = pd.Series([35., 2., .1])
 
-            return conc_ini * np.exp(-(np.log(2) / half_life))
+            # internally calculated variables
+            conc_ini = pd.Series([1.e-3, 0.15, 1.25])
 
             result = ted_empty.conc_timestep(conc_ini, half_life)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
@@ -245,6 +335,7 @@ class TestTed(unittest.TestCase):
         expected_results = [1.152526e-7, 1.281910e-5, 7.925148e-8]
 
         try:
+            # internal model constants
             ted_empty.hectare_to_acre = 2.47105
             ted_empty.gms_to_mg = 1000.
             ted_empty.lbs_to_gms = 453.592
@@ -254,12 +345,13 @@ class TestTed(unittest.TestCase):
             ted_empty.mass_plant = 25000. # kg/hectare
             ted_empty.density_plant = 0.77 #kg/L
 
+            # input variables that change per simulation
             ted_empty.log_kow = pd.Series([2., 4., 6.], dtype='float')
             ted_empty.log_unitless_hlc = pd.Series([-5., -3., -4.], dtype='float')
-            application_rate = pd.Series([1.e-3, 0.15, 1.25]) # lbs a.i./acre
+            ted_empty.app_rate_min = pd.Series([1.e-3, 0.15, 1.25]) # lbs a.i./acre
 
             for i in range(3):  #let's do 3 iterations
-                result[i] = ted_empty.conc_initial_canopy_air(i, application_rate[i])
+                result[i] = ted_empty.conc_initial_canopy_air(i, ted_empty.app_rate_min[i])
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -292,20 +384,24 @@ class TestTed(unittest.TestCase):
         expected_results = [5.067739e-3, 1.828522, 6.13194634]
 
         try:
+            # internal model constants
             ted_empty.app_rate_conv = 11.2
-            ted_empty.soil_depth = 2.6 #cm
+            ted_empty.soil_depth = 2.6 # cm
             ted_empty.soil_porosity = 0.35
-            ted_empty.soil_bulk_density = 1.5 #kg/L
+            ted_empty.soil_bulk_density = 1.5 # kg/L
             ted_empty.soil_foc = 0.015
             ted_empty.h2o_depth_soil = 0.0
             ted_empty.h2o_depth_puddles = 1.3
 
+            # internally specified variable
             ted_empty.water_type = pd.Series(["puddles", "pore_water", "puddles"])
+
+            # input variables that change per simulation
             ted_empty.koc = pd.Series([1.e-3, 0.15, 1.25])
-            application_rate = pd.Series([1.e-3, 0.15, 1.25]) # lbs a.i./acre
+            ted_empty.app_rate_min = pd.Series([1.e-3, 0.15, 1.25]) # lbs a.i./acre
 
             for i in range(3):  #let's do 3 iterations
-                result[i] = ted_empty.conc_initial_soil_h2o(i, application_rate[i], ted_empty.water_type[i])
+                result[i] = ted_empty.conc_initial_soil_h2o(i, ted_empty.app_rate_min[i], ted_empty.water_type[i])
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -332,10 +428,11 @@ class TestTed(unittest.TestCase):
         expected_results = [1.5e-2, 22.5, 300.]
 
         try:
+            # input variables that change per simulation
             ted_empty.food_multiplier = pd.Series([15., 150., 240.])
-            application_rate = pd.Series([1.e-3, 0.15, 1.25]) # lbs a.i./acre
+            ted_empty.app_rate_min = pd.Series([1.e-3, 0.15, 1.25]) # lbs a.i./acre
 
-            result = ted_empty.conc_initial_plant(application_rate, ted_empty.food_multiplier)
+            result = ted_empty.conc_initial_plant(ted_empty.app_rate_min, ted_empty.food_multiplier)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -365,8 +462,11 @@ class TestTed(unittest.TestCase):
         expected_results = [8.050355, 3.507997, 64.92055]
 
         try:
+            # internally specified parameters
             a1 = pd.Series([.398, .013, .621], dtype='float')
             b1 = pd.Series([.850, .773, .564], dtype='float')
+
+            # variables from external database
             body_wgt = pd.Series([10., 120., 450.], dtype='float')
             frac_h2o = pd.Series([0.65, 0.85, 0.7], dtype='float')
 
@@ -400,7 +500,10 @@ class TestTed(unittest.TestCase):
         expected_results = [3.e-4, 3.45e-2, 4.5]
 
         try:
+            # variables from external database
             body_wgt = pd.Series([10., 120., 450.], dtype='float')
+
+            # internally calculated variables
             food_intake_rate = pd.Series([3., 12., 45.], dtype='float')
             food_pest_conc = pd.Series([1.e-3, 3.45e-1, 4.50e+1], dtype='float')
 
@@ -595,11 +698,17 @@ class TestTed(unittest.TestCase):
                             2.220288E-01,2.176749E-01]]
 
         try:
+            # internal model constants
+            ted_empty.num_simulation_days = 366
+
+            # internally specified variable (from internal database)
             food_multiplier = pd.Series([15., 110., 240.])
 
-            ted_empty.num_simulation_days = 366
+            # input variables that change per simulation
             ted_empty.foliar_diss_hlife = pd.Series([15., 25., 35.])
             ted_empty.app_rate_min = pd.Series([0.18, 0.5, 1.25]) # lbs a.i./acre
+
+            # application scenarios generated from 'daily_app_flag' tests and reused here
             daily_flag = pd.Series([[True, False, False, True, False, False, True, False, False, False,
                              False, False, False, False, False, False, False, False, False, False,
                              False, False, False, False, False, False, False, False, False, False,
@@ -939,10 +1048,12 @@ class TestTed(unittest.TestCase):
             ted_empty.h2o_depth_soil = 0.0
             ted_empty.soil_foc = 0.015
 
-            # variables that change per simulation
+            # internally specified variable
+            water_type = ['puddles', 'pore_water', 'puddles']
+
+            # input variables that change per simulation
             ted_empty.aerobic_soil_meta_hlife = pd.Series([15., 10., 20.], dtype='float')
             ted_empty.koc = pd.Series([1500., 1000., 2000.], dtype='float')
-            water_type = ['puddles', 'pore_water', 'puddles']
             ted_empty.app_rate_min = pd.Series([0.18, 0.5, 1.25]) # lbs a.i./acre
 
             # application scenarios generated from 'daily_app_flag' tests and reused here
@@ -1279,10 +1390,11 @@ class TestTed(unittest.TestCase):
             ted_empty.density_h2o = 1.0
             ted_empty.mass_wax = 0.012
 
-            # variables that change per simulation
+            # input variables that change per simulation
             ted_empty.solubility = pd.Series([145., 1., 20.], dtype='float')
             ted_empty.log_kow = pd.Series([2.75, 4., 5.], dtype='float')
 
+            # internally calculated variables
             blp_conc = pd.Series([[6.750000E+01,6.617637E+01,6.487869E+01,6.360646E+01,6.235917E+01,6.113635E+01,5.993750E+01,
                              1.262622E+02,1.237862E+02,1.213589E+02,1.189791E+02,1.166460E+02,1.143586E+02,1.121161E+02,
                              1.774176E+02,1.739385E+02,1.705277E+02,1.671838E+02,1.639054E+02,1.606913E+02,1.575403E+02,
@@ -1636,9 +1748,10 @@ class TestTed(unittest.TestCase):
             ted_empty.num_simulation_days = 366
             ted_empty.soil_foc = 0.015
 
-            # variables that change per simulation
+            # input variables that change per simulation
             ted_empty.koc = pd.Series([1000., 1500., 2000.], dtype='float')
 
+            # internally calculated variables
             pore_h2o_conc  = pd.Series([[2.347878E-01,2.190648E-01,2.043947E-01,1.907070E-01,1.779359E-01,1.660201E-01,
                                          1.549022E-01,3.793167E-01,3.539150E-01,3.302144E-01,3.081009E-01,2.874683E-01,
                                          2.682174E-01,2.502557E-01,4.682847E-01,4.369250E-01,4.076655E-01,3.803653E-01,
@@ -2044,9 +2157,10 @@ class TestTed(unittest.TestCase):
             ted_empty.lipid_earthworm = 0.01
             ted_empty.density_earthworm = 1.0
 
-            # variables that change per simulation
+            # input variables that change per simulation
             ted_empty.log_kow = pd.Series([5.0, 4.0, 2.75], dtype='float')
 
+            # internally calculated variables
             pore_h2o_conc  = pd.Series([[2.347878E-01,2.190648E-01,2.043947E-01,1.907070E-01,1.779359E-01,1.660201E-01,
                                          1.549022E-01,3.793167E-01,3.539150E-01,3.302144E-01,3.081009E-01,2.874683E-01,
                                          2.682174E-01,2.502557E-01,4.682847E-01,4.369250E-01,4.076655E-01,3.803653E-01,
@@ -2432,14 +2546,18 @@ class TestTed(unittest.TestCase):
             # internal model constants
             ted_empty.num_simulation_days = 366
 
+            # internally specified variables
             a1 = pd.Series([.621, .621, .648], dtype='float')
             b1 = pd.Series([.564, .564, .651], dtype='float')
+
+            # internally specified variables from external database
             body_wgt = pd.Series([15., 1000., 20.], dtype='float')
             frac_h2o = pd.Series([0.8, 0.8, 0.8], dtype='float')
 
-            # variables that change per simulation
+            # input variables that change per simulation
             ted_empty.frac_retained_mamm = pd.Series([0.1, 0.1, 0.05], dtype='float')
 
+            # internally calculated variables
             intake_food_conc  = pd.Series([[3.000000E+02,2.941172E+02,2.883497E+02,2.826954E+02,2.771519E+02,
                                             2.717171E+02,2.663889E+02,5.611652E+02,5.501611E+02,5.393727E+02,
                                             5.287960E+02,5.184266E+02,5.082606E+02,4.982939E+02,7.885227E+02,
@@ -2666,6 +2784,356 @@ class TestTed(unittest.TestCase):
             for i in range(3):
                 result[i] = ted_empty.daily_animal_dose_timeseries(a1[i], b1[i], body_wgt[i], frac_h2o[i], intake_food_conc[i], ted_empty.frac_retained_mamm[i])
                 npt.assert_allclose(result[i],expected_results[i],rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            for i in range(3):
+                tab = [result[i], expected_results[i]]
+                print("\n")
+                print(inspect.currentframe().f_code.co_name)
+                print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_daily_canopy_air_timeseries(self):
+        """
+        :description generates annual timeseries of daily pesticide concentrations in soil pore water and surface puddles
+        :param i; simulation number/index
+        :param application rate; active ingredient application rate (lbs a.i./acre)
+        :param food_multiplier; factor by which application rate of active ingredient is multiplied to estimate dietary based EECs
+        :param daily_flag; daily flag denoting if pesticide is applied (0 - not applied, 1 - applied)
+        :param water_type; type of water (pore water or surface puddles)
+
+        :Notes # calculations are performed daily from day of first application (assumed day 0) through the last day of a year
+               # note: day numbers are synchronized with 0-based array indexing; thus the year does not have a calendar specific
+               # assoication, rather it is one year from the day of 1st pesticide application
+        :return:
+        """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        ted_empty = self.create_ted_object()
+
+        expected_results = pd.Series([], dtype='float')
+        result = pd.Series([], dtype='float')
+        expected_results = [[2.697542E-06,2.575726E-06,2.459410E-06,5.045889E-06,4.818025E-06,4.600451E-06,
+                             7.090244E-06,6.770060E-06,6.464335E-06,6.172416E-06,5.893680E-06,5.627531E-06,
+                             5.373400E-06,5.130746E-06,4.899050E-06,4.677817E-06,4.466574E-06,4.264871E-06,
+                             4.072276E-06,3.888378E-06,3.712786E-06,3.545122E-06,3.385030E-06,3.232168E-06,
+                             3.086208E-06,2.946840E-06,2.813765E-06,2.686700E-06,2.565373E-06,2.449525E-06,
+                             2.338908E-06,2.233287E-06,2.132435E-06,2.036138E-06,1.944189E-06,1.856393E-06,
+                             1.772561E-06,1.692515E-06,1.616084E-06,1.543104E-06,1.473420E-06,1.406883E-06,
+                             1.343350E-06,1.282687E-06,1.224762E-06,1.169454E-06,1.116643E-06,1.066218E-06,
+                             1.018069E-06,9.720946E-07,9.281964E-07,8.862805E-07,8.462575E-07,8.080419E-07,
+                             7.715520E-07,7.367100E-07,7.034413E-07,6.716750E-07,6.413433E-07,6.123812E-07,
+                             5.847271E-07,5.583217E-07,5.331088E-07,5.090345E-07,4.860473E-07,4.640982E-07,
+                             4.431403E-07,4.231288E-07,4.040209E-07,3.857760E-07,3.683550E-07,3.517207E-07,
+                             3.358375E-07,3.206716E-07,3.061906E-07,2.923635E-07,2.791609E-07,2.665544E-07,
+                             2.545172E-07,2.430237E-07,2.320491E-07,2.215701E-07,2.115644E-07,2.020105E-07,
+                             1.928880E-07,1.841775E-07,1.758603E-07,1.679188E-07,1.603358E-07,1.530953E-07,
+                             1.461818E-07,1.395804E-07,1.332772E-07,1.272586E-07,1.215118E-07,1.160245E-07,
+                             1.107851E-07,1.057822E-07,1.010052E-07,9.644400E-08,9.208875E-08,8.793017E-08,
+                             8.395938E-08,8.016791E-08,7.654765E-08,7.309089E-08,6.979022E-08,6.663860E-08,
+                             6.362931E-08,6.075591E-08,5.801227E-08,5.539253E-08,5.289110E-08,5.050262E-08,
+                             4.822200E-08,4.604437E-08,4.396508E-08,4.197969E-08,4.008395E-08,3.827383E-08,
+                             3.654544E-08,3.489511E-08,3.331930E-08,3.181466E-08,3.037796E-08,2.900614E-08,
+                             2.769627E-08,2.644555E-08,2.525131E-08,2.411100E-08,2.302219E-08,2.198254E-08,
+                             2.098985E-08,2.004198E-08,1.913691E-08,1.827272E-08,1.744755E-08,1.665965E-08,
+                             1.590733E-08,1.518898E-08,1.450307E-08,1.384813E-08,1.322277E-08,1.262565E-08,
+                             1.205550E-08,1.151109E-08,1.099127E-08,1.049492E-08,1.002099E-08,9.568457E-09,
+                             9.136361E-09,8.723777E-09,8.329826E-09,7.953664E-09,7.594489E-09,7.251534E-09,
+                             6.924067E-09,6.611387E-09,6.312827E-09,6.027750E-09,5.755547E-09,5.495635E-09,
+                             5.247461E-09,5.010494E-09,4.784228E-09,4.568180E-09,4.361889E-09,4.164913E-09,
+                             3.976832E-09,3.797245E-09,3.625767E-09,3.462033E-09,3.305693E-09,3.156414E-09,
+                             3.013875E-09,2.877773E-09,2.747818E-09,2.623731E-09,2.505247E-09,2.392114E-09,
+                             2.284090E-09,2.180944E-09,2.082456E-09,1.988416E-09,1.898622E-09,1.812884E-09,
+                             1.731017E-09,1.652847E-09,1.578207E-09,1.506938E-09,1.438887E-09,1.373909E-09,
+                             1.311865E-09,1.252624E-09,1.196057E-09,1.142045E-09,1.090472E-09,1.041228E-09,
+                             9.942080E-10,9.493112E-10,9.064418E-10,8.655083E-10,8.264234E-10,7.891034E-10,
+                             7.534688E-10,7.194433E-10,6.869544E-10,6.559327E-10,6.263118E-10,5.980286E-10,
+                             5.710225E-10,5.452361E-10,5.206141E-10,4.971040E-10,4.746556E-10,4.532209E-10,
+                             4.327542E-10,4.132117E-10,3.945517E-10,3.767344E-10,3.597217E-10,3.434772E-10,
+                             3.279663E-10,3.131559E-10,2.990143E-10,2.855113E-10,2.726180E-10,2.603070E-10,
+                             2.485520E-10,2.373278E-10,2.266104E-10,2.163771E-10,2.066058E-10,1.972759E-10,
+                             1.883672E-10,1.798608E-10,1.717386E-10,1.639832E-10,1.565779E-10,1.495071E-10,
+                             1.427556E-10,1.363090E-10,1.301535E-10,1.242760E-10,1.186639E-10,1.133052E-10,
+                             1.081885E-10,1.033029E-10,9.863793E-11,9.418360E-11,8.993042E-11,8.586930E-11,
+                             8.199158E-11,7.828897E-11,7.475357E-11,7.137782E-11,6.815451E-11,6.507676E-11,
+                             6.213800E-11,5.933195E-11,5.665261E-11,5.409427E-11,5.165146E-11,4.931896E-11,
+                             4.709180E-11,4.496521E-11,4.293465E-11,4.099579E-11,3.914449E-11,3.737678E-11,
+                             3.568891E-11,3.407726E-11,3.253838E-11,3.106900E-11,2.966597E-11,2.832631E-11,
+                             2.704714E-11,2.582573E-11,2.465948E-11,2.354590E-11,2.248260E-11,2.146733E-11,
+                             2.049790E-11,1.957224E-11,1.868839E-11,1.784445E-11,1.703863E-11,1.626919E-11,
+                             1.553450E-11,1.483299E-11,1.416315E-11,1.352357E-11,1.291287E-11,1.232974E-11,
+                             1.177295E-11,1.124130E-11,1.073366E-11,1.024895E-11,9.786122E-12,9.344196E-12,
+                             8.922227E-12,8.519314E-12,8.134595E-12,7.767250E-12,7.416493E-12,7.081576E-12,
+                             6.761784E-12,6.456433E-12,6.164870E-12,5.886475E-12,5.620651E-12,5.366831E-12,
+                             5.124474E-12,4.893061E-12,4.672098E-12,4.461114E-12,4.259657E-12,4.067298E-12,
+                             3.883625E-12,3.708247E-12,3.540788E-12,3.380892E-12,3.228216E-12,3.082435E-12,
+                             2.943237E-12,2.810325E-12,2.683416E-12,2.562237E-12,2.446530E-12,2.336049E-12,
+                             2.230557E-12,2.129828E-12,2.033649E-12,1.941812E-12,1.854123E-12,1.770394E-12,
+                             1.690446E-12,1.614108E-12,1.541218E-12,1.471619E-12,1.405163E-12,1.341708E-12,
+                             1.281118E-12,1.223265E-12,1.168025E-12,1.115278E-12,1.064914E-12,1.016824E-12,
+                             9.709062E-13,9.270617E-13,8.851971E-13,8.452230E-13,8.070541E-13,7.706088E-13,
+                             7.358093E-13,7.025814E-13,6.708539E-13,6.405592E-13,6.116326E-13,5.840123E-13,
+                             5.576392E-13,5.324571E-13,5.084122E-13,4.854531E-13,4.635308E-13,4.425985E-13],
+                            [1.747062E-05,1.699289E-05,1.652822E-05,1.607625E-05,1.563665E-05,1.520906E-05,
+                             1.479317E-05,3.185927E-05,3.098808E-05,3.014071E-05,2.931651E-05,2.851485E-05,
+                             2.773511E-05,2.697669E-05,4.370963E-05,4.251439E-05,4.135183E-05,4.022106E-05,
+                             3.912122E-05,3.805144E-05,3.701093E-05,5.346948E-05,5.200736E-05,5.058521E-05,
+                             4.920196E-05,4.785653E-05,4.654789E-05,4.527503E-05,6.150761E-05,5.982568E-05,
+                            5.818974E-05,5.659854E-05,5.505085E-05,5.354548E-05,5.208128E-05,5.065711E-05,
+                             4.927189E-05,4.792455E-05,4.661405E-05,4.533939E-05,4.409958E-05,4.289367E-05,
+                             4.172074E-05,4.057989E-05,3.947023E-05,3.839091E-05,3.734111E-05,3.632002E-05,
+                             3.532684E-05,3.436083E-05,3.342123E-05,3.250733E-05,3.161841E-05,3.075380E-05,
+                             2.991284E-05,2.909487E-05,2.829927E-05,2.752543E-05,2.677274E-05,2.604064E-05,
+                            2.532856E-05,2.463595E-05,2.396227E-05,2.330703E-05,2.266969E-05,2.204979E-05,
+                             2.144684E-05,2.086037E-05,2.028994E-05,1.973511E-05,1.919546E-05,1.867056E-05,
+                             1.816001E-05,1.766342E-05,1.718041E-05,1.671062E-05,1.625366E-05,1.580921E-05,
+                             1.537690E-05,1.495642E-05,1.454744E-05,1.414964E-05,1.376271E-05,1.338637E-05,
+                             1.302032E-05,1.266428E-05,1.231797E-05,1.198114E-05,1.165351E-05,1.133485E-05,
+                            1.102489E-05,1.072342E-05,1.043019E-05,1.014497E-05,9.867557E-06,9.597728E-06,
+                             9.335278E-06,9.080004E-06,8.831711E-06,8.590207E-06,8.355308E-06,8.126831E-06,
+                             7.904603E-06,7.688451E-06,7.478210E-06,7.273718E-06,7.074818E-06,6.881356E-06,
+                             6.693185E-06,6.510160E-06,6.332139E-06,6.158987E-06,5.990569E-06,5.826756E-06,
+                             5.667423E-06,5.512447E-06,5.361709E-06,5.215093E-06,5.072486E-06,4.933779E-06,
+                            4.798864E-06,4.667639E-06,4.540002E-06,4.415856E-06,4.295104E-06,4.177654E-06,
+                             4.063416E-06,3.952301E-06,3.844226E-06,3.739105E-06,3.636859E-06,3.537409E-06,
+                             3.440678E-06,3.346593E-06,3.255080E-06,3.166070E-06,3.079493E-06,2.995284E-06,
+                             2.913378E-06,2.833712E-06,2.756224E-06,2.680855E-06,2.607546E-06,2.536243E-06,
+                             2.466889E-06,2.399432E-06,2.333819E-06,2.270001E-06,2.207928E-06,2.147552E-06,
+                            2.088827E-06,2.031708E-06,1.976151E-06,1.922113E-06,1.869552E-06,1.818429E-06,
+                             1.768704E-06,1.720339E-06,1.673296E-06,1.627540E-06,1.583035E-06,1.539747E-06,
+                             1.497642E-06,1.456689E-06,1.416856E-06,1.378112E-06,1.340427E-06,1.303773E-06,
+                             1.268121E-06,1.233445E-06,1.199716E-06,1.166910E-06,1.135001E-06,1.103964E-06,
+                             1.073776E-06,1.044413E-06,1.015854E-06,9.880754E-07,9.610564E-07,9.347762E-07,
+                            9.092147E-07,8.843522E-07,8.601696E-07,8.366482E-07,8.137700E-07,7.915174E-07,
+                             7.698733E-07,7.488211E-07,7.283445E-07,7.084279E-07,6.890559E-07,6.702136E-07,
+                             6.518866E-07,6.340607E-07,6.167223E-07,5.998580E-07,5.834549E-07,5.675003E-07,
+                             5.519819E-07,5.368880E-07,5.222067E-07,5.079270E-07,4.940377E-07,4.805282E-07,
+                             4.673881E-07,4.546074E-07,4.421761E-07,4.300848E-07,4.183241E-07,4.068850E-07,
+                            3.957587E-07,3.849367E-07,3.744105E-07,3.641723E-07,3.542140E-07,3.445280E-07,
+                             3.351068E-07,3.259433E-07,3.170304E-07,3.083612E-07,2.999290E-07,2.917274E-07,
+                             2.837501E-07,2.759910E-07,2.684440E-07,2.611034E-07,2.539635E-07,2.470188E-07,
+                             2.402641E-07,2.336941E-07,2.273037E-07,2.210881E-07,2.150424E-07,2.091620E-07,
+                             2.034425E-07,1.978794E-07,1.924683E-07,1.872053E-07,1.820861E-07,1.771070E-07,
+                            1.722640E-07,1.675534E-07,1.629717E-07,1.585152E-07,1.541806E-07,1.499645E-07,
+                             1.458637E-07,1.418751E-07,1.379955E-07,1.342220E-07,1.305517E-07,1.269817E-07,
+                             1.235094E-07,1.201320E-07,1.168470E-07,1.136518E-07,1.105440E-07,1.075212E-07,
+                             1.045810E-07,1.017212E-07,9.893968E-08,9.623416E-08,9.360264E-08,9.104307E-08,
+                             8.855349E-08,8.613199E-08,8.377671E-08,8.148583E-08,7.925759E-08,7.709029E-08,
+                            7.498225E-08,7.293186E-08,7.093753E-08,6.899774E-08,6.711100E-08,6.527584E-08,
+                             6.349087E-08,6.175471E-08,6.006602E-08,5.842352E-08,5.682592E-08,5.527201E-08,
+                             5.376060E-08,5.229051E-08,5.086062E-08,4.946984E-08,4.811708E-08,4.680132E-08,
+                             4.552153E-08,4.427674E-08,4.306599E-08,4.188835E-08,4.074291E-08,3.962880E-08,
+                             3.854515E-08,3.749113E-08,3.646593E-08,3.546877E-08,3.449887E-08,3.355550E-08,
+                            3.263792E-08,3.174544E-08,3.087735E-08,3.003301E-08,2.921176E-08,2.841296E-08,
+                             2.763601E-08,2.688030E-08,2.614526E-08,2.543031E-08,2.473492E-08,2.405854E-08,
+                             2.340066E-08,2.276077E-08,2.213837E-08,2.153300E-08,2.094418E-08,2.037146E-08,
+                             1.981440E-08,1.927257E-08,1.874556E-08,1.823296E-08,1.773438E-08,1.724944E-08,
+                             1.677775E-08,1.631896E-08,1.587272E-08,1.543868E-08,1.501651E-08,1.460588E-08,
+                            1.420648E-08,1.381800E-08,1.344015E-08,1.307263E-08,1.271516E-08,1.236746E-08,
+                             1.202927E-08,1.170033E-08,1.138038E-08,1.106919E-08,1.076650E-08,1.047209E-08,
+                             1.018573E-08,9.907199E-09,9.636286E-09,9.372782E-09,9.116482E-09,8.867192E-09,
+                             8.624718E-09,8.388874E-09,8.159480E-09,7.936359E-09,7.719339E-09,7.508253E-09,
+                             7.302939E-09,7.103240E-09,6.909002E-09,6.720075E-09,6.536314E-09,6.357578E-09,
+                             6.183730E-09,6.014635E-09,5.850165E-09,5.690192E-09,5.534593E-09,5.383249E-09],
+                            [1.133578E-07,1.111350E-07,1.089557E-07,1.068191E-07,1.047245E-07,1.026709E-07,
+                             1.006576E-07,9.868374E-08,9.674861E-08,9.485143E-08,9.299145E-08,9.116795E-08,
+                             8.938020E-08,8.762751E-08,8.590918E-08,8.422456E-08,8.257297E-08,8.095376E-08,
+                             7.936631E-08,7.780998E-08,7.628418E-08,7.478829E-08,7.332174E-08,7.188394E-08,
+                             7.047434E-08,6.909238E-08,6.773752E-08,6.640923E-08,6.510699E-08,6.383028E-08,
+                            6.257861E-08,6.135148E-08,6.014841E-08,5.896894E-08,5.781259E-08,5.667892E-08,
+                             5.556749E-08,5.447784E-08,5.340956E-08,5.236223E-08,5.133544E-08,5.032879E-08,
+                             4.934187E-08,4.837431E-08,4.742571E-08,4.649573E-08,4.558397E-08,4.469010E-08,
+                             4.381375E-08,4.295459E-08,4.211228E-08,4.128648E-08,4.047688E-08,3.968315E-08,
+                             3.890499E-08,3.814209E-08,3.739414E-08,3.666087E-08,3.594197E-08,3.523717E-08,
+                            3.454619E-08,3.386876E-08,3.320462E-08,3.255349E-08,3.191514E-08,3.128930E-08,
+                             3.067574E-08,3.007421E-08,2.948447E-08,2.890630E-08,2.833946E-08,2.778374E-08,
+                             2.723892E-08,2.670478E-08,2.618112E-08,2.566772E-08,2.516439E-08,2.467093E-08,
+                             2.418715E-08,2.371286E-08,2.324786E-08,2.279199E-08,2.234505E-08,2.190688E-08,
+                             2.147730E-08,2.105614E-08,2.064324E-08,2.023844E-08,1.984158E-08,1.945250E-08,
+                            1.907104E-08,1.869707E-08,1.833043E-08,1.797099E-08,1.761859E-08,1.727310E-08,
+                             1.693438E-08,1.660231E-08,1.627675E-08,1.595757E-08,1.564465E-08,1.533787E-08,
+                             1.503710E-08,1.474223E-08,1.445315E-08,1.416973E-08,1.389187E-08,1.361946E-08,
+                             1.335239E-08,1.309056E-08,1.283386E-08,1.258220E-08,1.233547E-08,1.209358E-08,
+                             1.185643E-08,1.162393E-08,1.139599E-08,1.117252E-08,1.095344E-08,1.073865E-08,
+                            1.052807E-08,1.032162E-08,1.011922E-08,9.920788E-09,9.726248E-09,9.535522E-09,
+                             9.348536E-09,9.165217E-09,8.985493E-09,8.809293E-09,8.636548E-09,8.467190E-09,
+                             8.301154E-09,8.138373E-09,7.978785E-09,7.822326E-09,7.668935E-09,7.518552E-09,
+                             7.371117E-09,7.226574E-09,7.084866E-09,6.945936E-09,6.809730E-09,6.676195E-09,
+                             6.545279E-09,6.416930E-09,6.291098E-09,6.167734E-09,6.046788E-09,5.928214E-09,
+                            5.811966E-09,5.697997E-09,5.586262E-09,5.476719E-09,5.369324E-09,5.264035E-09,
+                             5.160810E-09,5.059610E-09,4.960394E-09,4.863124E-09,4.767761E-09,4.674268E-09,
+                             4.582609E-09,4.492746E-09,4.404646E-09,4.318274E-09,4.233595E-09,4.150577E-09,
+                             4.069187E-09,3.989392E-09,3.911163E-09,3.834467E-09,3.759276E-09,3.685559E-09,
+                             3.613287E-09,3.542433E-09,3.472968E-09,3.404865E-09,3.338098E-09,3.272640E-09,
+                            3.208465E-09,3.145549E-09,3.083867E-09,3.023394E-09,2.964107E-09,2.905983E-09,
+                             2.848998E-09,2.793131E-09,2.738360E-09,2.684662E-09,2.632017E-09,2.580405E-09,
+                             2.529805E-09,2.480197E-09,2.431562E-09,2.383880E-09,2.337134E-09,2.291304E-09,
+                             2.246373E-09,2.202323E-09,2.159137E-09,2.116798E-09,2.075288E-09,2.034593E-09,
+                             1.994696E-09,1.955581E-09,1.917234E-09,1.879638E-09,1.842779E-09,1.806644E-09,
+                            1.771216E-09,1.736484E-09,1.702433E-09,1.669049E-09,1.636320E-09,1.604233E-09,
+                             1.572775E-09,1.541933E-09,1.511697E-09,1.482054E-09,1.452991E-09,1.424499E-09,
+                             1.396566E-09,1.369180E-09,1.342331E-09,1.316009E-09,1.290203E-09,1.264903E-09,
+                             1.240099E-09,1.215781E-09,1.191940E-09,1.168567E-09,1.145652E-09,1.123187E-09,
+                             1.101162E-09,1.079568E-09,1.058399E-09,1.037644E-09,1.017297E-09,9.973481E-10,
+                            9.777907E-10,9.586168E-10,9.398189E-10,9.213897E-10,9.033218E-10,8.856082E-10,
+                             8.682420E-10,8.512163E-10,8.345244E-10,8.181599E-10,8.021163E-10,7.863873E-10,
+                             7.709667E-10,7.558485E-10,7.410268E-10,7.264957E-10,7.122496E-10,6.982828E-10,
+                             6.845899E-10,6.711655E-10,6.580044E-10,6.451013E-10,6.324513E-10,6.200493E-10,
+                             6.078905E-10,5.959701E-10,5.842835E-10,5.728261E-10,5.615933E-10,5.505808E-10,
+                            5.397842E-10,5.291994E-10,5.188221E-10,5.086483E-10,4.986741E-10,4.888954E-10,
+                             4.793084E-10,4.699095E-10,4.606948E-10,4.516609E-10,4.428041E-10,4.341210E-10,
+                             4.256081E-10,4.172622E-10,4.090800E-10,4.010581E-10,3.931936E-10,3.854834E-10,
+                             3.779243E-10,3.705134E-10,3.632479E-10,3.561248E-10,3.491414E-10,3.422949E-10,
+                             3.355828E-10,3.290022E-10,3.225506E-10,3.162256E-10,3.100246E-10,3.039452E-10,
+                            2.979851E-10,2.921418E-10,2.864130E-10,2.807966E-10,2.752904E-10,2.698921E-10,
+                             2.645997E-10,2.594111E-10,2.543242E-10,2.493370E-10,2.444477E-10,2.396542E-10,
+                             2.349547E-10,2.303474E-10,2.258304E-10,2.214020E-10,2.170605E-10,2.128041E-10,
+                             2.086311E-10,2.045400E-10,2.005291E-10,1.965968E-10,1.927417E-10,1.889621E-10,
+                             1.852567E-10,1.816239E-10,1.780624E-10,1.745707E-10,1.711475E-10,1.677914E-10,
+                            1.645011E-10,1.612753E-10,1.581128E-10,1.550123E-10,1.519726E-10,1.489925E-10,
+                             1.460709E-10,1.432065E-10,1.403983E-10,1.376452E-10,1.349461E-10,1.322999E-10,
+                             1.297055E-10,1.271621E-10,1.246685E-10,1.222238E-10,1.198271E-10,1.174774E-10,
+                             1.151737E-10,1.129152E-10,1.107010E-10,1.085302E-10,1.064020E-10,1.043156E-10,
+                             1.022700E-10,1.002645E-10,9.829841E-11,9.637084E-11,9.448107E-11,9.262835E-11,
+                            9.081196E-11,8.903120E-11,8.728535E-11,8.557374E-11,8.389569E-11,8.225054E-11]]
+
+        try:
+            # internal model constants
+            ted_empty.num_simulation_days = 366
+
+            ted_empty.hectare_to_acre = 2.47105
+            ted_empty.gms_to_mg = 1000.
+            ted_empty.lbs_to_gms = 453.592
+            ted_empty.crop_hgt = 1. # m
+            ted_empty.hectare_area = 10000.  # m2
+            ted_empty.m3_to_liters = 1000.
+            ted_empty.mass_plant = 25000. # kg/hectare
+            ted_empty.density_plant = 0.77 # kg/L
+
+            # internally calculated variable (hlc in atm-m3/mol are 2.0e-7, 1.0e-5, 3.5e-6)
+            ted_empty.log_unitless_hlc = pd.Series([-5.087265, -3.388295, -3.844227], dtype='float')
+
+            # input variables that change per simulation
+            ted_empty.log_kow = pd.Series([2.75, 4., 6.], dtype='float')
+            ted_empty.foliar_diss_hlife = pd.Series([15., 25., 35.])
+            ted_empty.app_rate_min = pd.Series([0.18, 0.5, 1.25]) # lbs a.i./acre
+
+            # application scenarios generated from 'daily_app_flag' tests and reused here
+            daily_flag = pd.Series([[True, False, False, True, False, False, True, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False, False, False, False, False,
+                             False, False, False, False, False, False],
+                             [True, False, False, False, False, False, False, True, False, False,
+                              False, False, False, False, True, False, False, False, False, False,
+                              False, True, False, False, False, False, False, False, True, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False, False, False, False, False,
+                              False, False, False, False, False, False],
+                              [True, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False, False, False, False, False,
+                               False, False, False, False, False, False]], dtype='bool')
+
+            for i in range(3):
+                result[i] = ted_empty.daily_canopy_air_timeseries(i, ted_empty.app_rate_min[i], daily_flag[i])
+                # tolerance set to 1e-3 instead of 1e-4 because precision in specifying constants between this code and the OPP TED spreadsheet
+                npt.assert_allclose(result[i],expected_results[i],rtol=1e-3, atol=0, err_msg='', verbose=True)
         finally:
             for i in range(3):
                 tab = [result[i], expected_results[i]]

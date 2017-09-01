@@ -303,18 +303,26 @@ class TedFunctions(object):
 
     def drift_distance_calc(self, app_rate_frac, param_a, param_b, param_c):
         """
-        :description provides parmaeter values to use when calculating distances from edge of application source area to
-                     concentration of interest
+        :description calculates distance from edge of application source area to where the fraction of the application rate
+                     results in a concentration that would result in the health threshold (which is in terms of a dose resulting
+                     from exposure to the concentration) ; TED calculates the fraction by dividing the health threshold of interest
+                     by the maximum dose from among all dietary items and ingestion/inhalation/contact of/with water/air/soil
         :param app_rate_frac; fraction of active ingredient application rate equivalent to the health threshold of concern
         :param param_a; parameter a for spray drift distance calculation
         :param param_b; parameter b for spray drift distance calculation
         :param param_c; parameter c for spray drift distance calculation
 
+        # this represents Eq 1 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment'
+
         :return:
         """
-        distance_from_source = (((param_c/app_rate_frac)**(1./param_b)) - 1.)/param_a
+        distance = (((param_c / app_rate_frac) ** (1. / param_b)) - 1.) / param_a
 
-        return distance_from_source
+        # reset distance if outside bounds
+        if (distance < 0.0): distance = 0.0
+        if (distance > self.max_distance_from_source): distance = self.max_distance_from_source
+
+        return distance
 
     # -----------------------------------------------------------------------
     # THE FOLLOWING METHODS MAY BE ORGAINIZED BETTER IN A PARAMETERS CLASS; or called from the constants method
@@ -334,7 +342,6 @@ class TedFunctions(object):
         :return:
         """
 
-        logging.info('im in set_drift_parameters')
         if app_method == 'aerial':
             if drop_size == 'very_fine_to_fine':
                 param_a = 0.0292
