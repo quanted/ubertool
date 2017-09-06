@@ -101,11 +101,11 @@ class AgdriftFunctions(object):
         :description determines if all numerical inputs for valid scenarios are present and in appropriate range
         :return
         """
-        #list of valid options for calculation input
+        # list of valid options for calculation input
         calculation_input_list = ['distance_to_point_or_area_ft', 'fraction_of_applied', 'initial_deposition_gha',
                                   'initial_deposition_lbac', 'initial_deposition_mgcm2', 'initial_concentration_ngL']
 
-        #initialize validation variables to default values
+        # initialize validation variables to default values
         self.user_pond_width_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
         self.user_pond_depth_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
         self.user_wetland_width_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
@@ -124,7 +124,7 @@ class AgdriftFunctions(object):
 
 
         for i in range(self.num_simulations):
-            #check pond/wetland/terrestrial area dimensions
+            # check pond/wetland/terrestrial area dimensions
             if ('Valid Tier I Aquatic' in self.out_sim_scenario_chk[i]):
                 if ('user_defined_pond' in self.aquatic_body_type[i]):
                     if (self.user_pond_width[i] >= self.min_area_width and
@@ -169,7 +169,7 @@ class AgdriftFunctions(object):
             else:
                 self.scenario_description_sum_chk[i] = 'Invalid'
 
-            #check calculation input type and values
+            # check calculation input type and values
             if (self.calculation_input[i] in calculation_input_list):
                 self.calculation_input_chk[i] = 'Ok'
                 if (self.calculation_input[i] == 'distance_to_point_or_area_ft'):

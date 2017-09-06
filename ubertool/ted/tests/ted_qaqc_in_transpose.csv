@@ -1,0 +1,3 @@
+,version,chemical_name,pc_code,crop_min,app_method_min,app_rate_min,num_apps_min,app_interval_min,droplet_spec_min,boom_hgt_min,crop_max,app_method_max,app_rate_max,num_apps_max,app_interval_max,droplet_spec_max,boom_hgt_max,foliar_diss_hlife,aerobic_soil_meta_hlife,frac_retained_mamm,frac_retained_birds,log_kow,koc,solubility,henry_law_const
+0,,malathion,,,aerial,0.18,3,7,very_fine_to_fine, ,,ground,0.36,3,7,fine_to_medium-coarse,low,35,15,0.1,0.05,2.75,1500,145,2.00E-07
+1,,malathion,,,ground,0.5,4,7,fine_to_medium,low,,ground,0.7,3,7,very_fine_to_fine,low,35,15,0.1,0.05,2.75,1500,145,2.00E-07

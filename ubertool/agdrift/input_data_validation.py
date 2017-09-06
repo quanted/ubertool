@@ -1,4 +1,4 @@
-from __future__ import division  #brings in Python 3.0 mixed type calculation rules
+from __future__ import division  # brings in Python 3.0 mixed type calculation rules
 import datetime
 import inspect
 import numpy.testing as npt
