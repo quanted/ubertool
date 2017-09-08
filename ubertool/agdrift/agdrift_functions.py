@@ -5,16 +5,16 @@ import numpy as np
 import os
 import pandas as pd
 from scipy.optimize import curve_fit
-from sqlalchemy import Column, Table, Integer, Float, String, create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, scoped_session
-from sqlalchemy import *
+# from sqlalchemy import Column, Table, Integer, Float, String, create_engine
+# from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy.orm import sessionmaker, scoped_session
+# from sqlalchemy import *
 # import sqlalchemy_utils as sqlu
 import sqlite3
 import time
 import csv
 
-metadata = MetaData()
+# metadata = MetaData()
 
 
 class AgdriftFunctions(object):
@@ -101,11 +101,11 @@ class AgdriftFunctions(object):
         :description determines if all numerical inputs for valid scenarios are present and in appropriate range
         :return
         """
-        #list of valid options for calculation input
+        # list of valid options for calculation input
         calculation_input_list = ['distance_to_point_or_area_ft', 'fraction_of_applied', 'initial_deposition_gha',
                                   'initial_deposition_lbac', 'initial_deposition_mgcm2', 'initial_concentration_ngL']
 
-        #initialize validation variables to default values
+        # initialize validation variables to default values
         self.user_pond_width_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
         self.user_pond_depth_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
         self.user_wetland_width_chk = pd.Series(self.num_simulations * ['na'], dtype='object')
@@ -124,7 +124,7 @@ class AgdriftFunctions(object):
 
 
         for i in range(self.num_simulations):
-            #check pond/wetland/terrestrial area dimensions
+            # check pond/wetland/terrestrial area dimensions
             if ('Valid Tier I Aquatic' in self.out_sim_scenario_chk[i]):
                 if ('user_defined_pond' in self.aquatic_body_type[i]):
                     if (self.user_pond_width[i] >= self.min_area_width and
@@ -169,7 +169,7 @@ class AgdriftFunctions(object):
             else:
                 self.scenario_description_sum_chk[i] = 'Invalid'
 
-            #check calculation input type and values
+            # check calculation input type and values
             if (self.calculation_input[i] in calculation_input_list):
                 self.calculation_input_chk[i] = 'Ok'
                 if (self.calculation_input[i] == 'distance_to_point_or_area_ft'):
@@ -1175,9 +1175,9 @@ class AgdriftFunctions(object):
 
         if (np.isfinite(avg_dep_foa)):
             if (avg_dep_foa > 1e-4 and avg_dep_foa < 1.):
-                self.out_avg_dep_foa[i] = round(avg_dep_foa, 4)
+                self.out_avg_dep_foa[i] = np.round(avg_dep_foa, 4)
             elif (avg_dep_foa > 1.):
-                self.out_avg_dep_foa[i] = round(avg_dep_foa, 2)
+                self.out_avg_dep_foa[i] = np.round(avg_dep_foa, 2)
             else :
                 self.out_avg_dep_foa[i] = float('{:0.2e}'.format(float(avg_dep_foa)))
         else:
@@ -1185,9 +1185,9 @@ class AgdriftFunctions(object):
 
         if (np.isfinite(avg_dep_lbac)):
             if (avg_dep_lbac > 1e-4 and avg_dep_lbac < 1.):
-                self.out_avg_dep_lbac[i] = round(avg_dep_lbac, 4)
+                self.out_avg_dep_lbac[i] = np.round(avg_dep_lbac, 4)
             elif (avg_dep_lbac > 1.):
-                self.out_avg_dep_lbac[i] = round(avg_dep_lbac, 2)
+                self.out_avg_dep_lbac[i] = np.round(avg_dep_lbac, 2)
             else :
                 self.out_avg_dep_lbac[i] = float('{:0.2e}'.format(float(avg_dep_lbac)))
         else:
@@ -1195,9 +1195,9 @@ class AgdriftFunctions(object):
 
         if (np.isfinite(avg_dep_gha)):
             if (avg_dep_gha > 1e-4 and avg_dep_gha < 1.):
-                self.out_avg_dep_gha[i] = round(avg_dep_gha, 4)
+                self.out_avg_dep_gha[i] = np.round(avg_dep_gha, 4)
             elif (avg_dep_gha > 1.):
-                self.out_avg_dep_gha[i] = round(avg_dep_gha, 2)
+                self.out_avg_dep_gha[i] = np.round(avg_dep_gha, 2)
             else :
                 self.out_avg_dep_gha[i] = float('{:0.2e}'.format(float(avg_dep_gha)))
         else:
@@ -1205,9 +1205,9 @@ class AgdriftFunctions(object):
 
         if (np.isfinite(avg_waterconc_ngl)):
             if (avg_waterconc_ngl > 1e-4 and avg_waterconc_ngl < 1.):
-                self.out_avg_waterconc_ngl[i] = round(avg_waterconc_ngl, 4)
+                self.out_avg_waterconc_ngl[i] = np.round(avg_waterconc_ngl, 4)
             elif (avg_waterconc_ngl > 1.):
-                self.out_avg_waterconc_ngl[i] = round(avg_waterconc_ngl, 2)
+                self.out_avg_waterconc_ngl[i] = np.round(avg_waterconc_ngl, 2)
             else :
                 self.out_avg_waterconc_ngl[i] = float('{:0.2e}'.format(float(avg_waterconc_ngl)))
         else:
@@ -1215,9 +1215,9 @@ class AgdriftFunctions(object):
 
         if(np.isfinite(avg_field_dep_mgcm2)):
             if (avg_field_dep_mgcm2 > 1e-4 and avg_field_dep_mgcm2 < 1.):
-                self.out_avg_field_dep_mgcm2[i] = round(avg_field_dep_mgcm2, 4)
+                self.out_avg_field_dep_mgcm2[i] = np.round(avg_field_dep_mgcm2, 4)
             elif (avg_field_dep_mgcm2 > 1.):
-                self.out_avg_field_dep_mgcm2[i] = round(avg_field_dep_mgcm2, 2)
+                self.out_avg_field_dep_mgcm2[i] = np.round(avg_field_dep_mgcm2, 2)
             else:
                 self.out_avg_field_dep_mgcm2[i] = float('{:0.2e}'.format(float(avg_field_dep_mgcm2)))
         else:
@@ -1228,7 +1228,7 @@ class AgdriftFunctions(object):
 
         # just a quick method to help debugging
 
-        with open(db_name, 'wb') as output_file:
+        with open(db_name, 'w', newline='') as output_file:
             wr = csv.writer(output_file, dialect='excel')
             for k in range(len(x_in)):
                 item1 = x_in[k]

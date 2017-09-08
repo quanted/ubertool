@@ -1,14 +1,17 @@
-from __future__ import division  #brings in Python 3.0 mixed type calculation rules
+from __future__ import division  # brings in Python 3.0 mixed type calculation rules
 import datetime
 import inspect
 import numpy.testing as npt
 import os.path
 import pandas as pd
 import pkgutil
-from StringIO import StringIO
 import sys
 from tabulate import tabulate
 import unittest
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 #find parent directory and import model methods
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))

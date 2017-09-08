@@ -321,7 +321,7 @@ class Trex(UberModel, TrexInputs, TrexOutputs, TrexFunctions):
         self.fill_output_dataframe()
 
     # Begin model methods
-    @timefn
+#    @timefn
     def run_methods(self):
 
         # convert user supplied app_rates/day_out from series of lists as

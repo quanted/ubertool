@@ -95,11 +95,11 @@ class UberModel(object):
         :param df_in: Pandas DataFrame object of model input parameters
         """
         df_user = self.convert_index(df_in)
-        mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
-        #mod_name = "ubertool_ecorest.ubertool.ubertool." + self.name.lower() + "." + self.name.lower() + '_exe'
+        # mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
+        mod_name = "ubertool.ubertool." + self.name.lower() + "." + self.name.lower() + '_exe'
         print(mod_name)
         try:
-            # Import the model's input class (e.g. AgdriftInputs) to compare user supplied inputs to
+            # Import the model's input class (e.g. TedInputs) to compare user supplied inputs to
             module = importlib.import_module(mod_name)
             model_inputs_class = getattr(module, self.name + "Inputs")
             model_inputs = model_inputs_class()
@@ -202,6 +202,7 @@ class ModelSharedInputs(object):
         Container for the shared model inputs amongst most models (e.g. version, chemical name, & PC Code)
         """
         super(ModelSharedInputs, self).__init__()
+        self.csrfmiddlewaretoken = pd.Series([], dtype="object")
         self.version = pd.Series([], dtype="object")
         self.chemical_name = pd.Series([], dtype="object")
         self.pc_code = pd.Series([], dtype="object")

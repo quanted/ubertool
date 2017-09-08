@@ -1,0 +1,14 @@
+1. In the OPP Ted spreadsheet; in the worksheets named 'Min rate doses' and 'Max rate doses' under
+   columns M and N, the allometric parameters for amphibians and reptiles daily total water consumption are
+   a2=.065, b2=.726, and c2=3.7.  The value for c2 should be 1.0 according to Table A 1-7.7.
+   The value of 3.7 is associated with 'Other birds not in Passeriformes order'.
+2. Same spreadsheet/worksheet/columns as #1.  The allomeric parameters for dietary intake for amphibians
+   are a1=.301 and b1=.751.  The values listed in Table A 1-7.5 for reptiles and amphibians are
+   a1=.013 and b1=.773.  IT LOOKS LIKE ALL VALUES OF ALLOMETRIC PARAMETERS SHOULD BE VERIFIED.
+3. Dermal equivalency factor (for use in Eq 13 of Attachment A 1-7): The equivalency factor is the
+   ratio of the LD50(oral) to the LD50(dermal).  Eqs 14&15 are used to compute the factor for birds using
+   LD50(oral) data for birds; Eq 14 is used to compute the factor for mammals using LD50(oral) and LD50(dermal)
+   data for rats.  For amphibians is appears that the factor is assumed equal to 1 and used directly
+   in Eq 13.  Confusion comes up about reptiles; the text in Attachment 1-7 seems to state that the
+   same Eqs for birds are to be used for reptiles but the code (TED Excel spreadsheet) appears to
+   take the same approach for reptiles as taken for amphibians.

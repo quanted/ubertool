@@ -3,14 +3,14 @@ import logging
 import numpy as np
 import pandas as pd
 
-class SipFunctions(object):
+class ScreenipFunctions(object):
     """
-    Function class for Sip.
+    Function class for screenip.
     """
 
     def __init__(self):
-        """Class representing the functions for Sip"""
-        super(SipFunctions, self).__init__()
+        """Class representing the functions for screenip"""
+        super(ScreenipFunctions, self).__init__()
 
     def fw_bird(self):
         """

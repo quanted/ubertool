@@ -1,3108 +1,630 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-    <title>Test Report</title>
-    <meta name="author" content="Oleksii Skliarov, Ivan Lysenko"/>
+    <title>Unit Test Report</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <style type="text/css" media="screen">
-        body        { font-family: verdana, arial, helvetica, sans-serif; font-size: 80%; }
-        table       { font-size: 100%; }
-        pre         { }
 
-        /* -- heading ---------------------------------------------------------------------- */
-        h1 {
-            font-size: 16pt;
-            color: gray;
-        }
-        .heading {
-            margin-top: 0ex;
-            margin-bottom: 1ex;
-        }
+<style>
+body {
+    font-family: Calibri, "Trebuchet MS", sans-serif;
+}
+* {
+    word-break: break-all;
+}
+table, td, th, .dataid {
+    border: 1px solid #aaa;
+    border-collapse: collapse;
+    background: #fff;
+}
+section {
+    background: rgba(0, 0, 0, 0.05);
+    margin: 2ex;
+    padding: 1ex;
+    border: 1px solid #999;
+    border-radius: 5px;
+}
+h1 {
+    font-size: 130%;
+}
+h2 {
+    font-size: 120%;
+}
+h3 {
+    font-size: 100%;
+}
+h4 {
+    font-size: 85%;
+}
+h1, h2, h3, h4, a[href] {
+    cursor: pointer;
+    color: #0074d9;
+    text-decoration: none;
+}
+h3 strong, a.failed {
+    color: #ff4136;
+}
+.failed {
+    color: #ff4136;
+}
+a.success {
+    color: #3d9970;
+}
+pre {
+    font-family: 'Consolas', 'Deja Vu Sans Mono',
+                 'Bitstream Vera Sans Mono', 'Monaco',
+                 'Courier New', monospace;
+}
 
-        .heading .attribute {
-            margin-top: 1ex;
-            margin-bottom: 0;
-        }
+.test-details,
+.traceback {
+    display: none;
+}
+section:target .test-details {
+    display: block;
+}
 
-        .heading .description {
-            margin-top: 4ex;
-            margin-bottom: 6ex;
-        }
-
-        /* -- css div popup ------------------------------------------------------------------------ */
-        a.popup_link {
-        }
-
-        a.popup_link:hover {
-            color: red;
-        }
-
-        .popup_window {
-            display: none;
-            position: relative;
-            left: 0px;
-            top: 0px;
-            /*border: solid #627173 1px; */
-            padding: 8px;
-            background-color: #E6E6D6;
-            font-family: "Lucida Console", "Courier New", Courier, monospace;
-            text-align: left;
-            font-size: 8pt;
-            width: 570px;
-        }
-
-        }
-        /* -- report ------------------------------------------------------------------------ */
-        #show_detail_line {
-            margin-top: 3ex;
-            margin-bottom: 1ex;
-        }
-        .result_table {
-            width: 80%;
-            border-collapse: collapse;
-            border: 1px solid #777;
-        }
-        #header_row {
-            font-weight: bold;
-            color: white;
-            background-color: #777;
-        }
-        .result_table td {
-            border: 1px solid #777;
-            padding: 2px;
-        }
-        .shortDescription {
-            font-style: italic;
-            font-weight: normal;
-        }
-        #total_row  { font-weight: bold; }
-        .passClass  { background-color: #6c6; }
-        .failClass  { background-color: #c60; }
-        .errorClass { background-color: #c00; }
-        .passCase   { color: #6c6; }
-        .failCase   { color: #c60; font-weight: bold; }
-        .errorCase  { color: #c00; font-weight: bold; }
-        .hiddenRow  { display: none; }
-        
-        .testcase   { display: none; }
-		.testclass.active ~ .testcase { display: table-row; }
-
-        /* -- ending ---------------------------------------------------------------------- */
-        #ending {
-        }
-
-    </style>
+</style>
 </head>
 <body>
-<script language="javascript" type="text/javascript">
-output_list = Array();
+    <h1>Overview</h1>
+    <section>
+        <table>
+            <tr>
+                <th>Class</th>
+                <th>Fail</th>
+                <th class="failed">Error</th>
+                <th>Skip</th>
+                <th>Success</th>
+                <th>Total</th>
+            </tr>
+                <tr>
+                    <td>ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex</td>
+                    <td>0</td>
+                    <td class="failed">6</td>
+                    <td>0</td>
+                    <td>52</td>
+                    <td>58</td>
+                </tr>
+                <tr>
+                    <td>nose.failure.Failure</td>
+                    <td>0</td>
+                    <td class="failed">1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>1</td>
+                </tr>
+            <tr>
+                <td><strong>Total</strong></td>
+                <td>0</td>
+                <td class="failed">7</td>
+                <td>0</td>
+                <td>52</td>
+                <td>59</td>
+            </tr>
+        </table>
+    </section>
+    <h1>Failure details</h1>
+            <section>
+                <h2>ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex (0 failures, 6 errors)</h2>
+                <div>
+                        <section id="ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex:test_beerex_ad_total_dose">
+                            <h3>test_beerex_ad_total_dose: <strong>builtins.IndexError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 778, in _set_with_engine
+    self.index._engine.set_value(values, key, value)
+  File "pandas/_libs/index.pyx", line 116, in pandas._libs.index.IndexEngine.set_value (pandas/_libs/index.c:4690)
+  File "pandas/_libs/index.pyx", line 124, in pandas._libs.index.IndexEngine.set_value (pandas/_libs/index.c:4516)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
 
-/* level - 0:Summary; 1:Failed; 2:All */
-function showCase(level) {
-    trs = document.getElementsByClassName("testclass");
-    for (var i = 0; i < trs.length; i++) {
-        tr = trs[i];
-        if(0==level && tr.className.indexOf("active") != -1){
-			tr.className = tr.className.replace("active", "").replace("  ", " ").trim();
-		}else if (2 == level && tr.className.indexOf("active") == -1){
-			tr.className+=" active";
-		}else if (1 == level){
-			if(tr.className.indexOf("passClass") != -1){
-				if(tr.className.indexOf("active") != -1){
-					tr.className = tr.className.replace("active", "").replace("  ", " ").trim();
-				}
-			}else if (tr.className.indexOf("active") == -1){
-				tr.className+=" active";
-			}
-        }
-    }
-}
-
-function showClassDetail(element) {
-    var currentClassValue = element.className || "";
-      
-    if (currentClassValue.indexOf("active") == -1) {
-		currentClassValue += " active";
-    } else {
-		currentClassValue = currentClassValue.replace("active", "").replace("  ", " ");
-	}
-	element.className = currentClassValue.trim();
-}
-
-
-function showTestDetail(div_id){
-    var details_div = document.getElementById(div_id)
-    var displayState = details_div.style.display
-    // alert(displayState)
-    if (displayState != 'block' ) {
-        displayState = 'block'
-        details_div.style.display = 'block'
-    }
-    else {
-        details_div.style.display = 'none'
-    }
-}
-
-function togleClass(element, clas){
-        var currentClassValue = element.className || "";
-
-        if (currentClassValue.indexOf(clas) == -1) {
-            currentClassValue += " "+clas;
-        } else {
-            currentClassValue = currentClassValue.replace(clas, "").replace("  ", " ");
-        }
-        element.className = currentClassValue.trim()
-    }
-
-function showRawLog(element){
-        togleClass(element, "popup_window")
-    }
-
-function html_escape(s) {
-    s = s.replace(/&/g,'&amp;');
-    s = s.replace(/</g,'&lt;');
-    s = s.replace(/>/g,'&gt;');
-    return s;
-}
-
-</script>
-
-<table>
-    <tr id="header_row">
-        <th>Class</th>
-        <th>Fail</th>
-        <th>Error</th>
-        <th>Skip</th>
-        <th>Success</th>
-        <th>Total</th>
-    </tr>
-        <tr>
-            <td>qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>58</td>
-            <td>58</td>
-        </tr>
-        <tr>
-            <td>nose.failure.Failure</td>
-            <td>0</td>
-            <td>1</td>
-            <td>0</td>
-            <td>0</td>
-            <td>1</td>
-        </tr>
-    <tr>
-        <td><strong>Total</strong></td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-        <td>58</td>
-        <td>59</td>
-    </tr>
-</table>
-
-<!-- test list -->
-<!-- header -->
-<p id='show_detail_line'>Show
-<a href='javascript:showCase(0)'>Summary</a>
-<a href='javascript:showCase(1)'>Failed</a>
-<a href='javascript:showCase(2)'>All</a>
-</p>
-<table class='result_table'>
-    <colgroup>
-        <col align='left' width="50%" />
-        <col align='right' width="10%"/>
-        <col align='right' width="10%"/>
-        <col align='right' width="10%"/>
-        <col align='right' width="10%"/>
-        <col align='right' width="10%"/>
-    </colgroup>
-    <tr id='header_row'>
-        <td>Test Group/Test case</td>
-        <td>Count</td>
-        <td>Pass</td>
-        <td>Fail</td>
-        <td>Error</td>
-        <td>View</td>
-    </tr>
-</table>    
-<!-- for every test suite -->
-    <table class='result_table'>
-	    <colgroup>
-            <col align='left' width="50%" />
-            <col align='right' width="10%"/>
-            <col align='right' width="10%"/>
-            <col align='right' width="10%"/>
-            <col align='right' width="10%"/>
-            <col align='right' width="10%"/>
-        </colgroup>
-        <tr class='testclass passClass'>
-            <td>qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex</td>
-            <td>58</td>
-            <td>58</td>
-            <td>0</td>
-            <td>0</td>
-            <td><a href="javascript:void(0)" onclick="showClassDetail(this.parentNode.parentNode)">Detail</a></td>
-        </tr>    
-        <!-- for every test -->
-
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ad_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_ad_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.ad_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.004681</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ad_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ad_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ad_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_ad_acute_rq
-======  ========
-     0         1
-======  ========
-4.4386  0.146497
-4.4386  0.146497
-======  ========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ad_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_ad_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.ad_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.002182</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ad_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ad_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ad_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_ad_chronic_rq
-========  ========
-       0         1
-========  ========
-0.440945  0.411765
-0.440945  0.411765
-========  ========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ad_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_ad_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.ad_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.008100</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ad_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ad_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ad_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aq_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_aq_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.aq_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001666</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aq_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aq_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aq_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aq_acute_rq
-=======  =========
-      0          1
-=======  =========
-5.26613  0.0174419
-5.26613  0.0174419
-=======  =========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aq_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_aq_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.aq_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.001410</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aq_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aq_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aq_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aq_chronic_rq
-========  ===
-       0    1
-========  ===
-0.226496   29
-0.226496   29
-========  ===
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aq_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_aq_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.aq_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.003594</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aq_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aq_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aq_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aq_total_dose
-========  =========
-       0          1
-========  =========
--85.7932  0.0219433
--85.7932  0.0219433
-========  =========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_brood_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_brood_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_brood_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001190</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_brood_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_brood_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_brood_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_brood_acute_rq
-=======  =======
-      0        1
-=======  =======
-10.6818  1.82353
-10.6818  1.82353
-=======  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_brood_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_brood_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_brood_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.001170</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_brood_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_brood_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_brood_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_brood_chronic_rq
-========  =======
-       0        1
-========  =======
-0.227273  2.80233
-0.22727   2.80233
-========  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_brood_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_brood_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_brood_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.002428</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_brood_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_brood_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_brood_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_brood_total_dose
-=======  ======
-      0       1
-=======  ======
-23.0725  6.5472
-23.0725  6.5472
-=======  ======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_cell_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_cell_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_cell_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001562</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_cell_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_cell_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_cell_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_cell_acute_rq
-=======  ====
-      0     1
-=======  ====
-6.15493  2.48
-6.15493  2.48
-=======  ====
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_cell_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_cell_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_cell_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.001269</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_cell_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_cell_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_cell_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_cell_chronic_rq
-=======  =======
-      0        1
-=======  =======
-3.65217  5.12069
-3.65217  5.12069
-=======  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_cell_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_cell_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_cell_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.002193</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_cell_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_cell_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_cell_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_cell_total_dose
-======  ======
-     0       1
-======  ======
-0.0037  0.0176
-0.0037  0.0176
-======  ======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_comb_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_comb_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_comb_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001191</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_comb_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_comb_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_comb_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_comb_acute_rq
-=======  =======
-      0        1
-=======  =======
-1.95031  1.23784
-1.95031  1.23784
-=======  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_comb_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_comb_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_comb_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.001166</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_comb_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_comb_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_comb_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_comb_chronic_rq
-===  ========
-  0         1
-===  ========
-  4  0.747126
-  4  0.747126
-===  ========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_comb_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_comb_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_comb_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.002831</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_comb_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_comb_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_comb_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_comb_total_dose
-=======  ========
-      0         1
-=======  ========
-1.20119  0.118363
-1.20119  0.118363
-=======  ========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_nectar_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_nectar_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_nectar_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001159</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_nectar_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_nectar_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_nectar_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_nectar_acute_rq
-=======  ========
-      0         1
-=======  ========
-4.83333  0.187919
-4.83333  0.187919
-=======  ========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_nectar_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_nectar_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_nectar_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.001201</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_nectar_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_nectar_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_nectar_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_nectar_chronic_rq
-========  =========
-       0          1
-========  =========
-0.182171  0.0514706
-0.182171  0.0514706
-========  =========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_nectar_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_nectar_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_nectar_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.002178</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_nectar_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_nectar_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_nectar_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_nectar_total_dose
-======  ======
-     0       1
-======  ======
-0.0273  0.0296
-0.0273  0.0296
-======  ======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_pollen_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_pollen_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_pollen_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001178</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_pollen_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_pollen_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_pollen_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_pollen_acute_rq
-========  ======
-       0       1
-========  ======
-0.884615  2.6378
-0.884615  2.6378
-========  ======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_pollen_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_pollen_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_pollen_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.001139</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_pollen_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_pollen_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_pollen_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_pollen_chronic_rq
-=======  =======
-      0        1
-=======  =======
-1.72449  4.16279
-1.72449  4.16279
-=======  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_pollen_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_pollen_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_pollen_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.002912</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_pollen_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_pollen_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_pollen_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_pollen_total_dose
-========  ===========
-       0            1
-========  ===========
-0.015225  0.000689367
-0.015225  0.000689367
-========  ===========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_winter_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_winter_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_winter_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001233</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_winter_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_winter_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_winter_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_winter_acute_rq
-=========  =======
-        0        1
-=========  =======
-0.0794118  1.14141
-0.079411   1.14141
-=========  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_winter_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_winter_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_winter_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.001141</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_winter_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_winter_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_winter_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_winter_chronic_rq
-=======  =======
-      0        1
-=======  =======
-7.94118  7.50806
-7.94118  7.50806
-=======  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_winter_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_aw_winter_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.aw_winter_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.002874</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_winter_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_winter_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_aw_winter_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_aw_winter_total_dose
-=========  ==========
-        0           1
-=========  ==========
-0.0130733  0.00160364
-0.0130733  0.00160364
-=========  ==========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_eec_seed' class='testcase'>
-            <td class="passCase">
-                test_beerex_eec_seed
-                    <div class="shortDescription">
-                        unittest for function beerex.eec_seed
-                    </div>
-            </td>
-            <td>0:00:00.028404</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_eec_seed')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_eec_seed' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_eec_seed').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_eec_seed
-===
-0
-===
-[
-0
-
-
-
-
-0
-.
-0
-0
-1
-
-1
-
-
-
-
-0
-.
-0
-0
-1
-
-d
-t
-y
-p
-e
-:
-
-f
-l
-o
-a
-t
-6
-4
-,
-
-[
-0
-.
-0
-0
-1
-,
-
-0
-.
-0
-0
-1
-]
-]
-===
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_eec_soil' class='testcase'>
-            <td class="passCase">
-                test_beerex_eec_soil
-                    <div class="shortDescription">
-                        unittest for function beerex.eec_soil
-                    </div>
-            </td>
-            <td>0:00:00.003040</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_eec_soil')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_eec_soil' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_eec_soil').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_eec_soil
-=========  ==========
-        0           1
-=========  ==========
-0.0222534  0.00378781
-0.0222534  0.00378781
-=========  ==========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_eec_tree' class='testcase'>
-            <td class="passCase">
-                test_beerex_eec_tree
-                    <div class="shortDescription">
-                        unittest for function beerex.eec_tree
-                    </div>
-            </td>
-            <td>0:00:00.002378</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_eec_tree')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_eec_tree' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_eec_tree').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_eec_tree
-====  ==========
-   0           1
-====  ==========
-0.01  0.00011157
-0.01  0.00011157
-====  ==========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ld6_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_ld6_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.ld6_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001562</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ld6_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ld6_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ld6_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_ld6_acute_rq
-========  =======
-       0        1
-========  =======
-0.782258  5.82143
-0.782258  5.82143
-========  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ld6_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_ld6_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.ld6_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.001431</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ld6_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ld6_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ld6_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_ld6_chronic_rq
-=======  =======
-      0        1
-=======  =======
-1.34064  0.28125
-1.34064  0.28125
-=======  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ld6_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_ld6_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.ld6_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.003659</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ld6_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ld6_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_ld6_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_ld6_total_dose
-=========  ======
-        0       1
-=========  ======
-0.0370804  0.0437
-0.0370804  0.0437
-=========  ======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq1_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lq1_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lq1_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001441</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq1_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq1_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq1_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lq1_acute_rq
-=====  ========
-    0         1
-=====  ========
-1.742  0.206897
-1.742  0.206897
-=====  ========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq1_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lq1_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lq1_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.001409</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq1_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq1_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq1_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lq1_chronic_rq
-=========  =======
-        0        1
-=========  =======
-0.0789474  272.083
-0.078947   272.083
-=========  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq1_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_lq1_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.lq1_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.003151</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq1_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq1_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq1_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lq1_total_dose
-===========  ===========
-          0            1
-===========  ===========
-5.50588e-06  1.77455e-06
-5.50588e-06  1.77455e-06
-===========  ===========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq2_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lq2_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lq2_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001480</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq2_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq2_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq2_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lq2_acute_rq
-=======  ========
-      0         1
-=======  ========
-1.77011  0.578947
-1.77011  0.578947
-=======  ========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq2_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lq2_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lq2_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.001410</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq2_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq2_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq2_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lq2_chronic_rq
-=========  =========
-        0          1
-=========  =========
-0.0588235  0.0161765
-0.0588235  0.0161765
-=========  =========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq2_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_lq2_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.lq2_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.003355</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq2_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq2_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq2_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lq2_total_dose
-=======  =======
-      0        1
-=======  =======
-6.5e-05  2.8e-05
-6.5e-05  2.8e-05
-=======  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq3_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lq3_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lq3_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001533</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq3_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq3_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq3_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lq3_acute_rq
-=======  =======
-      0        1
-=======  =======
-7.65979  1.66234
-7.65979  1.66234
-=======  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq3_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lq3_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lq3_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.001240</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq3_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq3_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq3_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lq3_chronic_rq
-========  ========
-       0         1
-========  ========
-0.503448  0.440722
-0.503448  0.440722
-========  ========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq3_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_lq3_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.lq3_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.002437</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq3_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq3_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq3_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lq3_total_dose
-========  ======
-       0       1
-========  ======
-0.055055  0.0132
-0.055055  0.0132
-========  ======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq4_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lq4_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lq4_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001166</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq4_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq4_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq4_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lq4_acute_rq
-========  =======
-       0        1
-========  =======
-0.362069  9.78261
-0.362069  9.78261
-========  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq4_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lq4_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lq4_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.001129</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq4_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq4_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq4_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lq4_chronic_rq
-========  ========
-       0         1
-========  ========
-0.169863  0.194118
-0.169863  0.194118
-========  ========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq4_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_lq4_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.lq4_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.002939</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq4_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq4_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lq4_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lq4_total_dose
-=======  =======
-      0        1
-=======  =======
-0.15136  0.48521
-0.15136  0.48521
-=======  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw1_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lw1_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lw1_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001205</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw1_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw1_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw1_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lw1_acute_rq
-=======  ========
-      0         1
-=======  ========
-5.25926  0.349296
-5.25926  0.349296
-=======  ========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw1_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lw1_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lw1_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.002431</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw1_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw1_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw1_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lw1_chronic_rq
-=======  ========
-      0         1
-=======  ========
-3.22222  0.220126
-3.22222  0.220126
-=======  ========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw1_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_lw1_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.lw1_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.003669</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw1_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw1_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw1_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lw1_total_dose
-=====  ========
-    0         1
-=====  ========
-0.055  0.006765
-0.055  0.006765
-=====  ========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw2_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lw2_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lw2_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001240</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw2_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw2_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw2_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lw2_acute_rq
-========  =======
-       0        1
-========  =======
-0.355705  2.13462
-0.355705  2.13462
-========  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw2_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lw2_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lw2_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.001144</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw2_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw2_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw2_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lw2_chronic_rq
-=======  =======
-      0        1
-=======  =======
-11.3696  2.76712
-11.3696  2.76712
-=======  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw2_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_lw2_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.lw2_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.002585</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw2_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw2_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw2_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lw2_total_dose
-=========  ===========
-        0            1
-=========  ===========
-1.784e-06  7.38636e-06
-1.784e-06  7.386e-06
-=========  ===========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw3_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lw3_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lw3_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001149</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw3_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw3_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw3_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lw3_acute_rq
-=======  ========
-      0         1
-=======  ========
-3.37356  0.207547
-3.37356  0.207547
-=======  ========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw3_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lw3_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lw3_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.001136</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw3_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw3_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw3_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lw3_chronic_rq
-=======  =======
-      0        1
-=======  =======
-2.47826  1.03165
-2.47826  1.03165
-=======  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw3_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_lw3_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.lw3_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.002930</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw3_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw3_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw3_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lw3_total_dose
-===========  ===========
-          0            1
-===========  ===========
-0.000581992  0.000220323
-0.00058199   0.000220323
-===========  ===========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw4_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lw4_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lw4_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001217</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw4_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw4_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw4_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lw4_acute_rq
-=======  =======
-      0        1
-=======  =======
-3.78261  1.57143
-3.78261  1.57143
-=======  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw4_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lw4_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lw4_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.001143</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw4_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw4_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw4_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lw4_chronic_rq
-=======  ======
-      0       1
-=======  ======
-1.23707  32.625
-1.23707  32.625
-=======  ======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw4_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_lw4_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.lw4_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.002959</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw4_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw4_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw4_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lw4_total_dose
-=======  ========
-      0         1
-=======  ========
-0.04387  0.011578
-0.04387  0.011578
-=======  ========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw5_acute_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lw5_acute_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lw5_acute_rq
-                    </div>
-            </td>
-            <td>0:00:00.001164</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw5_acute_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw5_acute_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw5_acute_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lw5_acute_rq
-=======  =======
-      0        1
-=======  =======
-20.0833  2.67273
-20.0833  2.67273
-=======  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw5_chronic_rq' class='testcase'>
-            <td class="passCase">
-                test_beerex_lw5_chronic_rq
-                    <div class="shortDescription">
-                        unittest for function beerex.lw5_chronic_rq
-                    </div>
-            </td>
-            <td>0:00:00.001128</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw5_chronic_rq')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw5_chronic_rq' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw5_chronic_rq').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lw5_chronic_rq
-=====  =========
-    0          1
-=====  =========
-0.175  0.0168889
-0.175  0.0168889
-=====  =========
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw5_total_dose' class='testcase'>
-            <td class="passCase">
-                test_beerex_lw5_total_dose
-                    <div class="shortDescription">
-                        unittest for function beerex.lw5_total_dose
-                    </div>
-            </td>
-            <td>0:00:00.002742</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw5_total_dose')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw5_total_dose' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_beerex_lw5_total_dose').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_beerex_lw5_total_dose
-========  =======
-       0        1
-========  =======
-0.032169  0.07042
-0.032169  0.07042
-========  =======
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>
-<tr id='qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_eec_spray' class='testcase'>
-            <td class="passCase">
-                test_eec_spray
-                    <div class="shortDescription">
-                        unittest for function beerex.eec_spray
-                    </div>
-            </td>
-            <td>0:00:00.001340</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_eec_spray')" >
-                Pass
-            </a>
-
-            <div id='div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_eec_spray' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_qed.ubertool_ecorest.ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerextest_eec_spray').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-
-test_eec_spray
-===  =====
-  0      1
-===  =====
-1.1  0.275
-1.1  0.275
-===  =====
-
-
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr>    <table class='result_table'>
-	    <colgroup>
-            <col align='left' width="50%" />
-            <col align='right' width="10%"/>
-            <col align='right' width="10%"/>
-            <col align='right' width="10%"/>
-            <col align='right' width="10%"/>
-            <col align='right' width="10%"/>
-        </colgroup>
-        <tr class='testclass errorClass'>
-            <td>nose.failure.Failure</td>
-            <td>1</td>
-            <td>0</td>
-            <td>0</td>
-            <td>1</td>
-            <td><a href="javascript:void(0)" onclick="showClassDetail(this.parentNode.parentNode)">Detail</a></td>
-        </tr>    
-        <!-- for every test -->
-
-<tr id='nose.failure.FailurerunTest' class='testcase'>
-            <td class="failCase">
-                runTest
-            </td>
-            <td>0:00:00.022809</td>
-            <td colspan='4' align='center'>
-            <!--css div popup start-->
-            <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_nose.failure.FailurerunTest')" >
-                Fail
-            </a>
-
-            <div id='div_nose.failure.FailurerunTest' class="popup_window">
-                <div style='text-align: right; color:red; cursor:pointer;'>
-                <a onfocus='this.blur();' onclick="document.getElementById('div_nose.failure.FailurerunTest').style.display = 'none' " >
-                   [x]</a>
-                </div>
-                <pre>
-to_numeric() got an unexpected keyword argument 'downcast'
 Traceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 329, in run
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 2442, in get_loc
+    return self._engine.get_loc(key)
+  File "pandas/_libs/index.pyx", line 132, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5280)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 719, in setitem
+    self._set_with_engine(key, value)
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 781, in _set_with_engine
+    values[self.index.get_loc(key)] = value
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 2444, in get_loc
+    return self._engine.get_loc(self._maybe_cast_indexer(key))
+  File "pandas/_libs/index.pyx", line 132, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5280)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
     testMethod()
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/loader.py", line 418, in loadTestsFromName
-    addr.filename, addr.module)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/importer.py", line 47, in importFromPath
-    return self.importFromDir(dir_path, fqname)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/importer.py", line 94, in importFromDir
-    mod = load_module(part_fqname, fh, filename, desc)
-  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/tests/test_beerex_integration.py", line 69, in <module>
-    beerex_calc.execute_model()
-  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/beerex_exe.py", line 151, in execute_model
-    self.populate_inputs(self.pd_obj)
-  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/base/uber_model.py", line 107, in populate_inputs
-    setattr(self, column, self.coerce_input_dtype(initial_dtype, coerce_dtype, df_series))
-  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/base/uber_model.py", line 65, in coerce_input_dtype
-    return pd.to_numeric(input_series, errors='coerce', downcast='int64')
-TypeError: to_numeric() got an unexpected keyword argument 'downcast'
-
-                </pre>
-            </div>
-            <!--css div popup end-->
-
-            </td>
-        </tr></table>
-    <table class='result_table'>
-        <colgroup>
-            <col align='left' width="50%"/>
-            <col align='right' width="10%" id="results_count"/>
-            <col align='right' width="10%" id="results_passed"/>
-            <col align='right' width="10%" id="results_failed"/>
-            <col align='right' width="10%" id="results_errors"/>
-            <col align='right' width="10%"/>
-        </colgroup>
-        <!-- test list end -->
-        <tr id='total_row'>
-            <td>Total</td>
-            <td>59</td>
-            <td>58</td>
-            <td>0</td>
-            <td>1</td>
-            <td>&nbsp;</td>
-        </tr>
-    </table>
-    <br/>
-    <a href="javascript:void(0)" onclick="showRawLog(document.getElementById('rawoutput'))">Full log raw output</a>
-    <div id='rawoutput' class='popup_window'>
-        <pre>
-
-test_beerex_ad_acute_rq
-======  ========
-     0         1
-======  ========
-4.4386  0.146497
-4.4386  0.146497
-======  ========
-
-
-test_beerex_ad_chronic_rq
-========  ========
-       0         1
-========  ========
-0.440945  0.411765
-0.440945  0.411765
-========  ========
-
-
-test_beerex_aq_acute_rq
-=======  =========
-      0          1
-=======  =========
-5.26613  0.0174419
-5.26613  0.0174419
-=======  =========
-
-
-test_beerex_aq_chronic_rq
-========  ===
-       0    1
-========  ===
-0.226496   29
-0.226496   29
-========  ===
-
-
-test_beerex_aq_total_dose
-========  =========
-       0          1
-========  =========
--85.7932  0.0219433
--85.7932  0.0219433
-========  =========
-
-
-test_beerex_aw_brood_acute_rq
-=======  =======
-      0        1
-=======  =======
-10.6818  1.82353
-10.6818  1.82353
-=======  =======
-
-
-test_beerex_aw_brood_chronic_rq
-========  =======
-       0        1
-========  =======
-0.227273  2.80233
-0.22727   2.80233
-========  =======
-
-
-test_beerex_aw_brood_total_dose
-=======  ======
-      0       1
-=======  ======
-23.0725  6.5472
-23.0725  6.5472
-=======  ======
-
-
-test_beerex_aw_cell_acute_rq
-=======  ====
-      0     1
-=======  ====
-6.15493  2.48
-6.15493  2.48
-=======  ====
-
-
-test_beerex_aw_cell_chronic_rq
-=======  =======
-      0        1
-=======  =======
-3.65217  5.12069
-3.65217  5.12069
-=======  =======
-
-
-test_beerex_aw_cell_total_dose
-======  ======
-     0       1
-======  ======
-0.0037  0.0176
-0.0037  0.0176
-======  ======
-
-
-test_beerex_aw_comb_acute_rq
-=======  =======
-      0        1
-=======  =======
-1.95031  1.23784
-1.95031  1.23784
-=======  =======
-
-
-test_beerex_aw_comb_chronic_rq
-===  ========
-  0         1
-===  ========
-  4  0.747126
-  4  0.747126
-===  ========
-
-
-test_beerex_aw_comb_total_dose
-=======  ========
-      0         1
-=======  ========
-1.20119  0.118363
-1.20119  0.118363
-=======  ========
-
-
-test_beerex_aw_nectar_acute_rq
-=======  ========
-      0         1
-=======  ========
-4.83333  0.187919
-4.83333  0.187919
-=======  ========
-
-
-test_beerex_aw_nectar_chronic_rq
-========  =========
-       0          1
-========  =========
-0.182171  0.0514706
-0.182171  0.0514706
-========  =========
-
-
-test_beerex_aw_nectar_total_dose
-======  ======
-     0       1
-======  ======
-0.0273  0.0296
-0.0273  0.0296
-======  ======
-
-
-test_beerex_aw_pollen_acute_rq
-========  ======
-       0       1
-========  ======
-0.884615  2.6378
-0.884615  2.6378
-========  ======
-
-
-test_beerex_aw_pollen_chronic_rq
-=======  =======
-      0        1
-=======  =======
-1.72449  4.16279
-1.72449  4.16279
-=======  =======
-
-
-test_beerex_aw_pollen_total_dose
-========  ===========
-       0            1
-========  ===========
-0.015225  0.000689367
-0.015225  0.000689367
-========  ===========
-
-
-test_beerex_aw_winter_acute_rq
-=========  =======
-        0        1
-=========  =======
-0.0794118  1.14141
-0.079411   1.14141
-=========  =======
-
-
-test_beerex_aw_winter_chronic_rq
-=======  =======
-      0        1
-=======  =======
-7.94118  7.50806
-7.94118  7.50806
-=======  =======
-
-
-test_beerex_aw_winter_total_dose
-=========  ==========
-        0           1
-=========  ==========
-0.0130733  0.00160364
-0.0130733  0.00160364
-=========  ==========
-
-
-test_beerex_eec_seed
-===
-0
-===
-[
-0
-
-
-
-
-0
-.
-0
-0
-1
-
-1
-
-
-
-
-0
-.
-0
-0
-1
-
-d
-t
-y
-p
-e
-:
-
-f
-l
-o
-a
-t
-6
-4
-,
-
-[
-0
-.
-0
-0
-1
-,
-
-0
-.
-0
-0
-1
-]
-]
-===
-
-
-test_beerex_eec_soil
-=========  ==========
-        0           1
-=========  ==========
-0.0222534  0.00378781
-0.0222534  0.00378781
-=========  ==========
-
-
-test_beerex_eec_tree
-====  ==========
-   0           1
-====  ==========
-0.01  0.00011157
-0.01  0.00011157
-====  ==========
-
-
-test_beerex_ld6_acute_rq
-========  =======
-       0        1
-========  =======
-0.782258  5.82143
-0.782258  5.82143
-========  =======
-
-
-test_beerex_ld6_chronic_rq
-=======  =======
-      0        1
-=======  =======
-1.34064  0.28125
-1.34064  0.28125
-=======  =======
-
-
-test_beerex_ld6_total_dose
-=========  ======
-        0       1
-=========  ======
-0.0370804  0.0437
-0.0370804  0.0437
-=========  ======
-
-
-test_beerex_lq1_acute_rq
-=====  ========
-    0         1
-=====  ========
-1.742  0.206897
-1.742  0.206897
-=====  ========
-
-
-test_beerex_lq1_chronic_rq
-=========  =======
-        0        1
-=========  =======
-0.0789474  272.083
-0.078947   272.083
-=========  =======
-
-
-test_beerex_lq1_total_dose
-===========  ===========
-          0            1
-===========  ===========
-5.50588e-06  1.77455e-06
-5.50588e-06  1.77455e-06
-===========  ===========
-
-
-test_beerex_lq2_acute_rq
-=======  ========
-      0         1
-=======  ========
-1.77011  0.578947
-1.77011  0.578947
-=======  ========
-
-
-test_beerex_lq2_chronic_rq
-=========  =========
-        0          1
-=========  =========
-0.0588235  0.0161765
-0.0588235  0.0161765
-=========  =========
-
-
-test_beerex_lq2_total_dose
-=======  =======
-      0        1
-=======  =======
-6.5e-05  2.8e-05
-6.5e-05  2.8e-05
-=======  =======
-
-
-test_beerex_lq3_acute_rq
-=======  =======
-      0        1
-=======  =======
-7.65979  1.66234
-7.65979  1.66234
-=======  =======
-
-
-test_beerex_lq3_chronic_rq
-========  ========
-       0         1
-========  ========
-0.503448  0.440722
-0.503448  0.440722
-========  ========
-
-
-test_beerex_lq3_total_dose
-========  ======
-       0       1
-========  ======
-0.055055  0.0132
-0.055055  0.0132
-========  ======
-
-
-test_beerex_lq4_acute_rq
-========  =======
-       0        1
-========  =======
-0.362069  9.78261
-0.362069  9.78261
-========  =======
-
-
-test_beerex_lq4_chronic_rq
-========  ========
-       0         1
-========  ========
-0.169863  0.194118
-0.169863  0.194118
-========  ========
-
-
-test_beerex_lq4_total_dose
-=======  =======
-      0        1
-=======  =======
-0.15136  0.48521
-0.15136  0.48521
-=======  =======
-
-
-test_beerex_lw1_acute_rq
-=======  ========
-      0         1
-=======  ========
-5.25926  0.349296
-5.25926  0.349296
-=======  ========
-
-
-test_beerex_lw1_chronic_rq
-=======  ========
-      0         1
-=======  ========
-3.22222  0.220126
-3.22222  0.220126
-=======  ========
-
-
-test_beerex_lw1_total_dose
-=====  ========
-    0         1
-=====  ========
-0.055  0.006765
-0.055  0.006765
-=====  ========
-
-
-test_beerex_lw2_acute_rq
-========  =======
-       0        1
-========  =======
-0.355705  2.13462
-0.355705  2.13462
-========  =======
-
-
-test_beerex_lw2_chronic_rq
-=======  =======
-      0        1
-=======  =======
-11.3696  2.76712
-11.3696  2.76712
-=======  =======
-
-
-test_beerex_lw2_total_dose
-=========  ===========
-        0            1
-=========  ===========
-1.784e-06  7.38636e-06
-1.784e-06  7.386e-06
-=========  ===========
-
-
-test_beerex_lw3_acute_rq
-=======  ========
-      0         1
-=======  ========
-3.37356  0.207547
-3.37356  0.207547
-=======  ========
-
-
-test_beerex_lw3_chronic_rq
-=======  =======
-      0        1
-=======  =======
-2.47826  1.03165
-2.47826  1.03165
-=======  =======
-
-
-test_beerex_lw3_total_dose
-===========  ===========
-          0            1
-===========  ===========
-0.000581992  0.000220323
-0.00058199   0.000220323
-===========  ===========
-
-
-test_beerex_lw4_acute_rq
-=======  =======
-      0        1
-=======  =======
-3.78261  1.57143
-3.78261  1.57143
-=======  =======
-
-
-test_beerex_lw4_chronic_rq
-=======  ======
-      0       1
-=======  ======
-1.23707  32.625
-1.23707  32.625
-=======  ======
-
-
-test_beerex_lw4_total_dose
-=======  ========
-      0         1
-=======  ========
-0.04387  0.011578
-0.04387  0.011578
-=======  ========
-
-
-test_beerex_lw5_acute_rq
-=======  =======
-      0        1
-=======  =======
-20.0833  2.67273
-20.0833  2.67273
-=======  =======
-
-
-test_beerex_lw5_chronic_rq
-=====  =========
-    0          1
-=====  =========
-0.175  0.0168889
-0.175  0.0168889
-=====  =========
-
-
-test_beerex_lw5_total_dose
-========  =======
-       0        1
-========  =======
-0.032169  0.07042
-0.032169  0.07042
-========  =======
-
-
-test_eec_spray
-===  =====
-  0      1
-===  =====
-1.1  0.275
-1.1  0.275
-===  =====
-to_numeric() got an unexpected keyword argument 'downcast'Traceback (most recent call last):
-  File "/Users/puruckertom/anaconda/lib/python2.7/unittest/case.py", line 329, in run
-    testMethod()
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/loader.py", line 418, in loadTestsFromName
-    addr.filename, addr.module)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/importer.py", line 47, in importFromPath
-    return self.importFromDir(dir_path, fqname)
-  File "/Users/puruckertom/anaconda/lib/python2.7/site-packages/nose/importer.py", line 94, in importFromDir
-    mod = load_module(part_fqname, fh, filename, desc)
-  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/tests/test_beerex_integration.py", line 69, in <module>
-    beerex_calc.execute_model()
-  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/beerex_exe.py", line 151, in execute_model
-    self.populate_inputs(self.pd_obj)
-  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/base/uber_model.py", line 107, in populate_inputs
-    setattr(self, column, self.coerce_input_dtype(initial_dtype, coerce_dtype, df_series))
-  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/base/uber_model.py", line 65, in coerce_input_dtype
-    return pd.to_numeric(input_series, errors='coerce', downcast='int64')
-TypeError: to_numeric() got an unexpected keyword argument 'downcast'
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/tests/test_beerex_unittest.py", line 656, in test_beerex_ad_total_dose
+    beerex_empty.eec_spray(i)
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/beerex_exe.py", line 240, in eec_spray
+    self.out_eec_soil[i] = np.nan
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 771, in __setitem__
+    setitem(key, value)
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 728, in setitem
+    values[key] = value
+IndexError: index 0 is out of bounds for axis 0 with size 0
 </pre>
-    </div>
+                                <h4>Details</h4>
+                                <pre>index 0 is out of bounds for axis 0 with size 0</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex:test_beerex_aq_total_dose">
+                            <h3>test_beerex_aq_total_dose: <strong>builtins.UnboundLocalError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 778, in _set_with_engine
+    self.index._engine.set_value(values, key, value)
+  File "pandas/_libs/index.pyx", line 116, in pandas._libs.index.IndexEngine.set_value (pandas/_libs/index.c:4690)
+  File "pandas/_libs/index.pyx", line 124, in pandas._libs.index.IndexEngine.set_value (pandas/_libs/index.c:4516)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 2442, in get_loc
+    return self._engine.get_loc(key)
+  File "pandas/_libs/index.pyx", line 132, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5280)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 719, in setitem
+    self._set_with_engine(key, value)
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 781, in _set_with_engine
+    values[self.index.get_loc(key)] = value
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 2444, in get_loc
+    return self._engine.get_loc(self._maybe_cast_indexer(key))
+  File "pandas/_libs/index.pyx", line 132, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5280)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/tests/test_beerex_unittest.py", line 687, in test_beerex_aq_total_dose
+    beerex_empty.eec_soil(i)
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/beerex_exe.py", line 253, in eec_soil
+    self.out_eec_seed[i] = np.nan
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 771, in __setitem__
+    setitem(key, value)
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 728, in setitem
+    values[key] = value
+IndexError: index 0 is out of bounds for axis 0 with size 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/tests/test_beerex_unittest.py", line 693, in test_beerex_aq_total_dose
+    tab = [result, expected_results]
+UnboundLocalError: local variable 'result' referenced before assignment
+</pre>
+                                <h4>Details</h4>
+                                <pre>local variable 'result' referenced before assignment</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex:test_beerex_aw_brood_total_dose">
+                            <h3>test_beerex_aw_brood_total_dose: <strong>builtins.UnboundLocalError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 778, in _set_with_engine
+    self.index._engine.set_value(values, key, value)
+  File "pandas/_libs/index.pyx", line 116, in pandas._libs.index.IndexEngine.set_value (pandas/_libs/index.c:4690)
+  File "pandas/_libs/index.pyx", line 124, in pandas._libs.index.IndexEngine.set_value (pandas/_libs/index.c:4516)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 2442, in get_loc
+    return self._engine.get_loc(key)
+  File "pandas/_libs/index.pyx", line 132, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5280)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 719, in setitem
+    self._set_with_engine(key, value)
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 781, in _set_with_engine
+    values[self.index.get_loc(key)] = value
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 2444, in get_loc
+    return self._engine.get_loc(self._maybe_cast_indexer(key))
+  File "pandas/_libs/index.pyx", line 132, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5280)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/tests/test_beerex_unittest.py", line 510, in test_beerex_aw_brood_total_dose
+    beerex_empty.eec_spray(i)
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/beerex_exe.py", line 241, in eec_spray
+    self.out_eec_seed[i] = np.nan
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 771, in __setitem__
+    setitem(key, value)
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 728, in setitem
+    values[key] = value
+IndexError: index 0 is out of bounds for axis 0 with size 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/tests/test_beerex_unittest.py", line 516, in test_beerex_aw_brood_total_dose
+    tab = [result, expected_results]
+UnboundLocalError: local variable 'result' referenced before assignment
+</pre>
+                                <h4>Details</h4>
+                                <pre>local variable 'result' referenced before assignment</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex:test_beerex_aw_cell_total_dose">
+                            <h3>test_beerex_aw_cell_total_dose: <strong>builtins.UnboundLocalError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 778, in _set_with_engine
+    self.index._engine.set_value(values, key, value)
+  File "pandas/_libs/index.pyx", line 116, in pandas._libs.index.IndexEngine.set_value (pandas/_libs/index.c:4690)
+  File "pandas/_libs/index.pyx", line 124, in pandas._libs.index.IndexEngine.set_value (pandas/_libs/index.c:4516)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 2442, in get_loc
+    return self._engine.get_loc(key)
+  File "pandas/_libs/index.pyx", line 132, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5280)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 719, in setitem
+    self._set_with_engine(key, value)
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 781, in _set_with_engine
+    values[self.index.get_loc(key)] = value
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 2444, in get_loc
+    return self._engine.get_loc(self._maybe_cast_indexer(key))
+  File "pandas/_libs/index.pyx", line 132, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5280)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/tests/test_beerex_unittest.py", line 483, in test_beerex_aw_cell_total_dose
+    beerex_empty.eec_seed(i)
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/beerex_exe.py", line 264, in eec_seed
+    self.out_eec_tree[i] = np.nan
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 771, in __setitem__
+    setitem(key, value)
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 728, in setitem
+    values[key] = value
+IndexError: index 0 is out of bounds for axis 0 with size 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/tests/test_beerex_unittest.py", line 489, in test_beerex_aw_cell_total_dose
+    tab = [result, expected_results]
+UnboundLocalError: local variable 'result' referenced before assignment
+</pre>
+                                <h4>Details</h4>
+                                <pre>local variable 'result' referenced before assignment</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex:test_beerex_aw_comb_total_dose">
+                            <h3>test_beerex_aw_comb_total_dose: <strong>builtins.UnboundLocalError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 778, in _set_with_engine
+    self.index._engine.set_value(values, key, value)
+  File "pandas/_libs/index.pyx", line 116, in pandas._libs.index.IndexEngine.set_value (pandas/_libs/index.c:4690)
+  File "pandas/_libs/index.pyx", line 124, in pandas._libs.index.IndexEngine.set_value (pandas/_libs/index.c:4516)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 2442, in get_loc
+    return self._engine.get_loc(key)
+  File "pandas/_libs/index.pyx", line 132, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5280)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 719, in setitem
+    self._set_with_engine(key, value)
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 781, in _set_with_engine
+    values[self.index.get_loc(key)] = value
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 2444, in get_loc
+    return self._engine.get_loc(self._maybe_cast_indexer(key))
+  File "pandas/_libs/index.pyx", line 132, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5280)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/tests/test_beerex_unittest.py", line 542, in test_beerex_aw_comb_total_dose
+    beerex_empty.eec_soil(i)
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/beerex_exe.py", line 254, in eec_soil
+    self.out_eec_tree[i] = np.nan
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 771, in __setitem__
+    setitem(key, value)
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 728, in setitem
+    values[key] = value
+IndexError: index 0 is out of bounds for axis 0 with size 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/tests/test_beerex_unittest.py", line 548, in test_beerex_aw_comb_total_dose
+    tab = [result, expected_results]
+UnboundLocalError: local variable 'result' referenced before assignment
+</pre>
+                                <h4>Details</h4>
+                                <pre>local variable 'result' referenced before assignment</pre>
+                            </div>
+                        </section>
+                        <section id="ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex:test_beerex_aw_nectar_total_dose">
+                            <h3>test_beerex_aw_nectar_total_dose: <strong>builtins.UnboundLocalError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 778, in _set_with_engine
+    self.index._engine.set_value(values, key, value)
+  File "pandas/_libs/index.pyx", line 116, in pandas._libs.index.IndexEngine.set_value (pandas/_libs/index.c:4690)
+  File "pandas/_libs/index.pyx", line 124, in pandas._libs.index.IndexEngine.set_value (pandas/_libs/index.c:4516)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 2442, in get_loc
+    return self._engine.get_loc(key)
+  File "pandas/_libs/index.pyx", line 132, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5280)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 719, in setitem
+    self._set_with_engine(key, value)
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 781, in _set_with_engine
+    values[self.index.get_loc(key)] = value
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/indexes/base.py", line 2444, in get_loc
+    return self._engine.get_loc(self._maybe_cast_indexer(key))
+  File "pandas/_libs/index.pyx", line 132, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5280)
+  File "pandas/_libs/index.pyx", line 154, in pandas._libs.index.IndexEngine.get_loc (pandas/_libs/index.c:5126)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1210, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20523)
+  File "pandas/_libs/hashtable_class_helper.pxi", line 1218, in pandas._libs.hashtable.PyObjectHashTable.get_item (pandas/_libs/hashtable.c:20477)
+KeyError: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/tests/test_beerex_unittest.py", line 595, in test_beerex_aw_nectar_total_dose
+    beerex_empty.eec_seed(i)
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/beerex_exe.py", line 264, in eec_seed
+    self.out_eec_tree[i] = np.nan
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 771, in __setitem__
+    setitem(key, value)
+  File "/anaconda/lib/python3.6/site-packages/pandas/core/series.py", line 728, in setitem
+    values[key] = value
+IndexError: index 0 is out of bounds for axis 0 with size 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/tests/test_beerex_unittest.py", line 601, in test_beerex_aw_nectar_total_dose
+    tab = [result, expected_results]
+UnboundLocalError: local variable 'result' referenced before assignment
+</pre>
+                                <h4>Details</h4>
+                                <pre>local variable 'result' referenced before assignment</pre>
+                            </div>
+                        </section>
+                </div>
+            </section>
+            <section>
+                <h2>nose.failure.Failure (0 failures, 1 errors)</h2>
+                <div>
+                        <section id="nose.failure.Failure:runTest">
+                            <h3>runTest: <strong>builtins.ModuleNotFoundError</strong></h3>
+                            <div class="test-details">
+                                <h4>Traceback</h4>
+                                <pre class="traceback">Traceback (most recent call last):
+  File "/anaconda/lib/python3.6/unittest/case.py", line 59, in testPartExecutor
+    yield
+  File "/anaconda/lib/python3.6/unittest/case.py", line 601, in run
+    testMethod()
+  File "/anaconda/lib/python3.6/site-packages/nose/failure.py", line 39, in runTest
+    raise self.exc_val.with_traceback(self.tb)
+  File "/anaconda/lib/python3.6/site-packages/nose/loader.py", line 417, in loadTestsFromName
+    addr.filename, addr.module)
+  File "/anaconda/lib/python3.6/site-packages/nose/importer.py", line 47, in importFromPath
+    return self.importFromDir(dir_path, fqname)
+  File "/anaconda/lib/python3.6/site-packages/nose/importer.py", line 94, in importFromDir
+    mod = load_module(part_fqname, fh, filename, desc)
+  File "/anaconda/lib/python3.6/imp.py", line 234, in load_module
+    return load_source(name, filename, file)
+  File "/anaconda/lib/python3.6/imp.py", line 172, in load_source
+    module = _load(spec)
+  File "<frozen importlib._bootstrap>", line 675, in _load
+  File "<frozen importlib._bootstrap>", line 655, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 678, in exec_module
+  File "<frozen importlib._bootstrap>", line 205, in _call_with_frames_removed
+  File "/Users/puruckertom/git/qed/ubertool_ecorest/ubertool/ubertool/beerex/tests/test_beerex_integration.py", line 8, in <module>
+    from StringIO import StringIO
+ModuleNotFoundError: No module named 'StringIO'
+</pre>
+                                <h4>Details</h4>
+                                <pre>No module named 'StringIO'</pre>
+                            </div>
+                        </section>
+                </div>
+            </section>
+
+    <h1>All tests</h1>
+    <section>
+        <h2>ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex (0 failures, 6 errors)</h2>
+        <ul>
+                <li><a class="success">test_beerex_ad_acute_rq</a></li>
+                <li><a class="success">test_beerex_ad_chronic_rq</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex:test_beerex_ad_total_dose">test_beerex_ad_total_dose</a></li>
+                <li><a class="success">test_beerex_aq_acute_rq</a></li>
+                <li><a class="success">test_beerex_aq_chronic_rq</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex:test_beerex_aq_total_dose">test_beerex_aq_total_dose</a></li>
+                <li><a class="success">test_beerex_aw_brood_acute_rq</a></li>
+                <li><a class="success">test_beerex_aw_brood_chronic_rq</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex:test_beerex_aw_brood_total_dose">test_beerex_aw_brood_total_dose</a></li>
+                <li><a class="success">test_beerex_aw_cell_acute_rq</a></li>
+                <li><a class="success">test_beerex_aw_cell_chronic_rq</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex:test_beerex_aw_cell_total_dose">test_beerex_aw_cell_total_dose</a></li>
+                <li><a class="success">test_beerex_aw_comb_acute_rq</a></li>
+                <li><a class="success">test_beerex_aw_comb_chronic_rq</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex:test_beerex_aw_comb_total_dose">test_beerex_aw_comb_total_dose</a></li>
+                <li><a class="success">test_beerex_aw_nectar_acute_rq</a></li>
+                <li><a class="success">test_beerex_aw_nectar_chronic_rq</a></li>
+                <li><a class="failed" href="#ubertool.ubertool.beerex.tests.test_beerex_unittest.TestBeerex:test_beerex_aw_nectar_total_dose">test_beerex_aw_nectar_total_dose</a></li>
+                <li><a class="success">test_beerex_aw_pollen_acute_rq</a></li>
+                <li><a class="success">test_beerex_aw_pollen_chronic_rq</a></li>
+                <li><a class="success">test_beerex_aw_pollen_total_dose</a></li>
+                <li><a class="success">test_beerex_aw_winter_acute_rq</a></li>
+                <li><a class="success">test_beerex_aw_winter_chronic_rq</a></li>
+                <li><a class="success">test_beerex_aw_winter_total_dose</a></li>
+                <li><a class="success">test_beerex_eec_seed</a></li>
+                <li><a class="success">test_beerex_eec_soil</a></li>
+                <li><a class="success">test_beerex_eec_tree</a></li>
+                <li><a class="success">test_beerex_ld6_acute_rq</a></li>
+                <li><a class="success">test_beerex_ld6_chronic_rq</a></li>
+                <li><a class="success">test_beerex_ld6_total_dose</a></li>
+                <li><a class="success">test_beerex_lq1_acute_rq</a></li>
+                <li><a class="success">test_beerex_lq1_chronic_rq</a></li>
+                <li><a class="success">test_beerex_lq1_total_dose</a></li>
+                <li><a class="success">test_beerex_lq2_acute_rq</a></li>
+                <li><a class="success">test_beerex_lq2_chronic_rq</a></li>
+                <li><a class="success">test_beerex_lq2_total_dose</a></li>
+                <li><a class="success">test_beerex_lq3_acute_rq</a></li>
+                <li><a class="success">test_beerex_lq3_chronic_rq</a></li>
+                <li><a class="success">test_beerex_lq3_total_dose</a></li>
+                <li><a class="success">test_beerex_lq4_acute_rq</a></li>
+                <li><a class="success">test_beerex_lq4_chronic_rq</a></li>
+                <li><a class="success">test_beerex_lq4_total_dose</a></li>
+                <li><a class="success">test_beerex_lw1_acute_rq</a></li>
+                <li><a class="success">test_beerex_lw1_chronic_rq</a></li>
+                <li><a class="success">test_beerex_lw1_total_dose</a></li>
+                <li><a class="success">test_beerex_lw2_acute_rq</a></li>
+                <li><a class="success">test_beerex_lw2_chronic_rq</a></li>
+                <li><a class="success">test_beerex_lw2_total_dose</a></li>
+                <li><a class="success">test_beerex_lw3_acute_rq</a></li>
+                <li><a class="success">test_beerex_lw3_chronic_rq</a></li>
+                <li><a class="success">test_beerex_lw3_total_dose</a></li>
+                <li><a class="success">test_beerex_lw4_acute_rq</a></li>
+                <li><a class="success">test_beerex_lw4_chronic_rq</a></li>
+                <li><a class="success">test_beerex_lw4_total_dose</a></li>
+                <li><a class="success">test_beerex_lw5_acute_rq</a></li>
+                <li><a class="success">test_beerex_lw5_chronic_rq</a></li>
+                <li><a class="success">test_beerex_lw5_total_dose</a></li>
+                <li><a class="success">test_eec_spray</a></li>
+        </ul>
+    </section>
+    <section>
+        <h2>nose.failure.Failure (0 failures, 1 errors)</h2>
+        <ul>
+                <li><a class="failed" href="#nose.failure.Failure:runTest">runTest</a></li>
+        </ul>
+    </section>
 </body>
+<script>
+    Array.prototype.forEach.call(document.querySelectorAll('h1, h2, h3, h4'), function(el) {
+        el.addEventListener('click', function() {
+            el.nextElementSibling.style.display = document.defaultView.getComputedStyle(el.nextElementSibling).display == 'none' ? 'block' : 'none';
+        })
+    })
+</script>
 </html>

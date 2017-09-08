@@ -47,7 +47,7 @@ integration tests.
 
     it's not totally clear which app_rate to use in methods such as 'sc_bird'
 
-    note that if max_app_rate is used to calculate max concentraiton for the year it will
+    note that if max_app_rate is used to calculate max concentration for the year it will
     not be correct  because max_conc for the year will be a function of both the app_rate
     and the residual concentration remaining from any precious application
 
@@ -83,8 +83,8 @@ integration tests.
    turns out the C135 cell is formatted for 1 decimal place when actually the
    number 11.616 would require 3
 
-   Note: need to make sure 'entire set of sgnifcant digits' is transferred
-   from original input spreadsheetinto python input set
+   Note: need to make sure 'entire set of signifcant digits' is transferred
+   from original input spreadsheet into python input set
 
 9. Issue with 'scientific' as format in input spreadsheet;
         when scientific is selected as format for a spreadsheet cell it
@@ -118,7 +118,7 @@ integration tests.
     Expected values provided in the OPP spreadsheet for text simulations 4/5/6
     were determined to be erroneous
 
-        expected values for simululation run #4 wer enon-zero but did not
+        expected values for simululation run #4 were non-zero but did not
         match values calculated by Python code
 
         expected values for simulations #5/6 were simply 0.0
