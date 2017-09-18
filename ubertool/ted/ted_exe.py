@@ -73,6 +73,8 @@ class TedInputs(ModelSharedInputs):
         self.droplet_spec_min = pd.Series([], dtype="object", name="droplet_spec_min")
         self.boom_hgt_min = pd.Series([], dtype="object", name="droplet_spec_min")
 
+        self.pest_incorp_depth_min = pd.Series([], dtype="object", name="pest_incorp_depth")
+
         self.crop_max = pd.Series([], dtype="object", name="crop")
         self.app_method_max = pd.Series([], dtype="object", name="app_method_max")
         self.app_rate_max = pd.Series([], dtype="float", name="app_rate_max")
@@ -81,6 +83,8 @@ class TedInputs(ModelSharedInputs):
 
         self.droplet_spec_max = pd.Series([], dtype="object", name="droplet_spec_max")
         self.boom_hgt_max = pd.Series([], dtype="object", name="droplet_spec_max")
+
+        self.pest_incorp_depth_max = pd.Series([], dtype="object", name="pest_incorp_depth")
 
         # physical, chemical, and fate properties of pesticide
         self.foliar_diss_hlife = pd.Series([], dtype="float", name="foliar_diss_hlife")
@@ -91,35 +95,229 @@ class TedInputs(ModelSharedInputs):
         self.koc = pd.Series([], dtype="float", name="koc")
         self.solubility = pd.Series([], dtype="float", name="solubility")
         self.henry_law_const = pd.Series([], dtype="float", name="henry_law_const")
+        
+        # bio concentration factors  (ug active ing/kg-ww) / (ug active ing/liter)
+        self.aq_plant_algae_bcf_mean = pd.Series([], dtype="float", name="aq_plant_algae_bcf_mean")
+        self.aq_plant_algae_bcf_upper = pd.Series([], dtype="float", name="aq_plant_algae_bcf_upper")
+        self.inv_bcf_mean = pd.Series([], dtype="float", name="inv_bcf_mean")
+        self.inv_bcf_upper = pd.Series([], dtype="float", name="inv_bcf_upper")
+        self.fish_bcf_mean = pd.Series([], dtype="float", name="fish_bcf_mean")
+        self.fish_bcf_upper = pd.Series([], dtype="float", name="fish_bcf_upper")
 
-        # self.mineau_sca_fact = pd.Series([], dtype="float", name="mineau_sca_fact")
-        #
-        # self.ld50_bird = pd.Series([], dtype="float")
-        # self.lc50_bird = pd.Series([], dtype="float")
-        # self.noaec_bird = pd.Series([], dtype="float")
-        # self.noael_bird = pd.Series([], dtype="float")
-        # self.aw_bird_sm = pd.Series([], dtype="float")  # body weight of assessed bird (small)
-        # self.aw_bird_md = pd.Series([], dtype="float")  # body weight of assessed bird (medium)
-        # self.aw_bird_lg = pd.Series([], dtype="float")  # body weight of assessed bird (large)
-        # self.tw_bird_ld50 = pd.Series([], dtype="float")
-        # self.tw_bird_lc50 = pd.Series([], dtype="float")
-        # self.tw_bird_noaec = pd.Series([], dtype="float")
-        # self.tw_bird_noael = pd.Series([], dtype="float")
-        #
-        # self.species_of_the_tested_bird_avian_ld50 = pd.Series([], dtype="object")
-        # self.species_of_the_tested_bird_avian_lc50 = pd.Series([], dtype="object")
-        # self.species_of_the_tested_bird_avian_noaec = pd.Series([], dtype="object")
-        # self.species_of_the_tested_bird_avian_noael = pd.Series([], dtype="object")
-        #
-        # self.ld50_mamm = pd.Series([], dtype="float")
-        # self.lc50_mamm = pd.Series([], dtype="float")
-        # self.noaec_mamm = pd.Series([], dtype="float")
-        # self.noael_mamm = pd.Series([], dtype="float")
-        # self.aw_mamm_sm = pd.Series([], dtype="float")  # body weight of assessed mammal (small)
-        # self.aw_mamm_md = pd.Series([], dtype="float")  # body weight of assessed mammal (medium)
-        # self.aw_mamm_lg = pd.Series([], dtype="float")  # body weight of assessed mammal (large)
-        # self.tw_mamm = pd.Series([], dtype="float")  # body weight of tested mammal
+        # bounding water concentrations (ug active ing/liter)
+        self.water_conc_1 = pd.Series([], dtype="float", name="water_conc_1")  # lower bound
+        self.water_conc_2 = pd.Series([], dtype="float", name="water_conc_2")  # upper bound
 
+        # health value inputs
+
+        # naming convention (based on listing from OPP TED Excel spreadsheet 'inputs' worksheet):
+
+        # dbt: dose based toxicity
+        # cbt: concentration-based toxicity
+        # arbt: application rate-based toxicity
+        # 1inmill_mort: 1/million mortality (note initial character is numeral 1, not letter l)
+        # 1inten_mort: 10% mortality  (note initial character is numeral 1, not letter l)
+        # others are self explanatory
+
+        # dose based toxicity(dbt): mammals  (mg-pest/kg-bw) & weight of test animal (grams)
+        self.dbt_mamm_1inmill_mort = pd.Series([], dtype="float", name="dbt_mamm_1inmill_mort")
+        self.dbt_mamm_1inten_mort = pd.Series([], dtype="float", name="dbt_mamm_1inten_mort")
+        self.dbt_mamm_low_ld50 = pd.Series([], dtype="float", name="dbt_mamm_low_ld50")
+        self.dbt_mamm_rat_oral_ld50 = pd.Series([], dtype="float", name="dbt_mamm_1inten_mort")
+        self.dbt_mamm_rat_derm_ld50 = pd.Series([], dtype="float", name="dbt_mamm_rat_derm_ld50")
+        self.dbt_mamm_rat_inhal_ld50 = pd.Series([], dtype="float", name="dbt_mamm_rat_inhal_ld50")
+        self.dbt_mamm_sub_direct = pd.Series([], dtype="float", name="dbt_mamm_sub_direct")
+        self.dbt_mamm_sub_indirect = pd.Series([], dtype="float", name="dbt_mamm_sub_indirect")
+        
+        self.dbt_mamm_1inmill_mort_wgt = pd.Series([], dtype="float", name="dbt_mamm_1inmill_mort_wgt")
+        self.dbt_mamm_1inten_mort_wgt = pd.Series([], dtype="float", name="dbt_mamm_1inten_mort_wgt")
+        self.dbt_mamm_low_ld50_wgt = pd.Series([], dtype="float", name="dbt_mamm_low_ld50_wgt")
+        self.dbt_mamm_rat_oral_ld50_wgt = pd.Series([], dtype="float", name="dbt_mamm_1inten_mort_wgt")
+        self.dbt_mamm_rat_derm_ld50_wgt = pd.Series([], dtype="float", name="dbt_mamm_rat_derm_ld50_wgt")
+        self.dbt_mamm_rat_inhal_ld50_wgt = pd.Series([], dtype="float", name="dbt_mamm_rat_inhal_ld50_wgt")
+        self.dbt_mamm_sub_direct_wgt = pd.Series([], dtype="float", name="dbt_mamm_sub_direct_wgt")
+        self.dbt_mamm_sub_indirect_wgt = pd.Series([], dtype="float", name="dbt_mamm_sub_indirect_wgt")
+
+        # dose based toxicity(dbt): birds  (mg-pest/kg-bw) & weight of test animal (grams)
+        self.dbt_bird_1inmill_mort = pd.Series([], dtype="float", name="dbt_bird_1inmill_mort")
+        self.dbt_bird_1inten_mort = pd.Series([], dtype="float", name="dbt_bird_1inten_mort")
+        self.dbt_bird_low_ld50 = pd.Series([], dtype="float", name="dbt_bird_low_ld50")
+        self.dbt_bird_hc05 = pd.Series([], dtype="float", name="dbt_bird_hc05")
+        self.dbt_bird_hc50 = pd.Series([], dtype="float", name="dbt_bird_hc50")
+        self.dbt_bird_hc95 = pd.Series([], dtype="float", name="dbt_bird_hc95")
+        self.dbt_bird_sub_direct = pd.Series([], dtype="float", name="dbt_bird_sub_direct")
+        self.dbt_bird_sub_indirect = pd.Series([], dtype="float", name="dbt_bird_sub_indirect")
+
+        self.mineau_sca_fact = pd.Series([], dtype="float", name="mineau_sca_fact")
+        
+        self.dbt_bird_1inmill_mort_wgt = pd.Series([], dtype="float", name="dbt_bird_1inmill_mort_wgt")
+        self.dbt_bird_1inten_mort_wgt = pd.Series([], dtype="float", name="dbt_bird_1inten_mort_wgt")
+        self.dbt_bird_low_ld50_wgt = pd.Series([], dtype="float", name="dbt_bird_low_ld50_wgt")
+        self.dbt_bird_hc05_wgt = pd.Series([], dtype="float", name="dbt_bird_hc05_wgt")
+        self.dbt_bird_hc50_wgt = pd.Series([], dtype="float", name="dbt_bird_hc50_wgt")
+        self.dbt_bird_hc95_wgt = pd.Series([], dtype="float", name="dbt_bird_hc95_wgt")
+        self.dbt_bird_sub_direct_wgt = pd.Series([], dtype="float", name="dbt_bird_sub_direct_wgt")
+        self.dbt_bird_sub_indirect_wgt = pd.Series([], dtype="float", name="dbt_bird_sub_indirect_wgt")
+
+        self.mineau_sca_fact_wgt = pd.Series([], dtype="float", name="mineau_sca_fact_wgt")
+        
+        # dose based toxicity(dbt): reptiles, terrestrial-phase amphibians  (mg-pest/kg-bw) & weight of test animal (grams)
+        self.dbt_reptile_1inmill_mort = pd.Series([], dtype="float", name="dbt_reptile_1inmill_mort")
+        self.dbt_reptile_1inten_mort = pd.Series([], dtype="float", name="dbt_reptile_1inten_mort")
+        self.dbt_reptile_low_ld50 = pd.Series([], dtype="float", name="dbt_reptile_low_ld50")
+        self.dbt_reptile_sub_direct = pd.Series([], dtype="float", name="dbt_reptile_sub_direct")
+        self.dbt_reptile_sub_indirect = pd.Series([], dtype="float", name="dbt_reptile_sub_indirect")
+
+        self.dbt_reptile_1inmill_mort_wgt = pd.Series([], dtype="float", name="dbt_reptile_1inmill_mort_wgt")
+        self.dbt_reptile_1inten_mort_wgt = pd.Series([], dtype="float", name="dbt_reptile_1inten_mort_wgt")
+        self.dbt_reptile_low_ld50_wgt = pd.Series([], dtype="float", name="dbt_reptile_low_ld50_wgt")
+        self.dbt_reptile_sub_direct_wgt = pd.Series([], dtype="float", name="dbt_reptile_sub_direct_wgt")
+        self.dbt_reptile_sub_indirect_wgt = pd.Series([], dtype="float", name="dbt_reptile_sub_indirect_wgt")
+
+        # concentration-based toxicity (cbt) : mammals (mg-pest/kg-diet food)
+        self.cbt_mamm_1inmill_mort = pd.Series([], dtype="float", name="cbt_mamm_1inmill_mort")
+        self.cbt_mamm_1inten_mort = pd.Series([], dtype="float", name="cbt_mamm_1inten_mort")
+        self.cbt_mamm_low_lc50 = pd.Series([], dtype="float", name="cbt_mamm_low_lc50")
+        self.cbt_mamm_sub_direct = pd.Series([], dtype="float", name="cbt_mamm_sub_direct")
+        self.cbt_mamm_grow_noec = pd.Series([], dtype="float", name="cbt_mamm_grow_noec")
+        self.cbt_mamm_grow_loec = pd.Series([], dtype="float", name="cbt_mamm_grow_loec")
+        self.cbt_mamm_repro_noec = pd.Series([], dtype="float", name="cbt_mamm_repro_noec")
+        self.cbt_mamm_repro_loec = pd.Series([], dtype="float", name="cbt_mamm_repro_loec")
+        self.cbt_mamm_behav_noec = pd.Series([], dtype="float", name="cbt_mamm_behav_noec")
+        self.cbt_mamm_behav_loec = pd.Series([], dtype="float", name="cbt_mamm_behav_loec")
+        self.cbt_mamm_sensory_noec = pd.Series([], dtype="float", name="cbt_mamm_sensory_noec")
+        self.cbt_mamm_sensory_loec = pd.Series([], dtype="float", name="cbt_mamm_sensory_loec")
+        self.cbt_mamm_sub_indirect = pd.Series([], dtype="float", name="cbt_mamm_sub_indirect")
+        
+        # concentration-based toxicity (cbt) : birds (mg-pest/kg-diet food)
+        self.cbt_bird_1inmill_mort = pd.Series([], dtype="float", name="cbt_bird_1inmill_mort")
+        self.cbt_bird_1inten_mort = pd.Series([], dtype="float", name="cbt_bird_1inten_mort")
+        self.cbt_bird_low_lc50 = pd.Series([], dtype="float", name="cbt_bird_low_lc50")
+        self.cbt_bird_sub_direct = pd.Series([], dtype="float", name="cbt_bird_sub_direct")
+        self.cbt_bird_grow_noec = pd.Series([], dtype="float", name="cbt_bird_grow_noec")
+        self.cbt_bird_grow_loec = pd.Series([], dtype="float", name="cbt_bird_grow_loec")
+        self.cbt_bird_repro_noec = pd.Series([], dtype="float", name="cbt_bird_repro_noec")
+        self.cbt_bird_repro_loec = pd.Series([], dtype="float", name="cbt_bird_repro_loec")
+        self.cbt_bird_behav_noec = pd.Series([], dtype="float", name="cbt_bird_behav_noec")
+        self.cbt_bird_behav_loec = pd.Series([], dtype="float", name="cbt_bird_behav_loec")
+        self.cbt_bird_sensory_noec = pd.Series([], dtype="float", name="cbt_bird_sensory_noec")
+        self.cbt_bird_sensory_loec = pd.Series([], dtype="float", name="cbt_bird_sensory_loec")
+        self.cbt_bird_sub_indirect = pd.Series([], dtype="float", name="cbt_bird_sub_indirect")
+        
+        # concentration-based toxicity (cbt) : reptiles, terrestrial-phase amphibians (mg-pest/kg-diet food)
+        self.cbt_reptile_1inmill_mort = pd.Series([], dtype="float", name="cbt_reptile_1inmill_mort")
+        self.cbt_reptile_1inten_mort = pd.Series([], dtype="float", name="cbt_reptile_1inten_mort")
+        self.cbt_reptile_low_lc50 = pd.Series([], dtype="float", name="cbt_reptile_low_lc50")
+        self.cbt_reptile_sub_direct = pd.Series([], dtype="float", name="cbt_reptile_sub_direct")
+        self.cbt_reptile_grow_noec = pd.Series([], dtype="float", name="cbt_reptile_grow_noec")
+        self.cbt_reptile_grow_loec = pd.Series([], dtype="float", name="cbt_reptile_grow_loec")
+        self.cbt_reptile_repro_noec = pd.Series([], dtype="float", name="cbt_reptile_repro_noec")
+        self.cbt_reptile_repro_loec = pd.Series([], dtype="float", name="cbt_reptile_repro_loec")
+        self.cbt_reptile_behav_noec = pd.Series([], dtype="float", name="cbt_reptile_behav_noec")
+        self.cbt_reptile_behav_loec = pd.Series([], dtype="float", name="cbt_reptile_behav_loec")
+        self.cbt_reptile_sensory_noec = pd.Series([], dtype="float", name="cbt_reptile_sensory_noec")
+        self.cbt_reptile_sensory_loec = pd.Series([], dtype="float", name="cbt_reptile_sensory_loec")
+        self.cbt_reptile_sub_indirect = pd.Series([], dtype="float", name="cbt_reptile_sub_indirect")
+
+        # concentration-based toxicity (cbt) : invertebrates body weight (mg-pest/kg-bw(ww))
+        self.cbt_inv_bw_1inmill_mort = pd.Series([], dtype="float", name="cbt_inv_bw_1inmill_mort")
+        self.cbt_inv_bw_1inten_mort = pd.Series([], dtype="float", name="cbt_inv_bw_1inten_mort")
+        self.cbt_inv_bw_low_lc50 = pd.Series([], dtype="float", name="cbt_inv_bw_low_lc50")
+        self.cbt_inv_bw_sub_direct = pd.Series([], dtype="float", name="cbt_inv_bw_sub_direct")
+        self.cbt_inv_bw_grow_noec = pd.Series([], dtype="float", name="cbt_inv_bw_grow_noec")
+        self.cbt_inv_bw_grow_loec = pd.Series([], dtype="float", name="cbt_inv_bw_grow_loec")
+        self.cbt_inv_bw_repro_noec = pd.Series([], dtype="float", name="cbt_inv_bw_repro_noec")
+        self.cbt_inv_bw_repro_loec = pd.Series([], dtype="float", name="cbt_inv_bw_repro_loec")
+        self.cbt_inv_bw_behav_noec = pd.Series([], dtype="float", name="cbt_inv_bw_behav_noec")
+        self.cbt_inv_bw_behav_loec = pd.Series([], dtype="float", name="cbt_inv_bw_behav_loec")
+        self.cbt_inv_bw_sensory_noec = pd.Series([], dtype="float", name="cbt_inv_bw_sensory_noec")
+        self.cbt_inv_bw_sensory_loec = pd.Series([], dtype="float", name="cbt_inv_bw_sensory_loec")
+        self.cbt_inv_bw_sub_indirect = pd.Series([], dtype="float", name="cbt_inv_bw_sub_indirect")
+        
+        # concentration-based toxicity (cbt) : invertebrates body diet (mg-pest/kg-food(ww))
+        self.cbt_inv_food_1inmill_mort = pd.Series([], dtype="float", name="cbt_inv_food_1inmill_mort")
+        self.cbt_inv_food_1inten_mort = pd.Series([], dtype="float", name="cbt_inv_food_1inten_mort")
+        self.cbt_inv_food_low_lc50 = pd.Series([], dtype="float", name="cbt_inv_food_low_lc50")
+        self.cbt_inv_food_sub_direct = pd.Series([], dtype="float", name="cbt_inv_food_sub_direct")
+        self.cbt_inv_food_grow_noec = pd.Series([], dtype="float", name="cbt_inv_food_grow_noec")
+        self.cbt_inv_food_grow_loec = pd.Series([], dtype="float", name="cbt_inv_food_grow_loec")
+        self.cbt_inv_food_repro_noec = pd.Series([], dtype="float", name="cbt_inv_food_repro_noec")
+        self.cbt_inv_food_repro_loec = pd.Series([], dtype="float", name="cbt_inv_food_repro_loec")
+        self.cbt_inv_food_behav_noec = pd.Series([], dtype="float", name="cbt_inv_food_behav_noec")
+        self.cbt_inv_food_behav_loec = pd.Series([], dtype="float", name="cbt_inv_food_behav_loec")
+        self.cbt_inv_food_sensory_noec = pd.Series([], dtype="float", name="cbt_inv_food_sensory_noec")
+        self.cbt_inv_food_sensory_loec = pd.Series([], dtype="float", name="cbt_inv_food_sensory_loec")
+        self.cbt_inv_food_sub_indirect = pd.Series([], dtype="float", name="cbt_inv_food_sub_indirect")
+  
+        # concentration-based toxicity (cbt) : invertebrates body soil (mg-pest/kg-soil(dw))
+        self.cbt_inv_soil_1inmill_mort = pd.Series([], dtype="float", name="cbt_inv_soil_1inmill_mort")
+        self.cbt_inv_soil_1inten_mort = pd.Series([], dtype="float", name="cbt_inv_soil_1inten_mort")
+        self.cbt_inv_soil_low_lc50 = pd.Series([], dtype="float", name="cbt_inv_soil_low_lc50")
+        self.cbt_inv_soil_sub_direct = pd.Series([], dtype="float", name="cbt_inv_soil_sub_direct")
+        self.cbt_inv_soil_grow_noec = pd.Series([], dtype="float", name="cbt_inv_soil_grow_noec")
+        self.cbt_inv_soil_grow_loec = pd.Series([], dtype="float", name="cbt_inv_soil_grow_loec")
+        self.cbt_inv_soil_repro_noec = pd.Series([], dtype="float", name="cbt_inv_soil_repro_noec")
+        self.cbt_inv_soil_repro_loec = pd.Series([], dtype="float", name="cbt_inv_soil_repro_loec")
+        self.cbt_inv_soil_behav_noec = pd.Series([], dtype="float", name="cbt_inv_soil_behav_noec")
+        self.cbt_inv_soil_behav_loec = pd.Series([], dtype="float", name="cbt_inv_soil_behav_loec")
+        self.cbt_inv_soil_sensory_noec = pd.Series([], dtype="float", name="cbt_inv_soil_sensory_noec")
+        self.cbt_inv_soil_sensory_loec = pd.Series([], dtype="float", name="cbt_inv_soil_sensory_loec")
+        self.cbt_inv_soil_sub_indirect = pd.Series([], dtype="float", name="cbt_inv_soil_sub_indirect")
+
+        # application rate-based toxicity (arbt) : mammals  (lbs active ingredient/Acre)
+        self.arbt_mamm_mort = pd.Series([], dtype="float", name="arbt_mamm_mort")
+        self.arbt_mamm_growth = pd.Series([], dtype="float", name="arbt_mamm_growth")
+        self.arbt_mamm_repro = pd.Series([], dtype="float", name="arbt_mamm_repro")
+        self.arbt_mamm_behav = pd.Series([], dtype="float", name="arbt_mamm_behav")
+        self.arbt_mamm_sensory = pd.Series([], dtype="float", name="arbt_mamm_sensory")
+
+        # application rate-based toxicity (arbt) : birds  (lbs active ingredient/Acre)
+        self.arbt_bird_mort = pd.Series([], dtype="float", name="arbt_bird_mort")
+        self.arbt_bird_growth = pd.Series([], dtype="float", name="arbt_bird_growth")
+        self.arbt_bird_repro = pd.Series([], dtype="float", name="arbt_bird_repro")
+        self.arbt_bird_behav = pd.Series([], dtype="float", name="arbt_bird_behav")
+        self.arbt_bird_sensory = pd.Series([], dtype="float", name="arbt_bird_sensory")
+        
+        # application rate-based toxicity (arbt) : reptiles  (lbs active ingredient/Acre)
+        self.arbt_reptile_mort = pd.Series([], dtype="float", name="arbt_reptile_mort")
+        self.arbt_reptile_growth = pd.Series([], dtype="float", name="arbt_reptile_growth")
+        self.arbt_reptile_repro = pd.Series([], dtype="float", name="arbt_reptile_repro")
+        self.arbt_reptile_behav = pd.Series([], dtype="float", name="arbt_reptile_behav")
+        self.arbt_reptile_sensory = pd.Series([], dtype="float", name="arbt_reptile_sensory")
+        
+        # application rate-based toxicity (arbt) : invertebrates  (lbs active ingredient/Acre)
+        self.arbt_inv_1inmill_mort = pd.Series([], dtype="float", name="arbt_inv_1inmill_mort")
+        self.arbt_inv_1inten_mort = pd.Series([], dtype="float", name="arbt_inv_1inten_mort")
+        self.arbt_inv_sub_direct = pd.Series([], dtype="float", name="arbt_inv_sub_direct")
+        self.arbt_inv_sub_indirect = pd.Series([], dtype="float", name="arbt_inv_sub_indirect")
+        self.arbt_inv_growth = pd.Series([], dtype="float", name="arbt_inv_growth")
+        self.arbt_inv_repro = pd.Series([], dtype="float", name="arbt_inv_repro")
+        self.arbt_inv_behav = pd.Series([], dtype="float", name="arbt_inv_behav")
+        self.arbt_inv_sensory = pd.Series([], dtype="float", name="arbt_inv_sensory")
+        
+        # plant toxicity (pt) : monocots (lbs active ingredient/Acre)
+        self.pt_mono_pre_noec = pd.Series([], dtype="float", name="pt_mono_pre_noec")
+        self.pt_mono_pre_loec = pd.Series([], dtype="float", name="pt_mono_pre_loec")
+        self.pt_mono_pre_ec25 = pd.Series([], dtype="float", name="pt_mono_pre_ec25")
+        self.pt_mono_post_noec = pd.Series([], dtype="float", name="pt_mono_post_noec")
+        self.pt_mono_post_loec = pd.Series([], dtype="float", name="pt_mono_post_loec")
+        self.pt_mono_post_ec25 = pd.Series([], dtype="float", name="pt_mono_post_ec25")
+        self.pt_mono_dir_mort = pd.Series([], dtype="float", name="pt_mono_dir_mort")
+        self.pt_mono_indir_mort = pd.Series([], dtype="float", name="pt_mono_indir_mort")
+        self.pt_mono_dir_repro = pd.Series([], dtype="float", name="pt_mono_dir_repro")
+        self.pt_mono_indir_repro = pd.Series([], dtype="float", name="pt_mono_indir_repro")
+        
+        # plant toxicity (pt) : dicots (lbs active ingredient/Acre)
+        self.pt_dicot_pre_noec = pd.Series([], dtype="float", name="pt_dicot_pre_noec")
+        self.pt_dicot_pre_loec = pd.Series([], dtype="float", name="pt_dicot_pre_loec")
+        self.pt_dicot_pre_ec25 = pd.Series([], dtype="float", name="pt_dicot_pre_ec25")
+        self.pt_dicot_post_noec = pd.Series([], dtype="float", name="pt_dicot_post_noec")
+        self.pt_dicot_post_loec = pd.Series([], dtype="float", name="pt_dicot_post_loec")
+        self.pt_dicot_post_ec25 = pd.Series([], dtype="float", name="pt_dicot_post_ec25")
+        self.pt_dicot_dir_mort = pd.Series([], dtype="float", name="pt_dicot_dir_mort")
+        self.pt_dicot_indir_mort = pd.Series([], dtype="float", name="pt_dicot_indir_mort")
+        self.pt_dicot_dir_repro = pd.Series([], dtype="float", name="pt_dicot_dir_repro")
+        self.pt_dicot_indir_repro = pd.Series([], dtype="float", name="pt_dicot_indir_repro")
 
 class TedOutputs(object):
     """
@@ -167,6 +365,10 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedSpeciesProperties):
         # Define constants and perform units conversions on necessary raw inputs
         self.set_global_constants()
 
+        # calculate plant toxicity to application rate (min/max) ratios across all simulations
+        # (represents columns G & H of OPP TED Excel spreadsheet 'inputs' worksheet rows 205 - 224)
+        self.calc_plant_tox_ratios()
+
         # process simulations--------------------------------------------------------------------
 
         for sim_num in range(self.num_simulations):
@@ -178,16 +380,27 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedSpeciesProperties):
             self.initialize_eec_arrays()
 
             # set spray drift parameters for estimating distances from source related to downgradient pesticide concentrations (for min/max application scenarios)
-            drift_param_a_min, drift_param_b_min, drift_param_c_min = \
+            self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min = \
                 self.set_drift_parameters(self.app_method_min[sim_num], self.boom_hgt_min[sim_num],
                                           self.droplet_spec_min[sim_num])
-            drift_param_a_max, drift_param_b_max, drift_param_c_max =  \
+            self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max =  \
                self.set_drift_parameters(self.app_method_max[sim_num], self.boom_hgt_max[sim_num],
                                          self.droplet_spec_max[sim_num])
 
-            # calculate daily time series of conentration based EECs (TED Worksheets : 'Min rate concentrations' & 'Max rate concentration)
+            # set maximum distances for spray drift calculations for min/max application scenarios
+            self.max_drift_distance_minapp = self.set_max_drift_distance(self.app_method_min[sim_num])
+            self.max_drift_distance_maxapp = self.set_max_drift_distance(self.app_method_max[sim_num])
 
-            # generate daily flag to identify application day number within year for min/max application scenarios
+            # calculate plant risk threshold distances
+            self.plant_risk_threshold_distances(sim_num)
+
+            # set value for volumetric fraction of droplet spectrum related to bird respiration limits
+            self.max_respire_frac_minapp = self.set_max_respire_frac(self.app_method_min[sim_num], self.droplet_spec_min[sim_num])
+            self.max_respire_frac_maxapp = self.set_max_respire_frac(self.app_method_max[sim_num], self.droplet_spec_max[sim_num])
+
+            # calculate daily time series of concentration based EECs (TED Worksheets : 'Min rate concentrations' & 'Max rate concentration)
+
+            # generate daily flag to identify application day numbers within year for min/max application scenarios
             app_flags_min_scenario = self.daily_app_flag(self.num_apps_min[sim_num], self.app_interval_min[sim_num])
             app_flags_max_scenario = self.daily_app_flag(self.num_apps_max[sim_num], self.app_interval_max[sim_num])
 

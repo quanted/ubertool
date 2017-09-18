@@ -2033,123 +2033,123 @@ class TestTed(unittest.TestCase):
                              2.682174E+01,2.502557E+01,4.682847E+01,4.369250E+01,4.076655E+01,3.803653E+01,
                              3.548934E+01,3.311273E+01,3.089527E+01,5.230509E+01,4.880237E+01,4.553422E+01,
                              4.248493E+01,3.963984E+01,3.698528E+01,3.450849E+01,5.567634E+01,5.194786E+01,
-                            4.846907E+01,4.522324E+01,4.219478E+01,3.936912E+01,3.673269E+01,5.775159E+01,
+                             4.846907E+01,4.522324E+01,4.219478E+01,3.936912E+01,3.673269E+01,5.775159E+01,
                              5.388414E+01,5.027568E+01,4.690887E+01,4.376752E+01,4.083654E+01,3.810184E+01,
                              5.902906E+01,5.507606E+01,5.138778E+01,4.794649E+01,4.473566E+01,4.173985E+01,
                              3.894465E+01,3.633665E+01,3.390329E+01,3.163289E+01,2.951453E+01,2.753803E+01,
                              2.569389E+01,2.397325E+01,2.236783E+01,2.086992E+01,1.947233E+01,1.816832E+01,
-                            1.695165E+01,1.581644E+01,1.475726E+01,1.376901E+01,1.284694E+01,1.198662E+01,
+                             1.695165E+01,1.581644E+01,1.475726E+01,1.376901E+01,1.284694E+01,1.198662E+01,
                              1.118392E+01,1.043496E+01,9.736164E+00,9.084162E+00,8.475823E+00,7.908222E+00,
                              7.378632E+00,6.884507E+00,6.423472E+00,5.993312E+00,5.591958E+00,5.217481E+00,
                              4.868082E+00,4.542081E+00,4.237911E+00,3.954111E+00,3.689316E+00,3.442254E+00,
                              3.211736E+00,2.996656E+00,2.795979E+00,2.608740E+00,2.434041E+00,2.271040E+00,
-                            2.118956E+00,1.977056E+00,1.844658E+00,1.721127E+00,1.605868E+00,1.498328E+00,
+                             2.118956E+00,1.977056E+00,1.844658E+00,1.721127E+00,1.605868E+00,1.498328E+00,
                              1.397989E+00,1.304370E+00,1.217020E+00,1.135520E+00,1.059478E+00,9.885278E-01,
                              9.223290E-01,8.605634E-01,8.029341E-01,7.491640E-01,6.989947E-01,6.521851E-01,
                              6.085102E-01,5.677601E-01,5.297389E-01,4.942639E-01,4.611645E-01,4.302817E-01,
                              4.014670E-01,3.745820E-01,3.494973E-01,3.260926E-01,3.042551E-01,2.838801E-01,
-                            2.648695E-01,2.471319E-01,2.305823E-01,2.151409E-01,2.007335E-01,1.872910E-01,
+                             2.648695E-01,2.471319E-01,2.305823E-01,2.151409E-01,2.007335E-01,1.872910E-01,
                              1.747487E-01,1.630463E-01,1.521276E-01,1.419400E-01,1.324347E-01,1.235660E-01,
                              1.152911E-01,1.075704E-01,1.003668E-01,9.364550E-02,8.737434E-02,8.152314E-02,
                              7.606378E-02,7.097001E-02,6.621737E-02,6.178299E-02,5.764556E-02,5.378521E-02,
                              5.018338E-02,4.682275E-02,4.368717E-02,4.076157E-02,3.803189E-02,3.548501E-02,
-                            3.310868E-02,3.089149E-02,2.882278E-02,2.689261E-02,2.509169E-02,2.341137E-02,
+                             3.310868E-02,3.089149E-02,2.882278E-02,2.689261E-02,2.509169E-02,2.341137E-02,
                              2.184358E-02,2.038078E-02,1.901594E-02,1.774250E-02,1.655434E-02,1.544575E-02,
                              1.441139E-02,1.344630E-02,1.254584E-02,1.170569E-02,1.092179E-02,1.019039E-02,
                              9.507972E-03,8.871252E-03,8.277171E-03,7.722873E-03,7.205696E-03,6.723152E-03,
                              6.272922E-03,5.852844E-03,5.460896E-03,5.095196E-03,4.753986E-03,4.435626E-03,
-                            4.138585E-03,3.861437E-03,3.602848E-03,3.361576E-03,3.136461E-03,2.926422E-03,
+                             4.138585E-03,3.861437E-03,3.602848E-03,3.361576E-03,3.136461E-03,2.926422E-03,
                              2.730448E-03,2.547598E-03,2.376993E-03,2.217813E-03,2.069293E-03,1.930718E-03,
                              1.801424E-03,1.680788E-03,1.568231E-03,1.463211E-03,1.365224E-03,1.273799E-03,
                              1.188497E-03,1.108906E-03,1.034646E-03,9.653592E-04,9.007119E-04,8.403940E-04,
                              7.841153E-04,7.316054E-04,6.826120E-04,6.368995E-04,5.942483E-04,5.544532E-04,
-                            5.173232E-04,4.826796E-04,4.503560E-04,4.201970E-04,3.920576E-04,3.658027E-04,
+                             5.173232E-04,4.826796E-04,4.503560E-04,4.201970E-04,3.920576E-04,3.658027E-04,
                              3.413060E-04,3.184498E-04,2.971241E-04,2.772266E-04,2.586616E-04,2.413398E-04,
                              2.251780E-04,2.100985E-04,1.960288E-04,1.829014E-04,1.706530E-04,1.592249E-04,
                              1.485621E-04,1.386133E-04,1.293308E-04,1.206699E-04,1.125890E-04,1.050492E-04,
                              9.801441E-05,9.145068E-05,8.532650E-05,7.961244E-05,7.428103E-05,6.930666E-05,
-                            6.466540E-05,6.033495E-05,5.629450E-05,5.252462E-05,4.900721E-05,4.572534E-05,
+                             6.466540E-05,6.033495E-05,5.629450E-05,5.252462E-05,4.900721E-05,4.572534E-05,
                              4.266325E-05,3.980622E-05,3.714052E-05,3.465333E-05,3.233270E-05,3.016747E-05,
                              2.814725E-05,2.626231E-05,2.450360E-05,2.286267E-05,2.133163E-05,1.990311E-05,
                              1.857026E-05,1.732666E-05,1.616635E-05,1.508374E-05,1.407362E-05,1.313116E-05,
                              1.225180E-05,1.143133E-05,1.066581E-05,9.951555E-06,9.285129E-06,8.663332E-06,
-                            8.083174E-06,7.541868E-06,7.036812E-06,6.565578E-06,6.125901E-06,5.715667E-06,
+                             8.083174E-06,7.541868E-06,7.036812E-06,6.565578E-06,6.125901E-06,5.715667E-06,
                              5.332906E-06,4.975778E-06,4.642565E-06,4.331666E-06,4.041587E-06,3.770934E-06,
                              3.518406E-06,3.282789E-06,3.062950E-06,2.857834E-06,2.666453E-06,2.487889E-06,
                              2.321282E-06,2.165833E-06,2.020794E-06,1.885467E-06,1.759203E-06,1.641394E-06,
                              1.531475E-06,1.428917E-06,1.333227E-06,1.243944E-06,1.160641E-06,1.082916E-06,
-                            1.010397E-06,9.427336E-07,8.796015E-07,8.206972E-07,7.657376E-07,7.144584E-07,
+                             1.010397E-06,9.427336E-07,8.796015E-07,8.206972E-07,7.657376E-07,7.144584E-07,
                              6.666133E-07,6.219722E-07,5.803206E-07,5.414582E-07,5.051984E-07,4.713668E-07,
                              4.398008E-07,4.103486E-07,3.828688E-07,3.572292E-07,3.333066E-07,3.109861E-07,
                              2.901603E-07,2.707291E-07,2.525992E-07,2.356834E-07,2.199004E-07,2.051743E-07,
                              1.914344E-07,1.786146E-07,1.666533E-07,1.554930E-07,1.450801E-07,1.353646E-07,
-                            1.262996E-07,1.178417E-07,1.099502E-07,1.025872E-07,9.571720E-08,8.930730E-08,
+                             1.262996E-07,1.178417E-07,1.099502E-07,1.025872E-07,9.571720E-08,8.930730E-08,
                              8.332666E-08,7.774652E-08,7.254007E-08,6.768228E-08,6.314980E-08,5.892085E-08,
                              5.497509E-08,5.129358E-08,4.785860E-08,4.465365E-08,4.166333E-08,3.887326E-08,
                              3.627004E-08,3.384114E-08,3.157490E-08,2.946042E-08,2.748755E-08,2.564679E-08,
                              2.392930E-08,2.232683E-08,2.083167E-08,1.943663E-08,1.813502E-08,1.692057E-08,
-                            1.578745E-08,1.473021E-08,1.374377E-08,1.282339E-08,1.196465E-08,1.116341E-08],
-                            [6.664600E-01,6.218291E-01,5.801871E-01,5.413337E-01,5.050822E-01,4.712584E-01,
+                             1.578745E-08,1.473021E-08,1.374377E-08,1.282339E-08,1.196465E-08,1.116341E-08],
+                             [6.664600E-01,6.218291E-01,5.801871E-01,5.413337E-01,5.050822E-01,4.712584E-01,
                              4.396996E-01,1.076714E+00,1.004610E+00,9.373342E-01,8.745637E-01,8.159968E-01,
                              7.613519E-01,7.103665E-01,1.329255E+00,1.240239E+00,1.157184E+00,1.079691E+00,
                              1.007387E+00,9.399255E-01,8.769815E-01,1.484713E+00,1.385286E+00,1.292517E+00,
                              1.205961E+00,1.125202E+00,1.049850E+00,9.795450E-01,1.580408E+00,1.474573E+00,
-                            1.375825E+00,1.283690E+00,1.197725E+00,1.117517E+00,1.042680E+00,1.639315E+00,
+                             1.375825E+00,1.283690E+00,1.197725E+00,1.117517E+00,1.042680E+00,1.639315E+00,
                              1.529535E+00,1.427107E+00,1.331538E+00,1.242369E+00,1.159171E+00,1.081545E+00,
                              1.675577E+00,1.563368E+00,1.458674E+00,1.360991E+00,1.269850E+00,1.184812E+00,
                              1.105468E+00,1.031439E+00,9.623662E-01,8.979194E-01,8.377884E-01,7.816842E-01,
                              7.293372E-01,6.804956E-01,6.349249E-01,5.924059E-01,5.527342E-01,5.157193E-01,
-                            4.811831E-01,4.489597E-01,4.188942E-01,3.908421E-01,3.646686E-01,3.402478E-01,
+                             4.811831E-01,4.489597E-01,4.188942E-01,3.908421E-01,3.646686E-01,3.402478E-01,
                              3.174624E-01,2.962029E-01,2.763671E-01,2.578596E-01,2.405915E-01,2.244798E-01,
                              2.094471E-01,1.954211E-01,1.823343E-01,1.701239E-01,1.587312E-01,1.481015E-01,
                              1.381836E-01,1.289298E-01,1.202958E-01,1.122399E-01,1.047235E-01,9.771053E-02,
                              9.116714E-02,8.506195E-02,7.936561E-02,7.405073E-02,6.909178E-02,6.446491E-02,
-                            6.014788E-02,5.611996E-02,5.236177E-02,4.885526E-02,4.558357E-02,4.253098E-02,
+                             6.014788E-02,5.611996E-02,5.236177E-02,4.885526E-02,4.558357E-02,4.253098E-02,
                              3.968280E-02,3.702537E-02,3.454589E-02,3.223245E-02,3.007394E-02,2.805998E-02,
                              2.618089E-02,2.442763E-02,2.279179E-02,2.126549E-02,1.984140E-02,1.851268E-02,
                              1.727294E-02,1.611623E-02,1.503697E-02,1.402999E-02,1.309044E-02,1.221382E-02,
                              1.139589E-02,1.063274E-02,9.920701E-03,9.256341E-03,8.636472E-03,8.058113E-03,
-                            7.518486E-03,7.014995E-03,6.545222E-03,6.106908E-03,5.697947E-03,5.316372E-03,
+                             7.518486E-03,7.014995E-03,6.545222E-03,6.106908E-03,5.697947E-03,5.316372E-03,
                              4.960351E-03,4.628171E-03,4.318236E-03,4.029057E-03,3.759243E-03,3.507498E-03,
                              3.272611E-03,3.053454E-03,2.848973E-03,2.658186E-03,2.480175E-03,2.314085E-03,
                              2.159118E-03,2.014528E-03,1.879621E-03,1.753749E-03,1.636305E-03,1.526727E-03,
                              1.424487E-03,1.329093E-03,1.240088E-03,1.157043E-03,1.079559E-03,1.007264E-03,
-                            9.398107E-04,8.768744E-04,8.181527E-04,7.633635E-04,7.122433E-04,6.645465E-04,
+                             9.398107E-04,8.768744E-04,8.181527E-04,7.633635E-04,7.122433E-04,6.645465E-04,
                              6.200438E-04,5.785213E-04,5.397795E-04,5.036321E-04,4.699053E-04,4.384372E-04,
                              4.090764E-04,3.816817E-04,3.561217E-04,3.322733E-04,3.100219E-04,2.892607E-04,
                              2.698897E-04,2.518160E-04,2.349527E-04,2.192186E-04,2.045382E-04,1.908409E-04,
                              1.780608E-04,1.661366E-04,1.550110E-04,1.446303E-04,1.349449E-04,1.259080E-04,
-                            1.174763E-04,1.096093E-04,1.022691E-04,9.542044E-05,8.903041E-05,8.306831E-05,
+                             1.174763E-04,1.096093E-04,1.022691E-04,9.542044E-05,8.903041E-05,8.306831E-05,
                              7.750548E-05,7.231517E-05,6.747244E-05,6.295401E-05,5.873817E-05,5.480465E-05,
                              5.113455E-05,4.771022E-05,4.451521E-05,4.153416E-05,3.875274E-05,3.615758E-05,
                              3.373622E-05,3.147701E-05,2.936908E-05,2.740232E-05,2.556727E-05,2.385511E-05,
                              2.225760E-05,2.076708E-05,1.937637E-05,1.807879E-05,1.686811E-05,1.573850E-05,
-                            1.468454E-05,1.370116E-05,1.278364E-05,1.192755E-05,1.112880E-05,1.038354E-05,
+                             1.468454E-05,1.370116E-05,1.278364E-05,1.192755E-05,1.112880E-05,1.038354E-05,
                              9.688185E-06,9.039396E-06,8.434055E-06,7.869251E-06,7.342271E-06,6.850581E-06,
                              6.391818E-06,5.963777E-06,5.564401E-06,5.191770E-06,4.844092E-06,4.519698E-06,
                              4.217027E-06,3.934626E-06,3.671136E-06,3.425291E-06,3.195909E-06,2.981889E-06,
                              2.782200E-06,2.595885E-06,2.422046E-06,2.259849E-06,2.108514E-06,1.967313E-06,
-                            1.835568E-06,1.712645E-06,1.597955E-06,1.490944E-06,1.391100E-06,1.297942E-06,
+                             1.835568E-06,1.712645E-06,1.597955E-06,1.490944E-06,1.391100E-06,1.297942E-06,
                              1.211023E-06,1.129924E-06,1.054257E-06,9.836564E-07,9.177839E-07,8.563226E-07,
                              7.989773E-07,7.454722E-07,6.955501E-07,6.489712E-07,6.055115E-07,5.649622E-07,
                              5.271284E-07,4.918282E-07,4.588919E-07,4.281613E-07,3.994886E-07,3.727361E-07,
                              3.477751E-07,3.244856E-07,3.027558E-07,2.824811E-07,2.635642E-07,2.459141E-07,
-                            2.294460E-07,2.140807E-07,1.997443E-07,1.863680E-07,1.738875E-07,1.622428E-07,
+                             2.294460E-07,2.140807E-07,1.997443E-07,1.863680E-07,1.738875E-07,1.622428E-07,
                              1.513779E-07,1.412406E-07,1.317821E-07,1.229571E-07,1.147230E-07,1.070403E-07,
                              9.987216E-08,9.318402E-08,8.694376E-08,8.112140E-08,7.568894E-08,7.062028E-08,
                              6.589105E-08,6.147853E-08,5.736149E-08,5.352016E-08,4.993608E-08,4.659201E-08,
                              4.347188E-08,4.056070E-08,3.784447E-08,3.531014E-08,3.294553E-08,3.073926E-08,
-                            2.868075E-08,2.676008E-08,2.496804E-08,2.329600E-08,2.173594E-08,2.028035E-08,
+                             2.868075E-08,2.676008E-08,2.496804E-08,2.329600E-08,2.173594E-08,2.028035E-08,
                              1.892224E-08,1.765507E-08,1.647276E-08,1.536963E-08,1.434037E-08,1.338004E-08,
                              1.248402E-08,1.164800E-08,1.086797E-08,1.014018E-08,9.461118E-09,8.827535E-09,
                              8.236382E-09,7.684816E-09,7.170187E-09,6.690021E-09,6.242010E-09,5.824001E-09,
                              5.433985E-09,5.070088E-09,4.730559E-09,4.413768E-09,4.118191E-09,3.842408E-09,
-                            3.585093E-09,3.345010E-09,3.121005E-09,2.912001E-09,2.716993E-09,2.535044E-09,
+                             3.585093E-09,3.345010E-09,3.121005E-09,2.912001E-09,2.716993E-09,2.535044E-09,
                              2.365279E-09,2.206884E-09,2.059095E-09,1.921204E-09,1.792547E-09,1.672505E-09,
                              1.560502E-09,1.456000E-09,1.358496E-09,1.267522E-09,1.182640E-09,1.103442E-09,
                              1.029548E-09,9.606020E-10,8.962733E-10,8.362526E-10,7.802512E-10,7.280002E-10,
                              6.792482E-10,6.337609E-10,5.913199E-10,5.517209E-10,5.147738E-10,4.803010E-10,
-                            4.481367E-10,4.181263E-10,3.901256E-10,3.640001E-10,3.396241E-10,3.168805E-10]]
+                             4.481367E-10,4.181263E-10,3.901256E-10,3.640001E-10,3.396241E-10,3.168805E-10]]
 
         try:
             # internal model constants
@@ -3141,3 +3141,147 @@ class TestTed(unittest.TestCase):
                 print(inspect.currentframe().f_code.co_name)
                 print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
+
+
+    def test_set_max_drift_distance(self):
+        """
+        :description sets the maximum distance from applicaiton source area for which spray drift calculations are calculated
+        :param app_method; application method (aerial/ground/airblast)
+        :param max_spray_drift_dist: maximum distance from applicaiton source area for which spray drift calculations are calculated (feet)
+
+        :return:
+        """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        ted_empty = self.create_ted_object()
+
+        expected_results = pd.Series([2600., 1000., 1000.], dtype='float')
+        result = pd.Series([], dtype='float')
+
+        try:
+
+            ted_empty.num_simulations = 3
+            # input variable that change per simulation
+            ted_empty.app_method_min = pd.Series(['aerial', 'ground', 'airblast'], dtype='object')
+
+            for i in range(ted_empty.num_simulations):
+                result[i] = ted_empty.set_max_drift_distance(ted_empty.app_method_min[i])
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_set_max_respire_frac(self):
+        """
+        :description provides parmaeter values to use when calculating distances from edge of application source area to
+                     concentration of interest
+        :param app_method; application method (aerial/ground/airblast)
+        :param drop_size; droplet spectrum for application (see list below for aerial/ground - 'NA' if airblast)
+        :param max_respire_frac; volumetric fraction of droplet spectrum not exceeding the upper size liit of respired particles for birds
+
+        :NOTE this represents specification from OPP TED Excel 'inputs' worksheet columns H & I rows 14 - 16
+              these values are used in the 'min/max rate doses' worksheet column S (while referenced here as the MAX of
+              three values specified in the 'inputs' worksheet (one per application method) the MAX will always be the value associated
+              with the application method specified for the simulation (i.e., the value specified below)
+        :return:
+        """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        ted_empty = self.create_ted_object()
+
+        expected_results = pd.Series([0.28, 0.067, 0.028, 0.02, 0.28, 0.067, 0.28], dtype='float')
+        result = pd.Series([], dtype='float')
+
+        try:
+
+            ted_empty.num_simulations = 7
+            # input variable that change per simulation
+
+            ted_empty.app_method_min = pd.Series(['aerial', 'aerial','aerial','aerial', 'ground', 'ground', 'airblast'], dtype='object')
+            ted_empty.droplet_spec_min = pd.Series(['very_fine_to_fine', 'fine_to_medium','medium_to_coarse','coarse_to_very_coarse',
+                                                    'very_fine_to_fine', 'fine_to_medium-coarse', ' '], dtype='object')
+
+            for i in range(ted_empty.num_simulations):
+                result[i] = ted_empty.set_max_respire_frac(ted_empty.app_method_min[i], ted_empty.droplet_spec_min[i])
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def test_calc_plant_risk_distance(self):
+        """
+        :description calculates the distance from the source area that plant toxicity thresholds occur
+        :param i simulation number
+        :NOTE         represents columns C & D rows 32 to 51 in OPP TED Excel spreadsheet 'Plants' worksheet
+                      (only calculated if health risk value is present;
+                      if ratio of health risk value to applicatoin rate is greater than 1.0 then distance is set to 0.0 (i.e. at source area edge)
+                      if distance is greater than max spray drift distance then distance is set to max spray drift distance
+
+                      values for risk distances are not stored across simulations
+
+        :return:
+        """
+        # create empty pandas dataframes to create empty object for this unittest
+
+
+        ted_empty = self.create_ted_object()
+
+        expected_results = pd.Series(['nan', 0.0, 0.229889], dtype='float')
+        result = pd.Series([], dtype='float')
+
+        try:
+
+            ted_empty.num_simulations = 3
+
+            # input variable that change per simulation
+            health_to_app_ratio = pd.Series(['nan', 2.0, 0.5], dtype='float')
+
+            param_a = pd.Series([0.0292, 0.1913, 5.5513], dtype='float')
+            param_b = pd.Series([0.822, 1.2366, 0.8523], dtype='float')
+            param_c = pd.Series([0.6539, 1.0552, 1.0079], dtype='float')
+
+            ted_empty.max_distance_from_source = pd.Series([1000., 2600., 1000.], dtype='float')
+
+            for i in range(ted_empty.num_simulations):
+                result[i] = ted_empty.calc_plant_risk_distance(health_to_app_ratio[i], param_a[i], param_b[i], param_c[i], ted_empty.max_distance_from_source[i])
+            npt.assert_allclose(result, expected_results, rtol=1e-4, atol=0, err_msg='', verbose=True)
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+    def calc_plant_risk_distance(self, health_to_app_ratio, param_a, param_b, param_c, max_drift_distance):
+        """
+        :description calculates the distance from the source area that plant toxicity thresholds occur
+        :param health_to_app_ratio;
+        :param plant_thres_dist;
+        :param param_a;
+        :param param_b;
+        :param param_c;
+        :param max_drift_distance;
+        :NOTE         represents columns C & D rows 32 to 51 in OPP TED Excel spreadsheet 'Plants' worksheet
+                      (only calculated if health risk value is present;
+                      if ratio of health risk value to applicatoin rate is greater than 1.0 then distance is set to 0.0 (i.e. at source area edge)
+                      if distance is greater than max spray drift distance then distance is set to max spray drift distance
+
+                      values for risk distances are not stored across simulations
+
+        :return:
+        """
+
+        if (health_to_app_ratio == 'nan'):
+            threshold_dist = 'nan'
+        elif (health_to_app_ratio > 1.0):
+            threshold_dist = 0.0
+        else:
+            threshold_dist = self.drift_distance_calc(health_to_app_ratio, param_a, param_b, param_c)
+            if (threshold_dist > max_drift_distance): threshold_dist = max_drift_distance
+        return threshold_dist

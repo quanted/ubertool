@@ -1,6 +1,7 @@
 from __future__ import division  # brings in Python 3.0 mixed type calculation rules
 import logging
 import numpy as np
+from numpy import math
 import pandas as pd
 
 
@@ -301,7 +302,7 @@ class TedFunctions(object):
                 if(daily_flag[day_index]==1): conc[day_index] = conc[day_index] + conc[0]
         return conc
 
-    def drift_distance_calc(self, app_rate_frac, param_a, param_b, param_c):
+    def drift_distance_calc(self, app_rate_frac, param_a, param_b, param_c, max_distance):
         """
         :description calculates distance from edge of application source area to where the fraction of the application rate
                      results in a concentration that would result in the health threshold (which is in terms of a dose resulting
@@ -320,9 +321,232 @@ class TedFunctions(object):
 
         # reset distance if outside bounds
         if (distance < 0.0): distance = 0.0
-        if (distance > self.max_distance_from_source): distance = self.max_distance_from_source
+        if (distance > max_distance): distance = max_distance
 
         return distance
+    
+    def calc_plant_tox_ratios(self):
+        """
+        :description calculates ratio of plant toxicity measures to application rate (min or max)
+                     (this method is executed outside of simulation loop because it can be executed in vector mode)
+        :NOTE         represents columns G & H of OPP TED Excel spreadsheet 'inputs' worksheet rows 205 - 224
+        :return:
+        """
+
+        # plant toxicity (pt) : monocots ; minimum application rate
+        self.pt_mono_pre_noec_appratio_min = self.pt_mono_pre_noec / self.app_rate_min
+        self.pt_mono_pre_loec_appratio_min = self.pt_mono_pre_loec / self.app_rate_min
+        self.pt_mono_pre_ec25_appratio_min = self.pt_mono_pre_ec25 / self.app_rate_min
+        self.pt_mono_post_noec_appratio_min = self.pt_mono_post_noec / self.app_rate_min
+        self.pt_mono_post_loec_appratio_min = self.pt_mono_post_loec / self.app_rate_min
+        self.pt_mono_post_ec25_appratio_min = self.pt_mono_post_ec25 / self.app_rate_min
+        self.pt_mono_dir_mort_appratio_min = self.pt_mono_dir_mort / self.app_rate_min
+        self.pt_mono_indir_mort_appratio_min = self.pt_mono_indir_mort / self.app_rate_min
+        self.pt_mono_dir_repro_appratio_min = self.pt_mono_dir_repro / self.app_rate_min
+        self.pt_mono_indir_repro_appratio_min = self.pt_mono_indir_repro / self.app_rate_min
+
+        # plant toxicity (pt) : dicots ; minimum application rate
+        self.pt_dicot_pre_noec_appratio_min = self.pt_dicot_pre_noec / self.app_rate_min
+        self.pt_dicot_pre_loec_appratio_min = self.pt_dicot_pre_loec / self.app_rate_min
+        self.pt_dicot_pre_ec25_appratio_min = self.pt_dicot_pre_ec25 / self.app_rate_min
+        self.pt_dicot_post_noec_appratio_min = self.pt_dicot_post_noec / self.app_rate_min
+        self.pt_dicot_post_loec_appratio_min = self.pt_dicot_post_loec / self.app_rate_min
+        self.pt_dicot_post_ec25_appratio_min = self.pt_dicot_post_ec25 / self.app_rate_min
+        self.pt_dicot_dir_mort_appratio_min = self.pt_dicot_dir_mort / self.app_rate_min
+        self.pt_dicot_indir_mort_appratio_min = self.pt_dicot_indir_mort / self.app_rate_min
+        self.pt_dicot_dir_repro_appratio_min = self.pt_dicot_dir_repro / self.app_rate_min
+        self.pt_dicot_indir_repro_appratio_min = self.pt_dicot_indir_repro / self.app_rate_min
+        
+        # plant toxicity (pt) : monocots ; maximum application rate
+        self.pt_mono_pre_noec_appratio_max = self.pt_mono_pre_noec / self.app_rate_max
+        self.pt_mono_pre_loec_appratio_max = self.pt_mono_pre_loec / self.app_rate_max
+        self.pt_mono_pre_ec25_appratio_max = self.pt_mono_pre_ec25 / self.app_rate_max
+        self.pt_mono_post_noec_appratio_max = self.pt_mono_post_noec / self.app_rate_max
+        self.pt_mono_post_loec_appratio_max = self.pt_mono_post_loec / self.app_rate_max
+        self.pt_mono_post_ec25_appratio_max = self.pt_mono_post_ec25 / self.app_rate_max
+        self.pt_mono_dir_mort_appratio_max = self.pt_mono_dir_mort / self.app_rate_max
+        self.pt_mono_indir_mort_appratio_max = self.pt_mono_indir_mort / self.app_rate_max
+        self.pt_mono_dir_repro_appratio_max = self.pt_mono_dir_repro / self.app_rate_max
+        self.pt_mono_indir_repro_appratio_max = self.pt_mono_indir_repro / self.app_rate_max
+
+        # plant toxicity (pt) : dicots ; maximum application rate
+        self.pt_dicot_pre_noec_appratio_max = self.pt_dicot_pre_noec / self.app_rate_max
+        self.pt_dicot_pre_loec_appratio_max = self.pt_dicot_pre_loec / self.app_rate_max
+        self.pt_dicot_pre_ec25_appratio_max = self.pt_dicot_pre_ec25 / self.app_rate_max
+        self.pt_dicot_post_noec_appratio_max = self.pt_dicot_post_noec / self.app_rate_max
+        self.pt_dicot_post_loec_appratio_max = self.pt_dicot_post_loec / self.app_rate_max
+        self.pt_dicot_post_ec25_appratio_max = self.pt_dicot_post_ec25 / self.app_rate_max
+        self.pt_dicot_dir_mort_appratio_max = self.pt_dicot_dir_mort / self.app_rate_max
+        self.pt_dicot_indir_mort_appratio_max = self.pt_dicot_indir_mort / self.app_rate_max
+        self.pt_dicot_dir_repro_appratio_max = self.pt_dicot_dir_repro / self.app_rate_max
+        self.pt_dicot_indir_repro_appratio_max = self.pt_dicot_indir_repro / self.app_rate_max
+
+    def plant_risk_threshold_distances(self, i):
+        """
+        :description processes all the plant risk measures to determine the distance from the source area that plant toxicity thresholds occur
+        :param i simulation number
+        :NOTE         represents columns C & D rows 32 to 51 in OPP TED Excel spreadsheet 'Plants' worksheet
+                      (only calculated if health risk value is present;
+                      if ratio of health risk value to applicatoin rate is greater than 1.0 then distance is set to 0.0 (i.e. at source area edge)
+                      if distance is greater than max spray drift distance then distance is set to max spray drift distance
+
+                      values for risk distances are not stored across simulations
+
+        :return:
+        """
+
+        # plant toxicity (pt) : monocots ; minimum application rate; threshold distance
+        self.pt_mono_pre_noec_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_pre_noec_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_mono_pre_loec_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_pre_loec_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_mono_pre_ec25_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_pre_ec25_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_mono_post_noec_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_post_noec_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_mono_post_loec_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_post_loec_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_mono_post_ec25_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_post_ec25_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_mono_dir_mort_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_dir_mort_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_mono_indir_mort_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_indir_mort_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_mono_dir_repro_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_dir_repro_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_mono_indir_repro_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_indir_repro_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        # plant toxicity (pt) : dicots ; minimum application rate; threshold distance
+        self.pt_dicot_pre_noec_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_pre_noec_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_dicot_pre_loec_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_pre_loec_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_dicot_pre_ec25_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_pre_ec25_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_dicot_post_noec_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_post_noec_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_dicot_post_loec_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_post_loec_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_dicot_post_ec25_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_post_ec25_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_dicot_dir_mort_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_dir_mort_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_dicot_indir_mort_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_indir_mort_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_dicot_dir_repro_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_dir_repro_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        self.pt_dicot_indir_repro_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_indir_repro_appratio_min[i],
+                                        self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+
+        # plant toxicity (pt) : monocots ; maximum application rate; threshold distance
+        self.pt_mono_pre_noec_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_pre_noec_appratio_max[i],
+                                               self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_mono_pre_loec_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_pre_loec_appratio_max[i],
+                                               self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_mono_pre_ec25_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_pre_ec25_appratio_max[i],
+                                               self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_mono_post_noec_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_post_noec_appratio_max[i],
+                                                self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_mono_post_loec_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_post_loec_appratio_max[i],
+                                                self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_mono_post_ec25_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_post_ec25_appratio_max[i],
+                                                self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_mono_dir_mort_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_dir_mort_appratio_max[i],
+                                               self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_mono_indir_mort_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_indir_mort_appratio_max[i],
+                                                 self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_mono_dir_repro_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_dir_repro_appratio_max[i],
+                                                self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_mono_indir_repro_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_indir_repro_appratio_max[i],
+                                                  self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        # plant toxicity (pt) : dicots ; maximum application rate; threshold distance
+        self.pt_dicot_pre_noec_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_pre_noec_appratio_max[i],
+                                                self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_dicot_pre_loec_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_pre_loec_appratio_max[i],
+                                                self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_dicot_pre_ec25_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_pre_ec25_appratio_max[i],
+                                                self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_dicot_post_noec_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_post_noec_appratio_max[i],
+                                                 self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_dicot_post_loec_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_post_loec_appratio_max[i],
+                                                 self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_dicot_post_ec25_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_post_ec25_appratio_max[i],
+                                                 self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_dicot_dir_mort_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_dir_mort_appratio_max[i],
+                                                self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_dicot_indir_mort_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_indir_mort_appratio_max[i],
+                                                  self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_dicot_dir_repro_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_dir_repro_appratio_max[i],
+                                                 self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        self.pt_dicot_indir_repro_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_indir_repro_appratio_max[i],
+                                                   self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+
+        return
+
+    def calc_plant_risk_distance(self, health_to_app_ratio, param_a, param_b, param_c, max_drift_distance):
+        """
+        :description calculates the distance from the source area that plant toxicity thresholds occur
+        :param health_to_app_ratio;
+        :param plant_thres_dist;
+        :param param_a;
+        :param param_b;
+        :param param_c;
+        :param max_drift_distance;
+        :NOTE         represents columns C & D rows 32 to 51 in OPP TED Excel spreadsheet 'Plants' worksheet
+                      (only calculated if health risk value is present;
+                      if ratio of health risk value to applicatoin rate is greater than 1.0 then distance is set to 0.0 (i.e. at source area edge)
+                      if distance is greater than max spray drift distance then distance is set to max spray drift distance
+
+                      values for risk distances are not stored across simulations
+
+        :return:
+        """
+
+        if (math.isnan(health_to_app_ratio)):
+            threshold_dist = np.nan
+        elif (health_to_app_ratio > 1.0):
+            threshold_dist = 0.0
+        else:
+            threshold_dist = self.drift_distance_calc(health_to_app_ratio, param_a, param_b, param_c, max_drift_distance)
+        return threshold_dist
 
     # -----------------------------------------------------------------------
     # THE FOLLOWING METHODS MAY BE ORGAINIZED BETTER IN A PARAMETERS CLASS; or called from the constants method
@@ -387,3 +611,54 @@ class TedFunctions(object):
             pass
 
         return param_a, param_b, param_c
+
+    def set_max_drift_distance(self, app_method):
+        """
+        :description sets the maximum distance from applicaiton source area for which spray drift calculations are calculated
+        :param app_method; application method (aerial/ground/airblast)
+        :param max_spray_drift_dist: maximum distance from applicaiton source area for which spray drift calculations are calculated (feet)
+
+        :return:
+        """
+
+        max_spray_drift_dist = 1000.  # default value; used for ground and airblast application methods
+
+        if app_method == 'aerial':
+            max_spray_drift_dist = 2600.
+
+        return max_spray_drift_dist
+
+    def set_max_respire_frac(self, app_method, drop_size):
+        """
+        :description provides parmaeter values to use when calculating distances from edge of application source area to
+                     concentration of interest
+        :param app_method; application method (aerial/ground/airblast)
+        :param drop_size; droplet spectrum for application (see list below for aerial/ground - 'NA' if airblast)
+        :param max_respire_frac; volumetric fraction of droplet spectrum not exceeding the upper size liit of respired particles for birds
+
+        :NOTE this represents specification from OPP TED Excel 'inputs' worksheet columns H & I rows 14 - 16
+              these values are used in the 'min/max rate doses' worksheet column S (while referenced here as the MAX of
+              three values specified in the 'inputs' worksheet (one per application method) the MAX will always be the value associated
+              with the application method specified for the simulation (i.e., the value specified below)
+        :return:
+        """
+
+        if app_method == 'aerial':
+            if drop_size == 'very_fine_to_fine':
+                max_respire_frac = 0.28
+            elif drop_size == 'fine_to_medium':
+                max_respire_frac = 0.067
+            elif drop_size == 'medium_to_coarse':
+                max_respire_frac = 0.028
+            elif drop_size == 'coarse_to_very_coarse':
+                max_respire_frac = 0.02
+        elif app_method == 'ground':
+            if drop_size == 'very_fine_to_fine':
+                max_respire_frac = 0.28
+            elif drop_size == 'fine_to_medium-coarse':
+                max_respire_frac = 0.067
+        elif app_method == 'airblast':
+            max_respire_frac = 0.28
+        else:
+            pass
+        return max_respire_frac
