@@ -312,6 +312,7 @@ class TedFunctions(object):
         :param param_a; parameter a for spray drift distance calculation
         :param param_b; parameter b for spray drift distance calculation
         :param param_c; parameter c for spray drift distance calculation
+        :param max_distance; maximum distance from source area for which drift calculations are executed (feet)
 
         # this represents Eq 1 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment'
 
@@ -521,14 +522,14 @@ class TedFunctions(object):
 
         return
 
-    def calc_plant_risk_distance(self, health_to_app_ratio, param_a, param_b, param_c, max_drift_distance):
+    def calc_plant_risk_distance(self, health_to_apprate_ratio, param_a, param_b, param_c, max_drift_distance):
         """
         :description calculates the distance from the source area that plant toxicity thresholds occur
         :param health_to_app_ratio;
         :param plant_thres_dist;
-        :param param_a;
-        :param param_b;
-        :param param_c;
+        :param param_a; spray drift parameter a
+        :param param_b; spray drift parameter b
+        :param param_c; spray drift parameter c
         :param max_drift_distance;
         :NOTE         represents columns C & D rows 32 to 51 in OPP TED Excel spreadsheet 'Plants' worksheet
                       (only calculated if health risk value is present;
@@ -540,16 +541,118 @@ class TedFunctions(object):
         :return:
         """
 
-        if (math.isnan(health_to_app_ratio)):
+        if (math.isnan(health_to_apprate_ratio)):
             threshold_dist = np.nan
-        elif (health_to_app_ratio > 1.0):
+        elif (health_to_apprate_ratio > 1.0):
             threshold_dist = 0.0
         else:
-            threshold_dist = self.drift_distance_calc(health_to_app_ratio, param_a, param_b, param_c, max_drift_distance)
+            threshold_dist = self.drift_distance_calc(health_to_apprate_ratio, param_a, param_b, param_c, max_drift_distance)
         return threshold_dist
 
+
+    def calc_runoff_params(self, i, app_method, app_rate, pest_incorp_depth):
+        """
+        :description calculates runoff parameters used to calculate plant EECs for wet and dry areas
+
+        :param i; simulation number
+        :param app_method; application method (aerial/ground/airblast)
+        :param app_rate; application rate (lbs a.i./Acre)
+        :param pest_incorp_depth; pesticide incorporation depth in soil
+
+        :NOTE  represents calculations found in columns C & D rows 3 - 5 in OPP TED Excel spreadsheet 'Plants' worksheet
+        :return:
+        """
+
+        # set pesticide incorporation factor (default of 1 for aerial & airblast)
+        if (app_method == 'aerial' or 'airblast'):
+            pest_incorp_factor = 1.0
+        else:  # ground application
+            if (pest_incorp_depth < 1.0):
+                pest_incorp_factor = 1.0
+            elif (pest_incorp_depth > 1.0 and pest_incorp_depth < 6.0):
+                pest_incorp_factor = pest_incorp_depth
+            else: # greater than 6.0
+                pest_incorp_factor = 6.0
+
+        # set runoff fraction (based on pesticide solubilty)
+        if (self.solubility[i] < 10.0):
+            runoff_frac = 0.01
+        elif (self.solubility[i] > 100.0):
+            runoff_frac = 0.05
+        else:
+            runoff_frac = 0.02
+
+        return pest_incorp_factor, runoff_frac
+
+    def calc_runoff_based_eec(self, app_rate, pest_incorp_factor, runoff_frac):
+        """
+        :description calculates runoff based plant EECs for wet and dry areas
+
+        :param app_rate; application rate (lbs a.i./Acre)
+        :param pest_incorp_factor; pesticide incorporation factor (depth) in soil
+
+        :NOTE  represents calculations found in columns C & D rows 9 - 10 in OPP TED Excel spreadsheet 'Plants' worksheet
+        :return:
+        """
+
+        runoff_eec_dry_area = (app_rate / pest_incorp_factor) * runoff_frac
+
+        runoff_eec_semiaq_area = runoff_eec_dry_area * 10.
+
+        return runoff_eec_dry_area, runoff_eec_semiaq_area
+
+    def plant_risk_conclusions(self, i):
+        """
+         :description calls method to determines if plant health thresholds are exceeded in terrestrial (dry) and wetland habitats
+
+         :param i; simulation number
+
+         :NOTE  represents determinations found in columns C & D rows 14 - 28 in OPP TED Excel spreadsheet 'Plants' worksheet
+         :return:
+         """
+
+        # monocots; terrestrial habitats; minimum application scenario
+        self.pt_mono_pre_noec_eec_exceed = self.plant_eec_exceedance(self.pt_mono_pre_noec[i], self.runoff_eec_dry_area_min)
+        self.pt_mono_pre_loec_eec_exceed = self.plant_eec_exceedance(self.pt_mono_pre_loec[i], self.runoff_eec_dry_area_min)
+        self.pt_mono_pre_ec25_eec_exceed = self.plant_eec_exceedance(self.pt_mono_pre_ec25[i], self.runoff_eec_dry_area_min)
+
+        # dicots; terrestrial habitats; maximum application scenario
+        self.pt_dicot_pre_noec_eec_exceed = self.plant_eec_exceedance(self.pt_dicot_pre_noec[i], self.runoff_eec_dry_area_max)
+        self.pt_dicot_pre_loec_eec_exceed = self.plant_eec_exceedance(self.pt_dicot_pre_loec[i], self.runoff_eec_dry_area_max)
+        self.pt_dicot_pre_ec25_eec_exceed = self.plant_eec_exceedance(self.pt_dicot_pre_ec25[i], self.runoff_eec_dry_area_max)
+
+        # monocots; wetland habitats; minimum application scenario
+        self.pt_mono_pre_noec_eec_exceed = self.plant_eec_exceedance(self.pt_mono_pre_noec[i], self.runoff_eec_semiaq_area_min)
+        self.pt_mono_pre_loec_eec_exceed = self.plant_eec_exceedance(self.pt_mono_pre_loec[i], self.runoff_eec_semiaq_area_min)
+        self.pt_mono_pre_ec25_eec_exceed = self.plant_eec_exceedance(self.pt_mono_pre_ec25[i], self.runoff_eec_semiaq_area_min)
+
+        # dicots; wetland habitats; maximum application scenario
+        self.pt_dicot_pre_noec_eec_exceed = self.plant_eec_exceedance(self.pt_dicot_pre_noec[i], self.runoff_eec_semiaq_area_max)
+        self.pt_dicot_pre_loec_eec_exceed = self.plant_eec_exceedance(self.pt_dicot_pre_loec[i], self.runoff_eec_semiaq_area_max)
+        self.pt_dicot_pre_ec25_eec_exceed = self.plant_eec_exceedance(self.pt_dicot_pre_ec25[i], self.runoff_eec_semiaq_area_max)
+
+    def plant_eec_exceedance(self, health_measure, runoff_eec):
+
+        """
+         :description checks to determines if plant health threshold EEC is exceeded (in terrestrial (dry) and wetland habitats)
+
+         :param health_measure; plant health measure (e.g., pre-emergence NOEC for growth for monocots and dicots)
+         :param runoff_eec;  eec for plants resulting from pesticide in runoff
+
+         :NOTE  represents determinations found in columns C & D rows 14 - 28 in OPP TED Excel spreadsheet 'Plants' worksheet
+         :return:
+         """
+
+        if (math.isnan(health_measure)):
+            exceedance_chk = 'NA'                     # no health measure given
+        elif (self.runoff_eec_dry_area_min > health_measure):
+            exceedance_chk = 'yes'
+        else:
+            exceedance_chk = 'no'
+        return exceedance_chk
+
     # -----------------------------------------------------------------------
-    # THE FOLLOWING METHODS MAY BE ORGAINIZED BETTER IN A PARAMETERS CLASS; or called from the constants method
+    # THE FOLLOWING METHODS MAY BE ORGAINIZED BETTER IN A PARAMETERS CLASS
     # -----------------------------------------------------------------------
 
     def set_drift_parameters(self, app_method, boom_hgt, drop_size):

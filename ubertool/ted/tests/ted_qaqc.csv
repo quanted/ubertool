@@ -36,12 +36,12 @@ water_conc_1,lower bound water concentration ,ug a.i./L,,,1.00E-02,1.00E-03
 water_conc_2,upper bound water concentration,ug a.i./L,,,1.00E-01,1.00E-02
 dbt_mamm_1inmill_mort,dose based toxicity data for mammals: direct 1/million mortality,mg-pest/kg-bw,,,1.00E+00,1.00E+00
 dbt_mamm_1inten_mort,dose based toxicity data for mammals: indirect 10% mortality,mg-pest/kg-bw,,,1.00E+00,1.00E+00
-dbt_mamm_low_ld50,dose based toxicity data for mammals: lowest LD50,mg-pest/kg-bw,,,1.00E+00,1.00E+00
-dbt_mamm_rat_oral_ld50,dose based toxicity data for mammals: rat oral LD50,mg-pest/kg-bw,,,1.00E+00,1.00E+00
+dbt_mamm_low_ld50,dose based toxicity data for mammals: lowest LD50,mg-pest/kg-bw,,,5.00E+01,1.00E+02
+dbt_mamm_rat_oral_ld50,dose based toxicity data for mammals: rat oral LD50,mg-pest/kg-bw,,,,1.00E+00
 dbt_mamm_rat_derm_ld50,dose based toxicity data for mammals: rat dermal LD50,mg-pest/kg-bw,,,1.00E+00,1.00E+00
 dbt_mamm_rat_inhal_ld50,dose based toxicity data for mammals: rat inhalation LD50,mg-pest/kg-bw,,,1.00E+00,1.00E+00
 dbt_mamm_sub_direct,dose based toxicity data for mammals: direct sublethal threshold,mg-pest/kg-bw,,,1.00E+00,1.00E+00
-dbt_mamm_sub_indirect,dose based toxicity data for mammals: indirect sublethal,mg-pest/kg-bw,,,1.00E+00,1.00E+00
+dbt_mamm_sub_indirect,dose based toxicity data for mammals: indirect sublethal,mg-pest/kg-bw,,,1.00E+00,
 dbt_mamm_1inmill_mort_wgt,dose based toxicity data for mammals: direct 1/million mortality : weight of test animal,grams,,,2.00E+01,2.00E+02
 dbt_mamm_1inten_mort_wgt,dose based toxicity data for mammals: indirect 10% mortality : weight of test animal,grams,,,2.00E+01,2.00E+02
 dbt_mamm_low_ld50_wgt,dose based toxicity data for mammals: lowest LD50 : weight of test animal,grams,,,2.00E+01,2.00E+02
@@ -61,7 +61,7 @@ dbt_bird_sub_indirect,dose based toxicity data for birds: indirect sublethal,mg-
 mineau_sca_fact,mineau scaling factor,,,,1.15E+00,1.15E+00
 dbt_bird_1inmill_mort_wgt,dose based toxicity data for birds:direct 1/million mortality : weight of test animal,grams,,,2.00E+01,2.00E+02
 dbt_bird_1inten_mort_wgt,dose based toxicity data for birds: indirect 10% mortality : weight of test animal,grams,,,2.00E+01,2.00E+02
-dbt_bird_low_ld50_wgt,dose based toxicity data for birds: lowest LD50 : weight of test animal,grams,,,2.00E+01,2.00E+02
+dbt_bird_low_ld50_wgt,dose based toxicity data for birds: lowest LD50 : weight of test animal,grams,,,5.00E+01,3.50E+02
 dbt_bird_hc05_wgt,dose based toxicity data for birds: HC05 : weight of test animal,grams,,,2.00E+01,2.00E+02
 dbt_bird_hc50_wgt,dose based toxicity data for birds: HC50 : weight of test animal,grams,,,2.00E+01,2.00E+02
 dbt_bird_hc95_wgt,dose based toxicity data for birds: HC95 : weight of test animal,grams,,,2.00E+01,2.00E+02
@@ -80,7 +80,7 @@ dbt_reptile_sub_direct_wgt,dose based toxicity data for reptiles & terrestrial-p
 dbt_reptile_sub_indirect_wgt,dose based toxicity data for reptiles & terrestrial-phase amphibians: indirect sublethal : weight of test animal,grams,,,2.00E+01,2.00E+02
 cbt_mamm_1inmill_mort,concentration based toxicity data for mammals: direct 1/million mortality,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_mamm_1inten_mort,concentration based toxicity data for mammals: indirect 10% mortality,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
-cbt_mamm_low_lc50,concentration based toxicity data for mammals: lowest LC50,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
+cbt_mamm_low_lc50,concentration based toxicity data for mammals: lowest LC50,mg-pest/kg-diet ,,,4.50E+01,1.00E+02
 cbt_mamm_sub_direct,concentration based toxicity data for mammals: direct sublethal threshold,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_mamm_grow_noec,concentration based toxicity data for mammals: growth NOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_mamm_grow_loec,concentration based toxicity data for mammals: growth LOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
@@ -93,12 +93,12 @@ cbt_mamm_sensory_loec,concentration based toxicity data for mammals: sensory LOE
 cbt_mamm_sub_indirect,concentration based toxicity data for mammals: indirect sublethal threshold,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_bird_1inmill_mort,concentration based toxicity data for birds: direct 1/million mortality,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_bird_1inten_mort,concentration based toxicity data for birds: indirect 10% mortality,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
-cbt_bird_low_lc50,concentration based toxicity data for birds: lowest LC50,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
+cbt_bird_low_lc50,concentration based toxicity data for birds: lowest LC50,mg-pest/kg-diet ,,,5.00E+02,2.50E+02
 cbt_bird_sub_direct,concentration based toxicity data for birds: direct sublethal threshold,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_bird_grow_noec,concentration based toxicity data for birds: growth NOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_bird_grow_loec,concentration based toxicity data for birds: growth LOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_bird_repro_noec,concentration based toxicity data for birds: reproduction NOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
-cbt_bird_repro_loec,concentration based toxicity data for birds: reproduction LOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
+cbt_bird_repro_loec,concentration based toxicity data for birds: reproduction LOEC,mg-pest/kg-diet ,,,1.00E+01,2.50E+01
 cbt_bird_behav_noec,concentration based toxicity data for birds: behavior NOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_bird_behav_loec,concentration based toxicity data for birds: behavior LOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_bird_sensory_noec,concentration based toxicity data for birds: sensory NOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
@@ -118,8 +118,8 @@ cbt_reptile_sensory_noec,concentration based toxicity data for reptiles & terres
 cbt_reptile_sensory_loec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: sensory LOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_reptile_sub_indirect,concentration based toxicity data for reptiles & terrestrial-phase amphibians: indirect sublethal threshold,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_inv_bw_1inmill_mort,concentration based toxicity data for invertebrates (body weight): direct 1/million mortality,mg-pest/kg-bw(ww),,,1.00E+00,1.00E+00
-cbt_inv_bw_1inten_mort,concentration based toxicity data for invertebrates (body weight): indirect 10% mortality,mg-pest/kg-bw(ww),,,1.00E+00,1.00E+00
-cbt_inv_bw_low_lc50,concentration based toxicity data for invertebrates (body weight):  lowest LC50,mg-pest/kg-bw(ww),,,1.00E+00,1.00E+00
+cbt_inv_bw_1inten_mort,concentration based toxicity data for invertebrates (body weight): indirect 10% mortality,mg-pest/kg-bw(ww),,,,1.00E+00
+cbt_inv_bw_low_lc50,concentration based toxicity data for invertebrates (body weight):  lowest LC50,mg-pest/kg-bw(ww),,,3.00E+01,1.00E+02
 cbt_inv_bw_sub_direct,concentration based toxicity data for invertebrates (body weight): direct sublethal,mg-pest/kg-bw(ww),,,1.00E+00,1.00E+00
 cbt_inv_bw_grow_noec,concentration based toxicity data for invertebrates (body weight): growth NOEC,mg-pest/kg-bw(ww),,,1.00E+00,1.00E+00
 cbt_inv_bw_grow_loec,concentration based toxicity data for invertebrates (body weight): growth LOEC,mg-pest/kg-bw(ww),,,1.00E+00,1.00E+00

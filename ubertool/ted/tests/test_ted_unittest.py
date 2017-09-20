@@ -272,7 +272,7 @@ class TestTed(unittest.TestCase):
             app_rate_frac = pd.Series([0.1,0.25,0.88], dtype='float')
 
             for i in range(3):
-                result[i] = ted_empty.drift_distance_calc(app_rate_frac[i], param_a[i], param_b[i], param_c[i])
+                result[i] = ted_empty.drift_distance_calc(app_rate_frac[i], param_a[i], param_b[i], param_c[i], ted_empty.max_distance_from_source)
             npt.assert_allclose(result,expected_results,rtol=1e-4, atol=0, err_msg='', verbose=True)
         finally:
             tab = [result, expected_results]
@@ -3217,7 +3217,6 @@ class TestTed(unittest.TestCase):
     def test_calc_plant_risk_distance(self):
         """
         :description calculates the distance from the source area that plant toxicity thresholds occur
-        :param i simulation number
         :NOTE         represents columns C & D rows 32 to 51 in OPP TED Excel spreadsheet 'Plants' worksheet
                       (only calculated if health risk value is present;
                       if ratio of health risk value to applicatoin rate is greater than 1.0 then distance is set to 0.0 (i.e. at source area edge)
@@ -3257,31 +3256,3 @@ class TestTed(unittest.TestCase):
             print(inspect.currentframe().f_code.co_name)
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
-
-    def calc_plant_risk_distance(self, health_to_app_ratio, param_a, param_b, param_c, max_drift_distance):
-        """
-        :description calculates the distance from the source area that plant toxicity thresholds occur
-        :param health_to_app_ratio;
-        :param plant_thres_dist;
-        :param param_a;
-        :param param_b;
-        :param param_c;
-        :param max_drift_distance;
-        :NOTE         represents columns C & D rows 32 to 51 in OPP TED Excel spreadsheet 'Plants' worksheet
-                      (only calculated if health risk value is present;
-                      if ratio of health risk value to applicatoin rate is greater than 1.0 then distance is set to 0.0 (i.e. at source area edge)
-                      if distance is greater than max spray drift distance then distance is set to max spray drift distance
-
-                      values for risk distances are not stored across simulations
-
-        :return:
-        """
-
-        if (health_to_app_ratio == 'nan'):
-            threshold_dist = 'nan'
-        elif (health_to_app_ratio > 1.0):
-            threshold_dist = 0.0
-        else:
-            threshold_dist = self.drift_distance_calc(health_to_app_ratio, param_a, param_b, param_c)
-            if (threshold_dist > max_drift_distance): threshold_dist = max_drift_distance
-        return threshold_dist
