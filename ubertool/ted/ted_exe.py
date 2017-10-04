@@ -129,7 +129,7 @@ class TedInputs(ModelSharedInputs):
         self.dbt_mamm_rat_inhal_ld50 = pd.Series([], dtype="float", name="dbt_mamm_rat_inhal_ld50")
         self.dbt_mamm_sub_direct = pd.Series([], dtype="float", name="dbt_mamm_sub_direct")
         self.dbt_mamm_sub_indirect = pd.Series([], dtype="float", name="dbt_mamm_sub_indirect")
-        
+
         self.dbt_mamm_1inmill_mort_wgt = pd.Series([], dtype="float", name="dbt_mamm_1inmill_mort_wgt")
         self.dbt_mamm_1inten_mort_wgt = pd.Series([], dtype="float", name="dbt_mamm_1inten_mort_wgt")
         self.dbt_mamm_low_ld50_wgt = pd.Series([], dtype="float", name="dbt_mamm_low_ld50_wgt")
@@ -250,7 +250,7 @@ class TedInputs(ModelSharedInputs):
         self.cbt_inv_food_sensory_loec = pd.Series([], dtype="float", name="cbt_inv_food_sensory_loec")
         self.cbt_inv_food_sub_indirect = pd.Series([], dtype="float", name="cbt_inv_food_sub_indirect")
   
-        # concentration-based toxicity (cbt) : invertebrates body soil (mg-pest/kg-soil(dw))
+        # concentration-based toxicity (cbt) : invertebrates soil (mg-pest/kg-soil(dw))
         self.cbt_inv_soil_1inmill_mort = pd.Series([], dtype="float", name="cbt_inv_soil_1inmill_mort")
         self.cbt_inv_soil_1inten_mort = pd.Series([], dtype="float", name="cbt_inv_soil_1inten_mort")
         self.cbt_inv_soil_low_lc50 = pd.Series([], dtype="float", name="cbt_inv_soil_low_lc50")
@@ -363,6 +363,15 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedAggregateMethods, T
         # Define constants and perform units conversions on necessary raw inputs
         self.set_global_constants()
 
+        # calculate aquatic dependent dietary concentration thresholds for mammals, birds, and reptiles/amphibians
+        self.calc_plant_tox_ratios()              # for all simulations
+
+        # calculate aquatic dependent species concentration thresholds for dietary items (i.e., algae, invertebraters, and reptiles/amphibians
+        self.calc_aquatic_vert_conc_thresholds()  # for all simulations
+
+        # calculate estimated tissue concentrations in aquatic invertebrates and fish using BCFs
+        self.calc_aq_invert_fish_concs()          # for all simulations
+
         # process simulations--------------------------------------------------------------------
         for sim_num in range(self.num_simulations):
 
@@ -380,6 +389,9 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedAggregateMethods, T
 
             # calculate daily time series of concentration based EECs (worksheets 'min/max rate concentrations' in OPP TED Excel model
             self.conc_based_eec_timeseries(sim_num)
+
+            # count number of exceedances of various risk thresholds within eec timeseries
+            self.eec_exceedances(sim_num)
 
             # calculate species/food item specific doses via intake pathways and related health measure ratios ; worksheets 'min/max rate doses' in OPP TED Excel model
             self.species_doses(sim_num)

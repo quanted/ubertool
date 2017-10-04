@@ -8,7 +8,17 @@
 3. Dermal equivalency factor (for use in Eq 13 of Attachment A 1-7): The equivalency factor is the
    ratio of the LD50(oral) to the LD50(dermal).  Eqs 14&15 are used to compute the factor for birds using
    LD50(oral) data for birds; Eq 14 is used to compute the factor for mammals using LD50(oral) and LD50(dermal)
-   data for rats.  For amphibians is appears that the factor is assumed equal to 1 and used directly
+   data for rats.  For amphibians it appears that the factor is assumed equal to 1 and used directly
    in Eq 13.  Confusion comes up about reptiles; the text in Attachment 1-7 seems to state that the
    same Eqs for birds are to be used for reptiles but the code (TED Excel spreadsheet) appears to
    take the same approach for reptiles as taken for amphibians.
+4. In worksheets "Min/Max rate - dietary conc results" exceedances are determined for terrestrial invertebrates
+   in soil for the large mammals (column K), while NA is assigned to the small mammals.  Is this correct or
+   should large mammals also be NA?  As coded here at the moment the large mammals is also assigned 'NA'.
+5. In worksheets "Min/Max rate concentrations" it appears the EEC calculations for small mammals, large mammals,
+   small birds, and small terrestrial phase amphibians or reptiles contain wrong values for the (1 - FWk) factor.
+   For mammals, the FWk represents the water content of the short grass that mammals consume.  From Table A 1-7.4
+   the water content of short grass (actually Grasses in the table) is 0.79, which would make (1 - .79) = .21, the
+   worksheets have a value of 0.2 for this (not so far off).  For small birds and small terr phase amphibians the food
+   source is insects (arthropods) whose water content is 0.69, thus (1 - 0.69) = .31, again the worksheets have a
+   value of 0.2.

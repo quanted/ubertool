@@ -24,6 +24,9 @@ class TedAggregateMethods(object):
 
         self.max_distance_from_source = 1000.  # max distance (m) from source for distance calculations
 
+        self.num_ts = 11   # number of food item daily time series to be processed to determine number of exceedances of EECs
+        self.num_tox = 13  # number of toxicity measures to be processed to determine number of exceedances of EECs
+
         # constants and conversions
         self.density_h2o = 1.  # kg/L
         self.stan_temp_kelvin = 298.  # temperature in Kelvin for 25degC
@@ -33,6 +36,7 @@ class TedAggregateMethods(object):
         self.hectare_to_acre = 2.47105
         self.gms_to_mg = 1000.
         self.m3_to_liters = 1000.
+        self.mg_to_ug = 1000.
 
         self.unitless_henry_law = self.henry_law_const / (self.gas_const * self.stan_temp_kelvin)
         self.log_unitless_hlc = np.log10(self.unitless_henry_law)
@@ -60,6 +64,13 @@ class TedAggregateMethods(object):
         self.soil_porosity = (1. - (self.soil_bulk_density / self.soil_particle_density))
         self.h2o_depth_puddles = 1.3  # centimeters; for water depth in Eq.3
         self.h2o_depth_soil = 0.0  # centimeters; for water depth in Eq.3
+
+        # concentration levels in water (ug/L) used in calculating aquatic invertebrate and fish tissue concentrations
+        self.aq_conc_level1 = 0.01
+        self.aq_conc_level2 = 0.1
+        self.aq_conc_level3 = 1.0
+        self.aq_conc_level4 = 10.
+        self.aq_conc_level5 = 100.
 
         # earthworm properties
         self.lipid_earthworm = 0.01  # lipid content of earthworm
@@ -170,12 +181,13 @@ class TedAggregateMethods(object):
         :return:
         """
         # set/reset arrays for holding single simulation results
-        self.initialize_eec_arrays()
+        self.initialize_eec_timeseries()
 
         # generate daily flag to identify application day numbers within year for min/max application scenarios
         self.app_flags_min_scenario = self.daily_app_flag(self.num_apps_min[sim_num], self.app_interval_min[sim_num])
         self.app_flags_max_scenario = self.daily_app_flag(self.num_apps_max[sim_num], self.app_interval_max[sim_num])
 
+        # calculate upper bound and mean concentration based EECs for food items (daily values for a year) - min application scenario
         self.out_diet_eec_upper_min_sg = self.daily_plant_timeseries(sim_num, self.app_rate_min[sim_num], self.food_multiplier_upper_sg, self.app_flags_min_scenario)  # short grass
         self.out_diet_eec_upper_min_tg = self.daily_plant_timeseries(sim_num, self.app_rate_min[sim_num], self.food_multiplier_upper_tg, self.app_flags_min_scenario)  # tall grass
         self.out_diet_eec_upper_min_blp = self.daily_plant_timeseries(sim_num, self.app_rate_min[sim_num], self.food_multiplier_upper_blp, self.app_flags_min_scenario)  # broad-leafed plants
@@ -261,7 +273,104 @@ class TedAggregateMethods(object):
         self.out_diet_dose_mean_max_sm_amphi = self.daily_animal_dose_timeseries(self.intake_param_a1_rep_amphi, self.intake_param_b1_rep_amphi, self.rep_amphi_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_mean_max_arthro,
                                                                                  self.frac_retained_birds[sim_num])
 
-    def initialize_eec_arrays(self):
+    def eec_exceedances(self, sim_num):
+        """
+        :description calculates the number of times a food item concentration (a time series of days for a year)
+                     exceeds the various toxicity thresholds
+
+        :NOTE this represents OPP TED Excel model worksheet 'Min/Max rate - dietary conc results' columns D - N lines 3 - 54
+              (the objective is to replicate the rows and columns of the worksheets
+        :return:
+        """
+
+        na_series = pd.Series(366*['NA']) # dummy daily time series containing 'NA' to be used when food item is not relevant to a speicies specific toxicity measure
+
+        # collect concentration based toxicity data into a single series for each taxa
+        self.tox_cbt_mamm = pd.Series([self.cbt_mamm_1inmill_mort,self.cbt_mamm_1inten_mort,self.cbt_mamm_low_lc50,self.cbt_mamm_sub_direct,
+                            self.cbt_mamm_grow_noec,self.cbt_mamm_grow_loec,self.cbt_mamm_repro_noec,self.cbt_mamm_repro_loec,self.cbt_mamm_behav_noec,
+                            self.cbt_mamm_behav_loec,self.cbt_mamm_sensory_noec,self.cbt_mamm_sensory_loec,self.cbt_mamm_sub_indirect])
+
+        self.tox_cbt_bird = pd.Series([self.cbt_bird_1inmill_mort,self.cbt_bird_1inten_mort,self.cbt_bird_low_lc50,self.cbt_bird_sub_direct,
+                            self.cbt_bird_grow_noec,self.cbt_bird_grow_loec,self.cbt_bird_repro_noec,self.cbt_bird_repro_loec,self.cbt_bird_behav_noec,
+                            self.cbt_bird_behav_loec,self.cbt_bird_sensory_noec,self.cbt_bird_sensory_loec,self.cbt_bird_sub_indirect])
+
+        self.tox_cbt_reptile = pd.Series([self.cbt_reptile_1inmill_mort,self.cbt_reptile_1inten_mort,self.cbt_reptile_low_lc50,self.cbt_reptile_sub_direct,
+                               self.cbt_reptile_grow_noec,self.cbt_reptile_grow_loec,self.cbt_reptile_repro_noec,self.cbt_reptile_repro_loec,self.cbt_reptile_behav_noec,
+                               self.cbt_reptile_behav_loec,self.cbt_reptile_sensory_noec,self.cbt_reptile_sensory_loec,self.cbt_reptile_sub_indirect])
+
+        self.tox_cbt_inv  = pd.Series([self.cbt_inv_food_1inmill_mort,self.cbt_inv_food_1inten_mort,self.cbt_inv_food_low_lc50,self.cbt_inv_food_sub_direct,
+                            self.cbt_inv_food_grow_noec,self.cbt_inv_food_grow_loec,self.cbt_inv_food_repro_noec,self.cbt_inv_food_repro_loec,self.cbt_inv_food_behav_noec,
+                            self.cbt_inv_food_behav_loec,self.cbt_inv_food_sensory_noec,self.cbt_inv_food_sensory_loec,self.cbt_inv_food_sub_indirect])
+
+        #         collect/aggregate timeseries of food item concentrations into a single series (upper bound/mean and min/max application scenario)
+        #         notice that the time series have an _1 an _2 associated with them; the difference is associated with the list of food items
+        #         that are relevant to the taxa; the _1 aggregates food item time series are relevant to mammals/birds/reptiles while the
+        #         _2 aggregates time series relevant to terrestrial invertebrates  --
+        #         for all non-relevant food items per taxa a dummy time series filled with 'NA' is used in the aggregation; this allows the
+        #         OPP TED spreadsheet to be replicated
+
+        # process minimum application scenario time series with upper bound & mean residue concentration multipliers for food items
+
+        self.eec_ts_upper_min_1 = pd.Series([[self.out_diet_eec_upper_min_sg], [self.out_diet_eec_upper_min_tg], [self.out_diet_eec_upper_min_blp], \
+                                  [self.out_diet_eec_upper_min_fp], [self.out_diet_eec_upper_min_arthro], [self.out_diet_eec_min_soil_inv],
+                                  [self.out_diet_dose_upper_min_sm_mamm], [self.out_diet_dose_upper_min_lg_mamm], [self.out_diet_dose_upper_min_sm_bird],
+                                  [self.out_diet_dose_upper_min_sm_amphi], [na_series]])
+
+        self.eec_ts_upper_min_2 = pd.Series([[self.out_diet_eec_upper_min_sg], [self.out_diet_eec_upper_min_tg], [self.out_diet_eec_upper_min_blp], \
+                                                [self.out_diet_eec_upper_min_fp], [self.out_diet_eec_upper_min_arthro], [self.out_diet_eec_min_soil_inv],
+                                                [na_series], [na_series], [na_series], [na_series], [self.out_soil_conc_min]])
+
+        self.eec_exc_upper_min_mamm = self.sum_exceedances(sim_num, self.num_ts, self.num_tox, self.eec_ts_upper_min_1, self.tox_cbt_mamm)
+        self.eec_exc_upper_min_bird = self.sum_exceedances(sim_num, self.num_ts, self.num_tox, self.eec_ts_upper_min_1, self.tox_cbt_bird)
+        self.eec_exc_upper_min_reptile = self.sum_exceedances(sim_num, self.num_ts, self.num_tox, self.eec_ts_upper_min_1, self.tox_cbt_reptile)
+        self.eec_exc_upper_min_inv = self.sum_exceedances(sim_num, self.num_ts, self.num_tox, self.eec_ts_upper_min_2, self.tox_cbt_inv)
+
+        self.eec_ts_mean_min_1 = pd.Series([[self.out_diet_eec_mean_min_sg], [self.out_diet_eec_mean_min_tg], [self.out_diet_eec_mean_min_blp], \
+                                  [self.out_diet_eec_mean_min_fp], [self.out_diet_eec_mean_min_arthro], [na_series],
+                                  [self.out_diet_dose_mean_min_sm_mamm], [self.out_diet_dose_mean_min_lg_mamm], [self.out_diet_dose_mean_min_sm_bird],
+                                  [self.out_diet_dose_mean_min_sm_amphi], [na_series]])
+
+        self.eec_ts_mean_min_2 = pd.Series([[self.out_diet_eec_mean_min_sg], [self.out_diet_eec_mean_min_tg], [self.out_diet_eec_mean_min_blp], \
+                                               [self.out_diet_eec_mean_min_fp], [self.out_diet_eec_mean_min_arthro], [na_series],
+                                               [na_series], [na_series], [na_series], [na_series], [na_series]])  # soil concentration timeseries same as upper bound case
+
+        self.eec_exc_mean_min_mamm = self.sum_exceedances(sim_num, self.num_ts, self.num_tox, self.eec_ts_mean_min_1, self.tox_cbt_mamm)
+        self.eec_exc_mean_min_bird = self.sum_exceedances(sim_num, self.num_ts, self.num_tox, self.eec_ts_mean_min_1, self.tox_cbt_bird)
+        self.eec_exc_mean_min_reptile = self.sum_exceedances(sim_num, self.num_ts, self.num_tox, self.eec_ts_mean_min_1, self.tox_cbt_reptile)
+        self.eec_exc_mean_min_inv = self.sum_exceedances(sim_num, self.num_ts, self.num_tox, self.eec_ts_mean_min_2, self.tox_cbt_inv)
+
+        # process maximum application scenario time series with upper bound & mean residue concentration multipliers for food items
+
+        self.eec_ts_upper_max_1 = pd.Series([[self.out_diet_eec_upper_max_sg], [self.out_diet_eec_upper_max_tg], [self.out_diet_eec_upper_max_blp], \
+                                  [self.out_diet_eec_upper_max_fp], [self.out_diet_eec_upper_max_arthro], [self.out_diet_eec_max_soil_inv],
+                                  [self.out_diet_dose_upper_max_sm_mamm], [self.out_diet_dose_upper_max_lg_mamm], [self.out_diet_dose_upper_max_sm_bird],
+                                  [self.out_diet_dose_upper_max_sm_amphi], [na_series]])
+
+        self.eec_ts_upper_max_2 = pd.Series([[self.out_diet_eec_upper_max_sg], [self.out_diet_eec_upper_max_tg], [self.out_diet_eec_upper_max_blp],
+                                                [self.out_diet_eec_upper_max_fp], [self.out_diet_eec_upper_max_arthro], [self.out_diet_eec_max_soil_inv],
+                                                [na_series], [na_series], [na_series], [na_series], [self.out_soil_conc_max]])
+
+        self.eec_exc_upper_max_mamm = self.sum_exceedances(sim_num, self.num_ts, self.num_tox, self.eec_ts_upper_max_1, self.tox_cbt_mamm)
+        self.eec_exc_upper_max_bird = self.sum_exceedances(sim_num, self.num_ts, self.num_tox, self.eec_ts_upper_max_1, self.tox_cbt_bird)
+        self.eec_exc_upper_max_reptile = self.sum_exceedances(sim_num, self.num_ts, self.num_tox, self.eec_ts_upper_max_1, self.tox_cbt_reptile)
+        self.eec_exc_upper_max_inv = self.sum_exceedances(sim_num, self.num_ts, self.num_tox, self.eec_ts_upper_max_2, self.tox_cbt_inv)
+
+        self.eec_ts_mean_max_1 = pd.Series([[self.out_diet_eec_mean_max_sg], [self.out_diet_eec_mean_max_tg], [self.out_diet_eec_mean_max_blp], \
+                                  [self.out_diet_eec_mean_max_fp], [self.out_diet_eec_mean_max_arthro], [na_series],
+                                  [self.out_diet_dose_mean_max_sm_mamm], [self.out_diet_dose_mean_max_lg_mamm], [self.out_diet_dose_mean_max_sm_bird],
+                                  [self.out_diet_dose_mean_max_sm_amphi], [na_series]])
+
+        self.eec_ts_mean_max_2 = pd.Series([[self.out_diet_eec_mean_max_sg], [self.out_diet_eec_mean_max_tg], [self.out_diet_eec_mean_max_blp], \
+                                 [self.out_diet_eec_mean_max_fp], [self.out_diet_eec_mean_max_arthro], [na_series],
+                                 [na_series], [na_series], [na_series], [na_series], [na_series]]) # soil concentration timeseries same as upper bound case
+
+        self.eec_exc_mean_max_mamm = self.sum_exceedances(sim_num, self.num_ts, self.num_tox, self.eec_ts_mean_max_1, self.tox_cbt_mamm)
+        self.eec_exc_mean_max_bird = self.sum_exceedances(sim_num, self.num_ts, self.num_tox, self.eec_ts_mean_max_1, self.tox_cbt_bird)
+        self.eec_exc_mean_max_reptile = self.sum_exceedances(sim_num, self.num_ts, self.num_tox, self.eec_ts_mean_max_1, self.tox_cbt_reptile)
+        self.eec_exc_mean_max_inv = self.sum_exceedances(sim_num, self.num_ts, self.num_tox, self.eec_ts_mean_max_2, self.tox_cbt_inv)
+
+
+    def initialize_eec_timeseries(self):
 
         app_flags_min_scenario = np.full(self.num_simulation_days, True, dtype=bool)
         app_flags_max_scenario = np.full(self.num_simulation_days, True, dtype=bool)

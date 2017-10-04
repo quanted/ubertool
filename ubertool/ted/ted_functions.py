@@ -331,6 +331,8 @@ class TedFunctions(object):
         :description calculates ratio of plant toxicity measures to application rate (min or max)
                      (this method is executed outside of simulation loop because it can be executed in vector mode)
         :NOTE         represents columns G & H of OPP TED Excel spreadsheet 'inputs' worksheet rows 205 - 224
+                      (this method is 'vectorized', that is calculations are performed here for all simulations)
+
         :return:
         """
 
@@ -549,6 +551,173 @@ class TedFunctions(object):
             threshold_dist = self.drift_distance_calc(health_to_apprate_ratio, param_a, param_b, param_c, max_drift_distance)
         return threshold_dist
 
+    def calc_aquatic_vert_conc_thresholds(self):
+        """
+        :description calculates threshold dietary concentrations in water (ug/l) for aquatic dependent vertebrate species
+        :NOTE         represents columns D, E & F of worksheet 'Aquatic dependent sp thresholds' of OPP TED Excel spreadsheet model
+                      (this method is 'vectorized', that is calculations are performed here for all simulations)
+        :return:
+        """
+
+        # mammals
+        self.aq_conc_thres_1inmill_mamm_algae = self.cbt_mamm_1inmill_mort * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_1inmill_mamm_invert = self.cbt_mamm_1inmill_mort * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_1inmill_mamm_fish = self.cbt_mamm_1inmill_mort * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_1inten_mamm_algae = self.cbt_mamm_1inten_mort * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_1inten_mamm_invert = self.cbt_mamm_1inten_mort * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_1inten_mamm_fish = self.cbt_mamm_1inten_mort * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_low_lc50_mamm_algae = self.cbt_mamm_low_lc50 * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_low_lc50_mamm_invert = self.cbt_mamm_low_lc50 * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_low_lc50_mamm_fish = self.cbt_mamm_low_lc50 * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_sub_direct_mamm_algae = self.cbt_mamm_sub_direct * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_sub_direct_mamm_invert = self.cbt_mamm_sub_direct * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_sub_direct_mamm_fish = self.cbt_mamm_sub_direct * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_grow_noec_mamm_algae = self.cbt_mamm_grow_noec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_grow_noec_mamm_invert = self.cbt_mamm_grow_noec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_grow_noec_mamm_fish = self.cbt_mamm_grow_noec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_grow_loec_mamm_algae = self.cbt_mamm_grow_loec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_grow_loec_mamm_invert = self.cbt_mamm_grow_loec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_grow_loec_mamm_fish = self.cbt_mamm_grow_loec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_repro_noec_mamm_algae = self.cbt_mamm_repro_noec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_repro_noec_mamm_invert = self.cbt_mamm_repro_noec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_repro_noec_mamm_fish = self.cbt_mamm_repro_noec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_repro_loec_mamm_algae = self.cbt_mamm_repro_loec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_repro_loec_mamm_invert = self.cbt_mamm_repro_loec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_repro_loec_mamm_fish = self.cbt_mamm_repro_loec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_behav_noec_mamm_algae = self.cbt_mamm_behav_noec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_behav_noec_mamm_invert = self.cbt_mamm_behav_noec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_behav_noec_mamm_fish = self.cbt_mamm_behav_noec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_behav_loec_mamm_algae = self.cbt_mamm_behav_loec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_behav_loec_mamm_invert = self.cbt_mamm_behav_loec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_behav_loec_mamm_fish = self.cbt_mamm_behav_loec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_sensory_noec_mamm_algae = self.cbt_mamm_sensory_noec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_sensory_noec_mamm_invert = self.cbt_mamm_sensory_noec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_sensory_noec_mamm_fish = self.cbt_mamm_sensory_noec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_sensory_loec_mamm_algae = self.cbt_mamm_sensory_loec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_sensory_loec_mamm_invert = self.cbt_mamm_sensory_loec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_sensory_loec_mamm_fish = self.cbt_mamm_sensory_loec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_sub_indirect_mamm_algae = self.cbt_mamm_sub_indirect * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_sub_indirect_mamm_invert = self.cbt_mamm_sub_indirect * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_sub_indirect_mamm_fish = self.cbt_mamm_sub_indirect * self.mg_to_ug / self.fish_bcf_upper
+
+        # birds
+        self.aq_conc_thres_1inmill_mort_bird_algae = self.cbt_bird_1inmill_mort * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_1inmill_mort_bird_invert = self.cbt_bird_1inmill_mort * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_1inmill_mort_bird_fish = self.cbt_bird_1inmill_mort * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_1inten_bird_algae = self.cbt_bird_1inten_mort * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_1inten_bird_invert = self.cbt_bird_1inten_mort * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_1inten_bird_fish = self.cbt_bird_1inten_mort * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_low_lc50_bird_algae = self.cbt_bird_low_lc50 * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_low_lc50_bird_invert = self.cbt_bird_low_lc50 * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_low_lc50_bird_fish = self.cbt_bird_low_lc50 * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_sub_direct_bird_algae = self.cbt_bird_sub_direct * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_sub_direct_bird_invert = self.cbt_bird_sub_direct * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_sub_direct_bird_fish = self.cbt_bird_sub_direct * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_grow_noec_bird_algae = self.cbt_bird_grow_noec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_grow_noec_bird_invert = self.cbt_bird_grow_noec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_grow_noec_bird_fish = self.cbt_bird_grow_noec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_grow_loec_bird_algae = self.cbt_bird_grow_loec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_grow_loec_bird_invert = self.cbt_bird_grow_loec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_grow_loec_bird_fish = self.cbt_bird_grow_loec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_repro_noec_bird_algae = self.cbt_bird_repro_noec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_repro_noec_bird_invert = self.cbt_bird_repro_noec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_repro_noec_bird_fish = self.cbt_bird_repro_noec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_repro_loec_bird_algae = self.cbt_bird_repro_loec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_repro_loec_bird_invert = self.cbt_bird_repro_loec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_repro_loec_bird_fish = self.cbt_bird_repro_loec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_behav_noec_bird_algae = self.cbt_bird_behav_noec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_behav_noec_bird_invert = self.cbt_bird_behav_noec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_behav_noec_bird_fish = self.cbt_bird_behav_noec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_behav_loec_bird_algae = self.cbt_bird_behav_loec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_behav_loec_bird_invert = self.cbt_bird_behav_loec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_behav_loec_bird_fish = self.cbt_bird_behav_loec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_sensory_noec_bird_algae = self.cbt_bird_sensory_noec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_sensory_noec_bird_invert = self.cbt_bird_sensory_noec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_sensory_noec_bird_fish = self.cbt_bird_sensory_noec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_sensory_loec_bird_algae = self.cbt_bird_sensory_loec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_sensory_loec_bird_invert = self.cbt_bird_sensory_loec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_sensory_loec_bird_fish = self.cbt_bird_sensory_loec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_sub_indirect_bird_algae = self.cbt_bird_sub_indirect * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_sub_indirect_bird_invert = self.cbt_bird_sub_indirect * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_sub_indirect_bird_fish = self.cbt_bird_sub_indirect * self.mg_to_ug / self.fish_bcf_upper
+
+        # reptiles & terrestrial-phase amphibians
+        self.aq_conc_thres_1inmill_mort_reptile_algae = self.cbt_reptile_1inmill_mort * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_1inmill_mort_reptile_invert = self.cbt_reptile_1inmill_mort * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_1inmill_mort_reptile_fish = self.cbt_reptile_1inmill_mort * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_1inten_reptile_algae = self.cbt_reptile_1inten_mort * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_1inten_reptile_invert = self.cbt_reptile_1inten_mort * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_1inten_reptile_fish = self.cbt_reptile_1inten_mort * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_low_lc50_reptile_algae = self.cbt_reptile_low_lc50 * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_low_lc50_reptile_invert = self.cbt_reptile_low_lc50 * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_low_lc50_reptile_fish = self.cbt_reptile_low_lc50 * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_sub_direct_reptile_algae = self.cbt_reptile_sub_direct * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_sub_direct_reptile_invert = self.cbt_reptile_sub_direct * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_sub_direct_reptile_fish = self.cbt_reptile_sub_direct * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_grow_noec_reptile_algae = self.cbt_reptile_grow_noec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_grow_noec_reptile_invert = self.cbt_reptile_grow_noec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_grow_noec_reptile_fish = self.cbt_reptile_grow_noec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_grow_loec_reptile_algae = self.cbt_reptile_grow_loec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_grow_loec_reptile_invert = self.cbt_reptile_grow_loec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_grow_loec_reptile_fish = self.cbt_reptile_grow_loec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_repro_noec_reptile_algae = self.cbt_reptile_repro_noec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_repro_noec_reptile_invert = self.cbt_reptile_repro_noec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_repro_noec_reptile_fish = self.cbt_reptile_repro_noec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_repro_loec_reptile_algae = self.cbt_reptile_repro_loec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_repro_loec_reptile_invert = self.cbt_reptile_repro_loec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_repro_loec_reptile_fish = self.cbt_reptile_repro_loec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_behav_noec_reptile_algae = self.cbt_reptile_behav_noec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_behav_noec_reptile_invert = self.cbt_reptile_behav_noec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_behav_noec_reptile_fish = self.cbt_reptile_behav_noec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_behav_loec_reptile_algae = self.cbt_reptile_behav_loec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_behav_loec_reptile_invert = self.cbt_reptile_behav_loec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_behav_loec_reptile_fish = self.cbt_reptile_behav_loec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_sensory_noec_reptile_algae = self.cbt_reptile_sensory_noec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_sensory_noec_reptile_invert = self.cbt_reptile_sensory_noec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_sensory_noec_reptile_fish = self.cbt_reptile_sensory_noec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_sensory_loec_reptile_algae = self.cbt_reptile_sensory_loec * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_sensory_loec_reptile_invert = self.cbt_reptile_sensory_loec * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_sensory_loec_reptile_fish = self.cbt_reptile_sensory_loec * self.mg_to_ug / self.fish_bcf_upper
+        self.aq_conc_thres_sub_indirect_reptile_algae = self.cbt_reptile_sub_indirect * self.mg_to_ug / self.aq_plant_algae_bcf_upper
+        self.aq_conc_thres_sub_indirect_reptile_invert = self.cbt_reptile_sub_indirect * self.mg_to_ug / self.inv_bcf_upper
+        self.aq_conc_thres_sub_indirect_reptile_fish = self.cbt_reptile_sub_indirect * self.mg_to_ug / self.fish_bcf_upper
+
+    def calc_aq_invert_fish_concs(self):
+        """
+        :description calculates estimated tissue concentrations in aquatic invertebrates and fish using BCFs
+        :NOTE         represents columns B, C, D, and F of worksheet 'aquatic organism tissue concs' of OPP TED Excel spreadsheet model
+                      (this method is 'vectorized', that is calculations are performed here for all simulations)
+        :return:
+        """
+
+        # invertebrates tissue concentrations (using mean BCF values)
+        self.tissue_conc_aq_invert_mean_1 = self.aq_conc_level1 * self.inv_bcf_mean / self.mg_to_ug
+        self.tissue_conc_aq_invert_mean_2 = self.aq_conc_level1 * self.inv_bcf_mean / self.mg_to_ug
+        self.tissue_conc_aq_invert_mean_3 = self.aq_conc_level1 * self.inv_bcf_mean / self.mg_to_ug
+        self.tissue_conc_aq_invert_mean_4 = self.aq_conc_level1 * self.inv_bcf_mean / self.mg_to_ug
+        self.tissue_conc_aq_invert_mean_5 = self.aq_conc_level1 * self.inv_bcf_mean / self.mg_to_ug
+
+        # invertebrate tissue concentrations (using upper bound BCF values)
+        self.tissue_conc_aq_invert_upper_1 = self.aq_conc_level1 * self.inv_bcf_upper / self.mg_to_ug
+        self.tissue_conc_aq_invert_upper_2 = self.aq_conc_level1 * self.inv_bcf_upper / self.mg_to_ug
+        self.tissue_conc_aq_invert_upper_3 = self.aq_conc_level1 * self.inv_bcf_upper / self.mg_to_ug
+        self.tissue_conc_aq_invert_upper_4 = self.aq_conc_level1 * self.inv_bcf_upper / self.mg_to_ug
+        self.tissue_conc_aq_invert_upper_5 = self.aq_conc_level1 * self.inv_bcf_upper / self.mg_to_ug
+
+        # fish tissue concentrations (using mean BCF values)
+        self.tissue_conc_aq_fish_mean_1 = self.aq_conc_level1 * self.fish_bcf_mean / self.mg_to_ug
+        self.tissue_conc_aq_fish_mean_2 = self.aq_conc_level1 * self.fish_bcf_mean / self.mg_to_ug
+        self.tissue_conc_aq_fish_mean_3 = self.aq_conc_level1 * self.fish_bcf_mean / self.mg_to_ug
+        self.tissue_conc_aq_fish_mean_4 = self.aq_conc_level1 * self.fish_bcf_mean / self.mg_to_ug
+        self.tissue_conc_aq_fish_mean_5 = self.aq_conc_level1 * self.fish_bcf_mean / self.mg_to_ug
+
+        # fish tissue concentrations (using upper bound BCF values)
+        self.tissue_conc_aq_fish_upper_1 = self.aq_conc_level1 * self.fish_bcf_upper / self.mg_to_ug
+        self.tissue_conc_aq_fish_upper_2 = self.aq_conc_level1 * self.fish_bcf_upper / self.mg_to_ug
+        self.tissue_conc_aq_fish_upper_3 = self.aq_conc_level1 * self.fish_bcf_upper / self.mg_to_ug
+        self.tissue_conc_aq_fish_upper_4 = self.aq_conc_level1 * self.fish_bcf_upper / self.mg_to_ug
+        self.tissue_conc_aq_fish_upper_5 = self.aq_conc_level1 * self.fish_bcf_upper / self.mg_to_ug
+
 
     def calc_runoff_params(self, i, app_method, app_rate, pest_incorp_depth):
         """
@@ -765,3 +934,35 @@ class TedFunctions(object):
         else:
             pass
         return max_respire_frac
+
+    def sum_exceedances(self, sim_num, num_ts, num_tox, time_series, tox_series):
+        """
+        :description this method accumulates the number of time various toxicity measures are exceeded within daily time
+                     series of food item concentrations
+        :param sim_num current simulation number; used to reference tox_series index
+        :param num_ts number of time series included in the aggregate incoming 'time_series'
+        :param num_tox number of toxicity measures to be precessed per time series
+        :param a panda series representing an aggregation of time series representing the daily concentrations in food items (e.g., short grass, arthropods etc.)
+        :param tox_series a panda series representing the list of toxicity measures
+
+        :NOTE this method is used to replicate the OPP TED Excel model worksheet 'Min/Max rate - dietary conc results' columns D - N lines 3 - 54
+              (this method is a temporary solution for the need to populate a panda series with mixed data types;
+              when a more elegant solution comes available this method can simply be replaced without other changes - or so I think)
+
+              for example: the following line of code performs the same function when all series values are floats
+              exceedances = [(self.time_sesries[0][i] > self.tox_series[0][j]).sum() for i in range(11) for j in range(13)]
+
+        :return:
+        """
+
+        k = -1
+        exceedances = pd.Series([])
+        for i in range(num_ts):       # process individual food item time series
+            for j in range(num_tox):  # process individual toxicity measures
+                k=k+1
+                if (time_series[i][0][0] != 'NA'):
+                    exceedances[k] = (time_series[i][0] > tox_series[j][sim_num]).sum() # place sums into series for subsequent slicing/shaping
+                                                                                  # each num_tox values represents a food item
+                else:
+                   exceedances[k] = 'NA'
+        return exceedances
