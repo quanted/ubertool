@@ -3258,8 +3258,8 @@ class TestTed(unittest.TestCase):
                      series of food item concentrations
         :param num_ts number of time series included in the aggregate incoming 'time_series'
         :param num_tox number of toxicity measures to be precessed per time series
-        :param a panda series representing an aggregation of time series representing the daily concentrations in food items (e.g., short grass, arthropods etc.)
-        :param tox_series a panda series representing the list of toxicity measures
+        :param eec_ts_upper_min_1 a panda series representing an aggregation of time series representing the daily concentrations in food items (e.g., short grass, arthropods etc.)
+        :param tox_cbt_mamm a panda series representing the list of toxicity measures
 
         :NOTE this method is used to replicate the OPP TED Excel model worksheet 'Min/Max rate - dietary conc results' columns D - N lines 3 - 54
               (this method is a temporary solution for the need to populate a panda series with mixed data types;
@@ -3276,26 +3276,25 @@ class TestTed(unittest.TestCase):
 
         self.num_simulation_days = 15
 
-        ts_1 = pd.Series([10.,9.,8.,7.,6.,5.,4.,3.,2.,1.,0.9,0.8,0.7,0.6,0.5])
-        ts_2 = pd.Series([10.,9.,8.,7.,6.,5.,4.,3.,2.,1.,0.9,0.8,0.7,0.6,0.5])
-        ts_3 = pd.Series([10.,9.,8.,7.,6.,5.,4.,3.,2.,1.,0.9,0.8,0.7,0.6,0.5])
-        ts_4 = pd.Series([10.,9.,8.,7.,6.,5.,4.,3.,2.,1.,0.9,0.8,0.7,0.6,0.5])
+        eec_ts_1 = pd.Series([10.,9.,8.,7.,6.,5.,4.,3.,2.,1.,0.9,0.8,0.7,0.6,0.5])
+        eec_ts_2 = pd.Series([10.,9.,8.,7.,6.,5.,4.,3.,2.,1.,0.9,0.8,0.7,0.6,0.5])
+        eec_ts_3 = pd.Series([10.,9.,8.,7.,6.,5.,4.,3.,2.,1.,0.9,0.8,0.7,0.6,0.5])
+        eec_ts_4 = pd.Series([10.,9.,8.,7.,6.,5.,4.,3.,2.,1.,0.9,0.8,0.7,0.6,0.5])
 
         na_series = pd.Series(self.num_simulation_days * ['NA'])
 
-        expected_results = pd.Series([9,8,7,9,8,9,8,7,9,8,9,8,7,9,8,9,8,7,9,8,
-                                      9,8,7,9,8,9,8,7,9,8,9,8,7,9,8,9,8,7,9,8,
+        expected_results = pd.Series([9, 8, 7, 8, 9, 8, 7, 9, 8, 7, 9, 8, 7, 8, 9, 8, 7, 9, 8, 7,
+                                      9, 8, 7, 8, 9, 8, 7, 9, 8, 7, 9, 8, 7, 8, 9, 8, 7, 9, 8, 7,
                                       'NA','NA','NA','NA','NA','NA','NA','NA','NA','NA',], dtype='object')
         result = pd.Series([], dtype='object')
 
         try:
-            sim_num = 0
             num_ts = 5
             num_tox = 10
-            tox_cbt_mamm = pd.Series([[1., 1.], [2., 1.], [3., 2.], [1., 22.], [2., 3.],[1., 1.], [2., 22.], [3., 5.], [1., 1.], [2., 11.]])
-            eec_ts_upper_min_1 = pd.Series([[ts_1], [ts_2], [ts_3], [ts_4], [na_series]])
+            tox_cbt_mamm = pd.Series([1., 2., 3., 2., 1., 2., 3., 1., 2., 3.])
+            eec_ts_upper_min_1 = pd.Series([[eec_ts_1], [eec_ts_2], [eec_ts_3], [eec_ts_4], [na_series]])
 
-            result = ted_empty.sum_exceedances(sim_num, num_ts, num_tox, eec_ts_upper_min_1, tox_cbt_mamm)
+            result = ted_empty.sum_exceedances(num_ts, num_tox, eec_ts_upper_min_1, tox_cbt_mamm)
             npt.assert_array_equal(result, expected_results, err_msg='', verbose=True)
 
         finally:
@@ -3304,3 +3303,37 @@ class TestTed(unittest.TestCase):
             print(inspect.currentframe().f_code.co_name)
             print(tabulate(tab, headers='keys', tablefmt='rst'))
         return
+
+    def test_calc_eec_tox_frac(self):
+            """
+            :description calculates the ratio of toxicity measure and maximum of daily food item concentrations
+            :param num_eec_max number of food items included
+            :param num_tox number of toxicity measures to be processed
+            :param max_eec_series a panda series representing an aggregation of maximum concentrations in food items (e.g., short grass, arthropods etc.)
+            :param tox_series a panda series representing the list of toxicity measures
+
+            :return:
+            """
+
+            # create empty pandas dataframes to create empty object for this unittest
+            ted_empty = self.create_ted_object()
+
+            expected_results = pd.Series([0.2, 0.2, 0.2, 'NA', 8.0, 'NA', 0.2, 0.2, 0.2, 'NA', 8.0, 'NA',
+                                          1.0, 1.0, 1.0, 'NA', 40., 'NA', 0.02, 0.02, 0.02, 'NA', 0.8, 'NA'], dtype='object')
+            result = pd.Series([], dtype='object')
+
+            try:
+                num_tox = 6
+                num_eec_max = 4
+                tox_series = pd.Series([1., 1., 1., 'NA', 40., 'NA'])
+                max_eec_series = pd.Series([5.0, 5.0, 1.0, 50.0, ])
+
+                result = ted_empty.calc_eec_tox_frac(num_eec_max, num_tox, max_eec_series, tox_series)
+                npt.assert_array_equal(result, expected_results, err_msg='', verbose=True)
+
+            finally:
+                tab = [result, expected_results]
+                print("\n")
+                print(inspect.currentframe().f_code.co_name)
+                print(tabulate(tab, headers='keys', tablefmt='rst'))
+            return

@@ -366,10 +366,10 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedAggregateMethods, T
         # calculate aquatic dependent dietary concentration thresholds for mammals, birds, and reptiles/amphibians
         self.calc_plant_tox_ratios()              # for all simulations
 
-        # calculate aquatic dependent species concentration thresholds for dietary items (i.e., algae, invertebraters, and reptiles/amphibians
-        self.calc_aquatic_vert_conc_thresholds()  # for all simulations
+        # calculate aquatic dependent species concentration thresholds for dietary items (i.e., algae, invertebraters, and reptiles/amphibians)
+        self.calc_aquatic_vert_conc_thresholds()  # for all simulations (worksheet 'Aquatic dependent sp thresholds')
 
-        # calculate estimated tissue concentrations in aquatic invertebrates and fish using BCFs
+        # calculate estimated tissue concentrations in aquatic invertebrates and fish using BCFs (worksheet 'aquatic organism tissue concs')
         self.calc_aq_invert_fish_concs()          # for all simulations
 
         # process simulations--------------------------------------------------------------------
@@ -390,8 +390,11 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedAggregateMethods, T
             # calculate daily time series of concentration based EECs (worksheets 'min/max rate concentrations' in OPP TED Excel model
             self.conc_based_eec_timeseries(sim_num)
 
-            # count number of exceedances of various risk thresholds within eec timeseries
+            # count number of exceedances of various risk thresholds within eec timeseries (worksheets 'Min/Max rate - dietary conc results')
             self.eec_exceedances(sim_num)
+
+            # calculate spray drfit distances from source area to max daily food item concentration (worksheets 'Min/Max rate - dietary conc results')
+            self.eec_drift_distances(sim_num)
 
             # calculate species/food item specific doses via intake pathways and related health measure ratios ; worksheets 'min/max rate doses' in OPP TED Excel model
             self.species_doses(sim_num)

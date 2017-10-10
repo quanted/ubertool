@@ -3,6 +3,7 @@ import logging
 import numpy as np
 from numpy import math
 import pandas as pd
+import math
 
 
 class TedFunctions(object):
@@ -524,10 +525,10 @@ class TedFunctions(object):
 
         return
 
-    def calc_plant_risk_distance(self, health_to_apprate_ratio, param_a, param_b, param_c, max_drift_distance):
+    def calc_plant_risk_distance(self, toxicity_to_apprate_ratio, param_a, param_b, param_c, max_drift_distance):
         """
         :description calculates the distance from the source area that plant toxicity thresholds occur
-        :param health_to_app_ratio;
+        :param toxicity_to_app_ratio;
         :param plant_thres_dist;
         :param param_a; spray drift parameter a
         :param param_b; spray drift parameter b
@@ -543,12 +544,12 @@ class TedFunctions(object):
         :return:
         """
 
-        if (math.isnan(health_to_apprate_ratio)):
+        if (math.isnan(toxicity_to_apprate_ratio)):
             threshold_dist = np.nan
-        elif (health_to_apprate_ratio > 1.0):
+        elif (toxicity_to_apprate_ratio > 1.0):
             threshold_dist = 0.0
         else:
-            threshold_dist = self.drift_distance_calc(health_to_apprate_ratio, param_a, param_b, param_c, max_drift_distance)
+            threshold_dist = self.drift_distance_calc(toxicity_to_apprate_ratio, param_a, param_b, param_c, max_drift_distance)
         return threshold_dist
 
     def calc_aquatic_vert_conc_thresholds(self):
@@ -935,11 +936,10 @@ class TedFunctions(object):
             pass
         return max_respire_frac
 
-    def sum_exceedances(self, sim_num, num_ts, num_tox, time_series, tox_series):
+    def sum_exceedances(self, num_ts, num_tox, time_series, tox_series):
         """
-        :description this method accumulates the number of time various toxicity measures are exceeded within daily time
+        :description this method accumulates the number of times various toxicity measures are exceeded within daily time
                      series of food item concentrations
-        :param sim_num current simulation number; used to reference tox_series index
         :param num_ts number of time series included in the aggregate incoming 'time_series'
         :param num_tox number of toxicity measures to be precessed per time series
         :param a panda series representing an aggregation of time series representing the daily concentrations in food items (e.g., short grass, arthropods etc.)
@@ -955,14 +955,59 @@ class TedFunctions(object):
         :return:
         """
 
+        # the indexes on the time_series are as follows: time_series[a][b]; a denotes the food item, b denotes the daily time series
+
         k = -1
         exceedances = pd.Series([])
         for i in range(num_ts):       # process individual food item time series
             for j in range(num_tox):  # process individual toxicity measures
                 k=k+1
-                if (time_series[i][0][0] != 'NA'):
-                    exceedances[k] = (time_series[i][0] > tox_series[j][sim_num]).sum() # place sums into series for subsequent slicing/shaping
+                if (time_series[i][0][0] != 'NA' and not math.isnan(tox_series[j])): # if either the food item is not applicable or the toxicity measure is not available
+                    exceedances[k] = (time_series[i][0] > tox_series[j]).sum() # place sums into series for subsequent slicing/shaping
                                                                                   # each num_tox values represents a food item
                 else:
                    exceedances[k] = 'NA'
         return exceedances
+
+    def calc_eec_tox_frac(self, num_eec_max, num_tox, max_eec_series, tox_series):
+            """
+            :description calculates the ratio of toxicity measure and maximum of daily food item concentrations
+            :param num_eec_max number of food items included
+            :param num_tox number of toxicity measures to be processed
+            :param max_eec_series a panda series representing an aggregation of maximum concentrations in food items (e.g., short grass, arthropods etc.)
+            :param tox_series a panda series representing the list of toxicity measures
+
+            :return:
+            """
+
+            # the indexes on the time_series are as follows: time_series[a][b]; a denotes the food item, b denotes the daily time series
+
+            k = -1
+            ratio = pd.Series([])
+            for i in range(num_eec_max):  # process individual food item maximums
+                for j in range(num_tox):  # process individual toxicity measures
+                    k = k + 1
+                    if (max_eec_series[i] != 'NA' and not math.isnan(tox_series[j])):  # if either the food item is not applicable or the toxicity measure is not available
+                        ratio[k] = tox_series[j] / max_eec_series[i] # place ratio into series for subsequent slicing/shaping
+                    else:
+                        ratio[k] = 'NA'
+            return ratio
+
+    def calc_maxeec_distance(self, toxicity_to_apprate_ratio, param_a, param_b, param_c, max_drift_distance):
+        """
+        :description calculates the distance from the source area that plant toxicity thresholds occur
+        :param toxicity_to_app_ratio; ratio of toxicity measure to scenarios application rate
+        :param param_a; spray drift parameter a
+        :param param_b; spray drift parameter b
+        :param param_c; spray drift parameter c
+        :param max_drift_distance;
+
+        :return:
+        """
+        dist = pd.Series([])
+        for i in range(len(toxicity_to_apprate_ratio)):
+            if (toxicity_to_apprate_ratio[i] != 'NA'):
+                dist[i] = self.drift_distance_calc(toxicity_to_apprate_ratio[i], param_a, param_b, param_c, max_drift_distance)
+            else:
+                dist[i] = 'NA'
+        return dist

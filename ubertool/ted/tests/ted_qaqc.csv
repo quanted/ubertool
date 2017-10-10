@@ -83,7 +83,7 @@ cbt_mamm_1inten_mort,concentration based toxicity data for mammals: indirect 10%
 cbt_mamm_low_lc50,concentration based toxicity data for mammals: lowest LC50,mg-pest/kg-diet ,,,4.50E+01,1.00E+02
 cbt_mamm_sub_direct,concentration based toxicity data for mammals: direct sublethal threshold,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_mamm_grow_noec,concentration based toxicity data for mammals: growth NOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
-cbt_mamm_grow_loec,concentration based toxicity data for mammals: growth LOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
+cbt_mamm_grow_loec,concentration based toxicity data for mammals: growth LOEC,mg-pest/kg-diet ,,, ,1.00E+00
 cbt_mamm_repro_noec,concentration based toxicity data for mammals: reproduction NOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_mamm_repro_loec,concentration based toxicity data for mammals: reproduction LOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_mamm_behav_noec,concentration based toxicity data for mammals: behavior NOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
@@ -96,7 +96,7 @@ cbt_bird_1inten_mort,concentration based toxicity data for birds: indirect 10% m
 cbt_bird_low_lc50,concentration based toxicity data for birds: lowest LC50,mg-pest/kg-diet ,,,5.00E+02,2.50E+02
 cbt_bird_sub_direct,concentration based toxicity data for birds: direct sublethal threshold,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_bird_grow_noec,concentration based toxicity data for birds: growth NOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
-cbt_bird_grow_loec,concentration based toxicity data for birds: growth LOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
+cbt_bird_grow_loec,concentration based toxicity data for birds: growth LOEC,mg-pest/kg-diet ,,, ,1.00E+00
 cbt_bird_repro_noec,concentration based toxicity data for birds: reproduction NOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_bird_repro_loec,concentration based toxicity data for birds: reproduction LOEC,mg-pest/kg-diet ,,,1.00E+01,2.50E+01
 cbt_bird_behav_noec,concentration based toxicity data for birds: behavior NOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
@@ -111,7 +111,7 @@ cbt_reptile_sub_direct,concentration based toxicity data for reptiles & terrestr
 cbt_reptile_grow_noec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: growth NOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_reptile_grow_loec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: growth LOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_reptile_repro_noec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: reproduction NOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
-cbt_reptile_repro_loec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: reproduction LOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
+cbt_reptile_repro_loec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: reproduction LOEC,mg-pest/kg-diet ,,, ,1.00E+00
 cbt_reptile_behav_noec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: behavior NOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_reptile_behav_loec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: behavior LOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
 cbt_reptile_sensory_noec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: sensory NOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00

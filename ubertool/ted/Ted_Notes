@@ -22,3 +22,13 @@
    worksheets have a value of 0.2 for this (not so far off).  For small birds and small terr phase amphibians the food
    source is insects (arthropods) whose water content is 0.69, thus (1 - 0.69) = .31, again the worksheets have a
    value of 0.2.
+6. In the OOP TED spreadsheet worksheets 'Min/Max rate - dietary conc results' exceedance counts and distance from source
+   to toxicity threshold are determined.  When determining exceedances the max food item concentration (from daily
+   time series) is compared to the various toxicity measures per taxa.  An issue comes up when applying the 'NA' to
+   an exceedance result.  Currently within the spreadsheet 'NA' is only registered as a result if the food item daily
+   series is labeled 'NA' in the spreadsheet (e.g., for soil for mammals, birds, and reptiles).  This is fine.  However,
+   when a toxicity number is 'NA' it simply doesn't count it as an exceedance (resulting in a count of 0 for that food item
+   and toxicity combination).  This leaves it unclear whether or not there actually is a value for the toxicity measure
+   or if there were actually no numerical exceedances.  It seems that if the toxicity measure is 'NA' (or within the Python
+   code NaN) the comparison should not be made and the result of the exceedance count should be 'NA'.  This is how the Python code
+   is programmed, if this is not appropriate then the methods 'sum_exceedances' and 'calc_eec_tox_frac' should be modified.
