@@ -42,14 +42,14 @@ class TedSpeciesProperties(object):
             sys.exit('file: %s, %s' (filename, e))
 
         print(dr)
-        sci_name = dr.ix[:,'Scientific Name']
-        com_name = dr.ix[:,'Common Name']
-        taxa = dr.ix[:,'Taxa']
-        order = dr.ix[:,'Order']
-        usfws_id = dr.ix[:,'USFWS Species ID (ENTITY_ID)']
-        body_wgt= dr.ix[:,'BW (g)']
-        diet_item = dr.ix[:,'Food item']
-        h2o_cont = dr.ix[:,'Water content of diet']
+        self.sci_name = dr.ix[:,'Scientific Name']
+        self.com_name = dr.ix[:,'Common Name']
+        self.taxa = dr.ix[:,'Taxa']
+        self.order = dr.ix[:,'Order']
+        self.usfws_id = dr.ix[:,'USFWS Species ID (ENTITY_ID)']
+        self.body_wgt= dr.ix[:,'BW (g)']
+        self.diet_item = dr.ix[:,'Food item']
+        self.h2o_cont = dr.ix[:,'Water content of diet']
 
 class TedInputs(ModelSharedInputs):
     """

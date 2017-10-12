@@ -3318,15 +3318,15 @@ class TestTed(unittest.TestCase):
             # create empty pandas dataframes to create empty object for this unittest
             ted_empty = self.create_ted_object()
 
-            expected_results = pd.Series([0.2, 0.2, 0.2, 'NA', 8.0, 'NA', 0.2, 0.2, 0.2, 'NA', 8.0, 'NA',
+            expected_results = pd.Series([0.2, 0.2, 0.2, 'NA', 8.0, 'NA', 'NA', 'NA', 'NA', 'NA', 'NA', 'NA',
                                           1.0, 1.0, 1.0, 'NA', 40., 'NA', 0.02, 0.02, 0.02, 'NA', 0.8, 'NA'], dtype='object')
             result = pd.Series([], dtype='object')
 
             try:
                 num_tox = 6
                 num_eec_max = 4
-                tox_series = pd.Series([1., 1., 1., 'NA', 40., 'NA'])
-                max_eec_series = pd.Series([5.0, 5.0, 1.0, 50.0, ])
+                tox_series = pd.Series([1., 1., 1., np.nan, 40., np.nan]) # the toxicity numbers come from input as NaN
+                max_eec_series = pd.Series([5.0, 'NA', 1.0, 50.0, ])
 
                 result = ted_empty.calc_eec_tox_frac(num_eec_max, num_tox, max_eec_series, tox_series)
                 npt.assert_array_equal(result, expected_results, err_msg='', verbose=True)
@@ -3337,3 +3337,40 @@ class TestTed(unittest.TestCase):
                 print(inspect.currentframe().f_code.co_name)
                 print(tabulate(tab, headers='keys', tablefmt='rst'))
             return
+
+    def test_calc_maxeec_distance(self):
+        """
+        :description calculates the distance from the source area that plant toxicity thresholds occur
+        :param toxicity_to_app_ratio; ratio of toxicity measure to scenarios application rate
+        :param param_a; spray drift parameter a
+        :param param_b; spray drift parameter b
+        :param param_c; spray drift parameter c
+        :param max_drift_distance;
+
+        :return:
+        """
+
+        # create empty pandas dataframes to create empty object for this unittest
+        ted_empty = self.create_ted_object()
+
+        expected_results = pd.Series([2600., 2348.357448005348, 110.46619534267889, 39.008907082694385, 0.0, 'NA'], dtype='object')
+        result = pd.Series([], dtype='object')
+
+        try:
+            toxicity_to_apprate_ratio = pd.Series([0.002, 0.02, 0.2, 0.35, 3., 'NA'])
+            param_a = 0.0292
+            param_b = 0.822
+            param_c = 0.6539
+            max_drift_distance = 2600.
+
+            result = ted_empty.calc_maxeec_distance(toxicity_to_apprate_ratio, param_a, param_b, param_c, max_drift_distance)
+            npt.assert_array_equal(result, expected_results, err_msg='', verbose=True)
+
+        finally:
+            tab = [result, expected_results]
+            print("\n")
+            print(inspect.currentframe().f_code.co_name)
+            print(tabulate(tab, headers='keys', tablefmt='rst'))
+        return
+
+

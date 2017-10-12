@@ -21,7 +21,7 @@
    the water content of short grass (actually Grasses in the table) is 0.79, which would make (1 - .79) = .21, the
    worksheets have a value of 0.2 for this (not so far off).  For small birds and small terr phase amphibians the food
    source is insects (arthropods) whose water content is 0.69, thus (1 - 0.69) = .31, again the worksheets have a
-   value of 0.2.
+   value of 0.2.  The Python code uses the 0.69 (and 1. - .69 = .31) values.
 6. In the OOP TED spreadsheet worksheets 'Min/Max rate - dietary conc results' exceedance counts and distance from source
    to toxicity threshold are determined.  When determining exceedances the max food item concentration (from daily
    time series) is compared to the various toxicity measures per taxa.  An issue comes up when applying the 'NA' to
@@ -32,3 +32,7 @@
    or if there were actually no numerical exceedances.  It seems that if the toxicity measure is 'NA' (or within the Python
    code NaN) the comparison should not be made and the result of the exceedance count should be 'NA'.  This is how the Python code
    is programmed, if this is not appropriate then the methods 'sum_exceedances' and 'calc_eec_tox_frac' should be modified.
+7. In the 'Min rate doses' worksheet the first occurence of the food item 'benthic inverts'(column G, Chiricahua Leopard Frog) the value
+   for the water concentration (from inputs!$C66) used to compute the "Upper bound Conc. in diet (mg/kg" (Column I) represents
+   the higher water concentration when it should be the lower (from inputs!$C65).  Subsequent occurences of 'benthic invets'
+   use the correct water concentration.

@@ -237,40 +237,40 @@ class TedAggregateMethods(object):
 
         # calculate daily whole body concentrations for prey items (small mammals, large mammals, small birds, small terrestrial phase amphibians/reptiles
         # (min/max application scenarios & upper/mean food multipliers)
-        self.out_diet_dose_upper_min_sm_mamm = self.daily_animal_dose_timeseries(self.intake_param_a1_mamm_rodent, self.intake_param_b1_mamm_rodent, self.mamm_sm_bodywgt, self.frac_h2o_aq_plant, self.out_diet_eec_upper_min_sg,
+        self.out_diet_eec_upper_min_sm_mamm = self.daily_animal_dose_timeseries(self.intake_param_a1_mamm_rodent, self.intake_param_b1_mamm_rodent, self.mamm_sm_bodywgt, self.frac_h2o_aq_plant, self.out_diet_eec_upper_min_sg,
                                                                                  self.frac_retained_mamm[sim_num])
-        self.out_diet_dose_upper_min_lg_mamm = self.daily_animal_dose_timeseries(self.intake_param_a1_mamm_rodent, self.intake_param_b1_mamm_rodent, self.mamm_lg_bodywgt, self.frac_h2o_aq_plant, self.out_diet_eec_upper_min_sg,
+        self.out_diet_eec_upper_min_lg_mamm = self.daily_animal_dose_timeseries(self.intake_param_a1_mamm_rodent, self.intake_param_b1_mamm_rodent, self.mamm_lg_bodywgt, self.frac_h2o_aq_plant, self.out_diet_eec_upper_min_sg,
                                                                                  self.frac_retained_mamm[sim_num])
-        self.out_diet_dose_upper_min_sm_bird = self.daily_animal_dose_timeseries(self.intake_param_a1_birds_gen, self.intake_param_b1_birds_gen, self.bird_sm_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_upper_min_arthro,
+        self.out_diet_eec_upper_min_sm_bird = self.daily_animal_dose_timeseries(self.intake_param_a1_birds_gen, self.intake_param_b1_birds_gen, self.bird_sm_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_upper_min_arthro,
                                                                                  self.frac_retained_birds[sim_num])
-        self.out_diet_dose_upper_min_sm_amphi = self.daily_animal_dose_timeseries(self.intake_param_a1_rep_amphi, self.intake_param_b1_rep_amphi, self.rep_amphi_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_upper_min_arthro,
+        self.out_diet_eec_upper_min_sm_amphi = self.daily_animal_dose_timeseries(self.intake_param_a1_rep_amphi, self.intake_param_b1_rep_amphi, self.rep_amphi_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_upper_min_arthro,
                                                                                   self.frac_retained_birds[sim_num])
 
-        self.out_diet_dose_mean_min_sm_mamm = self.daily_animal_dose_timeseries(self.intake_param_a1_mamm_rodent, self.intake_param_b1_mamm_rodent, self.mamm_sm_bodywgt, self.frac_h2o_aq_plant, self.out_diet_eec_mean_min_sg,
+        self.out_diet_eec_mean_min_sm_mamm = self.daily_animal_dose_timeseries(self.intake_param_a1_mamm_rodent, self.intake_param_b1_mamm_rodent, self.mamm_sm_bodywgt, self.frac_h2o_aq_plant, self.out_diet_eec_mean_min_sg,
                                                                                 self.frac_retained_mamm[sim_num])
-        self.out_diet_dose_mean_min_lg_mamm = self.daily_animal_dose_timeseries(self.intake_param_a1_mamm_rodent, self.intake_param_b1_mamm_rodent, self.mamm_lg_bodywgt, self.frac_h2o_aq_plant, self.out_diet_eec_mean_min_sg,
+        self.out_diet_eec_mean_min_lg_mamm = self.daily_animal_dose_timeseries(self.intake_param_a1_mamm_rodent, self.intake_param_b1_mamm_rodent, self.mamm_lg_bodywgt, self.frac_h2o_aq_plant, self.out_diet_eec_mean_min_sg,
                                                                                 self.frac_retained_mamm[sim_num])
-        self.out_diet_dose_mean_min_sm_bird = self.daily_animal_dose_timeseries(self.intake_param_a1_birds_gen, self.intake_param_b1_birds_gen, self.bird_sm_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_mean_min_arthro,
+        self.out_diet_eec_mean_min_sm_bird = self.daily_animal_dose_timeseries(self.intake_param_a1_birds_gen, self.intake_param_b1_birds_gen, self.bird_sm_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_mean_min_arthro,
                                                                                 self.frac_retained_birds[sim_num])
-        self.out_diet_dose_mean_min_sm_amphi = self.daily_animal_dose_timeseries(self.intake_param_a1_rep_amphi, self.intake_param_b1_rep_amphi, self.rep_amphi_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_mean_min_arthro,
+        self.out_diet_eec_mean_min_sm_amphi = self.daily_animal_dose_timeseries(self.intake_param_a1_rep_amphi, self.intake_param_b1_rep_amphi, self.rep_amphi_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_mean_min_arthro,
                                                                                  self.frac_retained_birds[sim_num])
 
-        self.out_diet_dose_upper_max_sm_mamm = self.daily_animal_dose_timeseries(self.intake_param_a1_mamm_rodent, self.intake_param_b1_mamm_rodent, self.mamm_sm_bodywgt, self.frac_h2o_aq_plant, self.out_diet_eec_upper_max_sg,
+        self.out_diet_eec_upper_max_sm_mamm = self.daily_animal_dose_timeseries(self.intake_param_a1_mamm_rodent, self.intake_param_b1_mamm_rodent, self.mamm_sm_bodywgt, self.frac_h2o_aq_plant, self.out_diet_eec_upper_max_sg,
                                                                                  self.frac_retained_mamm[sim_num])
-        self.out_diet_dose_upper_max_lg_mamm = self.daily_animal_dose_timeseries(self.intake_param_a1_mamm_rodent, self.intake_param_b1_mamm_rodent, self.mamm_lg_bodywgt, self.frac_h2o_aq_plant, self.out_diet_eec_upper_max_sg,
+        self.out_diet_eec_upper_max_lg_mamm = self.daily_animal_dose_timeseries(self.intake_param_a1_mamm_rodent, self.intake_param_b1_mamm_rodent, self.mamm_lg_bodywgt, self.frac_h2o_aq_plant, self.out_diet_eec_upper_max_sg,
                                                                                  self.frac_retained_mamm[sim_num])
-        self.out_diet_dose_upper_max_sm_bird = self.daily_animal_dose_timeseries(self.intake_param_a1_birds_gen, self.intake_param_b1_birds_gen, self.bird_sm_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_upper_max_arthro,
+        self.out_diet_eec_upper_max_sm_bird = self.daily_animal_dose_timeseries(self.intake_param_a1_birds_gen, self.intake_param_b1_birds_gen, self.bird_sm_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_upper_max_arthro,
                                                                                  self.frac_retained_birds[sim_num])
-        self.out_diet_dose_upper_max_sm_amphi = self.daily_animal_dose_timeseries(self.intake_param_a1_rep_amphi, self.intake_param_b1_rep_amphi, self.rep_amphi_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_upper_max_arthro,
+        self.out_diet_eec_upper_max_sm_amphi = self.daily_animal_dose_timeseries(self.intake_param_a1_rep_amphi, self.intake_param_b1_rep_amphi, self.rep_amphi_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_upper_max_arthro,
                                                                                   self.frac_retained_birds[sim_num])
 
-        self.out_diet_dose_mean_max_sm_mamm = self.daily_animal_dose_timeseries(self.intake_param_a1_mamm_rodent, self.intake_param_b1_mamm_rodent, self.mamm_sm_bodywgt, self.frac_h2o_aq_plant, self.out_diet_eec_mean_max_sg,
+        self.out_diet_eec_mean_max_sm_mamm = self.daily_animal_dose_timeseries(self.intake_param_a1_mamm_rodent, self.intake_param_b1_mamm_rodent, self.mamm_sm_bodywgt, self.frac_h2o_aq_plant, self.out_diet_eec_mean_max_sg,
                                                                                 self.frac_retained_mamm[sim_num])
-        self.out_diet_dose_mean_max_lg_mamm = self.daily_animal_dose_timeseries(self.intake_param_a1_mamm_rodent, self.intake_param_b1_mamm_rodent, self.mamm_lg_bodywgt, self.frac_h2o_aq_plant, self.out_diet_eec_mean_max_sg,
+        self.out_diet_eec_mean_max_lg_mamm = self.daily_animal_dose_timeseries(self.intake_param_a1_mamm_rodent, self.intake_param_b1_mamm_rodent, self.mamm_lg_bodywgt, self.frac_h2o_aq_plant, self.out_diet_eec_mean_max_sg,
                                                                                 self.frac_retained_mamm[sim_num])
-        self.out_diet_dose_mean_max_sm_bird = self.daily_animal_dose_timeseries(self.intake_param_a1_birds_gen, self.intake_param_b1_birds_gen, self.bird_sm_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_mean_max_arthro,
+        self.out_diet_eec_mean_max_sm_bird = self.daily_animal_dose_timeseries(self.intake_param_a1_birds_gen, self.intake_param_b1_birds_gen, self.bird_sm_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_mean_max_arthro,
                                                                                 self.frac_retained_birds[sim_num])
-        self.out_diet_dose_mean_max_sm_amphi = self.daily_animal_dose_timeseries(self.intake_param_a1_rep_amphi, self.intake_param_b1_rep_amphi, self.rep_amphi_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_mean_max_arthro,
+        self.out_diet_eec_mean_max_sm_amphi = self.daily_animal_dose_timeseries(self.intake_param_a1_rep_amphi, self.intake_param_b1_rep_amphi, self.rep_amphi_bodywgt, self.frac_h2o_arthro, self.out_diet_eec_mean_max_arthro,
                                                                                  self.frac_retained_birds[sim_num])
 
     def eec_exceedances(self, sim_num):
@@ -314,8 +314,8 @@ class TedAggregateMethods(object):
 
         self.eec_ts_upper_min_1 = pd.Series([[self.out_diet_eec_upper_min_sg], [self.out_diet_eec_upper_min_tg], [self.out_diet_eec_upper_min_blp], \
                                   [self.out_diet_eec_upper_min_fp], [self.out_diet_eec_upper_min_arthro], [self.out_diet_eec_min_soil_inv],
-                                  [self.out_diet_dose_upper_min_sm_mamm], [self.out_diet_dose_upper_min_lg_mamm], [self.out_diet_dose_upper_min_sm_bird],
-                                  [self.out_diet_dose_upper_min_sm_amphi], [na_series]])
+                                  [self.out_diet_eec_upper_min_sm_mamm], [self.out_diet_eec_upper_min_lg_mamm], [self.out_diet_eec_upper_min_sm_bird],
+                                  [self.out_diet_eec_upper_min_sm_amphi], [na_series]])
 
         self.eec_ts_upper_min_2 = pd.Series([[self.out_diet_eec_upper_min_sg], [self.out_diet_eec_upper_min_tg], [self.out_diet_eec_upper_min_blp], \
                                                 [self.out_diet_eec_upper_min_fp], [self.out_diet_eec_upper_min_arthro], [self.out_diet_eec_min_soil_inv],
@@ -328,8 +328,8 @@ class TedAggregateMethods(object):
 
         self.eec_ts_mean_min_1 = pd.Series([[self.out_diet_eec_mean_min_sg], [self.out_diet_eec_mean_min_tg], [self.out_diet_eec_mean_min_blp], \
                                   [self.out_diet_eec_mean_min_fp], [self.out_diet_eec_mean_min_arthro], [na_series],
-                                  [self.out_diet_dose_mean_min_sm_mamm], [self.out_diet_dose_mean_min_lg_mamm], [self.out_diet_dose_mean_min_sm_bird],
-                                  [self.out_diet_dose_mean_min_sm_amphi], [na_series]])
+                                  [self.out_diet_eec_mean_min_sm_mamm], [self.out_diet_eec_mean_min_lg_mamm], [self.out_diet_eec_mean_min_sm_bird],
+                                  [self.out_diet_eec_mean_min_sm_amphi], [na_series]])
 
         self.eec_ts_mean_min_2 = pd.Series([[self.out_diet_eec_mean_min_sg], [self.out_diet_eec_mean_min_tg], [self.out_diet_eec_mean_min_blp], \
                                                [self.out_diet_eec_mean_min_fp], [self.out_diet_eec_mean_min_arthro], [na_series],
@@ -344,8 +344,8 @@ class TedAggregateMethods(object):
 
         self.eec_ts_upper_max_1 = pd.Series([[self.out_diet_eec_upper_max_sg], [self.out_diet_eec_upper_max_tg], [self.out_diet_eec_upper_max_blp], \
                                   [self.out_diet_eec_upper_max_fp], [self.out_diet_eec_upper_max_arthro], [self.out_diet_eec_max_soil_inv],
-                                  [self.out_diet_dose_upper_max_sm_mamm], [self.out_diet_dose_upper_max_lg_mamm], [self.out_diet_dose_upper_max_sm_bird],
-                                  [self.out_diet_dose_upper_max_sm_amphi], [na_series]])
+                                  [self.out_diet_eec_upper_max_sm_mamm], [self.out_diet_eec_upper_max_lg_mamm], [self.out_diet_eec_upper_max_sm_bird],
+                                  [self.out_diet_eec_upper_max_sm_amphi], [na_series]])
 
         self.eec_ts_upper_max_2 = pd.Series([[self.out_diet_eec_upper_max_sg], [self.out_diet_eec_upper_max_tg], [self.out_diet_eec_upper_max_blp],
                                                 [self.out_diet_eec_upper_max_fp], [self.out_diet_eec_upper_max_arthro], [self.out_diet_eec_max_soil_inv],
@@ -358,8 +358,8 @@ class TedAggregateMethods(object):
 
         self.eec_ts_mean_max_1 = pd.Series([[self.out_diet_eec_mean_max_sg], [self.out_diet_eec_mean_max_tg], [self.out_diet_eec_mean_max_blp], \
                                   [self.out_diet_eec_mean_max_fp], [self.out_diet_eec_mean_max_arthro], [na_series],
-                                  [self.out_diet_dose_mean_max_sm_mamm], [self.out_diet_dose_mean_max_lg_mamm], [self.out_diet_dose_mean_max_sm_bird],
-                                  [self.out_diet_dose_mean_max_sm_amphi], [na_series]])
+                                  [self.out_diet_eec_mean_max_sm_mamm], [self.out_diet_eec_mean_max_lg_mamm], [self.out_diet_eec_mean_max_sm_bird],
+                                  [self.out_diet_eec_mean_max_sm_amphi], [na_series]])
 
         self.eec_ts_mean_max_2 = pd.Series([[self.out_diet_eec_mean_max_sg], [self.out_diet_eec_mean_max_tg], [self.out_diet_eec_mean_max_blp], \
                                  [self.out_diet_eec_mean_max_fp], [self.out_diet_eec_mean_max_arthro], [na_series],
@@ -397,8 +397,8 @@ class TedAggregateMethods(object):
 
         self.eec_ts_upper_min_1 = pd.Series([self.out_diet_eec_upper_min_sg.max(), self.out_diet_eec_upper_min_tg.max(), self.out_diet_eec_upper_min_blp.max(), \
                                   self.out_diet_eec_upper_min_fp.max(), self.out_diet_eec_upper_min_arthro.max(), self.out_diet_eec_min_soil_inv.max(),
-                                  self.out_diet_dose_upper_min_sm_mamm.max(), self.out_diet_dose_upper_min_lg_mamm.max(), self.out_diet_dose_upper_min_sm_bird.max(),
-                                  self.out_diet_dose_upper_min_sm_amphi.max(), na_series.max()])
+                                  self.out_diet_eec_upper_min_sm_mamm.max(), self.out_diet_eec_upper_min_lg_mamm.max(), self.out_diet_eec_upper_min_sm_bird.max(),
+                                  self.out_diet_eec_upper_min_sm_amphi.max(), na_series.max()])
 
         self.eec_ts_upper_min_2 = pd.Series([self.out_diet_eec_upper_min_sg.max(), self.out_diet_eec_upper_min_tg.max(), self.out_diet_eec_upper_min_blp.max(), \
                                                 self.out_diet_eec_upper_min_fp.max(), self.out_diet_eec_upper_min_arthro.max(), self.out_diet_eec_min_soil_inv.max(),
@@ -418,8 +418,8 @@ class TedAggregateMethods(object):
         # process maximum application scenario time series with upper bound residue concentration multipliers for food items
         self.eec_ts_upper_max_1 = pd.Series([self.out_diet_eec_upper_max_sg.max(), self.out_diet_eec_upper_max_tg.max(), self.out_diet_eec_upper_max_blp.max(), \
                                   self.out_diet_eec_upper_max_fp.max(), self.out_diet_eec_upper_max_arthro.max(), self.out_diet_eec_max_soil_inv.max(),
-                                  self.out_diet_dose_upper_max_sm_mamm.max(), self.out_diet_dose_upper_max_lg_mamm.max(), self.out_diet_dose_upper_max_sm_bird.max(),
-                                  self.out_diet_dose_upper_max_sm_amphi.max(), na_series.max()])
+                                  self.out_diet_eec_upper_max_sm_mamm.max(), self.out_diet_eec_upper_max_lg_mamm.max(), self.out_diet_eec_upper_max_sm_bird.max(),
+                                  self.out_diet_eec_upper_max_sm_amphi.max(), na_series.max()])
 
         self.eec_ts_upper_max_2 = pd.Series([self.out_diet_eec_upper_max_sg.max(), self.out_diet_eec_upper_max_tg.max(), self.out_diet_eec_upper_max_blp.max(), \
                                                 self.out_diet_eec_upper_max_fp.max(), self.out_diet_eec_upper_max_arthro.max(), self.out_diet_eec_max_soil_inv.max(),
@@ -483,37 +483,154 @@ class TedAggregateMethods(object):
         self.out_diet_eec_min_soil_inv = np.zeros(self.num_simulation_days)
         self.out_diet_eec_max_soil_inv = np.zeros(self.num_simulation_days)
 
-        self.out_diet_dose_upper_min_sm_mamm = np.zeros(self.num_simulation_days)
-        self.out_diet_dose_upper_min_lg_mamm = np.zeros(self.num_simulation_days)
-        self.out_diet_dose_upper_min_sm_bird = np.zeros(self.num_simulation_days)
-        self.out_diet_dose_upper_min_sm_amphi = np.zeros(self.num_simulation_days)
+        self.out_diet_eec_upper_min_sm_mamm = np.zeros(self.num_simulation_days)
+        self.out_diet_eec_upper_min_lg_mamm = np.zeros(self.num_simulation_days)
+        self.out_diet_eec_upper_min_sm_bird = np.zeros(self.num_simulation_days)
+        self.out_diet_eec_upper_min_sm_amphi = np.zeros(self.num_simulation_days)
 
-        self.out_diet_dose_mean_min_sm_mamm = np.zeros(self.num_simulation_days)
-        self.out_diet_dose_mean_min_lg_mamm = np.zeros(self.num_simulation_days)
-        self.out_diet_dose_mean_min_sm_bird = np.zeros(self.num_simulation_days)
-        self.out_diet_dose_mean_min_sm_amphi = np.zeros(self.num_simulation_days)
+        self.out_diet_eec_mean_min_sm_mamm = np.zeros(self.num_simulation_days)
+        self.out_diet_eec_mean_min_lg_mamm = np.zeros(self.num_simulation_days)
+        self.out_diet_eec_mean_min_sm_bird = np.zeros(self.num_simulation_days)
+        self.out_diet_eec_mean_min_sm_amphi = np.zeros(self.num_simulation_days)
 
-        self.out_diet_dose_upper_max_sm_mamm = np.zeros(self.num_simulation_days)
-        self.out_diet_dose_upper_max_lg_mamm = np.zeros(self.num_simulation_days)
-        self.out_diet_dose_upper_max_sm_bird = np.zeros(self.num_simulation_days)
-        self.out_diet_dose_upper_max_sm_amphi = np.zeros(self.num_simulation_days)
+        self.out_diet_eec_upper_max_sm_mamm = np.zeros(self.num_simulation_days)
+        self.out_diet_eec_upper_max_lg_mamm = np.zeros(self.num_simulation_days)
+        self.out_diet_eec_upper_max_sm_bird = np.zeros(self.num_simulation_days)
+        self.out_diet_eec_upper_max_sm_amphi = np.zeros(self.num_simulation_days)
 
-        self.out_diet_dose_mean_max_sm_mamm = np.zeros(self.num_simulation_days)
-        self.out_diet_dose_mean_max_lg_mamm = np.zeros(self.num_simulation_days)
-        self.out_diet_dose_mean_max_sm_bird = np.zeros(self.num_simulation_days)
-        self.out_diet_dose_mean_max_sm_amphi = np.zeros(self.num_simulation_days)
+        self.out_diet_eec_mean_max_sm_mamm = np.zeros(self.num_simulation_days)
+        self.out_diet_eec_mean_max_lg_mamm = np.zeros(self.num_simulation_days)
+        self.out_diet_eec_mean_max_sm_bird = np.zeros(self.num_simulation_days)
+        self.out_diet_eec_mean_max_sm_amphi = np.zeros(self.num_simulation_days)
 
     def species_doses(self, sim_num):
         """
         :description executes collection of functions/methods associated with the 'min/max rate doses' worksheet in the OPP TED Excel model
             # calculate species/food item specific doses and health measure ratios
-
+        :param sim_num model simulation number
         :return:
         """
 
         # read species properties from database
         self.ReadSpeciesProperties()
 
+        self.out_diet_conc_upper_min = pd.Series(len(self.com_name) * ['NA'], dtype='object')
+        self.out_diet_conc_mean_min = pd.Series(len(self.com_name) * ['NA'], dtype='object')
+
+        # collect the upper bound and mean diet concentrations unique to each diet/food item to minimize determination of time series maximums (tsmax)
+        upper_arthro_tsmax = self.out_diet_eec_upper_min_arthro.max()
+        mean_arthro_tsmax = self.out_diet_eec_mean_min_arthro.max()
+        upper_soil_inv_tsmax = self.out_diet_eec_min_soil_inv.max()
+        upper_sm_amphi_tsmax = self.out_diet_eec_upper_min_sm_amphi.max()
+        mean_sm_amphi_tsmax = self.out_diet_eec_mean_min_sm_amphi.max()
+        upper_sm_mamm_tsmax = self.out_diet_eec_upper_min_sm_mamm.max()
+        mean_sm_mamm_tsmax = self.out_diet_eec_mean_min_sm_mamm.max()
+        upper_inverts_tsmax = self.water_conc_1[sim_num] * (self.inv_bcf_upper[sim_num] / 1000.)
+        mean_inverts_tsmax = self.water_conc_1[sim_num] * (self.inv_bcf_mean[sim_num] / 1000.)
+        upper_sm_bird_tsmax = self.out_diet_eec_upper_min_sm_bird.max()
+        mean_sm_bird_tsmax = self.out_diet_eec_mean_min_sm_bird.max()
+        upper_fish_tsmax = self.water_conc_1[sim_num] * (self.fish_bcf_upper[sim_num] / 1000.)
+        mean_fish_tsmax = self.water_conc_1[sim_num] * (self.fish_bcf_mean[sim_num] / 1000.)
+        upper_plant_algae_tsmax = self.water_conc_1[sim_num] * (self.aq_plant_algae_bcf_upper[sim_num] / 1000.)
+        mean_plant_algae_tsmax = self.water_conc_1[sim_num] * (self.aq_plant_algae_bcf_mean[sim_num] / 1000.)
+        upper_sg_tsmax = self.out_diet_eec_upper_min_sg.max()
+        mean_sg_tsmax = self.out_diet_eec_mean_min_sg.max()
+        upper_blp_tsmax = self.out_diet_eec_upper_min_blp.max()
+        mean_blp_tsmax = self.out_diet_eec_mean_min_blp.max()
+        upper_fp_tsmax = self.out_diet_eec_upper_min_fp.max()
+        mean_fp_tsmax = self.out_diet_eec_mean_min_fp.max()
+        upper_lg_mamm_tsmax = self.out_diet_eec_upper_min_lg_mamm.max()
+        mean_lg_mamm_tsmax = self.out_diet_eec_mean_min_lg_mamm.max()
+        upper_tg_tsmax = self.out_diet_eec_upper_min_tg.max()
+        mean_tg_tsmax = self.out_diet_eec_mean_min_tg.max()
+
         # set value for volumetric fraction of droplet spectrum related to bird respiration limits
         self.max_respire_frac_minapp = self.set_max_respire_frac(self.app_method_min[sim_num], self.droplet_spec_min[sim_num])
         self.max_respire_frac_maxapp = self.set_max_respire_frac(self.app_method_max[sim_num], self.droplet_spec_max[sim_num])
+
+        for i in range(len(self.com_name)):
+            if (self.diet_item[i] == 'arthropods'):
+                self.out_diet_conc_upper_min[i] = upper_arthro_tsmax
+                self.out_diet_conc_mean_min[i] = mean_arthro_tsmax
+            elif (self.diet_item[i] == 'soil inverts'):
+                self.out_diet_conc_upper_min[i] = upper_soil_inv_tsmax
+                self.out_diet_conc_mean_min[i] = 'NA'
+            elif (self.diet_item[i] == 'amphibians'):
+                self.out_diet_conc_upper_min[i] = upper_sm_amphi_tsmax
+                self.out_diet_conc_mean_min[i] = mean_sm_amphi_tsmax
+            elif (self.diet_item[i] == 'mammals (small)'):
+                self.out_diet_conc_upper_min[i] = upper_sm_mamm_tsmax
+                self.out_diet_conc_mean_min[i] = mean_sm_mamm_tsmax
+            elif (self.diet_item[i] == 'benthic inverts'):
+                self.out_diet_conc_upper_min[i] = upper_inverts_tsmax
+                self.out_diet_conc_mean_min[i] = mean_inverts_tsmax
+            elif (self.diet_item[i] == 'birds'):
+                self.out_diet_conc_upper_min[i] = upper_sm_bird_tsmax
+                self.out_diet_conc_mean_min[i] = mean_sm_bird_tsmax
+            elif (self.diet_item[i] == 'fish, aq amphibians'):
+                self.out_diet_conc_upper_min[i] = upper_fish_tsmax
+                self.out_diet_conc_mean_min[i] = mean_fish_tsmax
+            elif (self.diet_item[i] == 'fish'):
+                self.out_diet_conc_upper_min[i] = upper_fish_tsmax
+                self.out_diet_conc_mean_min[i] = mean_fish_tsmax
+            elif (self.diet_item[i] == 'filter feeders'):
+                self.out_diet_conc_upper_min[i] = upper_inverts_tsmax
+                self.out_diet_conc_mean_min[i] = mean_inverts_tsmax
+            elif (self.diet_item[i] == 'reptiles'):
+                self.out_diet_conc_upper_min[i] = upper_sm_amphi_tsmax
+                self.out_diet_conc_mean_min[i] = mean_sm_amphi_tsmax
+            elif (self.diet_item[i] == 'algae'):
+                self.out_diet_conc_upper_min[i] = upper_plant_algae_tsmax
+                self.out_diet_conc_mean_min[i] = mean_plant_algae_tsmax
+            elif (self.diet_item[i] == 'grass'):
+                self.out_diet_conc_upper_min[i] = upper_sg_tsmax
+                self.out_diet_conc_mean_min[i] = mean_sg_tsmax
+            elif (self.diet_item[i] == 'leaves'):
+                self.out_diet_conc_upper_min[i] = upper_blp_tsmax
+                self.out_diet_conc_mean_min[i] = mean_blp_tsmax
+            elif (self.diet_item[i] == 'seeds'):
+                self.out_diet_conc_upper_min[i] = upper_fp_tsmax
+                self.out_diet_conc_mean_min[i] = mean_fp_tsmax
+            elif (self.diet_item[i] == 'fruit'):
+                self.out_diet_conc_upper_min[i] = upper_fp_tsmax
+                self.out_diet_conc_mean_min[i] = mean_fp_tsmax
+            elif (self.diet_item[i] == 'leaves, flowers'):
+                self.out_diet_conc_upper_min[i] = upper_blp_tsmax
+                self.out_diet_conc_mean_min[i] = mean_blp_tsmax
+            elif (self.diet_item[i] == 'zooplankton'):
+                self.out_diet_conc_upper_min[i] = upper_inverts_tsmax
+                self.out_diet_conc_mean_min[i] = mean_inverts_tsmax
+            elif (self.diet_item[i] == 'aquatic plants'):
+                self.out_diet_conc_upper_min[i] = upper_plant_algae_tsmax
+                self.out_diet_conc_mean_min[i] = mean_plant_algae_tsmax
+            elif (self.diet_item[i] == 'carrion'):
+                self.out_diet_conc_upper_min[i] = upper_lg_mamm_tsmax
+                self.out_diet_conc_mean_min[i] = mean_lg_mamm_tsmax
+            elif (self.diet_item[i] == 'nectar'):
+                self.out_diet_conc_upper_min[i] = upper_tg_tsmax
+                self.out_diet_conc_mean_min[i] = mean_tg_tsmax
+            elif (self.diet_item[i] == 'leaves (surrogate for fungi)'):
+                self.out_diet_conc_upper_min[i] = upper_blp_tsmax
+                self.out_diet_conc_mean_min[i] = mean_blp_tsmax
+            elif (self.diet_item[i] == 'mammals (large)'):
+                self.out_diet_conc_upper_min[i] = upper_lg_mamm_tsmax
+                self.out_diet_conc_mean_min[i] = mean_lg_mamm_tsmax
+            elif (self.diet_item[i] == 'nectar, pollen'):
+                self.out_diet_conc_upper_min[i] = upper_tg_tsmax
+                self.out_diet_conc_mean_min[i] = mean_tg_tsmax
+            elif (self.diet_item[i] == 'pollen'):
+                self.out_diet_conc_upper_min[i] = upper_tg_tsmax
+                self.out_diet_conc_mean_min[i] = mean_tg_tsmax
+            elif (self.diet_item[i] == 'bark (twigs), pine  needles (grass as surrogate'):
+                self.out_diet_conc_upper_min[i] = upper_sg_tsmax
+                self.out_diet_conc_mean_min[i] = mean_sg_tsmax
+            elif (self.diet_item[i] == 'aquatic plants, algae'):
+                self.out_diet_conc_upper_min[i] = upper_plant_algae_tsmax
+                self.out_diet_conc_mean_min[i] = mean_plant_algae_tsmax
+            else:
+                pass
+        return
+
+
+
+

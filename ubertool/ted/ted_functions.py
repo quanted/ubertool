@@ -693,31 +693,31 @@ class TedFunctions(object):
 
         # invertebrates tissue concentrations (using mean BCF values)
         self.tissue_conc_aq_invert_mean_1 = self.aq_conc_level1 * self.inv_bcf_mean / self.mg_to_ug
-        self.tissue_conc_aq_invert_mean_2 = self.aq_conc_level1 * self.inv_bcf_mean / self.mg_to_ug
-        self.tissue_conc_aq_invert_mean_3 = self.aq_conc_level1 * self.inv_bcf_mean / self.mg_to_ug
-        self.tissue_conc_aq_invert_mean_4 = self.aq_conc_level1 * self.inv_bcf_mean / self.mg_to_ug
-        self.tissue_conc_aq_invert_mean_5 = self.aq_conc_level1 * self.inv_bcf_mean / self.mg_to_ug
+        self.tissue_conc_aq_invert_mean_2 = self.aq_conc_level2 * self.inv_bcf_mean / self.mg_to_ug
+        self.tissue_conc_aq_invert_mean_3 = self.aq_conc_level3 * self.inv_bcf_mean / self.mg_to_ug
+        self.tissue_conc_aq_invert_mean_4 = self.aq_conc_level4 * self.inv_bcf_mean / self.mg_to_ug
+        self.tissue_conc_aq_invert_mean_5 = self.aq_conc_level5 * self.inv_bcf_mean / self.mg_to_ug
 
         # invertebrate tissue concentrations (using upper bound BCF values)
         self.tissue_conc_aq_invert_upper_1 = self.aq_conc_level1 * self.inv_bcf_upper / self.mg_to_ug
-        self.tissue_conc_aq_invert_upper_2 = self.aq_conc_level1 * self.inv_bcf_upper / self.mg_to_ug
-        self.tissue_conc_aq_invert_upper_3 = self.aq_conc_level1 * self.inv_bcf_upper / self.mg_to_ug
-        self.tissue_conc_aq_invert_upper_4 = self.aq_conc_level1 * self.inv_bcf_upper / self.mg_to_ug
-        self.tissue_conc_aq_invert_upper_5 = self.aq_conc_level1 * self.inv_bcf_upper / self.mg_to_ug
+        self.tissue_conc_aq_invert_upper_2 = self.aq_conc_level2 * self.inv_bcf_upper / self.mg_to_ug
+        self.tissue_conc_aq_invert_upper_3 = self.aq_conc_level3 * self.inv_bcf_upper / self.mg_to_ug
+        self.tissue_conc_aq_invert_upper_4 = self.aq_conc_level4 * self.inv_bcf_upper / self.mg_to_ug
+        self.tissue_conc_aq_invert_upper_5 = self.aq_conc_level5 * self.inv_bcf_upper / self.mg_to_ug
 
         # fish tissue concentrations (using mean BCF values)
         self.tissue_conc_aq_fish_mean_1 = self.aq_conc_level1 * self.fish_bcf_mean / self.mg_to_ug
-        self.tissue_conc_aq_fish_mean_2 = self.aq_conc_level1 * self.fish_bcf_mean / self.mg_to_ug
-        self.tissue_conc_aq_fish_mean_3 = self.aq_conc_level1 * self.fish_bcf_mean / self.mg_to_ug
-        self.tissue_conc_aq_fish_mean_4 = self.aq_conc_level1 * self.fish_bcf_mean / self.mg_to_ug
-        self.tissue_conc_aq_fish_mean_5 = self.aq_conc_level1 * self.fish_bcf_mean / self.mg_to_ug
+        self.tissue_conc_aq_fish_mean_2 = self.aq_conc_level2 * self.fish_bcf_mean / self.mg_to_ug
+        self.tissue_conc_aq_fish_mean_3 = self.aq_conc_level3 * self.fish_bcf_mean / self.mg_to_ug
+        self.tissue_conc_aq_fish_mean_4 = self.aq_conc_level4 * self.fish_bcf_mean / self.mg_to_ug
+        self.tissue_conc_aq_fish_mean_5 = self.aq_conc_level5 * self.fish_bcf_mean / self.mg_to_ug
 
         # fish tissue concentrations (using upper bound BCF values)
         self.tissue_conc_aq_fish_upper_1 = self.aq_conc_level1 * self.fish_bcf_upper / self.mg_to_ug
-        self.tissue_conc_aq_fish_upper_2 = self.aq_conc_level1 * self.fish_bcf_upper / self.mg_to_ug
-        self.tissue_conc_aq_fish_upper_3 = self.aq_conc_level1 * self.fish_bcf_upper / self.mg_to_ug
-        self.tissue_conc_aq_fish_upper_4 = self.aq_conc_level1 * self.fish_bcf_upper / self.mg_to_ug
-        self.tissue_conc_aq_fish_upper_5 = self.aq_conc_level1 * self.fish_bcf_upper / self.mg_to_ug
+        self.tissue_conc_aq_fish_upper_2 = self.aq_conc_level2 * self.fish_bcf_upper / self.mg_to_ug
+        self.tissue_conc_aq_fish_upper_3 = self.aq_conc_level3 * self.fish_bcf_upper / self.mg_to_ug
+        self.tissue_conc_aq_fish_upper_4 = self.aq_conc_level4 * self.fish_bcf_upper / self.mg_to_ug
+        self.tissue_conc_aq_fish_upper_5 = self.aq_conc_level5 * self.fish_bcf_upper / self.mg_to_ug
 
 
     def calc_runoff_params(self, i, app_method, app_rate, pest_incorp_depth):
@@ -907,7 +907,7 @@ class TedFunctions(object):
                      concentration of interest
         :param app_method; application method (aerial/ground/airblast)
         :param drop_size; droplet spectrum for application (see list below for aerial/ground - 'NA' if airblast)
-        :param max_respire_frac; volumetric fraction of droplet spectrum not exceeding the upper size liit of respired particles for birds
+        :param max_respire_frac; volumetric fraction of droplet spectrum not exceeding the upper size limit of respired particles for birds
 
         :NOTE this represents specification from OPP TED Excel 'inputs' worksheet columns H & I rows 14 - 16
               these values are used in the 'min/max rate doses' worksheet column S (while referenced here as the MAX of
