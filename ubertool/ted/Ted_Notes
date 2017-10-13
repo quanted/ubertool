@@ -4,7 +4,7 @@
    The value of 3.7 is associated with 'Other birds not in Passeriformes order'.
 2. Same spreadsheet/worksheet/columns as #1.  The allomeric parameters for dietary intake for amphibians
    are a1=.301 and b1=.751.  The values listed in Table A 1-7.5 for reptiles and amphibians are
-   a1=.013 and b1=.773.  IT LOOKS LIKE ALL VALUES OF ALLOMETRIC PARAMETERS SHOULD BE VERIFIED.
+   a1=.013 and b1=.773.  IT LOOKS LIKE ALL VALUES OF ALLOMETRIC PARAMETERS (AND WHERE THEY ARE USED) SHOULD BE VERIFIED.
 3. Dermal equivalency factor (for use in Eq 13 of Attachment A 1-7): The equivalency factor is the
    ratio of the LD50(oral) to the LD50(dermal).  Eqs 14&15 are used to compute the factor for birds using
    LD50(oral) data for birds; Eq 14 is used to compute the factor for mammals using LD50(oral) and LD50(dermal)
@@ -36,3 +36,10 @@
    for the water concentration (from inputs!$C66) used to compute the "Upper bound Conc. in diet (mg/kg" (Column I) represents
    the higher water concentration when it should be the lower (from inputs!$C65).  Subsequent occurences of 'benthic invets'
    use the correct water concentration.
+8. In the 'Min/Max rate doses' worksheets in columns L (Mean diet dose) and P (Dermal dose - spray) several row entries are
+   blank (not 'NA' and empty of a formula).  There is no clear pattern involved, although by far the blank cells involve
+   food item 'seeds' (other food items are involved but 'seeds' dominates).  All the numbers needed to calculate a cell value
+   are available, thus the blank cells seem like an error.  For all blank cells there is a value calculated in column
+   K (Upper bound diet dose), which suggests the 'Mean diet dose' should also be calculated. The python code calculates
+   values (doses) for these cells using the same approach as is used for all cells with values.  If this is not correct the code
+   needs to be changed.
