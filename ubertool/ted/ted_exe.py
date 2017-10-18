@@ -30,7 +30,7 @@ class TedSpeciesProperties(object):
         self.diet_item = pd.Series([], dtype='object')
         self.h2o_cont = pd.Series([], dtype='float')
 
-    def ReadSpeciesProperties(self):
+    def read_species_properties(self):
         # this is a temporary method to initiate the species/diet food items lists (this will be replaced with
         # a method to access a SQL database containing the properties
         filename = './ted/tests/TEDSpeciesProperties.csv'
@@ -371,6 +371,15 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedAggregateMethods, T
 
         # calculate estimated tissue concentrations in aquatic invertebrates and fish using BCFs (worksheet 'aquatic organism tissue concs')
         self.calc_aq_invert_fish_concs()          # for all simulations
+
+        # read species properties from database
+        self.read_species_properties()
+
+        # calculate species body surface areas
+        self.calc_species_surface_area()
+
+        # calculate species specific volume of air respired
+        self.calc_species_inhalation_vol()
 
         # process simulations--------------------------------------------------------------------
         for sim_num in range(self.num_simulations):

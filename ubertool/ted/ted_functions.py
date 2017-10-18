@@ -65,9 +65,9 @@ class TedFunctions(object):
         """
 
         if(water_type=="puddles"):
-            return (application_rate*self.app_rate_conv) / (self.h2o_depth_puddles + (self.soil_depth*(self.soil_porosity + (self.soil_bulk_density*self.koc[i]*self.soil_foc))))
+            return (application_rate*self.app_rate_conv1) / (self.h2o_depth_puddles + (self.soil_depth*(self.soil_porosity + (self.soil_bulk_density*self.koc[i]*self.soil_foc))))
         elif(water_type=="pore_water"):
-            return (application_rate*self.app_rate_conv) / (self.h2o_depth_soil + (self.soil_depth*(self.soil_porosity + (self.soil_bulk_density*self.koc[i]*self.soil_foc))))
+            return (application_rate*self.app_rate_conv1) / (self.h2o_depth_soil + (self.soil_depth*(self.soil_porosity + (self.soil_bulk_density*self.koc[i]*self.soil_foc))))
 
         return
 
@@ -91,6 +91,94 @@ class TedFunctions(object):
         conc_air = mass_pest / (volume_air + (self.mass_plant * 10.**(log_biotransfer_factor) / self.density_plant))
 
         return conc_air
+
+    def calc_air_conc_drops_minmaxapp(self, sim_num):
+        """
+        :description calculate pesticide concentration in volume of air for the time step immediately following pesticide application (ug/mL)
+                     (calculate for both minimum and maximum application scenarios)
+
+        NOTE: this represents Eq 18 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment'
+
+        :return:
+        """
+
+        # for minimum application scenario
+        if (self.app_method_min[sim_num] == 'aerial'):
+            timestep_frac_min = self.app_frac_timestep_aerial
+            release_hgt_min = self.spray_release_hgt_aerial
+        else:
+            timestep_frac_min = self.app_frac_timestep_gnd_blast
+            release_hgt_min = self.spray_release_hgt_gnd_blast
+        # for maximum application scenario
+        if (self.app_method_max[sim_num] == 'aerial'):
+            timestep_frac_max = self.app_frac_timestep_aerial
+            release_hgt_max = self.spray_release_hgt_aerial
+        else:
+            timestep_frac_max = self.app_frac_timestep_gnd_blast
+            release_hgt_max = self.spray_release_hgt_gnd_blast
+
+        self.air_conc_drops_min[sim_num] = (timestep_frac_min * self.app_rate_min[sim_num] * self.app_rate_conv2) / release_hgt_min
+        self.air_conc_drops_max[sim_num] = (timestep_frac_max * self.app_rate_max[sim_num] * self.app_rate_conv2) / release_hgt_max
+        return
+
+    def calc_species_inhalation_vol(self):
+        """
+        :description calculate species specific volume of air respired
+
+        NOTE: this represents Eq 19 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment'
+
+        :return:
+        """
+
+        # initialize panda series to contain inhalation volume results
+        self.species_inhalation_vol = pd.Series(len(self.com_name) * [0.0], dtype='float')
+
+        for i in range(len(self.com_name)):
+            if (self.taxa[i] == 'Birds'):
+                param_a = self.inhal_rate_birds_a4
+                param_b = self.inhal_rate_birds_b4
+            elif (self.taxa[i] == 'Mammals'):
+                param_a = self.inhal_rate_mamm_a4
+                param_b = self.inhal_rate_mamm_b4
+            elif (self.taxa[i] == 'Reptiles' or self.taxa[i] == 'Amphibians'):
+                param_a = self.inhal_rate_rep_amphi_a4
+                param_b = self.inhal_rate_rep_amphi_b4
+            else:
+                print ("Species taxa not identified. Method: calc_species_inhalation_vol")
+
+            self.species_inhalation_vol[i] = (self.lab_to_field_factor * self.minutes_per_hr) * (param_a * ((self.body_wgt[i] / 1000.) ** param_b))
+        return
+
+    def calc_oral_dose_equiv_factor(self):
+        def calc_species_derm_spray_dose_minmaxapp(self, sim_num):
+            """
+            :description calculates the oral dose equivalence used to compute inhalation doses
+            :param sim_num model simulation number
+
+            NOTE: this method implements Eq 20 and 22 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment'
+                  - Eq 21 is related to these calculations however, it appears that Eq 22 would be the users responsibility to implement outside the model
+
+            :return:
+            """
+
+            # initialize panda series to contain results
+            self.out_derm_spray_dose_min = pd.Series(len(self.com_name) * ['NA'], dtype='object')
+            self.out_derm_spray_dose_max = pd.Series(len(self.com_name) * ['NA'], dtype='object')
+
+            for i in range(len(self.com_name)):
+                # calculate dermal route equivalency factor
+                if (self.taxa[i] == 'Birds'):
+                    log10_derm_ld50 = 0.84 + 0.62 * np.log10(self.dbt_bird_low_ld50[sim_num])
+                    oral_equiv_factor = self.dbt_bird_low_ld50[sim_num] / (10. ** (log10_derm_ld50))
+                elif (self.taxa[i] == 'Mammals'):
+                    if (self.dbt_mamm_rat_oral_ld50[sim_num] == 'NA' or self.dbt_mamm_rat_derm_ld50[sim_num] == 'NA'):
+                        oral_equiv_factor = 1.0  # if either toxicity number is NA then default value of 1 is used
+                    else:
+                        oral_equiv_factor = self.dbt_mamm_rat_oral_ld50[sim_num] / self.dbt_mamm_rat_inhal_ld50[sim_num]
+                elif (self.taxa[i] == 'Amphibians'):
+                    oral_equiv_factor = 1.0
+                elif (self.taxa[i] == 'Reptiles'):
+                    oral_equiv_factor = 1.0  # this assumption should be checked against text in Attachment 1-7 of Biological Evaluation Chapters for Diazinon ESA Assessment; Dermal equivalency factor
 
     def conc_timestep(self, conc_ini, half_life):  # similar but different from method used in TREX
         """
@@ -259,6 +347,24 @@ class TedFunctions(object):
         food_intake_rate = (a1 * body_wgt**b1) / (1. - frac_h2o)
 
         return food_intake_rate
+
+    def animal_h20_intake(self, a2, b2, c2, body_wgt):
+        """
+        :description calculates total water intake for animals (mammals, birds, amphibians, reptiles)
+        :param a2; coefficient of allometric expression
+        :param b2; exponent of allometric expression
+        :param c2; divisor of allometric expression
+        :param body_wgt; body weight of species (g)
+
+               # this represents Eqs 9 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment'
+
+        :return:
+        """
+
+        # calculate daily dietary consumption rate # (g/day-ww)
+        h2o_intake_rate = (a2 * body_wgt**b2) / c2
+
+        return h2o_intake_rate
 
     def animal_dietary_dose(self, body_wgt, food_intake_rate, food_pest_conc):
         """
