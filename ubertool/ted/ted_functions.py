@@ -1841,3 +1841,24 @@ class TedFunctions(object):
             self.out_inhal_vapor_dose_max[i] = (spray_air_conc_maxapp * self.species_inhalation_vol[i] * self.max_respire_frac_maxapp * \
                                                 self.inhal_equiv_factor[i]) / self.body_wgt[i]
         return
+
+    def determine_max_dose_minmaxapp(self):
+        """
+        :description scan the species specific doses and determine maximum for both minimum and maximum application scenarios
+
+        NOTE: these maximum doses are used in calculations of distances to risk thresholds and ratios of doses to mortality/sublethal thresholds
+              (these distances and thresholds are contained in the OPP TED spreadsheet model in worksheets 'Min/Max rate doses' columns T, U, Z, AA
+        :return:
+        """
+
+        self.out_species_max_dose_minapp = pd.Series(len(self.com_name) * [0.0], dtype='float')
+        self.out_species_max_dose_maxapp= pd.Series(len(self.com_name) * [0.0], dtype='float')
+
+        for i in range(len(self.com_name)):
+            self.out_species_max_dose_minapp[i] = [self.out_diet_conc_upper_min[i], self.out_diet_conc_mean_min[i], self.out_h2opuddles_dose_min[i], \
+                                                   self.out_h2odew_dose_min[i], self.out_derm_contact_dose_upper_min[i], self.out_derm_contact_dose_mean_min[i], \
+                                                   self.out_derm_spray_dose_min[i], self.out_inhal_vapor_dose_min[i], self.out_inhal_vapor_dose_min[i]]
+
+            self.out_species_max_dose_maxapp[i] = [self.out_diet_conc_upper_max[i], self.out_diet_conc_mean_max[i], self.out_h2opuddles_dose_max[i], \
+                                                   self.out_h2odew_dose_max[i], self.out_derm_contact_dose_upper_max[i], self.out_derm_contact_dose_mean_max[i], \
+                                                   self.out_derm_spray_dose_max[i], self.out_inhal_vapor_dose_max[i], self.out_inhal_vapor_dose_max[i]]

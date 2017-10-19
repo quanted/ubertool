@@ -469,7 +469,7 @@ class TedAggregateMethods(object):
         self.eec_tox_frac_reptile_1 = self.calc_eec_tox_frac(self.num_ts, self.num_tox, self.eec_ts_upper_min_1, self.tox_cbt_reptile)
         self.eec_tox_frac_inv_1 = self.calc_eec_tox_frac(self.num_ts, self.num_tox, self.eec_ts_upper_min_1, self.tox_cbt_inv)
 
-        # calculate distances from source area related to max daily concentration
+        # calculate distances from source area related to max daily concentration (minimum application scenario)
         self.eec_dist_upper_min_mamm = self.calc_maxeec_distance(self.eec_tox_frac_mamm_1, self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
         self.eec_dist_upper_min_bird = self.calc_maxeec_distance(self.eec_tox_frac_bird_1, self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
         self.eec_dist_upper_min_reptile = self.calc_maxeec_distance(self.eec_tox_frac_reptile_1, self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
@@ -490,7 +490,7 @@ class TedAggregateMethods(object):
         self.eec_tox_frac_reptile_1 = self.calc_eec_tox_frac(self.num_ts, self.num_tox, self.eec_ts_upper_max_1, self.tox_cbt_reptile)
         self.eec_tox_frac_inv_1 = self.calc_eec_tox_frac(self.num_ts, self.num_tox, self.eec_ts_upper_max_1, self.tox_cbt_inv)
 
-        # calculate distances from source area related to max daily concentration (not calculated for minimum application scenario)
+        # calculate distances from source area related to max daily concentration (maximum application scenario)
         self.eec_dist_upper_max_mamm = self.calc_maxeec_distance(self.eec_tox_frac_mamm_1, self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
         self.eec_dist_upper_max_bird = self.calc_maxeec_distance(self.eec_tox_frac_bird_1, self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
         self.eec_dist_upper_max_reptile = self.calc_maxeec_distance(self.eec_tox_frac_reptile_1, self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
@@ -540,5 +540,10 @@ class TedAggregateMethods(object):
         # calculate inhalation vapor/spray doses
         self.calc_species_inhal_dose_vapor()
         self.calc_species_inhal_dose_spray(sim_num)
+
+        # scan species specific doses (from diet based to inhalation) and determine masimum
+        self.determine_max_dose_minmaxapp()
+
+
 
         return
