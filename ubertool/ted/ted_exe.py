@@ -378,7 +378,7 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedAggregateMethods, T
         # calculate species body surface areas
         self.calc_species_surface_area()
 
-        # calculate species specific volume of air respired
+        # calculate species specific volume of air respired (for use in calculating inhalation vapor/spray doses)
         self.calc_species_inhalation_vol()
 
         # process simulations--------------------------------------------------------------------
