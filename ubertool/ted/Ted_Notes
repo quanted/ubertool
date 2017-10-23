@@ -54,7 +54,7 @@
    Table.  The Python code is coded using values in the Table (i.e. the spreadsheet is assumed incorrect).  The values from the Table
    are coded in the 'set_global_constants' method and could be modeified there.
 11.With regards to the dermal route equivalency factor (Fred : Table A 1-7.9 and related discussion) the text states that "Since
-   avian toxicity data is used as a surogate for reptiles, this equation will also be applied to reptiles".  "This equation" I believe
+   avian toxicity data is used as a surrogate for reptiles, this equation will also be applied to reptiles".  "This equation" I believe
    refers to Eq 15, which suggests that the dermal equivalency factor to be used in the model is the same for birds and
    reptiles.  However, in the TED spreadsheet, worksheet 'Min/Max rate doses' the calculation of dermal dose due to spray for reptiles
    assumes the dermal equivalency factor equal to 1.0. The Python code follows the spreadsheet because the text is not definitive.
@@ -73,3 +73,7 @@
    birds and mammals and assumed equal to 1.0 for amphibians and reptiles.  The Python code implements Eq 20 for mammals (or Eq 22 for birds) for
    both the aerial and ground application options (which means the worksheet implementation that is the inverse of Eq 20 is actually coded
    to match the documentation.  The coding related to issue 12 and 13 can be found in method 'calc_oral_dose_equiv_factor'.
+14.The expressions for calculating the various toxicity thresholds (OPP TED spreadsheet worksheets 'Min/Max rate doses' columns: V, W, X)
+   contain an inconsistency that may be an error.  The calculation for birds, amphibians, and reptiles is of the form
+   [toxicity# * (body wgt/toxicity#)**exp] while the calculation for mammals is of the form [toxicity# * (toxicity#/body wgt)**exp].  The python
+   code applys the birds et al form to mammals as well (i.e., assume the worksheet is in error).

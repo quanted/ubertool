@@ -1851,14 +1851,166 @@ class TedFunctions(object):
         :return:
         """
 
-        self.out_species_max_dose_minapp = pd.Series(len(self.com_name) * [0.0], dtype='float')
-        self.out_species_max_dose_maxapp= pd.Series(len(self.com_name) * [0.0], dtype='float')
+        self.out_species_max_dose_minapp = pd.Series(len(self.com_name) * [0.0], dtype='object')
+        self.out_species_max_dose_maxapp= pd.Series(len(self.com_name) * [0.0], dtype='object')
 
         for i in range(len(self.com_name)):
-            self.out_species_max_dose_minapp[i] = [self.out_diet_conc_upper_min[i], self.out_diet_conc_mean_min[i], self.out_h2opuddles_dose_min[i], \
-                                                   self.out_h2odew_dose_min[i], self.out_derm_contact_dose_upper_min[i], self.out_derm_contact_dose_mean_min[i], \
-                                                   self.out_derm_spray_dose_min[i], self.out_inhal_vapor_dose_min[i], self.out_inhal_vapor_dose_min[i]]
+           # compile all doses for this species into a single series variable
+           temp_values = pd.Series([self.out_diet_dose_upper_min[i], self.out_diet_dose_mean_min[i], self.out_h2opuddles_dose_min[i], \
+                                     self.out_h2odew_dose_min[i], self.out_derm_contact_dose_upper_min[i], self.out_derm_contact_dose_mean_min[i], \
+                                     self.out_derm_spray_dose_min[i], self.out_inhal_vapor_dose_min[i], self.out_inhal_vapor_dose_min[i]])
 
-            self.out_species_max_dose_maxapp[i] = [self.out_diet_conc_upper_max[i], self.out_diet_conc_mean_max[i], self.out_h2opuddles_dose_max[i], \
+           # replace all 'NA' with np.nan to allow use of .max property for finding max dose (this is an inelegant solution for a list comprehension)
+           for j in range(len(temp_values)):
+               if (temp_values[j] == 'NA'):
+                   temp_values[j] = np.NaN
+
+           self.out_species_max_dose_minapp[i] = temp_values.max()
+
+           temp_values = pd.Series([self.out_diet_dose_upper_max[i], self.out_diet_dose_mean_max[i], self.out_h2opuddles_dose_max[i], \
                                                    self.out_h2odew_dose_max[i], self.out_derm_contact_dose_upper_max[i], self.out_derm_contact_dose_mean_max[i], \
-                                                   self.out_derm_spray_dose_max[i], self.out_inhal_vapor_dose_max[i], self.out_inhal_vapor_dose_max[i]]
+                                                   self.out_derm_spray_dose_max[i], self.out_inhal_vapor_dose_max[i], self.out_inhal_vapor_dose_max[i]])
+
+           # replace all 'NA' with np.nan to allow use of .max property for finding max dose (this is an inelegant solution for a list comprehension)
+           for j in range(len(temp_values)):
+               if (temp_values[j] == 'NA'):
+                   temp_values[j] = np.NaN
+
+           self.out_species_max_dose_maxapp[i] = temp_values.max()
+        return
+
+    def calc_species_mortality_thres(self, sim_num):
+        """
+        :description calculate the mortality threshold
+
+        NOTE: (these thresholds are contained in the OPP TED spreadsheet model in worksheets 'Min/Max rate doses' column V
+              they are the same value for both min and max application scenarios
+        :return:
+
+        """
+
+        self.species_mortality_thres = pd.Series(len(self.com_name) * [0.0], dtype='float')
+
+        for i in range(len(self.com_name)):
+            if (self.taxa[i] == 'Amphibians' or self.taxa[i] == 'Reptiles'):
+                self.species_mortality_thres[i] = self.dbt_reptile_1inmill_mort[sim_num] * (self.body_wgt[i] / self.dbt_reptile_1inmill_mort_wgt[sim_num]) # amphibian params same as reptile
+            elif (self.taxa[i] == 'Birds'):
+                self.species_mortality_thres[i] = self.dbt_bird_1inmill_mort[sim_num] * (self.body_wgt[i] / self.dbt_bird_1inmill_mort_wgt[sim_num])**(self.mineau_sca_fact[sim_num] - 1.)
+            elif (self.taxa[i] == 'Mammals'):
+                self.species_mortality_thres[i] = self.dbt_mamm_1inmill_mort[sim_num] * (self.body_wgt[i] / self.dbt_mamm_1inmill_mort_wgt[sim_num])**0.25
+        return
+
+    def calc_species_sublethal_thres(self, sim_num):
+        """
+        :description calculate the sublethal threshold
+
+        NOTE: (these thresholds are contained in the OPP TED spreadsheet model in worksheets 'Min/Max rate doses' column W
+               they are the same value for both min and max application scenarios
+
+        :return:
+
+        """
+
+        self.species_sublethal_thres = pd.Series(len(self.com_name) * [0.0], dtype='float')
+
+        for i in range(len(self.com_name)):
+            if (self.taxa[i] == 'Amphibians' or self.taxa[i] == 'Reptiles'):
+                self.species_sublethal_thres[i] = self.dbt_reptile_sub_direct[sim_num] * (self.body_wgt[i] / self.dbt_reptile_sub_direct_wgt[sim_num]) # amphibian params same as reptile
+            elif (self.taxa[i] == 'Birds'):
+                self.species_sublethal_thres[i] = self.dbt_bird_sub_direct[sim_num] * (self.body_wgt[i] / self.dbt_bird_sub_direct_wgt[sim_num])**(self.mineau_sca_fact[sim_num] - 1.)
+            elif (self.taxa[i] == 'Mammals'):
+                self.species_sublethal_thres[i] = self.dbt_mamm_sub_direct[sim_num] * (self.body_wgt[i] / self.dbt_mamm_sub_direct_wgt[sim_num])**0.25
+        return
+
+    def calc_species_lowld50_thres(self, sim_num):
+        """
+        :description calculate the lowest LD50 threshold
+
+        NOTE: (these thresholds are contained in the OPP TED spreadsheet model in worksheets 'Min/Max rate doses' column X
+              they are the same value for both min and max application scenarios
+
+        :return:
+
+        """
+
+        self.species_lowld50_thres = pd.Series(len(self.com_name) * [0.0], dtype='float')
+
+        for i in range(len(self.com_name)):
+            if (self.taxa[i] == 'Amphibians' or self.taxa[i] == 'Reptiles'):
+                self.species_lowld50_thres[i] = self.dbt_reptile_low_ld50[sim_num] * (self.body_wgt[i] / self.dbt_reptile_low_ld50_wgt[sim_num]) # amphibian params same as reptile
+            elif (self.taxa[i] == 'Birds'):
+                self.species_lowld50_thres[i] = self.dbt_bird_low_ld50[sim_num] * (self.body_wgt[i] / self.dbt_bird_low_ld50_wgt[sim_num])**(self.mineau_sca_fact[sim_num] - 1.)
+            elif (self.taxa[i] == 'Mammals'):
+                self.species_lowld50_thres[i] = self.dbt_mamm_low_ld50[sim_num] * (self.body_wgt[i] / self.dbt_mamm_low_ld50_wgt[sim_num])**0.25
+        return
+
+    def calc_species_hc50_thres(self, sim_num):
+        """
+        :description calculate the HC50 threshold (only applicable to birds)
+
+        NOTE: (these thresholds are contained in the OPP TED spreadsheet model in worksheets 'Min/Max rate doses' column Y
+              they are the same value for both min and max application scenarios
+
+        :return:
+
+        """
+
+        self.species_hc50_thres = pd.Series(len(self.com_name) * ['NA'], dtype='object')
+
+        for i in range(len(self.com_name)):
+            if (self.taxa[i] == 'Amphibians' or self.taxa[i] == 'Reptiles' or self.taxa[i] == 'Mammals'):
+                self.species_hc50_thres[i] = 'NA'
+            elif (self.taxa[i] == 'Birds'):
+                self.species_hc50_thres[i] = self.dbt_bird_hc50[sim_num] * (self.body_wgt[i] / self.dbt_bird_hc50_wgt[sim_num])**(self.mineau_sca_fact[sim_num] - 1.)
+        return
+
+    def calc_distance_to_risk_thres(self, sim_num):
+        """
+        :description calculate the distance to where risk extends to mortality and LD50 thresholds
+
+        NOTE: (these distances are contained in the OPP TED spreadsheet model in worksheets 'Min/Max rate doses' column T & U
+        :return:
+
+        """
+
+        self.out_dist_to_mort_thres_min = pd.Series(len(self.com_name) * [0.0], dtype='float')
+        self.out_dist_to_ld50_thres_min = pd.Series(len(self.com_name) * [0.0], dtype='float')
+        self.out_dist_to_mort_thres_max = pd.Series(len(self.com_name) * [0.0], dtype='float')
+        self.out_dist_to_ld50_thres_max = pd.Series(len(self.com_name) * [0.0], dtype='float')
+
+        for i in range(len(self.com_name)):
+            mort_tox_ratio_min = self.species_mortality_thres[i] / self.out_species_max_dose_minapp[i]
+            ld50_tox_ratio_min = self.species_lowld50_thres[i] / self.out_species_max_dose_minapp[i]
+
+            mort_tox_ratio_max = self.species_mortality_thres[i] / self.out_species_max_dose_maxapp[i]
+            ld50_tox_ratio_max = self.species_lowld50_thres[i] / self.out_species_max_dose_maxapp[i]
+
+            # execute distance calculation method ( for two toxicity thresholds and min/max application scenarios)
+            self.out_dist_to_mort_thres_min[i] = self.drift_distance_calc(mort_tox_ratio_min, self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+            self.out_dist_to_ld50_thres_min[i] = self.drift_distance_calc(ld50_tox_ratio_min, self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
+            
+            self.out_dist_to_mort_thres_max[i] = self.drift_distance_calc(mort_tox_ratio_max, self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+            self.out_dist_to_ld50_thres_max[i] = self.drift_distance_calc(ld50_tox_ratio_max, self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
+        return
+
+    def calc_maxdose_toxthres_ratios(self, sim_num):
+        """
+        :description calculate the factor difference between max dose and 1) mortality threshold and 2) sublethal threshold
+
+        NOTE: (these calculations are contained in the OPP TED spreadsheet model in worksheets 'Min/Max rate doses' column Z & AA
+        :return:
+
+        """
+
+        self.out_maxdose_to_mort_ratio_min = pd.Series(len(self.com_name) * [0.0], dtype='float')
+        self.out_maxdose_to_sublethal_ratio_min = pd.Series(len(self.com_name) * [0.0], dtype='float')
+        self.out_maxdose_to_mort_ratio_max = pd.Series(len(self.com_name) * [0.0], dtype='float')
+        self.out_maxdose_to_sublethal_ratio_max = pd.Series(len(self.com_name) * [0.0], dtype='float')
+
+        for i in range(len(self.com_name)):
+
+            self.out_maxdose_to_mort_ratio_min[i] = self.out_species_max_dose_minapp[i] / self.species_mortality_thres[i]
+            self.out_maxdose_to_sublethal_ratio_min[i] = self.out_species_max_dose_minapp[i] / self.species_sublethal_thres[i]
+            self.out_maxdose_to_mort_ratio_max[i] = self.out_species_max_dose_maxapp[i] / self.species_mortality_thres[i]
+            self.out_maxdose_to_sublethal_ratio_max[i] = self.out_species_max_dose_maxapp[i] / self.species_sublethal_thres[i]
+        return

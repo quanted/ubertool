@@ -541,8 +541,26 @@ class TedAggregateMethods(object):
         self.calc_species_inhal_dose_vapor()
         self.calc_species_inhal_dose_spray(sim_num)
 
-        # scan species specific doses (from diet based to inhalation) and determine masimum
+        # scan species specific doses (from diet based to inhalation) and determine maximum
         self.determine_max_dose_minmaxapp()
+
+        # calculate Mortality threshold
+        self.calc_species_mortality_thres(sim_num)
+
+        # calculate sublethal threshold
+        self.calc_species_sublethal_thres(sim_num)
+
+        # calculate lowest LD50 threshold
+        self.calc_species_lowld50_thres(sim_num)
+
+        # calculate HC50 threshold
+        self.calc_species_hc50_thres(sim_num)
+
+        # calculate distances from source area to where toxicity thresholds occur
+        self.calc_distance_to_risk_thres(sim_num)
+
+        # calculate ratio of maximum dose to toxicity thresholds: mortality and sublethal
+        self.calc_maxdose_toxthres_ratios(sim_num)
 
 
 
