@@ -223,13 +223,16 @@ class TedAggregateMethods(object):
         self.calc_plant_tox_ratios()
 
         # calculate plant runoff-based EECs for min/max application scenarios
+        # (represents calculations found in columns C & D rows 9 - 10 in OPP TED Excel spreadsheet 'Plants' worksheet)
         self.runoff_eec_dry_area_min, self.runoff_eec_semiaq_area_min = self.calc_runoff_based_eec(self.app_rate_min[sim_num], self.pest_incorp_min, self.runoff_frac_min)
         self.runoff_eec_dry_area_max, self.runoff_eec_semiaq_area_max = self.calc_runoff_based_eec(self.app_rate_max[sim_num], self.pest_incorp_max, self.runoff_frac_max)
 
         # determine if plant EEC due to runoff exceeds various thresholds for pre-emergence of monocots and dicots
+        # (represents determinations found in columns C & D rows 14 - 28 in OPP TED Excel spreadsheet 'Plants' worksheet)
         self.plant_risk_conclusions(sim_num)
 
         # calculate plant risk threshold distances
+        # (represents columns C & D rows 32 to 51 in OPP TED Excel spreadsheet 'Plants' worksheet)
         self.plant_risk_threshold_distances(sim_num)
 
     def conc_based_eec_timeseries(self, sim_num):
@@ -506,25 +509,31 @@ class TedAggregateMethods(object):
         """
 
         # calculate upper bound and mean concentrations in diet per species/diet item combination (for min/max application scenarios)
+        # (represents columns I & J of worksheet 'Min/Max rate doses' of OPP TED spreadsheet model)
         self.calc_species_diet_concs_minapp(sim_num)
         self.calc_species_diet_concs_maxapp(sim_num)
 
         # calculate upper bound and mean dietary doses per species/dieatary item (for min/max application scenarios)
+        # (represents columns K & L of worksheet 'Min/Max rate doses' of OPP TED spreadsheet model)
         self.calc_species_diet_dose_minapp(sim_num)
         self.calc_species_diet_dose_maxapp(sim_num)
 
         # calculate water doses from puddle and dew water consumption
+        # represents columns M & N of worksheet 'Min/Max rate doses' of OPP TED spreadsheet model)
         self.calc_h2o_doses_minapp(sim_num)
         self.calc_h2o_doses_maxapp(sim_num)
 
         # calculate dermal to oral toxicity equivalency factors
+        # (this method implements Eqs 14 and 15 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment')
         self.calc_derm_route_equiv_factor(sim_num)
 
         # calculate dermal contact doses (upper bound and mean for minimum/maximum application scenarios)
+        # (method addresses columns O & P of worksheet 'Min/Max rate doses' of OPP TED spreadsheet model)
         self.calc_species_derm_contact_dose_minapp(sim_num)
         self.calc_species_derm_contact_dose_maxapp(sim_num)
 
         # calculate dermal spray doses (for minimum/maximum application scenarios)
+        # (represents column Q of worksheet 'Min rate doses' of OPP TED spreadsheet model)
         self.calc_species_derm_spray_dose_minmaxapp(sim_num)
 
         # calculate air concentration immediately after application (for use in calculating inhalation vapor/spray doses)
@@ -561,7 +570,5 @@ class TedAggregateMethods(object):
 
         # calculate ratio of maximum dose to toxicity thresholds: mortality and sublethal
         self.calc_maxdose_toxthres_ratios(sim_num)
-
-
 
         return

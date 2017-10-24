@@ -98,6 +98,7 @@ class TedFunctions(object):
                      (calculate for both minimum and maximum application scenarios)
 
         NOTE: this represents Eq 18 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment'
+              represents column S in OPP TED spreadsheet model
 
         :return:
         """
@@ -798,6 +799,7 @@ class TedFunctions(object):
     def calc_runoff_params(self, i, app_method, app_rate, pest_incorp_depth):
         """
         :description calculates runoff parameters used to calculate plant EECs for wet and dry areas
+                     found in worksheet 'plants' of OPP TED Excel spreadsheet model
 
         :param i; simulation number
         :param app_method; application method (aerial/ground/airblast)
@@ -1712,7 +1714,7 @@ class TedFunctions(object):
         :param
 
         NOTE: this method implements Eqs 14 thru 16 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment'
-              this method addresses columns O & P of worksheet 'Max rate doses' of OPP TED spreadsheet model
+              (represents calculations needed within columns O & P of worksheet 'Min/Max rate doses' of OPP TED spreadsheet model
               - only calculated for birds and mammals; 'NA' for reptiles and amphibians
         :return:
         """
