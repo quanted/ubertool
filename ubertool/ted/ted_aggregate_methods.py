@@ -501,8 +501,8 @@ class TedAggregateMethods(object):
 
     def species_doses(self, sim_num):
         """
-        :description executes collection of functions/methods associated with the 'min/max rate doses' worksheet in the OPP TED Excel model
-            # calculate species/food item specific doses and health measure ratios
+        :description executes collection of functions/methods associated with the 'Min/Max rate doses' worksheet in the OPP TED Excel model
+            # calculate species/food item specific doses (from exposure pathways) and health measure ratios
         :param sim_num model simulation number
 
         :return:
@@ -537,38 +537,48 @@ class TedAggregateMethods(object):
         self.calc_species_derm_spray_dose_minmaxapp(sim_num)
 
         # calculate air concentration immediately after application (for use in calculating inhalation vapor/spray doses)
+        # (represents Eq 18 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment')
         self.calc_air_conc_drops_minmaxapp(sim_num)
 
         # set value for volumetric fraction of droplet spectrum related to bird respiration limits (for use in calculating inhalation vapor/spray doses)
+        # (represents specification from OPP TED Excel 'inputs' worksheet columns H & I rows 14 - 16)
         self.max_respire_frac_minapp = self.set_max_respire_frac(self.app_method_min[sim_num], self.droplet_spec_min[sim_num])
         self.max_respire_frac_maxapp = self.set_max_respire_frac(self.app_method_max[sim_num], self.droplet_spec_max[sim_num])
 
         # calculate inhalation to oral toxicity equivalency factors (for use in calculating inhalation vapor/spray doses)
+        # (Eqs 20 and 22 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment')
         self.calc_inhal_route_equiv_factor(sim_num)
 
         # calculate inhalation vapor/spray doses
+        # (represents columns R & S of worksheets 'Min/Max rate doses' of OPP TED spreadsheet model)
         self.calc_species_inhal_dose_vapor()
         self.calc_species_inhal_dose_spray(sim_num)
 
         # scan species specific doses (from diet based to inhalation) and determine maximum
+        # are used in calculations included in worksheets 'Min/Max rate doses' columns T, U, Z, AA
         self.determine_max_dose_minmaxapp()
 
         # calculate Mortality threshold
+        # (represents column V in OPP TED spreadsheet model in worksheets 'Min/Max rate doses'
         self.calc_species_mortality_thres(sim_num)
 
         # calculate sublethal threshold
+        # (represents column W in OPP TED spreadsheet model in worksheets 'Min/Max rate doses'
         self.calc_species_sublethal_thres(sim_num)
 
         # calculate lowest LD50 threshold
+        # (represents column X in OPP TED spreadsheet model in worksheets 'Min/Max rate doses'
         self.calc_species_lowld50_thres(sim_num)
 
         # calculate HC50 threshold
+        # (represents column Y in OPP TED spreadsheet model in worksheets 'Min/Max rate doses'
         self.calc_species_hc50_thres(sim_num)
 
         # calculate distances from source area to where toxicity thresholds occur
+        # (represents columns T & U in OPP TED spreadsheet model in worksheets 'Min/Max rate doses'
         self.calc_distance_to_risk_thres(sim_num)
 
         # calculate ratio of maximum dose to toxicity thresholds: mortality and sublethal
+        # (represents columns Z & AA in OPP TED spreadsheet model in worksheets 'Min/Max rate doses'
         self.calc_maxdose_toxthres_ratios(sim_num)
-
         return

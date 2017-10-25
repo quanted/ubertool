@@ -98,7 +98,7 @@ class TedFunctions(object):
                      (calculate for both minimum and maximum application scenarios)
 
         NOTE: this represents Eq 18 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment'
-              represents column S in OPP TED spreadsheet model
+              used in calculation of dose from inhaled spray which is found in column S in OPP TED spreadsheet model
 
         :return:
         """
@@ -1801,9 +1801,9 @@ class TedFunctions(object):
     def calc_species_inhal_dose_vapor(self):
         """
         :description calculates doses per species related to the inhalation of vapor per species for
-        :param sim_num model simulation number
 
         NOTE: this method implements Eq 23 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment'
+              (represents column R of worksheet 'Min/Max rate doses' of OPP TED spreadsheet model)
         :return:
         """
 
@@ -1823,10 +1823,12 @@ class TedFunctions(object):
 
     def calc_species_inhal_dose_spray(self, sim_num):
         """
-        :description calculates doses per species related to the inhalation of vapor per species for
+        :description calculates doses per species related to the inhalation of spray per species for
         :param sim_num model simulation number
 
         NOTE: this method implements Eq 23 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment'
+              (represents column S of worksheet 'Min/Max rate doses' of OPP TED spreadsheet model)
+
         :return:
         """
 
@@ -1838,9 +1840,9 @@ class TedFunctions(object):
         spray_air_conc_maxapp = self.air_conc_drops_max[sim_num]
 
         for i in range(len(self.com_name)):
-            self.out_inhal_vapor_dose_min[i] = (spray_air_conc_minapp * self.species_inhalation_vol[i] * self.max_respire_frac_minapp * \
+            self.out_inhal_spray_dose_min[i] = (spray_air_conc_minapp * self.species_inhalation_vol[i] * self.max_respire_frac_minapp * \
                                                 self.inhal_equiv_factor[i]) / self.body_wgt[i]
-            self.out_inhal_vapor_dose_max[i] = (spray_air_conc_maxapp * self.species_inhalation_vol[i] * self.max_respire_frac_maxapp * \
+            self.out_inhal_spray_dose_max[i] = (spray_air_conc_maxapp * self.species_inhalation_vol[i] * self.max_respire_frac_maxapp * \
                                                 self.inhal_equiv_factor[i]) / self.body_wgt[i]
         return
 
@@ -2016,3 +2018,177 @@ class TedFunctions(object):
             self.out_maxdose_to_mort_ratio_max[i] = self.out_species_max_dose_maxapp[i] / self.species_mortality_thres[i]
             self.out_maxdose_to_sublethal_ratio_max[i] = self.out_species_max_dose_maxapp[i] / self.species_sublethal_thres[i]
         return
+
+    def write_simulation_results(self):
+
+        # OPP TED spreadsheet model : worksheet 'Min rate concentrations-----------------------------------
+                                              # (columns A, B, C are counters without variables)
+        self.out_diet_eec_upper_min_sg        # (column D)
+        self.out_diet_eec_upper_min_tg        # (column E)
+        self.out_diet_eec_upper_min_blp       # (column F)
+        self.out_diet_eec_upper_min_fp        # (column G)
+        self.out_diet_eec_upper_min_arthro    # (column H)
+        self.out_diet_eec_min_soil_inv        # (column I)
+        self.out_diet_eec_upper_min_sm_mamm   # (column J)
+        self.out_diet_eec_upper_min_lg_mamm   # (column K)
+        self.out_diet_eec_upper_min_sm_bird   # (column L)
+        self.out_diet_eec_upper_min_sm_amphi  # (column M)
+
+        self.out_soil_conc_min                # (column N)
+        self.out_conc_pore_h2o_min            # (column O)
+        self.out_conc_puddles_min             # (column P)
+        self.out_conc_dew_min                 # (column Q)
+        self.out_air_conc_min                 # (column R)
+
+                                              # (column S is blank, and columns T, U, V are counters without variables; same as columns A, B, C)
+        self.out_diet_eec_mean_min_sg         # (column W)
+        self.out_diet_eec_mean_min_tg         # (column X)
+        self.out_diet_eec_mean_min_blp        # (column Y)
+        self.out_diet_eec_mean_min_fp         # (column Z)
+        self.out_diet_eec_mean_min_arthro     # (column AA)
+        self.out_diet_eec_mean_min_sm_mamm    # (column AB)
+        self.out_diet_eec_mean_min_lg_mamm    # (column AC)
+        self.out_diet_eec_mean_min_sm_bird    # (column AD)
+        self.out_diet_eec_mean_min_sm_amphi   # (column AE)
+
+        # OPP TED spreadsheet model : worksheet 'Min rate concentrations-----------------------------------      
+                                              # (columns A, B, C are counters without variables)
+        self.out_diet_eec_upper_max_sg        # (column D)
+        self.out_diet_eec_upper_max_tg        # (column E)
+        self.out_diet_eec_upper_max_blp       # (column F)
+        self.out_diet_eec_upper_max_fp        # (column G)
+        self.out_diet_eec_upper_max_arthro    # (column H)
+        self.out_diet_eec_max_soil_inv        # (column I)
+        self.out_diet_eec_upper_max_sm_mamm   # (column J)
+        self.out_diet_eec_upper_max_lg_mamm   # (column K)
+        self.out_diet_eec_upper_max_sm_bird   # (column L)
+        self.out_diet_eec_upper_max_sm_amphi  # (column M)
+
+        self.out_soil_conc_max                # (column N)
+        self.out_conc_pore_h2o_max            # (column O)
+        self.out_conc_puddles_max             # (column P)
+        self.out_conc_dew_max                 # (column Q)
+        self.out_air_conc_max                 # (column R)
+
+                                              # (column S is blank, and columns T, U, V are counters without variables; same as columns A, B, C)
+        self.out_diet_eec_mean_max_sg         # (column W)
+        self.out_diet_eec_mean_max_tg         # (column X)
+        self.out_diet_eec_mean_max_blp        # (column Y)
+        self.out_diet_eec_mean_max_fp         # (column Z)
+        self.out_diet_eec_mean_max_arthro     # (column AA)
+        self.out_diet_eec_mean_max_sm_mamm    # (column AB)
+        self.out_diet_eec_mean_max_lg_mamm    # (column AC)
+        self.out_diet_eec_mean_max_sm_bird    # (column AD)
+        self.out_diet_eec_mean_max_sm_amphi   # (column AE)
+
+
+
+
+
+
+        # OPP TED spreadsheet model : worksheet 'Min rate - deitary conc results-----------------------------------
+        # each of these pd series contains each food item in a continuous stream from colum D/rows to column N/rows
+
+        self.eec_exc_upper_min_mamm      # (columns D thru N; rows 3 thru 15)
+        self.eec_exc_upper_min_bird      # (columns D thru N; rows 16 thru 28)
+        self.eec_exc_upper_min_reptile   # (columns D thru N; rows 29 thru 41)
+        self.eec_exc_upper_min_inv       # (columns D thru N; rows 42 thru 54)
+
+        self.eec_exc_mean_min_mamm       # (columns D thru N; rows 58 thru 70)
+        self.eec_exc_mean_min_bird       # (columns D thru N; rows 71 thru 83)
+        self.eec_exc_mean_min_reptile    # (columns D thru N; rows 84 thru 96)
+        self.eec_exc_mean_min_inv        # (columns D thru N; rows 97 thru 109)
+
+        self.eec_dist_upper_min_mamm     # (columns D thru N; rows 113 thru 125)
+        self.eec_dist_upper_min_bird     # (columns D thru N; rows 126 thru 138)
+        self.eec_dist_upper_min_reptile  # (columns D thru N; rows 139 thru 151)
+        self.eec_dist_upper_min_inv      # (columns D thru N; rows 152 thru 164)
+
+        # OPP TED spreadsheet model : worksheet 'Max rate - deitary conc results-----------------------------------
+        # each of these pd series contains each food item in a continuous stream from colum D/rows to column N/rows
+
+        self.eec_exc_upper_max_mamm      # (columns D thru N; rows 3 thru 15)
+        self.eec_exc_upper_max_bird      # (columns D thru N; rows 16 thru 28)
+        self.eec_exc_upper_max_reptile   # (columns D thru N; rows 29 thru 41)
+        self.eec_exc_upper_max_inv       # (columns D thru N; rows 42 thru 54)
+
+        self.eec_exc_mean_max_mamm       # (columns D thru N; rows 58 thru 70)
+        self.eec_exc_mean_max_bird       # (columns D thru N; rows 71 thru 83)
+        self.eec_exc_mean_max_reptile    # (columns D thru N; rows 84 thru 96)
+        self.eec_exc_mean_max_inv        # (columns D thru N; rows 97 thru 109)
+
+        self.eec_dist_upper_max_mamm     # (columns D thru N; rows 113 thru 125)
+        self.eec_dist_upper_max_bird     # (columns D thru N; rows 126 thru 138)
+        self.eec_dist_upper_max_reptile  # (columns D thru N; rows 139 thru 151)
+        self.eec_dist_upper_max_inv      # (columns D thru N; rows 152 thru 164)
+
+        # OPP TED spreadsheet model : worksheet 'Min rate doses'---------------------------------------------------
+
+        self.sci_name                            # (column A)
+        self.com_name                            # (column B)
+        self.taxa                                # (column C)
+        self.order                               # (column D)
+        self.usfws_id                            # (column E)
+        self.body_wgt                            # (column F)
+        self.diet_item                           # (column G)
+        self.h2o_con                             # (column H)
+
+        self.out_diet_conc_upper_min             # (column I)
+        self.out_diet_conc_mean_min              # (column J)
+
+        self.out_diet_dose_upper_min             # (column K)
+        self.out_diet_dose_mean_min              # (column L)
+        self.out_h2opuddles_dose_min             # (column M)
+        self.out_h2odew_dose_main                # (column N)
+        self.out_derm_contact_dose_upper_min     # (column O)
+        self.out_derm_contact_dose_mean_min      # (column P)
+        self.out_derm_spray_dose_min             # (column Q)
+        self.out_inhal_vapor_dose_min            # (column R)
+        self.out_inhal_spray_dose_min            # (column S)
+
+        self.out_dist_to_mort_thres_min          # (column T)
+        self.out_dist_to_ld50_thres_min          # (column U)
+
+        self.species_mortality_thres             # (column V)
+        self.species_sublethal_thres             # (column W)
+        self.species_lowld50_thres               # (column X)
+        self.species_hc50_thres                  # (column Y)
+
+        self.out_maxdose_to_mort_ratio_min       # (column Z)
+        self.out_maxdose_to_sublethal_ratio_min  # (column AA)
+
+
+        # OPP TED spreadsheet model : worksheet 'Max rate doses'-------------------------------------
+
+        self.sci_name                            # (column A)
+        self.com_name                            # (column B)
+        self.taxa                                # (column C)
+        self.order                               # (column D)
+        self.usfws_id                            # (column E)
+        self.body_wgt                            # (column F)
+        self.diet_item                           # (column G)
+        self.h2o_con                             # (column H)
+
+        self.out_diet_conc_upper_max             # (column I)
+        self.out_diet_conc_mean_max              # (column J)
+
+        self.out_diet_dose_upper_max             # (column K)
+        self.out_diet_dose_mean_max              # (column L)
+        self.out_h2opuddles_dose_max             # (column M)
+        self.out_h2odew_dose_max                 # (column N)
+        self.out_derm_contact_dose_upper_max     # (column O)
+        self.out_derm_contact_dose_mean_max      # (column P)
+        self.out_derm_spray_dose_max             # (column Q)
+        self.out_inhal_vapor_dose_max            # (column R)
+        self.out_inhal_spray_dose_max            # (column S)
+
+        self.out_dist_to_mort_thres_max          # (column T)
+        self.out_dist_to_ld50_thres_max          # (column U)
+
+        self.species_mortality_thres             # (column V)
+        self.species_sublethal_thres             # (column W)
+        self.species_lowld50_thres               # (column X)
+        self.species_hc50_thres                  # (column Y)
+
+        self.out_maxdose_to_mort_ratio_max       # (column Z)
+        self.out_maxdose_to_sublethal_ratio_max  # (column AA)

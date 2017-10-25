@@ -396,7 +396,7 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedAggregateMethods, T
             # (set spray drift parameters for calculations of distance from source area associated with pesticide concentrations)
             self.spray_drift_params(sim_num)
 
-            # ccalculates runoff parameters used to calculate plant EECs for wet and dry areas (for min/max application scenarios)
+            # calculates runoff parameters used to calculate plant EECs for wet and dry areas (for min/max application scenarios)
             # (found in worksheet 'plants' of OPP TED Excel spreadsheet model)
             self.runoff_params(sim_num)
 
@@ -416,3 +416,6 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedAggregateMethods, T
 
             # calculate species/food item specific doses via intake pathways and related health measure ratios ; worksheets 'min/max rate doses' in OPP TED Excel model
             self.species_doses(sim_num)
+
+            # write simulation results (this is an organization of outputs that would produce the OPP TED spreadsheets)
+            ##   self.write_simulation_results()
