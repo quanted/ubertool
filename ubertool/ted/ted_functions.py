@@ -402,7 +402,7 @@ class TedFunctions(object):
         if (distance > max_distance): distance = max_distance
 
         return distance
-    
+
     def calc_plant_tox_ratios(self):
         """
         :description calculates ratio of plant toxicity measures to application rate (min or max)
@@ -436,7 +436,7 @@ class TedFunctions(object):
         self.pt_dicot_indir_mort_appratio_min = self.pt_dicot_indir_mort / self.app_rate_min
         self.pt_dicot_dir_repro_appratio_min = self.pt_dicot_dir_repro / self.app_rate_min
         self.pt_dicot_indir_repro_appratio_min = self.pt_dicot_indir_repro / self.app_rate_min
-        
+
         # plant toxicity (pt) : monocots ; maximum application rate
         self.pt_mono_pre_noec_appratio_max = self.pt_mono_pre_noec / self.app_rate_max
         self.pt_mono_pre_loec_appratio_max = self.pt_mono_pre_loec / self.app_rate_max
@@ -461,10 +461,10 @@ class TedFunctions(object):
         self.pt_dicot_dir_repro_appratio_max = self.pt_dicot_dir_repro / self.app_rate_max
         self.pt_dicot_indir_repro_appratio_max = self.pt_dicot_indir_repro / self.app_rate_max
 
-    def plant_risk_threshold_distances(self, i):
+    def plant_risk_threshold_distances(self, sim_num):
         """
         :description processes all the plant risk measures to determine the distance from the source area that plant toxicity thresholds occur
-        :param i simulation number
+        :param sim_num simulation number
         :NOTE         represents columns C & D rows 32 to 51 in OPP TED Excel spreadsheet 'Plants' worksheet
                       (only calculated if health risk value is present;
                       if ratio of health risk value to applicatoin rate is greater than 1.0 then distance is set to 0.0 (i.e. at source area edge)
@@ -476,127 +476,127 @@ class TedFunctions(object):
         """
 
         # plant toxicity (pt) : monocots ; minimum application rate; threshold distance
-        self.pt_mono_pre_noec_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_pre_noec_appratio_min[i],
+        self.pt_mono_pre_noec_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_pre_noec_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_mono_pre_loec_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_pre_loec_appratio_min[i],
+        self.pt_mono_pre_loec_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_pre_loec_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_mono_pre_ec25_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_pre_ec25_appratio_min[i],
+        self.pt_mono_pre_ec25_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_pre_ec25_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_mono_post_noec_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_post_noec_appratio_min[i],
+        self.pt_mono_post_noec_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_post_noec_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_mono_post_loec_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_post_loec_appratio_min[i],
+        self.pt_mono_post_loec_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_post_loec_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_mono_post_ec25_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_post_ec25_appratio_min[i],
+        self.pt_mono_post_ec25_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_post_ec25_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_mono_dir_mort_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_dir_mort_appratio_min[i],
+        self.pt_mono_dir_mort_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_dir_mort_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_mono_indir_mort_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_indir_mort_appratio_min[i],
+        self.pt_mono_indir_mort_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_indir_mort_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_mono_dir_repro_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_dir_repro_appratio_min[i],
+        self.pt_mono_dir_repro_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_dir_repro_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_mono_indir_repro_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_indir_repro_appratio_min[i],
+        self.pt_mono_indir_repro_thres_dist_min = self.calc_plant_risk_distance(self.pt_mono_indir_repro_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
         # plant toxicity (pt) : dicots ; minimum application rate; threshold distance
-        self.pt_dicot_pre_noec_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_pre_noec_appratio_min[i],
+        self.pt_dicot_pre_noec_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_pre_noec_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_dicot_pre_loec_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_pre_loec_appratio_min[i],
+        self.pt_dicot_pre_loec_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_pre_loec_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_dicot_pre_ec25_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_pre_ec25_appratio_min[i],
+        self.pt_dicot_pre_ec25_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_pre_ec25_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_dicot_post_noec_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_post_noec_appratio_min[i],
+        self.pt_dicot_post_noec_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_post_noec_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_dicot_post_loec_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_post_loec_appratio_min[i],
+        self.pt_dicot_post_loec_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_post_loec_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_dicot_post_ec25_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_post_ec25_appratio_min[i],
+        self.pt_dicot_post_ec25_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_post_ec25_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_dicot_dir_mort_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_dir_mort_appratio_min[i],
+        self.pt_dicot_dir_mort_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_dir_mort_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_dicot_indir_mort_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_indir_mort_appratio_min[i],
+        self.pt_dicot_indir_mort_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_indir_mort_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_dicot_dir_repro_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_dir_repro_appratio_min[i],
+        self.pt_dicot_dir_repro_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_dir_repro_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
-        self.pt_dicot_indir_repro_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_indir_repro_appratio_min[i],
+        self.pt_dicot_indir_repro_thres_dist_min = self.calc_plant_risk_distance(self.pt_dicot_indir_repro_appratio_min[sim_num],
                                         self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
 
         # plant toxicity (pt) : monocots ; maximum application rate; threshold distance
-        self.pt_mono_pre_noec_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_pre_noec_appratio_max[i],
+        self.pt_mono_pre_noec_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_pre_noec_appratio_max[sim_num],
                                                self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_mono_pre_loec_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_pre_loec_appratio_max[i],
+        self.pt_mono_pre_loec_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_pre_loec_appratio_max[sim_num],
                                                self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_mono_pre_ec25_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_pre_ec25_appratio_max[i],
+        self.pt_mono_pre_ec25_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_pre_ec25_appratio_max[sim_num],
                                                self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_mono_post_noec_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_post_noec_appratio_max[i],
+        self.pt_mono_post_noec_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_post_noec_appratio_max[sim_num],
                                                 self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_mono_post_loec_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_post_loec_appratio_max[i],
+        self.pt_mono_post_loec_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_post_loec_appratio_max[sim_num],
                                                 self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_mono_post_ec25_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_post_ec25_appratio_max[i],
+        self.pt_mono_post_ec25_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_post_ec25_appratio_max[sim_num],
                                                 self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_mono_dir_mort_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_dir_mort_appratio_max[i],
+        self.pt_mono_dir_mort_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_dir_mort_appratio_max[sim_num],
                                                self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_mono_indir_mort_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_indir_mort_appratio_max[i],
+        self.pt_mono_indir_mort_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_indir_mort_appratio_max[sim_num],
                                                  self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_mono_dir_repro_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_dir_repro_appratio_max[i],
+        self.pt_mono_dir_repro_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_dir_repro_appratio_max[sim_num],
                                                 self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_mono_indir_repro_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_indir_repro_appratio_max[i],
+        self.pt_mono_indir_repro_thres_dist_max = self.calc_plant_risk_distance(self.pt_mono_indir_repro_appratio_max[sim_num],
                                                   self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
         # plant toxicity (pt) : dicots ; maximum application rate; threshold distance
-        self.pt_dicot_pre_noec_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_pre_noec_appratio_max[i],
+        self.pt_dicot_pre_noec_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_pre_noec_appratio_max[sim_num],
                                                 self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_dicot_pre_loec_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_pre_loec_appratio_max[i],
+        self.pt_dicot_pre_loec_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_pre_loec_appratio_max[sim_num],
                                                 self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_dicot_pre_ec25_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_pre_ec25_appratio_max[i],
+        self.pt_dicot_pre_ec25_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_pre_ec25_appratio_max[sim_num],
                                                 self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_dicot_post_noec_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_post_noec_appratio_max[i],
+        self.pt_dicot_post_noec_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_post_noec_appratio_max[sim_num],
                                                  self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_dicot_post_loec_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_post_loec_appratio_max[i],
+        self.pt_dicot_post_loec_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_post_loec_appratio_max[sim_num],
                                                  self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_dicot_post_ec25_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_post_ec25_appratio_max[i],
+        self.pt_dicot_post_ec25_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_post_ec25_appratio_max[sim_num],
                                                  self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_dicot_dir_mort_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_dir_mort_appratio_max[i],
+        self.pt_dicot_dir_mort_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_dir_mort_appratio_max[sim_num],
                                                 self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_dicot_indir_mort_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_indir_mort_appratio_max[i],
+        self.pt_dicot_indir_mort_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_indir_mort_appratio_max[sim_num],
                                                   self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_dicot_dir_repro_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_dir_repro_appratio_max[i],
+        self.pt_dicot_dir_repro_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_dir_repro_appratio_max[sim_num],
                                                  self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-        self.pt_dicot_indir_repro_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_indir_repro_appratio_max[i],
+        self.pt_dicot_indir_repro_thres_dist_max = self.calc_plant_risk_distance(self.pt_dicot_indir_repro_appratio_max[sim_num],
                                                    self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
         return
@@ -632,7 +632,7 @@ class TedFunctions(object):
         """
         :description calculates threshold dietary concentrations in water (ug/l) for aquatic dependent vertebrate species
         :NOTE         represents columns D, E & F of worksheet 'Aquatic dependent sp thresholds' of OPP TED Excel spreadsheet model
-                      (this method is 'vectorized', that is calculations are performed here for all simulations)
+                      (this  method is 'vectorized', that is calculations are performed here for all simulations)
         :return:
         """
 
@@ -848,35 +848,52 @@ class TedFunctions(object):
 
         return runoff_eec_dry_area, runoff_eec_semiaq_area
 
-    def plant_risk_conclusions(self, i):
+    def plant_risk_conclusions(self, sim_num):
         """
          :description calls method to determines if plant health thresholds are exceeded in terrestrial (dry) and wetland habitats
 
-         :param i; simulation number
+         :param sim_num; simulation number
 
          :NOTE  represents determinations found in columns C & D rows 14 - 28 in OPP TED Excel spreadsheet 'Plants' worksheet
          :return:
          """
 
-        # monocots; terrestrial habitats; minimum application scenario
-        self.pt_mono_pre_noec_eec_exceed = self.plant_eec_exceedance(self.pt_mono_pre_noec[i], self.runoff_eec_dry_area_min)
-        self.pt_mono_pre_loec_eec_exceed = self.plant_eec_exceedance(self.pt_mono_pre_loec[i], self.runoff_eec_dry_area_min)
-        self.pt_mono_pre_ec25_eec_exceed = self.plant_eec_exceedance(self.pt_mono_pre_ec25[i], self.runoff_eec_dry_area_min)
+        # monocots; terrestrial habitats; minimum/maximum application scenario
+        self.pt_mono_noec_eec_exceed_terr_min = self.plant_eec_exceedance(self.pt_mono_pre_noec[sim_num], self.runoff_eec_dry_area_min)
+        self.pt_mono_loec_eec_exceed_terr_min = self.plant_eec_exceedance(self.pt_mono_pre_loec[sim_num], self.runoff_eec_dry_area_min)
+        self.pt_mono_ec25_eec_exceed_terr_min = self.plant_eec_exceedance(self.pt_mono_pre_ec25[sim_num], self.runoff_eec_dry_area_min)
 
-        # dicots; terrestrial habitats; maximum application scenario
-        self.pt_dicot_pre_noec_eec_exceed = self.plant_eec_exceedance(self.pt_dicot_pre_noec[i], self.runoff_eec_dry_area_max)
-        self.pt_dicot_pre_loec_eec_exceed = self.plant_eec_exceedance(self.pt_dicot_pre_loec[i], self.runoff_eec_dry_area_max)
-        self.pt_dicot_pre_ec25_eec_exceed = self.plant_eec_exceedance(self.pt_dicot_pre_ec25[i], self.runoff_eec_dry_area_max)
+        self.pt_mono_noec_eec_exceed_terr_max = self.plant_eec_exceedance(self.pt_mono_pre_noec[sim_num], self.runoff_eec_dry_area_max)
+        self.pt_mono_loec_eec_exceed_terr_max = self.plant_eec_exceedance(self.pt_mono_pre_loec[sim_num], self.runoff_eec_dry_area_max)
+        self.pt_mono_ec25_eec_exceed_terr_max = self.plant_eec_exceedance(self.pt_mono_pre_ec25[sim_num], self.runoff_eec_dry_area_max)
 
-        # monocots; wetland habitats; minimum application scenario
-        self.pt_mono_pre_noec_eec_exceed = self.plant_eec_exceedance(self.pt_mono_pre_noec[i], self.runoff_eec_semiaq_area_min)
-        self.pt_mono_pre_loec_eec_exceed = self.plant_eec_exceedance(self.pt_mono_pre_loec[i], self.runoff_eec_semiaq_area_min)
-        self.pt_mono_pre_ec25_eec_exceed = self.plant_eec_exceedance(self.pt_mono_pre_ec25[i], self.runoff_eec_semiaq_area_min)
+        # dicots; terrestrial habitats; minimum/maximum application scenario
+        self.pt_dicot_noec_eec_exceed_terr_min = self.plant_eec_exceedance(self.pt_dicot_pre_noec[sim_num], self.runoff_eec_dry_area_min)
+        self.pt_dicot_loec_eec_exceed_terr_min = self.plant_eec_exceedance(self.pt_dicot_pre_loec[sim_num], self.runoff_eec_dry_area_min)
+        self.pt_dicot_ec25_eec_exceed_terr_min = self.plant_eec_exceedance(self.pt_dicot_pre_ec25[sim_num], self.runoff_eec_dry_area_min)
 
-        # dicots; wetland habitats; maximum application scenario
-        self.pt_dicot_pre_noec_eec_exceed = self.plant_eec_exceedance(self.pt_dicot_pre_noec[i], self.runoff_eec_semiaq_area_max)
-        self.pt_dicot_pre_loec_eec_exceed = self.plant_eec_exceedance(self.pt_dicot_pre_loec[i], self.runoff_eec_semiaq_area_max)
-        self.pt_dicot_pre_ec25_eec_exceed = self.plant_eec_exceedance(self.pt_dicot_pre_ec25[i], self.runoff_eec_semiaq_area_max)
+        self.pt_dicot_noec_eec_exceed_terr_max = self.plant_eec_exceedance(self.pt_dicot_pre_noec[sim_num], self.runoff_eec_dry_area_max)
+        self.pt_dicot_loec_eec_exceed_terr_max = self.plant_eec_exceedance(self.pt_dicot_pre_loec[sim_num], self.runoff_eec_dry_area_max)
+        self.pt_dicot_ec25_eec_exceed_terr_max = self.plant_eec_exceedance(self.pt_dicot_pre_ec25[sim_num], self.runoff_eec_dry_area_max)
+
+        # monocots; wetland habitats; minimum/maximum application scenario
+        self.pt_mono_noec_eec_exceed_wet_min = self.plant_eec_exceedance(self.pt_mono_pre_noec[sim_num], self.runoff_eec_semiaq_area_min)
+        self.pt_mono_loec_eec_exceed_wet_min = self.plant_eec_exceedance(self.pt_mono_pre_loec[sim_num], self.runoff_eec_semiaq_area_min)
+        self.pt_mono_ec25_eec_exceed_wet_min = self.plant_eec_exceedance(self.pt_mono_pre_ec25[sim_num], self.runoff_eec_semiaq_area_min)
+
+        self.pt_mono_noec_eec_exceed_wet_max = self.plant_eec_exceedance(self.pt_mono_pre_noec[sim_num], self.runoff_eec_semiaq_area_max)
+        self.pt_mono_loec_eec_exceed_wet_max = self.plant_eec_exceedance(self.pt_mono_pre_loec[sim_num], self.runoff_eec_semiaq_area_max)
+        self.pt_mono_ec25_eec_exceed_wet_max = self.plant_eec_exceedance(self.pt_mono_pre_ec25[sim_num], self.runoff_eec_semiaq_area_max)
+
+        # dicots; wetland habitats; minimum/maximum application scenario
+        self.pt_dicot_noec_eec_exceed_wet_min = self.plant_eec_exceedance(self.pt_dicot_pre_noec[sim_num], self.runoff_eec_semiaq_area_min)
+        self.pt_dicot_loec_eec_exceed_wet_min = self.plant_eec_exceedance(self.pt_dicot_pre_loec[sim_num], self.runoff_eec_semiaq_area_min)
+        self.pt_dicot_ec25_eec_exceed_wet_min = self.plant_eec_exceedance(self.pt_dicot_pre_ec25[sim_num], self.runoff_eec_semiaq_area_min)
+
+        self.pt_dicot_noec_eec_exceed_wet_max = self.plant_eec_exceedance(self.pt_dicot_pre_noec[sim_num], self.runoff_eec_semiaq_area_max)
+        self.pt_dicot_loec_eec_exceed_wet_max = self.plant_eec_exceedance(self.pt_dicot_pre_loec[sim_num], self.runoff_eec_semiaq_area_max)
+        self.pt_dicot_ec25_eec_exceed_wet_max = self.plant_eec_exceedance(self.pt_dicot_pre_ec25[sim_num], self.runoff_eec_semiaq_area_max)
+        return
 
     def plant_eec_exceedance(self, health_measure, runoff_eec):
 
@@ -1989,10 +2006,10 @@ class TedFunctions(object):
             mort_tox_ratio_max = self.species_mortality_thres[i] / self.out_species_max_dose_maxapp[i]
             ld50_tox_ratio_max = self.species_lowld50_thres[i] / self.out_species_max_dose_maxapp[i]
 
-            # execute distance calculation method ( for two toxicity thresholds and min/max application scenarios)
+            # execute distance calculation method (for two toxicity thresholds and min/max application scenarios)
             self.out_dist_to_mort_thres_min[i] = self.drift_distance_calc(mort_tox_ratio_min, self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
             self.out_dist_to_ld50_thres_min[i] = self.drift_distance_calc(ld50_tox_ratio_min, self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
-            
+
             self.out_dist_to_mort_thres_max[i] = self.drift_distance_calc(mort_tox_ratio_max, self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
             self.out_dist_to_ld50_thres_max[i] = self.drift_distance_calc(ld50_tox_ratio_max, self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
         return
@@ -2021,7 +2038,367 @@ class TedFunctions(object):
 
     def write_simulation_results(self):
 
-        # OPP TED spreadsheet model : worksheet 'Min rate concentrations-----------------------------------
+        # The following is a list of all variable values calculated in the TED Python model with direct reference to where they appear in the
+        # OPP TED spreadsheet model.  Thus, for example, one could run the Python model in debug mode, breakpoint at the end of a simulation
+        # (Line 584 of 'species_doses' method) and come to this list and check any value within any spreadsheet.
+
+        # Note that any given variable may be a single number calculated once per simulation or a series of numbers (e.g., time series,
+        # species doses). I tried to note the series characteristics where appropriate.
+
+        # This listing could be used as a starting point to build dataframes that reflect entire worksheets (or portions thereof).  This has not
+        # yet been done.
+
+
+        # ------------------OPP TED spreadsheet model : worksheet 'inputs'-----------------------------------
+
+        # Frespired
+        self.max_respire_frac_minapp  #  (column H; max of rows 14 - 17)
+        self.max_respire_frac_maxapp  #  (column I; max of rows 14 - 17)
+
+        # Max spray drift distance
+        self.max_drift_distance_minapp  #  (column H; row 17)
+        self.max_drift_distance_maxapp  #  (column I; row 17)
+
+        # spray drift parameters used to calculate distances; minimum application rate
+        self.drift_param_a_min  #  (column N; row 12)
+        self.drift_param_b_min  #  (column O; row 12)
+        self.drift_param_c_min  #  (column P; row 12)
+
+        # spray drift parameters used to calculate distances; maximum application rate
+        self.drift_param_a_max  #  (column N; row 13)
+        self.drift_param_b_max  #  (column O; row 13)
+        self.drift_param_c_max  #  (column P; row 13)
+
+        # plant toxicity data: ratios : monocots ; minimum application rate
+        self.pt_mono_pre_noec_appratio_min           #  (column G; row 205)
+        self.pt_mono_pre_loec_appratio_min           #  (column G; row 206)
+        self.pt_mono_pre_ec25_appratio_min           #  (column G; row 207)
+        self.pt_mono_post_noec_appratio_min          #  (column G; row 208)
+        self.pt_mono_post_loec_appratio_min          #  (column G; row 209)
+        self.pt_mono_post_ec25_appratio_min          #  (column G; row 210)
+        self.pt_mono_dir_mort_appratio_min           #  (column G; row 211)
+        self.pt_mono_indir_mort_appratio_min         #  (column G; row 212)
+        self.pt_mono_dir_repro_appratio_min          #  (column G; row 213)
+        self.pt_mono_indir_repro_appratio_min        #  (column G; row 214)
+
+        # plant toxicity data : ratios : : dicots ; minimum application rate
+        self.pt_dicot_pre_noec_appratio_min          #  (column G; row 215)
+        self.pt_dicot_pre_loec_appratio_min          #  (column G; row 216)
+        self.pt_dicot_pre_ec25_appratio_min          #  (column G; row 217)
+        self.pt_dicot_post_noec_appratio_min         #  (column G; row 218)
+        self.pt_dicot_post_loec_appratio_min         #  (column G; row 219)
+        self.pt_dicot_post_ec25_appratio_min         #  (column G; row 220)
+        self.pt_dicot_dir_mort_appratio_min          #  (column G; row 221)
+        self.pt_dicot_indir_mort_appratio_min        #  (column G; row 222)
+        self.pt_dicot_dir_repro_appratio_min         #  (column G; row 223)
+        self.pt_dicot_indir_repro_appratio_min       #  (column G; row 224)
+
+        # plant toxicity data: ratios :  : monocots ; maximum application rate
+        self.pt_mono_pre_noec_appratio_max           #  (column H; row 205)
+        self.pt_mono_pre_loec_appratio_max           #  (column H; row 206)
+        self.pt_mono_pre_ec25_appratio_max           #  (column H; row 207)
+        self.pt_mono_post_noec_appratio_max          #  (column H; row 208)
+        self.pt_mono_post_loec_appratio_max          #  (column H; row 209)
+        self.pt_mono_post_ec25_appratio_max          #  (column H; row 210)
+        self.pt_mono_dir_mort_appratio_max           #  (column H; row 211)
+        self.pt_mono_indir_mort_appratio_max         #  (column H; row 212)
+        self.pt_mono_dir_repro_appratio_max          #  (column H; row 213)
+        self.pt_mono_indir_repro_appratio_max        #  (column H; row 214)
+
+        # plant toxicity data : ratios :  : dicots ; maximum application rate
+        self.pt_dicot_pre_noec_appratio_max          #  (column H; row 215)
+        self.pt_dicot_pre_loec_appratio_max          #  (column H; row 216)
+        self.pt_dicot_pre_ec25_appratio_max          #  (column H; row 217)
+        self.pt_dicot_post_noec_appratio_max         #  (column H; row 218)
+        self.pt_dicot_post_loec_appratio_max         #  (column H; row 219)
+        self.pt_dicot_post_ec25_appratio_max         #  (column H; row 220)
+        self.pt_dicot_dir_mort_appratio_max          #  (column H; row 221)
+        self.pt_dicot_indir_mort_appratio_max        #  (column H; row 222)
+        self.pt_dicot_dir_repro_appratio_max         #  (column H; row 223)
+        self.pt_dicot_indir_repro_appratio_max       #  (column H; row 224)
+
+        # ------------------OPP TED spreadsheet model : worksheet 'Plants'-----------------------------------
+
+        # Input parameters used toderive Runoff EEC's
+        self.app_rate_min     # (column C; row 3)
+        self.app_rate_max     # (column D; row 3)
+
+        self.pest_incorp_min  # (column C; row 4)
+        self.pest_incorp_max  # (column D; row 4)
+
+        self.runoff_frac_min  # (column C; row 5)
+        self.runoff_frac_max  # (column D; row 5)
+
+        # Runoff EEC's
+        self.runoff_eec_dry_area_min  # (column C; row 9)
+        self.runoff_eec_semiaq_area_min  # (column C; row 10)
+
+        self.runoff_eec_dry_area_max  # (column D; row 9)
+        self.runoff_eec_semiaq_area_max  # (column D; row 9)
+
+        # Risk conclusions : runoff to terrestrial habitats : monocots; minimum/maximum application scenario
+        # these variables are single values calculated per simulation
+        self.pt_mono_noec_eec_exceed_terr_min   # (column C; row 14)
+        self.pt_mono_loec_eec_exceed_terr_min   # (column C; row 15)
+        self.pt_mono_ec25_eec_exceed_terr_min   # (column C; row 16)
+
+        self.pt_mono_noec_eec_exceed_terr_max   # (column D; row 14)
+        self.pt_mono_loec_eec_exceed_terr_max   # (column D; row 15)
+        self.pt_mono_ec25_eec_exceed_terr_max   # (column D; row 16)
+
+        # Risk conclusions : runoff to terrestrial habitats : dicots; minimum/maximum application scenario
+        # these variables are single values calculated per simulation
+        self.pt_dicot_noec_eec_exceed_terr_min  # (column C; row 17)
+        self.pt_dicot_loec_eec_exceed_terr_min  # (column C; row 18)
+        self.pt_dicot_ec25_eec_exceed_terr_min  # (column C; row 19)
+
+        self.pt_dicot_noec_eec_exceed_terr_max  # (column D; row 17)
+        self.pt_dicot_loec_eec_exceed_terr_max  # (column D; row 18)
+        self.pt_dicot_ec25_eec_exceed_terr_max  # (column D; row 19)
+
+        # Risk conclusions : runoff to wetland habitats : monocots; minimum/maximum application scenario
+        # these variables are single values calculated per simulation
+        self.pt_mono_noec_eec_exceed_wet_min    # (column C; row 23)
+        self.pt_mono_loec_eec_exceed_wet_min    # (column C; row 24)
+        self.pt_mono_ec25_eec_exceed_wet_min    # (column C; row 25)
+
+        self.pt_mono_noec_eec_exceed_wet_max    # (column D; row 23)
+        self.pt_mono_loec_eec_exceed_wet_max    # (column D; row 24)
+        self.pt_mono_ec25_eec_exceed_wet_max    # (column D; row 25)
+
+        # Risk conclusions : runoff to wetland habitats : dicots; minimum/maximum application scenario
+        # these variables are single values calculated per simulation
+        self.pt_dicot_noec_eec_exceed_wet_min   # (column C; row 26)
+        self.pt_dicot_loec_eec_exceed_wet_min   # (column C; row 27)
+        self.pt_dicot_ec25_eec_exceed_wet_min   # (column C; row 28)
+
+        self.pt_dicot_noec_eec_exceed_wet_max   # (column D; row 26)
+        self.pt_dicot_loec_eec_exceed_wet_max   # (column D; row 27)
+        self.pt_dicot_ec25_eec_exceed_wet_max   # (column D; row 28)
+
+        # Risk conclusions: spray drift : monocots : min rate (column C; rows 32 thru 41)
+        # these variables are single values calculated per simulation
+        self.pt_mono_pre_noec_thres_dist_min
+        self.pt_mono_pre_loec_thres_dist_min
+        self.pt_mono_pre_ec25_thres_dist_min
+        self.pt_mono_post_noec_thres_dist_min
+        self.pt_mono_post_loec_thres_dist_min
+        self.pt_mono_post_ec25_thres_dist_min
+        self.pt_mono_dir_mort_thres_dist_min
+        self.pt_mono_indir_mort_thres_dist_min
+        self.pt_mono_dir_repro_thres_dist_min
+        self.pt_mono_indir_repro_thres_dist_min
+
+        #  Risk conclusions: spray drift : dicots : min rate (column C; rows 42 thru 51)
+        # these variables are single values calculated per simulation
+        self.pt_dicot_pre_noec_thres_dist_min
+        self.pt_dicot_pre_loec_thres_dist_min
+        self.pt_dicot_pre_ec25_thres_dist_min
+        self.pt_dicot_post_noec_thres_dist_min
+        self.pt_dicot_post_loec_thres_dist_min
+        self.pt_dicot_post_ec25_thres_dist_min
+        self.pt_dicot_dir_mort_thres_dist_min
+        self.pt_dicot_indir_mort_thres_dist_min
+        self.pt_dicot_dir_repro_thres_dist_min
+        self.pt_dicot_indir_repro_thres_dist_min
+
+        #  Risk conclusions: spray drift : monocots : max rate (column D; rows 32 thru 41)
+        # these variables are single values calculated per simulation
+        self.pt_mono_pre_noec_thres_dist_max
+        self.pt_mono_pre_loec_thres_dist_max
+        self.pt_mono_pre_ec25_thres_dist_max
+        self.pt_mono_post_noec_thres_dist_max
+        self.pt_mono_post_loec_thres_dist_max
+        self.pt_mono_post_ec25_thres_dist_max
+        self.pt_mono_dir_mort_thres_dist_max
+        self.pt_mono_indir_mort_thres_dist_max
+        self.pt_mono_dir_repro_thres_dist_max
+        self.pt_mono_indir_repro_thres_dist_max
+
+        #  Risk conclusions: spray drift : dicots : max rate (column D; rows 42 thru 51)
+        # these variables are single values calculated per simulation
+        self.pt_dicot_pre_noec_thres_dist_max
+        self.pt_dicot_pre_loec_thres_dist_max
+        self.pt_dicot_pre_ec25_thres_dist_max
+        self.pt_dicot_post_noec_thres_dist_max
+        self.pt_dicot_post_loec_thres_dist_max
+        self.pt_dicot_post_ec25_thres_dist_max
+        self.pt_dicot_dir_mort_thres_dist_max
+        self.pt_dicot_indir_mort_thres_dist_max
+        self.pt_dicot_dir_repro_thres_dist_max
+        self.pt_dicot_indir_repro_thres_dist_max
+
+
+
+        # ---------------------OPP TED spreadsheet model : worksheet 'Aquatic dependent sp thresholds'-----------------------------------
+        # each of these variables contains values for all simulations (i.e., one value per simulation)
+        # at this point in my coding I used individual variable names for each cell in theworksheet; this might have been better as
+        # a series of values for algae/mammals, algae/birds, etc
+
+        # algae : mammals (column D; rows 3 thru 15)
+        self.aq_conc_thres_1inmill_mamm_algae
+        self.aq_conc_thres_1inten_mamm_algae
+        self.aq_conc_thres_low_lc50_mamm_algae
+        self.aq_conc_thres_sub_direct_mamm_algae
+        self.aq_conc_thres_grow_noec_mamm_algae
+        self.aq_conc_thres_grow_loec_mamm_algae
+        self.aq_conc_thres_repro_noec_mamm_algae
+        self.aq_conc_thres_repro_loec_mamm_algae
+        self.aq_conc_thres_behav_noec_mamm_algae
+        self.aq_conc_thres_behav_loec_mamm_algae
+        self.aq_conc_thres_sensory_noec_mamm_algae
+        self.aq_conc_thres_sensory_loec_mamm_algae
+        self.aq_conc_thres_sub_indirect_mamm_algae
+
+        # algae : birds (column D; rows 16 thru 28)
+        self.aq_conc_thres_1inmill_mort_bird_algae
+        self.aq_conc_thres_1inten_bird_algae
+        self.aq_conc_thres_low_lc50_bird_algae
+        self.aq_conc_thres_sub_direct_bird_algae
+        self.aq_conc_thres_grow_noec_bird_algae
+        self.aq_conc_thres_grow_loec_bird_algae
+        self.aq_conc_thres_repro_noec_bird_algae
+        self.aq_conc_thres_repro_loec_bird_algae
+        self.aq_conc_thres_behav_noec_bird_algae
+        self.aq_conc_thres_behav_loec_bird_algae
+        self.aq_conc_thres_sensory_noec_bird_algae
+        self.aq_conc_thres_sensory_loec_bird_algae
+        self.aq_conc_thres_sub_indirect_bird_algae
+
+        # algae : reptiles & terrestrial-phase amphibians (column D; rows 16 thru 41)
+        self.aq_conc_thres_1inmill_mort_reptile_algae
+        self.aq_conc_thres_1inten_reptile_algae
+        self.aq_conc_thres_low_lc50_reptile_algae
+        self.aq_conc_thres_sub_direct_reptile_algae
+        self.aq_conc_thres_grow_noec_reptile_algae
+        self.aq_conc_thres_grow_loec_reptile_algae
+        self.aq_conc_thres_repro_noec_reptile_algae
+        self.aq_conc_thres_repro_loec_reptile_algae
+        self.aq_conc_thres_behav_noec_reptile_algae
+        self.aq_conc_thres_behav_loec_reptile_algae
+        self.aq_conc_thres_sensory_noec_reptile_algae
+        self.aq_conc_thres_sensory_loec_reptile_algae
+        self.aq_conc_thres_sub_indirect_reptile_algae
+
+        # invertebrate diet : mammals (column E; rows 3 thru 15)
+        self.aq_conc_thres_1inmill_mamm_invert
+        self.aq_conc_thres_1inten_mamm_invert
+        self.aq_conc_thres_low_lc50_mamm_invert
+        self.aq_conc_thres_sub_direct_mamm_invert
+        self.aq_conc_thres_grow_noec_mamm_invert
+        self.aq_conc_thres_grow_loec_mamm_invert
+        self.aq_conc_thres_repro_noec_mamm_invert
+        self.aq_conc_thres_repro_loec_mamm_invert
+        self.aq_conc_thres_behav_noec_mamm_invert
+        self.aq_conc_thres_behav_loec_mamm_invert
+        self.aq_conc_thres_sensory_noec_mamm_invert
+        self.aq_conc_thres_sensory_loec_mamm_invert
+        self.aq_conc_thres_sub_indirect_mamm_invert
+
+        # invertebrate diet : birds (column E; rows 16 thru 28)
+        self.aq_conc_thres_1inmill_mort_bird_invert
+        self.aq_conc_thres_1inten_bird_invert
+        self.aq_conc_thres_low_lc50_bird_invert
+        self.aq_conc_thres_sub_direct_bird_invert
+        self.aq_conc_thres_grow_noec_bird_invert
+        self.aq_conc_thres_grow_loec_bird_invert
+        self.aq_conc_thres_repro_noec_bird_invert
+        self.aq_conc_thres_repro_loec_bird_invert
+        self.aq_conc_thres_behav_noec_bird_invert
+        self.aq_conc_thres_behav_loec_bird_invert
+        self.aq_conc_thres_sensory_noec_bird_invert
+        self.aq_conc_thres_sensory_loec_bird_invert
+        self.aq_conc_thres_sub_indirect_bird_invert
+
+        # invertebrate diet : reptiles & terrestrial-phase amphibians (column E; rows 29 thru 41)
+        self.aq_conc_thres_1inmill_mort_reptile_invert
+        self.aq_conc_thres_1inten_reptile_invert
+        self.aq_conc_thres_low_lc50_reptile_invert
+        self.aq_conc_thres_sub_direct_reptile_invert
+        self.aq_conc_thres_grow_noec_reptile_invert
+        self.aq_conc_thres_grow_loec_reptile_invert
+        self.aq_conc_thres_repro_noec_reptile_invert
+        self.aq_conc_thres_repro_loec_reptile_invert
+        self.aq_conc_thres_behav_noec_reptile_invert
+        self.aq_conc_thres_behav_loec_reptile_invert
+        self.aq_conc_thres_sensory_noec_reptile_invert
+        self.aq_conc_thres_sensory_loec_reptile_invert
+        self.aq_conc_thres_sub_indirect_reptile_invert
+
+        # fish/amphibian diet : mammals (column F; rows 3 thru 15)
+        self.aq_conc_thres_1inmill_mamm_fish
+        self.aq_conc_thres_1inten_mamm_fish
+        self.aq_conc_thres_low_lc50_mamm_fish
+        self.aq_conc_thres_sub_direct_mamm_fish
+        self.aq_conc_thres_grow_noec_mamm_fish
+        self.aq_conc_thres_grow_loec_mamm_fish
+        self.aq_conc_thres_repro_noec_mamm_fish
+        self.aq_conc_thres_repro_loec_mamm_fish
+        self.aq_conc_thres_behav_noec_mamm_fish
+        self.aq_conc_thres_behav_loec_mamm_fish
+        self.aq_conc_thres_sensory_noec_mamm_fish
+        self.aq_conc_thres_sensory_loec_mamm_fish
+        self.aq_conc_thres_sub_indirect_mamm_fish
+
+        # fish/amphibian diet : birds (column F; rows 16 thru 28)
+        self.aq_conc_thres_1inmill_mort_bird_fish
+        self.aq_conc_thres_1inten_bird_fish
+        self.aq_conc_thres_low_lc50_bird_fish
+        self.aq_conc_thres_sub_direct_bird_fish
+        self.aq_conc_thres_grow_noec_bird_fish
+        self.aq_conc_thres_grow_loec_bird_fish
+        self.aq_conc_thres_repro_noec_bird_fish
+        self.aq_conc_thres_repro_loec_bird_fish
+        self.aq_conc_thres_behav_noec_bird_fish
+        self.aq_conc_thres_behav_loec_bird_fish
+        self.aq_conc_thres_sensory_noec_bird_fish
+        self.aq_conc_thres_sensory_loec_bird_fish
+        self.aq_conc_thres_sub_indirect_bird_fish
+
+        # fish/amphibian diet : reptiles & terrestrial-phase amphibians (column F; rows 29 thru 41)
+        self.aq_conc_thres_1inmill_mort_reptile_fish
+        self.aq_conc_thres_1inten_reptile_fish
+        self.aq_conc_thres_low_lc50_reptile_fish
+        self.aq_conc_thres_sub_direct_reptile_fish
+        self.aq_conc_thres_grow_noec_reptile_fish
+        self.aq_conc_thres_grow_loec_reptile_fish
+        self.aq_conc_thres_repro_noec_reptile_fish
+        self.aq_conc_thres_repro_loec_reptile_fish
+        self.aq_conc_thres_behav_noec_reptile_fish
+        self.aq_conc_thres_behav_loec_reptile_fish
+        self.aq_conc_thres_sensory_noec_reptile_fish
+        self.aq_conc_thres_sensory_loec_reptile_fish
+        self.aq_conc_thres_sub_indirect_reptile_fish
+
+        # --------------------OPP TED spreadsheet model : worksheet 'aquatic organism tissue concs'-----------------------------------
+        # each of these variables contains values for all simulations (i.e., one value per simulation)
+
+        self.tissue_conc_aq_invert_mean_1  # (column B; row 4)
+        self.tissue_conc_aq_invert_mean_2  # (column B; row 5)
+        self.tissue_conc_aq_invert_mean_3  # (column B; row 6)
+        self.tissue_conc_aq_invert_mean_4  # (column B; row 7)
+        self.tissue_conc_aq_invert_mean_5  # (column B; row 8)
+
+        self.tissue_conc_aq_invert_upper_1 # (column C; row 4)
+        self.tissue_conc_aq_invert_upper_2 # (column C; row 5)
+        self.tissue_conc_aq_invert_upper_3 # (column C; row 6)
+        self.tissue_conc_aq_invert_upper_4 # (column C; row 7)
+        self.tissue_conc_aq_invert_upper_5 # (column C; row 8)
+
+        self.tissue_conc_aq_fish_mean_1    # (column D; row 4)
+        self.tissue_conc_aq_fish_mean_2    # (column D; row 5)
+        self.tissue_conc_aq_fish_mean_3    # (column D; row 6)
+        self.tissue_conc_aq_fish_mean_4    # (column D; row 7)
+        self.tissue_conc_aq_fish_mean_5    # (column D; row 8)
+
+        self.tissue_conc_aq_fish_upper_1   # (column E; row 4)
+        self.tissue_conc_aq_fish_upper_2   # (column E; row 5)
+        self.tissue_conc_aq_fish_upper_3   # (column E; row 6)
+        self.tissue_conc_aq_fish_upper_4   # (column E; row 7)
+        self.tissue_conc_aq_fish_upper_5   # (column E; row 8)
+
+        # ----------------------------OPP TED spreadsheet model : worksheet 'Min rate concentrations'-----------------------------------
+        # each of these variables contains values for one simulation and 366 days (the variable values are reset each simulation)
                                               # (columns A, B, C are counters without variables)
         self.out_diet_eec_upper_min_sg        # (column D)
         self.out_diet_eec_upper_min_tg        # (column E)
@@ -2040,7 +2417,7 @@ class TedFunctions(object):
         self.out_conc_dew_min                 # (column Q)
         self.out_air_conc_min                 # (column R)
 
-                                              # (column S is blank, and columns T, U, V are counters without variables; same as columns A, B, C)
+                                              # (column S is blank, and columns T, U, and V are counters without variables; same as columns A, B, C)
         self.out_diet_eec_mean_min_sg         # (column W)
         self.out_diet_eec_mean_min_tg         # (column X)
         self.out_diet_eec_mean_min_blp        # (column Y)
@@ -2051,7 +2428,7 @@ class TedFunctions(object):
         self.out_diet_eec_mean_min_sm_bird    # (column AD)
         self.out_diet_eec_mean_min_sm_amphi   # (column AE)
 
-        # OPP TED spreadsheet model : worksheet 'Min rate concentrations-----------------------------------      
+        # ----------------------------------OPP TED spreadsheet model : worksheet 'Min rate concentrations'-----------------------------------
                                               # (columns A, B, C are counters without variables)
         self.out_diet_eec_upper_max_sg        # (column D)
         self.out_diet_eec_upper_max_tg        # (column E)
@@ -2070,7 +2447,7 @@ class TedFunctions(object):
         self.out_conc_dew_max                 # (column Q)
         self.out_air_conc_max                 # (column R)
 
-                                              # (column S is blank, and columns T, U, V are counters without variables; same as columns A, B, C)
+                                              # (column S is blank, and columns T, U, and V are counters without variables; same as columns A, B, C)
         self.out_diet_eec_mean_max_sg         # (column W)
         self.out_diet_eec_mean_max_tg         # (column X)
         self.out_diet_eec_mean_max_blp        # (column Y)
@@ -2081,13 +2458,9 @@ class TedFunctions(object):
         self.out_diet_eec_mean_max_sm_bird    # (column AD)
         self.out_diet_eec_mean_max_sm_amphi   # (column AE)
 
-
-
-
-
-
-        # OPP TED spreadsheet model : worksheet 'Min rate - deitary conc results-----------------------------------
-        # each of these pd series contains each food item in a continuous stream from colum D/rows to column N/rows
+        # ------------------------OPP TED spreadsheet model : worksheet 'Min rate - deitary conc results'-----------------------------------
+        # each of these pd series contains each food item in a continuous stream from column D/rows to column N/rows (for one simulation -- varialbes are reset per simulation)
+        # (thus, for example, the first 13 values of each variable represents column D (Short Grass); the second 13 represents column E (Tall Grass, nectar and pollen), etc
 
         self.eec_exc_upper_min_mamm      # (columns D thru N; rows 3 thru 15)
         self.eec_exc_upper_min_bird      # (columns D thru N; rows 16 thru 28)
@@ -2104,8 +2477,9 @@ class TedFunctions(object):
         self.eec_dist_upper_min_reptile  # (columns D thru N; rows 139 thru 151)
         self.eec_dist_upper_min_inv      # (columns D thru N; rows 152 thru 164)
 
-        # OPP TED spreadsheet model : worksheet 'Max rate - deitary conc results-----------------------------------
-        # each of these pd series contains each food item in a continuous stream from colum D/rows to column N/rows
+        # ---------------------------OPP TED spreadsheet model : worksheet 'Max rate - deitary conc results'-----------------------------------
+        # each of these pd series contains each food item in a continuous stream from column D/rows to column N/rows (for one simulation -- varialbes are reset per simulation)
+        # (thus, for example, the first 13 values of each variable represents column D (Short Grass); the second 13 represents column E (Tall Grass, nectar and pollen), etc
 
         self.eec_exc_upper_max_mamm      # (columns D thru N; rows 3 thru 15)
         self.eec_exc_upper_max_bird      # (columns D thru N; rows 16 thru 28)
@@ -2122,7 +2496,9 @@ class TedFunctions(object):
         self.eec_dist_upper_max_reptile  # (columns D thru N; rows 139 thru 151)
         self.eec_dist_upper_max_inv      # (columns D thru N; rows 152 thru 164)
 
-        # OPP TED spreadsheet model : worksheet 'Min rate doses'---------------------------------------------------
+        # ----------------------------------OPP TED spreadsheet model : worksheet 'Min rate doses'---------------------------------------------------
+        # each of these pd series contains values for each combination of species and food item (819 in total) for one simulation (variables are reset each simulation)
+        # (note that the first 8 variables are inputs and thus do not change per simulation; included here to simply complete the worksheet)
 
         self.sci_name                            # (column A)
         self.com_name                            # (column B)
@@ -2157,8 +2533,9 @@ class TedFunctions(object):
         self.out_maxdose_to_mort_ratio_min       # (column Z)
         self.out_maxdose_to_sublethal_ratio_min  # (column AA)
 
-
-        # OPP TED spreadsheet model : worksheet 'Max rate doses'-------------------------------------
+        # ----------------------------------OPP TED spreadsheet model : worksheet 'Max rate doses'-------------------------------------
+        # each of these pd series contains values for each combination of species and food item (819 in total) for one simulation (variables are reset each simulation)
+        # (note that the first 8 variables are inputs and thus do not change per simulation; included here to simply complete the worksheet)
 
         self.sci_name                            # (column A)
         self.com_name                            # (column B)
