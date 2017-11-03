@@ -1,203 +1,203 @@
-property_name,description,units,type,valid_range,run0,run1
-version,,,,,,
-chemical_name,chemical_name,unitless,,,diazinon,malathion
-pc_code,,,,,,
-crop_min,crop name for minimum application scenario,,,,minimum,
-app_method_min,"method for minimum application scenario (aerial, ground, airblast)",,,,airblast,ground
-app_rate_min,application rate for minimum application scenario,lb a.i./acre,,,0.5,0.5
-num_apps_min,number of applicatiions for minimum application scenario,unitless,,,1,4
-app_interval_min,application interval for minimum application scenario,days,,,0,7
-droplet_spec_min,droplet spectrum for minumum application scenario (aerial and ground methods only),,,, ,fine_to_medium-coarse
-boom_hgt_min,boom height  for minimum application scenario (ground method only),,,, ,low
-pest_incorp_depth_min,depth of incorpaoation of pesticide from application ,inch,,,1,2
-crop_max,crop name for maximum application scenario,,,,upperbound single,
-app_method_max,"method for maximum application scenario (aerial, ground, airblast)",,,,ground,ground
-app_rate_max,application rate for maximum application scenario,lb a.i./acre,,,3,0.7
-num_apps_max,number of applicatiions for maximum application scenario,unitless,,,1,3
-app_interval_max,application interval for maximum application scenario,days,,,0,7
-droplet_spec_max,droplet spectrum for maxumum application scenario (aerial and ground methods only),,,,very_fine_to_fine,very_fine_to_fine
-boom_hgt_max,boom height  for maximum application scenario (ground method only),,,,high,high
-pest_incorp_depth_max,depth of incorpaoation of pesticide from application ,inch,,,1,2
-foliar_diss_hlife,foliar dissipation half-life,days,,,5.3,35
-aerobic_soil_meta_hlife,aerobic soil metabolism half-life,days,,,34,15
-frac_retained_mamm,daily fraction of pesiticide retained in mammals,,,,0.1,0.1
-frac_retained_birds,daily fraction of pesticide retained in birds,,,,0.214,0.05
-log_kow,log kow of pesticide active ingredient,,,,3.8,2.75
-koc,koc of pesticide active ingredient,L/kg-oc,,,618,1500
-solubility,solubility of pesticide active ingredient,mg/L,,,65.5,145
-henry_law_const,henry's law constant of pesticide active ingredient,atm-m3/mol,,,4.50E-07,2.00E-07
-aq_plant_algae_bcf_mean,mean aquatic plant and algae BCF,ug a.i./kg-ww per ug a.i./L,,,2.80E+02,1.00E+02
-aq_plant_algae_bcf_upper,upper bound aquatic plant and algae BCF,ug a.i./kg-ww per ug a.i./L,,,2.80E+02,1.00E+03
-inv_bcf_mean,mean invertebrate BCF (or BAF),ug a.i./kg-ww per ug a.i./L,,,2.50E+01,1.00E+02
-inv_bcf_upper,upper bound invertebrate BCF (or BAF),ug a.i./kg-ww per ug a.i./L,,,8.20E+01,1.00E+03
-fish_bcf_mean,mean fish BCF (or BAF),ug a.i./kg-ww per ug a.i./L,,,8.80E+01,1.00E+02
-fish_bcf_upper,upper bound fish BCF (or BAF),ug a.i./kg-ww per ug a.i./L,,,2.13E+02,1.00E+03
-water_conc_1,lower bound water concentration ,ug a.i./L,,,1.00E+01,1.00E-03
-water_conc_2,upper bound water concentration,ug a.i./L,,,1.00E+02,1.00E-02
-dbt_mamm_1inmill_mort,dose based toxicity data for mammals: direct 1/million mortality,mg-pest/kg-bw,,,2.38E+00,1.00E+00
-dbt_mamm_1inten_mort,dose based toxicity data for mammals: indirect 10% mortality,mg-pest/kg-bw,,,3.78E+01,1.00E+00
-dbt_mamm_low_ld50,dose based toxicity data for mammals: lowest LD50,mg-pest/kg-bw,,,1.05E+02,1.00E+02
-dbt_mamm_rat_oral_ld50,dose based toxicity data for mammals: rat oral LD50,mg-pest/kg-bw,,,1.05E+02,1.00E+00
-dbt_mamm_rat_derm_ld50,dose based toxicity data for mammals: rat dermal LD50,mg-pest/kg-bw,,,4.55E+02,1.00E+00
-dbt_mamm_rat_inhal_ld50,dose based toxicity data for mammals: rat inhalation LD50,mg-pest/kg-bw,,,1.20E+02,1.00E+00
-dbt_mamm_sub_direct,dose based toxicity data for mammals: direct sublethal threshold,mg-pest/kg-bw,,,3.50E-01,1.00E+00
-dbt_mamm_sub_indirect,dose based toxicity data for mammals: indirect sublethal,mg-pest/kg-bw,,,5.20E-01,
-dbt_mamm_1inmill_mort_wgt,dose based toxicity data for mammals: direct 1/million mortality : weight of test animal,grams,,,2.00E+01,2.00E+02
-dbt_mamm_1inten_mort_wgt,dose based toxicity data for mammals: indirect 10% mortality : weight of test animal,grams,,,2.00E+01,2.00E+02
-dbt_mamm_low_ld50_wgt,dose based toxicity data for mammals: lowest LD50 : weight of test animal,grams,,,2.00E+01,2.00E+02
-dbt_mamm_rat_oral_ld50_wgt,dose based toxicity data for mammals: rat oral LD50 : weight of test animal,grams,,,2.00E+01,2.00E+02
-dbt_mamm_rat_derm_ld50_wgt,dose based toxicity data for mammals: rat dermal LD50 : weight of test animal,grams,,,3.50E+02,2.00E+02
-dbt_mamm_rat_inhal_ld50_wgt,dose based toxicity data for mammals: rat inhalation LD50 : weight of test animal,grams,,,3.50E+02,2.00E+02
-dbt_mamm_sub_direct_wgt,dose based toxicity data for mammals: direct sublethal threshold : weight of test animal,grams,,,3.50E+02,2.00E+02
-dbt_mamm_sub_indirect_wgt,dose based toxicity data for mammals: indirect sublethal : weight of test animal,grams,,,3.50E+02,2.00E+02
-dbt_bird_1inmill_mort,dose based toxicity data forbirds:direct 1/million mortality,mg-pest/kg-bw,,,1.90E-02,1.00E+00
-dbt_bird_1inten_mort,dose based toxicity data for birds: indirect 10% mortality,mg-pest/kg-bw,,,1.90E-01,1.00E+00
-dbt_bird_low_ld50,dose based toxicity data for birds: lowest LD50,mg-pest/kg-bw,,,1.18E+00,1.00E+00
-dbt_bird_hc05,dose based toxicity data for birds: HC05,mg-pest/kg-bw,,,4.30E-01,1.00E+00
-dbt_bird_hc50,dose based toxicity data for birds: HC50,mg-pest/kg-bw,,,1.51E+00,1.00E+00
-dbt_bird_hc95,dose based toxicity data for birds: HC95,mg-pest/kg-bw,,,1.42E+01,1.00E+00
-dbt_bird_sub_direct,dose based toxicity data for birds: direct sublethal ,mg-pest/kg-bw,,,3.16E-01,1.00E+00
-dbt_bird_sub_indirect,dose based toxicity data for birds: indirect sublethal,mg-pest/kg-bw,,,6.81E-01,1.00E+00
-mineau_sca_fact,mineau scaling factor,,,,6.30E-01,1.15E+00
-dbt_bird_1inmill_mort_wgt,dose based toxicity data for birds:direct 1/million mortality : weight of test animal,grams,,,1.00E+02,2.00E+02
-dbt_bird_1inten_mort_wgt,dose based toxicity data for birds: indirect 10% mortality : weight of test animal,grams,,,1.00E+02,2.00E+02
-dbt_bird_low_ld50_wgt,dose based toxicity data for birds: lowest LD50 : weight of test animal,grams,,,1.58E+03,3.50E+02
-dbt_bird_hc05_wgt,dose based toxicity data for birds: HC05 : weight of test animal,grams,,,1.00E+02,2.00E+02
-dbt_bird_hc50_wgt,dose based toxicity data for birds: HC50 : weight of test animal,grams,,,1.00E+02,2.00E+02
-dbt_bird_hc95_wgt,dose based toxicity data for birds: HC95 : weight of test animal,grams,,,1.00E+02,2.00E+02
-dbt_bird_sub_direct_wgt,dose based toxicity data for birds: direct sublethal  : weight of test animal,grams,,,1.58E+03,2.00E+02
-dbt_bird_sub_indirect_wgt,dose based toxicity data for birds: indirect sublethal : weight of test animal,grams,,,1.58E+03,2.00E+02
-mineau_sca_fact_wgt,mineau scaling factor : weight of test animal (NOT CERTAIN THIS IS VALID VARIABLE),grams,,, ,2.00E+02
-dbt_reptile_1inmill_mort,dose based toxicity data for reptiles & terrestrial-phase amphibians:direct 1/million mortality,mg-pest/kg-bw,,,1.90E-02,1.00E+00
-dbt_reptile_1inten_mort,dose based toxicity data for  reptiles & terrestrial-phase amphibians: indirect 10% mortality,mg-pest/kg-bw,,,1.90E-01,1.00E+00
-dbt_reptile_low_ld50,dose based toxicity data for reptiles & terrestrial-phase amphibianss: lowest LD50,mg-pest/kg-bw,,,1.18E+00,1.00E+00
-dbt_reptile_sub_direct,dose based toxicity data for reptiles & terrestrial-phase amphibians: direct sublethal ,mg-pest/kg-bw,,,3.16E-01,1.00E+00
-dbt_reptile_sub_indirect,dose based toxicity data for reptiles & terrestrial-phase amphibians: indirect sublethal,mg-pest/kg-bw,,,6.81E-01,1.00E+00
-dbt_reptile_1inmill_mort_wgt,dose based toxicity data for reptiles & terrestrial-phase amphibians:direct 1/million mortality : weight of test animal,grams,,,1.00E+02,2.00E+02
-dbt_reptile_1inten_mort_wgt,dose based toxicity data for  reptiles & terrestrial-phase amphibians: indirect 10% mortality : weight of test animal,grams,,,1.00E+02,2.00E+02
-dbt_reptile_low_ld50_wgt,dose based toxicity data for reptiles & terrestrial-phase amphibianss: lowest LD50 : weight of test animal,grams,,,1.58E+03,2.00E+02
-dbt_reptile_sub_direct_wgt,dose based toxicity data for reptiles & terrestrial-phase amphibians: direct sublethal  : weight of test animal,grams,,,1.58E+03,2.00E+02
-dbt_reptile_sub_indirect_wgt,dose based toxicity data for reptiles & terrestrial-phase amphibians: indirect sublethal : weight of test animal,grams,,,1.58E+03,2.00E+02
-cbt_mamm_1inmill_mort,concentration based toxicity data for mammals: direct 1/million mortality,mg-pest/kg-diet ,,,1.59E+01,1.00E+00
-cbt_mamm_1inten_mort,concentration based toxicity data for mammals: indirect 10% mortality,mg-pest/kg-diet ,,,2.52E+02,1.00E+00
-cbt_mamm_low_lc50,concentration based toxicity data for mammals: lowest LC50,mg-pest/kg-diet ,,,7.00E+02,1.00E+02
-cbt_mamm_sub_direct,concentration based toxicity data for mammals: direct sublethal threshold,mg-pest/kg-diet ,,,2.30E+00,1.00E+00
-cbt_mamm_grow_noec,concentration based toxicity data for mammals: growth NOEC,mg-pest/kg-diet ,,, ,1.00E+00
-cbt_mamm_grow_loec,concentration based toxicity data for mammals: growth LOEC,mg-pest/kg-diet ,,,3.80E+00,1.00E+00
-cbt_mamm_repro_noec,concentration based toxicity data for mammals: reproduction NOEC,mg-pest/kg-diet ,,, ,1.00E+00
-cbt_mamm_repro_loec,concentration based toxicity data for mammals: reproduction LOEC,mg-pest/kg-diet ,,,1.34E+01,1.00E+00
-cbt_mamm_behav_noec,concentration based toxicity data for mammals: behavior NOEC,mg-pest/kg-diet ,,,1.00E-01,1.00E+00
-cbt_mamm_behav_loec,concentration based toxicity data for mammals: behavior LOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00
-cbt_mamm_sensory_noec,concentration based toxicity data for mammals: sensory NOEC,mg-pest/kg-diet ,,, ,1.00E+00
-cbt_mamm_sensory_loec,concentration based toxicity data for mammals: sensory LOEC,mg-pest/kg-diet ,,, ,1.00E+00
-cbt_mamm_sub_indirect,concentration based toxicity data for mammals: indirect sublethal threshold,mg-pest/kg-diet ,,,1.04E+01,1.00E+00
-cbt_bird_1inmill_mort,concentration based toxicity data for birds: direct 1/million mortality,mg-pest/kg-diet ,,,2.50E+00,1.00E+00
-cbt_bird_1inten_mort,concentration based toxicity data for birds: indirect 10% mortality,mg-pest/kg-diet ,,,1.80E+01,1.00E+00
-cbt_bird_low_lc50,concentration based toxicity data for birds: lowest LC50,mg-pest/kg-diet ,,,3.80E+01,2.50E+02
-cbt_bird_sub_direct,concentration based toxicity data for birds: direct sublethal threshold,mg-pest/kg-diet ,,,4.00E+00,1.00E+00
-cbt_bird_grow_noec,concentration based toxicity data for birds: growth NOEC,mg-pest/kg-diet ,,,8.30E+00,1.00E+00
-cbt_bird_grow_loec,concentration based toxicity data for birds: growth LOEC,mg-pest/kg-diet ,,,1.63E+01,1.00E+00
-cbt_bird_repro_noec,concentration based toxicity data for birds: reproduction NOEC,mg-pest/kg-diet ,,,8.30E+00,1.00E+00
-cbt_bird_repro_loec,concentration based toxicity data for birds: reproduction LOEC,mg-pest/kg-diet ,,,1.63E+01,2.50E+01
-cbt_bird_behav_noec,concentration based toxicity data for birds: behavior NOEC,mg-pest/kg-diet ,,,3.50E+01,1.00E+00
-cbt_bird_behav_loec,concentration based toxicity data for birds: behavior LOEC,mg-pest/kg-diet ,,,5.00E+01,1.00E+00
-cbt_bird_sensory_noec,concentration based toxicity data for birds: sensory NOEC,mg-pest/kg-diet ,,, ,1.00E+00
-cbt_bird_sensory_loec,concentration based toxicity data for birds: sensory LOEC,mg-pest/kg-diet ,,, ,1.00E+00
-cbt_bird_sub_indirect,concentration based toxicity data for birds: indirect sublethal threshold,mg-pest/kg-diet ,,,4.00E+00,1.00E+00
-cbt_reptile_1inmill_mort,concentration based toxicity data for reptiles & terrestrial-phase amphibians: direct 1/million mortality,mg-pest/kg-diet ,,,2.50E+00,1.00E+00
-cbt_reptile_1inten_mort,concentration based toxicity data for reptiles & terrestrial-phase amphibians: indirect 10% mortality,mg-pest/kg-diet ,,,1.80E+01,1.00E+00
-cbt_reptile_low_lc50,concentration based toxicity data for reptiles & terrestrial-phase amphibians: lowest LC50,mg-pest/kg-diet ,,,3.80E+01,1.00E+00
-cbt_reptile_sub_direct,concentration based toxicity data for reptiles & terrestrial-phase amphibians: direct sublethal threshold,mg-pest/kg-diet ,,,4.00E+00,1.00E+00
-cbt_reptile_grow_noec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: growth NOEC,mg-pest/kg-diet ,,,8.30E+00,1.00E+00
-cbt_reptile_grow_loec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: growth LOEC,mg-pest/kg-diet ,,,1.63E+01,1.00E+00
-cbt_reptile_repro_noec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: reproduction NOEC,mg-pest/kg-diet ,,,8.30E+00,1.00E+00
-cbt_reptile_repro_loec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: reproduction LOEC,mg-pest/kg-diet ,,,1.63E+01,1.00E+00
-cbt_reptile_behav_noec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: behavior NOEC,mg-pest/kg-diet ,,,4.00E+00,1.00E+00
-cbt_reptile_behav_loec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: behavior LOEC,mg-pest/kg-diet ,,,4.00E+00,1.00E+00
-cbt_reptile_sensory_noec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: sensory NOEC,mg-pest/kg-diet ,,, ,1.00E+00
-cbt_reptile_sensory_loec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: sensory LOEC,mg-pest/kg-diet ,,, ,1.00E+00
-cbt_reptile_sub_indirect,concentration based toxicity data for reptiles & terrestrial-phase amphibians: indirect sublethal threshold,mg-pest/kg-diet ,,,4.00E+00,1.00E+00
-cbt_inv_bw_1inmill_mort,concentration based toxicity data for invertebrates (body weight): direct 1/million mortality,mg-pest/kg-bw(ww),,,2.00E-02,1.00E+00
-cbt_inv_bw_1inten_mort,concentration based toxicity data for invertebrates (body weight): indirect 10% mortality,mg-pest/kg-bw(ww),,,8.00E-02,1.00E+00
-cbt_inv_bw_low_lc50,concentration based toxicity data for invertebrates (body weight):  lowest LC50,mg-pest/kg-bw(ww),,,1.50E-01,1.00E+02
-cbt_inv_bw_sub_direct,concentration based toxicity data for invertebrates (body weight): direct sublethal,mg-pest/kg-bw(ww),,, ,1.00E+00
-cbt_inv_bw_grow_noec,concentration based toxicity data for invertebrates (body weight): growth NOEC,mg-pest/kg-bw(ww),,, ,1.00E+00
-cbt_inv_bw_grow_loec,concentration based toxicity data for invertebrates (body weight): growth LOEC,mg-pest/kg-bw(ww),,, ,1.00E+00
-cbt_inv_bw_repro_noec,concentration based toxicity data for invertebrates (body weight): reproduction NOEC,mg-pest/kg-bw(ww),,, ,1.00E+00
-cbt_inv_bw_repro_loec,concentration based toxicity data for invertebrates (body weight): reproduction LOEC,mg-pest/kg-bw(ww),,, ,1.00E+00
-cbt_inv_bw_behav_noec,concentration based toxicity data for invertebrates (body weight): behavior NOEC,mg-pest/kg-bw(ww),,, ,1.00E+00
-cbt_inv_bw_behav_loec,concentration based toxicity data for invertebrates (body weight): behavior LOEC,mg-pest/kg-bw(ww),,, ,1.00E+00
-cbt_inv_bw_sensory_noec,concentration based toxicity data for invertebrates (body weight): sensory NOEC,mg-pest/kg-bw(ww),,, ,1.00E+00
-cbt_inv_bw_sensory_loec,concentration based toxicity data for invertebrates (body weight): sensory LOEC,mg-pest/kg-bw(ww),,, ,1.00E+00
-cbt_inv_bw_sub_indirect,concentration based toxicity data for invertebrates (body weight): indirect sublethal,mg-pest/kg-bw(ww),,,1.50E-01,1.00E+00
-cbt_inv_food_1inmill_mort,concentration based toxicity data for invertebrates (food): direct 1/million mortality,mg-pest/kg-food(ww),,, ,1.00E+00
-cbt_inv_food_1inten_mort,concentration based toxicity data for invertebrates (food): indirect 10% mortality,mg-pest/kg-food(ww),,, ,1.00E+00
-cbt_inv_food_low_lc50,concentration based toxicity data for invertebrates (food):  lowest LC50,mg-pest/kg-food(ww),,, ,1.00E+00
-cbt_inv_food_sub_direct,concentration based toxicity data for invertebrates (food): direct sublethal,mg-pest/kg-food(ww),,,5.00E+00,1.00E+00
-cbt_inv_food_grow_noec,concentration based toxicity data for invertebrates (food): growth NOEC,mg-pest/kg-food(ww),,, ,1.00E+00
-cbt_inv_food_grow_loec,concentration based toxicity data for invertebrates (food): growth LOEC,mg-pest/kg-food(ww),,,1.00E+02,1.00E+00
-cbt_inv_food_repro_noec,concentration based toxicity data for invertebrates (food): reproduction NOEC,mg-pest/kg-food(ww),,, ,1.00E+00
-cbt_inv_food_repro_loec,concentration based toxicity data for invertebrates (food): reproduction LOEC,mg-pest/kg-food(ww),,, ,1.00E+00
-cbt_inv_food_behav_noec,concentration based toxicity data for invertebrates (food): behavior NOEC,mg-pest/kg-food(ww),,, ,1.00E+00
-cbt_inv_food_behav_loec,concentration based toxicity data for invertebrates (food): behavior LOEC,mg-pest/kg-food(ww),,,5.00E+00,1.00E+00
-cbt_inv_food_sensory_noec,concentration based toxicity data for invertebrates (food): sensory NOEC,mg-pest/kg-food(ww),,, ,1.00E+00
-cbt_inv_food_sensory_loec,concentration based toxicity data for invertebrates (food): sensory LOEC,mg-pest/kg-food(ww),,, ,1.00E+00
-cbt_inv_food_sub_indirect,concentration based toxicity data for invertebrates (food): indirect sublethal,mg-pest/kg-food(ww),,,1.00E+01,1.00E+00
-cbt_inv_soil_1inmill_mort,concentration based toxicity data for invertebrates (soil): direct 1/million mortality,mg-pest/kg-soil(dw),,, ,1.00E+00
-cbt_inv_soil_1inten_mort,concentration based toxicity data for invertebrates (soil): indirect 10% mortality,mg-pest/kg-soil(dw),,, ,1.00E+00
-cbt_inv_soil_low_lc50,concentration based toxicity data for invertebrates (soil):  lowest LC50,mg-pest/kg-soil(dw),,, ,1.00E+00
-cbt_inv_soil_sub_direct,concentration based toxicity data for invertebrates (soil): direct sublethal,mg-pest/kg-soil(dw),,,3.09E+00,1.00E+00
-cbt_inv_soil_grow_noec,concentration based toxicity data for invertebrates (soil): growth NOEC,mg-pest/kg-soil(dw),,, ,1.00E+00
-cbt_inv_soil_grow_loec,concentration based toxicity data for invertebrates (soil): growth LOEC,mg-pest/kg-soil(dw),,, ,1.00E+00
-cbt_inv_soil_repro_noec,concentration based toxicity data for invertebrates (soil): reproduction NOEC,mg-pest/kg-soil(dw),,, ,1.00E+00
-cbt_inv_soil_repro_loec,concentration based toxicity data for invertebrates (soil): reproduction LOEC,mg-pest/kg-soil(dw),,,9.70E-02,1.00E+00
-cbt_inv_soil_behav_noec,concentration based toxicity data for invertebrates (soil): behavior NOEC,mg-pest/kg-soil(dw),,, ,1.00E+00
-cbt_inv_soil_behav_loec,concentration based toxicity data for invertebrates (soil): behavior LOEC,mg-pest/kg-soil(dw),,,9.00E+00,1.00E+00
-cbt_inv_soil_sensory_noec,concentration based toxicity data for invertebrates (soil): sensory NOEC,mg-pest/kg-soil(dw),,, ,1.00E+00
-cbt_inv_soil_sensory_loec,concentration based toxicity data for invertebrates (soil): sensory LOEC,mg-pest/kg-soil(dw),,,1.75E+00,1.00E+00
-cbt_inv_soil_sub_indirect,concentration based toxicity data for invertebrates (soil): indirect sublethal,mg-pest/kg-soil(dw),,,3.09E+00,1.00E+00
-arbt_mamm_mort,application rate-based toxicity data for mammals: mortality,(lbs active ingredient) / acre,,, ,1.00E+00
-arbt_mamm_growth,application rate-based toxicity data for mammals: growth,(lbs active ingredient) / acre,,, ,1.00E+00
-arbt_mamm_repro,application rate-based toxicity data for mammals: reproduction,(lbs active ingredient) / acre,,,5.00E-01,1.00E+00
-arbt_mamm_behav,application rate-based toxicity data for mammals: behavior,(lbs active ingredient) / acre,,,5.00E-01,1.00E+00
-arbt_mamm_sensory,application rate-based toxicity data for mammals: sensory,(lbs active ingredient) / acre,,, ,1.00E+00
-arbt_bird_mort,application rate-based toxicity data for birds: mortality,(lbs active ingredient) / acre,,,3.10E-01,1.00E+00
-arbt_bird_growth,application rate-based toxicity data for birds: growth,(lbs active ingredient) / acre,,,2.00E+00,1.00E+00
-arbt_bird_repro,application rate-based toxicity data for birds: reproduction,(lbs active ingredient) / acre,,,2.00E+00,1.00E+00
-arbt_bird_behav,application rate-based toxicity data for birds: behavior,(lbs active ingredient) / acre,,,2.00E+00,1.00E+00
-arbt_bird_sensory,application rate-based toxicity data for birds: sensory,(lbs active ingredient) / acre,,, ,1.00E+00
-arbt_reptile_mort,"application rate-based toxicity data for reptiles, terrestrial-phase amphibians: mortality",(lbs active ingredient) / acre,,,3.10E-01,1.00E+00
-arbt_reptile_growth,"application rate-based toxicity data for reptiles, terrestrial-phase amphibians: growth",(lbs active ingredient) / acre,,,2.00E+00,1.00E+00
-arbt_reptile_repro,"application rate-based toxicity data for reptiles, terrestrial-phase amphibians: reproduction",(lbs active ingredient) / acre,,,2.00E+00,1.00E+00
-arbt_reptile_behav,"application rate-based toxicity data for reptiles, terrestrial-phase amphibians: behavior",(lbs active ingredient) / acre,,,2.00E+00,1.00E+00
-arbt_reptile_sensory,"application rate-based toxicity data for reptiles, terrestrial-phase amphibians: sensory",(lbs active ingredient) / acre,,, ,1.00E+00
-arbt_inv_1inmill_mort,application rate-based toxicity data for terrestrial invertebrates: direct 1/million mortality,(lbs active ingredient) / acre,,, ,1.00E+00
-arbt_inv_1inten_mort,application rate-based toxicity data for terrestrial invertebrates: indirect 10% mortality,(lbs active ingredient) / acre,,, ,1.00E+00
-arbt_inv_sub_direct,application rate-based toxicity data for terrestrial invertebrates: direct sublethal,(lbs active ingredient) / acre,,,2.50E-01,1.00E+00
-arbt_inv_sub_indirect,application rate-based toxicity data for terrestrial invertebrates: indirect sublethal,(lbs active ingredient) / acre,,,2.50E-01,1.00E+00
-arbt_inv_growth,application rate-based toxicity data for terrestrial invertebrates: growth LOAEL (decreased weight),(lbs active ingredient) / acre,,, ,1.00E+00
-arbt_inv_repro,application rate-based toxicity data for terrestrial invertebrates: reproduction LOAEL (reduced emergence),(lbs active ingredient) / acre,,,1.34E+00,1.00E+00
-arbt_inv_behav,application rate-based toxicity data for terrestrial invertebrates: behavior NOAEL (activity),(lbs active ingredient) / acre,,, ,1.00E+00
-arbt_inv_sensory,application rate-based toxicity data for terrestrial invertebrates: sensory LOAEL (avoidance),(lbs active ingredient) / acre,,, ,1.00E+00
-pt_mono_pre_noec,plant toxicity data for monocots: direct preemergence NOEC (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-pt_mono_pre_loec,plant toxicity data for monocots: direct and indirect preemergence LOEC (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-pt_mono_pre_ec25,plant toxicity data for monocots: indirect preemergence EC25 (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-pt_mono_post_noec,plant toxicity data for monocots: direct post emergence NOEC (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-pt_mono_post_loec,plant toxicity data for monocots: direct post emergence LOEC (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-pt_mono_post_ec25,plant toxicity data for monocots: direct post emergence EC25 (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-pt_mono_dir_mort,plant toxicity data for monocots: direct mortality,(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-pt_mono_indir_mort,plant toxicity data for monocots: indirect mortality,(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-pt_mono_dir_repro,plant toxicity data for monocots: direct reproduction,(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-pt_mono_indir_repro,plant toxicity data for monocots: indirect reproduction,(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-pt_dicot_pre_noec,plant toxicity data for dicots: direct preemergence NOEC (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-pt_dicot_pre_loec,plant toxicity data for dicots: direct and indirect preemergence LOEC (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-pt_dicot_pre_ec25,plant toxicity data for dicots: indirect preemergence EC25 (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-pt_dicot_post_noec,plant toxicity data for dicots: direct post emergence NOEC (growth),(lbs active ingredient) / acre,,,3.80E-01,1.00E+00
-pt_dicot_post_loec,plant toxicity data for dicots: direct post emergence LOEC (growth),(lbs active ingredient) / acre,,,3.80E-01,1.00E+00
-pt_dicot_post_ec25,plant toxicity data for dicots: direct post emergence EC25 (growth),(lbs active ingredient) / acre,,,3.20E+00,1.00E+00
-pt_dicot_dir_mort,plant toxicity data for dicots: direct mortality,(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-pt_dicot_indir_mort,plant toxicity data for dicots: indirect mortality,(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-pt_dicot_dir_repro,plant toxicity data for dicots: direct reproduction,(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-pt_dicot_indir_repro,plant toxicity data for dicots: indirect reproduction,(lbs active ingredient) / acre,,,4.00E+00,1.00E+00
-out_diet_eec_upper_min_sg_maxdaily,the maximum pesticide concentration in short grass among the daily values for the upper dietary food factor and minimum application scenario,mg/kg-diet,,,,
-exp_diet_eec_upper_min_sg_maxdaily,the expected value of the maximum pesticide concentration in short grass among the daily values for the upper dietary food factor and minimum application scenario,mg/kg-diet,,,80.234,80.234
+property_name,description,units,type,valid_range,run0,run1,run0
+version,,,,,,,
+chemical_name,chemical_name,unitless,,,diazinon,malathion,diazinon
+pc_code,,,,,,,
+crop_min,crop name for minimum application scenario,,,,minimum,,minimum
+app_method_min,"method for minimum application scenario (aerial, ground, airblast)",,,,airblast,ground,airblast
+app_rate_min,application rate for minimum application scenario,lb a.i./acre,,,0.5,0.5,0.5
+num_apps_min,number of applicatiions for minimum application scenario,unitless,,,1,4,1
+app_interval_min,application interval for minimum application scenario,days,,,0,7,0
+droplet_spec_min,droplet spectrum for minumum application scenario (aerial and ground methods only),,,, ,fine_to_medium-coarse, 
+boom_hgt_min,boom height  for minimum application scenario (ground method only),,,, ,low, 
+pest_incorp_depth_min,depth of incorpaoation of pesticide from application ,inch,,,1,2,1
+crop_max,crop name for maximum application scenario,,,,upperbound single,,upperbound single
+app_method_max,"method for maximum application scenario (aerial, ground, airblast)",,,,ground,ground,ground
+app_rate_max,application rate for maximum application scenario,lb a.i./acre,,,3,0.7,3
+num_apps_max,number of applicatiions for maximum application scenario,unitless,,,1,3,1
+app_interval_max,application interval for maximum application scenario,days,,,0,7,0
+droplet_spec_max,droplet spectrum for maxumum application scenario (aerial and ground methods only),,,,very_fine_to_fine,very_fine_to_fine,very_fine_to_fine
+boom_hgt_max,boom height  for maximum application scenario (ground method only),,,,high,high,high
+pest_incorp_depth_max,depth of incorpaoation of pesticide from application ,inch,,,1,2,1
+foliar_diss_hlife,foliar dissipation half-life,days,,,5.3,35,5.3
+aerobic_soil_meta_hlife,aerobic soil metabolism half-life,days,,,34,15,34
+frac_retained_mamm,daily fraction of pesiticide retained in mammals,,,,0.1,0.1,0.1
+frac_retained_birds,daily fraction of pesticide retained in birds,,,,0.214,0.05,0.214
+log_kow,log kow of pesticide active ingredient,,,,3.8,2.75,3.8
+koc,koc of pesticide active ingredient,L/kg-oc,,,618,1500,618
+solubility,solubility of pesticide active ingredient,mg/L,,,65.5,145,65.5
+henry_law_const,henry's law constant of pesticide active ingredient,atm-m3/mol,,,4.50E-07,2.00E-07,4.50E-07
+aq_plant_algae_bcf_mean,mean aquatic plant and algae BCF,ug a.i./kg-ww per ug a.i./L,,,2.80E+02,1.00E+02,2.80E+02
+aq_plant_algae_bcf_upper,upper bound aquatic plant and algae BCF,ug a.i./kg-ww per ug a.i./L,,,2.80E+02,1.00E+03,2.80E+02
+inv_bcf_mean,mean invertebrate BCF (or BAF),ug a.i./kg-ww per ug a.i./L,,,2.50E+01,1.00E+02,2.50E+01
+inv_bcf_upper,upper bound invertebrate BCF (or BAF),ug a.i./kg-ww per ug a.i./L,,,8.20E+01,1.00E+03,8.20E+01
+fish_bcf_mean,mean fish BCF (or BAF),ug a.i./kg-ww per ug a.i./L,,,8.80E+01,1.00E+02,8.80E+01
+fish_bcf_upper,upper bound fish BCF (or BAF),ug a.i./kg-ww per ug a.i./L,,,2.13E+02,1.00E+03,2.13E+02
+water_conc_1,lower bound water concentration ,ug a.i./L,,,1.00E+01,1.00E-03,1.00E+01
+water_conc_2,upper bound water concentration,ug a.i./L,,,1.00E+02,1.00E-02,1.00E+02
+dbt_mamm_1inmill_mort,dose based toxicity data for mammals: direct 1/million mortality,mg-pest/kg-bw,,,2.38E+00,1.00E+00,2.38E+00
+dbt_mamm_1inten_mort,dose based toxicity data for mammals: indirect 10% mortality,mg-pest/kg-bw,,,3.78E+01,1.00E+00,3.78E+01
+dbt_mamm_low_ld50,dose based toxicity data for mammals: lowest LD50,mg-pest/kg-bw,,,1.05E+02,1.00E+02,1.05E+02
+dbt_mamm_rat_oral_ld50,dose based toxicity data for mammals: rat oral LD50,mg-pest/kg-bw,,,1.05E+02,1.00E+00,1.05E+02
+dbt_mamm_rat_derm_ld50,dose based toxicity data for mammals: rat dermal LD50,mg-pest/kg-bw,,,4.55E+02,1.00E+00,4.55E+02
+dbt_mamm_rat_inhal_ld50,dose based toxicity data for mammals: rat inhalation LD50,mg-pest/kg-bw,,,1.20E+02,1.00E+00,1.20E+02
+dbt_mamm_sub_direct,dose based toxicity data for mammals: direct sublethal threshold,mg-pest/kg-bw,,,3.50E-01,1.00E+00,3.50E-01
+dbt_mamm_sub_indirect,dose based toxicity data for mammals: indirect sublethal,mg-pest/kg-bw,,,5.20E-01,,5.20E-01
+dbt_mamm_1inmill_mort_wgt,dose based toxicity data for mammals: direct 1/million mortality : weight of test animal,grams,,,2.00E+01,2.00E+02,2.00E+01
+dbt_mamm_1inten_mort_wgt,dose based toxicity data for mammals: indirect 10% mortality : weight of test animal,grams,,,2.00E+01,2.00E+02,2.00E+01
+dbt_mamm_low_ld50_wgt,dose based toxicity data for mammals: lowest LD50 : weight of test animal,grams,,,2.00E+01,2.00E+02,2.00E+01
+dbt_mamm_rat_oral_ld50_wgt,dose based toxicity data for mammals: rat oral LD50 : weight of test animal,grams,,,2.00E+01,2.00E+02,2.00E+01
+dbt_mamm_rat_derm_ld50_wgt,dose based toxicity data for mammals: rat dermal LD50 : weight of test animal,grams,,,3.50E+02,2.00E+02,3.50E+02
+dbt_mamm_rat_inhal_ld50_wgt,dose based toxicity data for mammals: rat inhalation LD50 : weight of test animal,grams,,,3.50E+02,2.00E+02,3.50E+02
+dbt_mamm_sub_direct_wgt,dose based toxicity data for mammals: direct sublethal threshold : weight of test animal,grams,,,3.50E+02,2.00E+02,3.50E+02
+dbt_mamm_sub_indirect_wgt,dose based toxicity data for mammals: indirect sublethal : weight of test animal,grams,,,3.50E+02,2.00E+02,3.50E+02
+dbt_bird_1inmill_mort,dose based toxicity data forbirds:direct 1/million mortality,mg-pest/kg-bw,,,1.90E-02,1.00E+00,1.90E-02
+dbt_bird_1inten_mort,dose based toxicity data for birds: indirect 10% mortality,mg-pest/kg-bw,,,1.90E-01,1.00E+00,1.90E-01
+dbt_bird_low_ld50,dose based toxicity data for birds: lowest LD50,mg-pest/kg-bw,,,1.18E+00,1.00E+00,1.18E+00
+dbt_bird_hc05,dose based toxicity data for birds: HC05,mg-pest/kg-bw,,,4.30E-01,1.00E+00,4.30E-01
+dbt_bird_hc50,dose based toxicity data for birds: HC50,mg-pest/kg-bw,,,1.51E+00,1.00E+00,1.51E+00
+dbt_bird_hc95,dose based toxicity data for birds: HC95,mg-pest/kg-bw,,,1.42E+01,1.00E+00,1.42E+01
+dbt_bird_sub_direct,dose based toxicity data for birds: direct sublethal ,mg-pest/kg-bw,,,3.16E-01,1.00E+00,3.16E-01
+dbt_bird_sub_indirect,dose based toxicity data for birds: indirect sublethal,mg-pest/kg-bw,,,6.81E-01,1.00E+00,6.81E-01
+mineau_sca_fact,mineau scaling factor,,,,6.30E-01,1.15E+00,6.30E-01
+dbt_bird_1inmill_mort_wgt,dose based toxicity data for birds:direct 1/million mortality : weight of test animal,grams,,,1.00E+02,2.00E+02,1.00E+02
+dbt_bird_1inten_mort_wgt,dose based toxicity data for birds: indirect 10% mortality : weight of test animal,grams,,,1.00E+02,2.00E+02,1.00E+02
+dbt_bird_low_ld50_wgt,dose based toxicity data for birds: lowest LD50 : weight of test animal,grams,,,1.58E+03,3.50E+02,1.58E+03
+dbt_bird_hc05_wgt,dose based toxicity data for birds: HC05 : weight of test animal,grams,,,1.00E+02,2.00E+02,1.00E+02
+dbt_bird_hc50_wgt,dose based toxicity data for birds: HC50 : weight of test animal,grams,,,1.00E+02,2.00E+02,1.00E+02
+dbt_bird_hc95_wgt,dose based toxicity data for birds: HC95 : weight of test animal,grams,,,1.00E+02,2.00E+02,1.00E+02
+dbt_bird_sub_direct_wgt,dose based toxicity data for birds: direct sublethal  : weight of test animal,grams,,,1.58E+03,2.00E+02,1.58E+03
+dbt_bird_sub_indirect_wgt,dose based toxicity data for birds: indirect sublethal : weight of test animal,grams,,,1.58E+03,2.00E+02,1.58E+03
+mineau_sca_fact_wgt,mineau scaling factor : weight of test animal (NOT CERTAIN THIS IS VALID VARIABLE),grams,,, ,2.00E+02, 
+dbt_reptile_1inmill_mort,dose based toxicity data for reptiles & terrestrial-phase amphibians:direct 1/million mortality,mg-pest/kg-bw,,,1.90E-02,1.00E+00,1.90E-02
+dbt_reptile_1inten_mort,dose based toxicity data for  reptiles & terrestrial-phase amphibians: indirect 10% mortality,mg-pest/kg-bw,,,1.90E-01,1.00E+00,1.90E-01
+dbt_reptile_low_ld50,dose based toxicity data for reptiles & terrestrial-phase amphibianss: lowest LD50,mg-pest/kg-bw,,,1.18E+00,1.00E+00,1.18E+00
+dbt_reptile_sub_direct,dose based toxicity data for reptiles & terrestrial-phase amphibians: direct sublethal ,mg-pest/kg-bw,,,3.16E-01,1.00E+00,3.16E-01
+dbt_reptile_sub_indirect,dose based toxicity data for reptiles & terrestrial-phase amphibians: indirect sublethal,mg-pest/kg-bw,,,6.81E-01,1.00E+00,6.81E-01
+dbt_reptile_1inmill_mort_wgt,dose based toxicity data for reptiles & terrestrial-phase amphibians:direct 1/million mortality : weight of test animal,grams,,,1.00E+02,2.00E+02,1.00E+02
+dbt_reptile_1inten_mort_wgt,dose based toxicity data for  reptiles & terrestrial-phase amphibians: indirect 10% mortality : weight of test animal,grams,,,1.00E+02,2.00E+02,1.00E+02
+dbt_reptile_low_ld50_wgt,dose based toxicity data for reptiles & terrestrial-phase amphibianss: lowest LD50 : weight of test animal,grams,,,1.58E+03,2.00E+02,1.58E+03
+dbt_reptile_sub_direct_wgt,dose based toxicity data for reptiles & terrestrial-phase amphibians: direct sublethal  : weight of test animal,grams,,,1.58E+03,2.00E+02,1.58E+03
+dbt_reptile_sub_indirect_wgt,dose based toxicity data for reptiles & terrestrial-phase amphibians: indirect sublethal : weight of test animal,grams,,,1.58E+03,2.00E+02,1.58E+03
+cbt_mamm_1inmill_mort,concentration based toxicity data for mammals: direct 1/million mortality,mg-pest/kg-diet ,,,1.59E+01,1.00E+00,1.59E+01
+cbt_mamm_1inten_mort,concentration based toxicity data for mammals: indirect 10% mortality,mg-pest/kg-diet ,,,2.52E+02,1.00E+00,2.52E+02
+cbt_mamm_low_lc50,concentration based toxicity data for mammals: lowest LC50,mg-pest/kg-diet ,,,7.00E+02,1.00E+02,7.00E+02
+cbt_mamm_sub_direct,concentration based toxicity data for mammals: direct sublethal threshold,mg-pest/kg-diet ,,,2.30E+00,1.00E+00,2.30E+00
+cbt_mamm_grow_noec,concentration based toxicity data for mammals: growth NOEC,mg-pest/kg-diet ,,, ,1.00E+00, 
+cbt_mamm_grow_loec,concentration based toxicity data for mammals: growth LOEC,mg-pest/kg-diet ,,,3.80E+00,1.00E+00,3.80E+00
+cbt_mamm_repro_noec,concentration based toxicity data for mammals: reproduction NOEC,mg-pest/kg-diet ,,, ,1.00E+00, 
+cbt_mamm_repro_loec,concentration based toxicity data for mammals: reproduction LOEC,mg-pest/kg-diet ,,,1.34E+01,1.00E+00,1.34E+01
+cbt_mamm_behav_noec,concentration based toxicity data for mammals: behavior NOEC,mg-pest/kg-diet ,,,1.00E-01,1.00E+00,1.00E-01
+cbt_mamm_behav_loec,concentration based toxicity data for mammals: behavior LOEC,mg-pest/kg-diet ,,,1.00E+00,1.00E+00,1.00E+00
+cbt_mamm_sensory_noec,concentration based toxicity data for mammals: sensory NOEC,mg-pest/kg-diet ,,, ,1.00E+00, 
+cbt_mamm_sensory_loec,concentration based toxicity data for mammals: sensory LOEC,mg-pest/kg-diet ,,, ,1.00E+00, 
+cbt_mamm_sub_indirect,concentration based toxicity data for mammals: indirect sublethal threshold,mg-pest/kg-diet ,,,1.04E+01,1.00E+00,1.04E+01
+cbt_bird_1inmill_mort,concentration based toxicity data for birds: direct 1/million mortality,mg-pest/kg-diet ,,,2.50E+00,1.00E+00,2.50E+00
+cbt_bird_1inten_mort,concentration based toxicity data for birds: indirect 10% mortality,mg-pest/kg-diet ,,,1.80E+01,1.00E+00,1.80E+01
+cbt_bird_low_lc50,concentration based toxicity data for birds: lowest LC50,mg-pest/kg-diet ,,,3.80E+01,2.50E+02,3.80E+01
+cbt_bird_sub_direct,concentration based toxicity data for birds: direct sublethal threshold,mg-pest/kg-diet ,,,4.00E+00,1.00E+00,4.00E+00
+cbt_bird_grow_noec,concentration based toxicity data for birds: growth NOEC,mg-pest/kg-diet ,,,8.30E+00,1.00E+00,8.30E+00
+cbt_bird_grow_loec,concentration based toxicity data for birds: growth LOEC,mg-pest/kg-diet ,,,1.63E+01,1.00E+00,1.63E+01
+cbt_bird_repro_noec,concentration based toxicity data for birds: reproduction NOEC,mg-pest/kg-diet ,,,8.30E+00,1.00E+00,8.30E+00
+cbt_bird_repro_loec,concentration based toxicity data for birds: reproduction LOEC,mg-pest/kg-diet ,,,1.63E+01,2.50E+01,1.63E+01
+cbt_bird_behav_noec,concentration based toxicity data for birds: behavior NOEC,mg-pest/kg-diet ,,,3.50E+01,1.00E+00,3.50E+01
+cbt_bird_behav_loec,concentration based toxicity data for birds: behavior LOEC,mg-pest/kg-diet ,,,5.00E+01,1.00E+00,5.00E+01
+cbt_bird_sensory_noec,concentration based toxicity data for birds: sensory NOEC,mg-pest/kg-diet ,,, ,1.00E+00, 
+cbt_bird_sensory_loec,concentration based toxicity data for birds: sensory LOEC,mg-pest/kg-diet ,,, ,1.00E+00, 
+cbt_bird_sub_indirect,concentration based toxicity data for birds: indirect sublethal threshold,mg-pest/kg-diet ,,,4.00E+00,1.00E+00,4.00E+00
+cbt_reptile_1inmill_mort,concentration based toxicity data for reptiles & terrestrial-phase amphibians: direct 1/million mortality,mg-pest/kg-diet ,,,2.50E+00,1.00E+00,2.50E+00
+cbt_reptile_1inten_mort,concentration based toxicity data for reptiles & terrestrial-phase amphibians: indirect 10% mortality,mg-pest/kg-diet ,,,1.80E+01,1.00E+00,1.80E+01
+cbt_reptile_low_lc50,concentration based toxicity data for reptiles & terrestrial-phase amphibians: lowest LC50,mg-pest/kg-diet ,,,3.80E+01,1.00E+00,3.80E+01
+cbt_reptile_sub_direct,concentration based toxicity data for reptiles & terrestrial-phase amphibians: direct sublethal threshold,mg-pest/kg-diet ,,,4.00E+00,1.00E+00,4.00E+00
+cbt_reptile_grow_noec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: growth NOEC,mg-pest/kg-diet ,,,8.30E+00,1.00E+00,8.30E+00
+cbt_reptile_grow_loec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: growth LOEC,mg-pest/kg-diet ,,,1.63E+01,1.00E+00,1.63E+01
+cbt_reptile_repro_noec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: reproduction NOEC,mg-pest/kg-diet ,,,8.30E+00,1.00E+00,8.30E+00
+cbt_reptile_repro_loec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: reproduction LOEC,mg-pest/kg-diet ,,,1.63E+01,1.00E+00,1.63E+01
+cbt_reptile_behav_noec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: behavior NOEC,mg-pest/kg-diet ,,,4.00E+00,1.00E+00,4.00E+00
+cbt_reptile_behav_loec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: behavior LOEC,mg-pest/kg-diet ,,,4.00E+00,1.00E+00,4.00E+00
+cbt_reptile_sensory_noec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: sensory NOEC,mg-pest/kg-diet ,,, ,1.00E+00, 
+cbt_reptile_sensory_loec,concentration based toxicity data for reptiles & terrestrial-phase amphibians: sensory LOEC,mg-pest/kg-diet ,,, ,1.00E+00, 
+cbt_reptile_sub_indirect,concentration based toxicity data for reptiles & terrestrial-phase amphibians: indirect sublethal threshold,mg-pest/kg-diet ,,,4.00E+00,1.00E+00,4.00E+00
+cbt_inv_bw_1inmill_mort,concentration based toxicity data for invertebrates (body weight): direct 1/million mortality,mg-pest/kg-bw(ww),,,2.00E-02,1.00E+00,2.00E-02
+cbt_inv_bw_1inten_mort,concentration based toxicity data for invertebrates (body weight): indirect 10% mortality,mg-pest/kg-bw(ww),,,8.00E-02,1.00E+00,8.00E-02
+cbt_inv_bw_low_lc50,concentration based toxicity data for invertebrates (body weight):  lowest LC50,mg-pest/kg-bw(ww),,,1.50E-01,1.00E+02,1.50E-01
+cbt_inv_bw_sub_direct,concentration based toxicity data for invertebrates (body weight): direct sublethal,mg-pest/kg-bw(ww),,, ,1.00E+00, 
+cbt_inv_bw_grow_noec,concentration based toxicity data for invertebrates (body weight): growth NOEC,mg-pest/kg-bw(ww),,, ,1.00E+00, 
+cbt_inv_bw_grow_loec,concentration based toxicity data for invertebrates (body weight): growth LOEC,mg-pest/kg-bw(ww),,, ,1.00E+00, 
+cbt_inv_bw_repro_noec,concentration based toxicity data for invertebrates (body weight): reproduction NOEC,mg-pest/kg-bw(ww),,, ,1.00E+00, 
+cbt_inv_bw_repro_loec,concentration based toxicity data for invertebrates (body weight): reproduction LOEC,mg-pest/kg-bw(ww),,, ,1.00E+00, 
+cbt_inv_bw_behav_noec,concentration based toxicity data for invertebrates (body weight): behavior NOEC,mg-pest/kg-bw(ww),,, ,1.00E+00, 
+cbt_inv_bw_behav_loec,concentration based toxicity data for invertebrates (body weight): behavior LOEC,mg-pest/kg-bw(ww),,, ,1.00E+00, 
+cbt_inv_bw_sensory_noec,concentration based toxicity data for invertebrates (body weight): sensory NOEC,mg-pest/kg-bw(ww),,, ,1.00E+00, 
+cbt_inv_bw_sensory_loec,concentration based toxicity data for invertebrates (body weight): sensory LOEC,mg-pest/kg-bw(ww),,, ,1.00E+00, 
+cbt_inv_bw_sub_indirect,concentration based toxicity data for invertebrates (body weight): indirect sublethal,mg-pest/kg-bw(ww),,,1.50E-01,1.00E+00,1.50E-01
+cbt_inv_food_1inmill_mort,concentration based toxicity data for invertebrates (food): direct 1/million mortality,mg-pest/kg-food(ww),,, ,1.00E+00, 
+cbt_inv_food_1inten_mort,concentration based toxicity data for invertebrates (food): indirect 10% mortality,mg-pest/kg-food(ww),,, ,1.00E+00, 
+cbt_inv_food_low_lc50,concentration based toxicity data for invertebrates (food):  lowest LC50,mg-pest/kg-food(ww),,, ,1.00E+00, 
+cbt_inv_food_sub_direct,concentration based toxicity data for invertebrates (food): direct sublethal,mg-pest/kg-food(ww),,,5.00E+00,1.00E+00,5.00E+00
+cbt_inv_food_grow_noec,concentration based toxicity data for invertebrates (food): growth NOEC,mg-pest/kg-food(ww),,, ,1.00E+00, 
+cbt_inv_food_grow_loec,concentration based toxicity data for invertebrates (food): growth LOEC,mg-pest/kg-food(ww),,,1.00E+02,1.00E+00,1.00E+02
+cbt_inv_food_repro_noec,concentration based toxicity data for invertebrates (food): reproduction NOEC,mg-pest/kg-food(ww),,, ,1.00E+00, 
+cbt_inv_food_repro_loec,concentration based toxicity data for invertebrates (food): reproduction LOEC,mg-pest/kg-food(ww),,, ,1.00E+00, 
+cbt_inv_food_behav_noec,concentration based toxicity data for invertebrates (food): behavior NOEC,mg-pest/kg-food(ww),,, ,1.00E+00, 
+cbt_inv_food_behav_loec,concentration based toxicity data for invertebrates (food): behavior LOEC,mg-pest/kg-food(ww),,,5.00E+00,1.00E+00,5.00E+00
+cbt_inv_food_sensory_noec,concentration based toxicity data for invertebrates (food): sensory NOEC,mg-pest/kg-food(ww),,, ,1.00E+00, 
+cbt_inv_food_sensory_loec,concentration based toxicity data for invertebrates (food): sensory LOEC,mg-pest/kg-food(ww),,, ,1.00E+00, 
+cbt_inv_food_sub_indirect,concentration based toxicity data for invertebrates (food): indirect sublethal,mg-pest/kg-food(ww),,,1.00E+01,1.00E+00,1.00E+01
+cbt_inv_soil_1inmill_mort,concentration based toxicity data for invertebrates (soil): direct 1/million mortality,mg-pest/kg-soil(dw),,, ,1.00E+00, 
+cbt_inv_soil_1inten_mort,concentration based toxicity data for invertebrates (soil): indirect 10% mortality,mg-pest/kg-soil(dw),,, ,1.00E+00, 
+cbt_inv_soil_low_lc50,concentration based toxicity data for invertebrates (soil):  lowest LC50,mg-pest/kg-soil(dw),,, ,1.00E+00, 
+cbt_inv_soil_sub_direct,concentration based toxicity data for invertebrates (soil): direct sublethal,mg-pest/kg-soil(dw),,,3.09E+00,1.00E+00,3.09E+00
+cbt_inv_soil_grow_noec,concentration based toxicity data for invertebrates (soil): growth NOEC,mg-pest/kg-soil(dw),,, ,1.00E+00, 
+cbt_inv_soil_grow_loec,concentration based toxicity data for invertebrates (soil): growth LOEC,mg-pest/kg-soil(dw),,, ,1.00E+00, 
+cbt_inv_soil_repro_noec,concentration based toxicity data for invertebrates (soil): reproduction NOEC,mg-pest/kg-soil(dw),,, ,1.00E+00, 
+cbt_inv_soil_repro_loec,concentration based toxicity data for invertebrates (soil): reproduction LOEC,mg-pest/kg-soil(dw),,,9.70E-02,1.00E+00,9.70E-02
+cbt_inv_soil_behav_noec,concentration based toxicity data for invertebrates (soil): behavior NOEC,mg-pest/kg-soil(dw),,, ,1.00E+00, 
+cbt_inv_soil_behav_loec,concentration based toxicity data for invertebrates (soil): behavior LOEC,mg-pest/kg-soil(dw),,,9.00E+00,1.00E+00,9.00E+00
+cbt_inv_soil_sensory_noec,concentration based toxicity data for invertebrates (soil): sensory NOEC,mg-pest/kg-soil(dw),,, ,1.00E+00, 
+cbt_inv_soil_sensory_loec,concentration based toxicity data for invertebrates (soil): sensory LOEC,mg-pest/kg-soil(dw),,,1.75E+00,1.00E+00,1.75E+00
+cbt_inv_soil_sub_indirect,concentration based toxicity data for invertebrates (soil): indirect sublethal,mg-pest/kg-soil(dw),,,3.09E+00,1.00E+00,3.09E+00
+arbt_mamm_mort,application rate-based toxicity data for mammals: mortality,(lbs active ingredient) / acre,,, ,1.00E+00, 
+arbt_mamm_growth,application rate-based toxicity data for mammals: growth,(lbs active ingredient) / acre,,, ,1.00E+00, 
+arbt_mamm_repro,application rate-based toxicity data for mammals: reproduction,(lbs active ingredient) / acre,,,5.00E-01,1.00E+00,5.00E-01
+arbt_mamm_behav,application rate-based toxicity data for mammals: behavior,(lbs active ingredient) / acre,,,5.00E-01,1.00E+00,5.00E-01
+arbt_mamm_sensory,application rate-based toxicity data for mammals: sensory,(lbs active ingredient) / acre,,, ,1.00E+00, 
+arbt_bird_mort,application rate-based toxicity data for birds: mortality,(lbs active ingredient) / acre,,,3.10E-01,1.00E+00,3.10E-01
+arbt_bird_growth,application rate-based toxicity data for birds: growth,(lbs active ingredient) / acre,,,2.00E+00,1.00E+00,2.00E+00
+arbt_bird_repro,application rate-based toxicity data for birds: reproduction,(lbs active ingredient) / acre,,,2.00E+00,1.00E+00,2.00E+00
+arbt_bird_behav,application rate-based toxicity data for birds: behavior,(lbs active ingredient) / acre,,,2.00E+00,1.00E+00,2.00E+00
+arbt_bird_sensory,application rate-based toxicity data for birds: sensory,(lbs active ingredient) / acre,,, ,1.00E+00, 
+arbt_reptile_mort,"application rate-based toxicity data for reptiles, terrestrial-phase amphibians: mortality",(lbs active ingredient) / acre,,,3.10E-01,1.00E+00,3.10E-01
+arbt_reptile_growth,"application rate-based toxicity data for reptiles, terrestrial-phase amphibians: growth",(lbs active ingredient) / acre,,,2.00E+00,1.00E+00,2.00E+00
+arbt_reptile_repro,"application rate-based toxicity data for reptiles, terrestrial-phase amphibians: reproduction",(lbs active ingredient) / acre,,,2.00E+00,1.00E+00,2.00E+00
+arbt_reptile_behav,"application rate-based toxicity data for reptiles, terrestrial-phase amphibians: behavior",(lbs active ingredient) / acre,,,2.00E+00,1.00E+00,2.00E+00
+arbt_reptile_sensory,"application rate-based toxicity data for reptiles, terrestrial-phase amphibians: sensory",(lbs active ingredient) / acre,,, ,1.00E+00, 
+arbt_inv_1inmill_mort,application rate-based toxicity data for terrestrial invertebrates: direct 1/million mortality,(lbs active ingredient) / acre,,, ,1.00E+00, 
+arbt_inv_1inten_mort,application rate-based toxicity data for terrestrial invertebrates: indirect 10% mortality,(lbs active ingredient) / acre,,, ,1.00E+00, 
+arbt_inv_sub_direct,application rate-based toxicity data for terrestrial invertebrates: direct sublethal,(lbs active ingredient) / acre,,,2.50E-01,1.00E+00,2.50E-01
+arbt_inv_sub_indirect,application rate-based toxicity data for terrestrial invertebrates: indirect sublethal,(lbs active ingredient) / acre,,,2.50E-01,1.00E+00,2.50E-01
+arbt_inv_growth,application rate-based toxicity data for terrestrial invertebrates: growth LOAEL (decreased weight),(lbs active ingredient) / acre,,, ,1.00E+00, 
+arbt_inv_repro,application rate-based toxicity data for terrestrial invertebrates: reproduction LOAEL (reduced emergence),(lbs active ingredient) / acre,,,1.34E+00,1.00E+00,1.34E+00
+arbt_inv_behav,application rate-based toxicity data for terrestrial invertebrates: behavior NOAEL (activity),(lbs active ingredient) / acre,,, ,1.00E+00, 
+arbt_inv_sensory,application rate-based toxicity data for terrestrial invertebrates: sensory LOAEL (avoidance),(lbs active ingredient) / acre,,, ,1.00E+00, 
+pt_mono_pre_noec,plant toxicity data for monocots: direct preemergence NOEC (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+pt_mono_pre_loec,plant toxicity data for monocots: direct and indirect preemergence LOEC (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+pt_mono_pre_ec25,plant toxicity data for monocots: indirect preemergence EC25 (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+pt_mono_post_noec,plant toxicity data for monocots: direct post emergence NOEC (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+pt_mono_post_loec,plant toxicity data for monocots: direct post emergence LOEC (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+pt_mono_post_ec25,plant toxicity data for monocots: direct post emergence EC25 (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+pt_mono_dir_mort,plant toxicity data for monocots: direct mortality,(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+pt_mono_indir_mort,plant toxicity data for monocots: indirect mortality,(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+pt_mono_dir_repro,plant toxicity data for monocots: direct reproduction,(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+pt_mono_indir_repro,plant toxicity data for monocots: indirect reproduction,(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+pt_dicot_pre_noec,plant toxicity data for dicots: direct preemergence NOEC (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+pt_dicot_pre_loec,plant toxicity data for dicots: direct and indirect preemergence LOEC (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+pt_dicot_pre_ec25,plant toxicity data for dicots: indirect preemergence EC25 (growth),(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+pt_dicot_post_noec,plant toxicity data for dicots: direct post emergence NOEC (growth),(lbs active ingredient) / acre,,,3.80E-01,1.00E+00,3.80E-01
+pt_dicot_post_loec,plant toxicity data for dicots: direct post emergence LOEC (growth),(lbs active ingredient) / acre,,,3.80E-01,1.00E+00,3.80E-01
+pt_dicot_post_ec25,plant toxicity data for dicots: direct post emergence EC25 (growth),(lbs active ingredient) / acre,,,3.20E+00,1.00E+00,3.20E+00
+pt_dicot_dir_mort,plant toxicity data for dicots: direct mortality,(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+pt_dicot_indir_mort,plant toxicity data for dicots: indirect mortality,(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+pt_dicot_dir_repro,plant toxicity data for dicots: direct reproduction,(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+pt_dicot_indir_repro,plant toxicity data for dicots: indirect reproduction,(lbs active ingredient) / acre,,,4.00E+00,1.00E+00,4.00E+00
+out_diet_eec_upper_min_sg_maxdaily,the maximum pesticide concentration in short grass among the daily values for the upper dietary food factor and minimum application scenario,mg/kg-diet,,,,,
+exp_diet_eec_upper_min_sg_maxdaily,the expected value of the maximum pesticide concentration in short grass among the daily values for the upper dietary food factor and minimum application scenario,mg/kg-diet,,,80.234,80.234,80.234

@@ -37,6 +37,7 @@ class TedAggregateMethods(object):
         self.gms_to_mg = 1000.
         self.m3_to_liters = 1000.
         self.mg_to_ug = 1000.
+        self.minutes_per_hr = 60.
 
         self.unitless_henry_law = self.henry_law_const / (self.gas_const * self.stan_temp_kelvin)
         self.log_unitless_hlc = np.log10(self.unitless_henry_law)
@@ -58,7 +59,8 @@ class TedAggregateMethods(object):
         # soil properties
         self.soil_depth = 2.6  # cm
         self.soil_foc = 0.015
-        self.app_rate_conv = 11.2  # conversion factor used to convert units of application rate (lbs a.i./acre) to (ug a.i./mL); assuming 1 inch depth of soil
+        self.app_rate_conv1 = 11.2  # conversion factor used to convert units of application rate (lbs a.i./acre) to metric units to derive concentration in units of (ug a.i./mL); assuming depth/height in units of centimeters
+        self.app_rate_conv2 = 0.112 # conversion factor used to convert units of application rate (lbs a.i./acre) to metric units to derive concentration in units of (ug a.i./mL); assuming depth/height in units of meters
         self.soil_particle_density = 2.65  # kg/L
         self.soil_bulk_density = 1.5  # kg/L
         self.soil_porosity = (1. - (self.soil_bulk_density / self.soil_particle_density))
@@ -116,15 +118,71 @@ class TedAggregateMethods(object):
         self.intake_param_a1_rep_amphi = 0.013
         self.intake_param_b1_rep_amphi = 0.773
 
+        # parameters used to calculate water intake rate for vertebrates (Table A 1-7.7 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment'
+        self.h2ointake_param_a2_birds_pass = 1.18
+        self.h2ointake_param_b2_birds_pass = 0.874
+        self.h2ointake_param_c2_birds_pass = 1.0
+        self.h2ointake_param_a2_birds_nonpass = 1.18
+        self.h2ointake_param_b2_birds_nonpass = 0.874
+        self.h2ointake_param_c2_birds_nonpass = 3.7
+        self.h2ointake_param_a2_mamm = 0.326
+        self.h2ointake_param_b2_mamm = 0.818
+        self.h2ointake_param_c2_mamm = 1.0
+        self.h2ointake_param_a2_rep_amphi = 0.065
+        self.h2ointake_param_b2_rep_amphi = 0.726
+        self.h2ointake_param_c2_rep_amphi = 1.0 # this number is in question; in OPP sreadsheet it is 3.7; in table A 1-7.7 it is 1.0
+
+        # set constants for dermal dose calculations (from Table A 1-7.9 and Eq 16)
+        self.foliar_residue_factor = 0.62
+        self.foliar_contact_rate = 6.01
+        self.derm_contact_hours = 8.0
+        self.frac_animal_foliage_contact = 0.079
+        self.derm_contact_factor = 0.1
+        self.derm_absorp_factor = 1.0
+        self.frac_body_exposed = 0.5
+
+        # set species surface area parameters (from Eq 12)
+        self.surface_area_birds_a3 = 10.0
+        self.surface_area_birds_b3 = 0.667
+        self.surface_area_mamm_a3 = 12.3
+        self.surface_area_mamm_b3 = 0.65
+        self.surface_area_amphi_frogs_toads_a3 = 1.131
+        self.surface_area_amphi_frogs_toads_b3 = 0.579
+        self.surface_area_amphi_sal_a3 = 8.42
+        self.surface_area_amphi_sal_b3 = 0.694
+        self.surface_area_reptile_turtle_a3 = 16.61
+        self.surface_area_reptile_turtle_b3 = 0.61
+        self.surface_area_reptile_snake_a3 = 25.05
+        self.surface_area_reptile_snake_b3 = 0.63
+
+        # set parameters used to calculate inhalation rate for vertebrates (Table A 1-7.12)
+        self.inhal_rate_birds_a4 = 284.
+        self.inhal_rate_birds_b4 = 0.77
+        self.inhal_rate_mamm_a4 = 379.
+        self.inhal_rate_mamm_b4 = 0.80
+        self.inhal_rate_rep_amphi_a4 = 76.9
+        self.inhal_rate_rep_amphi_b4 = 0.76
+
+        self.app_frac_timestep_aerial = 0.025 # fraction of 1 hour time step (i.e., 90 seconds)
+        self.app_frac_timestep_gnd_blast = 0.0083 # fraction of 1 hour time step (i.e., 30 seconds)
+        self.spray_release_hgt_aerial = 3.3 # meters
+        self.spray_release_hgt_gnd_blast = 1.0 # meters
+
+        self.lab_to_field_factor = 3.0 # as included in Eq 19
+        self.bird_to_mamm_pulmonary_diff_rate = 3.4 # as included in Eq 22
+
+        self.inhal_dose_period = 24.0
+
         # generic animal bodyweights (for use in daily allometric dietary consumption rate calculations)
-        self.mamm_sm_bodywgt = 15.  # gms
-        self.mamm_lg_bodywgt = 1000.  # gms
-        self.bird_sm_bodywgt = 20.  # gms
-        self.rep_amphi_bodywgt = 2. # gms
+        self.mamm_sm_bodywgt = 15.   # gms
+        self.mamm_lg_bodywgt = 1000. # gms
+        self.bird_sm_bodywgt = 20.   # gms
+        self.rep_amphi_bodywgt = 2.  # gms
 
     def spray_drift_params(self, sim_num):
         """
         :description sets spray drift parameters for calculations of distance from source area associated with pesticide concentrations
+        :param sim_num number of simulation
 
         :return:
         """
@@ -144,6 +202,7 @@ class TedAggregateMethods(object):
     def runoff_params(self, sim_num):
         """
         :description  calculate runoff parameters for min/max application scenarios
+        :param sim_num number of simulation
 
         :return:
         """
@@ -164,24 +223,28 @@ class TedAggregateMethods(object):
         self.calc_plant_tox_ratios()
 
         # calculate plant runoff-based EECs for min/max application scenarios
+        # (represents calculations found in columns C & D rows 9 - 10 in OPP TED Excel spreadsheet 'Plants' worksheet)
         self.runoff_eec_dry_area_min, self.runoff_eec_semiaq_area_min = self.calc_runoff_based_eec(self.app_rate_min[sim_num], self.pest_incorp_min, self.runoff_frac_min)
         self.runoff_eec_dry_area_max, self.runoff_eec_semiaq_area_max = self.calc_runoff_based_eec(self.app_rate_max[sim_num], self.pest_incorp_max, self.runoff_frac_max)
 
         # determine if plant EEC due to runoff exceeds various thresholds for pre-emergence of monocots and dicots
+        # (represents determinations found in columns C & D rows 14 - 28 in OPP TED Excel spreadsheet 'Plants' worksheet)
         self.plant_risk_conclusions(sim_num)
 
         # calculate plant risk threshold distances
+        # (represents columns C & D rows 32 to 51 in OPP TED Excel spreadsheet 'Plants' worksheet)
         self.plant_risk_threshold_distances(sim_num)
 
     def conc_based_eec_timeseries(self, sim_num):
         """
         :description executes collection of functions/methods associated with the 'min/max rate concentrations' worksheet in the OPP TED Excel model
             # calculate upper bound and mean concentration based EECs for food items (daily values for a year) - min application scenario
+        :param sim_num number of simulation
 
         :return:
         """
         # set/reset arrays for holding single simulation results
-        self.initialize_eec_timeseries()
+        self.initialize_simlation_panda_series()
 
         # generate daily flag to identify application day numbers within year for min/max application scenarios
         self.app_flags_min_scenario = self.daily_app_flag(self.num_apps_min[sim_num], self.app_interval_min[sim_num])
@@ -220,8 +283,8 @@ class TedAggregateMethods(object):
         self.out_conc_puddles_min = self.daily_soil_h2o_timeseries(sim_num, self.app_rate_min[sim_num], self.app_flags_min_scenario, "puddles")
         self.out_conc_puddles_max = self.daily_soil_h2o_timeseries(sim_num, self.app_rate_max[sim_num], self.app_flags_max_scenario, "puddles")
 
-        self.out_dew_conc_min = self.daily_plant_dew_timeseries(sim_num, self.out_diet_eec_upper_min_blp)
-        self.out_dew_conc_max = self.daily_plant_dew_timeseries(sim_num, self.out_diet_eec_upper_max_blp)
+        self.out_conc_dew_min = self.daily_plant_dew_timeseries(sim_num, self.out_diet_eec_upper_min_blp)
+        self.out_conc_dew_max = self.daily_plant_dew_timeseries(sim_num, self.out_diet_eec_upper_max_blp)
 
         self.out_soil_conc_min = self.daily_soil_timeseries(sim_num, self.out_conc_pore_h2o_min)
         self.out_soil_conc_max = self.daily_soil_timeseries(sim_num, self.out_conc_pore_h2o_max)
@@ -409,7 +472,7 @@ class TedAggregateMethods(object):
         self.eec_tox_frac_reptile_1 = self.calc_eec_tox_frac(self.num_ts, self.num_tox, self.eec_ts_upper_min_1, self.tox_cbt_reptile)
         self.eec_tox_frac_inv_1 = self.calc_eec_tox_frac(self.num_ts, self.num_tox, self.eec_ts_upper_min_1, self.tox_cbt_inv)
 
-        # calculate distances from source area related to max daily concentration
+        # calculate distances from source area related to max daily concentration (minimum application scenario)
         self.eec_dist_upper_min_mamm = self.calc_maxeec_distance(self.eec_tox_frac_mamm_1, self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
         self.eec_dist_upper_min_bird = self.calc_maxeec_distance(self.eec_tox_frac_bird_1, self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
         self.eec_dist_upper_min_reptile = self.calc_maxeec_distance(self.eec_tox_frac_reptile_1, self.drift_param_a_min, self.drift_param_b_min, self.drift_param_c_min, self.max_drift_distance_minapp)
@@ -430,437 +493,92 @@ class TedAggregateMethods(object):
         self.eec_tox_frac_reptile_1 = self.calc_eec_tox_frac(self.num_ts, self.num_tox, self.eec_ts_upper_max_1, self.tox_cbt_reptile)
         self.eec_tox_frac_inv_1 = self.calc_eec_tox_frac(self.num_ts, self.num_tox, self.eec_ts_upper_max_1, self.tox_cbt_inv)
 
-        # calculate distances from source area related to max daily concentration (not calculated for minimum application scenario)
+        # calculate distances from source area related to max daily concentration (maximum application scenario)
         self.eec_dist_upper_max_mamm = self.calc_maxeec_distance(self.eec_tox_frac_mamm_1, self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
         self.eec_dist_upper_max_bird = self.calc_maxeec_distance(self.eec_tox_frac_bird_1, self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
         self.eec_dist_upper_max_reptile = self.calc_maxeec_distance(self.eec_tox_frac_reptile_1, self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
         self.eec_dist_upper_max_inv = self.calc_maxeec_distance(self.eec_tox_frac_inv_1, self.drift_param_a_max, self.drift_param_b_max, self.drift_param_c_max, self.max_drift_distance_maxapp)
 
-    def initialize_eec_timeseries(self):
-
-        app_flags_min_scenario = np.full(self.num_simulation_days, True, dtype=bool)
-        app_flags_max_scenario = np.full(self.num_simulation_days, True, dtype=bool)
-
-        self.out_diet_eec_upper_min_sg = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_upper_min_tg = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_upper_min_blp = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_upper_min_fp = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_upper_min_arthro = np.zeros(self.num_simulation_days)
-
-        self.out_diet_eec_mean_min_sg = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_mean_min_tg = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_mean_min_blp = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_mean_min_fp = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_mean_min_arthro = np.zeros(self.num_simulation_days)
-
-        self.out_diet_eec_upper_max_sg = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_upper_max_tg = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_upper_max_blp = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_upper_max_fp = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_upper_max_arthro = np.zeros(self.num_simulation_days)
-
-        self.out_diet_eec_mean_max_sg = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_mean_max_tg = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_mean_max_blp = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_mean_max_fp = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_mean_max_arthro = np.zeros(self.num_simulation_days)
-
-        self.out_conc_pore_h2o_min = np.zeros(self.num_simulation_days)
-        self.out_conc_pore_h2o_max = np.zeros(self.num_simulation_days)
-
-        self.out_conc_puddles_min = np.zeros(self.num_simulation_days)
-        self.out_conc_puddles_max = np.zeros(self.num_simulation_days)
-
-        self.out_dew_conc_min = np.zeros(self.num_simulation_days)
-        self.out_dew_conc_max = np.zeros(self.num_simulation_days)
-
-        self.out_soil_conc_min = np.zeros(self.num_simulation_days)
-        self.out_soil_conc_max = np.zeros(self.num_simulation_days)
-
-        self.out_air_conc_min = np.zeros(self.num_simulation_days)
-        self.out_air_conc_max = np.zeros(self.num_simulation_days)
-
-        self.out_diet_eec_min_soil_inv = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_max_soil_inv = np.zeros(self.num_simulation_days)
-
-        self.out_diet_eec_upper_min_sm_mamm = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_upper_min_lg_mamm = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_upper_min_sm_bird = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_upper_min_sm_amphi = np.zeros(self.num_simulation_days)
-
-        self.out_diet_eec_mean_min_sm_mamm = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_mean_min_lg_mamm = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_mean_min_sm_bird = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_mean_min_sm_amphi = np.zeros(self.num_simulation_days)
-
-        self.out_diet_eec_upper_max_sm_mamm = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_upper_max_lg_mamm = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_upper_max_sm_bird = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_upper_max_sm_amphi = np.zeros(self.num_simulation_days)
-
-        self.out_diet_eec_mean_max_sm_mamm = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_mean_max_lg_mamm = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_mean_max_sm_bird = np.zeros(self.num_simulation_days)
-        self.out_diet_eec_mean_max_sm_amphi = np.zeros(self.num_simulation_days)
-
     def species_doses(self, sim_num):
         """
-        :description executes collection of functions/methods associated with the 'min/max rate doses' worksheet in the OPP TED Excel model
-            # calculate species/food item specific doses and health measure ratios
+        :description executes collection of functions/methods associated with the 'Min/Max rate doses' worksheet in the OPP TED Excel model
+            # calculate species/food item specific doses (from exposure pathways) and health measure ratios
         :param sim_num model simulation number
 
         :return:
         """
 
-        # read species properties from database
-        self.ReadSpeciesProperties()
-
-        # set value for volumetric fraction of droplet spectrum related to bird respiration limits
-        self.max_respire_frac_minapp = self.set_max_respire_frac(self.app_method_min[sim_num], self.droplet_spec_min[sim_num])
-        self.max_respire_frac_maxapp = self.set_max_respire_frac(self.app_method_max[sim_num], self.droplet_spec_max[sim_num])
-
         # calculate upper bound and mean concentrations in diet per species/diet item combination (for min/max application scenarios)
+        # (represents columns I & J of worksheet 'Min/Max rate doses' of OPP TED spreadsheet model)
         self.calc_species_diet_concs_minapp(sim_num)
         self.calc_species_diet_concs_maxapp(sim_num)
 
         # calculate upper bound and mean dietary doses per species/dieatary item (for min/max application scenarios)
+        # (represents columns K & L of worksheet 'Min/Max rate doses' of OPP TED spreadsheet model)
         self.calc_species_diet_dose_minapp(sim_num)
         self.calc_species_diet_dose_maxapp(sim_num)
 
-        return
+        # calculate water doses from puddle and dew water consumption
+        # represents columns M & N of worksheet 'Min/Max rate doses' of OPP TED spreadsheet model)
+        self.calc_h2o_doses_minapp(sim_num)
+        self.calc_h2o_doses_maxapp(sim_num)
 
-    def calc_species_diet_concs_minapp(self, sim_num):
-        """
-        :description calculates upper bound and mean concentrations of dietary items per species (for minimum application scenario)
-        :param sim_num model simulation number
+        # calculate dermal to oral toxicity equivalency factors
+        # (this method implements Eqs 14 and 15 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment')
+        self.calc_derm_route_equiv_factor(sim_num)
 
-        NOTE: this method addresses columns I & J of worksheet 'Min rate doses' of OPP TED spreadsheet model
-        :return:
-        """
+        # calculate dermal contact doses (upper bound and mean for minimum/maximum application scenarios)
+        # (method addresses columns O & P of worksheet 'Min/Max rate doses' of OPP TED spreadsheet model)
+        self.calc_species_derm_contact_dose_minapp(sim_num)
+        self.calc_species_derm_contact_dose_maxapp(sim_num)
 
-        # initialize panda series to contain upper bound and mean results
-        self.out_diet_conc_upper_min = pd.Series(len(self.com_name) * ['NA'], dtype='object')
-        self.out_diet_conc_mean_min = pd.Series(len(self.com_name) * ['NA'], dtype='object')
+        # calculate dermal spray doses (for minimum/maximum application scenarios)
+        # (represents column Q of worksheet 'Min rate doses' of OPP TED spreadsheet model)
+        self.calc_species_derm_spray_dose_minmaxapp(sim_num)
 
-        # collect the maximum concentrations from time series of upper bound and mean diet concentrations unique to each diet/food item (to minimize determination of time series maximums (tsmax))
-        upper_arthro_tsmax = self.out_diet_eec_upper_min_arthro.max()
-        mean_arthro_tsmax = self.out_diet_eec_mean_min_arthro.max()
-        upper_soil_inv_tsmax = self.out_diet_eec_min_soil_inv.max()
-        upper_sm_amphi_tsmax = self.out_diet_eec_upper_min_sm_amphi.max()
-        mean_sm_amphi_tsmax = self.out_diet_eec_mean_min_sm_amphi.max()
-        upper_sm_mamm_tsmax = self.out_diet_eec_upper_min_sm_mamm.max()
-        mean_sm_mamm_tsmax = self.out_diet_eec_mean_min_sm_mamm.max()
-        upper_inverts_tsmax = self.water_conc_1[sim_num] * (self.inv_bcf_upper[sim_num] / 1000.)
-        mean_inverts_tsmax = self.water_conc_1[sim_num] * (self.inv_bcf_mean[sim_num] / 1000.)
-        upper_sm_bird_tsmax = self.out_diet_eec_upper_min_sm_bird.max()
-        mean_sm_bird_tsmax = self.out_diet_eec_mean_min_sm_bird.max()
-        upper_fish_tsmax = self.water_conc_1[sim_num] * (self.fish_bcf_upper[sim_num] / 1000.)
-        mean_fish_tsmax = self.water_conc_1[sim_num] * (self.fish_bcf_mean[sim_num] / 1000.)
-        upper_plant_algae_tsmax = self.water_conc_1[sim_num] * (self.aq_plant_algae_bcf_upper[sim_num] / 1000.)
-        mean_plant_algae_tsmax = self.water_conc_1[sim_num] * (self.aq_plant_algae_bcf_mean[sim_num] / 1000.)
-        upper_sg_tsmax = self.out_diet_eec_upper_min_sg.max()
-        mean_sg_tsmax = self.out_diet_eec_mean_min_sg.max()
-        upper_blp_tsmax = self.out_diet_eec_upper_min_blp.max()
-        mean_blp_tsmax = self.out_diet_eec_mean_min_blp.max()
-        upper_fp_tsmax = self.out_diet_eec_upper_min_fp.max()
-        mean_fp_tsmax = self.out_diet_eec_mean_min_fp.max()
-        upper_lg_mamm_tsmax = self.out_diet_eec_upper_min_lg_mamm.max()
-        mean_lg_mamm_tsmax = self.out_diet_eec_mean_min_lg_mamm.max()
-        upper_tg_tsmax = self.out_diet_eec_upper_min_tg.max()
-        mean_tg_tsmax = self.out_diet_eec_mean_min_tg.max()
+        # calculate air concentration immediately after application (for use in calculating inhalation vapor/spray doses)
+        # (represents Eq 18 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment')
+        self.calc_air_conc_drops_minmaxapp(sim_num)
 
-        for i in range(len(self.com_name)):
-            if (self.diet_item[i] == 'arthropods'):
-                self.out_diet_conc_upper_min[i] = upper_arthro_tsmax
-                self.out_diet_conc_mean_min[i] = mean_arthro_tsmax
-            elif (self.diet_item[i] == 'soil inverts'):
-                self.out_diet_conc_upper_min[i] = upper_soil_inv_tsmax
-                self.out_diet_conc_mean_min[i] = 'NA'
-            elif (self.diet_item[i] == 'amphibians'):
-                self.out_diet_conc_upper_min[i] = upper_sm_amphi_tsmax
-                self.out_diet_conc_mean_min[i] = mean_sm_amphi_tsmax
-            elif (self.diet_item[i] == 'mammals (small)'):
-                self.out_diet_conc_upper_min[i] = upper_sm_mamm_tsmax
-                self.out_diet_conc_mean_min[i] = mean_sm_mamm_tsmax
-            elif (self.diet_item[i] == 'benthic inverts'):
-                self.out_diet_conc_upper_min[i] = upper_inverts_tsmax
-                self.out_diet_conc_mean_min[i] = mean_inverts_tsmax
-            elif (self.diet_item[i] == 'birds'):
-                self.out_diet_conc_upper_min[i] = upper_sm_bird_tsmax
-                self.out_diet_conc_mean_min[i] = mean_sm_bird_tsmax
-            elif (self.diet_item[i] == 'fish, aq amphibians'):
-                self.out_diet_conc_upper_min[i] = upper_fish_tsmax
-                self.out_diet_conc_mean_min[i] = mean_fish_tsmax
-            elif (self.diet_item[i] == 'fish and aq amphibians'):
-                self.out_diet_conc_upper_min[i] = upper_fish_tsmax
-                self.out_diet_conc_mean_min[i] = mean_fish_tsmax
-            elif (self.diet_item[i] == 'fish'):
-                self.out_diet_conc_upper_min[i] = upper_fish_tsmax
-                self.out_diet_conc_mean_min[i] = mean_fish_tsmax
-            elif (self.diet_item[i] == 'filter feeders'):
-                self.out_diet_conc_upper_min[i] = upper_inverts_tsmax
-                self.out_diet_conc_mean_min[i] = mean_inverts_tsmax
-            elif (self.diet_item[i] == 'reptiles'):
-                self.out_diet_conc_upper_min[i] = upper_sm_amphi_tsmax
-                self.out_diet_conc_mean_min[i] = mean_sm_amphi_tsmax
-            elif (self.diet_item[i] == 'algae'):
-                self.out_diet_conc_upper_min[i] = upper_plant_algae_tsmax
-                self.out_diet_conc_mean_min[i] = mean_plant_algae_tsmax
-            elif (self.diet_item[i] == 'grass'):
-                self.out_diet_conc_upper_min[i] = upper_sg_tsmax
-                self.out_diet_conc_mean_min[i] = mean_sg_tsmax
-            elif (self.diet_item[i] == 'leaves'):
-                self.out_diet_conc_upper_min[i] = upper_blp_tsmax
-                self.out_diet_conc_mean_min[i] = mean_blp_tsmax
-            elif (self.diet_item[i] == 'seeds'):
-                self.out_diet_conc_upper_min[i] = upper_fp_tsmax
-                self.out_diet_conc_mean_min[i] = mean_fp_tsmax
-            elif (self.diet_item[i] == 'fruit'):
-                self.out_diet_conc_upper_min[i] = upper_fp_tsmax
-                self.out_diet_conc_mean_min[i] = mean_fp_tsmax
-            elif (self.diet_item[i] == 'leaves, flowers'):
-                self.out_diet_conc_upper_min[i] = upper_blp_tsmax
-                self.out_diet_conc_mean_min[i] = mean_blp_tsmax
-            elif (self.diet_item[i] == 'zooplankton'):
-                self.out_diet_conc_upper_min[i] = upper_inverts_tsmax
-                self.out_diet_conc_mean_min[i] = mean_inverts_tsmax
-            elif (self.diet_item[i] == 'aquatic plants'):
-                self.out_diet_conc_upper_min[i] = upper_plant_algae_tsmax
-                self.out_diet_conc_mean_min[i] = mean_plant_algae_tsmax
-            elif (self.diet_item[i] == 'carrion'):
-                self.out_diet_conc_upper_min[i] = upper_lg_mamm_tsmax
-                self.out_diet_conc_mean_min[i] = mean_lg_mamm_tsmax
-            elif (self.diet_item[i] == 'nectar'):
-                self.out_diet_conc_upper_min[i] = upper_tg_tsmax
-                self.out_diet_conc_mean_min[i] = mean_tg_tsmax
-            elif (self.diet_item[i] == 'leaves (surrogate for fungi)'):
-                self.out_diet_conc_upper_min[i] = upper_blp_tsmax
-                self.out_diet_conc_mean_min[i] = mean_blp_tsmax
-            elif (self.diet_item[i] == 'mammals (large)'):
-                self.out_diet_conc_upper_min[i] = upper_lg_mamm_tsmax
-                self.out_diet_conc_mean_min[i] = mean_lg_mamm_tsmax
-            elif (self.diet_item[i] == 'nectar, pollen'):
-                self.out_diet_conc_upper_min[i] = upper_tg_tsmax
-                self.out_diet_conc_mean_min[i] = mean_tg_tsmax
-            elif (self.diet_item[i] == 'pollen'):
-                self.out_diet_conc_upper_min[i] = upper_tg_tsmax
-                self.out_diet_conc_mean_min[i] = mean_tg_tsmax
-            elif (self.diet_item[i] == 'bark (twigs), pine  needles (grass as surrogate'):
-                self.out_diet_conc_upper_min[i] = upper_sg_tsmax
-                self.out_diet_conc_mean_min[i] = mean_sg_tsmax
-            elif (self.diet_item[i] == 'aquatic plants, algae'):
-                self.out_diet_conc_upper_min[i] = upper_plant_algae_tsmax
-                self.out_diet_conc_mean_min[i] = mean_plant_algae_tsmax
-        return
+        # set value for volumetric fraction of droplet spectrum related to bird respiration limits (for use in calculating inhalation vapor/spray doses)
+        # (represents specification from OPP TED Excel 'inputs' worksheet columns H & I rows 14 - 16)
+        self.max_respire_frac_minapp = self.set_max_respire_frac(self.app_method_min[sim_num], self.droplet_spec_min[sim_num])
+        self.max_respire_frac_maxapp = self.set_max_respire_frac(self.app_method_max[sim_num], self.droplet_spec_max[sim_num])
 
-    def calc_species_diet_concs_maxapp(self, sim_num):
-        """
-        :description calculates upper bound and mean concentrations of dietary items per species (for mmaximum application scenario)
-        :param sim_num model simulation number
+        # calculate inhalation to oral toxicity equivalency factors (for use in calculating inhalation vapor/spray doses)
+        # (Eqs 20 and 22 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment')
+        self.calc_inhal_route_equiv_factor(sim_num)
 
-        NOTE: this method addresses columns I & J of worksheet 'Max rate doses' of OPP TED spreadsheet model
-        :return:
-        """
+        # calculate inhalation vapor/spray doses
+        # (represents columns R & S of worksheets 'Min/Max rate doses' of OPP TED spreadsheet model)
+        self.calc_species_inhal_dose_vapor()
+        self.calc_species_inhal_dose_spray(sim_num)
 
-        # initialize panda series to contain upper bound and mean results
-        self.out_diet_conc_upper_max = pd.Series(len(self.com_name) * ['NA'], dtype='object')
-        self.out_diet_conc_mean_max = pd.Series(len(self.com_name) * ['NA'], dtype='object')
+        # scan species specific doses (from diet based to inhalation) and determine maximum
+        # are used in calculations included in worksheets 'Min/Max rate doses' columns T, U, Z, AA
+        self.determine_max_dose_minmaxapp()
 
-        # collect the maximum concentrations from time series of upper bound and mean diet concentrations unique to each diet/food item (to minimize determination of time series maximums (tsmax))
-        upper_arthro_tsmax = self.out_diet_eec_upper_max_arthro.max()
-        mean_arthro_tsmax = self.out_diet_eec_mean_max_arthro.max()
-        upper_soil_inv_tsmax = self.out_diet_eec_max_soil_inv.max()
-        upper_sm_amphi_tsmax = self.out_diet_eec_upper_max_sm_amphi.max()
-        mean_sm_amphi_tsmax = self.out_diet_eec_mean_max_sm_amphi.max()
-        upper_sm_mamm_tsmax = self.out_diet_eec_upper_max_sm_mamm.max()
-        mean_sm_mamm_tsmax = self.out_diet_eec_mean_max_sm_mamm.max()
-        upper_inverts_tsmax = self.water_conc_1[sim_num] * (self.inv_bcf_upper[sim_num] / 1000.)
-        mean_inverts_tsmax = self.water_conc_1[sim_num] * (self.inv_bcf_mean[sim_num] / 1000.)
-        upper_sm_bird_tsmax = self.out_diet_eec_upper_max_sm_bird.max()
-        mean_sm_bird_tsmax = self.out_diet_eec_mean_max_sm_bird.max()
-        upper_fish_tsmax = self.water_conc_1[sim_num] * (self.fish_bcf_upper[sim_num] / 1000.)
-        mean_fish_tsmax = self.water_conc_1[sim_num] * (self.fish_bcf_mean[sim_num] / 1000.)
-        upper_plant_algae_tsmax = self.water_conc_1[sim_num] * (self.aq_plant_algae_bcf_upper[sim_num] / 1000.)
-        mean_plant_algae_tsmax = self.water_conc_1[sim_num] * (self.aq_plant_algae_bcf_mean[sim_num] / 1000.)
-        upper_sg_tsmax = self.out_diet_eec_upper_max_sg.max()
-        mean_sg_tsmax = self.out_diet_eec_mean_max_sg.max()
-        upper_blp_tsmax = self.out_diet_eec_upper_max_blp.max()
-        mean_blp_tsmax = self.out_diet_eec_mean_max_blp.max()
-        upper_fp_tsmax = self.out_diet_eec_upper_max_fp.max()
-        mean_fp_tsmax = self.out_diet_eec_mean_max_fp.max()
-        upper_lg_mamm_tsmax = self.out_diet_eec_upper_max_lg_mamm.max()
-        mean_lg_mamm_tsmax = self.out_diet_eec_mean_max_lg_mamm.max()
-        upper_tg_tsmax = self.out_diet_eec_upper_max_tg.max()
-        mean_tg_tsmax = self.out_diet_eec_mean_max_tg.max()
+        # calculate Mortality threshold
+        # (represents column V in OPP TED spreadsheet model in worksheets 'Min/Max rate doses'
+        self.calc_species_mortality_thres(sim_num)
 
-        for i in range(len(self.com_name)):
-            if (self.diet_item[i] == 'arthropods'):
-                self.out_diet_conc_upper_max[i] = upper_arthro_tsmax
-                self.out_diet_conc_mean_max[i] = mean_arthro_tsmax
-            elif (self.diet_item[i] == 'soil inverts'):
-                self.out_diet_conc_upper_max[i] = upper_soil_inv_tsmax
-                self.out_diet_conc_mean_max[i] = 'NA'
-            elif (self.diet_item[i] == 'amphibians'):
-                self.out_diet_conc_upper_max[i] = upper_sm_amphi_tsmax
-                self.out_diet_conc_mean_max[i] = mean_sm_amphi_tsmax
-            elif (self.diet_item[i] == 'mammals (small)'):
-                self.out_diet_conc_upper_max[i] = upper_sm_mamm_tsmax
-                self.out_diet_conc_mean_max[i] = mean_sm_mamm_tsmax
-            elif (self.diet_item[i] == 'benthic inverts'):
-                self.out_diet_conc_upper_max[i] = upper_inverts_tsmax
-                self.out_diet_conc_mean_max[i] = mean_inverts_tsmax
-            elif (self.diet_item[i] == 'birds'):
-                self.out_diet_conc_upper_max[i] = upper_sm_bird_tsmax
-                self.out_diet_conc_mean_max[i] = mean_sm_bird_tsmax
-            elif (self.diet_item[i] == 'fish, aq amphibians'):
-                self.out_diet_conc_upper_max[i] = upper_fish_tsmax
-                self.out_diet_conc_mean_max[i] = mean_fish_tsmax
-            elif (self.diet_item[i] == 'fish and aq amphibians'):
-                self.out_diet_conc_upper_min[i] = upper_fish_tsmax
-                self.out_diet_conc_mean_min[i] = mean_fish_tsmax
-            elif (self.diet_item[i] == 'fish'):
-                self.out_diet_conc_upper_max[i] = upper_fish_tsmax
-                self.out_diet_conc_mean_max[i] = mean_fish_tsmax
-            elif (self.diet_item[i] == 'filter feeders'):
-                self.out_diet_conc_upper_max[i] = upper_inverts_tsmax
-                self.out_diet_conc_mean_max[i] = mean_inverts_tsmax
-            elif (self.diet_item[i] == 'reptiles'):
-                self.out_diet_conc_upper_max[i] = upper_sm_amphi_tsmax
-                self.out_diet_conc_mean_max[i] = mean_sm_amphi_tsmax
-            elif (self.diet_item[i] == 'algae'):
-                self.out_diet_conc_upper_max[i] = upper_plant_algae_tsmax
-                self.out_diet_conc_mean_max[i] = mean_plant_algae_tsmax
-            elif (self.diet_item[i] == 'grass'):
-                self.out_diet_conc_upper_max[i] = upper_sg_tsmax
-                self.out_diet_conc_mean_max[i] = mean_sg_tsmax
-            elif (self.diet_item[i] == 'leaves'):
-                self.out_diet_conc_upper_max[i] = upper_blp_tsmax
-                self.out_diet_conc_mean_max[i] = mean_blp_tsmax
-            elif (self.diet_item[i] == 'seeds'):
-                self.out_diet_conc_upper_max[i] = upper_fp_tsmax
-                self.out_diet_conc_mean_max[i] = mean_fp_tsmax
-            elif (self.diet_item[i] == 'fruit'):
-                self.out_diet_conc_upper_max[i] = upper_fp_tsmax
-                self.out_diet_conc_mean_max[i] = mean_fp_tsmax
-            elif (self.diet_item[i] == 'leaves, flowers'):
-                self.out_diet_conc_upper_max[i] = upper_blp_tsmax
-                self.out_diet_conc_mean_max[i] = mean_blp_tsmax
-            elif (self.diet_item[i] == 'zooplankton'):
-                self.out_diet_conc_upper_max[i] = upper_inverts_tsmax
-                self.out_diet_conc_mean_max[i] = mean_inverts_tsmax
-            elif (self.diet_item[i] == 'aquatic plants'):
-                self.out_diet_conc_upper_max[i] = upper_plant_algae_tsmax
-                self.out_diet_conc_mean_max[i] = mean_plant_algae_tsmax
-            elif (self.diet_item[i] == 'carrion'):
-                self.out_diet_conc_upper_max[i] = upper_lg_mamm_tsmax
-                self.out_diet_conc_mean_max[i] = mean_lg_mamm_tsmax
-            elif (self.diet_item[i] == 'nectar'):
-                self.out_diet_conc_upper_max[i] = upper_tg_tsmax
-                self.out_diet_conc_mean_max[i] = mean_tg_tsmax
-            elif (self.diet_item[i] == 'leaves (surrogate for fungi)'):
-                self.out_diet_conc_upper_max[i] = upper_blp_tsmax
-                self.out_diet_conc_mean_max[i] = mean_blp_tsmax
-            elif (self.diet_item[i] == 'mammals (large)'):
-                self.out_diet_conc_upper_max[i] = upper_lg_mamm_tsmax
-                self.out_diet_conc_mean_max[i] = mean_lg_mamm_tsmax
-            elif (self.diet_item[i] == 'nectar, pollen'):
-                self.out_diet_conc_upper_max[i] = upper_tg_tsmax
-                self.out_diet_conc_mean_max[i] = mean_tg_tsmax
-            elif (self.diet_item[i] == 'pollen'):
-                self.out_diet_conc_upper_max[i] = upper_tg_tsmax
-                self.out_diet_conc_mean_max[i] = mean_tg_tsmax
-            elif (self.diet_item[i] == 'bark (twigs), pine  needles (grass as surrogate'):
-                self.out_diet_conc_upper_max[i] = upper_sg_tsmax
-                self.out_diet_conc_mean_max[i] = mean_sg_tsmax
-            elif (self.diet_item[i] == 'aquatic plants, algae'):
-                self.out_diet_conc_upper_max[i] = upper_plant_algae_tsmax
-                self.out_diet_conc_mean_max[i] = mean_plant_algae_tsmax
-        return
+        # calculate sublethal threshold
+        # (represents column W in OPP TED spreadsheet model in worksheets 'Min/Max rate doses'
+        self.calc_species_sublethal_thres(sim_num)
 
-    def calc_species_diet_dose_minapp(self, sim_num):
-        """
-        :description calculates upper bound and mean dose of dietary items per species (for minimum application scenario)
-        :param sim_num model simulation number
+        # calculate lowest LD50 threshold
+        # (represents column X in OPP TED spreadsheet model in worksheets 'Min/Max rate doses'
+        self.calc_species_lowld50_thres(sim_num)
 
-        NOTE: this method addresses columns K & L of worksheet 'Min rate doses' of OPP TED spreadsheet model
-        :return:
-        """
+        # calculate HC50 threshold
+        # (represents column Y in OPP TED spreadsheet model in worksheets 'Min/Max rate doses'
+        self.calc_species_hc50_thres(sim_num)
 
-        # initialize panda series to contain upper bound and mean results
-        self.out_diet_dose_upper_min = pd.Series(len(self.com_name) * ['NA'], dtype='object')
-        self.out_diet_dose_mean_min = pd.Series(len(self.com_name) * ['NA'], dtype='object')
+        # calculate distances from source area to where toxicity thresholds occur
+        # (represents columns T & U in OPP TED spreadsheet model in worksheets 'Min/Max rate doses'
+        self.calc_distance_to_risk_thres(sim_num)
 
-        for i in range(len(self.com_name)):
-            if (self.taxa[i] == 'Birds'):
-                if (self.order[i] == 'Passeriformes'):
-                    param_a = self.intake_param_a1_birds_pass
-                    param_b = self.intake_param_b1_birds_pass
-                else: # must be non-Passeriformes
-                    param_a = self.intake_param_a1_birds_nonpass
-                    param_b = self.intake_param_b1_birds_nonpass
-            elif (self.taxa[i] == 'Amphibians' or self.taxa[i] == 'Reptiles'):
-                param_a = self.intake_param_a1_rep_amphi
-                param_b = self.intake_param_b1_rep_amphi
-            elif (self.taxa[i] == 'Mammals'):
-                if (self.order[i] == 'Rodentia'):
-                    param_a = self.intake_param_a1_mamm_rodent
-                    param_b = self.intake_param_b1_mamm_rodent
-                else: # must be non-Rodentia
-                    param_a = self.intake_param_a1_mamm_nonrodent
-                    param_b = self.intake_param_b1_mamm_nonrodent
-
-            # calculate intake and then dose
-            intake_rate = self.animal_dietary_intake(param_a, param_b, self.body_wgt[i], self.h2o_cont[i])
-            if (self.out_diet_conc_upper_min[i] == 'NA'):
-                self.out_diet_dose_upper_min[i] = 'NA'
-            else:
-                self.out_diet_dose_upper_min[i] = self.animal_dietary_dose(self.body_wgt[i], intake_rate, self.out_diet_conc_upper_min[i])
-            if (self.out_diet_conc_mean_min[i] == 'NA'):
-                self.out_diet_dose_mean_min[i] = 'NA'
-            else:
-                self.out_diet_dose_mean_min[i] = self.animal_dietary_dose(self.body_wgt[i], intake_rate, self.out_diet_conc_mean_min[i])
-        return
-    
-    def calc_species_diet_dose_maxapp(self, sim_num):
-        """
-        :description calculates upper bound and mean dose of dietary items per species (for maximum application scenario)
-        :param sim_num model simulation number
-
-        NOTE: this method addresses columns K & L of worksheet 'Max rate doses' of OPP TED spreadsheet model
-        :return:
-        """
-
-        # initialize panda series to contain upper bound and mean results
-        self.out_diet_dose_upper_max = pd.Series(len(self.com_name) * ['NA'], dtype='object')
-        self.out_diet_dose_mean_max = pd.Series(len(self.com_name) * ['NA'], dtype='object')
-
-        for i in range(len(self.com_name)):
-            if (self.taxa[i] == 'Birds'):
-                if (self.order[i] == 'Passeriformes'):
-                    param_a = self.intake_param_a1_birds_pass
-                    param_b = self.intake_param_b1_birds_pass
-                else: # must be non-Passeriformes
-                    param_a = self.intake_param_a1_birds_nonpass
-                    param_b = self.intake_param_b1_birds_nonpass
-            elif (self.taxa[i] == 'Amphibians' or self.taxa[i] == 'Reptiles'):
-                param_a = self.intake_param_a1_rep_amphi
-                param_b = self.intake_param_b1_rep_amphi
-            elif (self.taxa[i] == 'Mammals'):
-                if (self.order[i] == 'Rodentia'):
-                    param_a = self.intake_param_a1_mamm_rodent
-                    param_b = self.intake_param_b1_mamm_rodent
-                else: # must be non-Rodentia
-                    param_a = self.intake_param_a1_mamm_nonrodent
-                    param_b = self.intake_param_b1_mamm_nonrodent
-
-            # calculate intake and then dose
-            intake_rate = self.animal_dietary_intake(param_a, param_b, self.body_wgt[i], self.h2o_cont[i])
-            if (self.out_diet_conc_upper_max[i] == 'NA'):
-                self.out_diet_dose_upper_max[i] = 'NA'
-            else:
-                self.out_diet_dose_upper_max[i] = self.animal_dietary_dose(self.body_wgt[i], intake_rate, self.out_diet_conc_upper_max[i])
-            if (self.out_diet_conc_mean_max[i] == 'NA'):
-                self.out_diet_dose_mean_max[i] = 'NA'
-            else:
-                self.out_diet_dose_mean_max[i] = self.animal_dietary_dose(self.body_wgt[i], intake_rate, self.out_diet_conc_mean_max[i])
+        # calculate ratio of maximum dose to toxicity thresholds: mortality and sublethal
+        # (represents columns Z & AA in OPP TED spreadsheet model in worksheets 'Min/Max rate doses'
+        self.calc_maxdose_toxthres_ratios(sim_num)
         return

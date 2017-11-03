@@ -1,28 +1,33 @@
-1. In the OPP Ted spreadsheet; in the worksheets named 'Min rate doses' and 'Max rate doses' under
+1. Like each of the model codes I've written this TED code also relies on an input data filter that validates
+   the input data before executing this code.
+2. In this code I did not constrain the code to 80 characters per line.  Instead I created variable names that are
+   relatively long. This results in lines that are considerably longer than 80 characters.  It does not impact code
+   execution and hopefully enhances the readability of the code.
+3. In the OPP Ted spreadsheet; in the worksheets named 'Min rate doses' and 'Max rate doses' under
    columns M and N, the allometric parameters for amphibians and reptiles daily total water consumption are
    a2=.065, b2=.726, and c2=3.7.  The value for c2 should be 1.0 according to Table A 1-7.7.
    The value of 3.7 is associated with 'Other birds not in Passeriformes order'.
-2. Same spreadsheet/worksheet/columns as #1.  The allomeric parameters for dietary intake for amphibians
+4. Same spreadsheet/worksheet/columns as #1.  The allomeric parameters for dietary intake for amphibians
    are a1=.301 and b1=.751.  The values listed in Table A 1-7.5 for reptiles and amphibians are
    a1=.013 and b1=.773.  IT LOOKS LIKE ALL VALUES OF ALLOMETRIC PARAMETERS (AND WHERE THEY ARE USED) SHOULD BE VERIFIED.
-3. Dermal equivalency factor (for use in Eq 13 of Attachment A 1-7): The equivalency factor is the
+5. Dermal equivalency factor (for use in Eq 13 of Attachment A 1-7): The equivalency factor is the
    ratio of the LD50(oral) to the LD50(dermal).  Eqs 14&15 are used to compute the factor for birds using
    LD50(oral) data for birds; Eq 14 is used to compute the factor for mammals using LD50(oral) and LD50(dermal)
    data for rats.  For amphibians it appears that the factor is assumed equal to 1 and used directly
    in Eq 13.  Confusion comes up about reptiles; the text in Attachment 1-7 seems to state that the
    same Eqs for birds are to be used for reptiles but the code (TED Excel spreadsheet) appears to
    take the same approach for reptiles as taken for amphibians.
-4. In worksheets "Min/Max rate - dietary conc results" exceedances are determined for terrestrial invertebrates
+6. In worksheets "Min/Max rate - dietary conc results" exceedances are determined for terrestrial invertebrates
    in soil for the large mammals (column K), while NA is assigned to the small mammals.  Is this correct or
    should large mammals also be NA?  As coded here at the moment the large mammals is also assigned 'NA'.
-5. In worksheets "Min/Max rate concentrations" it appears the EEC calculations for small mammals, large mammals,
+7. In worksheets "Min/Max rate concentrations" it appears the EEC calculations for small mammals, large mammals,
    small birds, and small terrestrial phase amphibians or reptiles contain wrong values for the (1 - FWk) factor.
    For mammals, the FWk represents the water content of the short grass that mammals consume.  From Table A 1-7.4
    the water content of short grass (actually Grasses in the table) is 0.79, which would make (1 - .79) = .21, the
    worksheets have a value of 0.2 for this (not so far off).  For small birds and small terr phase amphibians the food
    source is insects (arthropods) whose water content is 0.69, thus (1 - 0.69) = .31, again the worksheets have a
    value of 0.2.  The Python code uses the 0.69 (and 1. - .69 = .31) values.
-6. In the OOP TED spreadsheet worksheets 'Min/Max rate - dietary conc results' exceedance counts and distance from source
+8. In the OOP TED spreadsheet worksheets 'Min/Max rate - dietary conc results' exceedance counts and distance from source
    to toxicity threshold are determined.  When determining exceedances the max food item concentration (from daily
    time series) is compared to the various toxicity measures per taxa.  An issue comes up when applying the 'NA' to
    an exceedance result.  Currently within the spreadsheet 'NA' is only registered as a result if the food item daily
@@ -32,14 +37,43 @@
    or if there were actually no numerical exceedances.  It seems that if the toxicity measure is 'NA' (or within the Python
    code NaN) the comparison should not be made and the result of the exceedance count should be 'NA'.  This is how the Python code
    is programmed, if this is not appropriate then the methods 'sum_exceedances' and 'calc_eec_tox_frac' should be modified.
-7. In the 'Min rate doses' worksheet the first occurence of the food item 'benthic inverts'(column G, Chiricahua Leopard Frog) the value
+9. In the 'Min rate doses' worksheet the first occurence of the food item 'benthic inverts'(column G, Chiricahua Leopard Frog) the value
    for the water concentration (from inputs!$C66) used to compute the "Upper bound Conc. in diet (mg/kg" (Column I) represents
    the higher water concentration when it should be the lower (from inputs!$C65).  Subsequent occurences of 'benthic invets'
    use the correct water concentration.
-8. In the 'Min/Max rate doses' worksheets in columns L (Mean diet dose) and P (Dermal dose - spray) several row entries are
+10. In the 'Min/Max rate doses' worksheets in columns L (Mean diet dose) and P (Dermal dose - contact mean) several row entries are
    blank (not 'NA' and empty of a formula).  There is no clear pattern involved, although by far the blank cells involve
    food item 'seeds' (other food items are involved but 'seeds' dominates).  All the numbers needed to calculate a cell value
    are available, thus the blank cells seem like an error.  For all blank cells there is a value calculated in column
    K (Upper bound diet dose), which suggests the 'Mean diet dose' should also be calculated. The python code calculates
    values (doses) for these cells using the same approach as is used for all cells with values.  If this is not correct the code
    needs to be changed.
+11.In the 'Min/Max rate doses' worksheet in columns M & N (Drinking water dose - puddles/dew)the value of c2 (parameter from Table
+   A 1-7.7) is not applied correctly (or the value from the spreadsheet is not correctly applied in the Table).  For reptiles and
+   amphibians the value of c2 is 1 in the table and 3.7 in the spreadsheet.  All other uses of c3 are consistent with values in the
+   Table.  The Python code is coded using values in the Table (i.e. the spreadsheet is assumed incorrect).  The values from the Table
+   are coded in the 'set_global_constants' method and could be modified there.
+12.With regards to the dermal route equivalency factor (Fred : Table A 1-7.9 and related discussion) the text states that "Since
+   avian toxicity data is used as a surrogate for reptiles, this equation will also be applied to reptiles".  "This equation" I believe
+   refers to Eq 15, which suggests that the dermal equivalency factor to be used in the model is the same for birds and
+   reptiles.  However, in the TED spreadsheet, worksheet 'Min/Max rate doses' the calculation of dermal dose due to spray for reptiles
+   assumes the dermal equivalency factor equal to 1.0. The Python code follows the spreadsheet because the text is not definitive.
+   The calculation of dermal spray dose (which inlcude the equivalency factor) can be found in method 'calc_species_derm_spray_dose'.
+13.In implementing the methods for "Inhalation dose - vapor" and "Inhalation dose - spray" (located in worksheets 'Min/Max rate doses'
+   there is an issue with the calculation of the oral dose equivalency factor (Eqs 20 - 22).  First, implementsation of Eq 21
+   appears to be for a user to compute outside the model (i.e., the spreadsheet model does not include this Eq).  If this is the case
+   then it appears that the user must input the result of Eq 21 (i.e., LD50 for inhalation) as the inhalation LD50 for mammals, because
+   there is no such toxicity input for birds.  In short, the Python code implements Eq 20 for mammals and Eq 22 for birds AND
+   it assumes the LD50 oral and inhalation data for mammals (in particular rats) is always input.  If this is not the case (e.g., for
+   chemicals other than diazinon used in the spreadsheet we received from OPP) then the coding for these calculations must be
+   modified.
+14.A second issue with the oral equivalency factor.  In the OPP spreadsheet model within the 'Min/Max rate doses' worksheets the calculation
+   of the 'Inhalation dose - spray' has an issue with the oral equivalency factor.  For the 'aerial' option the oral equivalency factor
+   is simply not included and for the ground option it is the inverse of Eq 20.  Note: the oral equivalecny factor is only computed for
+   birds and mammals and assumed equal to 1.0 for amphibians and reptiles.  The Python code implements Eq 20 for mammals (or Eq 22 for birds) for
+   both the aerial and ground application options (which means the worksheet implementation that is the inverse of Eq 20 is actually coded
+   to match the documentation.  The coding related to issue 12 and 13 can be found in method 'calc_oral_dose_equiv_factor'.
+15.The expressions for calculating the various toxicity thresholds (OPP TED spreadsheet worksheets 'Min/Max rate doses' columns: V, W, X)
+   contain an inconsistency that may be an error.  The calculation for birds, amphibians, and reptiles is of the form
+   [toxicity# * (body wgt/toxicity#)**exp] while the calculation for mammals is of the form [toxicity# * (toxicity#/body wgt)**exp].  The python
+   code applys the birds et al form to mammals as well (i.e., assume the worksheet is in error).
