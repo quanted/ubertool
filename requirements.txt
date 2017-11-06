@@ -11,11 +11,11 @@ numpy==1.13.3
 pandas==0.20.3
 pylint==1.7.4
 python-coveralls==2.9.1 #not in conda, pip install
-pytz==2017.2
+pytz==2017.3
 requests==2.18.4
-scipy==0.19.1
+scipy==1.0.0
 snakefood==1.4 #not in conda, pip install
 sqlalchemy==1.1.14
-sqlalchemy-utils==0.32.18
+sqlalchemy-utils==0.32.19
 tabulate==0.8.1
 twine==1.9.1 #not in conda, pip install
