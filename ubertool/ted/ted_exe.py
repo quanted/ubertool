@@ -30,7 +30,7 @@ class TedSpeciesProperties(object):
         self.diet_item = pd.Series([], dtype='object')
         self.h2o_cont = pd.Series([], dtype='float')
 
-    def ReadSpeciesProperties(self):
+    def read_species_properties(self):
         # this is a temporary method to initiate the species/diet food items lists (this will be replaced with
         # a method to access a SQL database containing the properties
         filename = './ted/tests/TEDSpeciesProperties.csv'
@@ -364,13 +364,28 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedAggregateMethods, T
         self.set_global_constants()
 
         # calculate aquatic dependent dietary concentration thresholds for mammals, birds, and reptiles/amphibians
-        self.calc_plant_tox_ratios()              # for all simulations
+        # (represents columns G & H of OPP TED Excel spreadsheet 'inputs' worksheet rows 205 - 224)
+        self.calc_plant_tox_ratios()              # vectorized to calculate for all simulations
 
         # calculate aquatic dependent species concentration thresholds for dietary items (i.e., algae, invertebraters, and reptiles/amphibians)
+        # (represents columns D, E & F of worksheet 'Aquatic dependent sp thresholds' of OPP TED Excel spreadsheet model)
         self.calc_aquatic_vert_conc_thresholds()  # for all simulations (worksheet 'Aquatic dependent sp thresholds')
 
         # calculate estimated tissue concentrations in aquatic invertebrates and fish using BCFs (worksheet 'aquatic organism tissue concs')
+        # (represents columns B, C, D, and F of worksheet 'aquatic organism tissue concs' of OPP TED Excel spreadsheet model)
         self.calc_aq_invert_fish_concs()          # for all simulations
+
+        # read species properties from database
+        # (represents data contained in columns A thru H of worksheets 'Min/Max rate doses' of OPP TED Excel spreadsheet model)
+        self.read_species_properties()
+
+        # calculate species body surface areas
+        # (represents calculations needed within columns O & P of worksheet 'Min/Max rate doses' of OPP TED spreadsheet model
+        self.calc_species_surface_area()
+
+        # calculate species specific volume of air respired (for use in calculating inhalation vapor/spray doses)
+        # (represents Eq 19 of Attachment 1-7 of 'Biological Evaluation Chapters for Diazinon ESA Assessment')
+        self.calc_species_inhalation_vol()
 
         # process simulations--------------------------------------------------------------------
         for sim_num in range(self.num_simulations):
@@ -378,23 +393,29 @@ class Ted(UberModel, TedInputs, TedOutputs, TedFunctions, TedAggregateMethods, T
             # TODO: need to decide which of the following variables are to be outputs; currently they are (I guess we could populate
             # TODO: an EXCEL spreadsheet to match that of OPP)
 
-            # set spray drift parameters
+            # (set spray drift parameters for calculations of distance from source area associated with pesticide concentrations)
             self.spray_drift_params(sim_num)
 
-            # calculate runoff parameters for min/max application scenarios
+            # calculates runoff parameters used to calculate plant EECs for wet and dry areas (for min/max application scenarios)
+            # (found in worksheet 'plants' of OPP TED Excel spreadsheet model)
             self.runoff_params(sim_num)
 
-            # execute plant related methods and functions ;  worksheet 'plants' in OPP TED Excel model
+            # execute plant related methods and functions related to worksheet 'plants' in OPP TED Excel model
             self.plants(sim_num)
 
             # calculate daily time series of concentration based EECs (worksheets 'min/max rate concentrations' in OPP TED Excel model
             self.conc_based_eec_timeseries(sim_num)
 
-            # count number of exceedances of various risk thresholds within eec timeseries (worksheets 'Min/Max rate - dietary conc results')
+            # count number of exceedances of various risk thresholds within eec timeseries
+            # (this represents OPP TED Excel model worksheet 'Min/Max rate - dietary conc results' columns D - N lines 3 - 54 and 58 - 109)
             self.eec_exceedances(sim_num)
 
-            # calculate spray drfit distances from source area to max daily food item concentration (worksheets 'Min/Max rate - dietary conc results')
+            # calculate spray drfit distances from source area to max daily food item concentration
+            # (represents OPP TED Excel model worksheet 'Min/Max rate - dietary conc results' columns D - N lines 113 - 164)
             self.eec_drift_distances(sim_num)
 
             # calculate species/food item specific doses via intake pathways and related health measure ratios ; worksheets 'min/max rate doses' in OPP TED Excel model
             self.species_doses(sim_num)
+
+            # write simulation results (this is an organization of outputs that would produce the OPP TED spreadsheets)
+            ##   self.write_simulation_results()

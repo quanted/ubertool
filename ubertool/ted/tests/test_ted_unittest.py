@@ -381,7 +381,7 @@ class TestTed(unittest.TestCase):
 
         try:
             # internal model constants
-            ted_empty.app_rate_conv = 11.2
+            ted_empty.app_rate_conv1 = 11.2
             ted_empty.soil_depth = 2.6 # cm
             ted_empty.soil_porosity = 0.35
             ted_empty.soil_bulk_density = 1.5 # kg/L
@@ -1036,7 +1036,7 @@ class TestTed(unittest.TestCase):
         try:
             # internal model constants
             ted_empty.num_simulation_days = 366
-            ted_empty.app_rate_conv = 11.2
+            ted_empty.app_rate_conv1 = 11.2
             ted_empty.h2o_depth_puddles = 1.3
             ted_empty.soil_depth = 2.6
             ted_empty.soil_porosity = 0.4339623
