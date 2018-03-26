@@ -1975,7 +1975,7 @@ class TestAgdrift(unittest.TestCase):
                                                                   ln_ln_trans)
             npts_out = [len(y_array_out)]
             #
-            agdrift_empty.write_arrays_to_csv(x_array_out, y_array_out, "extend_data.csv")
+            #agdrift_empty.write_arrays_to_csv(x_array_out, y_array_out, "extend_data.csv")
             npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
             npt.assert_allclose(x_array_out, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)
             npt.assert_allclose(y_array_out, expected_result_y, rtol=1e-5, atol=0, err_msg='', verbose=True)
@@ -2158,7 +2158,7 @@ class TestAgdrift(unittest.TestCase):
                                                                   ln_ln_trans)
             npts_out = [len(y_array_out)]
             #
-            agdrift_empty.write_arrays_to_csv(x_array_out, y_array_out, "extend_data.csv")
+            #agdrift_empty.write_arrays_to_csv(x_array_out, y_array_out, "extend_data.csv")
             npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
             npt.assert_allclose(x_array_out, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)
             npt.assert_allclose(y_array_out, expected_result_y, rtol=1e-4, atol=0, err_msg='', verbose=True)
@@ -2340,7 +2340,7 @@ class TestAgdrift(unittest.TestCase):
                                                                   ln_ln_trans)
             npts_out = [len(y_array_out)]
             #
-            agdrift_empty.write_arrays_to_csv(x_array_out, y_array_out, "extend_data.csv")
+            #agdrift_empty.write_arrays_to_csv(x_array_out, y_array_out, "extend_data.csv")
             npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
             npt.assert_allclose(x_array_out, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)
             npt.assert_allclose(y_array_out, expected_result_y, rtol=1e-5, atol=0, err_msg='', verbose=True)
@@ -2522,7 +2522,7 @@ class TestAgdrift(unittest.TestCase):
                                                                   ln_ln_trans)
             npts_out = [len(y_array_out)]
             #
-            agdrift_empty.write_arrays_to_csv(x_array_out, y_array_out, "extend_data.csv")
+            #agdrift_empty.write_arrays_to_csv(x_array_out, y_array_out, "extend_data.csv")
             npt.assert_array_equal(expected_result_npts, npts_out, verbose=True)
             npt.assert_allclose(x_array_out, expected_result_x, rtol=1e-5, atol=0, err_msg='', verbose=True)
             npt.assert_allclose(y_array_out, expected_result_y, rtol=1e-5, atol=0, err_msg='', verbose=True)
