@@ -12,7 +12,8 @@ import unittest
 #find parent directory and import model
 parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(parentddir)
-from beerex_exe import Beerex
+#from beerex_exe import Beerex
+from ..beerex_exe import Beerex
 
 # load transposed qaqc data for inputs and expected outputs
 # csv_transpose_path_in = "./beerex_qaqc_in_transpose.csv"

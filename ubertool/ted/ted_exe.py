@@ -33,7 +33,8 @@ class TedSpeciesProperties(object):
     def read_species_properties(self):
         # this is a temporary method to initiate the species/diet food items lists (this will be replaced with
         # a method to access a SQL database containing the properties
-        filename = './ted/tests/TEDSpeciesProperties.csv'
+        #filename = './ted/tests/TEDSpeciesProperties.csv'
+        filename = os.path.join(os.path.dirname(__file__),'tests/TEDSpeciesProperties.csv')
         try:
             with open(filename,'rt') as csvfile:
                 # csv.DictReader uses first line in file for column headings by default
