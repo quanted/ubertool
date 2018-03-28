@@ -30,7 +30,7 @@ try:
         data_inputs = BytesIO(csv_data)
         pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
     else:
-        csv_transpose_path_in = "./iec_qaqc_in_transpose.csv"
+        csv_transpose_path_in = os.path.join(os.path.dirname(__file__),"iec_qaqc_in_transpose.csv")
         print(csv_transpose_path_in)
         pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
         #with open('./iec_qaqc_in_transpose.csv') as f:
@@ -59,7 +59,8 @@ try:
         #print('iec expected output dimensions ' + str(pd_obj_exp.shape))
         #print('iec expected output keys ' + str(pd_obj_exp.columns.values.tolist()))
     else:
-        csv_transpose_path_exp = "./iec_qaqc_exp_transpose.csv"
+        #csv_transpose_path_exp = "./iec_qaqc_exp_transpose.csv"
+        csv_transpose_path_exp = os.path.join(os.path.dirname(__file__),"iec_qaqc_exp_transpose.csv")
         #print(csv_transpose_path_exp)
         pd_obj_exp = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
 finally:

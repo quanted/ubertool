@@ -47,7 +47,7 @@ class TestScreenip(unittest.TestCase):
         # create empty pandas dataframes to create empty object for testing
         df_empty = pd.DataFrame()
         # create an empty screenip object
-        screenip_empty = screenip(df_empty, df_empty)
+        screenip_empty = Screenip(df_empty, df_empty)
         return screenip_empty
 
     def test_screenip_unit_fw_bird(self):

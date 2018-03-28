@@ -29,7 +29,8 @@ try:
         data_inputs = BytesIO(csv_data)
         pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
     else:
-        csv_transpose_path_in = "./terrplant_qaqc_in_transpose.csv"
+        #csv_transpose_path_in = "./terrplant_qaqc_in_transpose.csv"
+        csv_transpose_path_in = os.path.join(os.path.dirname(__file__), "terrplant_qaqc_in_transpose.csv")
         #print(csv_transpose_path_in)
         pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
         #with open('./terrplant_qaqc_in_transpose.csv') as f:
@@ -49,7 +50,9 @@ try:
         data_exp_outputs = BytesIO(pkgutil.get_data(__package__, 'terrplant_qaqc_exp_transpose.csv'))
         pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine= 'python')
     else:
-        csv_transpose_path_exp = "./terrplant_qaqc_exp_transpose.csv"
+        #csv_transpose_path_exp = "./terrplant_qaqc_exp_transpose.csv"
+        csv_transpose_path_exp = os.path.join(os.path.dirname(__file__), "terrplant_qaqc_exp_transpose.csv")
+
         #print(csv_transpose_path_exp)
         pd_obj_exp = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
 finally:

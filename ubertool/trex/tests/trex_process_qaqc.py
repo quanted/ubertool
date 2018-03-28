@@ -1,8 +1,10 @@
 from __future__ import division  #brings in Python 3.0 mixed type calculation rules
+import os
+
 # needs to be run whenever the qaqc csv is updated
-csv_path = "./trex_qaqc.csv"
-csv_in = "./trex_qaqc_in_transpose.csv"
-csv_exp = "./trex_qaqc_exp_transpose.csv"
+csv_path = os.path.join(os.path.dirname(__file__),"trex_qaqc.csv")
+csv_in = os.path.join(os.path.dirname(__file__),"trex_qaqc_in_transpose.csv")
+csv_exp = os.path.join(os.path.dirname(__file__),"trex_qaqc_exp_transpose.csv")
 import pandas as pd
 
 #skiprows 0-indexed (supposedly, but does not seem to be the case)

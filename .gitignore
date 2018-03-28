@@ -3,6 +3,7 @@
 *log_test.txt
 *ipynb_checkpoints
 .idea/*
+.pytest_cache
 
 .DS_Store
 
