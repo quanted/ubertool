@@ -1,7 +1,11 @@
 # needs to be run whenever the qaqc csv is updated
-csv_path = "./terrplant_qaqc.csv"
-csv_in = "./terrplant_qaqc_in_transpose.csv"
-csv_exp = "./terrplant_qaqc_exp_transpose.csv"
+
+import os
+
+csv_path = os.path.join(os.path.dirname(__file__),"terrplant_qaqc.csv")
+csv_in = os.path.join(os.path.dirname(__file__),"terrplant_qaqc_in_transpose.csv")
+csv_exp = os.path.join(os.path.dirname(__file__),"terrplant_qaqc_exp_transpose.csv")
+
 import pandas as pd
 
 pd_obj_inputs = pd.read_csv(csv_path, index_col=0, header=None, skiprows=1, skipfooter=66, engine='python')

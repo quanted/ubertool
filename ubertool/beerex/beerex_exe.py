@@ -282,17 +282,17 @@ class Beerex(UberModel, BeerexInputs, BeerexOutputs):
         print(self.n_runs)
         for i in range(self.n_runs):
             if self.application_method[i] == 'foliar spray':
-                self.out_eec_spray[i] = self.eec_spray(i)
+                self.eec_spray(i)
                 self.out_eec[i] = self.out_eec_spray[i]
             elif self.application_method[i] == 'soil application':
                 print('running beerex soil application')
-                self.out_eec_soil[i] = self.eec_soil(i)
+                self.eec_soil(i)
                 self.out_eec[i] = self.out_eec_soil[i]
             elif self.application_method[i] == 'seed treatment':
-                self.out_eec_seed[i] = self.eec_seed(i)
+                self.eec_seed(i)
                 self.out_eec[i] = self.out_eec_seed[i]
             elif self.application_method[i] == 'tree trunk':
-                self.out_eec_tree[i] = self.eec_tree(i)
+                self.eec_tree(i)
                 self.out_eec[i] = self.out_eec_tree[i]
         #print(self.out_eec)
         return self.out_eec

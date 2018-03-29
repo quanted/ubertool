@@ -1,10 +1,11 @@
 import pandas as pd
+import os
 
 # needs to be run whenever the qaqc csv is updated
-csv_path = "./rice_qaqc.csv"
-csv_path2 = "./rice_qaqc2.csv"
-csv_in = "./rice_qaqc_in_transpose.csv"
-csv_exp = "./rice_qaqc_exp_transpose.csv"
+csv_path = os.path.join(os.path.dirname(__file__),"rice_qaqc.csv")
+csv_path2 = os.path.join(os.path.dirname(__file__),"/rice_qaqc2.csv")
+csv_in = os.path.join(os.path.dirname(__file__),"rice_qaqc_in_transpose.csv")
+csv_exp = os.path.join(os.path.dirname(__file__),"rice_qaqc_exp_transpose.csv")
 
 #skiprows 0-indexed (supposably, but does not seem to be the case)
 #skipfooter- number of rows at bottom to skip

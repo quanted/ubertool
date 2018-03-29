@@ -5,7 +5,7 @@ import numpy.testing as npt
 import os.path
 import pandas as pd
 import pkgutil
-from StringIO import StringIO
+from io import StringIO
 import sys
 from tabulate import tabulate
 import unittest
@@ -16,6 +16,7 @@ print("parent_dir")
 print(parent_dir)
 sys.path.append(parent_dir)
 from beerex_exe import Beerex, BeerexOutputs
+from ..beerex_exe import Beerex, BeerexOutputs
 
 print("sys.path")
 print(sys.path)
@@ -29,7 +30,7 @@ try:
         data_inputs = StringIO(csv_data)
         pd_obj_inputs = pd.read_csv(data_inputs, index_col=0, engine='python')
     else:
-        csv_transpose_path_in = "./beerex_qaqc_in_transpose.csv"
+        csv_transpose_path_in = os.path.join(os.path.dirname(__file__), "beerex_qaqc_in_transpose.csv")
         #print(csv_transpose_path_in)
         pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
         #with open('./beerex_qaqc_in_transpose.csv') as f:
@@ -50,7 +51,8 @@ try:
         data_exp_outputs = StringIO(pkgutil.get_data(__package__, './beerex_qaqc_exp_transpose.csv'))
         pd_obj_exp = pd.read_csv(data_exp_outputs, index_col=0, engine='python')
     else:
-        csv_transpose_path_exp = "./beerex_qaqc_exp_transpose.csv"
+        #csv_transpose_path_exp = "./beerex_qaqc_exp_transpose.csv"
+        csv_transpose_path_exp = os.path.join(os.path.dirname(__file__), "beerex_qaqc_exp_transpose.csv")
         #print(csv_transpose_path_exp)
         pd_obj_exp = pd.read_csv(csv_transpose_path_exp, index_col=0, engine='python')
 finally:
