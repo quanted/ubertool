@@ -478,7 +478,10 @@ class TestBeerex(unittest.TestCase):
             beerex_empty.aw_cell_nectar = pd.Series([1.3, 5.3])
             beerex_empty.empirical_residue = (["no", "no"])
             beerex_empty.out_aw_cell_total_dose = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_soil = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_spray = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
             beerex_empty.out_eec_seed = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_tree = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
             beerex_empty.n_runs = len(expected_results)
             for i in range(len(expected_results)):
                 beerex_empty.eec_seed(i)
@@ -501,7 +504,10 @@ class TestBeerex(unittest.TestCase):
         try:
             expected_results = [23.0725, 6.5472]
             beerex_empty.out_aw_brood_total_dose = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_soil = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
             beerex_empty.out_eec_spray = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_seed = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_tree = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
             beerex_empty.aw_brood_pollen = pd.Series([5.7, 6.5])
             beerex_empty.aw_brood_nectar = pd.Series([78.2, 43.1])
             beerex_empty.application_rate = pd.Series([2.5, 1.2])
@@ -538,6 +544,9 @@ class TestBeerex(unittest.TestCase):
             beerex_empty.empirical_residue = (["no", "no"])
             beerex_empty.out_aw_comb_total_dose = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
             beerex_empty.out_eec_soil = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_spray = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_seed = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_tree = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
             beerex_empty.n_runs = len(expected_results)
             for i in range(len(expected_results)):
                 beerex_empty.eec_soil(i)
@@ -589,7 +598,10 @@ class TestBeerex(unittest.TestCase):
             beerex_empty.aw_fnectar_pollen = pd.Series([3.8, 16.9])
             beerex_empty.aw_fnectar_nectar = pd.Series([23.5, 12.7])
             beerex_empty.out_aw_nectar_total_dose = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_soil = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_spray = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
             beerex_empty.out_eec_seed = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_tree = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
             beerex_empty.n_runs = len(expected_results)
             beerex_empty.empirical_residue = (["no", "no"])
             for i in range(len(expected_results)):
@@ -644,7 +656,10 @@ class TestBeerex(unittest.TestCase):
 
         try:
             expected_results = [0.02904, 0.10844]
+            beerex_empty.out_eec_soil = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
             beerex_empty.out_eec_spray = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_seed = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_tree = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
             beerex_empty.out_ad_total_dose = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
             beerex_empty.empirical_residue = pd.Series(["yes", "yes"])
             beerex_empty.ad_pollen = pd.Series([2.4, 36.5])
@@ -676,6 +691,9 @@ class TestBeerex(unittest.TestCase):
         try:
             expected_results = [-85.7931737, 0.021943272]
             beerex_empty.out_eec_soil = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_spray = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_seed = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
+            beerex_empty.out_eec_tree = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
             beerex_empty.out_eec = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
             beerex_empty.out_aq_total_dose = pd.Series(np.nan, index=range(len(expected_results)), dtype="float")
             beerex_empty.n_runs = len(expected_results)
@@ -685,6 +703,7 @@ class TestBeerex(unittest.TestCase):
             beerex_empty.koc = pd.Series([4.1, 25.4])
             beerex_empty.application_rate = pd.Series([3.4, 12.4])
             for i in range(len(expected_results)):
+                print(i)
                 beerex_empty.eec_soil(i)
                 beerex_empty.out_eec = beerex_empty.out_eec_soil
                 beerex_empty.aq_total_dose()
