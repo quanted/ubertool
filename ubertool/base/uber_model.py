@@ -167,6 +167,20 @@ class UberModel(object):
         :param model_obj: model instance
         :return: (dict(input DataFrame), dict(outputs DataFrame), dict(expected outputs DataFrame))
         """
+        name = self.name
+        print(self.name)
+        print(self.name.lower())
+        if self.name.lower() == "varroapop":
+            print("varroapop dict rep")
+            print(self.pd_obj_out.to_dict('series'))
+            try:
+                return self.to_dict(self.pd_obj), \
+                   self.pd_obj_out.to_dict('list'), \
+                   self.pd_obj_exp.to_dict('list')
+            except AttributeError:
+                return self.to_dict(self.pd_obj), \
+                   self.pd_obj_out.to_dict('list'), \
+                   {}
         try:
             return self.to_dict(self.pd_obj), \
                    self.to_dict(self.pd_obj_out), \

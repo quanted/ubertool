@@ -49,7 +49,7 @@ class VarroapopFunctions(object):
         self.out_worker_mites_per_cell = self.out_worker_mites_per_cell.append(pd.Series(outputs.get('Mites.Worker.Cell')))
         self.out_mites_dying = self.out_mites_dying.append(pd.Series(outputs.get('Mites.Dying')))
         self.out_proportion_mites_dying =self.out_proportion_mites_dying.append(pd.Series(outputs.get('Proportion.Mites.Dying')))
-        self.out_colony_pollen = self.out_colony_pollen.append(pd.Series(outputs.get('Colony.Pollen')))
+        self.out_colony_pollen = self.out_colony_pollen.append(pd.Series(outputs.get('Colony.Pollen..g.')))
         self.out_chemical_conc_pollen =self.out_chemical_conc_pollen.append(pd.Series(outputs.get('Pollen.Pesticide.Concentration')))
         self.out_colony_nectar = self.out_colony_nectar.append(pd.Series(outputs.get('Colony.Nectar')))
         self.out_chemical_conc_nectar =self.out_chemical_conc_nectar.append(pd.Series(outputs.get('Nectar.Pesticide.Concentration')))
