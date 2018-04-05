@@ -194,6 +194,8 @@ class VarroapopOutputs(object):
         self.out_dead_worker_adults = pd.Series([], dtype='float', name="out_dead_worker_adults")
         self.out_dead_foragers = pd.Series([], dtype='float', name="out_dead_foragers")
         self.out_queen_strength = pd.Series([], dtype='float', name="out_queen_strength")
+        self.out_average_temp_c = pd.Series([], dtype='float', name="out_average_temp_c")
+        self.out_rain_inch = pd.Series([], dtype='float', name="out_rain_inch")
 
 
 
@@ -230,6 +232,7 @@ class Varroapop(UberModel, VarroapopInputs, VarroapopOutputs, VarroapopFunctions
             r_api_request = self.call_varroapop_api()
             print(r_api_request.headers)
             print(r_api_request.text)
+            self.fill_model_out_attr(r_api_request.content)
             return
 
         except Exception as e:
