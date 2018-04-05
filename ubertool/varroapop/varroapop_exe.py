@@ -2,6 +2,7 @@ from __future__ import division
 import pandas as pd
 import os.path
 import sys
+import logging
 
 # parentddir = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 # sys.path.append(parentddir)
@@ -25,6 +26,7 @@ class VarroapopInputs(ModelSharedInputs):
         self.SimEnd_year = pd.Series([], dtype="object")
         self.ICQueenStrength = pd.Series([], dtype="float")
         self.ICForagerLifespan = pd.Series([], dtype="float")
+        self.ForagerMaxProp = pd.Series([], dtype="float")
         self.ICWorkerAdult= pd.Series([], dtype="float")
         self.ICWorkerBrood = pd.Series([], dtype="float")
         self.ICWorkerLarvae = pd.Series([], dtype="float")
@@ -54,12 +56,16 @@ class VarroapopInputs(ModelSharedInputs):
         self.ImmStart_month = pd.Series([], dtype="object")
         self.ImmStart_day = pd.Series([], dtype="object")
         self.ImmStart_year = pd.Series([], dtype="object")
+        self.ImmEnd_month = pd.Series([], dtype="object")
+        self.ImmEnd_day = pd.Series([], dtype="object")
+        self.ImmEnd_year = pd.Series([], dtype="object")
         self.TotalImmMites = pd.Series([], dtype="float")
         self.PctImmMitesResistant = pd.Series([], dtype="float")
         self.VTEnable = pd.Series([], dtype="object")
         self.VTTreatmentStart_month = pd.Series([], dtype="object")
-        self.VTTreatmentStart_month = pd.Series([], dtype="object")
-        self.VTTreatmentStart_month = pd.Series([], dtype="object")
+        self.VTTreatmentStart_day = pd.Series([], dtype="object")
+        self.VTTreatmentStart_year = pd.Series([], dtype="object")
+        self.VTTreatmentDuration = pd.Series([], dtype="float")
         self.VTMortality = pd.Series([], dtype="float")
         self.InitMitePctResistant = pd.Series([], dtype="float")
 
@@ -87,7 +93,7 @@ class VarroapopInputs(ModelSharedInputs):
         self.k_oc = pd.Series([], dtype="float")
         self.Theta = pd.Series([], dtype="float")
         self.P = pd.Series([], dtype="float")
-        self.FOC = pd.Series([], dtype="float")
+        self.Foc = pd.Series([], dtype="float")
         self.SeedForageBegin_month = pd.Series([], dtype="object")
         self.SeedForageBegin_day = pd.Series([], dtype="object")
         self.SeedForageBegin_year = pd.Series([], dtype="object")
@@ -160,12 +166,40 @@ class VarroapopOutputs(object):
     def __init__(self):
         """Class representing the outputs for Varroapop"""
         super(VarroapopOutputs, self).__init__()
-        self.out_Date = pd.Series(name="out_varroapop_fugacity")
+        self.out_date = pd.Series([], dtype='object', name="out_date")
+        self.out_colony_size = pd.Series([], dtype='float', name="out_colony_size")
+        self.out_adult_drones = pd.Series([], dtype='float', name="out_adult_drones")
+        self.out_adult_workers = pd.Series([], dtype='float', name="out_adult_workers")
+        self.out_foragers = pd.Series([], dtype='float', name="out_foragers")
+        self.out_capped_drone_brood = pd.Series([], dtype='float', name="out_capped_drone_brood")
+        self.out_capped_worker_brood = pd.Series([], dtype='float', name="out_capped_worker_brood")
+        self.out_drone_larvae = pd.Series([], dtype='float', name="out_drone_larvae")
+        self.out_worker_larvae = pd.Series([], dtype='float', name="out_worker_larave")
+        self.out_drone_eggs = pd.Series([], dtype='float', name="out_drone_eggs")
+        self.out_worker_eggs = pd.Series([], dtype='float', name="out_worker_eggs")
+        self.out_free_mites = pd.Series([], dtype='float', name="out_free_mites")
+        self.out_drone_brood_mites = pd.Series([], dtype='float', name="out_drone_brood_mites")
+        self.out_worker_brood_mites = pd.Series([], dtype='float', name="out_worker_brood_mites")
+        self.out_drone_mites_per_cell = pd.Series([], dtype='float', name="out_drone_mites_per_cell")
+        self.out_worker_mites_per_cell = pd.Series([], dtype='float', name="out_worker_mites_per_cell")
+        self.out_mites_dying = pd.Series([], dtype='float', name="out_mites_dying")
+        self.out_proportion_mites_dying = pd.Series([], dtype='float', name="out_proportion_mites_dying")
+        self.out_colony_pollen = pd.Series([], dtype='float', name="out_colony_pollen")
+        self.out_chemical_conc_pollen = pd.Series([], dtype='float', name="out_chemical_conc_pollen")
+        self.out_colony_nectar = pd.Series([], dtype='float', name="out_colony_nectar")
+        self.out_chemical_conc_nectar = pd.Series([], dtype='float', name="out_chemical_conc_nectar")
+        self.out_dead_drone_larvae = pd.Series([], dtype='float', name="out_dead_drone_larave")
+        self.out_dead_worker_larvae = pd.Series([], dtype='float', name="out_dead_worker_larave")
+        self.out_dead_drone_adults = pd.Series([], dtype='float', name="out_dead_drone_adults")
+        self.out_dead_worker_adults = pd.Series([], dtype='float', name="out_dead_worker_adults")
+        self.out_dead_foragers = pd.Series([], dtype='float', name="out_dead_foragers")
+        self.out_queen_strength = pd.Series([], dtype='float', name="out_queen_strength")
+
 
 
 class Varroapop(UberModel, VarroapopInputs, VarroapopOutputs, VarroapopFunctions):
     """
-    Varroapop model for annelid soil ingestion.
+    Age-structured honey bee colony model with mite population dynamics and chemical exposure scenarios
     """
 
     def __init__(self, pd_obj, pd_obj_exp):
@@ -180,7 +214,7 @@ class Varroapop(UberModel, VarroapopInputs, VarroapopOutputs, VarroapopFunctions
         Callable to execute the running of the model:
             1) Populate input parameters
             2) Create output DataFrame to hold the model outputs
-            3) Run the model's methods to generate outputs
+            3) Call the model's API to generate outputs
             4) Fill the output DataFrame with the generated model outputs
         """
         self.populate_inputs(self.pd_obj)
@@ -190,9 +224,18 @@ class Varroapop(UberModel, VarroapopInputs, VarroapopOutputs, VarroapopFunctions
 
     # Begin model methods
     def run_methods(self):
-        """ Execute all algorithm methods for model logic """
+        """ Call the Varroapop API to run model"""
         try:
-            self.varroapop_fugacity()
+            logging.info("Calling VarroaPop API.....")
+            r_api_request = self.call_varroapop_api()
+            print(r_api_request.headers)
+            print(r_api_request.text)
+            return
+
         except Exception as e:
+            logging.info("Exception while calling VarroaPop API!")
+            logging.info(e)
             pass
+
+
 
