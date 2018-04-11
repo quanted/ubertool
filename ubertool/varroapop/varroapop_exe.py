@@ -198,6 +198,13 @@ class VarroapopOutputs(object):
         self.out_average_temp_c = pd.Series([], dtype='float', name="out_average_temp_c")
         self.out_rain_inch = pd.Series([], dtype='float', name="out_rain_inch")
 
+        #summary stats
+        self.out_mean_colony_size = pd.Series([], dtype='float', name="out_mean_colony_size")
+        self.out_max_colony_size = pd.Series([], dtype='float', name="out_max_colony_size")
+        self.out_min_colony_size = pd.Series([], dtype='float', name="out_min_colony_size")
+        self.out_total_bee_mortality = pd.Series([], dtype='float', name="out_total_bee_mortality")
+        self.out_max_chemical_conc_pollen = pd.Series([], dtype='float', name="out_max_chemical_conc_pollen")
+        self.out_max_chemical_conc_nectar = pd.Series([], dtype='float', name="out_max_chemical_conc_nectar")
 
 
 class Varroapop(UberModel, VarroapopInputs, VarroapopOutputs, VarroapopFunctions):
@@ -234,6 +241,7 @@ class Varroapop(UberModel, VarroapopInputs, VarroapopOutputs, VarroapopFunctions
             print(r_api_request.headers)
             print(r_api_request.text)
             self.fill_model_out_attr(r_api_request.content)
+            self.fill_summary_stats()
             return
 
         except Exception as e:
@@ -242,4 +250,16 @@ class Varroapop(UberModel, VarroapopInputs, VarroapopOutputs, VarroapopFunctions
             pass
 
 
+class VarroapopFiles(VarroapopFunctions):
 
+    def __init__(self, api_sessionid):
+        self.api_sessionid = api_sessionid
+
+    def fetch_input(self):
+        return self.get_input_file(self.api_sessionid)
+
+    def fetch_log(self):
+        return self.get_log_file(self.api_sessionid)
+
+    def fetch_results(self):
+        return self.get_results_file(self.api_sessionid)
