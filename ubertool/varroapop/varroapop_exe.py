@@ -206,6 +206,9 @@ class VarroapopOutputs(object):
         self.out_max_chemical_conc_pollen = pd.Series([], dtype='float', name="out_max_chemical_conc_pollen")
         self.out_max_chemical_conc_nectar = pd.Series([], dtype='float', name="out_max_chemical_conc_nectar")
 
+        #ocpu session id (for fetching files later)
+        self.out_api_sessionid = pd.Series([], dtype='object', name="out_api_sessionid")
+
 
 class Varroapop(UberModel, VarroapopInputs, VarroapopOutputs, VarroapopFunctions):
     """
@@ -242,6 +245,7 @@ class Varroapop(UberModel, VarroapopInputs, VarroapopOutputs, VarroapopFunctions
             print(r_api_request.text)
             self.fill_model_out_attr(r_api_request.content)
             self.fill_summary_stats()
+            self.fill_sessionid(r_api_request.headers.get('X-ocpu-session'))
             return
 
         except Exception as e:

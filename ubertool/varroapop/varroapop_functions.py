@@ -65,6 +65,7 @@ class VarroapopFunctions(object):
         self.out_average_temp_c = self.out_average_temp_c.append(pd.Series(outputs.get('Average.Temperature..celsius.')))
         self.out_rain_inch = self.out_rain_inch.append(pd.Series(outputs.get('Rain')))
 
+
     def fill_summary_stats(self):
         self.out_mean_colony_size = self.out_mean_colony_size.append(pd.Series(self.out_colony_size.mean()))
         self.out_max_colony_size = self.out_max_colony_size.append(pd.Series(self.out_colony_size.max()))
@@ -76,6 +77,10 @@ class VarroapopFunctions(object):
                                                                                       self.out_dead_foragers.sum()])))
         self.out_max_chemical_conc_pollen = self.out_max_chemical_conc_pollen.append(pd.Series(self.out_chemical_conc_pollen.max()))
         self.out_max_chemical_conc_nectar = self.out_max_chemical_conc_nectar.append(pd.Series(self.out_chemical_conc_nectar.max()))
+
+
+    def fill_sessionid(self, sessionid):
+        self.out_api_sessionid = self.out_api_sessionid.append(pd.Series(sessionid))
 
 
     def format_varroapop_payload(self):
