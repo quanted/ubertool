@@ -4,9 +4,10 @@ import json
 import requests
 import math
 import pandas as pd
+import os
 
-#rest_url_varroapop = os.environ['REST_SERVER_8']
-rest_url_varroapop = 'http://localhost:5656'
+rest_url_varroapop = os.environ['OPENCPU_REST_SERVER']
+#rest_url_varroapop = 'http://localhost'
 
 
 class VarroapopFunctions(object):
@@ -18,6 +19,7 @@ class VarroapopFunctions(object):
         """Class representing the functions for VarroaPop"""
         super(VarroapopFunctions, self).__init__()
 
+
     def call_varroapop_api(self):
         logging.info("=========== formatting Varroapop JSON payload")
         input_json = self.format_varroapop_payload()
@@ -28,6 +30,7 @@ class VarroapopFunctions(object):
         logging.info("JSON payload:")
         print(input_json)
         return requests.post(called_endpoint, headers=http_headers, data=input_json, timeout=60)
+
 
     def fill_model_out_attr(self, output_json):
         outputs = json.loads(json.loads(output_json)[0])
@@ -61,6 +64,24 @@ class VarroapopFunctions(object):
         self.out_queen_strength = self.out_queen_strength.append(pd.Series(outputs.get('Queen.Strength')))
         self.out_average_temp_c = self.out_average_temp_c.append(pd.Series(outputs.get('Average.Temperature..celsius.')))
         self.out_rain_inch = self.out_rain_inch.append(pd.Series(outputs.get('Rain')))
+
+
+    def fill_summary_stats(self):
+        self.out_mean_colony_size = self.out_mean_colony_size.append(pd.Series(self.out_colony_size.mean()))
+        self.out_max_colony_size = self.out_max_colony_size.append(pd.Series(self.out_colony_size.max()))
+        self.out_min_colony_size = self.out_min_colony_size.append(pd.Series(self.out_colony_size.min()))
+        self.out_total_bee_mortality = self.out_total_bee_mortality.append(pd.Series(sum([self.out_dead_drone_adults.sum(),
+                                                                                      self.out_dead_drone_larvae.sum(),
+                                                                                      self.out_dead_worker_adults.sum(),
+                                                                                      self.out_dead_worker_larvae.sum(),
+                                                                                      self.out_dead_foragers.sum()])))
+        self.out_max_chemical_conc_pollen = self.out_max_chemical_conc_pollen.append(pd.Series(self.out_chemical_conc_pollen.max()))
+        self.out_max_chemical_conc_nectar = self.out_max_chemical_conc_nectar.append(pd.Series(self.out_chemical_conc_nectar.max()))
+
+
+    def fill_sessionid(self, sessionid):
+        self.out_api_sessionid = self.out_api_sessionid.append(pd.Series(sessionid))
+
 
     def format_varroapop_payload(self):
         input_dict = self.pd_obj.to_dict('records')[0]
@@ -114,11 +135,13 @@ class VarroapopFunctions(object):
         [input_dict.pop(k, None) for k in inputs_to_remove]
         return input_dict
 
+
     def rename_inputs(self, input_dict):
         input_dict['EAppRate'] = input_dict.pop('ar_lb')
         input_dict['AIKOW'] = math.exp(input_dict.pop('l_kow'))
         input_dict['AIKOC'] = input_dict.pop('k_oc')
         return input_dict
+
 
     def remove_unused_inputs(self, input_dict):
         keys = list(input_dict.keys())
@@ -126,5 +149,22 @@ class VarroapopFunctions(object):
         for k in to_remove:
          input_dict.pop(k, None)
         return input_dict
+
+
+    def get_input_file(self, api_sessionid):
+        file_endpoint =  (rest_url_varroapop + '/ocpu/tmp/'  + api_sessionid + '/files/')
+        return requests.get(file_endpoint+'vp_input.txt')
+
+
+    def get_log_file(self, api_sessionid):
+        file_endpoint =  (rest_url_varroapop + '/ocpu/tmp/'  + api_sessionid + '/files/')
+        return requests.get(file_endpoint+'vp_log.txt')
+
+
+    def get_results_file(self, api_sessionid):
+        file_endpoint =  (rest_url_varroapop + '/ocpu/tmp/'  + api_sessionid + '/files/')
+        return requests.get(file_endpoint+'vp_results.txt')
+
+
 
 

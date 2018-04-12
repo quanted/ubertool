@@ -27,11 +27,11 @@ class VarroapopInputs(ModelSharedInputs):
         self.ICQueenStrength = pd.Series([], dtype="float")
         self.ICForagerLifespan = pd.Series([], dtype="float")
         self.ForagerMaxProp = pd.Series([], dtype="float")
-        self.ICWorkerAdult= pd.Series([], dtype="float")
+        self.ICWorkerAdults= pd.Series([], dtype="float")
         self.ICWorkerBrood = pd.Series([], dtype="float")
         self.ICWorkerLarvae = pd.Series([], dtype="float")
         self.ICWorkerEggs = pd.Series([], dtype="float")
-        self.ICDroneAdult = pd.Series([], dtype="float")
+        self.ICDroneAdults = pd.Series([], dtype="float")
         self.ICDroneBrood = pd.Series([], dtype="float")
         self.ICDroneLarvae = pd.Series([], dtype="float")
         self.ICDroneEggs = pd.Series([], dtype="float")
@@ -89,11 +89,12 @@ class VarroapopInputs(ModelSharedInputs):
         self.SoilForageEnd_month = pd.Series([], dtype="object")
         self.SoilForageEnd_day = pd.Series([], dtype="object")
         self.SoilForageEnd_year = pd.Series([], dtype="object")
+        self.ESoilConcentration = pd.Series([], dtype="float")
         self.l_kow = pd.Series([], dtype="float")
         self.k_oc = pd.Series([], dtype="float")
-        self.Theta = pd.Series([], dtype="float")
-        self.P = pd.Series([], dtype="float")
-        self.Foc = pd.Series([], dtype="float")
+        self.ESoilTheta = pd.Series([], dtype="float")
+        self.ESoilP = pd.Series([], dtype="float")
+        self.ESoilFoc = pd.Series([], dtype="float")
         self.SeedForageBegin_month = pd.Series([], dtype="object")
         self.SeedForageBegin_day = pd.Series([], dtype="object")
         self.SeedForageBegin_year = pd.Series([], dtype="object")
@@ -108,9 +109,9 @@ class VarroapopInputs(ModelSharedInputs):
         self.AILarvaSlope = pd.Series([], dtype="float")
         self.AIAdultLD50Contact = pd.Series([], dtype="float")
         self.AIAdultSlopeContact = pd.Series([], dtype="float")
-        self.foliar_enable = pd.Series([], dtype="object")
-        self.soil_enable = pd.Series([], dtype="object")
-        self.seed_enable = pd.Series([], dtype="object")
+        self.FoliarEnabled = pd.Series([], dtype="object")
+        self.SoilEnabled = pd.Series([], dtype="object")
+        self.SeedEnabled = pd.Series([], dtype="object")
 
         self.InitColPollen = pd.Series([], dtype="float")
         self.InitColNectar = pd.Series([], dtype="float")
@@ -174,7 +175,7 @@ class VarroapopOutputs(object):
         self.out_capped_drone_brood = pd.Series([], dtype='float', name="out_capped_drone_brood")
         self.out_capped_worker_brood = pd.Series([], dtype='float', name="out_capped_worker_brood")
         self.out_drone_larvae = pd.Series([], dtype='float', name="out_drone_larvae")
-        self.out_worker_larvae = pd.Series([], dtype='float', name="out_worker_larave")
+        self.out_worker_larvae = pd.Series([], dtype='float', name="out_worker_larvae")
         self.out_drone_eggs = pd.Series([], dtype='float', name="out_drone_eggs")
         self.out_worker_eggs = pd.Series([], dtype='float', name="out_worker_eggs")
         self.out_free_mites = pd.Series([], dtype='float', name="out_free_mites")
@@ -197,6 +198,16 @@ class VarroapopOutputs(object):
         self.out_average_temp_c = pd.Series([], dtype='float', name="out_average_temp_c")
         self.out_rain_inch = pd.Series([], dtype='float', name="out_rain_inch")
 
+        #summary stats
+        self.out_mean_colony_size = pd.Series([], dtype='float', name="out_mean_colony_size")
+        self.out_max_colony_size = pd.Series([], dtype='float', name="out_max_colony_size")
+        self.out_min_colony_size = pd.Series([], dtype='float', name="out_min_colony_size")
+        self.out_total_bee_mortality = pd.Series([], dtype='float', name="out_total_bee_mortality")
+        self.out_max_chemical_conc_pollen = pd.Series([], dtype='float', name="out_max_chemical_conc_pollen")
+        self.out_max_chemical_conc_nectar = pd.Series([], dtype='float', name="out_max_chemical_conc_nectar")
+
+        #ocpu session id (for fetching files later)
+        self.out_api_sessionid = pd.Series([], dtype='object', name="out_api_sessionid")
 
 
 class Varroapop(UberModel, VarroapopInputs, VarroapopOutputs, VarroapopFunctions):
@@ -233,6 +244,8 @@ class Varroapop(UberModel, VarroapopInputs, VarroapopOutputs, VarroapopFunctions
             print(r_api_request.headers)
             print(r_api_request.text)
             self.fill_model_out_attr(r_api_request.content)
+            self.fill_summary_stats()
+            self.fill_sessionid(r_api_request.headers.get('X-ocpu-session'))
             return
 
         except Exception as e:
@@ -241,4 +254,16 @@ class Varroapop(UberModel, VarroapopInputs, VarroapopOutputs, VarroapopFunctions
             pass
 
 
+class VarroapopFiles(VarroapopFunctions):
 
+    def __init__(self, api_sessionid):
+        self.api_sessionid = api_sessionid
+
+    def fetch_input(self):
+        return self.get_input_file(self.api_sessionid)
+
+    def fetch_log(self):
+        return self.get_log_file(self.api_sessionid)
+
+    def fetch_results(self):
+        return self.get_results_file(self.api_sessionid)
