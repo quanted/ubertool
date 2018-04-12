@@ -96,7 +96,7 @@ class UberModel(object):
         """
         df_user = self.convert_index(df_in)
         # mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
-        mod_name = "ubertool.ubertool." + self.name.lower() + "." + self.name.lower() + '_exe'
+        mod_name = "pram_flask.ubertool.ubertool." + self.name.lower() + "." + self.name.lower() + '_exe'
         print(mod_name)
         try:
             # Import the model's input class (e.g. TedInputs) to compare user supplied inputs to
