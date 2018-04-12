@@ -6,7 +6,7 @@ import math
 import pandas as pd
 import os
 
-rest_url_varroapop = os.environ['OPENCPU_REST_SERVER']
+rest_url_varroapop = os.environ.get('OPENCPU_REST_SERVER')
 #rest_url_varroapop = 'http://localhost'
 
 
