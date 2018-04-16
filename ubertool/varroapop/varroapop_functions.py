@@ -9,6 +9,8 @@ import os
 rest_url_varroapop = os.environ.get('OPENCPU_REST_SERVER')
 #rest_url_varroapop = 'http://localhost'
 
+if not os.environ.get('OPENCPU_REST_SERVER'):
+    rest_url_varroapop = 'http://172.20.100.18:5656'
 
 class VarroapopFunctions(object):
     """
