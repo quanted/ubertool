@@ -179,6 +179,15 @@ class UberModel(object):
                 return self.to_dict(self.pd_obj), \
                    self.pd_obj_out.to_dict('list'), \
                    {}
+        elif self.name.lower() == "sam":
+            try:
+                return self.to_dict(self.pd_obj), \
+                    self.pd_obj_out, \
+                    self.pd_obj_exp
+            except AttributeError as ex:
+                return self.to_dict(self.pd_obj), \
+                       {"error": str(ex)}, \
+                       {}
         try:
             return self.to_dict(self.pd_obj), \
                    self.to_dict(self.pd_obj_out), \
