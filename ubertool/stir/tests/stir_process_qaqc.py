@@ -1,9 +1,10 @@
 # needs to be run whenever the qaqc csv is updated
 import pandas as pd
+import os
 
-csv_path = "./stir_qaqc.csv"
-csv_transpose_path_in = "./stir_qaqc_in_transpose.csv"
-csv_transpose_path_exp = "./stir_qaqc_exp_transpose.csv"
+csv_path = os.path.join(os.path.dirname(__file__),"stir_qaqc.csv")
+csv_transpose_path_in = os.path.join(os.path.dirname(__file__),"stir_qaqc_in_transpose.csv")
+csv_transpose_path_exp = os.path.join(os.path.dirname(__file__),"stir_qaqc_exp_transpose.csv")
 
 #skiprows 0-indexed (supposably, but does not seem to be the case)
 #skipfooter- number of rows at bottom to skip (lastrow# - lastinputrow#)

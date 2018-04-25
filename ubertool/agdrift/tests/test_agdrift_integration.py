@@ -70,7 +70,8 @@ finally:
 
 #generate output
 agdrift_calc = Agdrift(pd_obj_inputs, pd_obj_exp)
-agdrift_calc.db_name = 'sqlite:///../sqlite_agdrift_distance.db'
+location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+agdrift_calc.db_name =  os.path.join(location, 'sqlite_agdrift_distance.db')
 agdrift_calc.db_table = 'output'
 agdrift_calc.execute_model()
 agdrift_output_empty = AgdriftOutputs()

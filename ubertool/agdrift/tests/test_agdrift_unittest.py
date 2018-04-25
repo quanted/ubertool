@@ -473,7 +473,8 @@ class TestAgdrift(unittest.TestCase):
         # create empty pandas dataframes to create empty object for this unittest
         agdrift_empty = self.create_agdrift_object()
 
-        agdrift_empty.db_name = 'sqlite:///../sqlite_agdrift_distance.db'
+        location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+        agdrift_empty.db_name = os.path.join(location, 'sqlite_agdrift_distance.db')
         agdrift_empty.db_table = 'output'
 
         expected_result = pd.Series([], dtype='float')
@@ -539,7 +540,8 @@ class TestAgdrift(unittest.TestCase):
 
         try:
             agdrift_empty.num_db_values = 161  #set number of data values in sql db
-            agdrift_empty.db_name = 'sqlite:///../sqlite_agdrift_distance.db'
+            location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+            agdrift_empty.db_name = os.path.join(location, 'sqlite_agdrift_distance.db')
             agdrift_empty.db_table = 'output'
             #agdrift_empty.db_name = 'sqlite_agdrift_distance.db'
             #this is the list of scenario names (column names) in sql db (the order here is important because
@@ -583,7 +585,8 @@ class TestAgdrift(unittest.TestCase):
         # create empty pandas dataframes to create empty object for this unittest
         agdrift_empty = self.create_agdrift_object()
 
-        agdrift_empty.db_name = 'sqlite:///../sqlite_agdrift_distance.db'
+        location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+        agdrift_empty.db_name = os.path.join(location, 'sqlite_agdrift_distance.db')
         agdrift_empty.db_table = 'output'
 
         result = pd.Series([], dtype='object')
@@ -1063,7 +1066,8 @@ class TestAgdrift(unittest.TestCase):
         # create empty pandas dataframes to create empty object for this unittest
         agdrift_empty = self.create_agdrift_object()
 
-        agdrift_empty.db_name = 'sqlite:///../sqlite_agdrift_distance.db'
+        location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+        agdrift_empty.db_name = os.path.join(location, 'sqlite_agdrift_distance.db')
         agdrift_empty.db_table = 'output'
 
         expected_result_x = pd.Series([], dtype='float')
@@ -1379,7 +1383,8 @@ class TestAgdrift(unittest.TestCase):
         # create empty pandas dataframes to create empty object for this unittest
         agdrift_empty = self.create_agdrift_object()
 
-        agdrift_empty.db_name = 'sqlite:///../sqlite_agdrift_distance.db'
+        location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+        agdrift_empty.db_name = os.path.join(location, 'sqlite_agdrift_distance.db')
         agdrift_empty.db_table = 'output'
 
         expected_result_x = pd.Series([], dtype='float')
