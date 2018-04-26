@@ -18,6 +18,7 @@ class VarroapopInputs(ModelSharedInputs):
     def __init__(self):
         """Class representing the inputs for Varroapop"""
         super(VarroapopInputs, self).__init__()
+        self.weather_location = pd.Series([], dtype="object")
         self.SimStart_month = pd.Series([], dtype="object")
         self.SimStart_day = pd.Series([], dtype="object")
         self.SimStart_year = pd.Series([], dtype="object")

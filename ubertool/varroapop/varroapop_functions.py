@@ -87,10 +87,12 @@ class VarroapopFunctions(object):
 
     def format_varroapop_payload(self):
         input_dict = self.pd_obj.to_dict('records')[0]
+        weather_loc = input_dict.pop('weather_location')
+        print('Weather location: '+ weather_loc )
         input_dict = self.collapse_dates(input_dict)
         input_dict = self.rename_inputs(input_dict)
         input_dict = self.remove_unused_inputs(input_dict)
-        data = json.dumps({'parameters':input_dict})
+        data = json.dumps({'parameters':input_dict, 'weather_file':weather_loc})
         return data
 
 
