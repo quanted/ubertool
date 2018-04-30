@@ -1,1 +1,4 @@
 
+[submodule "ubertool/sam"]
+	path = ubertool/sam
+	url = https://github.com/opp-efed/sam.git
