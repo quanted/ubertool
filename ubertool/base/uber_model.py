@@ -96,7 +96,7 @@ class UberModel(object):
         """
         df_user = self.convert_index(df_in)
         # mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
-        mod_name = "ubertool.ubertool." + self.name.lower() + "." + self.name.lower() + '_exe'
+        mod_name = "pram_flask.ubertool.ubertool." + self.name.lower() + "." + self.name.lower() + '_exe'
         print(mod_name)
         try:
             # Import the model's input class (e.g. TedInputs) to compare user supplied inputs to
@@ -167,6 +167,27 @@ class UberModel(object):
         :param model_obj: model instance
         :return: (dict(input DataFrame), dict(outputs DataFrame), dict(expected outputs DataFrame))
         """
+        name = self.name
+        print(self.name)
+        print(self.name.lower())
+        if self.name.lower() == "varroapop":
+            try:
+                return self.to_dict(self.pd_obj), \
+                   self.pd_obj_out.to_dict('list'), \
+                   self.pd_obj_exp.to_dict('list')
+            except AttributeError:
+                return self.to_dict(self.pd_obj), \
+                   self.pd_obj_out.to_dict('list'), \
+                   {}
+        elif self.name.lower() == "sam":
+            try:
+                return self.to_dict(self.pd_obj), \
+                    self.pd_obj_out, \
+                    self.pd_obj_exp
+            except AttributeError as ex:
+                return self.to_dict(self.pd_obj), \
+                       {"error": str(ex)}, \
+                       {}
         try:
             return self.to_dict(self.pd_obj), \
                    self.to_dict(self.pd_obj_out), \
