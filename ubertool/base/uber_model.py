@@ -29,16 +29,16 @@ class UberModel(object):
         df = pd.DataFrame()
         for input_param in model_inputs.__dict__:
             df[input_param] = getattr(self, input_param)
-        keys_a = set(getattr(self, input_param))
+        keys_a = set(df.keys())
         keys_b = set(self.pd_obj.keys())
         extras = keys_b - keys_a
         n_extras = len(extras)
-        print('There are {n_extras} extra keys.')
-        print(extras)
+        print(f'There are {n_extras} extra keys.')
+        if(n_extras > 0): print(extras)
         missing = keys_a - keys_b
         n_missing = len(missing)
-        print('There are {n_missing} missing keys.')
-        print(missing)
+        print(f'There are {n_missing} missing keys.')
+        if(n_missing > 0): print(missing)
         # Compare column names of temporary DataFrame (created above) to user-supply DataFrame from JSON
         #if df.columns.sort_values().equals(user_inputs.columns.sort_values()):
         if n_extras >= 0 and n_missing == 0:
@@ -58,9 +58,7 @@ class UberModel(object):
             raise ValueError(msg_err1 + msg_err2 + msg_err3 + msg_missing + msg_extras)
 
     def coerce_input_dtype(self, incoming_dtype, coerce_dtype, input_series):
-        #incoming_dtype = \
-        logging.info(incoming_dtype)
-        #incoming_dtype = 'float64'
+        #logging.info(incoming_dtype)
         if coerce_dtype == 'object':
             return input_series.astype('object')
         elif coerce_dtype == 'float64':
@@ -97,7 +95,7 @@ class UberModel(object):
         df_user = self.convert_index(df_in)
         # mod_name = self.name.lower() + '.' + self.name.lower() + '_exe'
         mod_name = "pram_flask.ubertool.ubertool." + self.name.lower() + "." + self.name.lower() + '_exe'
-        print(mod_name)
+        #print(mod_name)
         try:
             # Import the model's input class (e.g. TedInputs) to compare user supplied inputs to
             module = importlib.import_module(mod_name)
@@ -116,8 +114,8 @@ class UberModel(object):
                     coerce_dtype = str(getattr(model_inputs, column).dtype)
                     df_series = df_user[column]
                     initial_dtype = str(df_series.dtype)
-                    if initial_dtype != coerce_dtype:
-                        logging.info('var:' + column + ' coerce to: ' + coerce_dtype + ' from: ' + initial_dtype)
+                    #if initial_dtype != coerce_dtype:
+                        #logging.info('var:' + column + ' coerce to: ' + coerce_dtype + ' from: ' + initial_dtype)
                     setattr(self, column, self.coerce_input_dtype(initial_dtype, coerce_dtype, df_series))
         except ValueError as err:
             logging.info('input validation problem')
@@ -148,7 +146,7 @@ class UberModel(object):
         for column in self.pd_obj_out.columns:
             try:
                 output = getattr(self, column)
-                print(output)
+                #print(output)
                 if isinstance(output, pd.Series):
                     # Ensure model output is a Pandas Series. Only Series can be
                     # reliably put into a Pandas DataFrame.
@@ -157,8 +155,8 @@ class UberModel(object):
                     print('"{}" is not a Pandas Series. Returned outputs must be a Pandas Series'.format(column))
             except:
                 print("output dataframe error on " + column)
-        print('output dataframe')
-        print(self.pd_obj_out)
+        #print('output dataframe')
+        #print(self.pd_obj_out)
         return
 
     def get_dict_rep(self):
@@ -168,8 +166,6 @@ class UberModel(object):
         :return: (dict(input DataFrame), dict(outputs DataFrame), dict(expected outputs DataFrame))
         """
         name = self.name
-        print(self.name)
-        print(self.name.lower())
         if self.name.lower() == "varroapop":
             try:
                 return self.to_dict(self.pd_obj), \
