@@ -14,14 +14,14 @@ from base.uber_model import UberModel, ModelSharedInputs
 # print(os.path)
 
 
-class LeslieProbitInputs(ModelSharedInputs):
+class Leslie_probitInputs(ModelSharedInputs):
     """
-    Input class for LeslieProbit.
+    Input class for Leslie_probit.
     """
 
     def __init__(self):
-        """Class representing the inputs for LeslieProbit"""
-        super(LeslieProbitInputs, self).__init__()
+        """Class representing the inputs for Leslie_probit"""
+        super(Leslie_probitInputs, self).__init__()
         # self.a_n = pd.Series([], dtype="object")
         # self.c_n = pd.Series([], dtype="object")
         self.grass_type = pd.Series([], dtype="object")
@@ -46,25 +46,25 @@ class LeslieProbitInputs(ModelSharedInputs):
         self.plant_surface_conc = pd.Series([], dtype="float")
 
 
-class LeslieProbitOutputs(object):
+class Leslie_probitOutputs(object):
     """
-    Output class for LeslieProbit.
+    Output class for Leslie_probit.
     """
 
     def __init__(self):
-        """Class representing the outputs for LeslieProbit"""
-        super(LeslieProbitOutputs, self).__init__()
+        """Class representing the outputs for Leslie_probit"""
+        super(Leslie_probitOutputs, self).__init__()
         self.out_pop_matrix = pd.Series(name="out_pop_matrix")
 
 
-class LeslieProbit(UberModel, LeslieProbitInputs, LeslieProbitOutputs):
+class Leslie_probit(UberModel, Leslie_probitInputs, Leslie_probitOutputs):
     """
-    LeslieProbit model for population growth.
+    Leslie_probit model for population growth.
     """
 
     def __init__(self, pd_obj, pd_obj_exp):
-        """Class representing the LeslieProbit model and containing all its methods"""
-        super(LeslieProbit, self).__init__()
+        """Class representing the Leslie_probit model and containing all its methods"""
+        super(Leslie_probit, self).__init__()
         self.pd_obj = pd_obj
         self.pd_obj_exp = pd_obj_exp
         self.pd_obj_out = None
@@ -77,10 +77,10 @@ class LeslieProbit(UberModel, LeslieProbitInputs, LeslieProbitOutputs):
             3) Run the model's methods to generate outputs
             4) Fill the output DataFrame with the generated model outputs
         """
-        self.populate_inputs(self.pd_obj, self)
-        self.pd_obj_out = self.populate_outputs(self)
+        self.populate_inputs(self.pd_obj)
+        self.pd_obj_out = self.populate_outputs()
         self.run_methods()
-        self.fill_output_dataframe(self)
+        self.fill_output_dataframe()
 
     # Begin model methods
     def run_methods(self):
