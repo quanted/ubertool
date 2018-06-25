@@ -242,8 +242,8 @@ class Varroapop(UberModel, VarroapopInputs, VarroapopOutputs, VarroapopFunctions
         try:
             logging.info("Calling VarroaPop API.....")
             r_api_request = self.call_varroapop_api()
-            print(r_api_request.headers)
-            print(r_api_request.text)
+            #print(r_api_request.headers)
+            #print(r_api_request.text)
             self.fill_model_out_attr(r_api_request.content)
             self.fill_summary_stats()
             self.fill_sessionid(r_api_request.headers.get('X-ocpu-session'))
