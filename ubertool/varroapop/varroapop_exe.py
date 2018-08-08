@@ -241,12 +241,12 @@ class Varroapop(UberModel, VarroapopInputs, VarroapopOutputs, VarroapopFunctions
         """ Call the Varroapop API to run model"""
         try:
             logging.info("Calling VarroaPop API.....")
-            r_api_request = self.call_varroapop_api()
-            #print(r_api_request.headers)
-            #print(r_api_request.text)
-            self.fill_model_out_attr(r_api_request.content)
+            api_request = self.call_varroapop_api()
+            #print(api_request.headers)
+            #print(api_request.text)
+            self.fill_model_out_attr(api_request.content)
             self.fill_summary_stats()
-            self.fill_sessionid(r_api_request.headers.get('X-ocpu-session'))
+            self.fill_sessionid(api_request.headers.get('session-id'))
             return
 
         except Exception as e:
