@@ -321,7 +321,7 @@ class AgdriftFunctions(object):
         # process simulation deposition scenario names and 1) count number simulations that include scenario, and
         # 2) list the simulation index for which each scenario is identified
         sim_indices = list(sim_indices)
-        num_sims = list(num_sims)
+        # num_sims = list(num_sims)
         for i in range(self.num_simulations):
             for j in range(self.num_scenarios):
                 if (self.scenario_name[j] == self.out_sim_scenario_id[i]):
