@@ -316,7 +316,7 @@ class AgdriftFunctions(object):
 
         # initialize lists of simulation counts per scenario and simulation numbers (indices) per scenario
         num_sims = pd.Series(self.num_scenarios*[0], dtype='int')
-        sim_indices = pd.Series([self.num_simulations*[0] for i in range (self.num_scenarios)], dtype='int')
+        sim_indices = pd.Series([self.num_simulations*[0] for i in range(self.num_scenarios)])
 
         # process simulation deposition scenario names and 1) count number simulations that include scenario, and
         # 2) list the simulation index for which each scenario is identified
