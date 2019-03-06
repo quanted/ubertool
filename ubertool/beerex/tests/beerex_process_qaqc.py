@@ -11,7 +11,7 @@ import pandas as pd
 #skiprows 0-indexed (supposedly, but does not seem to be the case)
 #skipfooter- number of rows at bottom to skip
 try:
-    pd_obj_inputs = pd.read_csv(csv_path, index_col=0, header=None, skiprows=5, skipfooter=118, engine='python')
+    pd_obj_inputs = pd.read_csv(csv_path, index_col=0, header=None, skiprows=2, skipfooter=118, engine='python')
     pd_obj_inputs = pd_obj_inputs.drop(labels=pd_obj_inputs.columns[range(3)], axis=1)
     pd_obj_inputs.index.name = None
     pd_obj_inputs.columns -= 4

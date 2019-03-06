@@ -31,6 +31,7 @@ try:
         csv_transpose_path_in = os.path.join(os.path.dirname(__file__),"stir_qaqc_in_transpose.csv")
         logging.info(csv_transpose_path_in)
         pd_obj_inputs = pd.read_csv(csv_transpose_path_in, index_col=0, engine='python')
+        pd_obj_inputs['csrfmiddlewaretoken'] = 'test'
         #with open('./stir_qaqc_in_transpose.csv') as f:
             #csv_data = csv.reader(f)
 finally:
