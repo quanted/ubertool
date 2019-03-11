@@ -251,7 +251,7 @@ class Varroapop(UberModel, VarroapopInputs, VarroapopOutputs, VarroapopFunctions
 
         except Exception as e:
             logging.info("Exception while calling VarroaPop API!")
-            logging.info(e)
+            logging.info(repr(e))
             pass
 
 

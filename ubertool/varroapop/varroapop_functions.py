@@ -6,11 +6,13 @@ import math
 import pandas as pd
 import os
 
-rest_url_varroapop = os.environ.get('OPENCPU_REST_SERVER')
-#rest_url_varroapop = 'http://localhost'
+#rest_url_varroapop = os.environ.get('OPENCPU_REST_SERVER')
 
 if not os.environ.get('OPENCPU_REST_SERVER'):
     rest_url_varroapop = 'http://172.20.100.18:5656'
+
+rest_url_varroapop = 'http://127.0.0.1:5050'
+
 
 class VarroapopFunctions(object):
     """
@@ -26,7 +28,7 @@ class VarroapopFunctions(object):
         logging.info("=========== formatting Varroapop JSON payload")
         input_json = self.format_varroapop_payload()
         logging.info("=========== calling Varroapop windows REST API")
-        called_endpoint = (rest_url_varroapop + '/ocpu/apps/quanted/VarroaPopWrapper/R/RunVarroaPop/json')
+        called_endpoint = (rest_url_varroapop + '/varroapop/run/')
         logging.info(called_endpoint)
         http_headers = {'Content-Type': 'application/json'}
         logging.info("JSON payload:")
@@ -156,17 +158,17 @@ class VarroapopFunctions(object):
 
 
     def get_input_file(self, api_sessionid):
-        file_endpoint =  (rest_url_varroapop + '/ocpu/tmp/'  + api_sessionid + '/files/')
+        file_endpoint = (rest_url_varroapop + '/varroapop/files/input/{}/'.format(api_sessionid))
         return requests.get(file_endpoint+'vp_input.txt')
 
 
     def get_log_file(self, api_sessionid):
-        file_endpoint =  (rest_url_varroapop + '/ocpu/tmp/'  + api_sessionid + '/files/')
+        file_endpoint = (rest_url_varroapop + '/varroapop/files/logs/{}/'.format(api_sessionid))
         return requests.get(file_endpoint+'vp_log.txt')
 
 
     def get_results_file(self, api_sessionid):
-        file_endpoint =  (rest_url_varroapop + '/ocpu/tmp/'  + api_sessionid + '/files/')
+        file_endpoint = (rest_url_varroapop + '/varroapop/files/output/{}/'.format(api_sessionid))
         return requests.get(file_endpoint+'vp_results.txt')
 
 
