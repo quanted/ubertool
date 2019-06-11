@@ -6,12 +6,12 @@ import math
 import pandas as pd
 import os
 
-#rest_url_varroapop = os.environ.get('OPENCPU_REST_SERVER')
+rest_url_varroapop = os.environ.get('VARROAPOP_SERVER')
 
-if not os.environ.get('OPENCPU_REST_SERVER'):
-    rest_url_varroapop = 'http://172.20.100.18:5656'
+#if not os.environ.get('OPENCPU_REST_SERVER'):
+#    rest_url_varroapop = 'http://172.20.100.18:5656'
 
-rest_url_varroapop = 'http://127.0.0.1:5050'
+#rest_url_varroapop = 'http://127.0.0.1:5050'
 
 
 class VarroapopFunctions(object):
