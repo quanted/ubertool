@@ -158,18 +158,18 @@ class VarroapopFunctions(object):
 
 
     def get_input_file(self, api_sessionid):
-        file_endpoint = (rest_url_varroapop + '/varroapop/files/input/{}/'.format(api_sessionid))
-        return requests.get(file_endpoint+'vp_input.txt')
+        file_endpoint = (rest_url_varroapop + '/varroapop/files/input/{}'.format(api_sessionid))
+        return requests.get(file_endpoint)
 
 
     def get_log_file(self, api_sessionid):
-        file_endpoint = (rest_url_varroapop + '/varroapop/files/logs/{}/'.format(api_sessionid))
-        return requests.get(file_endpoint+'vp_log.txt')
+        file_endpoint = (rest_url_varroapop + '/varroapop/files/logs/{}'.format(api_sessionid))
+        return requests.get(file_endpoint)
 
 
     def get_results_file(self, api_sessionid):
-        file_endpoint = (rest_url_varroapop + '/varroapop/files/output/{}/'.format(api_sessionid))
-        return requests.get(file_endpoint+'vp_results.txt')
+        file_endpoint = (rest_url_varroapop + '/varroapop/files/output/{}'.format(api_sessionid))
+        return requests.get(file_endpoint)
 
 
 
