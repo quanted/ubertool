@@ -206,9 +206,9 @@ class UberModel(object):
         :return:
         """
         out = {}
-        for k, v in compat.iteritems(df):
+        for k, v in compat.items(df):
             col = k
-            for row, value in compat.iteritems(v):
+            for row, value in compat.items(v):
                 out[col] = {str(row): value}
         return out
 
