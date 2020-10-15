@@ -3,4 +3,4 @@
 	url = https://github.com/quanted/sam.git
 [submodule "ubertool/sam2"]
 	path = ubertool/sam2
-	url = https://github.com/opp-efed/sam2.git
+	url = https://github.com/usepa/opp-efed-sam
