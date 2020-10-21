@@ -4,3 +4,6 @@
 [submodule "ubertool/sam2"]
 	path = ubertool/sam2
 	url = https://github.com/usepa/opp-efed-sam
+[submodule "ubertool/opp-efed-sam"]
+	path = ubertool/opp-efed-sam
+	url = https://github.com/USEPA/opp-efed-sam.git
