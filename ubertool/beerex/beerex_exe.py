@@ -71,7 +71,7 @@ class BeerexOutputs(object):
     def __init__(self):
         """Class representing the outputs for Beerex"""
         super(BeerexOutputs, self).__init__()
-        self.out_eec_spray = pd.Series(name="out_eec_spray", dtype="float", dtype="float")
+        self.out_eec_spray = pd.Series(name="out_eec_spray", dtype="float")
         self.out_eec_soil = pd.Series(name="out_eec_soil", dtype="float")
         self.out_eec_seed = pd.Series(name="out_eec_seed", dtype="float")
         self.out_eec_tree = pd.Series(name="out_eec_tree", dtype="float")
