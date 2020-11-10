@@ -28,10 +28,10 @@ class RiceOutputs(object):
     def __init__(self):
         """Class representing the outputs for Rice"""
         super(RiceOutputs, self).__init__()
-        self.out_msed = pd.Series(name="out_msed")
-        self.out_vw = pd.Series(name="out_vw")
-        self.out_mass_area = pd.Series(name="out_mass_area")
-        self.out_cw = pd.Series(name="out_cw")
+        self.out_msed = pd.Series(name="out_msed", dtype="object")
+        self.out_vw = pd.Series(name="out_vw", dtype="object")
+        self.out_mass_area = pd.Series(name="out_mass_area", dtype="object")
+        self.out_cw = pd.Series(name="out_cw", dtype="object")
 
 
 class Rice(UberModel, RiceInputs, RiceOutputs, RiceFunctions):
